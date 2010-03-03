@@ -1,0 +1,115 @@
+/* TODO License */
+/* TODO CSS Coding Guidelines
+Posición, tamaño
+Colores, bordes
+Fuentes y tamaños de fuentes */
+
+html { background-color: transparent }
+
+body { color: #333; background: #9bdbf7 url('img/bg.jpg') repeat-x 0 0;
+       font-family:'Trebuchet MS',Arial,Helvetica,sans-serif; font-size:85%; }
+       
+h1 { color: #0C4A64; margin-top: 0px; margin-bottom: 0px; }
+h2 { font-size: 108%; font-weight: normal; color: #64BEEC; }
+h3 { font-size: 100%; font-weight: normal; color: #8CC264;  }
+
+a { color: #356AA0; }
+
+/* Helpers */
+.hidden { display: none; }
+
+/* TC Toolbar */
+div.tc-tb { background-color: #ECE9E0; border: 1px solid #D4D2CC; height: 35px; }
+div.tc-tb a { display: block; float: left; height: 35px; text-decoration: none; color: #5C462C; padding-right: 15px;
+	background-color: #F4F6EC; border-width: 0 1px 0 0; border-color: #D4D2CC; border-style: solid; }
+div.tc-tb a:hover { background-color: #FCFEFC; }
+div.tc-tb a.save:hover { background-color: #E3FFE3; color: #64992C }
+div.tc-tb a.delete:hover { background-color: #FFE3E3; color: #BA1122; }
+div.tc-tb img { float: left; margin: 6px 10px 0 8px; }
+div.tc-tb span { position: relative; top: 9px; }
+
+/* TC Panel filtro */
+div.tc-flt { background-color: #ece9e0; height: 0px; overflow:hidden; }
+div.tc-flt div.field label { background-color: transparent }
+
+/* TC Tabla */
+.yui-skin-sam .yui-dt table { width: 100%; border-color: #D4D2CC; border-top: 0 }
+.yui-skin-sam .yui-dt tr.yui-dt-first td { border-top-color: #D4D2CC; }
+
+
+/* ESTRUCTURA FORMULARIOS */
+/* div#bd h1 { padding-right:20px; text-align: right; } */
+
+/* Estructura central */
+div#hd img { margin-top: 20px; }
+div#bd { background: transparent url('img/bg-bd.png') repeat-y 0 0; 
+         padding-top: 15px; }
+div#hd { background: transparent url('img/bg-hd.png')  no-repeat 0 81px; }
+div#hd img { margin-left: 40px; }
+div#ft { background: transparent url('img/bg-ft.png')  no-repeat 0 0;  
+         padding-top: 20px; color: #FFF }
+
+/* Controles */
+div.field { display: block; float:none; clear:both; height:26px; margin: 5px 5px 5px 0; }
+
+div.field.required input.textbox { background-color: #FFFFD9; }
+
+div.field label { display:block; float:left; width: 80px; height:26px; line-height:26px; margin-right:5px; padding:0 5px;
+                  color:#333; background-color: #F7F7F7; }
+div.field label.w0u { width:40px; }
+div.field label.w1u { width:52px; }
+div.field label.w2u { width:70px; }
+div.field label.hidden { visibility: hidden; }
+
+div.field input.textbox { display:block; float:left; height:21px; margin-right:5px; padding:3px 3px 0;
+                          border:1px solid #CECFD1; }
+div.field input.textbox.dc { width: 20px; }
+div.field input.textbox:focus, div.field input.textbox:hover { border:1px solid #64BEEC; }
+div.field input.textbox[readonly="readonly"], div.field input.textbox.readonly { background-color: #F3F3E9; }
+
+div.field *.w0u { width: 30px }
+div.field *.w1u { width: 100px; }
+div.field *.w2u { width: 150px; }
+div.field *.w3u { width: 250px; }
+
+div.field span.literal { display:block; float:left; height:26px; line-height:26px; padding:0 5px; }
+
+div.field label.radio,
+div.field label.checkbox { width: auto; margin-right: 10px; cursor: pointer;
+                           background-color: Transparent !important; }
+div.field input.radio,
+div.field input.checkbox { display:block; float:left; margin:6px 2px 0 0; 
+                           #margin-top: 3px; /* HACK IE7 */}
+
+div.combo { display: block; float: left; height:21px; padding:2px 3px 0px 3px; cursor:pointer; 
+            border: 1px solid #D4D4D4; background: url('../yui/skins/sam/split-button-arrow-disabled.png') no-repeat right 50%; }
+div.combo:hover { background-image: url('../yui/assets/skins/sam/split-button-arrow-active.png'); border-color: #8DA6C3 }
+
+div.field img { display:block; float:left; margin: 5px 3px 0px 0px; cursor: pointer; }
+div.field a { display: block; float:left; margin: 4px 0px 0px 5px; }
+
+div.yui-g.form-action { margin-top: 10px; padding-top: 8px; }
+div.yui-g.form-action div.yui-g * { float: right }
+div.yui-g.form-action div.yui-g input.button { margin-left: 8px }
+div.yui-g.form-action div.yui-g.first * { float: left }
+div.yui-g.form-action div.yui-g.first input.button { margin-left: 0 }
+
+input.button { width: 76px; height: 34px; padding: 0px 4px; cursor: pointer; -moz-border-radius: 4px; -webkit-border-radius: 3px;
+    		   border: 1px solid #999; color: #333; background: #FFF url('Imagenes/bgButton_normal.gif') repeat-x; }
+
+input.button.save, input.button.delete, input.button.back, input.button.print { padding-left:30px; padding-right:8px; }
+
+input.button.save { background: transparent url('img/tango/document-save.png') no-repeat 5px 4px; width: 100px }
+input.button.save:hover { background-color: #E3FFE3; color: #64992C }
+input.button.delete { background: transparent url('img/tango/window-close.png') no-repeat 5px 5px; width: 90px; }
+input.button.delete:hover { background-color: #FFE3E3; color: #BA1122; }
+input.button.back { background: transparent url('img/tango/edit-undo.png') no-repeat 5px 5px; width: 80px; }
+input.button.back:hover { background-color: #FFFFCE; color: #b08d00; }
+input.button.print { background: transparent url('img/tango/document-print.png') no-repeat 5px 5px; width: 90px; }
+input.button.print:hover { background-color: #ededed; }
+
+/* YUI Fixes */
+div.yui-g.legend h2 { margin: 1em 0 0.3em 0; }
+div#doc { }
+div#bd, div#ft { padding: 20px 20px 0px 20px; }
+/* div#ft { margin-top: 3em; } */
