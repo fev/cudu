@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="taglibs.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -18,12 +17,14 @@ div#bd { padding-left: 20px; }
 <form:form modelAttribute="asociado" method="POST">
 <div id="bd">  
   <div class="yui-g">
-  <div class="yui-g first"><h1 id="hform">Nuevo asociada/o</h1></div>
+  <div class="yui-g first"><h1 id="hform"><spring:message code="asociado.h.joven" /></h1></div>
   <div class="yui-g" style="text-align:right; padding-top: 1px; margin-right: 13px">
     <img src="<c:url value="/s/theme/img/tango/document-print.png" />" alt="cudu" />
   </div>
   </div>
-
+  
+  <form:errors path="*" cssClass="errorBox" />
+  
   <div class="yui-g legend"><h2><fmt:message key="grupo.h.info" /></h2></div>
   <div class="yui-g">
     <div class="yui-g first">    
@@ -123,11 +124,14 @@ div#bd { padding-left: 20px; }
     </div>    
   </div>
   
+  <c:if test="${asociado.tipo != 'J'}"> <%-- KRAAL o COMITÉ tienen cargos --%>
   <div class="yui-g legend"><h2>Cargos o comisiones</h2></div>
   <div class="yui-g">
     <p>TODO: pantalla muy chachi donde editar esto...</p>
   </div>
+  </c:if>
 
+  <c:if test="${asociado.tipo == 'J'}"> <%-- JOVEN Responsables del menor, copias de documentos --%>
   <div class="yui-g legend"><h2>Responsables del menor</h2></div>
   <div class="yui-g">
     <div class="yui-g first">
@@ -197,10 +201,13 @@ div#bd { padding-left: 20px; }
       </div>
     </div>
   </div>
+  </c:if>
 
   <div class="yui-g form-action">
     <div class="yui-g first">
+   	<c:if test="${asociado.id > 0}">
       <input type="submit" value="Eliminar" class="button delete" />
+    </c:if>
     </div>
     <div class="yui-g">
       <input type="button" value="Volver" class="button back" onclick="javascript:back()" />
@@ -215,46 +222,8 @@ div#bd { padding-left: 20px; }
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
-cudu = {
-	ui: {
-	   hform: document.getElementById('hform')
-    },
-	res: {
-	   hjoven: '<fmt:message key="asociado.h.joven" />',
-	   hkraal: '<fmt:message key="asociado.h.kraal" />',
-	   hcomite: '<fmt:message key="asociado.h.comite" />'
-    }
-};
-
-function ui_step2(selector) {
-	$(".step1").slideUp();
-    $(selector).fadeIn("slow");
-}
-
-function oldDocReady(){
-    $("#step1-a-joven").click(function () {
-	    ui_step2(".step2,.step2-joven");
-	    cudu.ui.hform.innerHTML = cudu.res.hjoven;
-	    $('#txtNombre').focus();
-	    $('#hdTipoAsociado').value = 'J';
-	});
-    $("#step1-a-kraal").click(function () {
-    	ui_step2(".step2,.step2-kraal");
-    	cudu.ui.hform.innerHTML = cudu.res.hkraal;
-        $('#txtNombre').focus();
-        $('#hdTipoAsociado').value = 'K';
-    });
-    $("#step1-a-comite").click(function () {
-    	ui_step2(".step2,.step2-kraal");
-    	cudu.ui.hform.innerHTML = cudu.res.hcomite;
-        $('#txtNombre').focus();
-        $('#hdTipoAsociado').value = 'C';
-    });
-}
-
 function back() {
-	// cambiar por redirect
-    document.location = '<c:url value="dashboard" />'; 
+    document.location = '<c:url value="/dashboard" />'; 
 }
 </script>
 </body>

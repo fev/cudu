@@ -25,20 +25,14 @@
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
 	<mvc:annotation-driven />
-	
+
+	<!-- Localización  -->
 	<mvc:interceptors>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
 	</mvc:interceptors>
 	
 	<mvc:view-controller path="/" view-name="dashboard" />
 	<mvc:view-controller path="/login" />
-	
-	<!-- selects a static view for rendering without the need for an explicit controller -->
-<!--	-->
-<!--	<mvc:view-controller path="/index" />-->
-<!--	<mvc:view-controller path="/uncaughtException"/>-->
-<!--	<mvc:view-controller path="/resourceNotFound"/>-->
-<!--	<mvc:view-controller path="/dataAccessFailure"/>-->
 
 	<!-- Resolución de la vista ("nombreVista.jsp", dentro de /WEB-INF/jsp) -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -62,11 +56,6 @@
 			</list>
 		</property>
 	</bean>
-    
-    <!-- Localización 
-	<bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-		<property name="paramName" value="hl" />
-	</bean> -->
 	
 	<!-- Persistencia -->
 	<context:annotation-config />

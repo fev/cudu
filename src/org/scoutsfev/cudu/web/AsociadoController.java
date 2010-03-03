@@ -2,6 +2,9 @@ package org.scoutsfev.cudu.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,6 +15,8 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,15 +36,19 @@ public class AsociadoController {
 	@Autowired
 	protected AsociadoService storage;
 	
+	@Autowired
+    private Validator validator;
+	
 	/** 
 	 * Inicializa el enlace de datos entre el modelo y la vista.
 	 * Entre otras cosas, aquí se usa para establecer el formato de fecha en el textbox de "aniversario".
 	 * @param dataBinder objeto que establece el databinding en el formulario.
 	 */
 	@InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
+    public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		dataBinder.registerCustomEditor(Date.class, null, new CustomDateEditor(dateFormat, true));
+		binder.registerCustomEditor(Date.class, null, new CustomDateEditor(dateFormat, true));
+		binder.setValidator(validator);
     }
 
 	@RequestMapping(value="/{idAsociado}", method = RequestMethod.GET)
@@ -49,24 +58,43 @@ public class AsociadoController {
 		Asociado asociado = storage.find(idAsociado);
 		if (asociado == null)
 			return "redirect:/404";
-		
-		model.addAttribute("idAsociado", idAsociado);
+
 		model.addAttribute("asociado", asociado);
 		return "asociado";
 	}
 	
 	@RequestMapping(value="/nuevo/{tipo}", method = RequestMethod.GET)
-	public String setupForm(@PathVariable String tipo, Model model) {
+	public String setupForm(@PathVariable String tipo, Model model) throws Exception {
 		logger.info("setupForm /nuevo/" + tipo);
+				
 		Asociado asociado = new Asociado();
+		if (tipo.compareTo("joven") == 0)
+			asociado.setTipo('J');
+		else if (tipo == "kraal")
+			asociado.setTipo('K');
+		else if (tipo == "comite")
+			asociado.setTipo('C');
+//		else
+//			throw new Exception();
+
 		model.addAttribute("asociado", asociado);
 		return "asociado";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute("asociado") Asociado asociado, BindingResult result, SessionStatus status) {
+	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado, BindingResult result, SessionStatus status) {
 		logger.info("processSubmit: " + asociado.getId());
-		storage.merge(asociado);
+		if (result.hasErrors()) {
+			logger.info("Validation errors.");
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError error : errors) {
+				logger.info(error.getDefaultMessage());
+				logger.info(error.getCode());
+			}
+		}
+		else
+			logger.info("OK!");
+		// storage.merge(asociado);
 		return "asociado";
 	}
 }

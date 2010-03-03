@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Asociado implements Serializable {
@@ -54,6 +56,8 @@ public class Asociado implements Serializable {
 
 	private String municipio;
 
+	@NotNull
+	@Size(min = 3, max = 30)
 	private String nombre;
 
 	@Column(name = "padre_nombre")
@@ -67,12 +71,16 @@ public class Asociado implements Serializable {
 
 	private String patio;
 
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String primerapellido;
 
 	private String provincia;
 
 	private String puerta;
 
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String segundoapellido;
 
 	private String seguridadsocial;
