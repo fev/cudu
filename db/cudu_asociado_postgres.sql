@@ -53,13 +53,14 @@ create table asociado (
     -- de "Datos del padre" o "Datos de la madre" y cambiar por "Tutor 1", "Tutor 2"
     -- Campo "Información adicional"
     tieneTutorLegal boolean NOT NULL CONSTRAINT df_asociado_tutor DEFAULT (false),
-    padre_nombre varchar(30) NULL,
-    padre_primerApellido varchar(50) NULL,
-    padre_segundoApellido varchar(50) NULL,
-    madre_nombre varchar(30) NULL,
-    madre_primerApellido varchar(50) NULL,
-    madre_segundoApellido varchar(50) NULL,
+    padre_nombre varchar(250) NULL,
+    padre_telefono varchar(15) NULL,
+    padre_email varchar(100) NULL,
 
+    madre_nombre varchar(30) NULL,
+    madre_telefono varchar(15) NULL,
+    madre_email varchar(100) NULL,
+    
     fechaAlta timestamp NOT NULL CONSTRAINT df_asociado_fechaalta DEFAULT CURRENT_DATE,
     fechaBaja timestamp NULL, -- si !null, está activo, se muestra en listados
 

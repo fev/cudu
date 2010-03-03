@@ -46,11 +46,11 @@ public class Asociado implements Serializable {
 	@Column(name = "madre_nombre")
 	private String madreNombre;
 
-	@Column(name = "madre_primerapellido")
-	private String madrePrimerapellido;
+	@Column(name = "madre_telefono")
+	private String madreTelefono;
 
-	@Column(name = "madre_segundoapellido")
-	private String madreSegundoapellido;
+	@Column(name = "madre_email")
+	private String madreEmail;
 
 	private String municipio;
 
@@ -59,11 +59,11 @@ public class Asociado implements Serializable {
 	@Column(name = "padre_nombre")
 	private String padreNombre;
 
-	@Column(name = "padre_primerapellido")
-	private String padrePrimerapellido;
+	@Column(name = "padre_telefono")
+	private String padreTelefono;
 
-	@Column(name = "padre_segundoapellido")
-	private String padreSegundoapellido;
+	@Column(name = "padre_email")
+	private String padreEmail;
 
 	private String patio;
 
@@ -199,20 +199,20 @@ public class Asociado implements Serializable {
 		this.madreNombre = madreNombre;
 	}
 
-	public String getMadrePrimerapellido() {
-		return this.madrePrimerapellido;
+	public String getMadreTelefono() {
+		return this.madreTelefono;
 	}
 
-	public void setMadrePrimerapellido(String madrePrimerapellido) {
-		this.madrePrimerapellido = madrePrimerapellido;
+	public void setMadreTelfono(String madreTelefono) {
+		this.madreTelefono = madreTelefono;
 	}
 
-	public String getMadreSegundoapellido() {
-		return this.madreSegundoapellido;
+	public String getMadreEmail() {
+		return this.madreEmail;
 	}
 
-	public void setMadreSegundoapellido(String madreSegundoapellido) {
-		this.madreSegundoapellido = madreSegundoapellido;
+	public void setMadreEmail(String madreEmail) {
+		this.madreEmail = madreEmail;
 	}
 
 	public String getMunicipio() {
@@ -239,20 +239,20 @@ public class Asociado implements Serializable {
 		this.padreNombre = padreNombre;
 	}
 
-	public String getPadrePrimerapellido() {
-		return this.padrePrimerapellido;
+	public String getPadreTelefono() {
+		return this.padreTelefono;
 	}
 
-	public void setPadrePrimerapellido(String padrePrimerapellido) {
-		this.padrePrimerapellido = padrePrimerapellido;
+	public void setPadreTelfono(String padreTelefono) {
+		this.padreTelefono = padreTelefono;
 	}
 
-	public String getPadreSegundoapellido() {
-		return this.padreSegundoapellido;
+	public String getPadreEmail() {
+		return this.padreEmail;
 	}
 
-	public void setPadreSegundoapellido(String padreSegundoapellido) {
-		this.padreSegundoapellido = padreSegundoapellido;
+	public void setPadreEmail(String padreEmail) {
+		this.padreEmail = padreEmail;
 	}
 
 	public String getPatio() {

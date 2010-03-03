@@ -39,11 +39,11 @@ div#bd { padding-left: 20px;  }
       </div>
       <div class="field required">
         <label for="txtApellido1">1er Apellido</label>
-        <input id="txtApellido1" type="text" class="textbox w3u" />
+        <form:input id="txtApellido1" path="primerapellido" cssClass="textbox w3u" />
       </div>
       <div class="field required">
         <label for="txtApellido2">2o Apellido</label>
-        <input id="txtApellido2" type="text" class="textbox w3u" />
+        <form:input id="txtApellido2" path="segundoapellido" cssClass="textbox w3u" />
       </div>
       <div class="field required">
         <label for="radioGeneroMasculino">Sexo</label><%-- Toogle al pulsar sobre el label, selecci�n alternativa --%>
@@ -56,7 +56,7 @@ div#bd { padding-left: 20px;  }
     <div class="yui-g">
       <div class="field required">
         <label for="txtFechaNac">Fecha Nac.</label>
-        <input id="txtFechaNac" type="text" class="textbox w1u" />
+        <form:input id="txtFechaNac" path="fechanacimiento" cssClass="textbox w1u" />
         <img src="<c:url value="/theme/img/calendar.png" />" alt="Elegir fecha" />
       </div>
       <div class="field required">
@@ -70,8 +70,8 @@ div#bd { padding-left: 20px;  }
       </div>
       <div class="field">
         <label for="txtNSS">Seg. Social</label>
-        <input id="txtNSS" type="text" class="textbox w1u" style="width: 133px" />
-        <input id="chkSSPrivado" type="checkbox" class="checkbox"/>
+        <form:input id="txtNSS" path="seguridadsocial" cssClass="textbox w1u" cssStyle="width: 133px" />
+        <form:checkbox id="chkSSPrivado" path="tieneseguroprivado" cssClass="checkbox" />
         <label for="chkSSPrivado" class="checkbox">Seg. Privado</label>
         <!--  <input id="txtNSSProv" type="text" class="textbox w0u" maxlength="2" />
         <input id="txtNSSNum" type="text" class="textbox w1u" maxlength="8" />
@@ -85,20 +85,20 @@ div#bd { padding-left: 20px;  }
     <div class="yui-g first">
       <div class="field required">
         <label for="txtCalle" class="w2u">Calle</label>
-        <input id="txtCalle" type="text" class="textbox w3u" />
+        <form:input id="txtCalle" path="calle" cssClass="textbox w3u" />
       </div>
       <div class="field required">
         <label for="txtPatio" class="w2u">Patio</label>
-        <input id="txtPatio" type="text" class="textbox w0u" />
+        <form:input id="txtPatio" path="patio" cssClass="textbox w0u" />
         <label for="txtEscalera" class="w1u">Escalera</label>
         <!-- HACK bgcolor, mover a css -->
-        <input id="txtEscalera" type="text" class="textbox w0u" style="background-color: inherit;" />
+        <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" cssStyle="background-color: inherit;" />
         <label for="txtPuerta" class="w1u">Puerta</label>
-        <input id="txtPuerta" type="text" class="textbox w0u" style="background-color: inherit;" />
+        <form:input id="txtPuerta" path="puerta" cssClass="textbox w0u" cssStyle="background-color: inherit;" />
       </div>
       <div class="field required">
         <label for="txtCodigoPostal" class="w2u">C.P.</label>
-        <input id="txtCodigoPostal" type="text" class="textbox w1u" />
+        <form:input id="txtCodigoPostal" path="codigopostal" cssClass="textbox w1u" />
       </div>
       <div class="field required">
         <label for="txtProvincia" class="w2u">Provincia</label>
@@ -116,15 +116,15 @@ div#bd { padding-left: 20px;  }
     <div class="yui-g">
       <div class="field">
         <label for="txtTelefono">Tel. Casa</label>
-        <input id="txtTelefono" type="text" class="textbox w3u" />
+        <form:input id="txtTelefono" path="telefonocasa" cssClass="textbox w3u" />
       </div>
       <div class="field">
         <label for="txtMovil">Móvil</label>
-        <input id="txtMovil" type="text" class="textbox w3u" />
+        <form:input id="txtMovil" path="telefonomovil" cssClass="textbox w3u" />
       </div>
       <div class="field">
         <label for="txtMail">E-Mail</label>
-        <input id="txtMail" type="text" class="textbox w3u" />
+        <form:input id="txtMail" path="email" cssClass="textbox w3u" />
       </div>
     </div>    
   </div>
@@ -139,9 +139,9 @@ div#bd { padding-left: 20px;  }
     <div class="yui-g first">
       <h3>Entorno familiar</h3>
       <div class="field required">
-        <input id="checkTutorLegal" type="checkbox" class="checkbox" title="Tutor legal" />
+        <form:checkbox id="checkTutorLegal" path="tienetutorlegal" cssClass="checkbox" title="Tutor legal" />
         <label for="checkTutorLegal" class="checkbox">Tiene tutor legal</label>
-        <input id="checkPadresSeparados" type="checkbox" class="checkbox" title="Padres separados"  />
+        <form:checkbox id="checkPadresSeparados" path="tienetutorlegal" cssClass="checkbox" title="Padres separados"  />
         <label for="checkPadresSeparados" class="checkbox">Padres separados</label>
       </div>
     </div>
@@ -151,30 +151,30 @@ div#bd { padding-left: 20px;  }
       <h3>Datos del Padre</h3>
       <div class="field">
         <label for="txtPadreNombre">Nombre</label>
-        <input id="txtPadreNombre" type="text" class="textbox w3u" />
+        <form:input id="txtPadreNombre" path="padreNombre" cssClass="textbox w3u" />
       </div>
       <div class="field">
         <label for="txtPadreTel">Teléfono</label>
-        <input id="txtPadreTel" type="text" class="textbox w3u" />
+        <form:input id="txtPadreTel" path="padreTelefono" cssClass="textbox w3u" />
       </div>
       <div class="field">
         <label for="txtPadreMail">E-Mail</label>
-        <input id="txtPadreMail" type="text" class="textbox w3u" />
+        <form:input id="txtPadreMail" path="padreEmail" cssClass="textbox w3u" />
       </div>
     </div>
     <div class="yui-g">
       <h3>Datos de la Madre</h3>
       <div class="field">
         <label for="txtMadreNombre">Nombre</label>
-        <input id="txtMadreNombre" type="text" class="textbox w3u" />
+        <form:input id="txtMadreNombre" path="madreNombre" cssClass="textbox w3u" />
       </div>
       <div class="field">
         <label for="txtMadreTel">Teléfono</label>
-        <input id="txtMadreTel" type="text" class="textbox w3u" />
+        <form:input id="txtMadreTel" path="madreTelefono" cssClass="textbox w3u" />
       </div>
       <div class="field">
         <label for="txtMadreMail">E-Mail</label>
-        <input id="txtMadreMail" type="text" class="textbox w3u" />
+        <form:input id="txtMadreMail" path="madreEmail" cssClass="textbox w3u" />
       </div>
     </div>
   </div>
