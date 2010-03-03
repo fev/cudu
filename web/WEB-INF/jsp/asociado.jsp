@@ -5,17 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Cudú</title>
-<link rel="stylesheet" type="text/css" href="<c:url value="/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/yui/base/base-min.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/theme/cudu.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
-div#bd { padding-left: 20px;  }
-.rounded { margin-top: 10px } 
-.rounded a { display:block; height: 110px; text-decoration: none; border: 1px solid #FFF; }
-.rounded a:hover { border: 1px solid #CCC; -moz-border-radius: 8px; -webkit-border-radius: 8px; }
-.rounded a img, .rounded a span { display: block; margin: 8px auto; }
-.rounded a span { text-align: center; font-size: 138.5%; }
-.uiJ { display: none; }
+div#bd { padding-left: 20px; }
 </style>
 </head>
 <body>
@@ -26,7 +20,7 @@ div#bd { padding-left: 20px;  }
   <div class="yui-g">
   <div class="yui-g first"><h1 id="hform">Nuevo asociada/o</h1></div>
   <div class="yui-g" style="text-align:right; padding-top: 1px; margin-right: 13px">
-    <img src="<c:url value="/theme/img/tango/document-print.png" />" alt="cudu" />
+    <img src="<c:url value="/s/theme/img/tango/document-print.png" />" alt="cudu" />
   </div>
   </div>
 
@@ -46,7 +40,7 @@ div#bd { padding-left: 20px;  }
         <form:input id="txtApellido2" path="segundoapellido" cssClass="textbox w3u" />
       </div>
       <div class="field required">
-        <label for="radioGeneroMasculino">Sexo</label><%-- Toogle al pulsar sobre el label, selecci�n alternativa --%>
+        <label for="radioGeneroMasculino">Sexo</label><%-- Toogle al pulsar sobre el label, selección alternativa --%>
         <input id="radioGeneroMasculino" type="radio" class="radio" name="radioGenero" title="Masculino" value="M" />
         <label for="radioGeneroMasculino" class="radio">Masculino</label>
         <input id="radioGeneroFemenino" type="radio" class="radio" name="radioGenero" title="Masculino" value="F" />
@@ -57,7 +51,7 @@ div#bd { padding-left: 20px;  }
       <div class="field required">
         <label for="txtFechaNac">Fecha Nac.</label>
         <form:input id="txtFechaNac" path="fechanacimiento" cssClass="textbox w1u" />
-        <img src="<c:url value="/theme/img/calendar.png" />" alt="Elegir fecha" />
+        <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" />
       </div>
       <div class="field required">
         <label for="dropUnidad"><fmt:message key="asociado.f.rama" /></label>
@@ -103,13 +97,13 @@ div#bd { padding-left: 20px;  }
       <div class="field required">
         <label for="txtProvincia" class="w2u">Provincia</label>
         <input id="txtProvincia" type="text" class="textbox w0u" />
-        <img id="imgProvincia" src="<c:url value="/theme/img/magnifier.png" />" alt="Buscar provincia." />
+        <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
         <span id="lblProvincia" class="literal">Valencia</span>
       </div>
       <div class="field required">
         <label for="txtMunicipio" class="w2u">Municipio</label>
         <input id="txtMunicipio" type="text" class="textbox w0u" />
-        <img id="imgMunicipio" src="<c:url value="/theme/img/magnifier.png" />" alt="Buscar municipio." />
+        <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
         <span id="lblMunicipio" class="literal">Alborache</span>
       </div>
     </div>
@@ -129,12 +123,12 @@ div#bd { padding-left: 20px;  }
     </div>    
   </div>
   
-  <div class="yui-g legend uiK"><h2>Cargos o comisiones</h2></div>
+  <div class="yui-g legend"><h2>Cargos o comisiones</h2></div>
   <div class="yui-g">
     <p>TODO: pantalla muy chachi donde editar esto...</p>
   </div>
 
-  <div class="yui-g legend uiJ"><h2>Responsables del menor</h2></div>
+  <div class="yui-g legend"><h2>Responsables del menor</h2></div>
   <div class="yui-g">
     <div class="yui-g first">
       <h3>Entorno familiar</h3>
@@ -179,7 +173,7 @@ div#bd { padding-left: 20px;  }
     </div>
   </div>
 
-  <div class="yui-g legend uiJ"><h2>Copias de documentos</h2></div>
+  <div class="yui-g legend"><h2>Copias de documentos</h2></div>
   <div class="yui-g">
     <p>Cudú puede ayudarte a recordar de qué documentos dispones copia:</p>
     <div class="yui-g first">
@@ -259,7 +253,8 @@ function oldDocReady(){
 }
 
 function back() {
-    document.location = '<c:url value="dashboard.mvc" />'; 
+	// cambiar por redirect
+    document.location = '<c:url value="dashboard" />'; 
 }
 </script>
 </body>

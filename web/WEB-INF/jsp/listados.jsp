@@ -4,10 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Cudú</title>
-<link rel="stylesheet" type="text/css" href="<c:url value="/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/yui/base/base-min.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/yui/datatable/assets/skins/sam/datatable.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/theme/cudu.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/datatable/assets/skins/sam/datatable.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
 .yui-skin-sam .yui-dt tr.mark, 
 .yui-skin-sam .yui-dt tr.mark td.yui-dt-asc, 
@@ -25,27 +25,27 @@
 <div id="bd">
   <div class="yui-g tc-tb">
 	<a href="<c:url value="/asociado.mvc" />" class="save">
-		<img src="<c:url value="/theme/img/tango/document-new.png" />" />
+		<img src="<c:url value="/s/theme/img/tango/document-new.png" />" />
 		<span>Nuevo</span>
 	</a>
 	<a href="javascript:toogleFilter()">
-		<img src="<c:url value="/theme/img/tango/edit-find.png" />" />
+		<img src="<c:url value="/s/theme/img/tango/edit-find.png" />" />
 		<span>Filtrar</span>
 	</a>
     <a href="#">
-      <img src="<c:url value="/theme/img/tango/select-column.png" />" />
+      <img src="<c:url value="/s/theme/img/tango/select-column.png" />" />
       <span>Columnas</span>
     </a>
 	<a href="#">
-		<img src="<c:url value="/theme/img/tango/document-save.png" />" />
+		<img src="<c:url value="/s/theme/img/tango/document-save.png" />" />
 		<span>Guardar</span>
 	</a>
 	<a href="#" class="delete">
-		<img src="<c:url value="/theme/img/tango/edit-delete-row.png" />" />
+		<img src="<c:url value="/s/theme/img/tango/edit-delete-row.png" />" />
 		<span>Eliminar</span>
 	</a>
 	<a href="<c:url value="/dashboard.mvc" />">
-		<img src="<c:url value="/theme/img/tango/edit-undo.png" />" />
+		<img src="<c:url value="/s/theme/img/tango/edit-undo.png" />" />
 		<span>Volver</span>
 	</a>
   </div>
@@ -73,12 +73,12 @@
 </div>
 <div id="ft">© 2009 Federació d'Escoltisme Valencià</div>
 </div>
-<script type="text/javascript" src="<c:url value="/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script> 
-<script type="text/javascript" src="<c:url value="/yui/dragdrop/dragdrop-min.js" />"></script> 
-<script type="text/javascript" src="<c:url value="/yui/element/element-min.js" />"></script> 
-<script type="text/javascript" src="<c:url value="/yui/animation/animation-min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/yui/datasource/datasource-min.js" />"></script> 
-<script type="text/javascript" src="<c:url value="/yui/datatable/datatable-min.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/dragdrop/dragdrop-min.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/element/element-min.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/animation/animation-min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-min.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-min.js" />"></script> 
 <script type="text/javascript">
 
 dom = {

@@ -3,10 +3,13 @@ package org.scoutsfev.cudu.web;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.lang.StringUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scoutsfev.cudu.domain.Grupo;
+import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -18,7 +21,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -28,7 +30,7 @@ import org.springframework.web.bind.support.SessionStatus;
  *
  */
 @Controller
-@RequestMapping("/grupo.mvc")
+@RequestMapping("/grupo")
 @SessionAttributes("grupo")
 public class GrupoController {
 	
@@ -56,21 +58,22 @@ public class GrupoController {
 	 * @return Nombre de la vista que se renderizará.
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public String setupForm(@RequestParam(value = "id", required = false) String idGrupo, Model model) {
-		logger.info("setupForm: " + idGrupo);
-		model.addAttribute("idGrupo", idGrupo);
-		
-		if (StringUtils.isBlank(idGrupo)) {
-			Grupo g = new Grupo();
-			g.setId("(nuevo)");			
-			model.addAttribute("grupo", g);
-		}
-		else {
-			Grupo g = grupoService.find(idGrupo);
-			// TODO if (g == null) redirect 404;
-			model.addAttribute("grupo", g);
-		}
+	public String setupForm(HttpServletRequest request, Model model) {
+		/* Se asume que el usuario ha pasado antes por el dashboard y que por
+		 * tanto en la sesión existe el usuario actual con el grupo al que
+		 * pertenece cargado en memoria. Considerar cargar una copia fresca de
+		 * la BBDD: Grupo grupo = grupoService.find(idGrupo);
+		 * 
+		 * El proceso de carga que se hace en el dashboard debería ser movido a
+		 * una acción posterior a la de login, para permitir la entrada desde
+		 * cualquier URL posible.
+		 */
+		HttpSession session = request.getSession();
+		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");		
+		Grupo grupo = usuarioActual.getGrupo();
+		logger.info("setupForm: " + grupo.getId());
 
+		model.addAttribute("grupo", grupo);
 		return "grupo";
 	}
 	

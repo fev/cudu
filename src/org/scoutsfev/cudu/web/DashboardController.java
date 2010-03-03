@@ -8,16 +8,15 @@ import org.apache.commons.logging.LogFactory;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/dashboard.mvc")
+@RequestMapping("/dashboard")
 public class DashboardController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -25,12 +24,9 @@ public class DashboardController {
 	@Autowired
 	protected UsuarioService usuarioService;
 	
-	@RequestMapping(method = RequestMethod.GET)
-	public String load(@RequestParam(value = "id", required = false) String idGrupo, HttpServletRequest request, Model model) {
-		logger.debug(idGrupo);
-		model.addAttribute("idGrupo", idGrupo);
-
-		HttpSession session = request.getSession();		
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	public String load(HttpServletRequest request, Model model) {
+		HttpSession session = request.getSession();
 		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");
 
 		if (usuarioActual == null) {
@@ -44,7 +40,6 @@ public class DashboardController {
 		}
 
 		model.addAttribute("usuarioActual", usuarioActual);
-		
 		
 		/*
         UsernamePasswordAuthenticationToken auth = 
@@ -62,8 +57,6 @@ public class DashboardController {
 		model.addAttribute("user_name", name);
 		model.addAttribute("user_authorities", StringUtils.join(user.getAuthorities(), ','));
 		*/
-		
-		
 		
 		return "dashboard";
 	}

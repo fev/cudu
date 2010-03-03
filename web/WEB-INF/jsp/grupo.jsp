@@ -5,9 +5,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Cudú</title>
-<link rel="stylesheet" type="text/css" href="<c:url value="/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/yui/base/base-min.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/theme/cudu.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
 .postmsg { border: 1px solid #CCC; padding: 4px; cursor: pointer }
 .postmsg.ok { background-color: #E3FFE3; color: #64992C; border-color: #64992C; }
@@ -44,7 +44,7 @@
       <div class="field">
         <label for="txtAniversario" class="w4u">Aniversario</label>
         <form:input id="txtAniversario" path="aniversario" cssClass="textbox w1u" />
-        <img src="<c:url value="/theme/img/calendar.png" />" alt="Elegir fecha" />
+        <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" />
       </div>
       <div class="field">
         <label for="txtEntPatr" class="w4u">Ent. Patroc.</label>
@@ -76,7 +76,7 @@
       <div class="field required">
         <label for="txtProvincia" class="w2u">Provincia</label>
         <form:input id="txtProvincia" path="idProvincia" cssClass="textbox w0u" />
-        <img id="imgProvincia" src="<c:url value="/theme/img/magnifier.png" />" alt="Buscar provincia." />
+        <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
         <span id="lblProvincia" class="literal">Valencia</span>
       </div>
       <div class="field required">
@@ -87,7 +87,7 @@
 <!--          <form:option value="46">Valencia</form:option>-->
 <!--          <form:option value="76">Oceans</form:option>-->
 <!--        </form:select>-->
-        <img id="imgMunicipio" src="<c:url value="/theme/img/magnifier.png" />" alt="Buscar municipio." />
+        <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
         <span id="lblMunicipio" class="literal">Alborache</span>
       </div>
     </div>
@@ -109,12 +109,12 @@
 
   <div class="yui-g form-action">
   	<div class="yui-g first">
-  		<input type="submit" value="Eliminar" class="button delete" />
+<!--  <input type="submit" value="Eliminar" class="button delete" />-->
   	</div>
   	<div class="yui-g">
   	  <input type="button" value="Volver" class="button back" onclick="javascript:back()" />
   	  <input type="submit" value="Guardar" class="button save" />
-<!--      <input type="button" value="Imprimir" class="button print" />-->
+<!--  <input type="button" value="Imprimir" class="button print" />-->
   	</div>
   </div>
   </form:form>
