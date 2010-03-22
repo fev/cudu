@@ -1,8 +1,8 @@
 /* TODO License */
 /* TODO CSS Coding Guidelines
-Posición, tamaño
+Posiciï¿½n, tamaï¿½o
 Colores, bordes
-Fuentes y tamaños de fuentes */
+Fuentes y tamaï¿½os de fuentes */
 
 html { background-color: transparent }
 
@@ -53,6 +53,8 @@ div#ft { background: transparent url('img/bg-ft.png')  no-repeat 0 0;
 div.field { display: block; float:none; clear:both; height:26px; margin: 5px 5px 5px 0; }
 
 div.field.required input.textbox { background-color: #FFFFD9; }
+div.field.error input.textbox { background-color: #ffe7e7; border-color: #db4545; color: #db2020 }
+div.field.error input.textbox:focus, div.field.error input.textbox:hover { border-color: #db4545; }
 
 div.field label { display:block; float:left; width: 80px; height:26px; line-height:26px; margin-right:5px; padding:0 5px;
                   color:#333; background-color: #F7F7F7; }
@@ -107,6 +109,16 @@ input.button.back { background: transparent url('img/tango/edit-undo.png') no-re
 input.button.back:hover { background-color: #FFFFCE; color: #b08d00; }
 input.button.print { background: transparent url('img/tango/document-print.png') no-repeat 5px 5px; width: 90px; }
 input.button.print:hover { background-color: #ededed; }
+
+/* ValidaciÃ³n */
+div.mp { border: 1px solid #ABABAB; background: #FFF url('img/fmbg.png') repeat-x 0 0; margin-top: 15px; color: #3a3a3a }
+div.mp-hd, div.mp-bd { padding: 4px 0px 3px 8px; }
+div.mp-hd { font-size: 123.1%; height: 34px; }
+div.mp-hd img { float: left; margin-right: 13px }
+div.mp-hd span { float: left; margin-top: 5px; }
+div.mp-bd span { display: block; font-size: 93%; }
+div.mp.single div.mp-hd { height: 32px; }
+div.mp.single > div.mp-bd { display: none; }
 
 /* YUI Fixes */
 div.yui-g.legend h2 { margin: 1em 0 0.3em 0; }

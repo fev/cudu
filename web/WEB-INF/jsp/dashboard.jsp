@@ -50,26 +50,26 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
           <div id="lblGrupo"><c:out value="${usuarioActual.grupo.nombre}" /></div>
           <div>
             <a href="preferencias"><fmt:message key="dashboard.preferencias" /></a> -
-            <a href="<c:url value="/j_spring_security_logout"/>">Salir</a>
+            <a href="<c:url value="/j_spring_security_logout"/>"><fmt:message key="dashboard.salir" /></a>
           </div>
         </div>
     </div>
     <div class="yui-g ht">
       <a id="lnkNuevoAsoc">
         <img src="<c:url value="/s/theme/img/db-asociado.png" />" alt="nuevo" style="margin-top: 0" />
-        <span>Nuevo asociado</span>
+        <span><fmt:message key="dashboard.nuevoasociado" /></span>
       </a>
       <a href="<c:url value="listados" />">
         <img src="<c:url value="/s/theme/img/db-listado.png" />" alt="ayuda" />
-        <span>Listados</span>
+        <span><fmt:message key="dashboard.listados" /></span>
       </a>
       <a href="<c:url value="grupo" />">
         <img src="<c:url value="/s/theme/img/db-grupo.png" />" alt="ayuda" />
-        <span>Mi grupo</span>
+        <span><fmt:message key="dashboard.migrupo" /></span>
       </a>
       <a href="<c:url value="ayuda" />">
         <img src="<c:url value="/s/theme/img/db-ayuda.png" />" alt="ayuda" />
-        <span>Ayuda</span>
+        <span><fmt:message key="dashboard.ayuda" /></span>
       </a>
     </div>
   </div>

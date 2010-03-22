@@ -25,7 +25,7 @@ create table asociado (
     tieneSeguroPrivado boolean NOT NULL CONSTRAINT DF_Asociado_SegPriv DEFAULT (false),
 
     calle varchar(100) NOT NULL,
-    patio varchar(3) NOT NULL,
+    numero varchar(3) NOT NULL,
     escalera varchar(3) NULL,
     puerta varchar(3) NULL,
     codigoPostal int NOT NULL,
@@ -57,7 +57,7 @@ create table asociado (
     padre_telefono varchar(15) NULL,
     padre_email varchar(100) NULL,
 
-    madre_nombre varchar(30) NULL,
+    madre_nombre varchar(250) NULL,
     madre_telefono varchar(15) NULL,
     madre_email varchar(100) NULL,
     

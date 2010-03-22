@@ -28,8 +28,10 @@
 
 	<!-- Localización  -->
 	<mvc:interceptors>
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="hl"/>
 	</mvc:interceptors>
+	
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
 	
 	<mvc:view-controller path="/" view-name="dashboard" />
 	<mvc:view-controller path="/login" />

@@ -5,17 +5,20 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.domain.Grupo.UiStates;
 import org.scoutsfev.cudu.services.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,15 +43,19 @@ public class GrupoController {
 	@Autowired
 	protected GrupoService grupoService;
 	
+	@Autowired
+    private Validator validator;
+	
 	/** 
 	 * Inicializa el enlace de datos entre el modelo y la vista.
 	 * Entre otras cosas, aquí se usa para establecer el formato de fecha en el textbox de "aniversario".
 	 * @param dataBinder objeto que establece el databinding en el formulario.
 	 */
 	@InitBinder
-    public void initBinder(WebDataBinder dataBinder) {
+    public void initBinder(WebDataBinder binder) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		dataBinder.registerCustomEditor(Date.class, null, new CustomDateEditor(dateFormat, true));
+		binder.registerCustomEditor(Date.class, null, new CustomDateEditor(dateFormat, true));
+		binder.setValidator(validator);
     }
 	
 	/**
@@ -71,6 +78,7 @@ public class GrupoController {
 		HttpSession session = request.getSession();
 		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");		
 		Grupo grupo = usuarioActual.getGrupo();
+		grupo.setUiState(Grupo.UiStates.Init);
 		logger.info("setupForm: " + grupo.getId());
 
 		model.addAttribute("grupo", grupo);
@@ -85,18 +93,20 @@ public class GrupoController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute("grupo") Grupo grupo, BindingResult result, SessionStatus status) {
+	public String processSubmit(@ModelAttribute("grupo") @Valid Grupo grupo, BindingResult result, SessionStatus status) {
 		logger.info("processSubmit: " + grupo.getId());
 		
-		// TODO Validadores
-		
-		grupoService.merge(grupo);
-		
+		if (!result.hasErrors()) {
+			grupoService.merge(grupo);
+			grupo.setUiState(UiStates.Saved);
+		} else {
+			grupo.setUiState(UiStates.Error);
+		}
+
 		/* setComplete elimina los datos establecidos por SessionAttributes
 		 * considerar si es posible eliminar esos datos al presionar el botón volver
 		 * o al redirigir a otra página 
 		 */
-
 		// status.setComplete();
 		
 		return "grupo";

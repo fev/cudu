@@ -2,7 +2,6 @@ package org.scoutsfev.cudu.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -15,7 +14,6 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -41,7 +39,8 @@ public class AsociadoController {
 	
 	/** 
 	 * Inicializa el enlace de datos entre el modelo y la vista.
-	 * Entre otras cosas, aquí se usa para establecer el formato de fecha en el textbox de "aniversario".
+	 * Entre otras cosas, aquí se usa para establecer el formato de fecha en el textbox de "aniversario",
+	 * o inyectar la dependencia con el validador de Asociados (ver anotaciones sobre la entidad).
 	 * @param dataBinder objeto que establece el databinding en el formulario.
 	 */
 	@InitBinder
@@ -74,8 +73,8 @@ public class AsociadoController {
 			asociado.setTipo('K');
 		else if (tipo == "comite")
 			asociado.setTipo('C');
-//		else
-//			throw new Exception();
+		else
+			return "redirect:/404";
 
 		model.addAttribute("asociado", asociado);
 		return "asociado";
@@ -84,17 +83,23 @@ public class AsociadoController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado, BindingResult result, SessionStatus status) {
 		logger.info("processSubmit: " + asociado.getId());
+		
+		// DBG
+		asociado.setSexo("F");
+		
 		if (result.hasErrors()) {
 			logger.info("Validation errors.");
-			List<ObjectError> errors = result.getAllErrors();
-			for (ObjectError error : errors) {
-				logger.info(error.getDefaultMessage());
-				logger.info(error.getCode());
-			}
+//			List<ObjectError> errors = result.getAllErrors();
+//			for (ObjectError error : errors) {
+//				logger.info(error.getDefaultMessage());
+//				logger.info(error.getCode());
+//			}
 		}
-		else
-			logger.info("OK!");
-		// storage.merge(asociado);
+		else {
+			logger.info("Entity is valid.");
+			storage.merge(asociado);
+		}
+		
 		return "asociado";
 	}
 }

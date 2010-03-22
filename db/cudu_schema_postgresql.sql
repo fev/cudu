@@ -3,19 +3,19 @@ CREATE TABLE grupo (
   nombre varchar(50) NOT NULL,
   
   calle varchar(300) NOT NULL,
-  numero integer NOT NULL,
-  puerta integer,
-  escalera varchar(2),
+  numero varchar(3) NOT NULL,
+  puerta varchar(3),
+  escalera varchar(3),
   codigopostal integer NOT NULL,
   idprovincia integer NOT NULL,
   idmunicipio integer NOT NULL,
   
   aniversario date,
-  telefono integer,
-  movil integer,
+  telefono1 varchar(15) NOT NULL,
+  telefono2 varchar(15) NULL,
   mail varchar(100) NOT NULL,
   web varchar(300),
-  entidadpatrocinadora character varying(100),
+  entidadpatrocinadora varchar(100),
   asociacion smallint NOT NULL,
 
   CONSTRAINT pk_grupo PRIMARY KEY (id),
@@ -29,22 +29,22 @@ CREATE TABLE grupo (
 
 CREATE TABLE pagocuotas (
   idgrupo character varying(20) NOT NULL,
-  "año" integer NOT NULL,
+  "aï¿½o" integer NOT NULL,
   cantidad numeric(7,2) NOT NULL,
   fechapago date NOT NULL DEFAULT CURRENT_TIMESTAMP,
   notas varchar(250) NULL,
-  CONSTRAINT pk_pagocuotas PRIMARY KEY (idgrupo, "año"),
+  CONSTRAINT pk_pagocuotas PRIMARY KEY (idgrupo, "aï¿½o"),
   CONSTRAINT fk_pagocuotas_grupo FOREIGN KEY (idgrupo)
       REFERENCES grupo (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT "pagocuotas_año_check" CHECK ("año" >= 0)
+  CONSTRAINT "pagocuotas_aï¿½o_check" CHECK ("aï¿½o" >= 0)
 );
 
 
 -- Datos de prueba
 insert into grupo (id, nombre, calle, numero, codigoPostal, idProvincia, idMunicipio, mail, asociacion)
-values ('AK','Ain-Karen', 'Diputado Lluís Lucia', 21, 46015, 46, 250, 'ainkaren@gmail.com', 1);
+values ('AK','Ain-Karen', 'Diputado Lluï¿½s Lucia', 21, 46015, 46, 250, 'ainkaren@gmail.com', 1);
 
-insert into pagocuotas (idgrupo, "año", cantidad)
+insert into pagocuotas (idgrupo, "aï¿½o", cantidad)
 values ('AK', 2009, 690.45);
 

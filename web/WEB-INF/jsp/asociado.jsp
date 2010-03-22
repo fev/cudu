@@ -23,7 +23,14 @@ div#bd { padding-left: 20px; }
   </div>
   </div>
   
-  <form:errors path="*" cssClass="errorBox" />
+  <form:errors cssClass="yui-g" path="*"><%-- buscar if, y reemplazar por un div --%>
+  	<div id="formErrors">
+  		<div>Existen errores de validación</div>
+  		<div>
+  		 <form:errors path="*" />
+  		</div>
+  	</div>
+  </form:errors>
   
   <div class="yui-g legend"><h2><fmt:message key="grupo.h.info" /></h2></div>
   <div class="yui-g">
@@ -41,10 +48,10 @@ div#bd { padding-left: 20px; }
         <form:input id="txtApellido2" path="segundoapellido" cssClass="textbox w3u" />
       </div>
       <div class="field required">
-        <label for="radioGeneroMasculino">Sexo</label><%-- Toogle al pulsar sobre el label, selección alternativa --%>
-        <input id="radioGeneroMasculino" type="radio" class="radio" name="radioGenero" title="Masculino" value="M" />
+        <label>Sexo</label>
+        <form:radiobutton id="radioGeneroMasculino" cssClass="radio" path="sexo" value="M" title="Masculino" />
         <label for="radioGeneroMasculino" class="radio">Masculino</label>
-        <input id="radioGeneroFemenino" type="radio" class="radio" name="radioGenero" title="Masculino" value="F" />
+        <form:radiobutton id="radioGeneroFemenino" cssClass="radio" path="sexo" value="F" title="Femenino" />
         <label for="radioGeneroFemenino" class="radio">Femenino</label>
       </div>
     </div>
@@ -60,8 +67,7 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field">
         <label for="txtDNI">Nº DNI</label>
-        <input id="txtDNI" type="text" class="textbox w1u" maxlength="8" />
-        <input id="txtDNIDC" type="text" class="textbox dc" readonly="readonly" />
+        <form:input id="txtDNI" path="dni" cssClass="textbox w1u" maxlength="9" />
       </div>
       <div class="field">
         <label for="txtNSS">Seg. Social</label>
@@ -83,13 +89,13 @@ div#bd { padding-left: 20px; }
         <form:input id="txtCalle" path="calle" cssClass="textbox w3u" />
       </div>
       <div class="field required">
-        <label for="txtPatio" class="w2u">Patio</label>
-        <form:input id="txtPatio" path="patio" cssClass="textbox w0u" />
+        <label for="txtNumero" class="w2u">Número</label>
+        <form:input id="txtNumero" path="numero" cssClass="textbox w0u" maxlength="3" />
         <label for="txtEscalera" class="w1u">Escalera</label>
         <!-- HACK bgcolor, mover a css -->
-        <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" cssStyle="background-color: inherit;" />
+        <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" maxlength="3" cssStyle="background-color: inherit;" />
         <label for="txtPuerta" class="w1u">Puerta</label>
-        <form:input id="txtPuerta" path="puerta" cssClass="textbox w0u" cssStyle="background-color: inherit;" />
+        <form:input id="txtPuerta" path="puerta" cssClass="textbox w0u" maxlength="3" cssStyle="background-color: inherit;" />
       </div>
       <div class="field required">
         <label for="txtCodigoPostal" class="w2u">C.P.</label>

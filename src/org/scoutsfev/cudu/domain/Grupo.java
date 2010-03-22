@@ -5,6 +5,11 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Grupo implements Serializable {
@@ -12,36 +17,71 @@ public class Grupo implements Serializable {
 
 	@Id
 	private String id;
-
-	private Date aniversario;
-
-	private Integer asociacion;
-
-	private String calle;
-
-	private Integer codigopostal;
-
-	private String entidadpatrocinadora;
-
-	private String escalera;
-
-	private Integer idmunicipio;
-
-	private Integer idprovincia;
-
-	private String mail;
-
-	private Integer movil;
-
+	
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String nombre;
 
-	private Integer numero;
+	@NotNull
+	@Size(min=3, max=300)
+	private String calle;
+	
+	@NotNull
+	@Size(min = 1, max = 3)
+	private String numero;
 
-	private Integer puerta;
+	@Size(max = 3)
+	private String puerta;
 
-	private Integer telefono;
+	@Size(max = 3)
+	private String escalera;
+	
+	@NotNull
+	@Min(1)
+	private Integer codigopostal;
+	
+	private Integer idprovincia;
+	
+	private Integer idmunicipio;
 
+	@Past
+	private Date aniversario;
+	
+	@NotNull
+	@Size(min = 3, max = 15)
+	private String telefono1;
+
+	@Size(max = 15)
+	private String telefono2;
+	
+	@NotNull
+	@Size(min = 6, max = 100)
+	private String mail;
+	
+	@Size(max = 300)
 	private String web;
+	
+	private Integer asociacion;
+	
+	@Size(max = 100)
+	private String entidadpatrocinadora;
+	
+	// HACK para permitir mensajes del estado de la edición, ver
+	// controlador de grupos. Se eliminará cuando puedan editarse
+	// múltiples grupos, en lugar de usar la BBDD.
+	public static enum UiStates { Init, Error, Saved }
+	
+	@Transient
+	private UiStates uiState = UiStates.Init;
+	
+	public void setUiState(UiStates uiState) {
+		this.uiState = uiState;
+	}
+
+	public boolean isUiStatedSaved() {
+		return uiState == UiStates.Saved;
+	}
+	// END HACK
 
     public Grupo() {
     }
@@ -126,12 +166,12 @@ public class Grupo implements Serializable {
 		this.mail = mail;
 	}
 
-	public Integer getMovil() {
-		return this.movil;
+	public String getTelefono2() {
+		return this.telefono2;
 	}
 
-	public void setMovil(Integer movil) {
-		this.movil = movil;
+	public void setTelefono2(String telefono2) {
+		this.telefono2 = telefono2;
 	}
 
 	public String getNombre() {
@@ -142,28 +182,28 @@ public class Grupo implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Integer getNumero() {
+	public String getNumero() {
 		return this.numero;
 	}
 
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
-	public Integer getPuerta() {
+	public String getPuerta() {
 		return this.puerta;
 	}
 
-	public void setPuerta(Integer puerta) {
+	public void setPuerta(String puerta) {
 		this.puerta = puerta;
 	}
 
-	public Integer getTelefono() {
-		return this.telefono;
+	public String getTelefono1() {
+		return this.telefono1;
 	}
 
-	public void setTelefono(Integer telefono) {
-		this.telefono = telefono;
+	public void setTelefono1(String telefono1) {
+		this.telefono1 = telefono1;
 	}
 
 	public String getWeb() {

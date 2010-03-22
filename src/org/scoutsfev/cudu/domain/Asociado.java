@@ -12,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -21,85 +23,110 @@ public class Asociado implements Serializable {
 
 	@Id
 	private Integer id;
-
-	private String calle;
-
-	private Integer codigopostal;
-
-	private String dni;
-
-	private String email;
-
-	private String escalera;
-
-	private Timestamp fechaalta;
-
-	private Timestamp fechabaja;
-
-	@Temporal(TemporalType.DATE)
-	private Date fechanacimiento;
-
-	private String idgrupo;
-
-	private Integer idmunicipio;
-
-	private Integer idprovincia;
-
-	@Column(name = "madre_nombre")
-	private String madreNombre;
-
-	@Column(name = "madre_telefono")
-	private String madreTelefono;
-
-	@Column(name = "madre_email")
-	private String madreEmail;
-
-	private String municipio;
-
+	
 	@NotNull
 	@Size(min = 3, max = 30)
 	private String nombre;
-
-	@Column(name = "padre_nombre")
-	private String padreNombre;
-
-	@Column(name = "padre_telefono")
-	private String padreTelefono;
-
-	@Column(name = "padre_email")
-	private String padreEmail;
-
-	private String patio;
-
+	
 	@NotNull
 	@Size(min = 3, max = 50)
 	private String primerapellido;
-
-	private String provincia;
-
-	private String puerta;
-
+	
 	@NotNull
 	@Size(min = 3, max = 50)
 	private String segundoapellido;
+	
+	@Temporal(TemporalType.DATE)
+	@NotNull
+	@Past
+	private Date fechanacimiento;
 
+	@NotNull
+	@Size(min = 3, max = 100)
+	private String calle;
+	
+	@NotNull
+	@Size(min = 1, max = 3)
+	private String numero;
+
+	@Size(max = 3)
+	private String escalera;
+
+	@Size(max = 3)
+	private String puerta;
+	
+	@NotNull
+	@Min(1)
+	private Integer codigopostal;
+	
+	private Integer idmunicipio;
+	private String municipio;
+	
+	private Integer idprovincia;
+	private String provincia;
+
+	// @Pattern num(-/\)letra, numLetra
+	@Size(max=9)
+	private String dni;
+	
+	// @Pattern
+	@Size(max = 100)
+	private String email;
+
+	@Size(max = 12)
 	private String seguridadsocial;
 
+//	@NotNull
+//	@Pattern(regexp = "[MF]")
 	private String sexo;
-
+	
+	@Size(max = 15)
 	private String telefonocasa;
-
+	
+	@Size(max = 15)
 	private String telefonomovil;
 
-	private Boolean tieneseguroprivado;
+	private Timestamp fechaalta;
+	private Timestamp fechabaja;
 
+	private String idgrupo;
+	private char tipo;
+
+	private Boolean tieneseguroprivado;
 	private Boolean tienetutorlegal;
 
-	private char tipo;
+	@Column(name = "madre_nombre")
+	@Size(max = 250)
+	private String madreNombre;
+
+	@Column(name = "madre_telefono")
+	@Size(max = 15)
+	private String madreTelefono;
+
+	@Column(name = "madre_email")
+	@Size(max = 100)
+	//@Pattern(regexp = "")
+	private String madreEmail;
+
+
+	@Column(name = "padre_nombre")
+	@Size(max = 250)
+	private String padreNombre;
+
+	@Column(name = "padre_telefono")
+	@Size(max = 15)
+	private String padreTelefono;
+
+	@Column(name = "padre_email")
+	@Size(max = 100)
+	//@Pattern(regexp = "")
+	private String padreEmail;
+
 
 	@OneToMany(mappedBy = "asociado", fetch = FetchType.EAGER)
 	private Set<AsociadoRama> ramas;
 
+	
 	public Asociado() {
 	}
 
@@ -263,12 +290,12 @@ public class Asociado implements Serializable {
 		this.padreEmail = padreEmail;
 	}
 
-	public String getPatio() {
-		return this.patio;
+	public String getNumero() {
+		return this.numero;
 	}
 
-	public void setPatio(String patio) {
-		this.patio = patio;
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 
 	public String getPrimerapellido() {

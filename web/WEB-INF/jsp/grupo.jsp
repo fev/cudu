@@ -22,11 +22,21 @@
       <h1><fmt:message key="grupo.h.titulo" /> <c:out value="${grupo.nombre}" /></h1>
     </div>
     <!--<div class="yui-g">
-      <div class="postmsg ok">Los datos se guardaron correctamente.</div>
     </div>-->
   </div>
   <form:form modelAttribute="grupo" method="POST">
-  <div class="yui-g legend"><h2><fmt:message key="grupo.h.info" /></h2></div>
+
+  <spring:hasBindErrors name="grupo">
+  	<cudu:message id="prueba" key="frm.errores">
+  		<form:errors id="mpbderr" path="*" />
+  	</cudu:message>
+  </spring:hasBindErrors>
+  
+  <c:if test="${grupo.uiStatedSaved}">
+  	<cudu:message id="mp01" key="frm.ok" single="true" />
+  </c:if>
+ 
+  <div class="yui-g legend"><h2><fmt:message key="grupo.h.info" /></h2></div> 
   <div class="yui-g">
     <div class="yui-g first">
       <div class="field">
@@ -92,17 +102,21 @@
       </div>
     </div>
     <div class="yui-g">
-      <div class="field required ">
-        <label for="txtTelefono">Teléfono</label>
-        <form:input id="txtTelefono" path="telefono" cssClass="textbox w3u" />
+      <div class="field required">
+        <label for="txtTelefono">Teléfono 1</label>
+        <form:input id="txtTelefono1" path="telefono1" cssClass="textbox w3u" maxlength="15" />
+      </div>
+      <div class="field ">
+        <label for="txtTelefono">Teléfono 2</label>
+        <form:input id="txtTelefono2" path="telefono2" cssClass="textbox w3u" maxlength="15" />
       </div>
       <div class="field required">
         <label for="txtMail">Mail</label>
-        <form:input id="txtMail" path="mail" cssClass="textbox w3u" />
+        <form:input id="txtMail" path="mail" cssClass="textbox w3u" maxlength="100" />
       </div>
       <div class="field">
         <label for="txtWeb">Pág. Web</label>
-        <form:input id="txtWeb" path="web" cssClass="textbox w3u" />
+        <form:input id="txtWeb" path="web" cssClass="textbox w3u"  maxlength="300" />
       </div>
     </div>
   </div>
