@@ -25,7 +25,7 @@ div#infoUsuario a { color: #FFF; }
 div#lblUsuario { font-size: 182% }
 div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 
-#lnkNuevoAsoc {cursor:pointer;}
+#lnkNuevoAsoc { cursor:pointer; }
 #poptaseg { display:none; position: absolute; margin-left: -300px;
 	top: 150px; left: 50%; width: 600px; height: 200px;  
 	background: transparent url('<c:url value="/s/theme/img/onepixb.png" />') repeat 0 0;

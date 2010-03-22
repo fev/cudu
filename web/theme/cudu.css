@@ -53,8 +53,8 @@ div#ft { background: transparent url('img/bg-ft.png')  no-repeat 0 0;
 div.field { display: block; float:none; clear:both; height:26px; margin: 5px 5px 5px 0; }
 
 div.field.required input.textbox { background-color: #FFFFD9; }
-div.field.error input.textbox { background-color: #ffe7e7; border-color: #db4545; color: #db2020 }
-div.field.error input.textbox:focus, div.field.error input.textbox:hover { border-color: #db4545; }
+div.field input.textbox:focus, div.field input.textbox:hover { border-color: #db4545; }
+div.field input.textbox.error { background-color: #ffe7e7; border-color: #db4545; color: #db2020 }
 
 div.field label { display:block; float:left; width: 80px; height:26px; line-height:26px; margin-right:5px; padding:0 5px;
                   color:#333; background-color: #F7F7F7; }

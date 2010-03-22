@@ -7,7 +7,7 @@ public enum TipoAsociado {
 	
 	@SuppressWarnings("unused")
 	private char tipo;
-	
+
 	TipoAsociado(char tipo) {
 		this.tipo = tipo;
 	}

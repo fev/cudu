@@ -1,8 +1,5 @@
 package org.scoutsfev.cudu.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -14,24 +11,15 @@ import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.Grupo.UiStates;
 import org.scoutsfev.cudu.services.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-/**
- * Controlador para editar grupos.
- * @author lbelloch
- *
- */
 @Controller
 @RequestMapping("/grupo")
 @SessionAttributes("grupo")
@@ -42,21 +30,6 @@ public class GrupoController {
 	/** Servicio de datos para el controlador */
 	@Autowired
 	protected GrupoService grupoService;
-	
-	@Autowired
-    private Validator validator;
-	
-	/** 
-	 * Inicializa el enlace de datos entre el modelo y la vista.
-	 * Entre otras cosas, aquí se usa para establecer el formato de fecha en el textbox de "aniversario".
-	 * @param dataBinder objeto que establece el databinding en el formulario.
-	 */
-	@InitBinder
-    public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		binder.registerCustomEditor(Date.class, null, new CustomDateEditor(dateFormat, true));
-		binder.setValidator(validator);
-    }
 	
 	/**
 	 * Prepara el formulario para el alta o la edición de un nuevo grupo.

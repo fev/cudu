@@ -8,6 +8,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -22,6 +24,7 @@ public class Asociado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
 	@NotNull
@@ -32,8 +35,7 @@ public class Asociado implements Serializable {
 	@Size(min = 3, max = 50)
 	private String primerapellido;
 	
-	@NotNull
-	@Size(min = 3, max = 50)
+	@Size(max = 50)
 	private String segundoapellido;
 	
 	@Temporal(TemporalType.DATE)
@@ -59,13 +61,14 @@ public class Asociado implements Serializable {
 	@Min(1)
 	private Integer codigopostal;
 	
-	private Integer idmunicipio;
+	private Integer idMunicipio;
 	private String municipio;
 	
-	private Integer idprovincia;
+	private Integer idProvincia;
 	private String provincia;
 
 	// @Pattern num(-/\)letra, numLetra
+	@Column(nullable = true)
 	@Size(max=9)
 	private String dni;
 	
@@ -76,9 +79,9 @@ public class Asociado implements Serializable {
 	@Size(max = 12)
 	private String seguridadsocial;
 
-//	@NotNull
-//	@Pattern(regexp = "[MF]")
-	private String sexo;
+	@NotNull
+	// @Pattern(regexp = "[MF]")
+	private char sexo;
 	
 	@Size(max = 15)
 	private String telefonocasa;
@@ -86,10 +89,12 @@ public class Asociado implements Serializable {
 	@Size(max = 15)
 	private String telefonomovil;
 
+	@Column(insertable = false, updatable = false)
 	private Timestamp fechaalta;
+
 	private Timestamp fechabaja;
 
-	private String idgrupo;
+	private String idGrupo;
 	private char tipo;
 
 	private Boolean tieneseguroprivado;
@@ -126,9 +131,6 @@ public class Asociado implements Serializable {
 	@OneToMany(mappedBy = "asociado", fetch = FetchType.EAGER)
 	private Set<AsociadoRama> ramas;
 
-	
-	public Asociado() {
-	}
 
 	public Integer getId() {
 		return this.id;
@@ -202,28 +204,28 @@ public class Asociado implements Serializable {
 		this.fechanacimiento = fechanacimiento;
 	}
 
-	public String getIdgrupo() {
-		return this.idgrupo;
+	public String getIdGrupo() {
+		return this.idGrupo;
 	}
 
-	public void setIdgrupo(String idgrupo) {
-		this.idgrupo = idgrupo;
+	public void setIdGrupo(String idGrupo) {
+		this.idGrupo = idGrupo;
 	}
 
-	public Integer getIdmunicipio() {
-		return this.idmunicipio;
+	public Integer getIdMunicipio() {
+		return this.idMunicipio;
 	}
 
-	public void setIdmunicipio(Integer idmunicipio) {
-		this.idmunicipio = idmunicipio;
+	public void setIdMunicipio(Integer idMunicipio) {
+		this.idMunicipio = idMunicipio;
 	}
 
-	public Integer getIdprovincia() {
-		return this.idprovincia;
+	public Integer getIdProvincia() {
+		return this.idProvincia;
 	}
 
-	public void setIdprovincia(Integer idprovincia) {
-		this.idprovincia = idprovincia;
+	public void setIdProvincia(Integer idProvincia) {
+		this.idProvincia = idProvincia;
 	}
 
 	public String getMadreNombre() {
@@ -338,11 +340,11 @@ public class Asociado implements Serializable {
 		this.seguridadsocial = seguridadsocial;
 	}
 
-	public String getSexo() {
+	public char getSexo() {
 		return this.sexo;
 	}
 
-	public void setSexo(String sexo) {
+	public void setSexo(char sexo) {
 		this.sexo = sexo;
 	}
 

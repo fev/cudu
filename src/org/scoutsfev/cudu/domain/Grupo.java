@@ -14,25 +14,25 @@ import javax.validation.constraints.Size;
 @Entity
 public class Grupo implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	private String id;
-	
+
 	@NotNull
 	@Size(min = 3, max = 50)
 	private String nombre;
-
+	
 	@NotNull
 	@Size(min=3, max=300)
 	private String calle;
-	
+
 	@NotNull
 	@Size(min = 1, max = 3)
 	private String numero;
 
 	@Size(max = 3)
 	private String puerta;
-
+	
 	@Size(max = 3)
 	private String escalera;
 	
@@ -40,23 +40,30 @@ public class Grupo implements Serializable {
 	@Min(1)
 	private Integer codigopostal;
 	
-	private Integer idprovincia;
+	@NotNull
+	@Min(0)
+	private Integer idMunicipio;
+	private String municipio;
 	
-	private Integer idmunicipio;
-
+	@NotNull
+	@Min(0)
+	private Integer idProvincia;
+	
+	private String provincia;
+	
 	@Past
 	private Date aniversario;
-	
+
 	@NotNull
 	@Size(min = 3, max = 15)
 	private String telefono1;
-
+	
 	@Size(max = 15)
 	private String telefono2;
 	
 	@NotNull
 	@Size(min = 6, max = 100)
-	private String mail;
+	private String email;
 	
 	@Size(max = 300)
 	private String web;
@@ -74,116 +81,45 @@ public class Grupo implements Serializable {
 	@Transient
 	private UiStates uiState = UiStates.Init;
 	
-	public void setUiState(UiStates uiState) {
-		this.uiState = uiState;
-	}
-
 	public boolean isUiStatedSaved() {
 		return uiState == UiStates.Saved;
 	}
+	
+	public UiStates getUiState() {
+		return uiState;
+	}
+
+	public void setUiState(UiStates uiState) {
+		this.uiState = uiState;
+	}
 	// END HACK
 
-    public Grupo() {
-    }
-
 	public String getId() {
-		return this.id;
+		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Date getAniversario() {
-		return this.aniversario;
-	}
-
-	public void setAniversario(Date aniversario) {
-		this.aniversario = aniversario;
-	}
-
-	public Integer getAsociacion() {
-		return this.asociacion;
-	}
-
-	public void setAsociacion(Integer asociacion) {
-		this.asociacion = asociacion;
-	}
-
-	public String getCalle() {
-		return this.calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
-
-	public Integer getCodigoPostal() {
-		return this.codigopostal;
-	}
-
-	public void setCodigoPostal(Integer codigopostal) {
-		this.codigopostal = codigopostal;
-	}
-
-	public String getEntidadPatrocinadora() {
-		return this.entidadpatrocinadora;
-	}
-
-	public void setEntidadPatrocinadora(String entidadPatrocinadora) {
-		this.entidadpatrocinadora = entidadPatrocinadora;
-	}
-
-	public String getEscalera() {
-		return this.escalera;
-	}
-
-	public void setEscalera(String escalera) {
-		this.escalera = escalera;
-	}
-
-	public Integer getIdMunicipio() {
-		return this.idmunicipio;
-	}
-
-	public void setIdMunicipio(Integer idmunicipio) {
-		this.idmunicipio = idmunicipio;
-	}
-
-	public Integer getIdProvincia() {
-		return this.idprovincia;
-	}
-
-	public void setIdProvincia(Integer idprovincia) {
-		this.idprovincia = idprovincia;
-	}
-
-	public String getMail() {
-		return this.mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	public String getTelefono2() {
-		return this.telefono2;
-	}
-
-	public void setTelefono2(String telefono2) {
-		this.telefono2 = telefono2;
-	}
-
 	public String getNombre() {
-		return this.nombre;
+		return nombre;
 	}
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
 	public String getNumero() {
-		return this.numero;
+		return numero;
 	}
 
 	public void setNumero(String numero) {
@@ -191,27 +127,115 @@ public class Grupo implements Serializable {
 	}
 
 	public String getPuerta() {
-		return this.puerta;
+		return puerta;
 	}
 
 	public void setPuerta(String puerta) {
 		this.puerta = puerta;
 	}
 
+	public String getEscalera() {
+		return escalera;
+	}
+
+	public void setEscalera(String escalera) {
+		this.escalera = escalera;
+	}
+
+	public Integer getCodigopostal() {
+		return codigopostal;
+	}
+
+	public void setCodigopostal(Integer codigopostal) {
+		this.codigopostal = codigopostal;
+	}
+
+	public Integer getIdMunicipio() {
+		return idMunicipio;
+	}
+
+	public void setIdmunicipio(Integer idMunicipio) {
+		this.idMunicipio = idMunicipio;
+	}
+
+	public String getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
+	}
+
+	public Integer getIdProvincia() {
+		return idProvincia;
+	}
+
+	public void setIdProvincia(Integer idProvincia) {
+		this.idProvincia = idProvincia;
+	}
+
+	public String getProvincia() {
+		return provincia;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public Date getAniversario() {
+		return aniversario;
+	}
+
+	public void setAniversario(Date aniversario) {
+		this.aniversario = aniversario;
+	}
+
 	public String getTelefono1() {
-		return this.telefono1;
+		return telefono1;
 	}
 
 	public void setTelefono1(String telefono1) {
 		this.telefono1 = telefono1;
 	}
 
+	public String getTelefono2() {
+		return telefono2;
+	}
+
+	public void setTelefono2(String telefono2) {
+		this.telefono2 = telefono2;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getWeb() {
-		return this.web;
+		return web;
 	}
 
 	public void setWeb(String web) {
 		this.web = web;
+	}
+
+	public Integer getAsociacion() {
+		return asociacion;
+	}
+
+	public void setAsociacion(Integer asociacion) {
+		this.asociacion = asociacion;
+	}
+
+	public String getEntidadpatrocinadora() {
+		return entidadpatrocinadora;
+	}
+
+	public void setEntidadpatrocinadora(String entidadpatrocinadora) {
+		this.entidadpatrocinadora = entidadpatrocinadora;
 	}
 }
 

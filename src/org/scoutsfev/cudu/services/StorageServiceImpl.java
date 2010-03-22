@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class StorageServiceImpl<T> implements StorageService<T> {
@@ -27,7 +28,8 @@ public class StorageServiceImpl<T> implements StorageService<T> {
 	}
 
 	@Override
-	public void merge(T entity) {
-		this.entityManager.merge(entity);
+	@Transactional
+	public T merge(T entity) {
+		return this.entityManager.merge(entity);
 	}
 }

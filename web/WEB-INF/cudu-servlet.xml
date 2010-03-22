@@ -22,26 +22,48 @@
 
 	<!-- Búsqueda automática de controladores anotados -->
 	<context:component-scan base-package="org.scoutsfev.cudu.web" />
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="cacheSeconds" value="0" />
+		<property name="webBindingInitializer">
+	        <bean class="org.scoutsfev.cudu.web.BindingInitializer" />
+	    </property>
+	</bean>
 
 	<mvc:annotation-driven />
 
-	<!-- Localización  -->
+	<mvc:view-controller path="/" view-name="dashboard" />
+	<mvc:view-controller path="/login" />
+
+	<!-- Resolución de la vista ("nombreVista.jsp", dentro de /WEB-INF/jsp) -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="10">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    
+    <!-- Serialización JSON, dependiente del contenido 
+    TODO Seguir buscando acerca de xq @ResponseBody no funciona evitando esto.
+    -->
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="1">
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+			</list>
+		</property>
+	</bean>
+    
+    <!-- Localización  -->
 	<mvc:interceptors>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="hl"/>
 	</mvc:interceptors>
 	
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
-	
-	<mvc:view-controller path="/" view-name="dashboard" />
-	<mvc:view-controller path="/login" />
-
-	<!-- Resolución de la vista ("nombreVista.jsp", dentro de /WEB-INF/jsp) -->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
-        <property name="prefix" value="/WEB-INF/jsp/"/>
-        <property name="suffix" value=".jsp"/>
-    </bean>
 
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="cacheSeconds" value="3" />

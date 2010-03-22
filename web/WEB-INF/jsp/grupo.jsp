@@ -26,7 +26,7 @@
   <form:form modelAttribute="grupo" method="POST">
 
   <spring:hasBindErrors name="grupo">
-  	<cudu:message id="prueba" key="frm.errores">
+  	<cudu:message id="mp01" key="frm.errores">
   		<form:errors id="mpbderr" path="*" />
   	</cudu:message>
   </spring:hasBindErrors>
@@ -46,18 +46,18 @@
       </div>
       <div class="field required">
         <label for="txtNombre" class="w2u"><fmt:message key="grupo.f.nombre" /></label>
-        <form:input id="txtNombre" path="nombre" cssClass="textbox w3u" />
+        <form:input id="txtNombre" path="nombre" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
       </div>
     </div>
     <div class="yui-g">
       <div class="field">
         <label for="txtAniversario" class="w4u"><fmt:message key="grupo.f.aniversario" /></label>
-        <form:input id="txtAniversario" path="aniversario" cssClass="textbox w1u" />
+        <form:input id="txtAniversario" path="aniversario" cssClass="textbox w1u" cssErrorClass="textbox w1u error" />
         <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" />
       </div>
       <div class="field">
         <label for="txtEntPatr" class="w4u"><fmt:message key="grupo.f.entidadpatrocinadora" /></label>
-        <form:input id="txtEntPatr" path="entidadPatrocinadora" cssClass="textbox w3u" />
+        <form:input id="txtEntPatr" path="entidadpatrocinadora" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
       </div>
     </div>
   </div>
@@ -67,55 +67,50 @@
     <div class="yui-g first">
       <div class="field required">
         <label for="txtCalle" class="w2u"><fmt:message key="grupo.f.calle" /></label>
-        <form:input path="calle" cssClass="textbox w3u" />
+        <form:input path="calle" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
       </div>
       <div class="field required">
         <label for="txtNumero" class="w2u"><fmt:message key="grupo.f.numero" /></label>
-        <form:input id="txtNumero" path="numero" cssClass="textbox w0u" />
+        <form:input id="txtNumero" path="numero" cssClass="textbox w0u" cssErrorClass="textbox w0u error" />
         <label for="txtEscalera" class="w1u"><fmt:message key="grupo.f.escalera" /></label>
         <!-- HACK bgcolor, mover a css -->
-        <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" cssStyle="background-color: inherit;" />
+        <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" cssStyle="background-color: inherit;" cssErrorClass="textbox w0u error" />
         <label for="txtPuerta" class="w1u"><fmt:message key="grupo.f.puerta" /></label>
         <form:input id="txtPuerta" path="puerta" cssClass="textbox w0u" />
       </div>
       <div class="field required">
         <label for="txtCodigoPostal" class="w2u"><fmt:message key="grupo.f.codigopostal" /></label>
-        <form:input id="txtCodigoPostal" path="codigoPostal" cssClass="textbox w1u" />
+        <form:input id="txtCodigoPostal" path="codigopostal" cssClass="textbox w1u" cssErrorClass="textbox w1u error" />
       </div>
       <div class="field required">
         <label for="txtProvincia" class="w2u"><fmt:message key="grupo.f.provincia" /></label>
-        <form:input id="txtProvincia" path="idProvincia" cssClass="textbox w0u" />
+        <form:input id="txtProvincia" path="idProvincia" cssClass="textbox w0u"  cssErrorClass="textbox w0u error" />
         <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
-        <span id="lblProvincia" class="literal">Valencia</span>
+        <span id="lblProvincia" class="literal"><c:out value="${asociado.provincia}" /></span>
       </div>
       <div class="field required">
         <label for="txtMunicipio" class="w2u"><fmt:message key="grupo.f.municipio" /></label>
-        <form:input id="txtMunicipio" path="idMunicipio" cssClass="textbox w0u" />
-<!--        <form:select path="idProvincia">-->
-<!--          <form:option value="12">Anywhere</form:option>-->
-<!--          <form:option value="46">Valencia</form:option>-->
-<!--          <form:option value="76">Oceans</form:option>-->
-<!--        </form:select>-->
+        <form:input id="txtMunicipio" path="idMunicipio" cssClass="textbox w0u"  cssErrorClass="textbox w0u error" />
         <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
-        <span id="lblMunicipio" class="literal">Alborache</span>
+        <span id="lblMunicipio" class="literal"><c:out value="${asociado.municipio}" /></span>
       </div>
     </div>
     <div class="yui-g">
       <div class="field required">
         <label for="txtTelefono"><fmt:message key="grupo.f.telefono1" /></label>
-        <form:input id="txtTelefono1" path="telefono1" cssClass="textbox w3u" maxlength="15" />
+        <form:input id="txtTelefono1" path="telefono1" cssClass="textbox w3u" cssErrorClass="textbox w3u error" maxlength="15" />
       </div>
       <div class="field ">
         <label for="txtTelefono"><fmt:message key="grupo.f.telefono2" /></label>
-        <form:input id="txtTelefono2" path="telefono2" cssClass="textbox w3u" maxlength="15" />
+        <form:input id="txtTelefono2" path="telefono2" cssClass="textbox w3u" cssErrorClass="textbox w3u error" maxlength="15" />
       </div>
       <div class="field required">
-        <label for="txtMail"><fmt:message key="grupo.f.email" /></label>
-        <form:input id="txtMail" path="mail" cssClass="textbox w3u" maxlength="100" />
+        <label for="txtEmail"><fmt:message key="grupo.f.email" /></label>
+        <form:input id="txtEmail" path="email" cssClass="textbox w3u" cssErrorClass="textbox w3u error" maxlength="100" />
       </div>
       <div class="field">
         <label for="txtWeb"><fmt:message key="grupo.f.web" /></label>
-        <form:input id="txtWeb" path="web" cssClass="textbox w3u"  maxlength="300" />
+        <form:input id="txtWeb" path="web" cssClass="textbox w3u" cssErrorClass="textbox w3u error"  maxlength="300" />
       </div>
     </div>
   </div>
@@ -134,6 +129,7 @@
 </div>
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
+<script src="<c:url value="/s/jquery/jquery.js" />"></script>
 <script type="text/javascript">
 function back() {
   document.location = '<c:url value="/" />'; 

@@ -6,7 +6,9 @@
 <title><fmt:message key="app.title" /></title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/paginator/assets/skins/sam/paginator.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/datatable/assets/skins/sam/datatable.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/logger/assets/logger.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
 .yui-skin-sam .yui-dt tr.mark, 
@@ -20,33 +22,44 @@
 </style>
 </head>
 <body>
+
+<div class="yui-log yui-log-container" id="yuilogct" style="position: absolute; right: 0; "></div>
+
 <div id="doc" class="yui-t7">
 <jsp:include page="header.jsp"></jsp:include>
 <div id="bd">
   <div class="yui-g tc-tb">
-	<a href="<c:url value="/asociado.mvc" />" class="save">
+	<a href="<c:url value="/asociado/nuevo" />" class="save">
 		<img src="<c:url value="/s/theme/img/tango/document-new.png" />" />
-		<span>Nuevo</span>
+		<span><fmt:message key="listados.tb.nuevo" /></span>
 	</a>
 	<a href="javascript:toogleFilter()">
 		<img src="<c:url value="/s/theme/img/tango/edit-find.png" />" />
-		<span>Filtrar</span>
+		<span><fmt:message key="listados.tb.filtrar" /></span>
 	</a>
     <a href="#">
       <img src="<c:url value="/s/theme/img/tango/select-column.png" />" />
-      <span>Columnas</span>
+      <span><fmt:message key="listados.tb.columnas" /></span>
     </a>
-	<a href="#">
+    <a href="#">
+      <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
+      <span><fmt:message key="listados.tb.imprimir" /></span>
+    </a>
+    <a href="javascript:dbreload()">
+      <img src="<c:url value="/s/theme/img/tango/emblem-favorite.png" />" />
+      <span>Reload!</span>
+    </a>
+	<%-- <a href="#">
 		<img src="<c:url value="/s/theme/img/tango/document-save.png" />" />
 		<span>Guardar</span>
 	</a>
 	<a href="#" class="delete">
 		<img src="<c:url value="/s/theme/img/tango/edit-delete-row.png" />" />
 		<span>Eliminar</span>
-	</a>
-	<a href="<c:url value="/dashboard.mvc" />">
+	</a>--%>
+	<a href="<c:url value="/" />">
 		<img src="<c:url value="/s/theme/img/tango/edit-undo.png" />" />
-		<span>Volver</span>
+		<span><fmt:message key="listados.tb.volver" /></span>
 	</a>
   </div>
   <div id="tc-filter" class="yui-g tc-flt" style="padding: 0px 5px">
@@ -73,13 +86,172 @@
 </div>
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
-<script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script> 
+<%-- <script src="<c:url value="/s/jquery/jquery.js" />"></script> --%>
+
+<script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/yui/logger/logger.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/yui/connection/connection-min.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/json/json-debug.js" />"></script>  
 <script type="text/javascript" src="<c:url value="/s/yui/dragdrop/dragdrop-min.js" />"></script> 
 <script type="text/javascript" src="<c:url value="/s/yui/element/element-min.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/paginator/paginator-min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/animation/animation-min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-min.js" />"></script> 
-<script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-min.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-debug.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> 
 <script type="text/javascript">
+cudu = {};
+cudu.logger = new YAHOO.widget.LogReader('yuilogct', {draggable: true});
+cudu.tabla = function() {
+	var columnas = [
+		{ key: "id", label: "Id", sortable: true },
+		{ key: "nombre", label: "Nombre", sortable: true }
+	];
+
+	this.dataSource = new YAHOO.util.DataSource("/cudu/listados/asociados.json?");
+    this.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
+    this.dataSource.responseSchema = {
+        resultsList: "data",
+        fields: [
+            { key: "id" },
+            { key: "nombre" }
+        ],
+        metaFields: { totalRecords: "totalRecords" }
+    };
+
+    this.requestBuilder = function(oState, oSelf) {
+        return "columns=id,nombre" +
+                "&dir=" + ((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc") +
+                "&startIndex=" + oState.pagination.recordOffset +
+                "&results=" + oState.pagination.rowsPerPage ;
+                /* "&estado=" + filtro.estado +
+                "&colaborador=" + filtro.colaborador +
+                "&colectivo=" + filtro.colectivo +
+                "&fechaInicio=" + filtro.fechaInicio +
+                "&fechaFin=" + filtro.fechaFin +
+                "&plan=" + (filtro.plan || '') +
+                "&fichero=" + (filtro.fichero || '') +
+                "&estadoPoliza=" + (filtro.estadoPoliza.join(',')); */
+    };
+
+    this.paginador = new YAHOO.widget.Paginator({
+        containers: ['paginador'],
+        pageLinks: 10,
+        rowsPerPage: 10,
+        template: "{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}",
+        pageReportTemplate: "pág. {currentPage} de {totalPages}",
+        previousPageLinkLabel: 'ant',
+        nextPageLinkLabel: 'sig',
+        firstPageLinkLabel: 'inicio',
+        lastPageLinkLabel: 'final'
+    });
+
+    var tablecfg = {
+        initialRequest: "columnas=id,nombre&dir=desc&startIndex=0&results=10",
+        generateRequest: this.requestBuilder,
+        dynamicData: true,
+        selectionMode: "standard",
+        sortedBy: { key: "id", dir: YAHOO.widget.DataTable.CLASS_DESC },
+        paginator: this.paginador,
+        draggableColumns: true,
+        MSG_EMPTY: 'No existen documentos.',
+        MSG_LOADING: 'Cargando...',
+        MSG_SORTASC: 'Pulse para ordenar de menor a mayor.',
+        MSG_SORTDESC: 'Pulse para ordenar de mayor a menor.'
+    };
+
+    this.tabla = new YAHOO.widget.DataTable("listado", columnas, this.dataSource, tablecfg);
+    
+    /* this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
+    this.tabla.__showTableMessage = this.tabla.showTableMessage;
+    this.tabla.showTableMessage = function(sHTML, sClassName) {
+        if (sClassName == YAHOO.widget.DataTable.CLASS_LOADING) {
+            serviceStatus.startProgress();
+        } else {
+            this.__showTableMessage(sHTML, sClassName);
+            serviceStatus.endProgress();
+        }
+    };
+
+    this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
+    this.tabla.subscribe("rowMouseoutEvent", this.tabla.onEventUnhighlightRow);
+
+    this.tabla.subscribe("rowClickEvent", this.tabla.onEventSelectRow);
+    this.tabla.subscribe("rowSelectEvent", function(e) {
+        if ((taglist.values.length == 1) && (taglist.values[0].k == "FILTRO")) {
+            var r = confirm("Están seleccionadas todas las pólizas, ¿desea desmarcarlas todas y seleccionarlas una a una?");
+            if (!r) {
+                return;
+            } else {
+                taglist.clear();
+            }
+        }
+        var e = e.record.getData().id;
+        taglist.push(e, e);
+    });
+
+    this.tabla.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
+        oPayload.totalRecords = oResponse.meta.totalRecords;
+        return oPayload;
+    };
+
+    this.reload = function() {
+        var endRequestCallback = function(sRequest, oResponse, oPayload) {
+            serviceStatus.endProgress();
+            this.onDataReturnInitializeTable(sRequest, oResponse, oPayload);
+        };
+        
+        var oCallback = {
+            success: endRequestCallback,
+            failure: endRequestCallback,
+            scope: this.tabla,
+            argument: this.tabla.getState()
+        };
+
+        this.dataSource.sendRequest("sort=id&dir=desc&startIndex=0&results=10"
+                + "&estado=" + filtro.estado
+                + "&plan=" + (filtro.plan || '')
+                + "&colaborador=" + (filtro.colaborador || '')
+                + "&colectivo=" + (filtro.colectivo || '')
+                + "&fechaInicio=" + (filtro.fechaInicio || '')
+                + "&fechaFin=" + (filtro.fechaFin || '')
+                + "&fichero=" + (filtro.fichero || '')
+                + "&estadoPoliza=" + (filtro.estadoPoliza.join(','))
+            , oCallback);
+    }; */	
+};
+
+YAHOO.util.Event.addListener(window, "load", dbgreload);
+
+function dbgreload() {
+	var tabla = new cudu.tabla();
+
+	/*
+	YAHOO.example.Basic = function() {
+    	var myColumnDefs = [ 
+          {key:"name", label:'Nombre', sortable: true},
+          {key:"apellidos", label:'Apellidos', sortable: true},
+          {key:"address", label:'Dirección', sortable: true}, 
+	      {key:"city", label:'Ciudad', sortable: true},
+          {key:"fecha_nac", label:'Fecha nac.', sortable: true, formatter:YAHOO.widget.DataTable.formatDate},
+          {key:"amount", label:'Pastelitos', sortable: true},
+          {key:"unidad", label:'Unidad', sortable: true},
+        ]; 
+ 
+        var myDataSource = new YAHOO.util.DataSource(bookorders);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+        myDataSource.responseSchema = {
+            fields: ["name","apellidos","address","city","fecha_nac","unidad","amount"]
+        };
+ 
+        var myDataTable = new YAHOO.widget.DataTable("listado", myColumnDefs, 
+                myDataSource, {draggableColumns:true, formatRow: myRowFormatter});
+                
+        return {
+            oDS: myDataSource,
+            oDT: myDataTable
+        };
+    }();*/
+}
 
 dom = {
   tcFilter: document.getElementById('tc-filter'),
@@ -128,34 +300,7 @@ function resaltarVentas() {
       marcarPastelitos = false;
     }   
     YAHOO.example.Basic.oDT.refreshView();
-  }
-
-YAHOO.util.Event.addListener(window, "load", function() {
-    YAHOO.example.Basic = function() {
-    	var myColumnDefs = [ 
-          {key:"name", label:'Nombre', sortable: true},
-          {key:"apellidos", label:'Apellidos', sortable: true},
-          {key:"address", label:'Dirección', sortable: true}, 
-	      {key:"city", label:'Ciudad', sortable: true},
-          {key:"fecha_nac", label:'Fecha nac.', sortable: true, formatter:YAHOO.widget.DataTable.formatDate},
-          {key:"amount", label:'Pastelitos', sortable: true},
-          {key:"unidad", label:'Unidad', sortable: true},
-        ]; 
- 
-        var myDataSource = new YAHOO.util.DataSource(bookorders);
-        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
-        myDataSource.responseSchema = {
-            fields: ["name","apellidos","address","city","fecha_nac","unidad","amount"]
-        };
- 
-        var myDataTable = new YAHOO.widget.DataTable("listado", myColumnDefs, myDataSource, {draggableColumns:true, formatRow: myRowFormatter});
-                
-        return {
-            oDS: myDataSource,
-            oDT: myDataTable
-        };
-    }();
-});
+}
 </script>
 </body>
 </html>

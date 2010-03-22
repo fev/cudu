@@ -11,20 +11,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "asociado_rama")
 public class AsociadoRama implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private String rama;
+	private char rama;
 
 	@ManyToOne
 	@JoinColumn(name = "idasociado")
 	private Asociado asociado;
-
-	public String getRama() {
+	
+	public char getRama() {
 		return rama;
 	}
 	
-	public void setRama(String rama) {
+	public void setRama(char rama) {
 		this.rama = rama;
 	}
 

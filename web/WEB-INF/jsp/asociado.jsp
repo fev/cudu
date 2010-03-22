@@ -19,33 +19,38 @@ div#bd { padding-left: 20px; }
   <div class="yui-g">
   <div class="yui-g first"><h1 id="hform"><spring:message code="asociado.titulo.${asociado.tipo}" /></h1></div>
   <div class="yui-g" style="text-align:right; padding-top: 1px; margin-right: 13px">
-    <img src="<c:url value="/s/theme/img/tango/document-print.png" />" alt="cudu" />
+    <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
+    <img src="<c:url value="/s/theme/img/tango/edit-copy.png" />" />
+    <a href="javascript:dbgcopy()"><img src="<c:url value="/s/theme/img/tango/edit-paste.png" />" /></a>
   </div>
   </div>
   
-  <form:errors cssClass="yui-g" path="*"><%-- buscar if, y reemplazar por un div --%>
-  	<div id="formErrors">
-  		<div>Existen errores de validación</div>
-  		<div>
-  		 <form:errors path="*" />
-  		</div>
-  	</div>
-  </form:errors>
+  <c:set var="erroresValidacion" value="false" />
+  <spring:hasBindErrors name="asociado">
+  	<cudu:message id="mp01" key="frm.errores">
+  		<c:set var="erroresValidacion" value="true" />
+  		<form:errors id="mpbderr" path="*" />
+  	</cudu:message>
+  </spring:hasBindErrors>
+  
+  <c:if test="${param.ok != null && erroresValidacion == false}">
+  	<cudu:message id="mp01" key="frm.ok" single="true" />
+  </c:if>
   
   <div class="yui-g legend"><h2><fmt:message key="asociado.h.info" /></h2></div>
   <div class="yui-g">
     <div class="yui-g first">    
       <div class="field required">
         <label for="txtNombre"><fmt:message key="asociado.f.nombre" /></label>
-        <form:input id="txtNombre" path="nombre" cssClass="textbox w3u" />
+        <form:input id="txtNombre" path="nombre" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
       </div>
       <div class="field required">
         <label for="txtApellido1"><fmt:message key="asociado.f.primerapellido" /></label>
-        <form:input id="txtApellido1" path="primerapellido" cssClass="textbox w3u" />
+        <form:input id="txtApellido1" path="primerapellido" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
       </div>
-      <div class="field required">
+      <div class="field">
         <label for="txtApellido2"><fmt:message key="asociado.f.segundoapellido" /></label>
-        <form:input id="txtApellido2" path="segundoapellido" cssClass="textbox w3u" />
+        <form:input id="txtApellido2" path="segundoapellido" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
       </div>
       <div class="field required">
         <label><fmt:message key="asociado.f.sexo" /></label>
@@ -60,6 +65,7 @@ div#bd { padding-left: 20px; }
         <label for="txtFechaNac"><fmt:message key="asociado.f.fechaNac" /></label>
         <form:input id="txtFechaNac" path="fechanacimiento" cssClass="textbox w1u" />
         <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" />
+        <span id="lblFechaNac" class="literal">8 años, 9 meses</span>
       </div>
       <div class="field required">
         <label for="dropUnidad"><fmt:message key="asociado.f.rama" /></label>
@@ -103,13 +109,13 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field required">
         <label for="txtProvincia" class="w2u"><fmt:message key="asociado.f.provincia" /></label>
-        <input id="txtProvincia" type="text" class="textbox w0u" />
+        <form:input id="txtProvincia" path="idProvincia" cssClass="textbox w0u" />
         <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
         <span id="lblProvincia" class="literal">Valencia</span>
       </div>
       <div class="field required">
         <label for="txtMunicipio" class="w2u"><fmt:message key="asociado.f.municipio" /></label>
-        <input id="txtMunicipio" type="text" class="textbox w0u" />
+        <form:input id="txtMunicipio" path="idMunicipio" cssClass="textbox w0u" />
         <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
         <span id="lblMunicipio" class="literal">Alborache</span>
       </div>
@@ -226,9 +232,23 @@ div#bd { padding-left: 20px; }
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
 
+<script src="<c:url value="/s/jquery/jquery.js" />"></script>
 <script type="text/javascript">
 function back() {
     document.location = '<c:url value="/dashboard" />'; 
+}
+function dbgcopy() {
+	$('#txtNombre')[0].value = "Jack";
+	$('#txtApellido1')[0].value = "Sparrow";
+	$('#txtApellido2')[0].value = "Pearl";
+	$('#txtFechaNac')[0].value = '21/10/2001';
+	$('#radioGeneroMasculino')[0].checked = true;
+	$('#txtCalle')[0].value = "Amarradero de la perla negra";
+	$('#txtNumero')[0].value = "13";
+	$('#txtCodigoPostal')[0].value = '46015';
+	$('#txtProvincia')[0].value = "12";
+	$('#txtMunicipio')[0].value = "47";
+		
 }
 </script>
 </body>
