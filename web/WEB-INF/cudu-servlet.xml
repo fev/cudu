@@ -43,12 +43,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-	<!-- <bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="defaultEncoding" value="UTF-8" />
-		<property name="basename" value="messages" />
-	</bean> -->
-
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 		<property name="cacheSeconds" value="3" />
 		<property name="defaultEncoding" value="UTF-8" />

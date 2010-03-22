@@ -69,9 +69,9 @@ public class AsociadoController {
 		Asociado asociado = new Asociado();
 		if (tipo.compareTo("joven") == 0)
 			asociado.setTipo('J');
-		else if (tipo == "kraal")
+		else if (tipo.compareTo("kraal") == 0)
 			asociado.setTipo('K');
-		else if (tipo == "comite")
+		else if (tipo.compareTo("comite") == 0)
 			asociado.setTipo('C');
 		else
 			return "redirect:/404";

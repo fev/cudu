@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Cudú</title>
+<title><fmt:message key="app.title" /></title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
@@ -17,7 +17,7 @@ div#bd { padding-left: 20px; }
 <form:form modelAttribute="asociado" method="POST">
 <div id="bd">  
   <div class="yui-g">
-  <div class="yui-g first"><h1 id="hform"><spring:message code="asociado.h.joven" /></h1></div>
+  <div class="yui-g first"><h1 id="hform"><spring:message code="asociado.titulo.${asociado.tipo}" /></h1></div>
   <div class="yui-g" style="text-align:right; padding-top: 1px; margin-right: 13px">
     <img src="<c:url value="/s/theme/img/tango/document-print.png" />" alt="cudu" />
   </div>
@@ -32,32 +32,32 @@ div#bd { padding-left: 20px; }
   	</div>
   </form:errors>
   
-  <div class="yui-g legend"><h2><fmt:message key="grupo.h.info" /></h2></div>
+  <div class="yui-g legend"><h2><fmt:message key="asociado.h.info" /></h2></div>
   <div class="yui-g">
     <div class="yui-g first">    
       <div class="field required">
-        <label for="txtNombre">Nombre</label>
+        <label for="txtNombre"><fmt:message key="asociado.f.nombre" /></label>
         <form:input id="txtNombre" path="nombre" cssClass="textbox w3u" />
       </div>
       <div class="field required">
-        <label for="txtApellido1">1er Apellido</label>
+        <label for="txtApellido1"><fmt:message key="asociado.f.primerapellido" /></label>
         <form:input id="txtApellido1" path="primerapellido" cssClass="textbox w3u" />
       </div>
       <div class="field required">
-        <label for="txtApellido2">2o Apellido</label>
+        <label for="txtApellido2"><fmt:message key="asociado.f.segundoapellido" /></label>
         <form:input id="txtApellido2" path="segundoapellido" cssClass="textbox w3u" />
       </div>
       <div class="field required">
-        <label>Sexo</label>
+        <label><fmt:message key="asociado.f.sexo" /></label>
         <form:radiobutton id="radioGeneroMasculino" cssClass="radio" path="sexo" value="M" title="Masculino" />
-        <label for="radioGeneroMasculino" class="radio">Masculino</label>
+        <label for="radioGeneroMasculino" class="radio"><fmt:message key="asociado.f.sexoM" /></label>
         <form:radiobutton id="radioGeneroFemenino" cssClass="radio" path="sexo" value="F" title="Femenino" />
-        <label for="radioGeneroFemenino" class="radio">Femenino</label>
+        <label for="radioGeneroFemenino" class="radio"><fmt:message key="asociado.f.sexoF" /></label>
       </div>
     </div>
     <div class="yui-g">
       <div class="field required">
-        <label for="txtFechaNac">Fecha Nac.</label>
+        <label for="txtFechaNac"><fmt:message key="asociado.f.fechaNac" /></label>
         <form:input id="txtFechaNac" path="fechanacimiento" cssClass="textbox w1u" />
         <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" />
       </div>
@@ -66,14 +66,14 @@ div#bd { padding-left: 20px; }
         <div class="combo w1u">Lobatos</div>
       </div>
       <div class="field">
-        <label for="txtDNI">Nº DNI</label>
+        <label for="txtDNI"><fmt:message key="asociado.f.dni" /></label>
         <form:input id="txtDNI" path="dni" cssClass="textbox w1u" maxlength="9" />
       </div>
       <div class="field">
-        <label for="txtNSS">Seg. Social</label>
+        <label for="txtNSS"><fmt:message key="asociado.f.ss" /></label>
         <form:input id="txtNSS" path="seguridadsocial" cssClass="textbox w1u" cssStyle="width: 133px" />
         <form:checkbox id="chkSSPrivado" path="tieneseguroprivado" cssClass="checkbox" />
-        <label for="chkSSPrivado" class="checkbox">Seg. Privado</label>
+        <label for="chkSSPrivado" class="checkbox"><fmt:message key="asociado.f.sprivado" /></label>
         <!--  <input id="txtNSSProv" type="text" class="textbox w0u" maxlength="2" />
         <input id="txtNSSNum" type="text" class="textbox w1u" maxlength="8" />
         <input id="txtNSSDC" type="text" class="textbox dc" maxlength="2" readonly="readonly" /> -->
@@ -81,34 +81,34 @@ div#bd { padding-left: 20px; }
     </div>
   </div>
   
-  <div class="yui-g legend"><h2>Datos de contacto</h2></div>
+  <div class="yui-g legend"><h2><fmt:message key="asociado.h.contacto" /></h2></div>
   <div class="yui-g ">
     <div class="yui-g first">
       <div class="field required">
-        <label for="txtCalle" class="w2u">Calle</label>
+        <label for="txtCalle" class="w2u"><fmt:message key="asociado.f.calle" /></label>
         <form:input id="txtCalle" path="calle" cssClass="textbox w3u" />
       </div>
       <div class="field required">
-        <label for="txtNumero" class="w2u">Número</label>
+        <label for="txtNumero" class="w2u"><fmt:message key="asociado.f.numero" /></label>
         <form:input id="txtNumero" path="numero" cssClass="textbox w0u" maxlength="3" />
-        <label for="txtEscalera" class="w1u">Escalera</label>
+        <label for="txtEscalera" class="w1u"><fmt:message key="asociado.f.escalera" /></label>
         <!-- HACK bgcolor, mover a css -->
         <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" maxlength="3" cssStyle="background-color: inherit;" />
-        <label for="txtPuerta" class="w1u">Puerta</label>
+        <label for="txtPuerta" class="w1u"><fmt:message key="asociado.f.puerta" /></label>
         <form:input id="txtPuerta" path="puerta" cssClass="textbox w0u" maxlength="3" cssStyle="background-color: inherit;" />
       </div>
       <div class="field required">
-        <label for="txtCodigoPostal" class="w2u">C.P.</label>
+        <label for="txtCodigoPostal" class="w2u"><fmt:message key="asociado.f.codigopostal" /></label>
         <form:input id="txtCodigoPostal" path="codigopostal" cssClass="textbox w1u" />
       </div>
       <div class="field required">
-        <label for="txtProvincia" class="w2u">Provincia</label>
+        <label for="txtProvincia" class="w2u"><fmt:message key="asociado.f.provincia" /></label>
         <input id="txtProvincia" type="text" class="textbox w0u" />
         <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
         <span id="lblProvincia" class="literal">Valencia</span>
       </div>
       <div class="field required">
-        <label for="txtMunicipio" class="w2u">Municipio</label>
+        <label for="txtMunicipio" class="w2u"><fmt:message key="asociado.f.municipio" /></label>
         <input id="txtMunicipio" type="text" class="textbox w0u" />
         <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
         <span id="lblMunicipio" class="literal">Alborache</span>
@@ -116,94 +116,94 @@ div#bd { padding-left: 20px; }
     </div>
     <div class="yui-g">
       <div class="field">
-        <label for="txtTelefono">Tel. Casa</label>
+        <label for="txtTelefono"><fmt:message key="asociado.f.telefonocasa" /></label>
         <form:input id="txtTelefono" path="telefonocasa" cssClass="textbox w3u" />
       </div>
       <div class="field">
-        <label for="txtMovil">Móvil</label>
+        <label for="txtMovil"><fmt:message key="asociado.f.telefonomovil" /></label>
         <form:input id="txtMovil" path="telefonomovil" cssClass="textbox w3u" />
       </div>
       <div class="field">
-        <label for="txtMail">E-Mail</label>
+        <label for="txtMail"><fmt:message key="asociado.f.email" /></label>
         <form:input id="txtMail" path="email" cssClass="textbox w3u" />
       </div>
     </div>    
   </div>
   
   <c:if test="${asociado.tipo != 'J'}"> <%-- KRAAL o COMITÉ tienen cargos --%>
-  <div class="yui-g legend"><h2>Cargos o comisiones</h2></div>
+  <div class="yui-g legend"><h2><fmt:message key="asociado.h.cargos" /></h2></div>
   <div class="yui-g">
     <p>TODO: pantalla muy chachi donde editar esto...</p>
   </div>
   </c:if>
 
   <c:if test="${asociado.tipo == 'J'}"> <%-- JOVEN Responsables del menor, copias de documentos --%>
-  <div class="yui-g legend"><h2>Responsables del menor</h2></div>
+  <div class="yui-g legend"><h2><fmt:message key="asociado.h.responsables" /></h2></div>
   <div class="yui-g">
     <div class="yui-g first">
-      <h3>Entorno familiar</h3>
+      <h3><fmt:message key="asociado.h.entornofamiliar" /></h3>
       <div class="field required">
         <form:checkbox id="checkTutorLegal" path="tienetutorlegal" cssClass="checkbox" title="Tutor legal" />
-        <label for="checkTutorLegal" class="checkbox">Tiene tutor legal</label>
+        <label for="checkTutorLegal" class="checkbox"><fmt:message key="asociado.f.tutorlegal" /></label>
         <form:checkbox id="checkPadresSeparados" path="tienetutorlegal" cssClass="checkbox" title="Padres separados"  />
-        <label for="checkPadresSeparados" class="checkbox">Padres separados</label>
+        <label for="checkPadresSeparados" class="checkbox"><fmt:message key="asociado.f.padresseparados" /></label>
       </div>
     </div>
   </div>  
   <div class="yui-g">
     <div class="yui-g first">
-      <h3>Datos del Padre</h3>
+      <h3><fmt:message key="asociado.h.datospadre" /></h3>
       <div class="field">
-        <label for="txtPadreNombre">Nombre</label>
+        <label for="txtPadreNombre"><fmt:message key="asociado.f.datospadres.nombre" /></label>
         <form:input id="txtPadreNombre" path="padreNombre" cssClass="textbox w3u" />
       </div>
       <div class="field">
-        <label for="txtPadreTel">Teléfono</label>
+        <label for="txtPadreTel"><fmt:message key="asociado.f.datospadres.telefono" /></label>
         <form:input id="txtPadreTel" path="padreTelefono" cssClass="textbox w3u" />
       </div>
       <div class="field">
-        <label for="txtPadreMail">E-Mail</label>
+        <label for="txtPadreMail"><fmt:message key="asociado.f.datospadres.email" /></label>
         <form:input id="txtPadreMail" path="padreEmail" cssClass="textbox w3u" />
       </div>
     </div>
     <div class="yui-g">
-      <h3>Datos de la Madre</h3>
+      <h3><fmt:message key="asociado.h.datosmadre" /></h3>
       <div class="field">
-        <label for="txtMadreNombre">Nombre</label>
+        <label for="txtMadreNombre"><fmt:message key="asociado.f.datospadres.nombre" /></label>
         <form:input id="txtMadreNombre" path="madreNombre" cssClass="textbox w3u" />
       </div>
       <div class="field">
-        <label for="txtMadreTel">Teléfono</label>
+        <label for="txtMadreTel"><fmt:message key="asociado.f.datospadres.telefono" /></label>
         <form:input id="txtMadreTel" path="madreTelefono" cssClass="textbox w3u" />
       </div>
       <div class="field">
-        <label for="txtMadreMail">E-Mail</label>
+        <label for="txtMadreMail"><fmt:message key="asociado.f.datospadres.email" /></label>
         <form:input id="txtMadreMail" path="madreEmail" cssClass="textbox w3u" />
       </div>
     </div>
   </div>
 
-  <div class="yui-g legend"><h2>Copias de documentos</h2></div>
+  <div class="yui-g legend"><h2><fmt:message key="asociado.h.copiasdoc" /></h2></div>
   <div class="yui-g">
-    <p>Cudú puede ayudarte a recordar de qué documentos dispones copia:</p>
+    <p><fmt:message key="asociado.f.copiasdoc.ayuda" /></p>
     <div class="yui-g first">
       <div class="field">
         <input id="chkCopiaDNI" type="checkbox" class="checkbox" />
-        <label for="chkCopiaDNI" class="checkbox">Documento Nacional de Identidad (DNI)</label>
+        <label for="chkCopiaDNI" class="checkbox"><fmt:message key="asociado.f.copiasdoc.dni" /></label>
       </div>
       <div class="field">
         <input id="chkCopiaNSS" type="checkbox" class="checkbox" />
-        <label for="chkCopiaNSS" class="checkbox">Cartilla SS \ Tarjeta SIP</label>
+        <label for="chkCopiaNSS" class="checkbox"><fmt:message key="asociado.f.copiasdoc.ss" /></label>
       </div>
     </div>
     <div class="yui-g">
       <div class="field">
         <input id="chkCopiaFichaMedica" type="checkbox" class="checkbox" />
-        <label for="chkCopiaFichaMedica" class="checkbox">Ficha médica</label>
+        <label for="chkCopiaFichaMedica" class="checkbox"><fmt:message key="asociado.f.copiasdoc.fmed" /></label>
       </div>
       <div class="field">
         <input id="chkCopiaVacunas" type="checkbox" class="checkbox" />
-        <label for="chkCopiaVacunas" class="checkbox">Cartilla Vacunaciones</label>
+        <label for="chkCopiaVacunas" class="checkbox"><fmt:message key="asociado.f.copiasdoc.vac" /></label>
       </div>
     </div>
   </div>
@@ -212,21 +212,20 @@ div#bd { padding-left: 20px; }
   <div class="yui-g form-action">
     <div class="yui-g first">
    	<c:if test="${asociado.id > 0}">
-      <input type="submit" value="Eliminar" class="button delete" />
+      <input type="submit" value="<fmt:message key="btn.eliminar" />" class="button delete" />
     </c:if>
     </div>
     <div class="yui-g">
-      <input type="button" value="Volver" class="button back" onclick="javascript:back()" />
-      <input type="submit" value="Guardar" class="button save" />
-      <!-- <input type="button" value="Imprimir" class="button print" /> -->
+      <input type="button" value="<fmt:message key="btn.volver" />" class="button back" onclick="javascript:back()" />
+      <input type="submit" value="<fmt:message key="btn.guardar" />" class="button save" />
+      <%-- <input type="button" value="<fmt:message key="btn.imprimir" />" class="button print" /> --%>
     </div>
   </div>
 </div>
 </form:form>
-<div id="ft">(c) 2009 Federació d'Escoltisme Valencià</div>
+<div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
 
-<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
 function back() {
     document.location = '<c:url value="/dashboard" />'; 
