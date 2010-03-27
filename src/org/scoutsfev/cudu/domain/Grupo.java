@@ -3,9 +3,11 @@ package org.scoutsfev.cudu.domain;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -72,6 +74,10 @@ public class Grupo implements Serializable {
 	
 	@Size(max = 100)
 	private String entidadpatrocinadora;
+	
+	@Column(name = "jpa_version")
+    @Version
+    private int version;
 	
 	// HACK para permitir mensajes del estado de la edición, ver
 	// controlador de grupos. Se eliminará cuando puedan editarse
@@ -236,6 +242,14 @@ public class Grupo implements Serializable {
 
 	public void setEntidadpatrocinadora(String entidadpatrocinadora) {
 		this.entidadpatrocinadora = entidadpatrocinadora;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public int getVersion() {
+		return version;
 	}
 }
 

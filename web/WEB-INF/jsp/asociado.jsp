@@ -92,7 +92,7 @@ div#bd { padding-left: 20px; }
     <div class="yui-g first">
       <div class="field required">
         <label for="txtCalle" class="w2u"><fmt:message key="asociado.f.calle" /></label>
-        <form:input id="txtCalle" path="calle" cssClass="textbox w3u" />
+        <form:input id="txtCalle" path="calle" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
       </div>
       <div class="field required">
         <label for="txtNumero" class="w2u"><fmt:message key="asociado.f.numero" /></label>
@@ -109,15 +109,15 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field required">
         <label for="txtProvincia" class="w2u"><fmt:message key="asociado.f.provincia" /></label>
-        <form:input id="txtProvincia" path="idProvincia" cssClass="textbox w0u" />
-        <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
-        <span id="lblProvincia" class="literal">Valencia</span>
+        <form:input id="txtProvincia" path="provincia" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
+        <%-- <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
+        <span id="lblProvincia" class="literal">Valencia</span> --%>
       </div>
       <div class="field required">
         <label for="txtMunicipio" class="w2u"><fmt:message key="asociado.f.municipio" /></label>
-        <form:input id="txtMunicipio" path="idMunicipio" cssClass="textbox w0u" />
-        <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
-        <span id="lblMunicipio" class="literal">Alborache</span>
+        <form:input id="txtMunicipio" path="municipio" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
+        <%-- <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
+        <span id="lblMunicipio" class="literal">Alborache</span> --%>
       </div>
     </div>
     <div class="yui-g">

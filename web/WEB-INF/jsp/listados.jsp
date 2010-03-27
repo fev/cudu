@@ -23,7 +23,9 @@
 </head>
 <body>
 
-<div class="yui-log yui-log-container" id="yuilogct" style="position: absolute; right: 0; "></div>
+<c:if test="${param.dbg != null}">
+	<div class="yui-log yui-log-container" id="yuilogct" style="position: absolute; right: 0; font-size: 12px"></div>
+</c:if>
 
 <div id="doc" class="yui-t7">
 <jsp:include page="header.jsp"></jsp:include>
@@ -82,10 +84,12 @@
   </div>
   <div class="yui-g tc-table yui-skin-sam">
     <div id="listado"></div>
+    <div id="paginador"></div>
   </div>
 </div>
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
+
 <%-- <script src="<c:url value="/s/jquery/jquery.js" />"></script> --%>
 
 <script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script>
@@ -94,43 +98,63 @@
 <script type="text/javascript" src="<c:url value="/s/yui/json/json-debug.js" />"></script>  
 <script type="text/javascript" src="<c:url value="/s/yui/dragdrop/dragdrop-min.js" />"></script> 
 <script type="text/javascript" src="<c:url value="/s/yui/element/element-min.js" />"></script> 
-<script type="text/javascript" src="<c:url value="/s/yui/paginator/paginator-min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/yui/paginator/paginator-debug.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/animation/animation-min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-debug.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> 
 <script type="text/javascript">
 cudu = {};
+<c:if test="${param.dbg != null}">
 cudu.logger = new YAHOO.widget.LogReader('yuilogct', {draggable: true});
+</c:if>
 cudu.tabla = function() {
 	var columnas = [
 		{ key: "id", label: "Id", sortable: true },
-		{ key: "nombre", label: "Nombre", sortable: true }
+		{ key: "nombreCompleto", label: "Nombre", sortable: true },
+		{ key: "fechanacimiento", label: "Fecha Nacimiento", sortable: true },
+		{ key: "telefonocasa", label: "Tel. Casa", sortable: true },
+		{ key: "telefonomovil", label: "Tel. Móvil", sortable: true }
 	];
 
+	// { key: "email", label: "E-Mail", sortable: true }
+
+	// var plainDataFields = [];
+	this.buildColumnQuery = function(columnas) {
+		var sb = [];
+		for (var i = 0; i < columnas.length; i++) {
+			sb.push(columnas[i].key);
+		}
+		// plainDataFields = sb;
+		return 'c=' + sb.join(',');
+	};
+	var queryColumnas = this.buildColumnQuery(columnas);
+
+	this.buildQuery = function(queryColumnas, campoOrden, orden, inicio, resultados, filtro) {
+		return queryColumnas
+			+ '&s=' + campoOrden
+			+ '&d=' + orden
+			+ '&i=' + inicio
+			+ '&r=' + resultados;
+			// filtro
+			// + '&d=' + orden
+	};
+	
 	this.dataSource = new YAHOO.util.DataSource("/cudu/listados/asociados.json?");
     this.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
     this.dataSource.responseSchema = {
-        resultsList: "data",
-        fields: [
-            { key: "id" },
-            { key: "nombre" }
-        ],
-        metaFields: { totalRecords: "totalRecords" }
+    	resultsList: "result.data", 
+        fields: columnas,
+        metaFields: { totalRecords: "result.totalRecords" }
     };
 
     this.requestBuilder = function(oState, oSelf) {
-        return "columns=id,nombre" +
-                "&dir=" + ((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc") +
-                "&startIndex=" + oState.pagination.recordOffset +
-                "&results=" + oState.pagination.rowsPerPage ;
-                /* "&estado=" + filtro.estado +
-                "&colaborador=" + filtro.colaborador +
-                "&colectivo=" + filtro.colectivo +
-                "&fechaInicio=" + filtro.fechaInicio +
-                "&fechaFin=" + filtro.fechaFin +
-                "&plan=" + (filtro.plan || '') +
-                "&fichero=" + (filtro.fichero || '') +
-                "&estadoPoliza=" + (filtro.estadoPoliza.join(',')); */
+        // return
+        return queryColumnas + 
+        		"&s=" + oState.sortedBy.key +
+                "&d=" + ((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc") +
+                "&i=" + oState.pagination.recordOffset +
+                "&r=" + oState.pagination.rowsPerPage;
+				// filtro
     };
 
     this.paginador = new YAHOO.widget.Paginator({
@@ -146,11 +170,11 @@ cudu.tabla = function() {
     });
 
     var tablecfg = {
-        initialRequest: "columnas=id,nombre&dir=desc&startIndex=0&results=10",
+        initialRequest: this.buildQuery(queryColumnas, columnas[0].key, 'desc', 1, 10, null),
         generateRequest: this.requestBuilder,
         dynamicData: true,
         selectionMode: "standard",
-        sortedBy: { key: "id", dir: YAHOO.widget.DataTable.CLASS_DESC },
+        sortedBy: { key: columnas[0].key, dir: YAHOO.widget.DataTable.CLASS_DESC },
         paginator: this.paginador,
         draggableColumns: true,
         MSG_EMPTY: 'No existen documentos.',
@@ -160,7 +184,14 @@ cudu.tabla = function() {
     };
 
     this.tabla = new YAHOO.widget.DataTable("listado", columnas, this.dataSource, tablecfg);
-    
+
+    this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
+    this.tabla.subscribe("rowMouseoutEvent", this.tabla.onEventUnhighlightRow);
+    this.tabla.subscribe("rowClickEvent", this.tabla.onEventSelectRow);
+    this.tabla.subscribe("rowSelectEvent", function(e) {
+        window.location = 'asociado/' + e.record.getData().id; 
+    });
+
     /* this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
     this.tabla.__showTableMessage = this.tabla.showTableMessage;
     this.tabla.showTableMessage = function(sHTML, sClassName) {
@@ -170,30 +201,16 @@ cudu.tabla = function() {
             this.__showTableMessage(sHTML, sClassName);
             serviceStatus.endProgress();
         }
-    };
+    }; */
 
-    this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
-    this.tabla.subscribe("rowMouseoutEvent", this.tabla.onEventUnhighlightRow);
-
-    this.tabla.subscribe("rowClickEvent", this.tabla.onEventSelectRow);
-    this.tabla.subscribe("rowSelectEvent", function(e) {
-        if ((taglist.values.length == 1) && (taglist.values[0].k == "FILTRO")) {
-            var r = confirm("Están seleccionadas todas las pólizas, ¿desea desmarcarlas todas y seleccionarlas una a una?");
-            if (!r) {
-                return;
-            } else {
-                taglist.clear();
-            }
-        }
-        var e = e.record.getData().id;
-        taglist.push(e, e);
-    });
-
+    // Manejar el campo del número total de registros para que funcione
+    // correctamente la paginación.
     this.tabla.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
         oPayload.totalRecords = oResponse.meta.totalRecords;
         return oPayload;
     };
 
+    /*
     this.reload = function() {
         var endRequestCallback = function(sRequest, oResponse, oPayload) {
             serviceStatus.endProgress();

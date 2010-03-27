@@ -26,7 +26,7 @@ public class ListadosController {
 	public class Result<T> implements Serializable {
 		private static final long serialVersionUID = 1765112359692608857L;
 		
-		private int totalRecords = 4;
+		private int totalRecords;
 		private Collection<T> data;
 		
 		public void setData(Collection<T> data) {
@@ -49,12 +49,20 @@ public class ListadosController {
 	}
 
 	@RequestMapping(value = "/asociados", method = RequestMethod.GET)
-	public Result<Asociado> listaAsociados(@RequestParam String columnas, HttpServletRequest request) {
+	public Result<Asociado> listaAsociados(
+			@RequestParam("c") String columnas,
+			@RequestParam("s") String ordenadoPor,
+			@RequestParam(value = "d", defaultValue = "asc") String sentido,
+			@RequestParam(value = "i", defaultValue = "0") int inicio,
+			@RequestParam(value = "r", defaultValue = "10") int resultadosPorPágina,
+			HttpServletRequest request) {
+		
 		HttpSession session = request.getSession();
 		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");		
 		String idGrupo = usuarioActual.getGrupo().getId();
 		Result<Asociado> result = new Result<Asociado>();
-		result.setData(storage.findWhere(idGrupo, columnas));
+		result.setTotalRecords(100);
+		result.setData(storage.findWhere(idGrupo, columnas, ordenadoPor, sentido, inicio, resultadosPorPágina));
 		return result;
 	}
 }

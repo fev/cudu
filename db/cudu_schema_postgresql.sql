@@ -28,6 +28,8 @@ CREATE TABLE grupo (
     web varchar(300),
     entidadpatrocinadora varchar(100),
     asociacion smallint NOT NULL,
+    
+    jpa_version int NOT NULL DEFAULT(0),
 
     CONSTRAINT pk_grupo PRIMARY KEY (id)
 );
@@ -54,6 +56,7 @@ CREATE TABLE pagocuotas (
     cantidad numeric(7,2) NOT NULL,
     fechapago date NOT NULL DEFAULT CURRENT_TIMESTAMP,
     notas varchar(250) NULL,
+    jpa_version int NOT NULL DEFAULT(0),
     CONSTRAINT pk_pagocuotas PRIMARY KEY (idgrupo, "año"),
     CONSTRAINT fk_pagocuotas_grupo FOREIGN KEY (idgrupo)
         REFERENCES grupo (id) MATCH SIMPLE
@@ -100,6 +103,12 @@ create table asociado (
     fechaAlta timestamp NOT NULL CONSTRAINT df_asociado_fechaalta DEFAULT CURRENT_TIMESTAMP,
     fechaBaja timestamp NULL, -- si !null, está activo, se muestra en listados
     fechaActualizacion timestamp NOT NULL CONSTRAINT df_asociado_fechaactualizacion DEFAULT CURRENT_TIMESTAMP,
+    
+    jpa_version int NOT NULL DEFAULT(0),
+
+    -- Códigos de las ramas separados por comas, para aligerar la salida
+    -- en el listado de asociados
+    cached_ramas varchar(10) NOT NULL DEFAULT(''),
 
     CONSTRAINT pk_asociado PRIMARY KEY (id),
     CONSTRAINT fk_asociado_grupo FOREIGN KEY (idGrupo) REFERENCES grupo(id),
@@ -110,6 +119,7 @@ create table asociado (
 CREATE TABLE asociado_rama (
     idAsociado int NOT NULL,
     rama char(1) NOT NULL,
+    jpa_version int NULL DEFAULT(0),
     CONSTRAINT pk_asociado_rama PRIMARY KEY (idasociado, rama),
     CONSTRAINT fk_asociado_rama_id FOREIGN KEY (idAsociado) 
         REFERENCES asociado(id) ON DELETE CASCADE ON UPDATE CASCADE,

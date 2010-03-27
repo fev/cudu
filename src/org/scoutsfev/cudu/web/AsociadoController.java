@@ -62,9 +62,11 @@ public class AsociadoController {
 		Grupo grupo = usuarioActual.getGrupo();
 		asociado.setIdGrupo(grupo.getId());
 		
-		// DBG
-		asociado.setProvincia("(desconocida)");
-		asociado.setMunicipio("(desconocida)");
+		// Hasta que se complete la migración de los datos y se enlacen
+		// correctamente los municipios y provincias, los campos siguen
+		// siendo meramente textuales (0 es "no comprobada").
+		asociado.setIdProvincia(0);
+		asociado.setIdMunicipio(0);
 
 		model.addAttribute("asociado", asociado);
 		return "asociado";

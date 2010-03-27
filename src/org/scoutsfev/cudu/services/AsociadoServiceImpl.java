@@ -10,13 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class AsociadoServiceImpl 
 	extends StorageServiceImpl<Asociado> 
 	implements AsociadoService {
-		
+
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
-	public Collection<Asociado> findWhere(String idGrupo, String columnas) {
-		Query query = this.entityManager.createQuery("SELECT " + columnas + " FROM Asociado WHERE idGrupo = :idGrupo");
-		query.setParameter("idGrupo", idGrupo);
+	public Collection<Asociado> findWhere(String idGrupo, String columnas,
+			String campoOrden, String sentidoOrden, int inicio,
+			int resultadosPorPágina) {
+
+		Query query = this.entityManager
+			.createQuery("SELECT " + columnas + " FROM Asociado WHERE idGrupo = :idGrupo ORDER BY " + campoOrden + " " + sentidoOrden)
+			.setParameter("idGrupo", idGrupo)
+			.setFirstResult(inicio)
+			.setMaxResults(resultadosPorPágina);
+
 		return query.getResultList();
 	}
-
 }

@@ -12,15 +12,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.Formula;
+
 @Entity
+@SecondaryTable(name = "asociado_rama", 
+		pkJoinColumns = @PrimaryKeyJoinColumn(name = "idAsociado", referencedColumnName = "id"))
 public class Asociado implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -37,6 +45,9 @@ public class Asociado implements Serializable {
 	
 	@Size(max = 50)
 	private String segundoapellido;
+	
+	@Formula("nombre || ' ' || primerapellido || coalesce(' ' || segundoapellido, '')")
+	private String nombreCompleto;
 	
 	@Temporal(TemporalType.DATE)
 	@NotNull
@@ -62,9 +73,15 @@ public class Asociado implements Serializable {
 	private Integer codigopostal;
 	
 	private Integer idMunicipio;
+	
+	@NotNull
+	@Size(min = 3, max = 100)
 	private String municipio;
 	
 	private Integer idProvincia;
+	
+	@NotNull
+	@Size(min = 3, max = 100)
 	private String provincia;
 
 	// @Pattern num(-/\)letra, numLetra
@@ -127,10 +144,19 @@ public class Asociado implements Serializable {
 	//@Pattern(regexp = "")
 	private String padreEmail;
 
+	@Column(table = "asociado_rama", name = "rama")
+	private char[] unidades;
 
+	public char[] getUnidades() {
+		return this.unidades;
+	}
+
+	@Column(name = "jpa_version")
+    @Version
+    private int version;
+	
 	@OneToMany(mappedBy = "asociado", fetch = FetchType.EAGER)
 	private Set<AsociadoRama> ramas;
-
 
 	public Integer getId() {
 		return this.id;
@@ -394,5 +420,21 @@ public class Asociado implements Serializable {
 
 	public void setRamas(Set<AsociadoRama> ramas) {
 		this.ramas = ramas;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public void setNombreCompleto(String nombreCompleto) {
+		this.nombreCompleto = nombreCompleto;
+	}
+
+	public String getNombreCompleto() {
+		return nombreCompleto;
 	}
 }
