@@ -1,8 +1,8 @@
 /* TODO License */
 /* TODO CSS Coding Guidelines
-Posici�n, tama�o
+Posición, tamañoo
 Colores, bordes
-Fuentes y tama�os de fuentes */
+Fuentes y tamaños de fuentes */
 
 html { background-color: transparent }
 
@@ -97,7 +97,7 @@ div.yui-g.form-action div.yui-g.first * { float: left }
 div.yui-g.form-action div.yui-g.first input.button { margin-left: 0 }
 
 input.button { width: 76px; height: 34px; padding: 0px 4px; cursor: pointer; -moz-border-radius: 4px; -webkit-border-radius: 3px;
-    		   border: 1px solid #999; color: #333; background: #FFF url('Imagenes/bgButton_normal.gif') repeat-x; }
+    		   border: 1px solid #999; color: #333; /* background: #FFF url('Imagenes/bgButton_normal.gif') repeat-x; */ }
 
 input.button.save, input.button.delete, input.button.back, input.button.print { padding-left:30px; padding-right:8px; }
 

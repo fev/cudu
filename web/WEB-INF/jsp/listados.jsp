@@ -104,27 +104,110 @@
 <script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> 
 <script type="text/javascript">
 cudu = {};
+
+cudu.i8n = {
+	ramas: {
+		'C': '<fmt:message key="rama.unos.C" />',
+		'M': '<fmt:message key="rama.unos.M" />',
+		'E': '<fmt:message key="rama.unos.T" />',
+		'P': '<fmt:message key="rama.unos.P" />',
+		'R': '<fmt:message key="rama.unos.R" />'
+	},
+	tipos: {
+		'J': '<fmt:message key="asociado.tipo.joven" />',
+		'K': '<fmt:message key="asociado.tipo.kraal" />',
+		'C': '<fmt:message key="asociado.tipo.comite" />'
+	}
+};
+
 <c:if test="${param.dbg != null}">
 cudu.logger = new YAHOO.widget.LogReader('yuilogct', {draggable: true});
 </c:if>
+
 cudu.tabla = function() {
+	var cfg = {
+		filasPorPagina : 15
+	};
+	
 	var columnas = [
-		{ key: "id", label: "Id", sortable: true },
-		{ key: "nombreCompleto", label: "Nombre", sortable: true },
-		{ key: "fechanacimiento", label: "Fecha Nacimiento", sortable: true },
-		{ key: "telefonocasa", label: "Tel. Casa", sortable: true },
-		{ key: "telefonomovil", label: "Tel. Móvil", sortable: true }
+		{ key: "tipo", label: "Tipo", sortable: true, formatter: "tipo" },
+		{ key: "ramas", label: '<fmt:message key="listados.c.ramas" />', sortable: true, formatter: "rama" },
+		{ key: "nombreCompleto", label: '<fmt:message key="listados.c.nombre" />', sortable: true },
+		{ key: "fechanacimiento", label: '<fmt:message key="listados.c.fechanacimiento" />', sortable: true, parser: "date", formatter: "date" },
+		{ key: "telefonocasa", label: '<fmt:message key="listados.c.telefonocasa" />', sortable: true, formatter: "telefono" },
+		{ key: "telefonomovil", label: '<fmt:message key="listados.c.telefonomovil" />', sortable: true, formatter: "telefono"  },
+		{ key: "email", label: '<fmt:message key="listados.c.email" />', sortable: true, hidden: true },
+		{ key: "id", label: "Id", sortable: true, hidden: true }
+		/*
+		{ key: "provincia", label: '<fmt:message key="listados.c.provincia" />', sortable: true, hidden: true },
+		{ key: "municipio", label: '<fmt:message key="listados.c.municipio" />', sortable: true, hidden: false },
+		{ key: "dni", label: '<fmt:message key="listados.c.dni" />', sortable: true, hidden: false },
+		{ key: "idGrupo", label: '<fmt:message key="listados.c.grupo" />', sortable: true, hidden: false },*/
 	];
 
-	// { key: "email", label: "E-Mail", sortable: true }
+	var phoneFormatter = function(elLiner, oRecord, oColumn, oData) {
+		if (oData == null) return;
+		
+		var sb = '';
+		for (var i = 0; i < oData.length; i++) {
+			if ((i % 3) == 0) {
+				sb += ' ';
+			}
+			sb += oData[i];
+		}
+		elLiner.innerHTML = sb;
+    };
+    YAHOO.widget.DataTable.Formatter.telefono = phoneFormatter;
 
-	// var plainDataFields = [];
+	var translatedValueFormatterCtor = function(translationData) {
+		var fnc = function(elLiner, oRecord, oColumn, oData) {
+			if ((typeof oData === 'undefined') || (oData == null))
+				return;
+	
+			var vArray = [];
+			var splittedStr = oData.split(',');
+			for(var i = 0; i < splittedStr.length; i++) {
+				if (typeof splittedStr[i] !== 'undefined') {
+					vArray.push(translationData[splittedStr[i]]);
+				}
+			}
+	
+			elLiner.innerHTML = vArray.join(', ');
+		};
+		fnc.translationData = translationData;
+		return fnc;
+	};
+	
+	YAHOO.widget.DataTable.Formatter.rama = translatedValueFormatterCtor(cudu.i8n.ramas);
+	YAHOO.widget.DataTable.Formatter.tipo = translatedValueFormatterCtor(cudu.i8n.tipos);
+		
+    /*
+    var ramaFormatter = function(elLiner, oRecord, oColumn, oData) {
+		if (typeof oData === 'undefined') {
+			elLiner.innerHTML = '¿?';
+			return;
+		}
+
+		var txtRama = [];
+		var sRama = oData.split(',');
+		console.log(sRama);
+		for(var i = 0; i < sRama.length; i++) {
+			if (typeof sRama[i] !== 'undefined') {
+				txtRama.push(cudu.i8n.ramas[sRama[i]]);
+			}
+		}
+
+		elLiner.innerHTML = txtRama.join(', ');
+    };
+    YAHOO.widget.DataTable.Formatter.rama = ramaFormatter;
+    */
+
 	this.buildColumnQuery = function(columnas) {
 		var sb = [];
 		for (var i = 0; i < columnas.length; i++) {
+			// if (!columnas[i].hidden)
 			sb.push(columnas[i].key);
 		}
-		// plainDataFields = sb;
 		return 'c=' + sb.join(',');
 	};
 	var queryColumnas = this.buildColumnQuery(columnas);
@@ -160,7 +243,7 @@ cudu.tabla = function() {
     this.paginador = new YAHOO.widget.Paginator({
         containers: ['paginador'],
         pageLinks: 10,
-        rowsPerPage: 10,
+        rowsPerPage: cfg.filasPorPagina,
         template: "{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}",
         pageReportTemplate: "pág. {currentPage} de {totalPages}",
         previousPageLinkLabel: 'ant',
@@ -170,7 +253,7 @@ cudu.tabla = function() {
     });
 
     var tablecfg = {
-        initialRequest: this.buildQuery(queryColumnas, columnas[0].key, 'desc', 1, 10, null),
+        initialRequest: this.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, null),
         generateRequest: this.requestBuilder,
         dynamicData: true,
         selectionMode: "standard",
@@ -180,7 +263,8 @@ cudu.tabla = function() {
         MSG_EMPTY: 'No existen documentos.',
         MSG_LOADING: 'Cargando...',
         MSG_SORTASC: 'Pulse para ordenar de menor a mayor.',
-        MSG_SORTDESC: 'Pulse para ordenar de mayor a menor.'
+        MSG_SORTDESC: 'Pulse para ordenar de mayor a menor.',
+        dateOptions: {format:"%d/%m/%Y", locale:"es"}
     };
 
     this.tabla = new YAHOO.widget.DataTable("listado", columnas, this.dataSource, tablecfg);

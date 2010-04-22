@@ -3,17 +3,13 @@ package org.scoutsfev.cudu.domain;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -25,8 +21,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Formula;
 
 @Entity
-@SecondaryTable(name = "asociado_rama", 
-		pkJoinColumns = @PrimaryKeyJoinColumn(name = "idAsociado", referencedColumnName = "id"))
 public class Asociado implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -143,20 +137,23 @@ public class Asociado implements Serializable {
 	@Size(max = 100)
 	//@Pattern(regexp = "")
 	private String padreEmail;
-
-	@Column(table = "asociado_rama", name = "rama")
-	private char[] unidades;
-
-	public char[] getUnidades() {
-		return this.unidades;
-	}
-
+	
+	@Embedded
+	private Rama rama;
+	
+	/* La información de las ramas se guarda en la estructura Rama, en BBDD 
+	 * es un conjunto de booleanos, para permitir filtrar rápidamente.
+	 * La razón de este campo viene dada por la importación de datos y por
+	 * accelerar un poco la carga de los listados, debe ser recalculado
+	 * después de cada inserción o actualización.
+	 */
+	private String ramas;
+	
+	
 	@Column(name = "jpa_version")
     @Version
     private int version;
 	
-	@OneToMany(mappedBy = "asociado", fetch = FetchType.EAGER)
-	private Set<AsociadoRama> ramas;
 
 	public Integer getId() {
 		return this.id;
@@ -414,14 +411,6 @@ public class Asociado implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public Set<AsociadoRama> getRamas() {
-		return this.ramas;
-	}
-
-	public void setRamas(Set<AsociadoRama> ramas) {
-		this.ramas = ramas;
-	}
-
 	public void setVersion(int version) {
 		this.version = version;
 	}
@@ -436,5 +425,21 @@ public class Asociado implements Serializable {
 
 	public String getNombreCompleto() {
 		return nombreCompleto;
+	}
+
+	public void setRama(Rama rama) {
+		this.rama = rama;
+	}
+
+	public Rama getRama() {
+		return rama;
+	}
+
+	public void setRamas(String ramas) {
+		this.ramas = ramas;
+	}
+
+	public String getRamas() {
+		return ramas;
 	}
 }

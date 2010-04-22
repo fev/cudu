@@ -93,6 +93,7 @@ create table asociado (
     municipio varchar(100) NOT NULL,
 
     tieneTutorLegal boolean NOT NULL CONSTRAINT df_asociado_tutor DEFAULT (false),
+    padresDivorciados boolean NOT NULL CONSTRAINT df_asociado_divorcio DEFAULT (false),
     padre_nombre varchar(250) NULL,
     padre_telefono varchar(15) NULL,
     padre_email varchar(100) NULL,
@@ -103,12 +104,18 @@ create table asociado (
     fechaAlta timestamp NOT NULL CONSTRAINT df_asociado_fechaalta DEFAULT CURRENT_TIMESTAMP,
     fechaBaja timestamp NULL, -- si !null, está activo, se muestra en listados
     fechaActualizacion timestamp NOT NULL CONSTRAINT df_asociado_fechaactualizacion DEFAULT CURRENT_TIMESTAMP,
+
+    -- Códigos de las ramas separados por comas, para permitir la importación
+    -- Considerar utilizar para los listados de asociados.
+    ramas varchar(10) NULL DEFAULT(''),
+    
+    rama_colonia boolean NOT NULL CONSTRAINT df_asociado_rama_colonia DEFAULT (false),
+    rama_manada boolean NOT NULL CONSTRAINT df_asociado_rama_manada DEFAULT (false),
+    rama_exploradores boolean NOT NULL CONSTRAINT df_asociado_rama_exploradores DEFAULT (false),
+    rama_pioneros boolean NOT NULL CONSTRAINT df_asociado_rama_pioneros DEFAULT (false),
+    rama_rutas boolean NOT NULL CONSTRAINT df_asociado_rama_rutas DEFAULT (false),
     
     jpa_version int NOT NULL DEFAULT(0),
-
-    -- Códigos de las ramas separados por comas, para aligerar la salida
-    -- en el listado de asociados
-    cached_ramas varchar(10) NOT NULL DEFAULT(''),
 
     CONSTRAINT pk_asociado PRIMARY KEY (id),
     CONSTRAINT fk_asociado_grupo FOREIGN KEY (idGrupo) REFERENCES grupo(id),
@@ -116,49 +123,44 @@ create table asociado (
     CONSTRAINT ck_enum_asociado_tipo CHECK (tipo IN ('J', 'K', 'C', 'V'))
 );
 
-CREATE TABLE asociado_rama (
-    idAsociado int NOT NULL,
-    rama char(1) NOT NULL,
-    jpa_version int NULL DEFAULT(0),
-    CONSTRAINT pk_asociado_rama PRIMARY KEY (idasociado, rama),
-    CONSTRAINT fk_asociado_rama_id FOREIGN KEY (idAsociado) 
-        REFERENCES asociado(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT ck_enum_asociado_rama_rama CHECK (rama IN ('C', 'M', 'E', 'P', 'R'))
-);
-
 -- TRIGGER
 -- Un menor (tipo J) no puede estar en más de una rama a la vez
-CREATE FUNCTION comprobarCantidadRamasMenor() RETURNS trigger AS $comprobarCantidadRamasMenor$
+CREATE OR REPLACE FUNCTION comprobarCantidadRamasMenor() RETURNS trigger AS $comprobarCantidadRamasMenor$
 DECLARE
     existentes int;
-    tipo char(1);
 BEGIN
-    select into tipo a.tipo from asociado a where a.id = new.idasociado;
-    
-    if tipo <> 'J' then
+    if new.tipo <> 'J' then
         return new;
     end if;
 
-    select into existentes COUNT(*)
-    from asociado_rama a 
-    where a.idasociado = new.idasociado;
-
-    if existentes = 0 then
-        return new;
-    else
+    existentes := 0;
+    if new.rama_colonia = true then 
+        existentes := existentes + 1;
+    end if;
+    
+    if new.rama_colonia = true then existentes := existentes + 1; end if;
+    if new.rama_manada = true then existentes := existentes + 1; end if;
+    if new.rama_exploradores = true then existentes := existentes + 1; end if;
+    if new.rama_pioneros = true then existentes := existentes + 1; end if;
+    if new.rama_rutas = true then existentes := existentes + 1; end if;
+    
+    if existentes > 1 then
         raise exception 'Un niño no puede estar en más de dos ramas simultáneamente.';
         return null;
+    else
+        return new;
     end if;
 END;
 $comprobarCantidadRamasMenor$ LANGUAGE plpgsql;
 
 CREATE TRIGGER menorSoloEnUnaUnidad
-    BEFORE INSERT OR UPDATE ON asociado_rama FOR EACH ROW
+    BEFORE INSERT OR UPDATE ON asociado FOR EACH ROW
     EXECUTE PROCEDURE comprobarCantidadRamasMenor();
 
 
 -- TRIGGER
 -- Auditoría sobre los datos de los asociados
+-- Considerar el uso de reglas http://www.postgresql.org/docs/8.4/interactive/rules-update.html#AEN46440
 CREATE FUNCTION actualizarDatosAuditoriaAsociado() RETURNS trigger as $actualizarDatosAuditoriaAsociado$
 BEGIN
     new.fechaActualizacion = CURRENT_TIMESTAMP;
@@ -175,36 +177,5 @@ CREATE TRIGGER auditAsociado
 INSERT INTO users VALUES ('cudu', 'cudu', 'Cuenta de Administación', NULL, true);
 INSERT INTO authorities VALUES ('cudu', 'ROLE_USER');
 INSERT INTO authorities VALUES ('cudu', 'ROLE_ADMIN');
-
-
--- Datos de prueba
-INSERT INTO grupo (id, nombre, calle, numero, codigoPostal, idProvincia, provincia, idMunicipio, municipio, telefono1, email, asociacion)
-VALUES ('AK','Ain-Karen', 'Diputado Lluís Lucia', 21, 46015, 46, 'Valencia', 250, 'Valencia', '656897645', 'ainkaren@gmail.com', 1);
-
-INSERT INTO grupo (id, nombre, calle, numero, codigoPostal, idProvincia, provincia, idMunicipio, municipio, telefono1, email, asociacion)
-VALUES ('UP', 'Decimo de la Isla de la Educación', 'Plaza de los Valores', 72, 46073, 46, 'Valencia', 250, 'Valencia', '685643219', 'chanclillas@isladeningunsitio.org', 1);
-
-INSERT INTO pagocuotas (idgrupo, "año", cantidad)
-VALUES ('AK', 2009, 690.45);
-
-INSERT INTO users VALUES ('xuano', 'xu', 'Xuano Vidal Tomás', 'AK', true);
-INSERT INTO authorities VALUES ('xuano', 'ROLE_USER');
-
-INSERT INTO users VALUES ('baden', 'bp', 'Baden Powell', 'UP', true);
-INSERT INTO authorities VALUES ('baden', 'ROLE_USER');
-
-INSERT INTO asociado (tipo, idGrupo, nombre, primerApellido, segundoApellido, sexo, fechaNacimiento, calle, 
-numero, codigopostal, idprovincia, provincia, idmunicipio, municipio, telefonoCasa)
-VALUES ('J', 'UP', 'Boo', 'Wazowski', 'Sullivan', 'F', '12/03/1997', 'De la Rúe', '3', 46341, 46, 'Valencia', 12, 'Rocafort', '972691732');
-
-INSERT INTO asociado (tipo, idGrupo, nombre, primerApellido, segundoApellido, sexo, fechaNacimiento, calle, 
-numero, codigopostal, idprovincia, provincia, idmunicipio, municipio, telefonoCasa)
-VALUES ('K', 'UP', 'John', 'Doe', '', 'M', '31/01/1982', '5th ave', '212', 46015, 46, 'Valencia', 250, 'Valencia', '983562345');
-
-INSERT INTO asociado_rama VALUES (1, 'P');
-INSERT INTO asociado_rama VALUES (2, 'P');
-INSERT INTO asociado_rama VALUES (2, 'R');
-
-
 
 

@@ -9,6 +9,18 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
 div#bd { padding-left: 20px; }
+a.dropramas { background: transparent url('<c:url value="/s/theme/img/sramas.png" />') no-repeat 0px 0px;
+	width: 20px; height: 20px; margin-top: 3px; text-decoration: none;  }
+a#radioColonia { background-position: 0px -20px !important }
+a#radioColonia.selected { background-position: 0px 0px !important }
+a#radioManada { background-position: -21px -20px !important }
+a#radioManada.selected { background-position: -21px 0px !important }
+a#radioExploradores { background-position: -43px -20px !important }
+a#radioExploradores.selected { background-position: -43px 0px !important }
+a#radioPioneros { background-position: -65px -20px !important }
+a#radioPioneros.selected { background-position: -65px 0px !important }
+a#radioRutas { background-position: -87px -20px !important }
+a#radioRutas.selected { background-position: -87px 0px !important }
 </style>
 </head>
 <body>
@@ -63,13 +75,22 @@ div#bd { padding-left: 20px; }
     <div class="yui-g">
       <div class="field required">
         <label for="txtFechaNac"><fmt:message key="asociado.f.fechaNac" /></label>
-        <form:input id="txtFechaNac" path="fechanacimiento" cssClass="textbox w1u" />
+        <form:input id="txtFechaNac" path="fechanacimiento" cssClass="textbox w1u" cssErrorClass="textbox w1u error" />
         <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" />
         <span id="lblFechaNac" class="literal">8 años, 9 meses</span>
       </div>
       <div class="field required">
-        <label for="dropUnidad"><fmt:message key="asociado.f.rama" /></label>
-        <div class="combo w1u">Lobatos</div>
+        <label for="dropUnidad"><fmt:message key="asociado.f.rama" /></label>        
+        <a id="radioColonia" href="#" class="dropramas" >&nbsp;</a>
+        <a id="radioManada" href="#" class="dropramas">&nbsp;</a>
+        <a id="radioExploradores" href="#" class="dropramas">&nbsp;</a>
+        <a id="radioPioneros" href="#" class="dropramas">&nbsp;</a>
+        <a id="radioRutas" name="rama.rutas" href="#" class="dropramas">&nbsp;</a>
+        <form:checkbox id="chkRamasColonia" path="rama.colonia" cssClass="hidden" />
+        <form:checkbox id="chkRamasManada" path="rama.manada" cssClass="hidden" />
+        <form:checkbox id="chkRamasExploradores" path="rama.exploradores" cssClass="hidden" />
+        <form:checkbox id="chkRamasPioneros" path="rama.pioneros" cssClass="hidden" />
+        <form:checkbox id="chkRamasRutas" path="rama.rutas" cssClass="hidden" />
       </div>
       <div class="field">
         <label for="txtDNI"><fmt:message key="asociado.f.dni" /></label>
@@ -96,7 +117,7 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field required">
         <label for="txtNumero" class="w2u"><fmt:message key="asociado.f.numero" /></label>
-        <form:input id="txtNumero" path="numero" cssClass="textbox w0u" maxlength="3" />
+        <form:input id="txtNumero" path="numero" cssClass="textbox w0u" cssErrorClass="textbox w0u error" maxlength="3" />
         <label for="txtEscalera" class="w1u"><fmt:message key="asociado.f.escalera" /></label>
         <!-- HACK bgcolor, mover a css -->
         <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" maxlength="3" cssStyle="background-color: inherit;" />
@@ -105,7 +126,7 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field required">
         <label for="txtCodigoPostal" class="w2u"><fmt:message key="asociado.f.codigopostal" /></label>
-        <form:input id="txtCodigoPostal" path="codigopostal" cssClass="textbox w1u" />
+        <form:input id="txtCodigoPostal" path="codigopostal" cssClass="textbox w1u" cssErrorClass="textbox w1u error" />
       </div>
       <div class="field required">
         <label for="txtProvincia" class="w2u"><fmt:message key="asociado.f.provincia" /></label>
@@ -222,7 +243,7 @@ div#bd { padding-left: 20px; }
     </c:if>
     </div>
     <div class="yui-g">
-      <input type="button" value="<fmt:message key="btn.volver" />" class="button back" onclick="javascript:back()" />
+      <input type="button" value="<fmt:message key="btn.volver" />" class="button back" onclick="javascript:cudu.back()" />
       <input type="submit" value="<fmt:message key="btn.guardar" />" class="button save" />
       <%-- <input type="button" value="<fmt:message key="btn.imprimir" />" class="button print" /> --%>
     </div>
@@ -234,9 +255,55 @@ div#bd { padding-left: 20px; }
 
 <script src="<c:url value="/s/jquery/jquery.js" />"></script>
 <script type="text/javascript">
-function back() {
-    document.location = '<c:url value="/dashboard" />'; 
-}
+cudu = {
+	back: function() {
+		document.location = '<c:url value="/dashboard" />'; 
+	},
+
+	ui: {
+		dropramas: $(".dropramas"),
+		ramas: {
+			"radioColonia": document.getElementById('chkRamasColonia'),
+			"radioManada": document.getElementById('chkRamasManada'),
+			"radioExploradores": document.getElementById('chkRamasExploradores'),
+			"radioPioneros": document.getElementById('chkRamasPioneros'),
+			"radioRutas": document.getElementById('chkRamasRutas')
+		}
+	}
+};
+
+$(document).ready(function() {
+
+	// Seleccionar las ramas del asociado
+	if (cudu.ui.ramas["radioColonia"].checked)
+		$('#radioColonia').toggleClass("selected");
+	if (cudu.ui.ramas["radioManada"].checked)
+		$('#radioManada').toggleClass("selected");
+	if (cudu.ui.ramas["radioExploradores"].checked)
+		$('#radioExploradores').toggleClass("selected");
+	if (cudu.ui.ramas["radioPioneros"].checked)
+		$('#radioPioneros').toggleClass("selected");
+	if (cudu.ui.ramas["radioRutas"].checked)
+		$('#radioRutas').toggleClass("selected");
+
+	// Atender al click sobre el selector de rama
+	cudu.ui.dropramas.click(function(e) {
+		<c:if test="${asociado.tipo == 'J'}">
+		cudu.ui.dropramas.removeClass("selected"); // comentar para permitir selección múltiple
+		</c:if>
+		$(this).toggleClass("selected");
+
+		cudu.ui.dropramas.each(function() {
+			var el = cudu.ui.ramas[this.id];
+			if ($(this).hasClass('selected')) {
+				el.checked = true;
+			} else {
+				el.checked = false;
+			}
+		});
+	});
+});
+
 function dbgcopy() {
 	$('#txtNombre')[0].value = "Jack";
 	$('#txtApellido1')[0].value = "Sparrow";
@@ -246,8 +313,8 @@ function dbgcopy() {
 	$('#txtCalle')[0].value = "Amarradero de la perla negra";
 	$('#txtNumero')[0].value = "13";
 	$('#txtCodigoPostal')[0].value = '46015';
-	$('#txtProvincia')[0].value = "12";
-	$('#txtMunicipio')[0].value = "47";
+	$('#txtProvincia')[0].value = "Valencia";
+	$('#txtMunicipio')[0].value = "Valencia";
 		
 }
 </script>

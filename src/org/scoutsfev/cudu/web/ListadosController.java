@@ -26,19 +26,22 @@ public class ListadosController {
 	public class Result<T> implements Serializable {
 		private static final long serialVersionUID = 1765112359692608857L;
 		
-		private int totalRecords;
+		private long totalRecords;
 		private Collection<T> data;
 		
 		public void setData(Collection<T> data) {
 			this.data = data;
 		}
+
 		public Collection<T> getData() {
 			return data;
 		}
-		public void setTotalRecords(int totalRecords) {
+
+		public void setTotalRecords(long totalRecords) {
 			this.totalRecords = totalRecords;
 		}
-		public int getTotalRecords() {
+
+		public long getTotalRecords() {
 			return totalRecords;
 		}
 	}
@@ -60,9 +63,11 @@ public class ListadosController {
 		HttpSession session = request.getSession();
 		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");		
 		String idGrupo = usuarioActual.getGrupo().getId();
+		
 		Result<Asociado> result = new Result<Asociado>();
-		result.setTotalRecords(100);
+		result.setTotalRecords(storage.count(idGrupo));
 		result.setData(storage.findWhere(idGrupo, columnas, ordenadoPor, sentido, inicio, resultadosPorPágina));
+		
 		return result;
 	}
 }

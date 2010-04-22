@@ -62,6 +62,11 @@ public class AsociadoController {
 		Grupo grupo = usuarioActual.getGrupo();
 		asociado.setIdGrupo(grupo.getId());
 		
+		// Agilizar proceso de edición
+		// Provincia y municipio son los del grupo
+		asociado.setProvincia(grupo.getProvincia());
+		asociado.setMunicipio(grupo.getMunicipio());
+		
 		// Hasta que se complete la migración de los datos y se enlacen
 		// correctamente los municipios y provincias, los campos siguen
 		// siendo meramente textuales (0 es "no comprobada").
@@ -80,7 +85,7 @@ public class AsociadoController {
 			logger.info("Validation errors.");
 			return "asociado";
 		}
-		
+
 		Asociado persistedEntity = storage.merge(asociado);
 		status.setComplete();
 		return "redirect:/asociado/" + persistedEntity.getId() + "?ok";
