@@ -4,23 +4,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><fmt:message key="app.title" /></title>
+<link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
+<link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
 div#bd { padding-left: 20px; }
-a.dropramas { background: transparent url('<c:url value="/s/theme/img/sramas.png" />') no-repeat 0px 0px;
-	width: 20px; height: 20px; margin-top: 3px; text-decoration: none;  }
-a#radioColonia { background-position: 0px -20px !important }
-a#radioColonia.selected { background-position: 0px 0px !important }
-a#radioManada { background-position: -21px -20px !important }
-a#radioManada.selected { background-position: -21px 0px !important }
-a#radioExploradores { background-position: -43px -20px !important }
-a#radioExploradores.selected { background-position: -43px 0px !important }
-a#radioPioneros { background-position: -65px -20px !important }
-a#radioPioneros.selected { background-position: -65px 0px !important }
-a#radioRutas { background-position: -87px -20px !important }
-a#radioRutas.selected { background-position: -87px 0px !important }
 </style>
 </head>
 <body>
@@ -29,7 +19,12 @@ a#radioRutas.selected { background-position: -87px 0px !important }
 <form:form modelAttribute="asociado" method="POST">
 <div id="bd">  
   <div class="yui-g">
-  <div class="yui-g first"><h1 id="hform"><spring:message code="asociado.titulo.${asociado.tipo}" /></h1></div>
+  <div class="yui-g first"><h1 id="hform">
+  	<c:choose>
+  	  <c:when test="${asociado.id > 0}"><spring:message code="asociado.titulo.editar" /></c:when> 
+  	  <c:otherwise><spring:message code="asociado.titulo.nuevo.${asociado.tipo}" /></c:otherwise>
+  	</c:choose>
+  </h1></div>
   <div class="yui-g" style="text-align:right; padding-top: 1px; margin-right: 13px">
     <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
     <img src="<c:url value="/s/theme/img/tango/edit-copy.png" />" />
@@ -158,8 +153,8 @@ a#radioRutas.selected { background-position: -87px 0px !important }
   </div>
   
   <c:if test="${asociado.tipo != 'J'}"> <%-- KRAAL o COMITÉ tienen cargos --%>
-  <div class="yui-g legend"><h2><fmt:message key="asociado.h.cargos" /></h2></div>
-  <div class="yui-g">
+  <div class="yui-g legend hidden"><h2><fmt:message key="asociado.h.cargos" /></h2></div>
+  <div class="yui-g hidden">
     <p>TODO: pantalla muy chachi donde editar esto...</p>
   </div>
   </c:if>
@@ -253,7 +248,7 @@ a#radioRutas.selected { background-position: -87px 0px !important }
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
 
-<script src="<c:url value="/s/jquery/jquery.js" />"></script>
+<script src="<c:url value="/s/jquery/jquery-1.4.2.js" />"></script>
 <script type="text/javascript">
 cudu = {
 	back: function() {

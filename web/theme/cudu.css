@@ -29,8 +29,11 @@ div.tc-tb img { float: left; margin: 6px 10px 0 8px; }
 div.tc-tb span { position: relative; top: 9px; }
 
 /* TC Panel filtro */
-div.tc-flt { background-color: #ece9e0; height: 0px; overflow:hidden; }
+div.tc-flt { background-color: #FFF; height: 0px; overflow:hidden; /* ece9e0 */
+	border-left: 1px solid #D4D2CC; border-right: 1px solid #D4D2CC; } 
 div.tc-flt div.field label { background-color: transparent }
+
+
 
 /* TC Tabla */
 .yui-skin-sam .yui-dt table { width: 100%; border-color: #D4D2CC; border-top: 0 }
@@ -120,8 +123,23 @@ div.mp-bd span { display: block; font-size: 93%; }
 div.mp.single div.mp-hd { height: 32px; }
 div.mp.single > div.mp-bd { display: none; }
 
+/* Selector de ramas */
+a.dropramas { background: transparent url('img/sramas.png') no-repeat 0px 0px;
+	width: 20px; height: 20px; margin-top: 3px; text-decoration: none;  }
+a#radioColonia { background-position: 0px -20px !important }
+a#radioColonia.selected { background-position: 0px 0px !important }
+a#radioManada { background-position: -21px -20px !important }
+a#radioManada.selected { background-position: -21px 0px !important }
+a#radioExploradores { background-position: -43px -20px !important }
+a#radioExploradores.selected { background-position: -43px 0px !important }
+a#radioPioneros { background-position: -65px -20px !important }
+a#radioPioneros.selected { background-position: -65px 0px !important }
+a#radioRutas { background-position: -87px -20px !important }
+a#radioRutas.selected { background-position: -87px 0px !important }
+
 /* YUI Fixes */
 div.yui-g.legend h2 { margin: 1em 0 0.3em 0; }
 div#doc { }
 div#bd, div#ft { padding: 20px 20px 0px 20px; }
 /* div#ft { margin-top: 3em; } */
+

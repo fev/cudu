@@ -5,6 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><fmt:message key="app.title" /></title>
+<link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
+<link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
@@ -108,7 +110,7 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 </div>
 </div>
 
-<script src="<c:url value="/s/jquery/jquery.js" />"></script>
+<script src="<c:url value="/s/jquery/jquery-1.4.2.js" />"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#lnkNuevoAsoc").click(function () {

@@ -5,6 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><fmt:message key="app.title" /></title>
+<link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
+<link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />

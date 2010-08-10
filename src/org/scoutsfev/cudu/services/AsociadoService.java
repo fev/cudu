@@ -9,7 +9,7 @@ public interface AsociadoService
 
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
-			int resultadosPorPágina);
+			int resultadosPorPágina, String tipos, String ramas);
 	
 	public long count();
 	public long count(String idGrupo);

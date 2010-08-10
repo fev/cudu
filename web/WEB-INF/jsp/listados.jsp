@@ -4,6 +4,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><fmt:message key="app.title" /></title>
+<link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
+<link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/paginator/assets/skins/sam/paginator.css" />" />
@@ -17,8 +19,19 @@
 .yui-skin-sam .yui-dt tr.mark td.yui-dt-asc, 
 .yui-skin-sam .yui-dt tr.mark td.yui-dt-desc { 
     background-color: #a33; 
-    color: #fff; 
+    color: #fff;
 }
+
+.yui-skin-sam .yui-dt td.yui-dt-last, .yui-skin-sam .yui-dt th.yui-dt-last { border-right: 0; }
+
+a#radioCualquierRama { background: transparent url('<c:url value="/s/theme/img/aramas.png" />') no-repeat 0px 0px;
+	width: 90px; height: 16px; margin-top: 6px; margin-left: 9px; text-decoration: none;  }
+a#radioCualquierRama.selected { background-position: 0px -16px !important }
+
+div.field a.chkTipo { border: 1px solid #D4D2CC; padding: 3px 5px; margin-top: 1px; text-decoration: none; color: #333 }
+div.field a.chkTipo:hover { border-color: #0C4A64; color: #0C4A64; }
+div.field a.chkTipo.selected { border-color: #4899ce; background-color: #FFF; color: #4899ce; }
+div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #ffeeee; color: #ce4848; }
 </style>
 </head>
 <body>
@@ -47,11 +60,11 @@
       <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
       <span><fmt:message key="listados.tb.imprimir" /></span>
     </a>
-    <a href="javascript:dbreload()">
+    <%--<a href="javascript:dbreload()">
       <img src="<c:url value="/s/theme/img/tango/emblem-favorite.png" />" />
       <span>Reload!</span>
     </a>
-	<%-- <a href="#">
+	<a href="#">
 		<img src="<c:url value="/s/theme/img/tango/document-save.png" />" />
 		<span>Guardar</span>
 	</a>
@@ -76,9 +89,21 @@
       </div>
     </div>
     <div class="yui-g">
-      <div class="field">
-        <input type="checkbox" class="radio" id='chkPasteles' onclick="resaltarVentas()" />
-        <label for="chkPasteles" class="radio">Resaltar quién no ha vendido nada</label>
+      <div id="tc-filter-ramas" class="field">
+      	<label for="" class="w1u">Ramas</label>
+      	<a id="radioColonia" href="javascript:" class="dropramas" >&nbsp;</a>
+        <a id="radioManada" href="javascript:" class="dropramas">&nbsp;</a>
+        <a id="radioExploradores" href="javascript:" class="dropramas">&nbsp;</a>
+        <a id="radioPioneros" href="javascript:" class="dropramas">&nbsp;</a>
+        <a id="radioRutas" href="javascript:" class="dropramas">&nbsp;</a>
+        <a id="radioCualquierRama" href="javascript:" class="dropramas selected">&nbsp;</a>
+      </div>
+      <div id="tc-filter-tipo" class="field">
+      	<label for="" class="w1u">Tipo</label>
+      	<a id="chkTipoJ" href="javascript:" class="chkTipo"><fmt:message key="asociado.tipo.joven" /></a>
+      	<a id="chkTipoK" href="javascript:" class="chkTipo"><fmt:message key="asociado.tipo.kraal" /></a>
+      	<a id="chkTipoC" href="javascript:" class="chkTipo"><fmt:message key="asociado.tipo.comite" /></a>
+      	<a id="chkTipoT" href="javascript:" class="chkTipo selected"><fmt:message key="listados.f.cualquiera" /></a>
       </div>
     </div>
   </div>
@@ -89,8 +114,6 @@
 </div>
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
-
-<%-- <script src="<c:url value="/s/jquery/jquery.js" />"></script> --%>
 
 <script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/logger/logger.js" />"></script>
@@ -109,7 +132,7 @@ cudu.i8n = {
 	ramas: {
 		'C': '<fmt:message key="rama.unos.C" />',
 		'M': '<fmt:message key="rama.unos.M" />',
-		'E': '<fmt:message key="rama.unos.T" />',
+		'E': '<fmt:message key="rama.unos.E" />',
 		'P': '<fmt:message key="rama.unos.P" />',
 		'R': '<fmt:message key="rama.unos.R" />'
 	},
@@ -136,9 +159,10 @@ cudu.tabla = function() {
 		{ key: "fechanacimiento", label: '<fmt:message key="listados.c.fechanacimiento" />', sortable: true, parser: "date", formatter: "date" },
 		{ key: "telefonocasa", label: '<fmt:message key="listados.c.telefonocasa" />', sortable: true, formatter: "telefono" },
 		{ key: "telefonomovil", label: '<fmt:message key="listados.c.telefonomovil" />', sortable: true, formatter: "telefono"  },
+		{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: true },
+		/* 
 		{ key: "email", label: '<fmt:message key="listados.c.email" />', sortable: true, hidden: true },
-		{ key: "id", label: "Id", sortable: true, hidden: true }
-		/*
+		{ key: "dni", label: '<fmt:message key="listados.c.dni" />', sortable: true, hidden: true },
 		{ key: "provincia", label: '<fmt:message key="listados.c.provincia" />', sortable: true, hidden: true },
 		{ key: "municipio", label: '<fmt:message key="listados.c.municipio" />', sortable: true, hidden: false },
 		{ key: "dni", label: '<fmt:message key="listados.c.dni" />', sortable: true, hidden: false },
@@ -180,27 +204,6 @@ cudu.tabla = function() {
 	
 	YAHOO.widget.DataTable.Formatter.rama = translatedValueFormatterCtor(cudu.i8n.ramas);
 	YAHOO.widget.DataTable.Formatter.tipo = translatedValueFormatterCtor(cudu.i8n.tipos);
-		
-    /*
-    var ramaFormatter = function(elLiner, oRecord, oColumn, oData) {
-		if (typeof oData === 'undefined') {
-			elLiner.innerHTML = '¿?';
-			return;
-		}
-
-		var txtRama = [];
-		var sRama = oData.split(',');
-		console.log(sRama);
-		for(var i = 0; i < sRama.length; i++) {
-			if (typeof sRama[i] !== 'undefined') {
-				txtRama.push(cudu.i8n.ramas[sRama[i]]);
-			}
-		}
-
-		elLiner.innerHTML = txtRama.join(', ');
-    };
-    YAHOO.widget.DataTable.Formatter.rama = ramaFormatter;
-    */
 
 	this.buildColumnQuery = function(columnas) {
 		var sb = [];
@@ -212,32 +215,12 @@ cudu.tabla = function() {
 	};
 	var queryColumnas = this.buildColumnQuery(columnas);
 
-	this.buildQuery = function(queryColumnas, campoOrden, orden, inicio, resultados, filtro) {
-		return queryColumnas
-			+ '&s=' + campoOrden
-			+ '&d=' + orden
-			+ '&i=' + inicio
-			+ '&r=' + resultados;
-			// filtro
-			// + '&d=' + orden
-	};
-	
 	this.dataSource = new YAHOO.util.DataSource("/cudu/listados/asociados.json?");
     this.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
     this.dataSource.responseSchema = {
     	resultsList: "result.data", 
         fields: columnas,
         metaFields: { totalRecords: "result.totalRecords" }
-    };
-
-    this.requestBuilder = function(oState, oSelf) {
-        // return
-        return queryColumnas + 
-        		"&s=" + oState.sortedBy.key +
-                "&d=" + ((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc") +
-                "&i=" + oState.pagination.recordOffset +
-                "&r=" + oState.pagination.rowsPerPage;
-				// filtro
     };
 
     this.paginador = new YAHOO.widget.Paginator({
@@ -252,8 +235,39 @@ cudu.tabla = function() {
         lastPageLinkLabel: 'final'
     });
 
+    this.filtros = {
+		tipo: '',
+		rama: ''
+    };
+	
+	this.buildQuery = function(queryColumnas, campoOrden, orden, inicio, resultados, filtros) {
+		return queryColumnas
+			+ '&s=' + campoOrden
+			+ '&d=' + orden
+			+ '&i=' + inicio
+			+ '&r=' + resultados 
+			+ '&f_tipo=' + filtros.tipo
+			+ '&f_rama=' + filtros.rama
+	};
+
+    this.requestBuilder = function(oState, oSelf) {
+        return cudu.ui.tabla.buildQuery(queryColumnas, oState.sortedBy.key, 
+        		((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc"),
+        		oState.pagination.recordOffset,
+        		oState.pagination.rowsPerPage,
+        		cudu.ui.tabla.filtros);
+		/*
+        return queryColumnas + 
+        		"&s=" + oState.sortedBy.key +
+                "&d=" + ((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc") +
+                "&i=" + oState.pagination.recordOffset +
+                "&r=" + oState.pagination.rowsPerPage;
+				// filtro
+		*/
+    };
+
     var tablecfg = {
-        initialRequest: this.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, null),
+        initialRequest: this.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros),
         generateRequest: this.requestBuilder,
         dynamicData: true,
         selectionMode: "standard",
@@ -276,7 +290,8 @@ cudu.tabla = function() {
         window.location = 'asociado/' + e.record.getData().id; 
     });
 
-    /* this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
+    /*
+    this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
     this.tabla.__showTableMessage = this.tabla.showTableMessage;
     this.tabla.showTableMessage = function(sHTML, sClassName) {
         if (sClassName == YAHOO.widget.DataTable.CLASS_LOADING) {
@@ -294,10 +309,9 @@ cudu.tabla = function() {
         return oPayload;
     };
 
-    /*
     this.reload = function() {
         var endRequestCallback = function(sRequest, oResponse, oPayload) {
-            serviceStatus.endProgress();
+            // serviceStatus.endProgress();
             this.onDataReturnInitializeTable(sRequest, oResponse, oPayload);
         };
         
@@ -308,84 +322,119 @@ cudu.tabla = function() {
             argument: this.tabla.getState()
         };
 
-        this.dataSource.sendRequest("sort=id&dir=desc&startIndex=0&results=10"
-                + "&estado=" + filtro.estado
-                + "&plan=" + (filtro.plan || '')
-                + "&colaborador=" + (filtro.colaborador || '')
-                + "&colectivo=" + (filtro.colectivo || '')
-                + "&fechaInicio=" + (filtro.fechaInicio || '')
-                + "&fechaFin=" + (filtro.fechaFin || '')
-                + "&fichero=" + (filtro.fichero || '')
-                + "&estadoPoliza=" + (filtro.estadoPoliza.join(','))
-            , oCallback);
-    }; */	
+        /* + "&fichero=" + (filtro.fichero || '')
+        + "&estadoPoliza=" + (filtro.estadoPoliza.join(',')) */
+        this.dataSource.sendRequest(
+        	cudu.ui.tabla.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.ui.tabla.filtros), 
+        	oCallback);
+    };
 };
 
-YAHOO.util.Event.addListener(window, "load", dbgreload);
-
-function dbgreload() {
-	var tabla = new cudu.tabla();
-
-	/*
-	YAHOO.example.Basic = function() {
-    	var myColumnDefs = [ 
-          {key:"name", label:'Nombre', sortable: true},
-          {key:"apellidos", label:'Apellidos', sortable: true},
-          {key:"address", label:'Dirección', sortable: true}, 
-	      {key:"city", label:'Ciudad', sortable: true},
-          {key:"fecha_nac", label:'Fecha nac.', sortable: true, formatter:YAHOO.widget.DataTable.formatDate},
-          {key:"amount", label:'Pastelitos', sortable: true},
-          {key:"unidad", label:'Unidad', sortable: true},
-        ]; 
- 
-        var myDataSource = new YAHOO.util.DataSource(bookorders);
-        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
-        myDataSource.responseSchema = {
-            fields: ["name","apellidos","address","city","fecha_nac","unidad","amount"]
-        };
- 
-        var myDataTable = new YAHOO.widget.DataTable("listado", myColumnDefs, 
-                myDataSource, {draggableColumns:true, formatRow: myRowFormatter});
-                
-        return {
-            oDS: myDataSource,
-            oDT: myDataTable
-        };
-    }();*/
-}
-
-dom = {
-  tcFilter: document.getElementById('tc-filter'),
-  chkPasteles: document.getElementById('chkPasteles')
+cudu.ui = {
+ 	tcFilter: document.getElementById('tc-filter'),
+ 	chkTipoJ: document.getElementById('chkTipoJ'),
+ 	chkTipoK: document.getElementById('chkTipoK'),
+ 	chkTipoC: document.getElementById('chkTipoC')
 };
+
+cudu.filtrarPor = {
+	rama: function() {
+		cudu.ui.tabla.filtros.rama = 'M,C';
+				
+		cudu.ui.tabla.reload();
+	},
+
+	tipo: function() {
+		if (YAHOO.util.Dom.hasClass(cudu.ui.ctrlTipoCualquiera, 'selected')) {
+			cudu.ui.tabla.filtros.tipo = '';
+		} else {
+			var tipos = [];
+			if (YAHOO.util.Dom.hasClass(cudu.ui.chkTipoJ, 'selected')) tipos.push('J');
+			if (YAHOO.util.Dom.hasClass(cudu.ui.chkTipoK, 'selected')) tipos.push('K');
+			if (YAHOO.util.Dom.hasClass(cudu.ui.chkTipoC, 'selected')) tipos.push('C');
+			cudu.ui.tabla.filtros.tipo = tipos.join(',');
+		}
+		cudu.ui.tabla.reload();
+	}
+};
+
+YAHOO.util.Event.addListener(window, "load", function() {
+	cudu.ui.tabla = new cudu.tabla();
+
+	// Filtro por ramas
+	cudu.ui.ctrlRamas = YAHOO.util.Dom.getElementsByClassName('dropramas', 'a', 'tc-filter-ramas');	
+	cudu.ui.ctrlRamasCualquiera = YAHOO.util.Dom.get('radioCualquierRama');
+	YAHOO.util.Event.addListener(cudu.ui.ctrlRamas, "click", function(e) {
+		if (e.target.id == 'radioCualquierRama') {
+			YAHOO.util.Dom.removeClass(cudu.ui.ctrlRamas, 'selected');
+		} else {
+			YAHOO.util.Dom.removeClass(cudu.ui.ctrlRamasCualquiera, 'selected');
+		}
+
+		if (YAHOO.util.Dom.hasClass(e.target, 'selected')) {
+			YAHOO.util.Dom.removeClass(e.target, 'selected');
+		} else {
+			YAHOO.util.Dom.addClass(e.target, 'selected');
+		} 
+
+		cudu.filtrarPor.rama();
+	});
+
+	// Filtro por tipo
+	cudu.ui.ctrlTipo = YAHOO.util.Dom.getElementsByClassName('chkTipo', 'a', 'tc-filter-tipo');
+	cudu.ui.ctrlTipoCualquiera = YAHOO.util.Dom.get('chkTipoT');
+	YAHOO.util.Event.addListener(cudu.ui.ctrlTipo, "click", function(e) {
+		if (e.target.id == 'chkTipoT') {
+			YAHOO.util.Dom.removeClass(cudu.ui.ctrlTipo, 'selected');
+		} else {
+			YAHOO.util.Dom.removeClass(cudu.ui.ctrlTipoCualquiera, 'selected');
+		}
+
+		if (YAHOO.util.Dom.hasClass(e.target, 'selected')) {
+			YAHOO.util.Dom.removeClass(e.target, 'selected');
+		} else {
+			YAHOO.util.Dom.addClass(e.target, 'selected');
+		}
+
+		cudu.filtrarPor.tipo();
+	});
+
+	// DBG
+	// toogleFilter();	
+});
+
+/*
+$(document).ready(function() {
+	cudu.ui.dropramas.toggleClass('selected');
+
+	cudu.ui.dropramas.click(function(e) {
+		$(this).toggleClass("selected");
+
+		cudu.ui.dropramas.each(function() {
+			// var el = cudu.ui.ramas[this.id];
+			var filter = [];
+			if ($(this).hasClass('selected'))
+				filter.append('
+			} else {
+				el.checked = false;
+			}
+		});
+	});
+});
+*/
 
 function toogleFilter() {
-    if (!dom.tcFilter.isOpen) {
-      (new YAHOO.util.Anim(dom.tcFilter, {height: { to: 100 }}, 0.9, YAHOO.util.Easing.bounceOut)).animate();
-      dom.tcFilter.isOpen = true;
+	var tcFilter = cudu.ui.tcFilter;
+    if (!tcFilter.isOpen) {
+      (new YAHOO.util.Anim(tcFilter, {height: { to: 100 }}, 0.9, YAHOO.util.Easing.bounceOut)).animate();
+      tcFilter.isOpen = true;
     } else {
-      (new YAHOO.util.Anim(dom.tcFilter, {height: { to: 0 }}, 0.7, YAHOO.util.Easing.backIn)).animate();
-      dom.tcFilter.isOpen = false;
+      (new YAHOO.util.Anim(tcFilter, {height: { to: 0 }}, 0.7, YAHOO.util.Easing.backIn)).animate();
+      tcFilter.isOpen = false;
     }
 }
 
-bookorders = [
-    {name:"Mike", apellidos: 'Wazowski', address:"1236 Some Street", city:"San Francisco", unidad:'Manada', amount:5, active:"yes", colors:["red"], fecha_nac:"4/19/2007"},
-    {name:"Joan B.", apellidos:'Jones', address:"3271 Another Ave", city:"New York", unidad:'Pioneros', amount:3, active:"no", colors:["red","blue"], fecha_nac:"2/15/2006"},
-    {name:"Jack", apellidos:'Sparrow', address:"9996 Random Road", city:"Los Angeles", unidad:"Compañeros", amount:2, active:"maybe", colors:["green"], fecha_nac:"1/23/2004"},    
-    {name:"Bob", apellidos:'Esponja', address:"9899 Random Road", city:"Los Angeles", unidad:'Manada', amount:0, active:"maybe", colors:["green"], fecha_nac:"1/23/2004"},
-    {name:"Baden", apellidos:'Powell', address:"1723 Some Street", city:"San Francisco", unidad:'Manada', amount:2, active:"yes", colors:["red"], fecha_nac:"4/19/2007"},
-    {name:"Alan", apellidos:'Cox', address:"3241 Another Ave", city:"New York", unidad:'Pioneros', amount:0, active:"no", colors:["red","blue"], fecha_nac:"2/15/2006"},
-    {name:"Bob I.", apellidos:'Uncle', address:"9909 Random Road", city:"Los Angeles", unidad:'Manada', amount:4, active:"maybe", colors:["green"], fecha_nac:"1/23/2004"},
-    {name:"Elizabeth", apellidos:"O'Neall", address:"3721 Another Ave", city:"New York", unidad:'Pioneros', amount:6, active:"no", colors:["red","blue"], fecha_nac:"2/15/2006"},
-    {name:"Will", apellidos:'Tarner', address:"9989 Random Road", city:"Los Angeles", unidad:'Manada', amount:1, active:"maybe", colors:["green"], fecha_nac:"1/23/2004"},
-    {name:"John M.", apellidos:'Smith', apellidos:'Smith', address:"1293 Some Street", city:"San Francisco", unidad:'Manada', amount:5, active:"yes", colors:["red"], fecha_nac:"4/19/2007"},
-    {name:"Caperucita", apellidos:'Rouge', address:"3621 Another Ave", city:"New York", unidad:'Pioneros', amount:3, active:"no", colors:["red","blue"], fecha_nac:"2/15/2006"},
-    {name:"Hanna", apellidos:'Montana', address:"9959 Random Road", city:"Los Angeles", unidad:'Manada', amount:0, active:"maybe", colors:["green"], fecha_nac:"1/23/2004"},
-    {name:"John P.",  apellidos:'Smith', address:"6123 Some Street", city:"San Francisco", unidad:'Manada', amount:7, active:"yes", colors:["red"], fecha_nac:"4/19/2007"},
-    {name:"Nemo", apellidos: 'Dori', address:"3281 Another Ave", city:"New York", unidad:'Pioneros', amount:1, active:"no", colors:["red","blue"], fecha_nac:"2/15/2006"}
-];
-
+/*
 var marcarPastelitos = false;
 var myRowFormatter = function(elTr, oRecord) {
     if (marcarPastelitos && (oRecord.getData('amount') == 0)) {
@@ -401,7 +450,8 @@ function resaltarVentas() {
       marcarPastelitos = false;
     }   
     YAHOO.example.Basic.oDT.refreshView();
-}
+} */
+
 </script>
 </body>
 </html>
