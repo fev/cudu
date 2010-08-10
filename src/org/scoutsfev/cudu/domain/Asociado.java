@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -140,15 +142,40 @@ public class Asociado implements Serializable {
 	
 	@Embedded
 	private Rama rama;
-	
-	/* La información de las ramas se guarda en la estructura Rama, en BBDD 
+
+	/**
+	 * Secuencia de códigos de rama separados por comas
+	 *
+	 * La información de las ramas se guarda en la estructura Rama, en BBDD
 	 * es un conjunto de booleanos, para permitir filtrar rápidamente.
 	 * La razón de este campo viene dada por la importación de datos y por
 	 * accelerar un poco la carga de los listados, debe ser recalculado
 	 * después de cada inserción o actualización.
+	 *
+	 * El método establecerRamas() rellena el campo antes de persistir.
 	 */
 	private String ramas;
 	
+	/**
+	 * Establece una cadena renderizable por el listado de asociados, que
+	 * contiene los códigos de las ramas separados por comas C,M,E,P,R
+	 */
+	@PrePersist @PreUpdate
+	public void establecerRamas() {
+		StringBuilder sb = new StringBuilder();
+		if (this.rama.isColonia()) sb.append("C,");
+		if (this.rama.isManada()) sb.append("M,");
+		if (this.rama.isExploradores()) sb.append("E,");
+		if (this.rama.isPioneros()) sb.append("P,");
+		if (this.rama.isRutas()) sb.append("R,");
+
+		// Eliminar coma final
+		int length = sb.length();
+		if (length >= 2)
+			sb.deleteCharAt(length - 1);
+
+		setRamas(sb.toString());
+	}
 	
 	@Column(name = "jpa_version")
     @Version

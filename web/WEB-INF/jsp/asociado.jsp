@@ -291,6 +291,7 @@ $(document).ready(function() {
 		<c:if test="${asociado.tipo == 'J'}">
 		cudu.ui.dropramas.removeClass("selected"); // comentar para permitir selección múltiple
 		</c:if>
+		
 		$(this).toggleClass("selected");
 
 		cudu.ui.dropramas.each(function() {

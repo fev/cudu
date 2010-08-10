@@ -134,10 +134,6 @@ BEGIN
     end if;
 
     existentes := 0;
-    if new.rama_colonia = true then 
-        existentes := existentes + 1;
-    end if;
-    
     if new.rama_colonia = true then existentes := existentes + 1; end if;
     if new.rama_manada = true then existentes := existentes + 1; end if;
     if new.rama_exploradores = true then existentes := existentes + 1; end if;
