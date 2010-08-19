@@ -44,18 +44,18 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
 <jsp:include page="header.jsp"></jsp:include>
 <div id="bd">
   <div class="yui-g tc-tb">
-	<a href="<c:url value="/asociado/nuevo" />" class="save">
+	<%-- <a href="<c:url value="/asociado/nuevo" />" class="save">
 		<img src="<c:url value="/s/theme/img/tango/document-new.png" />" />
 		<span><fmt:message key="listados.tb.nuevo" /></span>
-	</a>
-	<a href="javascript:toogleFilter()">
+	</a> --%>
+	<a href="javascript:cudu.ui.toogleFilter()">
 		<img src="<c:url value="/s/theme/img/tango/edit-find.png" />" />
 		<span><fmt:message key="listados.tb.filtrar" /></span>
 	</a>
-    <a href="#">
+    <%--<a href="#">
       <img src="<c:url value="/s/theme/img/tango/select-column.png" />" />
       <span><fmt:message key="listados.tb.columnas" /></span>
-    </a>
+    </a> --%>
     <a href="#">
       <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
       <span><fmt:message key="listados.tb.imprimir" /></span>
@@ -125,250 +125,71 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
 <script type="text/javascript" src="<c:url value="/s/yui/animation/animation-min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-debug.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/scripts/listados.js" />"></script>
 <script type="text/javascript">
-cudu = {};
-
-cudu.i8n = {
-	ramas: {
-		'C': '<fmt:message key="rama.unos.C" />',
-		'M': '<fmt:message key="rama.unos.M" />',
-		'E': '<fmt:message key="rama.unos.E" />',
-		'P': '<fmt:message key="rama.unos.P" />',
-		'R': '<fmt:message key="rama.unos.R" />'
-	},
-	tipos: {
-		'J': '<fmt:message key="asociado.tipo.joven" />',
-		'K': '<fmt:message key="asociado.tipo.kraal" />',
-		'C': '<fmt:message key="asociado.tipo.comite" />'
-	}
+cudu.i8n.ramas = {
+	'C': '<fmt:message key="rama.unos.C" />',
+	'M': '<fmt:message key="rama.unos.M" />',
+	'E': '<fmt:message key="rama.unos.E" />',
+	'P': '<fmt:message key="rama.unos.P" />',
+	'R': '<fmt:message key="rama.unos.R" />'
 };
 
-<c:if test="${param.dbg != null}">
-cudu.logger = new YAHOO.widget.LogReader('yuilogct', {draggable: true});
-</c:if>
-
-cudu.tabla = function() {
-	var cfg = {
-		filasPorPagina : 15
-	};
-	
-	var columnas = [
-		{ key: "tipo", label: "Tipo", sortable: true, formatter: "tipo" },
-		{ key: "ramas", label: '<fmt:message key="listados.c.ramas" />', sortable: true, formatter: "rama" },
-		{ key: "nombreCompleto", label: '<fmt:message key="listados.c.nombre" />', sortable: true },
-		{ key: "fechanacimiento", label: '<fmt:message key="listados.c.fechanacimiento" />', sortable: true, parser: "date", formatter: "date" },
-		{ key: "telefonocasa", label: '<fmt:message key="listados.c.telefonocasa" />', sortable: true, formatter: "telefono" },
-		{ key: "telefonomovil", label: '<fmt:message key="listados.c.telefonomovil" />', sortable: true, formatter: "telefono"  },
-		{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: true },
-		/* 
-		{ key: "email", label: '<fmt:message key="listados.c.email" />', sortable: true, hidden: true },
-		{ key: "dni", label: '<fmt:message key="listados.c.dni" />', sortable: true, hidden: true },
-		{ key: "provincia", label: '<fmt:message key="listados.c.provincia" />', sortable: true, hidden: true },
-		{ key: "municipio", label: '<fmt:message key="listados.c.municipio" />', sortable: true, hidden: false },
-		{ key: "dni", label: '<fmt:message key="listados.c.dni" />', sortable: true, hidden: false },
-		{ key: "idGrupo", label: '<fmt:message key="listados.c.grupo" />', sortable: true, hidden: false },*/
-	];
-
-	var phoneFormatter = function(elLiner, oRecord, oColumn, oData) {
-		if (oData == null) return;
-		
-		var sb = '';
-		for (var i = 0; i < oData.length; i++) {
-			if ((i % 3) == 0) {
-				sb += ' ';
-			}
-			sb += oData[i];
-		}
-		elLiner.innerHTML = sb;
-    };
-    YAHOO.widget.DataTable.Formatter.telefono = phoneFormatter;
-
-	var translatedValueFormatterCtor = function(translationData) {
-		var fnc = function(elLiner, oRecord, oColumn, oData) {
-			if ((typeof oData === 'undefined') || (oData == null))
-				return;
-	
-			var vArray = [];
-			var splittedStr = oData.split(',');
-			for(var i = 0; i < splittedStr.length; i++) {
-				if (typeof splittedStr[i] !== 'undefined') {
-					vArray.push(translationData[splittedStr[i]]);
-				}
-			}
-	
-			elLiner.innerHTML = vArray.join(', ');
-		};
-		fnc.translationData = translationData;
-		return fnc;
-	};
-	
-	YAHOO.widget.DataTable.Formatter.rama = translatedValueFormatterCtor(cudu.i8n.ramas);
-	YAHOO.widget.DataTable.Formatter.tipo = translatedValueFormatterCtor(cudu.i8n.tipos);
-
-	this.buildColumnQuery = function(columnas) {
-		var sb = [];
-		for (var i = 0; i < columnas.length; i++) {
-			// if (!columnas[i].hidden)
-			sb.push(columnas[i].key);
-		}
-		return 'c=' + sb.join(',');
-	};
-	var queryColumnas = this.buildColumnQuery(columnas);
-
-	this.dataSource = new YAHOO.util.DataSource("/cudu/listados/asociados.json?");
-    this.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
-    this.dataSource.responseSchema = {
-    	resultsList: "result.data", 
-        fields: columnas,
-        metaFields: { totalRecords: "result.totalRecords" }
-    };
-
-    this.paginador = new YAHOO.widget.Paginator({
-        containers: ['paginador'],
-        pageLinks: 10,
-        rowsPerPage: cfg.filasPorPagina,
-        template: "{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}",
-        pageReportTemplate: "pág. {currentPage} de {totalPages}",
-        previousPageLinkLabel: 'ant',
-        nextPageLinkLabel: 'sig',
-        firstPageLinkLabel: 'inicio',
-        lastPageLinkLabel: 'final'
-    });
-
-    this.filtros = {
-		tipo: '',
-		rama: ''
-    };
-	
-	this.buildQuery = function(queryColumnas, campoOrden, orden, inicio, resultados, filtros) {
-		return queryColumnas
-			+ '&s=' + campoOrden
-			+ '&d=' + orden
-			+ '&i=' + inicio
-			+ '&r=' + resultados 
-			+ '&f_tipo=' + filtros.tipo
-			+ '&f_rama=' + filtros.rama
-	};
-
-    this.requestBuilder = function(oState, oSelf) {
-        return cudu.ui.tabla.buildQuery(queryColumnas, oState.sortedBy.key, 
-        		((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc"),
-        		oState.pagination.recordOffset,
-        		oState.pagination.rowsPerPage,
-        		cudu.ui.tabla.filtros);
-		/*
-        return queryColumnas + 
-        		"&s=" + oState.sortedBy.key +
-                "&d=" + ((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc") +
-                "&i=" + oState.pagination.recordOffset +
-                "&r=" + oState.pagination.rowsPerPage;
-				// filtro
-		*/
-    };
-
-    var tablecfg = {
-        initialRequest: this.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros),
-        generateRequest: this.requestBuilder,
-        dynamicData: true,
-        selectionMode: "standard",
-        sortedBy: { key: columnas[0].key, dir: YAHOO.widget.DataTable.CLASS_DESC },
-        paginator: this.paginador,
-        draggableColumns: true,
-        MSG_EMPTY: 'No existen documentos.',
-        MSG_LOADING: 'Cargando...',
-        MSG_SORTASC: 'Pulse para ordenar de menor a mayor.',
-        MSG_SORTDESC: 'Pulse para ordenar de mayor a menor.',
-        dateOptions: {format:"%d/%m/%Y", locale:"es"}
-    };
-
-    this.tabla = new YAHOO.widget.DataTable("listado", columnas, this.dataSource, tablecfg);
-
-    this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
-    this.tabla.subscribe("rowMouseoutEvent", this.tabla.onEventUnhighlightRow);
-    this.tabla.subscribe("rowClickEvent", this.tabla.onEventSelectRow);
-    this.tabla.subscribe("rowSelectEvent", function(e) {
-        window.location = 'asociado/' + e.record.getData().id; 
-    });
-
-    /*
-    this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
-    this.tabla.__showTableMessage = this.tabla.showTableMessage;
-    this.tabla.showTableMessage = function(sHTML, sClassName) {
-        if (sClassName == YAHOO.widget.DataTable.CLASS_LOADING) {
-            serviceStatus.startProgress();
-        } else {
-            this.__showTableMessage(sHTML, sClassName);
-            serviceStatus.endProgress();
-        }
-    }; */
-
-    // Manejar el campo del número total de registros para que funcione
-    // correctamente la paginación.
-    this.tabla.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
-        oPayload.totalRecords = oResponse.meta.totalRecords;
-        return oPayload;
-    };
-
-    this.reload = function() {
-        var endRequestCallback = function(sRequest, oResponse, oPayload) {
-            // serviceStatus.endProgress();
-            this.onDataReturnInitializeTable(sRequest, oResponse, oPayload);
-        };
-        
-        var oCallback = {
-            success: endRequestCallback,
-            failure: endRequestCallback,
-            scope: this.tabla,
-            argument: this.tabla.getState()
-        };
-
-        /* + "&fichero=" + (filtro.fichero || '')
-        + "&estadoPoliza=" + (filtro.estadoPoliza.join(',')) */
-        this.dataSource.sendRequest(
-        	cudu.ui.tabla.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.ui.tabla.filtros), 
-        	oCallback);
-    };
+cudu.i8n.tipos = {
+	'J': '<fmt:message key="asociado.tipo.joven" />',
+	'K': '<fmt:message key="asociado.tipo.kraal" />',
+	'C': '<fmt:message key="asociado.tipo.comite" />'
 };
 
-cudu.ui = {
- 	tcFilter: document.getElementById('tc-filter'),
- 	chkTipoJ: document.getElementById('chkTipoJ'),
- 	chkTipoK: document.getElementById('chkTipoK'),
- 	chkTipoC: document.getElementById('chkTipoC')
-};
+cudu.i8n.tabla = {
+	SinDatos: '<fmt:message key="listados.tabla.sindatos" />',
+	Cargando: '<fmt:message key="listados.tabla.cargando" />',
+	OrdenarAscendente: '<fmt:message key="listados.tabla.ordenascendente" />',
+	OrdenarDescendente: '<fmt:message key="listados.tabla.ordendescendente" />',
+	PagActual: '<fmt:message key="listados.tabla.pagactual" />',
+	PagAnterior: '<fmt:message key="listados.tabla.paganterior" />',
+	PagSiguiente: '<fmt:message key="listados.tabla.pagsiguiente" />',
+	PagInicio: '<fmt:message key="listados.tabla.paginicio" />',
+	PagFin: '<fmt:message key="listados.tabla.pagfin" />'
+}
 
-cudu.filtrarPor = {
-	rama: function() {
-		cudu.ui.tabla.filtros.rama = 'M,C';
-				
-		cudu.ui.tabla.reload();
-	},
-
-	tipo: function() {
-		if (YAHOO.util.Dom.hasClass(cudu.ui.ctrlTipoCualquiera, 'selected')) {
-			cudu.ui.tabla.filtros.tipo = '';
-		} else {
-			var tipos = [];
-			if (YAHOO.util.Dom.hasClass(cudu.ui.chkTipoJ, 'selected')) tipos.push('J');
-			if (YAHOO.util.Dom.hasClass(cudu.ui.chkTipoK, 'selected')) tipos.push('K');
-			if (YAHOO.util.Dom.hasClass(cudu.ui.chkTipoC, 'selected')) tipos.push('C');
-			cudu.ui.tabla.filtros.tipo = tipos.join(',');
-		}
-		cudu.ui.tabla.reload();
-	}
-};
+cudu.dom.tcFilter = document.getElementById('tc-filter');
+cudu.dom.chkTipoJ = document.getElementById('chkTipoJ');
+cudu.dom.chkTipoK = document.getElementById('chkTipoK');
+cudu.dom.chkTipoC = document.getElementById('chkTipoC');
 
 YAHOO.util.Event.addListener(window, "load", function() {
-	cudu.ui.tabla = new cudu.tabla();
+	var columnas = [
+   		{ key: "tipo", label: "Tipo", sortable: true, formatter: "tipo" },
+   		{ key: "ramas", label: '<fmt:message key="listados.c.ramas" />', sortable: true, formatter: "rama" },
+   		{ key: "nombreCompleto", label: '<fmt:message key="listados.c.nombre" />', sortable: true },
+   		{ key: "fechanacimiento", label: '<fmt:message key="listados.c.fechanacimiento" />', sortable: true, parser: "date", formatter: "date" },
+   		{ key: "telefonocasa", label: '<fmt:message key="listados.c.telefonocasa" />', sortable: true, formatter: "telefono" },
+   		{ key: "telefonomovil", label: '<fmt:message key="listados.c.telefonomovil" />', sortable: true, formatter: "telefono"  },
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+   		{ key: 'idGrupo', label: 'Grupo', sortable: true },
+   		</sec:authorize>
+   		{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: true },
+   		/* 
+   		grupo.nombre no se interpreta bien por YUI
+   		{ key: "email", label: '<fmt:message key="listados.c.email" />', sortable: true, hidden: true },
+   		{ key: "dni", label: '<fmt:message key="listados.c.dni" />', sortable: true, hidden: true },
+   		{ key: "provincia", label: '<fmt:message key="listados.c.provincia" />', sortable: true, hidden: true },
+   		{ key: "municipio", label: '<fmt:message key="listados.c.municipio" />', sortable: true, hidden: false },
+   		{ key: "dni", label: '<fmt:message key="listados.c.dni" />', sortable: true, hidden: false },
+   		{ key: "idGrupo", label: '<fmt:message key="listados.c.grupo" />', sortable: true, hidden: false },*/
+   	];
+	
+	cudu.dom.tabla = new cudu.ui.datatable.table(columnas);
 
 	// Filtro por ramas
-	cudu.ui.ctrlRamas = YAHOO.util.Dom.getElementsByClassName('dropramas', 'a', 'tc-filter-ramas');	
-	cudu.ui.ctrlRamasCualquiera = YAHOO.util.Dom.get('radioCualquierRama');
-	YAHOO.util.Event.addListener(cudu.ui.ctrlRamas, "click", function(e) {
+	cudu.dom.ctrlRamas = YAHOO.util.Dom.getElementsByClassName('dropramas', 'a', 'tc-filter-ramas');	
+	cudu.dom.ctrlRamasCualquiera = YAHOO.util.Dom.get('radioCualquierRama');
+	YAHOO.util.Event.addListener(cudu.dom.ctrlRamas, "click", function(e) {
 		if (e.target.id == 'radioCualquierRama') {
-			YAHOO.util.Dom.removeClass(cudu.ui.ctrlRamas, 'selected');
+			YAHOO.util.Dom.removeClass(cudu.dom.ctrlRamas, 'selected');
 		} else {
-			YAHOO.util.Dom.removeClass(cudu.ui.ctrlRamasCualquiera, 'selected');
+			YAHOO.util.Dom.removeClass(cudu.dom.ctrlRamasCualquiera, 'selected');
 		}
 
 		if (YAHOO.util.Dom.hasClass(e.target, 'selected')) {
@@ -381,13 +202,13 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	});
 
 	// Filtro por tipo
-	cudu.ui.ctrlTipo = YAHOO.util.Dom.getElementsByClassName('chkTipo', 'a', 'tc-filter-tipo');
-	cudu.ui.ctrlTipoCualquiera = YAHOO.util.Dom.get('chkTipoT');
-	YAHOO.util.Event.addListener(cudu.ui.ctrlTipo, "click", function(e) {
+	cudu.dom.ctrlTipo = YAHOO.util.Dom.getElementsByClassName('chkTipo', 'a', 'tc-filter-tipo');
+	cudu.dom.ctrlTipoCualquiera = YAHOO.util.Dom.get('chkTipoT');
+	YAHOO.util.Event.addListener(cudu.dom.ctrlTipo, "click", function(e) {
 		if (e.target.id == 'chkTipoT') {
-			YAHOO.util.Dom.removeClass(cudu.ui.ctrlTipo, 'selected');
+			YAHOO.util.Dom.removeClass(cudu.dom.ctrlTipo, 'selected');
 		} else {
-			YAHOO.util.Dom.removeClass(cudu.ui.ctrlTipoCualquiera, 'selected');
+			YAHOO.util.Dom.removeClass(cudu.dom.ctrlTipoCualquiera, 'selected');
 		}
 
 		if (YAHOO.util.Dom.hasClass(e.target, 'selected')) {
@@ -400,58 +221,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	});
 
 	// DBG
-	// toogleFilter();	
+	// toogleFilter();
 });
-
-/*
-$(document).ready(function() {
-	cudu.ui.dropramas.toggleClass('selected');
-
-	cudu.ui.dropramas.click(function(e) {
-		$(this).toggleClass("selected");
-
-		cudu.ui.dropramas.each(function() {
-			// var el = cudu.ui.ramas[this.id];
-			var filter = [];
-			if ($(this).hasClass('selected'))
-				filter.append('
-			} else {
-				el.checked = false;
-			}
-		});
-	});
-});
-*/
-
-function toogleFilter() {
-	var tcFilter = cudu.ui.tcFilter;
-    if (!tcFilter.isOpen) {
-      (new YAHOO.util.Anim(tcFilter, {height: { to: 100 }}, 0.9, YAHOO.util.Easing.bounceOut)).animate();
-      tcFilter.isOpen = true;
-    } else {
-      (new YAHOO.util.Anim(tcFilter, {height: { to: 0 }}, 0.7, YAHOO.util.Easing.backIn)).animate();
-      tcFilter.isOpen = false;
-    }
-}
-
-/*
-var marcarPastelitos = false;
-var myRowFormatter = function(elTr, oRecord) {
-    if (marcarPastelitos && (oRecord.getData('amount') == 0)) {
-        YAHOO.util.Dom.addClass(elTr, 'mark');
-    }
-    return true;
-};
-
-function resaltarVentas() {
-    if (dom.chkPasteles.checked) {
-      marcarPastelitos = true;
-    } else {
-      marcarPastelitos = false;
-    }   
-    YAHOO.example.Basic.oDT.refreshView();
-} */
-
 </script>
 </body>
 </html>

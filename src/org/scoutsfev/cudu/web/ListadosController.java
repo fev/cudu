@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.AsociadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,11 +64,13 @@ public class ListadosController {
 			HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");		
-		String idGrupo = usuarioActual.getGrupo().getId();
+		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");
+
+		Grupo grupo = usuarioActual.getGrupo();
+		String idGrupo = (grupo == null ? null : grupo.getId());
 		
 		Result<Asociado> result = new Result<Asociado>();
-		result.setTotalRecords(storage.count(idGrupo));
+		result.setTotalRecords(storage.count(idGrupo, filtroTipo, filtroRama));
 		result.setData(storage.findWhere(idGrupo, columnas, ordenadoPor, sentido, 
 				inicio, resultadosPorPágina, filtroTipo, filtroRama));
 		

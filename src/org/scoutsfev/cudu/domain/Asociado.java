@@ -7,9 +7,12 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
@@ -108,6 +111,11 @@ public class Asociado implements Serializable {
 	private Timestamp fechabaja;
 
 	private String idGrupo;
+	
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@JoinColumn(name = "idGrupo", referencedColumnName = "id", insertable = false, updatable = false)
+	private Grupo grupo;
+	
 	private char tipo;
 
 	private Boolean tieneseguroprivado;
@@ -252,6 +260,10 @@ public class Asociado implements Serializable {
 
 	public void setFechanacimiento(Date fechanacimiento) {
 		this.fechanacimiento = fechanacimiento;
+	}
+	
+	public Grupo getGrupo() {
+		return this.grupo;
 	}
 
 	public String getIdGrupo() {

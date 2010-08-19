@@ -12,5 +12,5 @@ public interface AsociadoService
 			int resultadosPorPágina, String tipos, String ramas);
 	
 	public long count();
-	public long count(String idGrupo);
+	public long count(String idGrupo, String tipos, String ramas);
 }
