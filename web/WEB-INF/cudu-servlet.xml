@@ -81,6 +81,7 @@
 	<bean id="grupoService" class="org.scoutsfev.cudu.services.GrupoServiceImpl" />
     <bean id="usuarioService" class="org.scoutsfev.cudu.services.UsuarioServiceImpl" />
     <bean id="asociadoService" class="org.scoutsfev.cudu.services.AsociadoServiceImpl" />
+    <bean id="auditoriaService" class="org.scoutsfev.cudu.services.AuditoriaServiceRedisImpl" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    <property name="driverClassName" value="org.postgresql.Driver" />

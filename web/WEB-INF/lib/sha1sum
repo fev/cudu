@@ -29,6 +29,7 @@ aec33c3d29868db2d4eb3139e6f350ff727f2acf  com.springsource.org.hibernate.annotat
 40db69b9b103228c9c858fd259d5a899c986e0bb  com.springsource.slf4j.log4j-1.5.6.jar
 790d5f324b49f949c947344ee2d60b45205a2932  geronimo-spec-jta-1.0.1B-rc4.jar
 cfa4f8f9579487c637f5202f247abfac42006bed  hibernate-validator-4.0.2.GA.jar
+51f507e3bf1cce835595ac2a3366007d5952555c  jredis-1.0-rc1.jar
 5f78711ad0c25c4b021f98e520de5d86a6920b80  org.springframework.aop-3.0.1.RELEASE-A.jar
 dbdcf8cc16fbb47cc12e7224c827b7f7e65f808d  org.springframework.asm-3.0.1.RELEASE-A.jar
 8aa82a63fecf5513776181acb894e97fded369f1  org.springframework.aspects-3.0.1.RELEASE-A.jar

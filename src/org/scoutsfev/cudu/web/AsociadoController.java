@@ -29,13 +29,13 @@ public class AsociadoController {
 	protected final Log logger = LogFactory.getLog(getClass());
 	
 	@Autowired
-	protected AsociadoService storage;
+	protected AsociadoService service;
 
 	@RequestMapping(value = "/{idAsociado}", method = RequestMethod.GET)
 	public String setupForm(@PathVariable("idAsociado") int idAsociado,  Model model) {
 		logger.info("setupForm /asociado/" + idAsociado);
 
-		Asociado asociado = storage.find(idAsociado);
+		Asociado asociado = service.find(idAsociado);
 		if (asociado == null)
 			return "redirect:/404";
 		
@@ -78,7 +78,8 @@ public class AsociadoController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado, BindingResult result, SessionStatus status) {
+	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado, BindingResult result, 
+			SessionStatus status, HttpServletRequest request) {
 		logger.info("processSubmit: " + asociado.getId());
 		
 		if (result.hasErrors()) {
@@ -86,8 +87,9 @@ public class AsociadoController {
 			return "asociado";
 		}
 
-		Asociado persistedEntity = storage.merge(asociado);
+		Asociado persistedEntity = service.merge(asociado);
 		status.setComplete();
+		
 		return "redirect:/asociado/" + persistedEntity.getId() + "?ok";
 	}
 }

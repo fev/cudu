@@ -13,4 +13,6 @@ public interface AsociadoService
 	
 	public long count();
 	public long count(String idGrupo, String tipos, String ramas);
+	
+	public Asociado merge(Asociado entity);
 }

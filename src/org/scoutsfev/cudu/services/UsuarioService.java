@@ -4,5 +4,5 @@ import org.scoutsfev.cudu.domain.Usuario;;
 
 public interface UsuarioService {
 
-	public Usuario find(String username);
+	public Usuario find(String username);	
 }

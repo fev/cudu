@@ -7,10 +7,14 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.scoutsfev.cudu.domain.Asociado;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class AsociadoServiceImpl 
 	extends StorageServiceImpl<Asociado> 
 	implements AsociadoService {
+	
+	@Autowired
+	protected AuditoriaService auditoria;
 	
 	private String componerFiltroTipo(String tipos) {
 		String filtroTipos = "";
@@ -84,5 +88,12 @@ public class AsociadoServiceImpl
 			.createQuery("SELECT COUNT(a) FROM Asociado a WHERE idGrupo = :idGrupo " + filtroRamas + filtroTipos)
 			.setParameter("idGrupo", idGrupo)
 			.getSingleResult();
+	}
+	
+	@Override
+	public Asociado merge(Asociado entity) {
+		Asociado persistedEntity = super.merge(entity);
+		auditoria.registrar(AuditoriaService.Operacion.Almacenar, AuditoriaService.Entidad.Asociado, persistedEntity.getId().toString());
+		return persistedEntity;
 	}
 }

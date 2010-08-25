@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.scoutsfev.cudu.domain.Grupo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,9 @@ public class GrupoServiceImpl implements GrupoService {
 
 	@PersistenceContext
 	protected EntityManager entityManager;
+	
+	@Autowired
+	protected AuditoriaService auditoria;
 
 	public Grupo find(String id) {
 		return entityManager.find(Grupo.class, id);
@@ -25,5 +29,6 @@ public class GrupoServiceImpl implements GrupoService {
 		// return this.entityManager.merge(g);
 
 		this.entityManager.merge(g);
+		auditoria.registrar(AuditoriaService.Operacion.Almacenar, AuditoriaService.Entidad.Grupo, g.getId());
 	}
 }
