@@ -36,10 +36,6 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
 </head>
 <body>
 
-<c:if test="${param.dbg != null}">
-	<div class="yui-log yui-log-container" id="yuilogct" style="position: absolute; right: 0; font-size: 12px"></div>
-</c:if>
-
 <div id="doc" class="yui-t7">
 <jsp:include page="header.jsp"></jsp:include>
 <div id="bd">
@@ -78,19 +74,19 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
 	</a>
   </div>
   <div id="tc-filter" class="yui-g tc-flt" style="padding: 0px 5px">
-    <div class="yui-g first">
+    <div class="yui-g">
       <div class="field">
-        <label for="txtNombre" class="w2u">Nombre</label>
-        <input id="txtNombre" class="textbox w3u" />
+        <label for="txtBusqueda" class="w2u">Búsqueda</label>
+        <input id="txtBusqueda" class="textbox w3u" />
       </div>
-      <div class="field">
+		<!--  <div class="field">
         <label for="txtApellidos" class="w2u">Apellidos</label>
         <input id="txtApellidos" class="textbox w3u" />
-      </div>
+      </div> -->
     </div>
-    <div class="yui-g">
+    <div class="yui-g first">
       <div id="tc-filter-ramas" class="field">
-      	<label for="" class="w1u">Ramas</label>
+      	<label for="" class="w1u">Rama</label>
       	<a id="radioColonia" href="javascript:" class="dropramas" >&nbsp;</a>
         <a id="radioManada" href="javascript:" class="dropramas">&nbsp;</a>
         <a id="radioExploradores" href="javascript:" class="dropramas">&nbsp;</a>
@@ -158,6 +154,14 @@ cudu.dom.chkTipoJ = document.getElementById('chkTipoJ');
 cudu.dom.chkTipoK = document.getElementById('chkTipoK');
 cudu.dom.chkTipoC = document.getElementById('chkTipoC');
 
+cudu.dom.codigosRamas = {
+	'radioColonia': 'C',
+	'radioManada': 'M',
+	'radioExploradores': 'E',
+	'radioPioneros': 'P',
+	'radioRutas': 'R'
+};
+
 YAHOO.util.Event.addListener(window, "load", function() {
 	var columnas = [
    		{ key: "tipo", label: "Tipo", sortable: true, formatter: "tipo" },
@@ -198,7 +202,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 			YAHOO.util.Dom.addClass(e.target, 'selected');
 		} 
 
-		cudu.filtrarPor.rama();
+		cudu.filtrarPor.rama(cudu.dom.codigosRamas[e.target.id]);
 	});
 
 	// Filtro por tipo

@@ -34,7 +34,7 @@ public class AsociadoServiceImpl
 				if (rama == 'M') { arr.add("rama_manada = true"); continue; }
 				if (rama == 'E') { arr.add("rama_exploradores = true"); continue; }
 				if (rama == 'P') { arr.add("rama_pioneros = true"); continue; }
-				if (rama == 'T') { arr.add("rama_rutas = true"); continue; }
+				if (rama == 'R') { arr.add("rama_rutas = true"); continue; }
 			}
 			if (arr.size() > 0)
 				filtroRamas = " AND (" + StringUtils.join(arr.toArray(), " OR ") + ")"; 

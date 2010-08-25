@@ -49,7 +49,7 @@ cudu.ui.datatable.buildQuery = function(queryColumnas, campoOrden, orden, inicio
 	+ '&i=' + inicio
 	+ '&r=' + resultados 
 	+ '&f_tipo=' + filtros.tipo
-	+ '&f_rama=' + filtros.rama
+	+ '&f_rama=' + filtros.rama.join(',')
 };
 
 cudu.ui.datatable.table = function(columnas) {
@@ -93,7 +93,7 @@ cudu.ui.datatable.table = function(columnas) {
 
     this.filtros = {
 		tipo: '',
-		rama: ''
+		rama: []
     };
 
     this.requestBuilder = function(oState, oSelf) {
@@ -169,8 +169,19 @@ cudu.ui.datatable.table = function(columnas) {
 // TODO Refactorizar de aquí en adelante...
 
 cudu.filtrarPor = {
-	rama: function() {
-		cudu.dom.tabla.filtros.rama = 'M,C';
+	rama: function(codigo) {
+		var filtro = cudu.dom.tabla.filtros.rama;
+		if (typeof codigo == "undefined" || !codigo) {
+			cudu.dom.tabla.filtros.rama = [];
+		}
+
+		var indice = filtro.indexOf(codigo);
+		if (indice == -1)
+			filtro.push(codigo);
+		else
+			filtro.splice(indice, 1);
+		
+		console.log(filtro.join(','));
 		cudu.dom.tabla.reload();
 	},
 
@@ -218,3 +229,25 @@ function resaltarVentas() {
     }   
     YAHOO.example.Basic.oDT.refreshView();
 } */
+
+
+//This prototype is provided by the Mozilla foundation and
+//is distributed under the MIT license.
+//http://www.ibiblio.org/pub/Linux/LICENSES/mit.license
+
+if (!Array.prototype.indexOf) {
+	Array.prototype.indexOf = function(elt /*, from*/) {
+		var len = this.length;
+
+		var from = Number(arguments[1]) || 0;
+		from = (from < 0) ? Math.ceil(from) : Math.floor(from);
+		if (from < 0)
+			from += len;
+
+		for (; from < len; from++) {
+			if (from in this && this[from] === elt)
+				return from;
+		}
+		return -1;
+	};
+}
