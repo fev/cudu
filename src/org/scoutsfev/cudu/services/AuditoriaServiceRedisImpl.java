@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jredis.JRedis;
 import org.jredis.RedisException;
-import org.jredis.ri.alphazero.JRedisClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AuditoriaServiceRedisImpl implements AuditoriaService {
@@ -17,6 +17,9 @@ public class AuditoriaServiceRedisImpl implements AuditoriaService {
 	public final static String LISTNAME = "audit";
 	public final static String FIELDSEPARATOR = ",";
 	
+	@Autowired
+	protected JRedis redisService;
+	
 	class AsyncAuditWrite implements Runnable {
 		private String entry;
 		
@@ -25,11 +28,9 @@ public class AuditoriaServiceRedisImpl implements AuditoriaService {
 		}
 		
 		@Override
-		public void run() {
-			JRedis redis = new JRedisClient();
-			
+		public void run() {		
 			try {
-				redis.lpush(LISTNAME, entry);
+				redisService.lpush(LISTNAME, entry);
 			} catch (RedisException e) {
 				logger.error(e);
 			}
