@@ -141,5 +141,6 @@ a#radioRutas.selected { background-position: -87px 0px !important }
 div.yui-g.legend h2 { margin: 1em 0 0.3em 0; }
 div#doc { }
 div#bd, div#ft { padding: 20px 20px 0px 20px; }
+div.yui-dt-coltarget { width: 3px; background-color: #C00; } 
 /* div#ft { margin-top: 3em; } */
 
