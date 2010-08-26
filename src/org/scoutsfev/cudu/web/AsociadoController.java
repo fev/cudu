@@ -1,7 +1,6 @@
 package org.scoutsfev.cudu.web;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
@@ -32,12 +31,25 @@ public class AsociadoController {
 	protected AsociadoService service;
 
 	@RequestMapping(value = "/{idAsociado}", method = RequestMethod.GET)
-	public String setupForm(@PathVariable("idAsociado") int idAsociado,  Model model) {
+	public String setupForm(@PathVariable("idAsociado") int idAsociado, Model model, HttpServletRequest request) {
 		logger.info("setupForm /asociado/" + idAsociado);
 
 		Asociado asociado = service.find(idAsociado);
 		if (asociado == null)
 			return "redirect:/404";
+		
+		// Comprobaciones de Seguridad
+//		HttpSession session = request.getSession();
+//		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");		
+//		Grupo grupoUsuario = usuarioActual.getGrupo();
+//		
+//		
+//		boolean esAdmin = false; // TODO SecurityContextHolder.getContext().getAuthentication()
+//		if (!esAdmin) {
+//			Grupo grupo = asociado.getGrupo();
+//			if ((grupo == null) || (grupo.getId() != grupoUsuario.getId()))
+//				return "redirect:/403";
+//		}
 		
 		model.addAttribute("asociado", asociado);
 		return "asociado";
@@ -56,9 +68,8 @@ public class AsociadoController {
 			asociado.setTipo('C');
 		else
 			return "redirect:/404";
-
-		HttpSession session = request.getSession();
-		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");		
+		
+		Usuario usuarioActual = Usuario.obtenerActual();
 		Grupo grupo = usuarioActual.getGrupo();
 		asociado.setIdGrupo(grupo.getId());
 		
@@ -78,8 +89,7 @@ public class AsociadoController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado, BindingResult result, 
-			SessionStatus status, HttpServletRequest request) {
+	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado, BindingResult result, SessionStatus status) {
 		logger.info("processSubmit: " + asociado.getId());
 		
 		if (result.hasErrors()) {

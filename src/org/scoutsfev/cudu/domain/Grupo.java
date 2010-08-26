@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -41,16 +40,17 @@ public class Grupo implements Serializable {
 	@NotNull
 	@Min(1)
 	private Integer codigopostal;
+
+	private Integer idMunicipio;
 	
 	@NotNull
-	@Min(0)
-	private Integer idMunicipio;
+	@Size(min = 3, max = 100)
 	private String municipio;
 	
-	@NotNull
-	@Min(0)
 	private Integer idProvincia;
 	
+	@NotNull
+	@Size(min = 3, max = 100)
 	private String provincia;
 	
 	@Past
@@ -78,27 +78,6 @@ public class Grupo implements Serializable {
 	@Column(name = "jpa_version")
     @Version
     private int version;
-	
-	// HACK para permitir mensajes del estado de la edición, ver
-	// controlador de grupos. Se eliminará cuando puedan editarse
-	// múltiples grupos, en lugar de usar la BBDD.
-	public static enum UiStates { Init, Error, Saved }
-	
-	@Transient
-	private UiStates uiState = UiStates.Init;
-	
-	public boolean isUiStatedSaved() {
-		return uiState == UiStates.Saved;
-	}
-	
-	public UiStates getUiState() {
-		return uiState;
-	}
-
-	public void setUiState(UiStates uiState) {
-		this.uiState = uiState;
-	}
-	// END HACK
 
 	public String getId() {
 		return id;

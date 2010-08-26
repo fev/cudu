@@ -72,7 +72,7 @@ div#bd { padding-left: 20px; }
         <label for="txtFechaNac"><fmt:message key="asociado.f.fechaNac" /></label>
         <form:input id="txtFechaNac" path="fechanacimiento" cssClass="textbox w1u" cssErrorClass="textbox w1u error" />
         <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" />
-        <span id="lblFechaNac" class="literal">8 años, 9 meses</span>
+        <span id="lblFechaNac" class="literal"><%-- 8 años, 9 meses --%></span>
       </div>
       <div class="field required">
         <label for="dropUnidad"><fmt:message key="asociado.f.rama" /></label>        

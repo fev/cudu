@@ -79,10 +79,10 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
         <label for="txtBusqueda" class="w2u">Búsqueda</label>
         <input id="txtBusqueda" class="textbox w3u" />
       </div>
-		<!--  <div class="field">
+		<%--  <div class="field">
         <label for="txtApellidos" class="w2u">Apellidos</label>
         <input id="txtApellidos" class="textbox w3u" />
-      </div> -->
+      </div> --%>
     </div>
     <div class="yui-g first">
       <div id="tc-filter-ramas" class="field">

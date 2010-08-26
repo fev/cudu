@@ -6,6 +6,7 @@
 		<class>org.scoutsfev.cudu.domain.Grupo</class>
         <class>org.scoutsfev.cudu.domain.Usuario</class>
         <class>org.scoutsfev.cudu.domain.Asociado</class>
+        <class>org.scoutsfev.cudu.domain.Authority</class>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />

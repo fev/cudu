@@ -27,13 +27,15 @@
   </div>
   <form:form modelAttribute="grupo" method="POST">
 
+  <c:set var="erroresValidacion" value="false" />
   <spring:hasBindErrors name="grupo">
   	<cudu:message id="mp01" key="frm.errores">
+  		<c:set var="erroresValidacion" value="true" />
   		<form:errors id="mpbderr" path="*" />
   	</cudu:message>
   </spring:hasBindErrors>
   
-  <c:if test="${grupo.uiStatedSaved}">
+  <c:if test="${param.ok != null && erroresValidacion == false}">
   	<cudu:message id="mp01" key="frm.ok" single="true" />
   </c:if>
  
@@ -86,15 +88,15 @@
       </div>
       <div class="field required">
         <label for="txtProvincia" class="w2u"><fmt:message key="grupo.f.provincia" /></label>
-        <form:input id="txtProvincia" path="idProvincia" cssClass="textbox w0u"  cssErrorClass="textbox w0u error" />
-        <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
-        <span id="lblProvincia" class="literal"><c:out value="${asociado.provincia}" /></span>
+        <form:input id="txtProvincia" path="provincia" cssClass="textbox w3u"  cssErrorClass="textbox w3u error" />
+<%--    <img id="imgProvincia" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar provincia." />
+		<span id="lblProvincia" class="literal"><c:out value="${asociado.provincia}" /></span> --%>
       </div>
       <div class="field required">
         <label for="txtMunicipio" class="w2u"><fmt:message key="grupo.f.municipio" /></label>
-        <form:input id="txtMunicipio" path="idMunicipio" cssClass="textbox w0u"  cssErrorClass="textbox w0u error" />
-        <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
-        <span id="lblMunicipio" class="literal"><c:out value="${asociado.municipio}" /></span>
+        <form:input id="txtMunicipio" path="municipio" cssClass="textbox w3u"  cssErrorClass="textbox w3u error" />
+<%--    <img id="imgMunicipio" src="<c:url value="/s/theme/img/magnifier.png" />" alt="Buscar municipio." />
+        <span id="lblMunicipio" class="literal"><c:out value="${asociado.municipio}" /></span> --%>
       </div>
     </div>
     <div class="yui-g">

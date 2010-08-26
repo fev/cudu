@@ -96,4 +96,12 @@ public class AsociadoServiceImpl
 		auditoria.registrar(AuditoriaService.Operacion.Almacenar, AuditoriaService.Entidad.Asociado, persistedEntity.getId().toString());
 		return persistedEntity;
 	}
+
+	
+	@Override
+	public Asociado find(String id) {
+		Asociado asociado = super.find(id);
+		auditoria.registrar(AuditoriaService.Operacion.Acceder, AuditoriaService.Entidad.Asociado, id);
+		return asociado;
+	}
 }

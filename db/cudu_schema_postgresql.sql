@@ -47,8 +47,9 @@ CREATE TABLE users (
 CREATE TABLE authorities (
     username varchar(200) NOT NULL,
     authority varchar(50) NOT NULL,
+    CONSTRAINT pk_authorities PRIMARY KEY (username, authority),
     CONSTRAINT fk_authorities_users FOREIGN KEY (username) REFERENCES users(username)
-);
+);    
 
 CREATE TABLE pagocuotas (
     idgrupo character varying(20) NOT NULL,
@@ -181,9 +182,14 @@ create table auditoria (
     -- Create, Read, Update, Delete, Login
 );
 
+-- Índices
+CREATE UNIQUE INDEX ix_authorities ON authorities (username,authority);
+
 -- Datos iniciales
 INSERT INTO users VALUES ('cudu', 'cudu', 'Cuenta de Administación', NULL, true);
 INSERT INTO authorities VALUES ('cudu', 'ROLE_USER');
 INSERT INTO authorities VALUES ('cudu', 'ROLE_ADMIN');
+
+
 
 

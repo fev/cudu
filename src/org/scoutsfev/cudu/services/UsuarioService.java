@@ -1,6 +1,6 @@
 package org.scoutsfev.cudu.services;
 
-import org.scoutsfev.cudu.domain.Usuario;;
+import org.scoutsfev.cudu.domain.Usuario;
 
 public interface UsuarioService {
 

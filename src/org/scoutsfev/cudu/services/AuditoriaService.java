@@ -3,6 +3,7 @@ package org.scoutsfev.cudu.services;
 public interface AuditoriaService {
 	
 	public enum Operacion {
+		Acceder('R'),
 		Almacenar('M'),
 		Descartar('D'),
 		Autenticar('A');
