@@ -248,7 +248,7 @@ div#bd { padding-left: 20px; }
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
 
-<script src="<c:url value="/s/jquery/jquery-1.4.2.js" />"></script>
+<script src="<c:url value="/s/jquery/jquery-1.4.2.js" />" type="text/javascript"></script>
 <script type="text/javascript">
 cudu = {
 	back: function() {

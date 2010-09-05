@@ -22,7 +22,9 @@
     color: #fff;
 }
 
+.yui-skin-sam .yui-dt table { border-right: 0; }
 .yui-skin-sam .yui-dt td.yui-dt-last, .yui-skin-sam .yui-dt th.yui-dt-last { border-right: 0; }
+.yui-dt-hidden { display: none; }
 
 a#radioCualquierRama { background: transparent url('<c:url value="/s/theme/img/aramas.png" />') no-repeat 0px 0px;
 	width: 90px; height: 16px; margin-top: 6px; margin-left: 9px; text-decoration: none;  }
@@ -52,7 +54,7 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
       <img src="<c:url value="/s/theme/img/tango/select-column.png" />" />
       <span><fmt:message key="listados.tb.columnas" /></span>
     </a> --%>
-    <a href="#">
+    <a id="btnImprimir" href="#" target="_blank">
       <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
       <span><fmt:message key="listados.tb.imprimir" /></span>
     </a>
@@ -154,6 +156,8 @@ cudu.dom.chkTipoJ = document.getElementById('chkTipoJ');
 cudu.dom.chkTipoK = document.getElementById('chkTipoK');
 cudu.dom.chkTipoC = document.getElementById('chkTipoC');
 
+cudu.dom.btnImprimir = document.getElementById('btnImprimir');
+
 cudu.dom.codigosRamas = {
 	'radioColonia': 'C',
 	'radioManada': 'M',
@@ -173,7 +177,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
    		{ key: 'idGrupo', label: 'Grupo', sortable: true },
    		</sec:authorize>
-   		{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: true },
+   		{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: true }
    		/* 
    		grupo.nombre no se interpreta bien por YUI
    		{ key: "email", label: '<fmt:message key="listados.c.email" />', sortable: true, hidden: true },

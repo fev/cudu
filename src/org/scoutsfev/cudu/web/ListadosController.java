@@ -1,10 +1,11 @@
 package org.scoutsfev.cudu.web;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/listados")
 public class ListadosController {
+	
+	private static final int MAXRESULTS = 200;
 	
 	@Autowired
 	protected AsociadoService storage;
@@ -63,8 +66,7 @@ public class ListadosController {
 			@RequestParam(value = "f_rama", required = false) String filtroRama,
 			HttpServletRequest request) {
 		
-		HttpSession session = request.getSession();
-		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");
+		Usuario usuarioActual = Usuario.obtenerActual();
 
 		Grupo grupo = usuarioActual.getGrupo();
 		String idGrupo = (grupo == null ? null : grupo.getId());
@@ -75,5 +77,33 @@ public class ListadosController {
 				inicio, resultadosPorPágina, filtroTipo, filtroRama));
 		
 		return result;
+	}
+	
+	@RequestMapping(value = "/imprimir", method = RequestMethod.GET)
+	public String imprimir(Model model, @RequestParam("c") String columnas,
+			@RequestParam("s") String ordenadoPor,
+			@RequestParam(value = "d", defaultValue = "asc") String sentido,
+			@RequestParam(value = "f_tipo", required = false) String filtroTipo,
+			@RequestParam(value = "f_rama", required = false) String filtroRama,
+			HttpServletRequest request) {
+
+		Result<Asociado> result = listaAsociados(columnas, ordenadoPor, sentido, 0, MAXRESULTS, filtroTipo, filtroRama, request);
+		
+		Usuario usuarioActual = Usuario.obtenerActual();
+		String userStamp = usuarioActual.getNombreCompleto();
+		model.addAttribute("userStamp", userStamp);
+		
+		String[] lstColumnas = columnas.split(",");
+		model.addAttribute("columnas", lstColumnas);
+		model.addAttribute("numeroColumnas", lstColumnas.length);
+
+		model.addAttribute("asociados", result.data);
+		model.addAttribute("total", result.data.size());
+
+		Date timestamp = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS");
+		model.addAttribute("timestamp", dateFormat.format(timestamp));		
+
+		return "imprimir";
 	}
 }

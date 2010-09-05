@@ -61,10 +61,13 @@ cudu.ui.datatable.table = function(columnas) {
 	YAHOO.widget.DataTable.Formatter.rama = cudu.ui.datatable.translatedValueFormatterCtor(cudu.i8n.ramas);
 	YAHOO.widget.DataTable.Formatter.tipo = cudu.ui.datatable.translatedValueFormatterCtor(cudu.i8n.tipos);
 
-	this.buildColumnQuery = function(columnas) {
+	this.buildColumnQuery = function(columnas, honest) {
+		// TODO modificar, considerar columnas ocultas al imprimir
+		var _honest = honest || false;
+		console.log(_honest);
 		var sb = [];
 		for (var i = 0; i < columnas.length; i++) {
-			// if (!columnas[i].hidden)
+			// if (queryHidden (!columnas[i].hidden)
 			sb.push(columnas[i].key);
 		}
 		return 'c=' + sb.join(',');
@@ -104,8 +107,10 @@ cudu.ui.datatable.table = function(columnas) {
         		cudu.dom.tabla.filtros);
     };
 
+    var initialRequestUrl = cudu.ui.datatable.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros);
+    cudu.dom.btnImprimir.href = "listados/imprimir?" + initialRequestUrl;
     var tablecfg = {
-        initialRequest: cudu.ui.datatable.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros),
+        initialRequest: initialRequestUrl,
         generateRequest: this.requestBuilder,
         dynamicData: true,
         selectionMode: "standard",
@@ -128,6 +133,11 @@ cudu.ui.datatable.table = function(columnas) {
         window.location = 'asociado/' + e.record.getData().id; 
     });
 
+    // TODO, URL para imprimir
+    this.tabla.subscribe("dataReturnEvent", function(status, b) {
+    	cudu.dom.btnImprimir.href = "listados/imprimir?" + status.request;
+    });
+    
     // this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
     this.tabla.__showTableMessage = this.tabla.showTableMessage;
     this.tabla.showTableMessage = function(sHTML, sClassName) {
@@ -158,10 +168,10 @@ cudu.ui.datatable.table = function(columnas) {
             scope: this.tabla,
             argument: this.tabla.getState()
         };
-
-        this.dataSource.sendRequest(
-        	cudu.ui.datatable.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.dom.tabla.filtros), 
-        	oCallback);
+        
+        var requestUrl = cudu.ui.datatable.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.dom.tabla.filtros);
+        this.dataSource.sendRequest(requestUrl, oCallback);
+        cudu.dom.btnImprimir.href = "listados/imprimir?" + requestUrl;
     };
 };
 
@@ -181,7 +191,7 @@ cudu.filtrarPor = {
 		else
 			filtro.splice(indice, 1);
 		
-		console.log(filtro.join(','));
+		// console.log(filtro.join(','));
 		cudu.dom.tabla.reload();
 	},
 
