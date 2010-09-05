@@ -7,14 +7,11 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.scoutsfev.cudu.domain.Asociado;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 public class AsociadoServiceImpl 
 	extends StorageServiceImpl<Asociado> 
 	implements AsociadoService {
-	
-	@Autowired
-	protected AuditoriaService auditoria;
 	
 	private String componerFiltroTipo(String tipos) {
 		String filtroTipos = "";
@@ -91,6 +88,7 @@ public class AsociadoServiceImpl
 	}
 	
 	@Override
+	@Transactional
 	public Asociado merge(Asociado entity) {
 		Asociado persistedEntity = super.merge(entity);
 		auditoria.registrar(AuditoriaService.Operacion.Almacenar, AuditoriaService.Entidad.Asociado, persistedEntity.getId().toString());

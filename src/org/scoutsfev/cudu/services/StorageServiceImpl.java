@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class StorageServiceImpl<T> implements StorageService<T> {
 	
 	@PersistenceContext
 	protected EntityManager entityManager;
+	
+	@Autowired
+	protected AuditoriaService auditoria;
 	
 	@SuppressWarnings("unchecked")
 	public StorageServiceImpl() {
