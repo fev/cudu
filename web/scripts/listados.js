@@ -64,7 +64,7 @@ cudu.ui.datatable.table = function(columnas) {
 	this.buildColumnQuery = function(columnas, honest) {
 		// TODO modificar, considerar columnas ocultas al imprimir
 		var _honest = honest || false;
-		console.log(_honest);
+		// console.log(_honest);
 		var sb = [];
 		for (var i = 0; i < columnas.length; i++) {
 			// if (queryHidden (!columnas[i].hidden)
@@ -108,7 +108,7 @@ cudu.ui.datatable.table = function(columnas) {
     };
 
     var initialRequestUrl = cudu.ui.datatable.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros);
-    cudu.dom.btnImprimir.href = "listados/imprimir?" + initialRequestUrl;
+    // cudu.dom.btnImprimir.href = "listados/imprimir?" + initialRequestUrl;
     var tablecfg = {
         initialRequest: initialRequestUrl,
         generateRequest: this.requestBuilder,
@@ -171,7 +171,7 @@ cudu.ui.datatable.table = function(columnas) {
         
         var requestUrl = cudu.ui.datatable.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.dom.tabla.filtros);
         this.dataSource.sendRequest(requestUrl, oCallback);
-        cudu.dom.btnImprimir.href = "listados/imprimir?" + requestUrl;
+        // cudu.dom.btnImprimir.href = "listados/imprimir?" + requestUrl;
     };
 };
 

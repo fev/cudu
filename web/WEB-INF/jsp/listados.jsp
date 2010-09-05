@@ -50,10 +50,10 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
 		<img src="<c:url value="/s/theme/img/tango/edit-find.png" />" />
 		<span><fmt:message key="listados.tb.filtrar" /></span>
 	</a>
-    <%--<a href="#">
+    <a href="#">
       <img src="<c:url value="/s/theme/img/tango/select-column.png" />" />
       <span><fmt:message key="listados.tb.columnas" /></span>
-    </a> --%>
+    </a>
     <a id="btnImprimir" href="#" target="_blank">
       <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
       <span><fmt:message key="listados.tb.imprimir" /></span>
@@ -81,10 +81,13 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
         <label for="txtBusqueda" class="w2u">Búsqueda</label>
         <input id="txtBusqueda" class="textbox w3u" />
       </div>
-		<%--  <div class="field">
-        <label for="txtApellidos" class="w2u">Apellidos</label>
-        <input id="txtApellidos" class="textbox w3u" />
-      </div> --%>
+      <div class="field">
+      	<label class="w2u">Eliminados</label>
+      	<input id="radioVerEliminados" name="radioEliminados" class="radio" value="M" type="radio" />
+        <label for="radioVerEliminados" class="radio">Mostrar</label>
+        <input id="radioOcultarEliminados" name="radioEliminados" class="radio"  value="O" type="radio" checked="checked" />
+        <label for="radioOcultarEliminados" class="radio">Ocultar</label>
+      </div>
     </div>
     <div class="yui-g first">
       <div id="tc-filter-ramas" class="field">

@@ -36,7 +36,7 @@ td,th { padding: 3px 5px; }
 		<td><c:out value="${asociado[status.count-1]}" /> </td>
 	</c:forEach>--%>
 	<c:forEach var="i" begin="0" end="${numeroColumnas-1}">
-		<td><c:out value="${asociado[i]}" /></td>
+		<td><spring:escapeBody><c:out value="${asociado[i]}" /></spring:escapeBody></td>
 	</c:forEach>
 </tr>
 </c:forEach>
@@ -46,7 +46,7 @@ td,th { padding: 3px 5px; }
 <script type="text/javascript">
 $(document).ready(function() {
 	window.print();
-}
+});
 </script>
 </body>
 </html>
