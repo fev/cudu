@@ -120,6 +120,7 @@ public class Asociado implements Serializable {
 
 	private Boolean tieneseguroprivado;
 	private Boolean tienetutorlegal;
+	private Boolean padresdivorciados;
 
 	@Column(name = "madre_nombre")
 	@Size(max = 250)
@@ -480,5 +481,13 @@ public class Asociado implements Serializable {
 
 	public String getRamas() {
 		return ramas;
+	}
+
+	public void setPadresdivorciados(Boolean padresdivorciados) {
+		this.padresdivorciados = padresdivorciados;
+	}
+
+	public Boolean getPadresdivorciados() {
+		return padresdivorciados;
 	}
 }

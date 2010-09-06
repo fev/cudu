@@ -168,7 +168,7 @@ div#bd { padding-left: 20px; }
       <div class="field required">
         <form:checkbox id="checkTutorLegal" path="tienetutorlegal" cssClass="checkbox" title="Tutor legal" />
         <label for="checkTutorLegal" class="checkbox"><fmt:message key="asociado.f.tutorlegal" /></label>
-        <form:checkbox id="checkPadresSeparados" path="tienetutorlegal" cssClass="checkbox" title="Padres separados"  />
+        <form:checkbox id="checkPadresSeparados" path="padresdivorciados" cssClass="checkbox" title="Padres separados"  />
         <label for="checkPadresSeparados" class="checkbox"><fmt:message key="asociado.f.padresseparados" /></label>
       </div>
     </div>
