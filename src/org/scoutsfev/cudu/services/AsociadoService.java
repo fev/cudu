@@ -9,12 +9,12 @@ public interface AsociadoService
 
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
-			int resultadosPorPágina, String tipos, String ramas);
+			int resultadosPorPágina, String tipos, String ramas, boolean eliminados);
 	
 	public long count();
-	public long count(String idGrupo, String tipos, String ramas);
+	public long count(String idGrupo, String tipos, String ramas, boolean eliminados);
 	
 	public Asociado merge(Asociado entity);
-	
 	public Asociado find(String id);
+	public boolean delete(int id);
 }

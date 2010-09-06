@@ -72,9 +72,9 @@ public class ListadosController {
 		String idGrupo = (grupo == null ? null : grupo.getId());
 		
 		Result<Asociado> result = new Result<Asociado>();
-		result.setTotalRecords(storage.count(idGrupo, filtroTipo, filtroRama));
+		result.setTotalRecords(storage.count(idGrupo, filtroTipo, filtroRama, false));
 		result.setData(storage.findWhere(idGrupo, columnas, ordenadoPor, sentido, 
-				inicio, resultadosPorPágina, filtroTipo, filtroRama));
+				inicio, resultadosPorPágina, filtroTipo, filtroRama, false));
 		
 		return result;
 	}

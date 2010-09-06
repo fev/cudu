@@ -83,7 +83,7 @@ div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #f
       </div>
       <div class="field">
       	<label class="w2u">Eliminados</label>
-      	<input id="radioVerEliminados" name="radioEliminados" class="radio" value="M" type="radio" />
+      	<input id="radioVerEliminados" name="radioEliminados" disabled="disabled" class="radio" value="M" type="radio" />
         <label for="radioVerEliminados" class="radio">Mostrar</label>
         <input id="radioOcultarEliminados" name="radioEliminados" class="radio"  value="O" type="radio" checked="checked" />
         <label for="radioOcultarEliminados" class="radio">Ocultar</label>

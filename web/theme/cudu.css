@@ -137,6 +137,22 @@ a#radioPioneros.selected { background-position: -65px 0px !important }
 a#radioRutas { background-position: -87px -20px !important }
 a#radioRutas.selected { background-position: -87px 0px !important }
 
+/* Popup básico */
+.popupdlg { display:none; position: absolute; margin-left: -300px;
+	top: 150px; left: 50%; width: 600px; height: auto; /* 200px */ 
+	background: transparent url('img/onepixb.png') repeat 0 0;
+	-moz-border-radius: 10px; -webkit-border-radius: 10px; }
+.popupdlg div.yui-t7 { width:35.38em; *width:34.53em; min-width:460px; margin:auto; text-align:left; }
+.popupdlg .legend { margin-top: 20px; margin-bottom: 8px }
+.popupdlg .legend h1, .popupdlg .legend p { text-align:center; color:#FFF; }
+.popupdlg .legend p { margin-top: 15px }
+.popupdlg .content { margin-bottom: 20px }
+.rounded { margin-top: 10px } 
+.rounded a { display:block; height: auto; /*110px*/ text-decoration: none; border: 1px solid transparent; color: #FFF }
+.rounded a:hover { border: 1px solid #CCC; -moz-border-radius: 8px; -webkit-border-radius: 8px; }
+.rounded a img, .rounded a span { display: block; margin: 8px auto; }
+.rounded a span { text-align: center; font-size: 138.5% }
+
 /* YUI Fixes */
 div.yui-g.legend h2 { margin: 1em 0 0.3em 0; }
 div#doc { }

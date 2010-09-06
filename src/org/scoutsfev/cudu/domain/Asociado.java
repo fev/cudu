@@ -112,7 +112,7 @@ public class Asociado implements Serializable {
 
 	private String idGrupo;
 	
-	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name = "idGrupo", referencedColumnName = "id", insertable = false, updatable = false)
 	private Grupo grupo;
 	

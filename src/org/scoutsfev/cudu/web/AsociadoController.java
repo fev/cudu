@@ -10,6 +10,8 @@ import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.AsociadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,17 +41,25 @@ public class AsociadoController {
 			return "redirect:/404";
 		
 		// Comprobaciones de Seguridad
-//		HttpSession session = request.getSession();
-//		Usuario usuarioActual = (Usuario)session.getAttribute("usuarioActual");		
-//		Grupo grupoUsuario = usuarioActual.getGrupo();
-//		
-//		
-//		boolean esAdmin = false; // TODO SecurityContextHolder.getContext().getAuthentication()
-//		if (!esAdmin) {
-//			Grupo grupo = asociado.getGrupo();
-//			if ((grupo == null) || (grupo.getId() != grupoUsuario.getId()))
-//				return "redirect:/403";
-//		}
+		// TODO Mover comprobación a otro sitio
+		// Inicialmente, si puede acceder al asociado puede modificarlo
+		boolean esAdmin = false;
+		for (GrantedAuthority authority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
+			if (authority.getAuthority().equals("ROLE_ADMIN")) {
+				esAdmin = true;
+				break;
+			}
+		}
+		
+		if (!esAdmin) {
+			Usuario usuarioActual = Usuario.obtenerActual();
+			Grupo grupoUsuario = usuarioActual.getGrupo();
+			Grupo grupoAsociado = asociado.getGrupo();
+			if ((grupoAsociado == null) || (grupoUsuario == null) || (!grupoAsociado.getId().equals(grupoUsuario.getId()))) {
+				return "redirect:/403";
+			}
+		}
+		// END Comprobaciones de seguridad
 		
 		model.addAttribute("asociado", asociado);
 		return "asociado";
@@ -101,5 +111,12 @@ public class AsociadoController {
 		status.setComplete();
 		
 		return "redirect:/asociado/" + persistedEntity.getId() + "?ok";
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE)
+	public String eliminarAsociado(@PathVariable int idAsociado) {
+		logger.info("eliminarAsociado: " + idAsociado);
+		service.delete(idAsociado);		
+		return "redirect:/listados";
 	}
 }

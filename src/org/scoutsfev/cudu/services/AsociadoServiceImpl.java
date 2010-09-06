@@ -2,6 +2,7 @@ package org.scoutsfev.cudu.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.Query;
 
@@ -42,7 +43,7 @@ public class AsociadoServiceImpl
 	@SuppressWarnings("unchecked")
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
-			int resultadosPorPágina, String tipos, String ramas) {
+			int resultadosPorPágina, String tipos, String ramas, boolean eliminados) {
 		
 		// Filtrado por tipo de asociado (joven, kraal, comite)
 		String filtroTipos = componerFiltroTipo(tipos);
@@ -55,10 +56,11 @@ public class AsociadoServiceImpl
 		String filtroGrupo = "1 = 1 ";
 		if (idGrupo != null)
 			filtroGrupo = "idGrupo = :idGrupo ";
-
+		
 		Query query = this.entityManager
 			.createQuery("SELECT " + columnas + " FROM Asociado WHERE "
-					+ filtroGrupo + filtroTipos +	filtroRamas
+					+ filtroGrupo + filtroTipos + filtroRamas
+					+ (eliminados ? null : " AND fechaBaja IS NULL ")
 					+ " ORDER BY " + campoOrden + " " + sentidoOrden);
 		
 		if (idGrupo != null)
@@ -74,7 +76,7 @@ public class AsociadoServiceImpl
 			.getSingleResult();
 	}
 	
-	public long count(String idGrupo, String tipos, String ramas) {
+	public long count(String idGrupo, String tipos, String ramas, boolean eliminados) {
 		if (idGrupo == null)
 			return count();
 		
@@ -82,7 +84,9 @@ public class AsociadoServiceImpl
 		String filtroRamas = componerFiltroRamas(ramas);
 
 		return (Long) this.entityManager
-			.createQuery("SELECT COUNT(a) FROM Asociado a WHERE idGrupo = :idGrupo " + filtroRamas + filtroTipos)
+			.createQuery("SELECT COUNT(a) FROM Asociado a WHERE idGrupo = :idGrupo "
+					+ (eliminados ? null : " AND fechaBaja IS NULL ")
+					+ filtroRamas + filtroTipos)
 			.setParameter("idGrupo", idGrupo)
 			.getSingleResult();
 	}
@@ -101,5 +105,18 @@ public class AsociadoServiceImpl
 		Asociado asociado = super.find(id);
 		auditoria.registrar(AuditoriaService.Operacion.Acceder, AuditoriaService.Entidad.Asociado, id);
 		return asociado;
+	}
+
+	@Override
+	@Transactional
+	public boolean delete(int id) {
+		int n = this.entityManager
+			.createQuery("UPDATE Asociado SET fechaBaja = :fechaBaja WHERE id = :id")
+			.setParameter("fechaBaja", new Date())
+			.setParameter("id", id)
+			.executeUpdate();
+		
+		auditoria.registrar(AuditoriaService.Operacion.Descartar, AuditoriaService.Entidad.Asociado, Integer.toString(id) + ":" + n);
+		return (n == 1);
 	}
 }

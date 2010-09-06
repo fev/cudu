@@ -28,16 +28,7 @@ div#lblUsuario { font-size: 182% }
 div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 
 #lnkNuevoAsoc { cursor:pointer; }
-#poptaseg { display:none; position: absolute; margin-left: -300px;
-	top: 150px; left: 50%; width: 600px; height: 200px;  
-	background: transparent url('<c:url value="/s/theme/img/onepixb.png" />') repeat 0 0;
-	-moz-border-radius: 10px; -webkit-border-radius: 10px; }
-#poptaseg div.yui-t7 {width:35.38em;*width:34.53em;min-width:460px;margin:auto;text-align:left; } 
-.rounded { margin-top: 10px } 
-.rounded a { display:block; height: 110px; text-decoration: none; border: 1px solid transparent; color: #FFF }
-.rounded a:hover { border: 1px solid #CCC; -moz-border-radius: 8px; -webkit-border-radius: 8px; }
-.rounded a img, .rounded a span { display: block; margin: 8px auto; }
-.rounded a span { text-align: center; font-size: 138.5% }
+
 </style>
 </head>
 <body>
@@ -82,13 +73,13 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 </div>
 </div>
 
-<div id="poptaseg">
+<div id="poptaseg" class="popupdlg">
 <div class="yui-t7">
 <div class="bd">
-   <div class="yui-g legend" style="margin-top: 20px; margin-bottom: 8px">
+   <div class="yui-g legend">
       <h1 style="text-align:center; color:#FFF;"><fmt:message key="asociado.tipo.pregunta" /></h1>
    </div>
-   <div class="yui-gb" style="margin-bottom: 10px">
+   <div class="yui-gb content">
       <div class="yui-u first rounded">
         <a id="step1-a-joven" href="<c:url value="asociado/nuevo/joven" />">
           <img src="<c:url value="/s/theme/img/joven64.png" />" />
@@ -112,11 +103,14 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 </div>
 </div>
 
-<script src="<c:url value="/s/jquery/jquery-1.4.2.js" />"></script>
+<script src="<c:url value="/s/jquery/jquery-1.4.2.js" />" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#lnkNuevoAsoc").click(function () {
-		$("#poptaseg").fadeIn();	
+		/* var popup = $("#poptaseg");
+		var y = ($(window).height() / 2) - (popup.height() / 2);
+		popup.attr("style", "top: " + y + "px").fadeIn(); */
+		$("#poptaseg").fadeIn();
 	});
 });
 </script>

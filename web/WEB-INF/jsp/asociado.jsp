@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
 div#bd { padding-left: 20px; }
+<%-- a#btnDlg01Eliminar:hover { background-color: #500; } --%>
 </style>
 </head>
 <body>
@@ -234,7 +235,7 @@ div#bd { padding-left: 20px; }
   <div class="yui-g form-action">
     <div class="yui-g first">
    	<c:if test="${asociado.id > 0}">
-      <input type="submit" value="<fmt:message key="btn.eliminar" />" class="button delete" />
+      <input type="button" value="<fmt:message key="btn.eliminar" />" class="button delete" onclick="javascript:cudu.remove()" />
     </c:if>
     </div>
     <div class="yui-g">
@@ -248,11 +249,49 @@ div#bd { padding-left: 20px; }
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div>
 
+<div id="stddlg" class="popupdlg">
+<div class="yui-t7">
+<div class="bd">
+   <div class="yui-g legend">
+      <h1><fmt:message key="asociado.d.eliminar" /></h1>
+      <%-- <p>Recuerda que puedes recuperarlo posteriormente desde los listados.</p> --%>
+   </div>
+   <div class="yui-g content">
+      <div class="yui-u first rounded">
+      	<form:form id="frmEliminar" method="delete">
+        <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
+          <span><fmt:message key="btn.eliminar" /></span>
+        </a>
+		</form:form>
+      </div>
+      <div class="yui-u rounded">
+        <a id="btnDlg01Cancelar" href="javascript:$('#stddlg').fadeOut(200)">
+          <span><fmt:message key="btn.cancelar" /></span>
+        </a>
+      </div>
+    </div>
+ </div>
+</div>
+</div>
+
 <script src="<c:url value="/s/jquery/jquery-1.4.2.js" />" type="text/javascript"></script>
 <script type="text/javascript">
+jQuery.fn.center = function() {
+	return this.each(function() {
+		var e = jQuery(this);
+		var offset = e.offset();
+		var y = (offset.top + $(window).height() / 2) - (e.height() / 2);
+		e.attr("style", "top: " + y + "px");
+	});
+};
+
 cudu = {
 	back: function() {
 		document.location = '<c:url value="/dashboard" />'; 
+	},
+
+	remove: function() {		
+		$("#stddlg").center().fadeIn();
 	},
 
 	ui: {
