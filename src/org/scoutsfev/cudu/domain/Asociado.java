@@ -119,8 +119,12 @@ public class Asociado implements Serializable {
 	private char tipo;
 
 	private Boolean tieneseguroprivado;
-	private Boolean tienetutorlegal;
-	private Boolean padresdivorciados;
+	
+	@Column(nullable = false, columnDefinition = "boolean default false")
+	private Boolean tienetutorlegal = false;
+	
+	@Column(nullable = false, columnDefinition = "boolean default false")
+	private Boolean padresdivorciados = false;
 
 	@Column(name = "madre_nombre")
 	@Size(max = 250)
