@@ -24,6 +24,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Formula;
+import org.hibernate.validator.constraints.Email;
 
 @Entity
 public class Asociado implements Serializable {
@@ -87,8 +88,8 @@ public class Asociado implements Serializable {
 	@Column(nullable = true)
 	@Size(max=9)
 	private String dni;
-	
-	// @Pattern
+
+	@Email
 	@Size(max = 100)
 	private String email;
 
@@ -136,7 +137,7 @@ public class Asociado implements Serializable {
 
 	@Column(name = "madre_email")
 	@Size(max = 100)
-	//@Pattern(regexp = "")
+	@Email
 	private String madreEmail;
 
 
@@ -150,7 +151,7 @@ public class Asociado implements Serializable {
 
 	@Column(name = "padre_email")
 	@Size(max = 100)
-	//@Pattern(regexp = "")
+	@Email
 	private String padreEmail;
 	
 	@Embedded

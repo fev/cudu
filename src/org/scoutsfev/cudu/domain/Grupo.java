@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
+
 @Entity
 public class Grupo implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -63,6 +65,7 @@ public class Grupo implements Serializable {
 	@Size(max = 15)
 	private String telefono2;
 	
+	@Email
 	@NotNull
 	@Size(min = 6, max = 100)
 	private String email;

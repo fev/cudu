@@ -104,6 +104,7 @@ public class AsociadoController {
 		
 		if (result.hasErrors()) {
 			logger.info("Validation errors.");
+			//	for(ObjectError error: result.getAllErrors()) logger.info(error.getCode());
 			return "asociado";
 		}
 

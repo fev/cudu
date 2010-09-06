@@ -140,11 +140,11 @@ div#bd { padding-left: 20px; }
     <div class="yui-g">
       <div class="field">
         <label for="txtTelefono"><fmt:message key="asociado.f.telefonocasa" /></label>
-        <form:input id="txtTelefono" path="telefonocasa" cssClass="textbox w3u" />
+        <form:input id="txtTelefono" path="telefonocasa" cssClass="textbox w3u" maxlength="15" />
       </div>
       <div class="field">
         <label for="txtMovil"><fmt:message key="asociado.f.telefonomovil" /></label>
-        <form:input id="txtMovil" path="telefonomovil" cssClass="textbox w3u" />
+        <form:input id="txtMovil" path="telefonomovil" cssClass="textbox w3u" maxlength="15" />
       </div>
       <div class="field">
         <label for="txtMail"><fmt:message key="asociado.f.email" /></label>
@@ -182,7 +182,7 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field">
         <label for="txtPadreTel"><fmt:message key="asociado.f.datospadres.telefono" /></label>
-        <form:input id="txtPadreTel" path="padreTelefono" cssClass="textbox w3u" />
+        <form:input id="txtPadreTel" path="padreTelefono" cssClass="textbox w3u" maxlength="15" />
       </div>
       <div class="field">
         <label for="txtPadreMail"><fmt:message key="asociado.f.datospadres.email" /></label>
@@ -197,7 +197,7 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field">
         <label for="txtMadreTel"><fmt:message key="asociado.f.datospadres.telefono" /></label>
-        <form:input id="txtMadreTel" path="madreTelefono" cssClass="textbox w3u" />
+        <form:input id="txtMadreTel" path="madreTelefono" cssClass="textbox w3u" maxlength="15" />
       </div>
       <div class="field">
         <label for="txtMadreMail"><fmt:message key="asociado.f.datospadres.email" /></label>
@@ -350,7 +350,6 @@ function dbgcopy() {
 	$('#txtCodigoPostal')[0].value = '46015';
 	$('#txtProvincia')[0].value = "Valencia";
 	$('#txtMunicipio')[0].value = "Valencia";
-		
 }
 </script>
 </body>
