@@ -1,7 +1,5 @@
-#Thu Aug 19 13:48:46 CEST 2010
+#Tue Sep 07 12:11:06 CEST 2010
 eclipse.preferences.version=1
-encoding//web/WEB-INF/classes/messages.properties=UTF-8
-encoding//web/WEB-INF/classes/messages_ca.properties=UTF-8
-encoding//web/WEB-INF/classes/messages_es.properties=UTF-8
+encoding//src/messages_es.properties=ISO-8859-1
 encoding//web/WEB-INF/jsp/header.jsp=UTF-8
 encoding/<project>=UTF-8

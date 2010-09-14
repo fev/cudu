@@ -4,8 +4,7 @@ import java.util.Collection;
 
 import org.scoutsfev.cudu.domain.Asociado;
 
-public interface AsociadoService 
-	extends StorageService<Asociado> {
+public interface AsociadoService {
 
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
@@ -15,6 +14,6 @@ public interface AsociadoService
 	public long count(String idGrupo, String tipos, String ramas, boolean eliminados);
 	
 	public Asociado merge(Asociado entity);
-	public Asociado find(String id);
+	public Asociado find(Integer id);
 	public boolean delete(int id);
 }

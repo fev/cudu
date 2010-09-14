@@ -1,25 +1,26 @@
 package org.scoutsfev.cudu.services;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import org.scoutsfev.cudu.dao.UsuarioDAO;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository
+@Service("usuarioService")
+@Transactional(rollbackFor={java.lang.Exception.class},isolation=Isolation.READ_COMMITTED)
 public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 	
-	@PersistenceContext
-	protected EntityManager entityManager;
+	@Autowired
+	private UsuarioDAO usuarioDAO;
 	
 	public Usuario find(String username) {
-		return entityManager.find(Usuario.class, username);
+		return usuarioDAO.loadWithAuthorities(username);
 	}
 
 	/**
@@ -31,7 +32,6 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 	 * @return Objeto Usuario cargado desde BBDD.
 	 * @see http://bit.ly/9AxtUh
 	 */
-	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException, DataAccessException {
@@ -39,14 +39,6 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 		Usuario usuario = find(username);
 		if (usuario == null)
 			throw new UsernameNotFoundException("No se encontró el usuario con el nombre " + username);
-		
-		/* SuperHack!
-		 * Se marca el método como transaccional y se llama a size()
-		 * para que la colección se rellene sin producir una excepción
-		 * posteriormente, ya que el contexto se pierde al saltar a
-		 * j_spring_security_check.
-		 */
-		usuario.getAuthorities().size();
 		
 		return usuario;
 	}

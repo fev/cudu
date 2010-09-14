@@ -9,19 +9,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-		http://www.springframework.org/schema/jee
-		http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
-		http://www.springframework.org/schema/tx
-		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 	<!-- Búsqueda automática de controladores anotados -->
 	<context:component-scan base-package="org.scoutsfev.cudu.web" />
+	<context:component-scan base-package="org.scoutsfev.cudu.dao" />
+	<context:component-scan base-package="org.scoutsfev.cudu.services" />
 	
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="cacheSeconds" value="0" />
@@ -73,43 +70,5 @@
 				<value>classpath:messages</value>
 			</list>
 		</property>
-	</bean>
-	
-	<!-- Persistencia -->
-	<context:annotation-config />
-	
-	<!-- Beans -->
-	<bean id="grupoService" class="org.scoutsfev.cudu.services.GrupoServiceImpl" />
-    <bean id="usuarioService" class="org.scoutsfev.cudu.services.UsuarioServiceImpl" />
-    <bean id="asociadoService" class="org.scoutsfev.cudu.services.AsociadoServiceImpl" />
-
-	<!-- Beans para auditoria, Redis -->
-    <bean id="redisServiceLocator" class="org.scoutsfev.cudu.services.RedisServiceLocator" />
-    <bean id="redisService" factory-bean="redisServiceLocator" factory-method="createRedisServiceInstance" />
-    <bean id="auditoriaService" class="org.scoutsfev.cudu.services.AuditoriaServiceRedisImpl" />
-	
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-	    <property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost/cudu" />
-		<property name="username" value="postgres" />
-		<property name="password" value="test" />
-	</bean>
-
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="CuduPersistenceUnit" />
-		<property name="dataSource" ref="dataSource" />
-		<property name="jpaVendorAdapter">
-			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="databasePlatform" value="org.hibernate.dialect.PostgreSQLDialect" />
-				<property name="showSql" value="true" />
-			</bean>
-		</property>
-	</bean>
-	
-	<!-- Transaccionalidad -->
-	<tx:annotation-driven />
-	
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 </beans>

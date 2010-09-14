@@ -495,4 +495,16 @@ public class Asociado implements Serializable {
 	public Boolean getPadresdivorciados() {
 		return padresdivorciados;
 	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
+
+	public void setMadreTelefono(String madreTelefono) {
+		this.madreTelefono = madreTelefono;
+	}
+
+	public void setPadreTelefono(String padreTelefono) {
+		this.padreTelefono = padreTelefono;
+	}
 }

@@ -17,6 +17,7 @@
 		<param-value>
 			/WEB-INF/cudu-servlet.xml
            	/WEB-INF/security-applicationContext.xml
+           	/WEB-INF/datasource-config.xml
         </param-value>
 	</context-param>
 
@@ -48,13 +49,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
-	<jsp-config>
-		<taglib>
-			<taglib-uri>/spring</taglib-uri>
-			<taglib-location>/WEB-INF/tld/spring-form.tld</taglib-location>
-		</taglib>
-	</jsp-config>
 
 	<filter>
 		<filter-name>encoding-filter</filter-name>

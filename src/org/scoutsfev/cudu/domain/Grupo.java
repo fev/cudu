@@ -80,7 +80,7 @@ public class Grupo implements Serializable {
 	
 	@Column(name = "jpa_version")
     @Version
-    private int version;
+    private int version = 0;
 
 	public String getId() {
 		return id;

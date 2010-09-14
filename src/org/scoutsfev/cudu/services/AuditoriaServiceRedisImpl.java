@@ -27,7 +27,6 @@ public class AuditoriaServiceRedisImpl implements AuditoriaService {
 			this.entry = entry;
 		}
 		
-		@Override
 		public void run() {		
 			try {
 				redisService.lpush(LISTNAME, entry);
@@ -37,7 +36,6 @@ public class AuditoriaServiceRedisImpl implements AuditoriaService {
 		}
 	}
 	
-	@Override
 	public void registrar(Operacion operacion, Entidad entidad, String pk) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmss");
 		String fecha = dateFormat.format(new Date());

@@ -1,122 +1,80 @@
 package org.scoutsfev.cudu.services;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.Query;
-
-import org.apache.commons.lang.StringUtils;
+import org.scoutsfev.cudu.dao.AsociadoDAO;
 import org.scoutsfev.cudu.domain.Asociado;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class AsociadoServiceImpl 
-	extends StorageServiceImpl<Asociado> 
-	implements AsociadoService {
+@Service("asociadoService")
+public class AsociadoServiceImpl implements AsociadoService {
 	
-	private String componerFiltroTipo(String tipos) {
-		String filtroTipos = "";
-		if (!StringUtils.isBlank(tipos)) {
-			// dirtySuperHack!
-			filtroTipos = " AND tipo IN ('" + tipos.replace(",", "','") + "') ";
-		}
-		return filtroTipos;
-	}
+	@Autowired
+	private AsociadoDAO asociadoDAO;
+	
+	@Autowired
+	protected AuditoriaService auditoria;
 
-	private String componerFiltroRamas(String ramas) {
-		String filtroRamas = "";
-		if (!StringUtils.isBlank(ramas)) {
-			ArrayList<String> arr = new ArrayList<String>();
-			for (char rama : ramas.toCharArray()) {
-				if (rama == 'C') { arr.add("rama_colonia = true"); continue; }
-				if (rama == 'M') { arr.add("rama_manada = true"); continue; }
-				if (rama == 'E') { arr.add("rama_exploradores = true"); continue; }
-				if (rama == 'P') { arr.add("rama_pioneros = true"); continue; }
-				if (rama == 'R') { arr.add("rama_rutas = true"); continue; }
-			}
-			if (arr.size() > 0)
-				filtroRamas = " AND (" + StringUtils.join(arr.toArray(), " OR ") + ")"; 
-		}
-		return filtroRamas;
-	}
-
-	@SuppressWarnings("unchecked")
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
-			int resultadosPorPágina, String tipos, String ramas, boolean eliminados) {
+			int resultadosPorPágina, String tipos, String ramas) {
 		
-		// Filtrado por tipo de asociado (joven, kraal, comite)
-		String filtroTipos = componerFiltroTipo(tipos);
-		
-		// Filtrado por rama
-		String filtroRamas = componerFiltroRamas(ramas);
-		
-		// Filtro por grupo, implícito,
-		// en usuarios de administración viene a null.
-		String filtroGrupo = "1 = 1 ";
-		if (idGrupo != null)
-			filtroGrupo = "idGrupo = :idGrupo ";
-		
-		Query query = this.entityManager
-			.createQuery("SELECT " + columnas + " FROM Asociado WHERE "
-					+ filtroGrupo + filtroTipos + filtroRamas
-					+ (eliminados ? null : " AND fechaBaja IS NULL ")
-					+ " ORDER BY " + campoOrden + " " + sentidoOrden);
-		
-		if (idGrupo != null)
-			query.setParameter("idGrupo", idGrupo);
-		
-		return query.setFirstResult(inicio).setMaxResults(resultadosPorPágina).getResultList();
+		return asociadoDAO.findWhere(idGrupo, columnas, campoOrden, sentidoOrden, 
+				inicio, resultadosPorPágina, tipos, ramas);
 	}
 
 	public long count() {
 		// TODO Substituir por tabla donde se guarde el recuento para acelerar el COUNT de PostgreSQL.
-		return (Long) this.entityManager
-			.createQuery("SELECT COUNT(a) FROM Asociado a")
-			.getSingleResult();
+		return asociadoDAO.count();
 	}
 	
-	public long count(String idGrupo, String tipos, String ramas, boolean eliminados) {
+	public long count(String idGrupo, String tipos, String ramas) {
 		if (idGrupo == null)
 			return count();
 		
-		String filtroTipos = componerFiltroTipo(tipos);
-		String filtroRamas = componerFiltroRamas(ramas);
-
-		return (Long) this.entityManager
-			.createQuery("SELECT COUNT(a) FROM Asociado a WHERE idGrupo = :idGrupo "
-					+ (eliminados ? null : " AND fechaBaja IS NULL ")
-					+ filtroRamas + filtroTipos)
-			.setParameter("idGrupo", idGrupo)
-			.getSingleResult();
+		return asociadoDAO.count(idGrupo, tipos, ramas);
 	}
 	
-	@Override
-	@Transactional
 	public Asociado merge(Asociado entity) {
-		Asociado persistedEntity = super.merge(entity);
+		Asociado persistedEntity = asociadoDAO.merge(entity);
 		auditoria.registrar(AuditoriaService.Operacion.Almacenar, AuditoriaService.Entidad.Asociado, persistedEntity.getId().toString());
 		return persistedEntity;
 	}
 
-	
-	@Override
-	public Asociado find(String id) {
-		Asociado asociado = super.find(id);
-		auditoria.registrar(AuditoriaService.Operacion.Acceder, AuditoriaService.Entidad.Asociado, id);
+	public Asociado find(Integer id) {
+		Asociado asociado = asociadoDAO.find(id);
+		auditoria.registrar(AuditoriaService.Operacion.Acceder, AuditoriaService.Entidad.Asociado, ""+id);
 		return asociado;
 	}
 
-	@Override
-	@Transactional
+	public Collection<Asociado> findWhere(String idGrupo, String columnas,
+			String campoOrden, String sentidoOrden, int inicio,
+			int resultadosPorPágina, String tipos, String ramas,
+			boolean eliminados) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public long count(String idGrupo, String tipos, String ramas,
+			boolean eliminados) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 	public boolean delete(int id) {
-		int n = this.entityManager
-			.createQuery("UPDATE Asociado SET fechaBaja = :fechaBaja WHERE id = :id")
-			.setParameter("fechaBaja", new Date())
-			.setParameter("id", id)
-			.executeUpdate();
 		
-		auditoria.registrar(AuditoriaService.Operacion.Descartar, AuditoriaService.Entidad.Asociado, Integer.toString(id) + ":" + n);
-		return (n == 1);
+		Asociado asociado = asociadoDAO.find(id);
+		int n=0;
+		if( asociado != null ){
+			n=1;
+		}
+		asociado.setFechabaja(new Timestamp(new Date().getTime()));
+		auditoria.registrar(AuditoriaService.Operacion.Descartar, AuditoriaService.Entidad.Asociado, asociado.getId()+":"+n);
+		asociadoDAO.save(asociado);
+		
+		return n==1;
 	}
 }
