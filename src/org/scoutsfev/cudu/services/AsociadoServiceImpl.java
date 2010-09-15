@@ -20,10 +20,10 @@ public class AsociadoServiceImpl implements AsociadoService {
 
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
-			int resultadosPorPágina, String tipos, String ramas) {
+			int resultadosPorPagina, String tipos, String ramas) {
 		
 		return asociadoDAO.findWhere(idGrupo, columnas, campoOrden, sentidoOrden, 
-				inicio, resultadosPorPágina, tipos, ramas);
+				inicio, resultadosPorPagina, tipos, ramas);
 	}
 
 	public long count() {
@@ -52,7 +52,7 @@ public class AsociadoServiceImpl implements AsociadoService {
 
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
-			int resultadosPorPágina, String tipos, String ramas,
+			int resultadosPorPagina, String tipos, String ramas,
 			boolean eliminados) {
 		// TODO Auto-generated method stub
 		return null;

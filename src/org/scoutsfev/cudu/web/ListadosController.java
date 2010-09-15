@@ -61,7 +61,7 @@ public class ListadosController {
 			@RequestParam("s") String ordenadoPor,
 			@RequestParam(value = "d", defaultValue = "asc") String sentido,
 			@RequestParam(value = "i", defaultValue = "0") int inicio,
-			@RequestParam(value = "r", defaultValue = "10") int resultadosPorPágina,
+			@RequestParam(value = "r", defaultValue = "10") int resultadosPorPagina,
 			@RequestParam(value = "f_tipo", required = false) String filtroTipo,
 			@RequestParam(value = "f_rama", required = false) String filtroRama,
 			HttpServletRequest request) {
@@ -74,7 +74,7 @@ public class ListadosController {
 		Result<Asociado> result = new Result<Asociado>();
 		result.setTotalRecords(storage.count(idGrupo, filtroTipo, filtroRama, false));
 		result.setData(storage.findWhere(idGrupo, columnas, ordenadoPor, sentido, 
-				inicio, resultadosPorPágina, filtroTipo, filtroRama, false));
+				inicio, resultadosPorPagina, filtroTipo, filtroRama, false));
 		
 		return result;
 	}

@@ -29,7 +29,7 @@ public class AsociadoDAOHibernate extends GenericDAOHibernateObject<Asociado, In
 	@SuppressWarnings("unchecked")
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
-			int resultadosPorPágina, String tipos, String ramas) {
+			int resultadosPorPagina, String tipos, String ramas) {
 		
 		// Filtrado por tipo de asociado (joven, kraal, comite)
 		String filtroTipos = componerFiltroTipo(tipos);
@@ -51,7 +51,7 @@ public class AsociadoDAOHibernate extends GenericDAOHibernateObject<Asociado, In
 		if (idGrupo != null)
 			query.setParameter("idGrupo", idGrupo);
 		
-		List<Asociado> lasociados = query.setFirstResult(inicio).setMaxResults(resultadosPorPágina).list();
+		List<Asociado> lasociados = query.setFirstResult(inicio).setMaxResults(resultadosPorPagina).list();
 		session.close();
 		
 		return lasociados;
