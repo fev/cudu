@@ -1,96 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.scoutsfev.cudu</groupId>
-	<artifactId>cudu</artifactId>
-	<name>Cudu</name>
-	<packaging>war</packaging>
-	<version>1.0.0.RC1</version>
-	<properties>
-	  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.springframework.version>3.0.3.RELEASE</org.springframework.version>
-	  <org.springframework.security.version>3.0.3.RELEASE</org.springframework.security.version>
-		<org.slf4j.version>1.5.10</org.slf4j.version>
-		<log4j.version>1.2.16</log4j.version>
-		<org.postgresql.version>8.3.604</org.postgresql.version>
-		<org.codehaus.jackson.mapper>1.4.3</org.codehaus.jackson.mapper>
-		<org.aspectj>1.6.5.RELEASE</org.aspectj>
-	</properties>
-	<dependencies>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.scoutsfev.cudu</groupId>
+  <artifactId>cudu</artifactId>
+  <name>Cudu</name>
+  <packaging>war</packaging>
+  <version>1.0.0.RC1</version>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <org.springframework.version>3.0.3.RELEASE</org.springframework.version>
+    <org.springframework.security.version>3.0.3.RELEASE</org.springframework.security.version>
+    <org.slf4j.version>1.5.10</org.slf4j.version>
+    <log4j.version>1.2.16</log4j.version>
+    <org.postgresql.version>8.3.604</org.postgresql.version>
+    <org.codehaus.jackson.mapper>1.4.3</org.codehaus.jackson.mapper>
+    <org.aspectj>1.6.5.RELEASE</org.aspectj>
+  </properties>
+  
+  <organization>
+    <name>Federació d'Escoltisme Valencià</name>
+    <url>http://www.scoutsfev.org</url>
+  </organization>
+  
+  <licenses>
+    <license>
+      <name>GNU General Public License, Version 3</name>
+      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+      <distribution>manual</distribution>
+    </license>
+  </licenses>
+  
+  <dependencies>
 
-
-		<!--Spring -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${org.springframework.version}</version>
-			<exclusions>
-				<!-- Exclude Commons Logging in favor of SLF4j -->
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				 </exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
+    <!--Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>${org.springframework.version}</version>
+      <exclusions>
+        <!-- Exclude Commons Logging in favor of SLF4j -->
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+         </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${org.springframework.version}</version>
+    </dependency>
 
     <!-- Spring Security -->
-		<dependency>
+    <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>org.springframework.security.config</artifactId>
-			<version>${org.springframework.security.version}</version>
+      <version>${org.springframework.security.version}</version>
     </dependency>
     
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>org.springframework.security.core</artifactId>
-			<version>${org.springframework.security.version}</version>
+      <version>${org.springframework.security.version}</version>
     </dependency>
     
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>org.springframework.security.taglibs</artifactId>
-			<version>${org.springframework.security.version}</version>
+      <version>${org.springframework.security.version}</version>
     </dependency>
     
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>org.springframework.security.web</artifactId>
-			<version>${org.springframework.security.version}</version>
+      <version>${org.springframework.security.version}</version>
     </dependency>
 
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${org.slf4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${org.slf4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${org.slf4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		
-		<!-- Persistence -->
-		<dependency>
+    <!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${org.slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>${org.slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${org.slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>${log4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    
+    <!-- Persistence -->
+    <dependency>
         <groupId>javax.persistence</groupId>
         <artifactId>com.springsource.javax.persistence</artifactId>
         <version>1.0.0</version>
@@ -123,20 +136,20 @@
         <version>3.4.0.GA</version>
     </dependency>
 
-		<!--  JSR 303 with Hibernate Validator -->
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>4.0.2.GA</version>
-		</dependency>
-		
-		<!-- PostgreSQL -->
-		<dependency>
+    <!--  JSR 303 with Hibernate Validator -->
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>1.0.0.GA</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>4.0.2.GA</version>
+    </dependency>
+    
+    <!-- PostgreSQL -->
+    <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>com.springsource.org.postgresql.jdbc4</artifactId>
         <version>${org.postgresql.version}</version>
@@ -208,65 +221,44 @@
         <version>1.1.2</version>
     </dependency>
 
-		<!--  Joda Time -->
-    <!-- <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>1.6</version>
-      <scope>runtime</scope>
+    <!-- Servlet -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time-jsptags</artifactId>
-      <version>1.0.2</version>
-      <scope>runtime</scope>
-    </dependency> -->
+      <groupId>javax.servlet.jsp</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+    
+    <!-- JRedis (desde el repo de Cudú) -->
+    <dependency>
+      <groupId>org.jredis</groupId>
+      <artifactId>jredis</artifactId>
+      <version>1.0-rc2</version>
+    </dependency>
 
-		<!--  URL Rewrite -->
-    <!-- <dependency>
-      <groupId>org.tuckey</groupId>
-      <artifactId>urlrewritefilter</artifactId>
-      <version>3.1.0</version>
-    </dependency> -->
+    <!-- Test -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.7</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-		<!-- Servlet -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
-		
-		<!-- JRedis (desde el repo de Cudú) -->
-		<dependency>
-		  <groupId>org.jredis</groupId>
-			<artifactId>jredis</artifactId>
-			<version>1.0-rc2</version>
-		</dependency>
-
-		<!-- Test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.7</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
-	<repositories>	  
-	  <!-- SpringSource Repositories -->
-	  <repository>
+  <repositories>    
+    <!-- SpringSource Repositories -->
+    <repository>
         <id>com.springsource.repository.bundles.release</id>
         <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
         <url>http://repository.springsource.com/maven/bundles/release</url>
@@ -276,55 +268,48 @@
         <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
         <url>http://repository.springsource.com/maven/bundles/external</url>
     </repository>
-	  
-		<!-- For Hibernate Validator -->
-		<repository>
-			<id>org.jboss.repository.release</id>
-			<name>JBoss Maven Release Repository</name>			
-			<url>https://repository.jboss.org/nexus/content/repositories/releases</url>
-			<snapshots><enabled>false</enabled></snapshots>			
-		</repository>
-		
-		<!-- Cudu SVN Repo (non-resolved dependencies) -->
-	  <repository>
-			<id>org.scoutsfev.cudu.repository</id>
-			<name>Cudu SVN Repository</name>			
-			<url>http://cudu.googlecode.com/svn/repository</url>			
-		</repository>
-	</repositories>
+    
+    <!-- For Hibernate Validator -->
+    <repository>
+      <id>org.jboss.repository.release</id>
+      <name>JBoss Maven Release Repository</name>     
+      <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+      <snapshots><enabled>false</enabled></snapshots>     
+    </repository>
+    
+    <!-- Cudu SVN Repo (non-resolved dependencies) -->
+    <repository>
+      <id>org.scoutsfev.cudu.repository</id>
+      <name>Cudu SVN Repository</name>      
+      <url>http://cudu.googlecode.com/svn/repository</url>      
+    </repository>
+  </repositories>
 
-	<build>
-		<plugins> 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<showWarnings>true</showWarnings>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
-      <!-- <plugin>
+  <build>
+    <plugins> 
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
+        <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <warName>mvc-basic</warName>
+          <source>1.6</source>
+          <target>1.6</target>
+          <showWarnings>true</showWarnings>
+          <encoding>UTF-8</encoding>
         </configuration>
-      </plugin> -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>install</id>
-						<phase>install</phase>
-						<goals>
-							<goal>sources</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>install</id>
+            <phase>install</phase>
+            <goals>
+              <goal>sources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
