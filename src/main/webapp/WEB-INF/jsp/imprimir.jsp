@@ -1,6 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="taglibs.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><fmt:message key="app.title" /></title>
@@ -15,7 +16,7 @@ td,th { padding: 3px 5px; }
 
 <div style="border: 1px solid #CCC; padding: 5px; padding-top: 6px; margin-bottom: 2px; height: 15px">
 <img src="<c:url value="/s/theme/favicon.png" />" style="float:left; margin-right: 5px" />
-<div style="float:left;"><strong>Cudú</strong></div>
+<div style="float:left;"><strong>CudÃº</strong></div>
 <div style="float:right"><c:out value="${userStamp}" /> - <c:out value="${timestamp}" /> - Total: <c:out value="${total}" /></div>
 </div>
 <table border="1" style="border-collapse: collapse; border: 1px solid #333; width: 100%">
