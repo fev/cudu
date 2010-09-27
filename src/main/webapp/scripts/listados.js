@@ -10,6 +10,8 @@ if (typeof cudu == "undefined" || !cudu) {
 
 (function() {
 
+cudu.noop = function() { };
+	
 cudu.ui.datatable.phoneFormatter = function(elLiner, oRecord, oColumn, oData) {
 	if (oData == null) return;
 	
@@ -52,14 +54,79 @@ cudu.ui.datatable.buildQuery = function(queryColumnas, campoOrden, orden, inicio
 	+ '&f_rama=' + filtros.rama.join(',')
 };
 
-cudu.ui.datatable.table = function(columnas) {
-	var cfg = {
-		filasPorPagina : 15
-	};
+cudu.ui.datatable.panelSeleccionColumnas = function(columnas) {
+	var overlaySC = new YAHOO.widget.Overlay("overlaySelectorColumnas", {  visible: false, 
+		context:["btnSelectorColumnas","tl","bl", ["beforeShow", "windowResize"]],
+		effect: { effect: YAHOO.widget.ContainerEffect.FADE, duration:0.25 } 
+	});
+	
+	var anchor;
+	var fragment = document.createDocumentFragment();
+	for	(var i = 0; i < columnas.length; i++) {
+		anchor = document.createElement('a');
+		anchor.columnKey = columnas[i].key;
+		anchor.setAttribute('href', 'javascript:cudu.noop()');
+		if (!columnas[i].hidden || columnas[i].hidden == false) { anchor.setAttribute('class', 'sel'); }
+		anchor.innerHTML = columnas[i].label;
+		fragment.appendChild(anchor);
+	}
+	
+	var body = document.createElement('div');
+	body.setAttribute('class', 'yui-g');
+	body.appendChild(fragment);
+	overlaySC.setBody(body);
+	overlaySC.setFooter("<a id='btnSCCerrar' href='javascript:cudu.noop()'>Cerrar</a>");
+	overlaySC.render(document.body);
+	overlaySC.isVisible = false;
+	
+	YAHOO.util.Event.delegate(body, "click", function (event, element, container) {
+		if (YAHOO.util.Dom.hasClass(element, "sel")) {
+			YAHOO.util.Dom.removeClass(element, "sel");
+			cudu.dom.tabla.tabla.hideColumn(element.columnKey);
+//			cudu.dom.tabla.toogleColumn(element.columnKey, false);
+		}
+		else {
+			YAHOO.util.Dom.addClass(element, "sel");
+			cudu.dom.tabla.tabla.showColumn(element.columnKey);
+//			cudu.dom.tabla.toogleColumn(element.columnKey, true);
+		}
+//		cudu.dom.tabla.reload();
+//		cudu.dom.tabla.tabla.insertColumn(element.columnKey); 
+	}, "a");
+    
+	overlaySC.subscribe("show", function() { YAHOO.util.Dom.addClass('btnSelectorColumnas', 'selected'); this.isVisible = true; });
+	overlaySC.subscribe("hide", function() { YAHOO.util.Dom.removeClass('btnSelectorColumnas', 'selected'); this.isVisible = false; });
+	YAHOO.util.Event.addListener('btnSCCerrar', 'click', function() { overlaySC.hide(); });
+    YAHOO.util.Event.addListener('btnSelectorColumnas', 'click', function() {
+    	if (overlaySC.isVisible == true)
+    		overlaySC.hide();
+    	else
+    		overlaySC.show();
+    });
+    
+    return overlaySC;
+};
+
+cudu.ui.datatable.table = function(cfg) {
+	var columnas = cfg.columnas;
+	cfg.filasPorPagina = cfg.filasPorPagina || 12;
 
     YAHOO.widget.DataTable.Formatter.telefono = cudu.ui.datatable.phoneFormatter;
 	YAHOO.widget.DataTable.Formatter.rama = cudu.ui.datatable.translatedValueFormatterCtor(cudu.i8n.ramas);
 	YAHOO.widget.DataTable.Formatter.tipo = cudu.ui.datatable.translatedValueFormatterCtor(cudu.i8n.tipos);
+	
+	// Desplegable selector columnas
+	cudu.dom.selectorColumnas = cudu.ui.datatable.panelSeleccionColumnas(columnas);
+	this.toogleColumn = function(key, visible) {
+		console.log(key + ': ' + visible);
+		for (var i = 0; i < columnas.length; i++) {
+			if (columnas[i].key == key) {
+				columnas[i].hidden = !visible;
+				break;
+			} 
+		}
+		this.queryColumnas = this.buildColumnQuery(columnas, false);
+	};
 
 	this.buildColumnQuery = function(columnas, honest) {
 		// TODO modificar, considerar columnas ocultas al imprimir
@@ -67,12 +134,12 @@ cudu.ui.datatable.table = function(columnas) {
 		// console.log(_honest);
 		var sb = [];
 		for (var i = 0; i < columnas.length; i++) {
-			// if (queryHidden (!columnas[i].hidden)
-			sb.push(columnas[i].key);
+			// if (!columnas[i].hidden || columnas[i].pk)
+				sb.push(columnas[i].key);
 		}
 		return 'c=' + sb.join(',');
 	};
-	var queryColumnas = this.buildColumnQuery(columnas);
+	this.queryColumnas = this.buildColumnQuery(columnas);
 
 	this.dataSource = new YAHOO.util.DataSource("/cudu/listados/asociados.json?");
     this.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
@@ -100,14 +167,14 @@ cudu.ui.datatable.table = function(columnas) {
     };
 
     this.requestBuilder = function(oState, oSelf) {
-        return cudu.ui.datatable.buildQuery(queryColumnas, oState.sortedBy.key, 
+        return cudu.ui.datatable.buildQuery(cudu.dom.tabla.queryColumnas, oState.sortedBy.key, 
         		((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc"),
         		oState.pagination.recordOffset,
         		oState.pagination.rowsPerPage,
         		cudu.dom.tabla.filtros);
     };
 
-    var initialRequestUrl = cudu.ui.datatable.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros);
+    var initialRequestUrl = cudu.ui.datatable.buildQuery(this.queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros);
     // cudu.dom.btnImprimir.href = "listados/imprimir?" + initialRequestUrl;
     var tablecfg = {
         initialRequest: initialRequestUrl,
@@ -121,7 +188,8 @@ cudu.ui.datatable.table = function(columnas) {
         MSG_LOADING: cudu.i8n.tabla.Cargando,
         MSG_SORTASC: 'Pulse para ordenar de menor a mayor.',
         MSG_SORTDESC: 'Pulse para ordenar de mayor a menor.',
-        dateOptions: {format:"%d/%m/%Y", locale:"es"}
+        dateOptions: {format:"%d/%m/%Y", locale:"es"},
+        width: "100%"
     };
 
     this.tabla = new YAHOO.widget.DataTable("listado", columnas, this.dataSource, tablecfg);
@@ -169,12 +237,12 @@ cudu.ui.datatable.table = function(columnas) {
             argument: this.tabla.getState()
         };
         
-        var requestUrl = cudu.ui.datatable.buildQuery(queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.dom.tabla.filtros);
+        var requestUrl = cudu.ui.datatable.buildQuery(cudu.dom.tabla.queryColumnas, 
+        		columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.dom.tabla.filtros);
         this.dataSource.sendRequest(requestUrl, oCallback);
         // cudu.dom.btnImprimir.href = "listados/imprimir?" + requestUrl;
     };
 };
-
 
 // TODO Refactorizar de aquí en adelante...
 
@@ -191,7 +259,6 @@ cudu.filtrarPor = {
 		else
 			filtro.splice(indice, 1);
 		
-		// console.log(filtro.join(','));
 		cudu.dom.tabla.reload();
 	},
 
@@ -214,11 +281,26 @@ cudu.ui.toogleFilter = function() {
     if (!tcFilter.isOpen) {
       (new YAHOO.util.Anim(tcFilter, {height: { to: 75 }}, 0.9, YAHOO.util.Easing.bounceOut)).animate();
       tcFilter.isOpen = true;
+      YAHOO.util.Dom.addClass('btnFiltro', 'selected'); 
     } else {
       (new YAHOO.util.Anim(tcFilter, {height: { to: 0 }}, 0.7, YAHOO.util.Easing.backIn)).animate();
       tcFilter.isOpen = false;
+      YAHOO.util.Dom.removeClass('btnFiltro', 'selected');
     }
-}
+};
+
+cudu.ui.expandirUI = function() {
+	var doc = YAHOO.util.Dom.get('doc');
+	if (doc) {
+		doc.setAttribute('id', 'doc3');
+		cudu.dom.lblBtnExpandir.innerHTML = cudu.i8n.btnExpandir.Contraer;
+		cudu.dom.imgBtnExpandir.src = cudu.i8n.btnExpandir.imgContraer;
+	} else {
+		YAHOO.util.Dom.get('doc3').setAttribute('id', 'doc');
+		cudu.dom.lblBtnExpandir.innerHTML = cudu.i8n.btnExpandir.Expandir;
+		cudu.dom.imgBtnExpandir.src = cudu.i8n.btnExpandir.imgExpandir;
+	}	
+};
 
 })();
 

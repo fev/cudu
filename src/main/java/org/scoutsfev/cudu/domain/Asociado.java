@@ -110,6 +110,9 @@ public class Asociado implements Serializable {
 	private Timestamp fechaalta;
 
 	private Timestamp fechabaja;
+	
+	@Column(insertable = false, updatable = false)
+	private Timestamp fechaActualizacion;
 
 	private String idGrupo;
 	
@@ -494,5 +497,13 @@ public class Asociado implements Serializable {
 
 	public Boolean getPadresdivorciados() {
 		return padresdivorciados;
+	}
+
+	public void setFechaActualizacion(Timestamp fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+
+	public Timestamp getFechaActualizacion() {
+		return fechaActualizacion;
 	}
 }

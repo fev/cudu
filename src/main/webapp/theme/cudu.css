@@ -22,14 +22,18 @@ a { color: #356AA0; }
 div.tc-tb { background-color: #ECE9E0; border: 1px solid #D4D2CC; height: 35px; }
 div.tc-tb a { display: block; float: left; height: 35px; text-decoration: none; color: #5C462C; padding-right: 15px;
 	background-color: #F4F6EC; border-width: 0 1px 0 0; border-color: #D4D2CC; border-style: solid; }
-div.tc-tb a:hover { background-color: #FCFEFC; }
+div.tc-tb a.single { padding-right: 0; }
+div.tc-tb a.single span { display:none; }
+div.tc-tb a.single:hover span { display: inline; margin-right: 15px }
+div.tc-tb a:hover, div.tc-tb a.selected { background-color: #FCFEFC; }
 div.tc-tb a.save:hover { background-color: #E3FFE3; color: #64992C }
 div.tc-tb a.delete:hover { background-color: #FFE3E3; color: #BA1122; }
+div.tc-tb a.right { float: right; border-width:  0 0 0 1px; }
 div.tc-tb img { float: left; margin: 6px 10px 0 8px; }
 div.tc-tb span { position: relative; top: 9px; }
 
 /* TC Panel filtro */
-div.tc-flt { background-color: #FFF; height: 0px; overflow:hidden; /* ece9e0 */
+div.tc-flt { background-color: #FBFBF7; height: 0px; overflow:hidden; /* ece9e0 */
 	border-left: 1px solid #D4D2CC; border-right: 1px solid #D4D2CC; } 
 div.tc-flt div.field label { background-color: transparent }
 
