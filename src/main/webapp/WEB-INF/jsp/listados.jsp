@@ -219,7 +219,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
    	];
 	
 	cudu.dom.tabla = new cudu.ui.datatable.table({ 
-		columnas: listaColumnas
+		columnas: listaColumnas,
+		dataSourceUrl: '<c:url value="listados/asociados.json" />'
 	});
 
 	// Filtro por ramas

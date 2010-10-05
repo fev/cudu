@@ -141,7 +141,7 @@ cudu.ui.datatable.table = function(cfg) {
 	};
 	this.queryColumnas = this.buildColumnQuery(columnas);
 
-	this.dataSource = new YAHOO.util.DataSource("/cudu/listados/asociados.json?");
+	this.dataSource = new YAHOO.util.DataSource(cfg.dataSourceUrl + "?");
     this.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
     this.dataSource.responseSchema = {
     	resultsList: "result.data", 
