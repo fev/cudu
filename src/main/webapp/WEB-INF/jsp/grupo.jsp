@@ -57,7 +57,7 @@
       <div class="field">
         <label for="txtAniversario" class="w4u"><fmt:message key="grupo.f.aniversario" /></label>
         <form:input id="txtAniversario" path="aniversario" cssClass="textbox w1u" cssErrorClass="textbox w1u error" />
-        <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" />
+        <%-- <img src="<c:url value="/s/theme/img/calendar.png" />" alt="Elegir fecha" /> --%>
       </div>
       <div class="field">
         <label for="txtEntPatr" class="w4u"><fmt:message key="grupo.f.entidadpatrocinadora" /></label>

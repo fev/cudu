@@ -169,19 +169,6 @@ CREATE TRIGGER auditAsociado
     BEFORE INSERT OR UPDATE ON asociado FOR EACH ROW
     EXECUTE PROCEDURE actualizarDatosAuditoriaAsociado();
 
--- Registro de auditoría (considerar mover a Redis o similar para evitar tablas gigantescas)
-create table auditoria (
-	usuario varchar(200) NOT NULL,
-	fecha timestamp NOT NULL CONSTRAINT df_auditoria_fecha DEFAULT CURRENT_TIMESTAMP,
-	operacion char(1) NOT NULL,
-	tabla varchar(50) NOT NULL,
-	pk varchar(2000) NOT NULL,
-	CONSTRAINT pk_auditoria PRIMARY KEY (usuario,fecha),
-	CONSTRAINT pk_auditoria_users FOREIGN KEY (usuario) REFERENCES users(username) ON UPDATE CASCADE,
-	CONSTRAINT ck_enum_auditoria_operacion CHECK (operacion IN ('C', 'R', 'U', 'D', 'L'))
-    -- Create, Read, Update, Delete, Login
-);
-
 -- Índices
 CREATE UNIQUE INDEX ix_authorities ON authorities (username,authority);
 

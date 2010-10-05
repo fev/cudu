@@ -28,7 +28,6 @@ div#lblUsuario { font-size: 182% }
 div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 
 #lnkNuevoAsoc { cursor:pointer; }
-
 </style>
 </head>
 <body>
@@ -62,10 +61,14 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
         <span><fmt:message key="dashboard.migrupo" /></span>
       </a>
       </sec:authorize>
-      <a href="<c:url value="ayuda" />">
+      <a href="<c:url value="sugerencias" />" class=" hidden">
+        <img src="<c:url value="/s/theme/img/db-sugerencias.png" />" alt="ayuda" />
+        <span><fmt:message key="dashboard.sugerencias" /></span>
+      </a>
+      <%-- <a href="<c:url value="ayuda" />" class=" hidden">
         <img src="<c:url value="/s/theme/img/db-ayuda.png" />" alt="ayuda" />
         <span><fmt:message key="dashboard.ayuda" /></span>
-      </a>
+      </a>--%>
     </div>
   </div>
 </div>
