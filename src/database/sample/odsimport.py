@@ -7,6 +7,9 @@ Created by Luis Belloch Gómez on 2010-10-07.
 Copyright (c) 2010 Federació d'Escoltisme Valencià. All rights reserved.
 """
 
+# TODO List
+# - Nombre ods como parámetro línea comandos
+
 import re, sys
 
 from itertools import chain, count, ifilter, imap, izip
@@ -74,6 +77,7 @@ filtros = [("nombre", legibilizar),
 		   ("calle", legibilizar),
 		   ("provincia", legibilizar),
 		   ("municipio", legibilizar),
+		   ("email", lambda e: e.lower()),
 		   ("rama", filtroRama, ["rama_colonia", "rama_manada", "rama_exploradores", "rama_pioneros", "rama_rutas"]),
 		   ("dni", filtroDNI)]
 		
@@ -117,7 +121,7 @@ def importar():
 	doc = load("./ainkaren.ods")
 	cabecera, filas = extraerFilas(doc.spreadsheet)
 
-	print FIELDSEP.join(componerCabecera(cabecera))
+	print "COPY asociado (", FIELDSEP.join(componerCabecera(cabecera)), ") FROM stdin WITH DELIMITER ',' CSV;"	
 
 	noVacias = ifilter(lambda e: len(e) > 1, filas)
 	sinSeparador = imap(lambda e: e.replace(FIELDSEP, FIELDSEPREPL), noVacias)
@@ -130,8 +134,10 @@ def importar():
 		# print FIELDSEP.join(imap(lambda e: e.replace(FIELDSEP, FIELDSEPREPL), flatten(fila)))
 		print FIELDSEP.join(flatten(fila))
 	
+	print "\."
+	
 	# Función para extraer una columna determinada
-	columna = lambda c: [f[cabecera.index(c)] for f in filas if len(f) > 1]
+	# columna = lambda c: [f[cabecera.index(c)] for f in filas if len(f) > 1]
 	# print '\n'.join(columna("dni"))
 	
 	# REVISIÓN NÚMEROS DE DNI
