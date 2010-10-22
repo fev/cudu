@@ -11,10 +11,7 @@ CREATE TABLE grupo (
     id character varying(20) NOT NULL,
     nombre varchar(50) NOT NULL,
 
-    calle varchar(300) NOT NULL,
-    numero varchar(3) NOT NULL,
-    puerta varchar(3),
-    escalera varchar(3),
+    direccion varchar(300) NOT NULL DEFAULT('(desconocida)'),
     codigopostal integer NOT NULL,
     idProvincia integer NOT NULL,
     provincia varchar(100) NOT NULL,

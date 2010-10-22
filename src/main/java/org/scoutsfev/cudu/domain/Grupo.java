@@ -27,17 +27,7 @@ public class Grupo implements Serializable {
 	
 	@NotNull
 	@Size(min=3, max=300)
-	private String calle;
-
-	@NotNull
-	@Size(min = 1, max = 3)
-	private String numero;
-
-	@Size(max = 3)
-	private String puerta;
-	
-	@Size(max = 3)
-	private String escalera;
+	private String direccion;
 	
 	@NotNull
 	@Min(1)
@@ -96,38 +86,6 @@ public class Grupo implements Serializable {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getCalle() {
-		return calle;
-	}
-
-	public void setCalle(String calle) {
-		this.calle = calle;
-	}
-
-	public String getNumero() {
-		return numero;
-	}
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-
-	public String getPuerta() {
-		return puerta;
-	}
-
-	public void setPuerta(String puerta) {
-		this.puerta = puerta;
-	}
-
-	public String getEscalera() {
-		return escalera;
-	}
-
-	public void setEscalera(String escalera) {
-		this.escalera = escalera;
 	}
 
 	public Integer getCodigopostal() {
@@ -232,6 +190,14 @@ public class Grupo implements Serializable {
 
 	public int getVersion() {
 		return version;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getDireccion() {
+		return direccion;
 	}
 }
 

@@ -70,17 +70,8 @@
   <div class="yui-g">
     <div class="yui-g first">
       <div class="field required">
-        <label for="txtCalle" class="w2u"><fmt:message key="grupo.f.calle" /></label>
-        <form:input path="calle" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
-      </div>
-      <div class="field required">
-        <label for="txtNumero" class="w2u"><fmt:message key="grupo.f.numero" /></label>
-        <form:input id="txtNumero" path="numero" cssClass="textbox w0u" cssErrorClass="textbox w0u error" />
-        <label for="txtEscalera" class="w1u"><fmt:message key="grupo.f.escalera" /></label>
-        <!-- HACK bgcolor, mover a css -->
-        <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" cssStyle="background-color: inherit;" cssErrorClass="textbox w0u error" />
-        <label for="txtPuerta" class="w1u"><fmt:message key="grupo.f.puerta" /></label>
-        <form:input id="txtPuerta" path="puerta" cssClass="textbox w0u" />
+        <label for="txtDireccion" class="w2u"><fmt:message key="grupo.f.direccion" /></label>
+        <form:input path="direccion" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
       </div>
       <div class="field required">
         <label for="txtCodigoPostal" class="w2u"><fmt:message key="grupo.f.codigopostal" /></label>
