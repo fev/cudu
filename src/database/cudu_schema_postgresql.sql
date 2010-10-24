@@ -13,13 +13,13 @@ CREATE TABLE grupo (
 
     direccion varchar(300) NOT NULL DEFAULT('(desconocida)'),
     codigopostal integer NOT NULL,
-    idProvincia integer NOT NULL,
+    idProvincia integer NOT NULL DEFAULT(0),
     provincia varchar(100) NOT NULL,
-    idMunicipio integer NOT NULL,
+    idMunicipio integer NOT NULL DEFAULT(0),
     municipio varchar(100) NOT NULL,
   
     aniversario date,
-    telefono1 varchar(15) NOT NULL,
+    telefono1 varchar(15) NOT NULL DEFAULT('(desconocido)'),
     telefono2 varchar(15) NULL,
     email varchar(100) NOT NULL,
     web varchar(300),
@@ -85,9 +85,9 @@ create table asociado (
     telefonoMovil varchar(15) NULL,
     email varchar(100) NULL,
 
-    idProvincia smallint NOT NULL,
+    idProvincia smallint NOT NULL CONSTRAINT df_asociado_idprovincia DEFAULT (0),
     provincia varchar(100) NOT NULL,
-    idMunicipio int NOT NULL,
+    idMunicipio int NOT NULL CONSTRAINT df_asociado_idmunicipio DEFAULT (0),
     municipio varchar(100) NOT NULL,
 
     tieneTutorLegal boolean NOT NULL CONSTRAINT df_asociado_tutor DEFAULT (false),
