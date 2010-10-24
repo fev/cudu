@@ -89,9 +89,13 @@
   <bean id="auditoriaService" class="org.scoutsfev.cudu.services.AuditoriaServiceRedisImpl" />
   
   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="location">
-      <value>classpath:database.properties</value>
-    </property>
+	<property name="ignoreResourceNotFound" value="true" />
+	<property name="locations">
+		<list>
+			<value>classpath:database.properties</value>
+			<value>classpath:database_release.properties</value>
+		</list>
+	</property>
   </bean>
 
   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
