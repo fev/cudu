@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-"""
+u"""
 odsimport.py - Genera script para importación en PostgreSQL.
 Copyright (C) 2010 Federació d'Escoltisme Valencià.
 
@@ -18,22 +18,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-# TODO List
-# - Nombre ods como parámetro línea comandos
-
-import getopt, re, sys
+import re, sys
 
 from itertools import chain, count, ifilter, imap, izip
 
-from odf import text
-from odf.opendocument import load, Spreadsheet
-from odf.table import TableRow, TableCell
-from odf.text import P
+from opendocument import Spreadsheet
+from grupos import grupos
 
 FIELDSEP = ','      # Separador de campos
 FIELDSEPREPL = ''   # Reemplazo en el caso de encontrar uno
 
 NIFDC = 'TRWAGMYFPDXBNJZSQVHLCKE'
+
+rxNumeros = re.compile("\d+")
 
 def flatten(l):
     out = []
@@ -63,58 +60,87 @@ def filtroDNI(dni):
 # Si existen más de dos apellidos, agrupa N-1 y deja el N
 # DE SANTOS PEREZ -> [De Santos, Perez]
 def filtroApellidos(txt):
+    #print txt, "  ->  ",
     seq = legibilizar(txt).split(' ')
-    if len(seq) > 2:
+    if len(seq) < 2:
+        seq.append('')
+    elif len(seq) > 2:
         seq[0] = ' '.join(seq[0:-1])
         seq[1] = seq[-1]
         del(seq[2:])
+    #print seq
     return seq
-    
+
 def filtroRama(txt):
     r = txt.lower()
-    if   r == u'colonia':      return "t,f,f,f,f"
-    elif r == u'lobatos':      return "f,t,f,f,f"
-    elif r == u'exploradores': return "f,f,t,f,f"
-    elif r == u'pioneros':     return "f,f,f,t,f"
-    elif r == u'compañeros':   return "f,f,f,f,t"
-    else:                      return "f,f,f,f,f"
+    if   r == u'colonia':      return "C,t,f,f,f,f"
+    elif r == u'lobatos':      return "M,f,t,f,f,f"
+    elif r == u'exploradores': return "E,f,f,t,f,f"
+    elif r == u'pioneros':     return "P,f,f,f,t,f"
+    elif r == u'compañeros':   return "R,f,f,f,f,t"
+    else:                      return ",f,f,f,f,f"
+
+def filtroCalle(txt):
+    txt = txt.title().strip(" ").replace(FIELDSEP, FIELDSEPREPL)
+    seq = rxNumeros.findall(txt)
+    if len(seq) > 0: 
+        return [txt, seq[0]]
+    return [txt, '0']
+
+def filtroGrupo(txt):
+    txt = txt.upper().strip(" ")
+    if txt in grupos:
+        return [grupos[txt]]
+    return ["(desconocido)"]
     
+def evitarNulo(txt, reemplazo):
+    txt = txt.strip(' ')
+    if txt == '':
+        return reemplazo
+    return txt
+
+# Filtros importación GRUPO ---------
+def filtroWeb(txt):
+    clean = txt.strip(' ')
+    if clean == '':
+        return ''
+    elif clean[:7] != 'http://':
+        return 'http://' + clean
+    return clean
+
+def filtroLocalizacion(txt):
+    txt = txt.strip(' ')
+    cp = txt[:5]
+    sProv = txt.index('(')
+    ciud = txt[6:sProv-1]
+    prov = txt[sProv+1:-1]
+    return [cp,prov,ciud]
+# -----------------------------------   
+
 def legibilizar(s): 
     return s.title().strip(' ')
 
 # Nombre de columna, función a aplicar, columnas al expandir (si procede)
 filtros = [("nombre", legibilizar),
            ("apellidos", filtroApellidos, ["primerApellido", "segundoApellido"]),
-           ("calle", legibilizar),
+           # ("calle", filtroCalle, ["calle", "numero"]),
+           ('calle', lambda e: legibilizar(e.replace(FIELDSEP,FIELDSEPREPL))),
            ("provincia", legibilizar),
+           ("primerApellido", legibilizar),
+           ("segundoApellido", legibilizar),
+           ("grupo", filtroGrupo, ["idGrupo"]),
            ("municipio", legibilizar),
+           ("fechanacimiento", lambda e: evitarNulo(e, "01/01/1900")),
            ("email", lambda e: e.lower()),
-           ("rama", filtroRama, ["rama_colonia", "rama_manada", "rama_exploradores", "rama_pioneros", "rama_rutas"]),
+           ("codigopostal", lambda e: evitarNulo(e, "00000")),
+           ("rama", filtroRama, ["ramas", "rama_colonia", "rama_manada", "rama_exploradores", "rama_pioneros", "rama_rutas"]),
            ("dni", filtroDNI)]
-        
-def pruebaCero():
-    doc = load("./ainkaren.ods")
-    rows = doc.spreadsheet.getElementsByType(TableRow)
-    row = rows[3]
-    print dir(row)
-    print row.childNodes
-    for c in row.getElementsByType(TableCell):
-        print c
-    print [extraerCelda(c) for c in row.getElementsByType(TableCell)]
 
-
-def extraerCelda(cell):
-    innerData = cell.getElementsByType(text.P)
-    if len(innerData) == 0: 
-        return ''
-    return ''.join([unicode(f.firstChild).replace(FIELDSEP, FIELDSEPREPL) for f in innerData])
-
-def extraerFilas(doc):
-    rows = doc.getElementsByType(TableRow)
-    filas = []
-    for row in rows:
-        filas.append([extraerCelda(c) for c in row.getElementsByType(TableCell)])
-    return filas[0], filas[1:]
+# FILTROS IMPORTACIÓN GRUPOS
+# filtros = [("email", lambda e: e.lower()),
+#            ("direccion", lambda e: e.replace(',', '')),
+#            ("web", filtroWeb),
+#            ("localizacion", filtroLocalizacion, ['codigopostal', 'provincia', 'municipio'])]
     
 def componerCabecera(cabecera):
     for h in cabecera:
@@ -128,28 +154,49 @@ def componerCabecera(cabecera):
         else:
             yield h
 
-def importar():
-    doc = load("./ainkaren.ods")
-    cabecera, filas = extraerFilas(doc.spreadsheet)
+def prueba0():
+    spreadsheet = Spreadsheet('/Users/luis/Desktop/Datos/ainkaren2.ods')
+    raw = spreadsheet.hojas.items()[0][1]
+    cabecera = raw[0]
+    filas = raw[1:]
+    
+    # columna = lambda c: [primerNumero(f[cabecera.index(c)]) + " :  " + f[cabecera.index(c)] for f in filas if len(f) > 1]
+    columna = lambda c: [' '.join([str(len(f)), f[cabecera.index(c)]]) for f in filas if len(f) > 1]
+    print '\n'.join(columna("calle"))
 
-    print "COPY asociado (", FIELDSEP.join(componerCabecera(cabecera)), ") FROM stdin WITH DELIMITER ',' CSV;"  
+    return
+
+def generarSql(filename):
+    # TODO Iterar sobre todas las hojas del archivo
+    # TODO Sacar nombre de la hoja como nombre de la tabla
+
+    spreadsheet = Spreadsheet(filename)
+    raw = spreadsheet.hojas.items()[0][1]
+    
+    cabecera = raw[0]
+    filas = raw[1:]
+
+    print "COPY asociado (", ','.join(componerCabecera(cabecera)), ") FROM stdin WITH DELIMITER ',' CSV;"
+    sys.stdout.flush() 
 
     noVacias = ifilter(lambda e: len(e) > 1, filas)
     sinSeparador = imap(lambda e: e.replace(FIELDSEP, FIELDSEPREPL), noVacias)
     for fila in noVacias:
         for filtro in filtros:
-            ncol = cabecera.index(filtro[0])
+            tituloColumna = filtro[0]
+            if tituloColumna not in cabecera:
+                continue
+            ncol = cabecera.index(tituloColumna)
             fnc = filtro[1]
             fila[ncol] = fnc(fila[ncol])
-        
-        # print FIELDSEP.join(imap(lambda e: e.replace(FIELDSEP, FIELDSEPREPL), flatten(fila)))
+
         print FIELDSEP.join(flatten(fila))
     
     print "\."
     
     # Función para extraer una columna determinada
     # columna = lambda c: [f[cabecera.index(c)] for f in filas if len(f) > 1]
-    # print '\n'.join(columna("dni"))
+    # print '\n'.join(columna("localizacion"))
     
     # REVISIÓN NÚMEROS DE DNI
     # Números que la primera letra no es un número y la última lo es, para comprobarla
@@ -158,33 +205,17 @@ def importar():
     #     letra = NIFDC[int(c[0:-1])%23]
     #     print c, letra, letra != c[-1]
 
-class Usage(Exception):
-	def __init__(self, msg):
-		self.msg = msg
-
-def main(argv=None):
-    if argv is None:
-        argv = sys.argv
-    try:
-        try:
-            opts, args = getopt.getopt(argv[1:], "ho:v", ["help", "output="])
-        except getopt.error, msg:
-            raise Usage(msg)
-
-        for option, value in opts:
-            if option == "-v":
-                verbose = True
-            if option in ("-h", "--help"):
-                raise Usage(help_message)
-            if option in ("-o", "--output"):
-                output = value
-                
-    importar()
-
-    except Usage, err:
-        print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
-        print >> sys.stderr, "\t for help use --help"
-        return 2
+def main():
+    # prueba0()
+    # return
+    
+    generarSql('/Users/luis/Desktop/Datos/ainkaren.ods')
+    return
+    
+    if len(sys.argv) < 2:
+        print "Debe especificar el nombre del archivo.\nUso: odsimport.py sample.ods\n"
+    else:
+        generarSql(sys.argv[1])
 
 if __name__ == "__main__":
     sys.exit(main())
