@@ -41,7 +41,9 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
           <div id="lblUsuario"><c:out value="${usuarioActual.nombreCompleto}" /></div>
           <div id="lblGrupo"><c:out value="${usuarioActual.grupo.nombre}" /></div>
           <div>
-            <a href="preferencias"><fmt:message key="dashboard.preferencias" /></a> -
+            <!--<a href="preferencias"><fmt:message key="dashboard.preferencias" /></a> - -->
+            <a href="<c:url value="/?hl=es" />">Castellano</a>,
+            <a href="<c:url value="/?hl=ca" />">Valencià</a> -
             <a href="<c:url value="/j_spring_security_logout"/>"><fmt:message key="dashboard.salir" /></a>
           </div>
         </div>
