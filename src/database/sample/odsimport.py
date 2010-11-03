@@ -52,7 +52,7 @@ def iflatten(iterable):
 
 # lambda s: re.sub("[^A-Z0-9]", "", s.upper())
 def filtroDNI(dni):
-    num = re.sub("[^A-Z0-9]", "", dni.upper())
+    num = re.sub("[^A-Z0-9]", "", dni.upper().strip(' ').lstrip('0'))
     if len(num) > 1 and num[0].isdigit() and num[-1].isdigit():
         return num + NIFDC[int(num)%23]
     return num
@@ -82,6 +82,8 @@ def filtroRama(txt):
 
 def filtroCalle(txt):
     txt = txt.title().strip(" ").replace(FIELDSEP, FIELDSEPREPL)
+    if txt == '':
+        return ['(desconocida)', '0']
     seq = rxNumeros.findall(txt)
     if len(seq) > 0: 
         return [txt, seq[0]]
@@ -123,13 +125,13 @@ def legibilizar(s):
 # Nombre de columna, función a aplicar, columnas al expandir (si procede)
 filtros = [("nombre", legibilizar),
            ("apellidos", filtroApellidos, ["primerApellido", "segundoApellido"]),
-           # ("calle", filtroCalle, ["calle", "numero"]),
-           ('calle', lambda e: legibilizar(e.replace(FIELDSEP,FIELDSEPREPL))),
-           ("provincia", legibilizar),
+           ("calle", filtroCalle, ["calle", "numero"]),
+           #('calle', lambda e: legibilizar(e.replace(FIELDSEP,FIELDSEPREPL))),
+           ("provincia", lambda e: evitarNulo(legibilizar(e), '(desconocida)')),
            ("primerApellido", legibilizar),
            ("segundoApellido", legibilizar),
            ("grupo", filtroGrupo, ["idGrupo"]),
-           ("municipio", legibilizar),
+           ("municipio", lambda e: evitarNulo(legibilizar(e), '(desconocido)')),
            ("fechanacimiento", lambda e: evitarNulo(e, "01/01/1900")),
            ("email", lambda e: e.lower()),
            ("codigopostal", lambda e: evitarNulo(e, "00000")),
@@ -155,7 +157,7 @@ def componerCabecera(cabecera):
             yield h
 
 def prueba0():
-    spreadsheet = Spreadsheet('/Users/luis/Desktop/Datos/ainkaren2.ods')
+    spreadsheet = Spreadsheet('sample.ods')
     raw = spreadsheet.hojas.items()[0][1]
     cabecera = raw[0]
     filas = raw[1:]
@@ -209,7 +211,7 @@ def main():
     # prueba0()
     # return
     
-    generarSql('/Users/luis/Desktop/Datos/ainkaren.ods')
+    generarSql('/Users/luis/Desktop/Datos/resto.ods')
     return
     
     if len(sys.argv) < 2:

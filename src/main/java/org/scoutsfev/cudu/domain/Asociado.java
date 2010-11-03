@@ -59,7 +59,7 @@ public class Asociado implements Serializable {
 	private String calle;
 	
 	@NotNull
-	@Size(min = 1, max = 3)
+	@Size(min = 1, max = 5)
 	private String numero;
 
 	@Size(max = 3)
@@ -86,7 +86,7 @@ public class Asociado implements Serializable {
 
 	// @Pattern num(-/\)letra, numLetra
 	@Column(nullable = true)
-	@Size(max=9)
+	@Size(max=10)
 	private String dni;
 
 	@Email

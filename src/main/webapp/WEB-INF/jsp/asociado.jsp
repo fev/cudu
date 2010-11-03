@@ -90,7 +90,7 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field">
         <label for="txtDNI"><fmt:message key="asociado.f.dni" /></label>
-        <form:input id="txtDNI" path="dni" cssClass="textbox w1u" maxlength="9" />
+        <form:input id="txtDNI" path="dni" cssClass="textbox w1u" maxlength="10" />
       </div>
       <div class="field">
         <label for="txtNSS"><fmt:message key="asociado.f.ss" /></label>
@@ -113,7 +113,7 @@ div#bd { padding-left: 20px; }
       </div>
       <div class="field required">
         <label for="txtNumero" class="w2u"><fmt:message key="asociado.f.numero" /></label>
-        <form:input id="txtNumero" path="numero" cssClass="textbox w0u" cssErrorClass="textbox w0u error" maxlength="3" />
+        <form:input id="txtNumero" path="numero" cssClass="textbox w0u" cssErrorClass="textbox w0u error" maxlength="5" />
         <label for="txtEscalera" class="w1u"><fmt:message key="asociado.f.escalera" /></label>
         <!-- HACK bgcolor, mover a css -->
         <form:input id="txtEscalera" path="escalera" cssClass="textbox w0u" maxlength="3" cssStyle="background-color: inherit;" />
