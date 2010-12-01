@@ -7,6 +7,7 @@
     <form-login login-page="/login" always-use-default-target="true" default-target-url="/dashboard" />
     <intercept-url pattern="/login" access="isAnonymous()" />
     <intercept-url pattern="/dashboard" />
+    <intercept-url pattern="/s/cdn/**" filters="none" />
     <intercept-url pattern="/s/yui/**" filters="none" />
     <intercept-url pattern="/s/theme/**" filters="none" />
     <intercept-url pattern="/s/jquery/**" filters="none" />

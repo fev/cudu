@@ -108,7 +108,7 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 </div>
 </div>
 
-<script src="<c:url value="/s/jquery/jquery-1.4.2.js" />" type="text/javascript"></script>
+<script src="<c:url value="/s/jquery/jquery-1.4.2.min.js" />" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#lnkNuevoAsoc").click(function () {

@@ -7,15 +7,18 @@
 <link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 
-<!-- Combo-handled YUI CSS files: -->
+<%-- Combo-handled YUI CSS files:
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css&2.8.2r1/build/base/base-min.css&2.8.2r1/build/assets/skins/sam/skin.css">
+--%>
 
-<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
+<%-- Desde la cache --%>
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
+
+<%-- Normal --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/container/assets/skins/sam/container.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/paginator/assets/skins/sam/paginator.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/datatable/assets/skins/sam/datatable.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/logger/assets/logger.css" />" /> --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
 .yui-skin-sam .yui-dt tr.mark, 
@@ -94,6 +97,9 @@ div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
 		<span id="lblBtnExpandir"><fmt:message key="listados.tb.expandir" /></span>
 	</a>
   </div>
+  <div id="tc-loading" class="yui-g">
+  	<div style="margin: 10px 5px"><fmt:message key="listados.tabla.cargando" /></div>
+  </div>
   <div id="tc-filter" class="yui-g tc-flt" style="padding: 0px 5px">
     <div class="yui-g">
       <div class="field">
@@ -137,9 +143,10 @@ div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
 </div>
 
 
-<!-- Combo-handled YUI JS files: -->
+<!-- Combo-handled YUI JS files:
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.2r1/build/utilities/utilities.js&2.8.2r1/build/container/container-min.js&2.8.2r1/build/datasource/datasource-min.js&2.8.2r1/build/paginator/paginator-min.js&2.8.2r1/build/datatable/datatable-min.js&2.8.2r1/build/selector/selector-min.js&2.8.2r1/build/event-delegate/event-delegate-min.js&2.8.2r1/build/json/json-min.js"></script>
-
+-->
+<script type="text/javascript" src="<c:url value="/s/cdn/yui-lst.js" />"></script>
 
 <%-- <script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/selector/selector-min.js" />"></script>
@@ -198,6 +205,8 @@ cudu.dom.btnImprimir = document.getElementById('btnImprimir');
 cudu.dom.lblBtnExpandir = document.getElementById('lblBtnExpandir');
 cudu.dom.imgBtnExpandir = document.getElementById('imgBtnExpandir');
 
+cudu.dom.tcLoading = document.getElementById('tc-loading');
+
 cudu.dom.codigosRamas = {
 	'radioColonia': 'C',
 	'radioManada': 'M',
@@ -232,6 +241,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
 		columnas: listaColumnas,
 		dataSourceUrl: '<c:url value="listados/asociados.json" />'
 	});
+	
+	YAHOO.util.Dom.addClass(cudu.dom.tcLoading, 'hidden');
 
 	// Filtro por ramas
 	cudu.dom.ctrlRamas = YAHOO.util.Dom.getElementsByClassName('dropramas', 'a', 'tc-filter-ramas');	

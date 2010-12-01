@@ -11,6 +11,11 @@
 <link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
+<%-- Prefetching --%>
+<link rel="prefetch" href="<c:url value="/s/cdn/yui-lst.js" />" />
+<link rel="prefetch" href="<c:url value="/s/theme/img/bg-bd.png" />" />
+<link rel="prefetch" href="<c:url value="/s/theme/img/bg-hd.png" />" />
+<link rel="prefetch" href="<c:url value="/s/theme/img/bg-ft.png" />" />
 <style type="text/css">
 html { background-color: transparent }
 body { color: #333; background: #9bdbf7 url('<c:url value="/s/theme/img/bg.jpg" />') repeat-x 0 0;
@@ -66,5 +71,9 @@ input.button.save:hover { background-color: #E3FFE3; color: #64992C }
 <script type="text/javascript">
 document.getElementById('j_username').focus();
 </script>
+<!-- YUI Prefetching ...
+<script type="text/javascript" src="<c:url value="/s/cdn/yui-lst.js" />"></script>
+<script src="http://yui.yahooapis.com/3.2.0/build/yui/yui-min.js"></script>
+ -->
 </body>
 </html>
