@@ -2,3 +2,7 @@ db/ainkaren.*
 db/data.csv
 build
 target
+*.pyc
+.classpath
+.project
+.settings

@@ -1,36 +1,45 @@
+¿Qué es Cudú?
+-------------
+
 Cudú es una aplicación web que permite almacenar y gestionar de forma segura
 y centralizada datos de agrupaciones juveniles. Cudú ha sido desarrollado con 
 el apoyo de la Federació d'Escoltisme de Valencia y un grupo desinteresado de 
 voluntarios.
 
-Cudú es completamente libre, puedes descargarla y modificarla tantas veces como
-desees. Haznos llegar un mail si estás interesado en su desarrollo.
+Cudú es software libre, lo que significa que no has de pagar por su uso y 
+que puedes modificar el programa. La única restricción es que si realizas
+modificaciones, estas sean tambíén compartidas. Legalmente Cudú se
+distribuye bajo licencia GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html).
 
-Cudú se ha desarrollado con los siguientes objetivos:
+Para conocer más sobre la definición de software libre puedes consultar
+http://www.gnu.org/philosophy/free-sw.es.html
 
- - Proveer una aplicación Open Source para gestionar datos de los diferentes grupos 
-   Scouts que componen la FEV, extensible al resto de grupos del mundo.
 
- - Permitir centralizar esa gestión y liberar a los distintos grupos de dicha tarea.
+¿Como puedo empezar a usarlo?
+-----------------------------
 
- - Proporcionar una plataforma que pueda servir como herramienta para realizar estudios
-   anónimos sobre el conjunto total de los datos con objeto de promover e impulsar las 
-   actividades de la FEV o de otras asociaciones similares.
+Necesitas Git, PostgreSQL y Maven. Tres sencillos pasos:
+
+$ git clone git://github.com/fev/cudu.git; cd cudu
+$ psql -U postgres -f src/database/cudu_schema_postgresql.sql
+$ mvn tomcat:run
+
+Otros sitios de interés
+-----------------------
 
 Capturas de Pantalla
 http://picasaweb.google.com/luisbelloch/CuduScreenshots?feat=directlink 
 
-Repositorio de código fuente
-http://code.google.com/p/cudu/
-
 Grupo de discusión
 http://groups.google.com/group/cudu
+
+
+Contacto
+--------
 
 Federació d'Escoltisme Valencià
 c/ Balmes, 17 46001 València, SPAIN
 Teléfono 96 315 32 40
 Fax 96 315 32 42
-
 http://www.scoutsfev.org
-fev@scoutsfev.org 
 
