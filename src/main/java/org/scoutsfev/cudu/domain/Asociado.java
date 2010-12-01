@@ -25,6 +25,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Formula;
 import org.hibernate.validator.constraints.Email;
+import org.scoutsfev.cudu.domain.validators.CaracterEnGrupo;
 
 @Entity
 public class Asociado implements Serializable {
@@ -97,7 +98,7 @@ public class Asociado implements Serializable {
 	private String seguridadsocial;
 
 	@NotNull
-	// @Pattern(regexp = "[MF]")
+	@CaracterEnGrupo(grupo = {'M', 'F'})
 	private char sexo;
 	
 	@Size(max = 15)
