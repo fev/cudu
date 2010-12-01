@@ -199,6 +199,7 @@ public class Asociado implements Serializable {
     @Version
     private int version;
 	
+	private int asociacion;
 
 	public Integer getId() {
 		return this.id;
@@ -506,5 +507,13 @@ public class Asociado implements Serializable {
 
 	public Timestamp getFechaActualizacion() {
 		return fechaActualizacion;
+	}
+
+	public void setAsociacion(int asociacion) {
+		this.asociacion = asociacion;
+	}
+
+	public int getAsociacion() {
+		return asociacion;
 	}
 }

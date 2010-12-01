@@ -57,7 +57,7 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
         <img src="<c:url value="/s/theme/img/db-listado.png" />" alt="ayuda" />
         <span><fmt:message key="dashboard.listados" /></span>
       </a>
-      <sec:authorize access="!hasRole('ROLE_ADMIN')">
+      <sec:authorize access="!hasAnyRole('ROLE_ADMIN', 'SdA', 'SdC', 'MEV')">
       <a href="<c:url value="grupo" />">
         <img src="<c:url value="/s/theme/img/db-grupo.png" />" alt="ayuda" />
         <span><fmt:message key="dashboard.migrupo" /></span>

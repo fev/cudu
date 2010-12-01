@@ -44,18 +44,24 @@ public class AsociadoController {
 		// TODO Mover comprobación a otro sitio
 		// Inicialmente, si puede acceder al asociado puede modificarlo
 		boolean esAdmin = false;
+		int asociacion = -1;
 		for (GrantedAuthority authority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
-			if (authority.getAuthority().equals("ROLE_ADMIN")) {
-				esAdmin = true;
-				break;
-			}
+			String role = authority.getAuthority();
+			if (role.equals("ROLE_ADMIN")) { esAdmin = true; }
+			if (role.equals("SdA")) { asociacion = 0; } 
+			if (role.equals("SdC")) { asociacion = 1; }
+			if (role.equals("MEV")) { asociacion = 2; }
 		}
 		
 		if (!esAdmin) {
-			Usuario usuarioActual = Usuario.obtenerActual();
-			Grupo grupoUsuario = usuarioActual.getGrupo();
 			Grupo grupoAsociado = asociado.getGrupo();
-			if ((grupoAsociado == null) || (grupoUsuario == null) || (!grupoAsociado.getId().equals(grupoUsuario.getId()))) {
+			if (asociacion == -1) {
+				Usuario usuarioActual = Usuario.obtenerActual();
+				Grupo grupoUsuario = usuarioActual.getGrupo();
+				if ((grupoAsociado == null) || (grupoUsuario == null) || (!grupoAsociado.getId().equals(grupoUsuario.getId()))) {
+					return "redirect:/403";
+				}
+			} else if (asociacion != grupoAsociado.getAsociacion()) {
 				return "redirect:/403";
 			}
 		}

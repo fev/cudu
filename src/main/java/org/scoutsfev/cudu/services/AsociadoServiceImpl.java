@@ -43,7 +43,7 @@ public class AsociadoServiceImpl
 	@SuppressWarnings("unchecked")
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
 			String campoOrden, String sentidoOrden, int inicio,
-			int resultadosPorPágina, String tipos, String ramas, boolean eliminados) {
+			int resultadosPorPágina, String tipos, String ramas, boolean eliminados, int asociacion) {
 		
 		// Filtrado por tipo de asociado (joven, kraal, comite)
 		String filtroTipos = componerFiltroTipo(tipos);
@@ -56,6 +56,8 @@ public class AsociadoServiceImpl
 		String filtroGrupo = "1 = 1 ";
 		if (idGrupo != null)
 			filtroGrupo = "idGrupo = :idGrupo ";
+		else if ((asociacion >= 0) && (asociacion <= 3))
+			filtroGrupo = "asociacion = :asociacion"; // Hack!
 		
 		Query query = this.entityManager
 			.createQuery("SELECT " + columnas + " FROM Asociado WHERE "
@@ -65,20 +67,28 @@ public class AsociadoServiceImpl
 		
 		if (idGrupo != null)
 			query.setParameter("idGrupo", idGrupo);
+		else if ((asociacion >= 0) && (asociacion <= 2))
+			query.setParameter("asociacion", asociacion);
 		
 		return query.setFirstResult(inicio).setMaxResults(resultadosPorPágina).getResultList();
 	}
 
-	public long count() {
+	protected long count(int asociacion) {
 		// TODO Substituir por tabla donde se guarde el recuento para acelerar el COUNT de PostgreSQL.
+		if (asociacion != -1)
+			return (Long) this.entityManager
+				.createQuery("SELECT COUNT(a) FROM Asociado a WHERE asociacion = :asociacion")
+				.setParameter("asociacion", asociacion)
+				.getSingleResult();
+			
 		return (Long) this.entityManager
 			.createQuery("SELECT COUNT(a) FROM Asociado a")
 			.getSingleResult();
 	}
 	
-	public long count(String idGrupo, String tipos, String ramas, boolean eliminados) {
+	public long count(String idGrupo, String tipos, String ramas, boolean eliminados, int asociacion) {
 		if (idGrupo == null)
-			return count();
+			return count(asociacion);
 		
 		String filtroTipos = componerFiltroTipo(tipos);
 		String filtroRamas = componerFiltroRamas(ramas);

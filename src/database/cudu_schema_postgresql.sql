@@ -24,13 +24,14 @@ CREATE TABLE grupo (
     email varchar(100) NOT NULL,
     web varchar(300),
     entidadpatrocinadora varchar(100),
-    asociacion smallint NOT NULL,
+    asociacion smallint NOT NULL, -- 0 SdA, 1 SdC, 2 MEV
     
     jpa_version int NOT NULL DEFAULT(0),
 
     CONSTRAINT pk_grupo PRIMARY KEY (id)
 );
 
+-- Tabla de Usuarios, dependiente de Spring Security.
 CREATE TABLE users (
     username varchar(200) NOT NULL,
     password varchar(200) NOT NULL,   
@@ -41,25 +42,13 @@ CREATE TABLE users (
     CONSTRAINT pk_users_grupo FOREIGN KEY (idGrupo) REFERENCES Grupo(id) ON UPDATE CASCADE
 );
 
+-- Tabla de roles, dependiente de Spring Security.
+-- Roles disponibles: ROLE_ADMIN, ROLE_USER, MEV, SdA, SdC
 CREATE TABLE authorities (
     username varchar(200) NOT NULL,
     authority varchar(50) NOT NULL,
     CONSTRAINT pk_authorities PRIMARY KEY (username, authority),
     CONSTRAINT fk_authorities_users FOREIGN KEY (username) REFERENCES users(username)
-);    
-
-CREATE TABLE pagocuotas (
-    idgrupo character varying(20) NOT NULL,
-    "año" integer NOT NULL,
-    cantidad numeric(7,2) NOT NULL,
-    fechapago date NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    notas varchar(250) NULL,
-    jpa_version int NOT NULL DEFAULT(0),
-    CONSTRAINT pk_pagocuotas PRIMARY KEY (idgrupo, "año"),
-    CONSTRAINT fk_pagocuotas_grupo FOREIGN KEY (idgrupo)
-        REFERENCES grupo (id) MATCH SIMPLE
-        ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT "pagocuotas_año_check" CHECK ("año" >= 0)
 );
 
 create table asociado (
@@ -115,6 +104,10 @@ create table asociado (
     
     jpa_version int NOT NULL DEFAULT(0),
 
+	-- Optimización para evitar joins
+	-- Ver triggers actualizarAsociacion y actualizarAsociacionGrupo
+	asociacion smallint NOT NULL, -- 0 SdA, 1 SdC, 2 MEV
+
     CONSTRAINT pk_asociado PRIMARY KEY (id),
     CONSTRAINT fk_asociado_grupo FOREIGN KEY (idGrupo) REFERENCES grupo(id),
     CONSTRAINT ck_enum_asociado_sexo CHECK (sexo IN ('M', 'F')),
@@ -165,6 +158,35 @@ $actualizarDatosAuditoriaAsociado$ LANGUAGE plpgsql;
 CREATE TRIGGER auditAsociado
     BEFORE INSERT OR UPDATE ON asociado FOR EACH ROW
     EXECUTE PROCEDURE actualizarDatosAuditoriaAsociado();
+
+
+-- TRIGGER
+-- Optimización para evitar el join al filtrar asociados por asociación
+-- a través del grupo al que pertenece (from asociacion inner join grupo g on a.idgrupo = g.id)
+CREATE FUNCTION actualizarFiltroAsociacion() RETURNS trigger as $actualizarFiltroAsociacion$
+BEGIN
+	new.asociacion = (SELECT asociacion from grupo where id = new.idgrupo limit 1);
+	return new;
+END;
+$actualizarFiltroAsociacion$ LANGUAGE plpgsql;
+
+CREATE FUNCTION actualizarFiltroAsociacionGrupo() RETURNS trigger as $actualizarFiltroAsociacionGrupo$
+BEGIN
+	UPDATE asociado SET asociacion = new.asociacion WHERE asociado.idgrupo = new.id;
+	return new;
+END;
+$actualizarFiltroAsociacionGrupo$ LANGUAGE plpgsql;
+
+-- Al crear el asociado, actualizar el grupo
+-- Considerar qué sucede al cambiar un asociado de grupo
+CREATE TRIGGER actualizarAsociacion
+	BEFORE INSERT ON asociado FOR EACH ROW
+	EXECUTE PROCEDURE actualizarFiltroAsociacion();
+
+-- Al actualizar el grupo, actualizar asociados
+CREATE TRIGGER actualizarAsociacionGrupo
+	AFTER UPDATE ON grupo FOR EACH ROW
+	EXECUTE PROCEDURE actualizarFiltroAsociacionGrupo();
 
 -- Índices
 CREATE UNIQUE INDEX ix_authorities ON authorities (username,authority);

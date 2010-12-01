@@ -12,6 +12,8 @@ import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.AsociadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,10 +73,18 @@ public class ListadosController {
 		Grupo grupo = usuarioActual.getGrupo();
 		String idGrupo = (grupo == null ? null : grupo.getId());
 		
+		int asociacion = -1; // No filtrar
+		Collection<GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+		for (GrantedAuthority authority : authorities) {
+			if (authority.getAuthority().equals("SdA")) { asociacion = 0; break; }
+			if (authority.getAuthority().equals("SdC")) { asociacion = 1; break; }
+			if (authority.getAuthority().equals("MEV")) { asociacion = 2; break; }
+		}
+		
 		Result<Asociado> result = new Result<Asociado>();
-		result.setTotalRecords(storage.count(idGrupo, filtroTipo, filtroRama, false));
+		result.setTotalRecords(storage.count(idGrupo, filtroTipo, filtroRama, false, asociacion));
 		result.setData(storage.findWhere(idGrupo, columnas, ordenadoPor, sentido, 
-				inicio, resultadosPorPágina, filtroTipo, filtroRama, false));
+				inicio, resultadosPorPágina, filtroTipo, filtroRama, false, asociacion));
 		
 		return result;
 	}

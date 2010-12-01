@@ -11,7 +11,18 @@ if (typeof cudu == "undefined" || !cudu) {
 (function() {
 
 cudu.noop = function() { };
+
+cudu.ui.datatable.asociacionFormatter = function(elLiner, oRecord, oColumn, oData) {
+	if (oData == null) return;
+
+	var asociacion;
+	if (oData == '0') asociacion = 'SdA';
+	if (oData == '1') asociacion = 'SdC';
+	if (oData == '2') asociacion = 'MEV';
 	
+	elLiner.innerHTML = asociacion;
+};
+
 cudu.ui.datatable.phoneFormatter = function(elLiner, oRecord, oColumn, oData) {
 	if (oData == null) return;
 	
@@ -111,6 +122,7 @@ cudu.ui.datatable.table = function(cfg) {
 	var columnas = cfg.columnas;
 	cfg.filasPorPagina = cfg.filasPorPagina || 12;
 
+	YAHOO.widget.DataTable.Formatter.asociacion = cudu.ui.datatable.asociacionFormatter;
     YAHOO.widget.DataTable.Formatter.telefono = cudu.ui.datatable.phoneFormatter;
 	YAHOO.widget.DataTable.Formatter.rama = cudu.ui.datatable.translatedValueFormatterCtor(cudu.i8n.ramas);
 	YAHOO.widget.DataTable.Formatter.tipo = cudu.ui.datatable.translatedValueFormatterCtor(cudu.i8n.tipos);

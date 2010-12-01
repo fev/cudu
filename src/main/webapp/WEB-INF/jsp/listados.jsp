@@ -6,12 +6,16 @@
 <title><fmt:message key="app.title" /></title>
 <link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
+
+<!-- Combo-handled YUI CSS files: -->
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css&2.8.2r1/build/base/base-min.css&2.8.2r1/build/assets/skins/sam/skin.css">
+
+<%-- <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/container/assets/skins/sam/container.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/paginator/assets/skins/sam/paginator.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/datatable/assets/skins/sam/datatable.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/logger/assets/logger.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/logger/assets/logger.css" />" /> --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
 .yui-skin-sam .yui-dt tr.mark, 
@@ -132,11 +136,16 @@ div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
 </div>
 </div>
 
-<script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script>
+
+<!-- Combo-handled YUI JS files: -->
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.2r1/build/utilities/utilities.js&2.8.2r1/build/container/container-min.js&2.8.2r1/build/datasource/datasource-min.js&2.8.2r1/build/paginator/paginator-min.js&2.8.2r1/build/datatable/datatable-min.js&2.8.2r1/build/selector/selector-min.js&2.8.2r1/build/event-delegate/event-delegate-min.js&2.8.2r1/build/json/json-min.js"></script>
+
+
+<%-- <script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/selector/selector-min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/s/yui/event-delegate/event-delegate-min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/yui/event-delegate/event-delegate-min.js" />"></script>--%>
 <%-- <script type="text/javascript" src="<c:url value="/s/yui/logger/logger.js" />"></script> --%>
-<script type="text/javascript" src="<c:url value="/s/yui/connection/connection-min.js" />"></script> 
+<%-- <script type="text/javascript" src="<c:url value="/s/yui/connection/connection-min.js" />"></script> 
 <script type="text/javascript" src="<c:url value="/s/yui/json/json-min.js" />"></script>  
 <script type="text/javascript" src="<c:url value="/s/yui/dragdrop/dragdrop-min.js" />"></script> 
 <script type="text/javascript" src="<c:url value="/s/yui/element/element-min.js" />"></script>
@@ -144,7 +153,7 @@ div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
 <script type="text/javascript" src="<c:url value="/s/yui/paginator/paginator-debug.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/animation/animation-min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-debug.js" />"></script>
-<script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> --%>
 <script type="text/javascript" src="<c:url value="/s/scripts/listados.js" />"></script>
 <script type="text/javascript">
 cudu.i8n.ramas = {
@@ -206,8 +215,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
    		{ key: "fechanacimiento", label: '<fmt:message key="listados.c.fechanacimiento" />', sortable: true, parser: "date", formatter: "date" },
    		{ key: "telefonocasa", label: '<fmt:message key="listados.c.telefonocasa" />', sortable: true, formatter: "telefono" },
    		{ key: "telefonomovil", label: '<fmt:message key="listados.c.telefonomovil" />', sortable: true, formatter: "telefono"  },
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'SdA','SdC','MEV')">
    		{ key: 'idGrupo', label: '<fmt:message key="listados.c.grupo" />', sortable: true },
+   		{ key: 'asociacion', label: '<fmt:message key="listados.c.asociacion" />', sortable: true, formatter: "asociacion" },
    		</sec:authorize>
    		{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: true, pk: true },
    		{ key: "calle", label: '<fmt:message key="listados.c.direccion" />', sortable: true, hidden: true },
