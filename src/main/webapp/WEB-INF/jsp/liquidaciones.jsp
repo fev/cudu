@@ -84,12 +84,12 @@ a#btngenliq { padding-left: 20px; background: transparent url(<c:url value="/s/t
       <div id="liq-ed-title">3 Enero</div>
       <div id="liq-ed-summ">Total Altas: 532<br />Total Bajas: 45</div>
     </div>
-    <div class="yui-g" style="padding: 10px 0 5px 0">
-      <div class="g">
+    <div id="pdg-ct" class="yui-g" style="padding: 10px 0 5px 0">
+      <%-- <div class="g">
         <span class="gn">Ain-Karen</span>
         <img src="<c:url value="/s/theme/img/liq-up.png"/>" /><span class="ga">12</span> 
         <img src="<c:url value="/s/theme/img/liq-down.png"/>" /><span>4</span> 
-      </div>
+      </div> --%>
     </div>
   </div>
   <div id="liq-ed-ft" class="yui-g">
@@ -127,6 +127,13 @@ a#btngenliq { padding-left: 20px; background: transparent url(<c:url value="/s/t
 <div id="ft"><fmt:message key="app.copyright" /></div>
 </div><%-- div#doc --%>
 
+<%-- Nodo a clonar en el detalle de la liquidación, siempre oculto --%>
+<div id="pgd" class="g hidden">
+  <span id="pgd-nombre" class="gn">Ain-Karen</span>
+  <img src="<c:url value="/s/theme/img/liq-up.png"/>" /><span id="pgd-altas" class="ga">12</span> 
+  <img src="<c:url value="/s/theme/img/liq-down.png"/>" /><span id="pgd-bajas">4</span> 
+</div>
+
 <script src="<c:url value="/s/jquery/jquery-1.4.2.min.js" />" type="text/javascript"></script>
 <script type="text/javascript">
 cudu = { };
@@ -134,6 +141,21 @@ cudu.i8n = {
 	meses: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
 };
 cudu.liquidaciones = {
+	crearDetalleGrupo: function(grupos) {
+		$("#pdg-ct").empty();
+		// for (var i = 0; i < grupos.length; i++) {
+		for (var i in grupos) {
+			var g = grupos[i];
+			$("#pgd-nombre").text(g.nombre);
+			$("#pgd-altas").text(g.altas);
+			$("#pgd-bajas").text(g.bajas);
+			var node = $("#pgd").clone();
+			node.children().removeAttr("id");
+			node.attr("id", "det-" + g.id);
+			node.removeClass("hidden");
+			node.appendTo("#pdg-ct");
+		}
+	},
 	generar: function() {
 		$("#liq-wait").fadeIn();
 		$.getJSON('liquidaciones/generar', function(data) {
@@ -150,6 +172,8 @@ cudu.liquidaciones = {
 					  "fecha": $(this).attr("data-fecha"), 
 					  "asociacion": 1};
 		$.getJSON('liquidaciones/obtener', params, function(data) {
+			// console.log(data);
+			cudu.liquidaciones.crearDetalleGrupo(data.grupos);
 			var f = new Date(data.fecha);
 			$("#liq-ed-title").text(f.getDate() + " " + cudu.i8n.meses[f.getMonth()]);
 			$("#liq-ed-summ").html("Altas: " + data.altas + "<br/>Bajas: " + data.bajas);

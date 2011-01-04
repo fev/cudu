@@ -7,7 +7,9 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.scoutsfev.cudu.domain.ResumenLiquidacion;
+import org.scoutsfev.cudu.domain.liquidaciones.VistaResumenPorGrupo;
+import org.scoutsfev.cudu.domain.liquidaciones.VistaResumen;
+import org.scoutsfev.cudu.domain.liquidaciones.Resumen;
 
 public class LiquidacionesServiceImpl implements LiquidacionesService {
 
@@ -18,7 +20,7 @@ public class LiquidacionesServiceImpl implements LiquidacionesService {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public Collection<ResumenLiquidacion> obtener(int asociacion) {
+	public Collection<VistaResumen> obtener(int asociacion) {
 		return this.entityManager
 			.createNamedQuery("liquidacionesDeAsociacion")
 			.setParameter("asociacion", asociacion)
@@ -26,12 +28,24 @@ public class LiquidacionesServiceImpl implements LiquidacionesService {
 	}
 
 	@Override
-	public ResumenLiquidacion obtener(int ejercicio, String fecha, int asociacion) {
-		return (ResumenLiquidacion) this.entityManager
-			.createQuery("select r from ResumenLiquidacion r where ejercicio = :ejercicio and fecha = :fecha and asociacion = :asociacion")
+	@SuppressWarnings("unchecked")
+	public Resumen obtener(int ejercicio, String fecha, int asociacion) {
+		VistaResumen parcial = (VistaResumen) this.entityManager
+			.createQuery("select r from VistaResumen r where ejercicio = :ejercicio and fecha = :fecha and asociacion = :asociacion")
 			.setParameter("ejercicio", ejercicio)
 			.setParameter("fecha", java.sql.Date.valueOf(fecha))
 			.setParameter("asociacion", asociacion)
 			.getSingleResult();
+		
+		Collection<VistaResumenPorGrupo> detalle = this.entityManager
+			.createQuery("select r from VistaResumenPorGrupo r where ejercicio = :ejercicio and fecha = :fecha and asociacion = :asociacion")
+			.setParameter("ejercicio", ejercicio)
+			.setParameter("fecha", java.sql.Date.valueOf(fecha))
+			.setParameter("asociacion", asociacion)
+			.getResultList();
+		
+		return new Resumen(parcial, detalle);
 	}
+	
+	
 }

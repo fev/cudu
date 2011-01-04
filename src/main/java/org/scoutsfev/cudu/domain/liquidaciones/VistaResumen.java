@@ -1,4 +1,4 @@
-package org.scoutsfev.cudu.domain;
+package org.scoutsfev.cudu.domain.liquidaciones;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,28 +11,29 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+
 @Entity
 @Table(name = "liq_resumen")
-@IdClass(ResumenLiquidacionPK.class)
-@NamedQuery(name = "liquidacionesDeAsociacion", query = "SELECT r FROM ResumenLiquidacion r WHERE asociacion = :asociacion ORDER BY fecha desc")
-public class ResumenLiquidacion implements Serializable {
+@IdClass(VistaResumenDiscriminante.class)
+@NamedQuery(name = "liquidacionesDeAsociacion", query = "SELECT r FROM VistaResumen r WHERE asociacion = :asociacion ORDER BY fecha desc")
+public class VistaResumen implements Serializable {
 
 	private static final long serialVersionUID = -2804792829304451084L;
 	
 	@Id
-	private Integer ejercicio;
+	protected Integer ejercicio;
 
 	@Id
 	@Temporal(TemporalType.DATE)
-	private Date fecha;
+	protected Date fecha;
 
-	private Long altas;
+	protected Long altas;
 
-	private Long bajas;
+	protected Long bajas;
 	
-	private Integer asociacion;
+	protected Integer asociacion;
 
-	public ResumenLiquidacion() {
+	public VistaResumen() {
 	}
 
 	public Long getAltas() {

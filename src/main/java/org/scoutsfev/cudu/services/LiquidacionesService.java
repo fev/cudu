@@ -2,9 +2,10 @@ package org.scoutsfev.cudu.services;
 
 import java.util.Collection;
 
-import org.scoutsfev.cudu.domain.ResumenLiquidacion;
+import org.scoutsfev.cudu.domain.liquidaciones.VistaResumen;
+import org.scoutsfev.cudu.domain.liquidaciones.Resumen;
 
 public interface LiquidacionesService {
-	Collection<ResumenLiquidacion> obtener(int asociacion);
-	ResumenLiquidacion obtener(int ejercicio, String fecha, int asociacion);
+	Collection<VistaResumen> obtener(int asociacion);
+	Resumen obtener(int ejercicio, String fecha, int asociacion);
 }

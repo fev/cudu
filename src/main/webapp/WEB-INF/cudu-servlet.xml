@@ -39,6 +39,8 @@
 
   <mvc:view-controller path="/" view-name="dashboard" />
   <mvc:view-controller path="/login" />
+  <mvc:view-controller path="/404" />
+  <mvc:view-controller path="/403" />
 
   <!-- Resolución de la vista ("nombreVista.jsp", dentro de /WEB-INF/jsp) -->
   <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:order="10">
