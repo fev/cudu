@@ -14,7 +14,7 @@
     <org.slf4j.version>1.5.10</org.slf4j.version>
     <log4j.version>1.2.16</log4j.version>
     <org.postgresql.version>8.3.604</org.postgresql.version>
-    <org.codehaus.jackson.mapper>1.4.3</org.codehaus.jackson.mapper>
+    <org.codehaus.jackson>1.4.3</org.codehaus.jackson>
     <org.aspectj>1.6.5.RELEASE</org.aspectj>
   </properties>
   
@@ -189,10 +189,21 @@
         <version>${org.springframework.version}</version>
     </dependency>
     
+    <!-- Jackson (JSON) -->
+    <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>com.springsource.org.codehaus.jackson</artifactId>
+        <version>${org.codehaus.jackson}</version>
+    </dependency>
     <dependency>
         <groupId>org.codehaus.jackson</groupId>
         <artifactId>com.springsource.org.codehaus.jackson.mapper</artifactId>
-        <version>${org.codehaus.jackson.mapper}</version>
+        <version>${org.codehaus.jackson}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-jaxrs</artifactId>
+        <version>${org.codehaus.jackson}</version>
     </dependency>
     
     <dependency>

@@ -239,7 +239,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	
 	cudu.dom.tabla = new cudu.ui.datatable.table({ 
 		columnas: listaColumnas,
-		dataSourceUrl: '<c:url value="listados/asociados.json" />'
+		dataSourceUrl: '<c:url value="listados/asociados" />'
 	});
 	
 	YAHOO.util.Dom.addClass(cudu.dom.tcLoading, 'hidden');

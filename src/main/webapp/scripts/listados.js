@@ -156,9 +156,9 @@ cudu.ui.datatable.table = function(cfg) {
 	this.dataSource = new YAHOO.util.DataSource(cfg.dataSourceUrl + "?");
     this.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
     this.dataSource.responseSchema = {
-    	resultsList: "result.data", 
+    	resultsList: "data", 
         fields: columnas,
-        metaFields: { totalRecords: "result.totalRecords" }
+        metaFields: { totalRecords: "totalRecords" }
     };
 
     this.paginador = new YAHOO.widget.Paginator({
