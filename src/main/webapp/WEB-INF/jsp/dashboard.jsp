@@ -63,6 +63,12 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
         <span><fmt:message key="dashboard.migrupo" /></span>
       </a>
       </sec:authorize>
+      <sec:authorize access="hasAnyRole('SdA', 'SdC', 'MEV')">
+      <a href="<c:url value="liquidaciones" />">
+        <img src="<c:url value="/s/theme/img/db-liquidaciones.png" />" alt="liquidaciones" />
+        <span><fmt:message key="dashboard.liquidaciones" /></span>
+      </a>
+      </sec:authorize>
       <a href="<c:url value="sugerencias" />" class=" hidden">
         <img src="<c:url value="/s/theme/img/db-sugerencias.png" />" alt="ayuda" />
         <span><fmt:message key="dashboard.sugerencias" /></span>
