@@ -35,10 +35,14 @@ def liquidar(db, fecha) {
 db.execute(reset)
 liquidar(db, java.sql.Date.valueOf( "2011-01-01" ))
 db.execute("update asociado set activo = true where id in (11,12);")
-db.execute("update asociado set activo = false where id in (20);")
-liquidar(db, java.sql.Date.valueOf( "2011-02-12" ))
-db.execute("update asociado set activo = false where id in (21);")
-liquidar(db, java.sql.Date.valueOf( "2011-03-23" ))
+
+//db.execute("update asociado set activo = false where id in (20);")
+
+// liquidar(db, java.sql.Date.valueOf( "2011-02-12" ))
+//db.execute("update asociado set activo = false where id in (21);")
+//liquidar(db, java.sql.Date.valueOf( "2011-03-23" ))*/
+
+db.execute("update liquidacion set borrador = false;")
 
 db.eachRow("select * from liq_resumen order by fecha asc") {
     println "${it.ejercicio}\t${it.fecha}\t${it.altas}\t${it.bajas}\t${it.asociacion}"

@@ -3,7 +3,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><fmt:message key="app.title" /></title>
+
+<title><fmt:message key="app.title" /><c:if test="${asociado.id > 0}" > - ${asociado.nombreCompleto}</c:if></title>
 <link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
@@ -26,7 +27,7 @@ div#bd { padding-left: 20px; }
   	  <c:otherwise><spring:message code="asociado.titulo.nuevo.${asociado.tipo}" /></c:otherwise>
   	</c:choose>
   </h1></div>
-  <div class="yui-g" style="text-align:right; padding-top: 1px; margin-right: 13px">
+  <div class="yui-g hidden" style="text-align:right; padding-top: 1px; margin-right: 13px">
     <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
     <img src="<c:url value="/s/theme/img/tango/edit-copy.png" />" />
     <a href="javascript:dbgcopy()"><img src="<c:url value="/s/theme/img/tango/edit-paste.png" />" /></a>

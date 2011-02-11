@@ -73,7 +73,14 @@ a#btngenliq { padding-left: 20px; background: transparent url(<c:url value="/s/t
 <div id="bd">
 
 <div class="yui-g" style="margin-bottom: 15px">
-  <span class="button"><a id="btngenliq" href="javascript:">Generar Liquidación</a></span>  
+  <div class="yui-u first">
+    <span class="button"><a id="btngenliq" href="javascript:">Generar Liquidación</a></span>
+  </div>
+  <div class="yui-u">
+    <div style="text-align:right;padding-right: 10px">
+      <img id="imgloader" src="<c:url value="/s/theme/img/liq-loader.gif"/>" alt="1" style="margin: -3px; display:none" />
+    </div>
+  </div>
 </div>
 
 <div id="liq-wait" class="yui-g wait hidden">Generando liquidación. Por favor, espere...</div>
@@ -143,7 +150,6 @@ cudu.i8n = {
 cudu.liquidaciones = {
 	crearDetalleGrupo: function(grupos) {
 		$("#pdg-ct").empty();
-		// for (var i = 0; i < grupos.length; i++) {
 		for (var i in grupos) {
 			var g = grupos[i];
 			$("#pgd-nombre").text(g.nombre);
@@ -159,9 +165,28 @@ cudu.liquidaciones = {
 	generar: function() {
 		$("#liq-wait").fadeIn();
 		$.getJSON('liquidaciones/generar', function(data) {
+			// console.log(data);
+			cudu.liquidaciones.crearDetalleGrupo(data.grupos);
+			var f = new Date(data.fecha);
+			$("#liq-ed-title").text(f.getDate() + " " + cudu.i8n.meses[f.getMonth()]);
+			$("#liq-ed-summ").html("Altas: " + data.altas + "<br/>Bajas: " + data.bajas);
+			$("#liq-ed-save").attr("data-ejercicio", data.ejercicio);
+			$("#liq-ed-save").attr("data-fecha", data.fecha);
+			
 			$("#liq-ed-ft").show();
 			$("#liq-ed").slideDown();
 			$("#liq-wait").fadeOut();
+		});
+	},
+	confirmar: function() {
+		var params = { "ejercicio": $(this).attr("data-ejercicio"), "fecha": $(this).attr("data-fecha") };
+		$.get('liquidaciones/confirmar', params, function(data) {
+			document.location = '<c:url value="/liquidaciones" />'; 
+		});
+	},
+	descartar: function() {
+		$.get('liquidaciones/descartar', function(data) {
+			$('#liq-ed').slideUp();
 		});
 	},
 	detalle: function() {
@@ -185,7 +210,13 @@ cudu.liquidaciones = {
 $(document).ready(function() {
 	$("#btngenliq").click(cudu.liquidaciones.generar);
 	$(".liq").click(cudu.liquidaciones.detalle);
-	$("#liq-ed-cancel").click(function() { $('#liq-ed').slideUp(); });
+	$("#liq-ed-save").click(cudu.liquidaciones.confirmar);
+	$("#liq-ed-cancel").click(cudu.liquidaciones.descartar);
+	
+	$("#imgloader").bind({
+	    ajaxStart: function() { $(this).show(); },
+	    ajaxStop: function() { $(this).hide(); }
+	});
 });
 </script>
 </body>

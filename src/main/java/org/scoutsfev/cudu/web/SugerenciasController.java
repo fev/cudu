@@ -3,8 +3,6 @@ package org.scoutsfev.cudu.web;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.scoutsfev.cudu.domain.Parcial;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.SugerenciasService;
@@ -20,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/sugerencias")
 public class SugerenciasController {
-	
-	protected final Log logger = LogFactory.getLog(getClass());
 	
 	@Autowired
 	protected SugerenciasService service;

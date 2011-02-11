@@ -31,4 +31,23 @@ public class VistaResumenDiscriminante implements Serializable {
 		return fecha;
 	}
 
+	public boolean equals(Object anyObj) {
+		if (this == anyObj) {
+			return true;
+		}
+		if (!(anyObj instanceof VistaResumenDiscriminante)) {
+			return false;
+		}
+		VistaResumenDiscriminante target = (VistaResumenDiscriminante)anyObj;
+		return this.ejercicio.equals(target.ejercicio) 
+			&& this.fecha.equals(target.fecha);
+    }
+    
+	public int hashCode() {
+		final int prime = 31;
+		int hash = 17;
+		hash = hash * prime + this.ejercicio.hashCode();
+		hash = hash * prime + this.fecha.hashCode();
+		return hash;
+    }
 }

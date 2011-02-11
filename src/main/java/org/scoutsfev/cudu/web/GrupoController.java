@@ -41,7 +41,7 @@ public class GrupoController {
 		if (grupo == null)
 			return "redirect:/403";
 		
-		logger.info("setupForm: " + grupo.getId());
+		logger.debug("setupForm: " + grupo.getId());
 
 		model.addAttribute("grupo", grupo);
 		return "grupo";
@@ -56,10 +56,10 @@ public class GrupoController {
 	 */
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(@ModelAttribute("grupo") @Valid Grupo grupo, BindingResult result, SessionStatus status) {
-		logger.info("processSubmit: " + grupo.getId());
+		logger.debug("processSubmit: " + grupo.getId());
 		
 		if (result.hasErrors()) {
-			logger.info("Validation errors.");
+			logger.debug("Validation errors.");
 			return "grupo";
 		}
 

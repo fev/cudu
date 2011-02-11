@@ -2,6 +2,7 @@
 -- 2011-01-02
 
 drop view liq_resumen;
+drop view liq_detalle_grupo;
 drop table liquidacion;
 
 create table liquidacion (
@@ -37,3 +38,9 @@ left join altas A on A.fecha = Q.fecha and A.asociacion = Q.asociacion
 left join bajas B on B.fecha = Q.fecha and B.asociacion = Q.asociacion
 order by asociacion, fecha desc;
 
+create or replace view liq_detalle_grupo
+as
+select l.ejercicio, l.fecha, g.nombre, l.caracter, count(*) as "cantidad", l.asociacion from liquidacion l
+inner join asociado a on a.id = l.idasociado
+inner join grupo g on a.idgrupo = g.id
+group by l.ejercicio, l.fecha, g.nombre, l.caracter, l.asociacion;

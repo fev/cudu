@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <%-- Prefetching --%>
-<link rel="prefetch" href="<c:url value="/s/cdn/yui-lst.js" />" />
+<link rel="prefetch" href="<c:url value="/s/cdn/yui-lst.js" />" type="text/javascript" />
 <link rel="prefetch" href="<c:url value="/s/theme/img/bg-bd.png" />" />
 <link rel="prefetch" href="<c:url value="/s/theme/img/bg-hd.png" />" />
 <link rel="prefetch" href="<c:url value="/s/theme/img/bg-ft.png" />" />

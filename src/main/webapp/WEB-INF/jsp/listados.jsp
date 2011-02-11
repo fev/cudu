@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title><fmt:message key="app.title" /></title>
+<title><fmt:message key="app.title" /> - <fmt:message key="dashboard.listados" /></title>
 <link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 <link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
 
@@ -143,16 +143,40 @@ div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
 </div>
 
 
-<!-- Combo-handled YUI JS files:
+<!-- Combo-handled YUI JS files: -->
+<!-- 
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.2r1/build/utilities/utilities.js&2.8.2r1/build/container/container-min.js&2.8.2r1/build/datasource/datasource-min.js&2.8.2r1/build/paginator/paginator-min.js&2.8.2r1/build/datatable/datatable-min.js&2.8.2r1/build/selector/selector-min.js&2.8.2r1/build/event-delegate/event-delegate-min.js&2.8.2r1/build/json/json-min.js"></script>
 -->
+
 <script type="text/javascript" src="<c:url value="/s/cdn/yui-lst.js" />"></script>
+
+<%-- 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.2r1/build/yuiloader/yuiloader-min.js"></script> 
+<script type="text/javascript"> 
+(function() { 
+    var loader = new YAHOO.util.YUILoader({ 
+        base: "http://ajax.googleapis.com/ajax/libs/yui/2.8.2r1/build/", 
+        require: ["animation","connection","container","datasource","datatable","dom","dragdrop",
+                  "element","event","event-delegate","json","paginator","selector"], 
+        loadOptional: false, 
+        combine: true, 
+        filter: "MIN", 
+        allowRollup: true, 
+        onSuccess: function() { 
+        	yuiIsLoadedCallback();
+        } 
+    }); 
+ 
+    // Load the files using the insert() method. 
+    loader.insert(); 
+})(); 
+</script>
+--%>
 
 <%-- <script type="text/javascript" src="<c:url value="/s/yui/yahoo-dom-event/yahoo-dom-event.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/selector/selector-min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/s/yui/event-delegate/event-delegate-min.js" />"></script>--%>
-<%-- <script type="text/javascript" src="<c:url value="/s/yui/logger/logger.js" />"></script> --%>
-<%-- <script type="text/javascript" src="<c:url value="/s/yui/connection/connection-min.js" />"></script> 
+<script type="text/javascript" src="<c:url value="/s/yui/event-delegate/event-delegate-min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/yui/connection/connection-min.js" />"></script> 
 <script type="text/javascript" src="<c:url value="/s/yui/json/json-min.js" />"></script>  
 <script type="text/javascript" src="<c:url value="/s/yui/dragdrop/dragdrop-min.js" />"></script> 
 <script type="text/javascript" src="<c:url value="/s/yui/element/element-min.js" />"></script>
@@ -161,6 +185,8 @@ div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
 <script type="text/javascript" src="<c:url value="/s/yui/animation/animation-min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-debug.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> --%>
+
+
 <script type="text/javascript" src="<c:url value="/s/scripts/listados.js" />"></script>
 <script type="text/javascript">
 cudu.i8n.ramas = {
@@ -216,6 +242,9 @@ cudu.dom.codigosRamas = {
 };
 
 YAHOO.util.Event.addListener(window, "load", function() {
+
+//function yuiIsLoadedCallback() {
+	
 	// TODO grupo.nombre no se interpreta bien por YUI
 	var listaColumnas = [
    		{ key: "tipo", label: "Tipo", sortable: true, formatter: "tipo" },
@@ -281,9 +310,6 @@ YAHOO.util.Event.addListener(window, "load", function() {
 
 		cudu.filtrarPor.tipo();
 	});
-
-	// DBG
-	// toogleFilter();
 });
 </script>
 </body>

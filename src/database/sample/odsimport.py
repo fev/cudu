@@ -125,8 +125,8 @@ def legibilizar(s):
 # Nombre de columna, función a aplicar, columnas al expandir (si procede)
 filtros = [("nombre", legibilizar),
            ("apellidos", filtroApellidos, ["primerApellido", "segundoApellido"]),
-           ("calle", filtroCalle, ["calle", "numero"]),
-           #('calle', lambda e: legibilizar(e.replace(FIELDSEP,FIELDSEPREPL))),
+           #("calle", filtroCalle, ["calle", "numero"]),
+           ('calle', lambda e: legibilizar(e.replace(FIELDSEP,FIELDSEPREPL))),
            ("provincia", lambda e: evitarNulo(legibilizar(e), '(desconocida)')),
 		   ("seguridadsocial", lambda s: re.sub("[^0-9]", "", s)),
 		   ("telefonomovil", lambda s: re.sub("[^0-9]", "", s)),
@@ -135,7 +135,8 @@ filtros = [("nombre", legibilizar),
 		   ("madre_telefono", lambda s: re.sub("[^0-9]", "", s)),
            ("primerApellido", legibilizar),
            ("segundoApellido", legibilizar),
-           #("grupo", filtroGrupo, ["idGrupo"]),
+		   ("numero", lambda e: evitarNulo(legibilizar(e), '0')),
+           ("grupo", filtroGrupo, ["idGrupo"]),
            ("municipio", lambda e: evitarNulo(legibilizar(e), '(desconocido)')),
            ("fechanacimiento", lambda e: evitarNulo(e, "01/01/1900")),
            ("email", lambda e: e.lower()),
@@ -216,7 +217,7 @@ def main():
     # prueba0()
     # return
     
-    generarSql('/Users/luis/Desktop/ak.ods')
+    generarSql('/Users/luis/Desktop/20100120-02.ods')
     return
     
     if len(sys.argv) < 2:

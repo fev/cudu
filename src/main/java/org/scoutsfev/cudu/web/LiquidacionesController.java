@@ -29,29 +29,32 @@ public class LiquidacionesController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String setupForm(Model model) {
 		Collection<VistaResumen> liquidaciones = service.obtener(1);
-		logger.warn(liquidaciones.size());
 		model.addAttribute("liquidaciones", liquidaciones);
 		return "liquidaciones";
 	}
 	
 	@RequestMapping(value = "obtener", method = RequestMethod.GET)
 	public @ResponseBody Resumen obtener(@RequestParam int ejercicio, @RequestParam String fecha, @RequestParam int asociacion) {
-		// TODO Eliminar parámetro asociación, sacar de los roles
-		
-//		DetalleLiquidacion detalle = new DetalleLiquidacion();
-//		detalle.setEjercicio(2011);
-//		detalle.setFecha(new Date(2011, 11, 24));
-//		grupos.put("AK", new DetalleGrupoI("AK", "Ain-Karen", 118, 21));
-//		grupos.put("PAU", new DetalleGrupoI("PAU", "GS-Pau", 43, 76));
-		
-//		Resumen resumenParcial = service.obtener(ejercicio, fecha, asociacion);
-//		ResumenCompleto resumen = new ResumenCompleto(resumenParcial, detalle);
-		
+		// TODO Eliminar parámetro asociación, sacar de los roles del usuario
 		return service.obtener(ejercicio, fecha, asociacion);
 	}
 	
 	@RequestMapping(value = "generar", method = RequestMethod.GET)
-	public @ResponseBody String generar() {
-		return "hi!";
+	public @ResponseBody Resumen generar() {
+		// TODO Eliminar parámetro asociación, sacar de los roles del usuario 
+		int asociacion = 1;
+		return this.service.generar(asociacion);
+	}
+	
+	@RequestMapping(value = "confirmar", method = RequestMethod.GET)
+	public @ResponseBody boolean confirmar(@RequestParam int ejercicio, @RequestParam String fecha) {
+		int asociacion = 1;
+		return this.service.confirmar(ejercicio, fecha, asociacion);
+	}
+	
+	@RequestMapping(value = "descartar", method = RequestMethod.GET)
+	public @ResponseBody boolean descartar() {
+		int asociacion = 1;
+		return this.service.descartar(asociacion);
 	}
 }

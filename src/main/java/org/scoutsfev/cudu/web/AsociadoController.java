@@ -34,8 +34,8 @@ public class AsociadoController {
 
 	@RequestMapping(value = "/{idAsociado}", method = RequestMethod.GET)
 	public String setupForm(@PathVariable("idAsociado") int idAsociado, Model model, HttpServletRequest request) {
-		logger.info("setupForm /asociado/" + idAsociado);
-
+		logger.debug("setupForm /asociado/" + idAsociado);
+		
 		Asociado asociado = service.find(idAsociado);
 		if (asociado == null)
 			return "redirect:/404";
@@ -73,7 +73,7 @@ public class AsociadoController {
 	
 	@RequestMapping(value = "/nuevo/{tipo}", method = RequestMethod.GET)
 	public String setupForm(@PathVariable String tipo, Model model, HttpServletRequest request) throws Exception {
-		logger.info("setupForm /nuevo/" + tipo);
+		logger.debug("setupForm /nuevo/" + tipo);
 				
 		Asociado asociado = new Asociado();
 		if (tipo.compareTo("joven") == 0)
@@ -106,11 +106,11 @@ public class AsociadoController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado, BindingResult result, SessionStatus status) {
-		logger.info("processSubmit: " + asociado.getId());
+		logger.debug("processSubmit: " + asociado.getId());
 		
 		if (result.hasErrors()) {
-			logger.info("Validation errors.");
-			//	for(ObjectError error: result.getAllErrors()) logger.info(error.getCode());
+			logger.debug("Validation errors.");
+			//	for(ObjectError error: result.getAllErrors()) logger.debug(error.getCode());
 			return "asociado";
 		}
 
@@ -122,7 +122,7 @@ public class AsociadoController {
 	
 	@RequestMapping(method = RequestMethod.DELETE)
 	public String eliminarAsociado(@PathVariable int idAsociado) {
-		logger.info("eliminarAsociado: " + idAsociado);
+		logger.debug("eliminarAsociado: " + idAsociado);
 		service.delete(idAsociado);		
 		return "redirect:/listados";
 	}
