@@ -117,6 +117,15 @@ def filtroLocalizacion(txt):
     ciud = txt[6:sProv-1]
     prov = txt[sProv+1:-1]
     return [cp,prov,ciud]
+
+def filtroSexo(txt):
+	txt = txt.strip(' ').lower()
+	if txt == 'masculino':
+		return 'M'
+	elif txt == 'femenino':
+		return 'F'
+	return txt
+
 # -----------------------------------   
 
 def legibilizar(s): 
@@ -135,11 +144,12 @@ filtros = [("nombre", legibilizar),
 		   ("madre_telefono", lambda s: re.sub("[^0-9]", "", s)),
            ("primerApellido", legibilizar),
            ("segundoApellido", legibilizar),
-           #("grupo", filtroGrupo, ["idGrupo"]),
+           ("grupo", filtroGrupo, ["idGrupo"]),
            ("municipio", lambda e: evitarNulo(legibilizar(e), '(desconocido)')),
            ("fechanacimiento", lambda e: evitarNulo(e, "01/01/1900")),
            ("email", lambda e: e.lower()),
            ("codigopostal", lambda e: evitarNulo(e, "00000")),
+           ("sexo", filtroSexo),
            ("rama", filtroRama, ["ramas", "rama_colonia", "rama_manada", "rama_exploradores", "rama_pioneros", "rama_rutas"]),
            ("dni", filtroDNI)]
 
@@ -216,7 +226,7 @@ def main():
     # prueba0()
     # return
     
-    generarSql('/Users/luis/Desktop/ak.ods')
+    generarSql('/Users/luis/Desktop/ak20110428.ods')
     return
     
     if len(sys.argv) < 2:

@@ -23,7 +23,7 @@ public class DashboardController {
 	@Autowired
 	protected UsuarioService usuarioService;
 	
-	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/dashboard"}, method = RequestMethod.GET)
 	public String load(HttpServletRequest request, Model model) {
 		logger.info("load");
 		model.addAttribute("usuarioActual", Usuario.obtenerActual());		
