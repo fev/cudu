@@ -52,7 +52,9 @@
     <div id="primary" class="yui-t7">
         <jsp:include page="header.jsp"></jsp:include>
         <div id="bd">
-            <div class="yui-g">
+            <div class="yui-g">                                      
+                <img width="50px" src="<c:url value='${usuarioActual.grupo.imagen}' />" alt="fev" style=" float: right; padding-right:40px;" />
+                <br><input type="file" name="fichero">cambiar imagen ...</input></br>
                 <div class="yui-g first">
                     <h1><fmt:message key="grupo.h.titulo" /> <c:out value="${grupo.nombre}" /></h1>
                     
@@ -176,9 +178,9 @@
                     <!--  <input type="submit" value="<fmt:message key="btn.eliminar" />" class="button delete" />-->
                     </div>
                 </div>
-                <div style="padding:20px" class="yui-g" align="right">
-                    <input type="button" value="<fmt:message key="btn.volver" />" class="button back" onclick="javascript:back()" />
+                <div style="padding-right:20px" class="yui-g" align="right">
                     <input type="submit" value="<fmt:message key="btn.guardar" />" class="button save" />
+                    <input type="button" value="<fmt:message key="btn.volver" />" class="button back" onclick="javascript:back()" />
                     <!--  <input type="button" value="<fmt:message key="btn.imprimir" />" class="button print" />-->
                 </div>
             </form:form>
