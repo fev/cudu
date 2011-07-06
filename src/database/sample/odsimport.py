@@ -128,14 +128,9 @@ filtros = [("nombre", legibilizar),
            ("calle", filtroCalle, ["calle", "numero"]),
            #('calle', lambda e: legibilizar(e.replace(FIELDSEP,FIELDSEPREPL))),
            ("provincia", lambda e: evitarNulo(legibilizar(e), '(desconocida)')),
-		   ("seguridadsocial", lambda s: re.sub("[^0-9]", "", s)),
-		   ("telefonomovil", lambda s: re.sub("[^0-9]", "", s)),
-		   ("telefonocasa", lambda s: re.sub("[^0-9]", "", s)),
-  		   ("padre_telefono", lambda s: re.sub("[^0-9]", "", s)),
-		   ("madre_telefono", lambda s: re.sub("[^0-9]", "", s)),
            ("primerApellido", legibilizar),
            ("segundoApellido", legibilizar),
-           #("grupo", filtroGrupo, ["idGrupo"]),
+           ("grupo", filtroGrupo, ["idGrupo"]),
            ("municipio", lambda e: evitarNulo(legibilizar(e), '(desconocido)')),
            ("fechanacimiento", lambda e: evitarNulo(e, "01/01/1900")),
            ("email", lambda e: e.lower()),
@@ -216,7 +211,7 @@ def main():
     # prueba0()
     # return
     
-    generarSql('/Users/luis/Desktop/ak.ods')
+    generarSql('/Users/luis/Desktop/Datos/resto.ods')
     return
     
     if len(sys.argv) < 2:

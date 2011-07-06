@@ -6,11 +6,13 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+import org.hibernate.annotations.Formula;
 
 import org.hibernate.validator.constraints.Email;
 
@@ -46,7 +48,11 @@ public class Grupo implements Serializable {
 	private String provincia;
 	
 	@Past
+        @Temporal(javax.persistence.TemporalType.DATE)
 	private Date aniversario;
+        
+        @Formula("direccion|| ', ' || municipio|| ' - ' || codigopostal || ' ('  || provincia || ')'")
+	private String direccionCompleta;
 
 	@NotNull
 	@Size(min = 3, max = 15)
@@ -65,12 +71,14 @@ public class Grupo implements Serializable {
 	
 	private Integer asociacion;
 	
+        private String imagen;
+        
 	@Size(max = 100)
 	private String entidadpatrocinadora;
 	
 	@Column(name = "jpa_version")
-    @Version
-    private int version;
+        @Version
+        private int version;
 
 	public String getId() {
 		return id;
@@ -199,5 +207,19 @@ public class Grupo implements Serializable {
 	public String getDireccion() {
 		return direccion;
 	}
+
+    /**
+     * @return the imagen
+     */
+    public String getImagen() {
+        return imagen;
+    }
+
+    /**
+     * @param imagen the imagen to set
+     */
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 }
 

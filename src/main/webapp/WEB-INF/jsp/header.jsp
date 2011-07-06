@@ -1,4 +1,6 @@
 <%@include file="taglibs.jsp" %>
+<script type="text/javascript" src="<c:url value="/s/scripts/general.js" />"></script>
+
 <div id="hd">
   <div class="yui-g">
     <div class="yui-g first">    	
@@ -7,7 +9,9 @@
       </a>
     </div>
     <div class="yui-g">
-      <img src="<c:url value="/s/theme/img/logofevtrans.png" />" alt="fev" style="float: right; margin-right: 25px; margin-top:10px" />      
+        <a href="<c:url value="http://msc.scouts-es.net/fev/portal/" />" class="external">
+            <img src="<c:url value="/s/theme/img/logofevtrans.png" />" alt="fev" style="float: right; margin-right: 25px; margin-top:10px" />
+        </a>
     </div>
   </div>
 </div>

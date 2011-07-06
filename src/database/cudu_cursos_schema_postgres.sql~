@@ -1,0 +1,69 @@
+
+CREATE TABLE curso(
+  id serial	integer		NOT NULL,
+  nombre	varchar(50)	NOT NULL,
+  acronimo	varchar(6)	NOT NULL,
+  caracter	character	NOT NULL,
+  anyo		integer		NOT NULL,
+  precio	float,
+  descripcion	varchar(100),
+  CONSTRAINT	pk_curso PRIMARY KEY (id),
+  CONSTRAINT	uk_curso_nombre_anyo	UNIQUE	(nombre,anyo),
+  CONSTRAINT	uk_curso_caracter_anyo	UNIQUE	(caracter,anyo),
+  CONSTRAINT	uk_curso_acronimo_anyo	UNIQUE	(acronimo,anyo)
+);
+  
+CREATE TABLE monografico (
+  id serial	integer 	NOT NULL,
+  nombre	varchar(50)	NOT NULL,
+  fechaInicio	date		NOT NULL,
+  fechaFin	date		NOT NULL,
+  precio	float,
+  bloque	varchar(50)	NOT NULL,
+  bloqueUnico	character	NOT NULL,
+  obligatorio	character	NOT NULL,
+  descripcion	varchar(100),
+  plazasDisponibles integer	NOT NULL,
+  plazasTotales	integer		NOT NULL,
+  listaEspera	integer		NOT NULL,
+  lugarPrevisto	varchar(100),
+  idcurso	integer		NOT NULL,
+  CONSTRAINT	pk_monografico				PRIMARY KEY (id),
+  CONSTRAINT	fk_monografico_curso			FOREIGN KEY (idcurso) REFERENCES Curso(id),
+  CONSTRAINT	uk_monografico_nombre_Fechainicio	UNIQUE(NOMBRE,fechaInicio),
+  CONSTRAINT	uk_monografico_nombre_FechaFin		UNIQUE(NOMBRE,fechaInicio)
+);
+
+CREATE TABLE inscripcionCurso (
+  idasociado	integer		NOT NULL,
+  idmonografico	integer		NOT NULL,
+  fechaInscripcion date		NOT NULL,
+  aceptado	character	NOT NULL,
+  pagoRealizado	character	NOT NULL,
+  CONSTRAINT pk_inscripcionCurso		PRIMARY KEY(idasociado,idmonografico),
+  CONSTRAINT fk_inscripcionCurso_asociado	FOREIGN KEY (idasociado) REFERENCES asociado(id),
+  CONSTRAINT fk_inscripcionCurso_monografico	FOREIGN KEY (idmonografico) REFERENCES monografico(id)
+);
+  
+  
+  
+-- Tabla de los trabajos que se tienen que hacer en los cuross
+CREATE TABLE trabajoCurso (
+  id serial	integer 	NOT NULL, 
+  anyo		integer		NOT NULL,
+  fechaEntrega	date		NOT NULL,
+  nombreTrabajo	varchar(100)	NOT NULL,
+  idcurso	integer		NOT NULL,
+  CONSTRAINT pk_trabajo		PRIMARY KEY (id),
+  CONSTRAINT uq_trabajo			UNIQUE (anyo,idcurso),
+  CONSTRAINT fk_trabajo_curso	FOREIGN	KEY (idcurso) REFERENCES curso(id)	ON UPDATE CASCADE
+);
+
+CREATE TABLE faltaMonografico (
+  idasociado 	integer	NOT NULL,
+  idmonografico	integer	NOt NULL,
+  fechaFalta	date	NOT NULL,
+  CONSTRAINT	pk_faltaMonografico	PRIMARY KEY (idasociado, idmonografico, fechaFalta),
+  CONSTRAINT	fk_faltaMonografico_inscripcion	FOREIGN KEY (idasociado,idmonografico) REFERENCES inscripcionCurso(idasociado,idmonografico) 
+);
+--restruiccion en monografico -> fecha inicio < fecha fin.

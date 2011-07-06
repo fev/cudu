@@ -2,7 +2,10 @@ if (typeof cudu == "undefined" || !cudu) {
     var cudu = {
 		dom: {},
 		i8n: {},
-		ui: { datatable: {} }
+		ui: {datatable: {},
+                      chart: {} 
+                }
+                
 	};
 }
 
@@ -66,9 +69,9 @@ cudu.ui.datatable.buildQuery = function(queryColumnas, campoOrden, orden, inicio
 };
 
 cudu.ui.datatable.panelSeleccionColumnas = function(columnas) {
-	var overlaySC = new YAHOO.widget.Overlay("overlaySelectorColumnas", {  visible: false, 
+	var overlaySC = new YAHOO.widget.Overlay("overlaySelectorColumnas", {visible: false, 
 		context:["btnSelectorColumnas","tl","bl", ["beforeShow", "windowResize"]],
-		effect: { effect: YAHOO.widget.ContainerEffect.FADE, duration:0.25 } 
+		effect: {effect: YAHOO.widget.ContainerEffect.FADE, duration:0.25} 
 	});
 	
 	var anchor;
@@ -77,7 +80,7 @@ cudu.ui.datatable.panelSeleccionColumnas = function(columnas) {
 		anchor = document.createElement('a');
 		anchor.columnKey = columnas[i].key;
 		anchor.setAttribute('href', 'javascript:cudu.noop()');
-		if (!columnas[i].hidden || columnas[i].hidden == false) { anchor.setAttribute('class', 'sel'); }
+		if (!columnas[i].hidden || columnas[i].hidden == false) {anchor.setAttribute('class', 'sel');}
 		anchor.innerHTML = columnas[i].label;
 		fragment.appendChild(anchor);
 	}
@@ -105,10 +108,10 @@ cudu.ui.datatable.panelSeleccionColumnas = function(columnas) {
 //		cudu.dom.tabla.tabla.insertColumn(element.columnKey); 
 	}, "a");
     
-	overlaySC.subscribe("show", function() { YAHOO.util.Dom.addClass('btnSelectorColumnas', 'selected'); this.isVisible = true; });
-	overlaySC.subscribe("hide", function() { YAHOO.util.Dom.removeClass('btnSelectorColumnas', 'selected'); this.isVisible = false; });
-	YAHOO.util.Event.addListener('btnSCCerrar', 'click', function() { overlaySC.hide(); });
-    YAHOO.util.Event.addListener('btnSelectorColumnas', 'click', function() {
+	overlaySC.subscribe("show", function() {YAHOO.util.Dom.addClass('btnSelectorColumnas', 'selected');this.isVisible = true;});
+	overlaySC.subscribe("hide", function() {YAHOO.util.Dom.removeClass('btnSelectorColumnas', 'selected');this.isVisible = false;});
+	YAHOO.util.Event.addListener('btnSCCerrar', 'click', function() {overlaySC.hide();});
+        YAHOO.util.Event.addListener('btnSelectorColumnas', 'click', function() {
     	if (overlaySC.isVisible == true)
     		overlaySC.hide();
     	else
@@ -118,16 +121,78 @@ cudu.ui.datatable.panelSeleccionColumnas = function(columnas) {
     return overlaySC;
 };
 
+cudu.ui.datatable.panelSeleccionFilas = function(obj) {
+
+	var overlaySF = new YAHOO.widget.Overlay("overlaySelectorFilas", {visible: false,
+		context:["btnList","tl","bl", ["beforeShow", "windowResize"]],
+		effect: {effect: YAHOO.widget.ContainerEffect.FADE, duration:0.25}
+	});
+
+	var anchor;
+	var fragment = document.createDocumentFragment();
+	for	(var i = 0; i < obj.filas.length; i++) {
+		anchor = document.createElement('a');
+		anchor.columnKey = obj.filas[i].label;
+                anchor.key = obj.filas[i].key
+		
+		anchor.innerHTML = obj.filas[i].label;
+		fragment.appendChild(anchor);
+	}
+
+	var body = document.createElement('div');
+	body.setAttribute('class', 'yui-g');
+	body.appendChild(fragment);
+        overlaySF.setFooter("<a id='btnSFCerrar' href='javascript:cudu.noop()'>Cerrar</a>");
+	overlaySF.setBody(body);
+	overlaySF.render(document.body);
+	overlaySF.isVisible = false;
+
+	YAHOO.util.Event.delegate(body, "click", function (event, element, container) {
+                obj.filasPorPagina = Number(element.key);
+
+
+
+
+                cudu.dom.tabla = new cudu.ui.datatable.table({
+		columnas: obj.columnas,
+                filas: obj.filas,
+                filasPorPagina: obj.filasPorPagina,
+		dataSourceUrl:obj.dataSourceUrl
+                });
+
+                
+	}, "a");
+
+	overlaySF.subscribe("show", function() {YAHOO.util.Dom.addClass('btnList', 'selected');this.isVisible = true;});
+	overlaySF.subscribe("hide", function() {YAHOO.util.Dom.removeClass('btnList', 'selected');this.isVisible = false;});
+        YAHOO.util.Event.addListener('btnSFCerrar', 'click', function() {overlaySF.hide();});
+        YAHOO.util.Event.addListener('btnList', 'click', function() {
+    	if (overlaySF.isVisible == true)
+    		overlaySF.hide();
+    	else
+    		overlaySF.show();
+    });
+    
+
+    return overlaySF;
+};
+
 cudu.ui.datatable.table = function(cfg) {
 	var columnas = cfg.columnas;
-	cfg.filasPorPagina = cfg.filasPorPagina || 12;
+        var filas = cfg.filas;
+        //Desplegable selector filas
+        
+
+	cfg.filasPorPagina = cfg.filasPorPagina|| 5;
 
 	YAHOO.widget.DataTable.Formatter.asociacion = cudu.ui.datatable.asociacionFormatter;
-    YAHOO.widget.DataTable.Formatter.telefono = cudu.ui.datatable.phoneFormatter;
+        YAHOO.widget.DataTable.Formatter.telefono = cudu.ui.datatable.phoneFormatter;
 	YAHOO.widget.DataTable.Formatter.rama = cudu.ui.datatable.translatedValueFormatterCtor(cudu.i8n.ramas);
 	YAHOO.widget.DataTable.Formatter.tipo = cudu.ui.datatable.translatedValueFormatterCtor(cudu.i8n.tipos);
 	
-	// Desplegable selector columnas
+
+        
+        // Desplegable selector columnas
 	cudu.dom.selectorColumnas = cudu.ui.datatable.panelSeleccionColumnas(columnas);
 	this.toogleColumn = function(key, visible) {
 		console.log(key + ': ' + visible);
@@ -139,6 +204,7 @@ cudu.ui.datatable.table = function(cfg) {
 		}
 		this.queryColumnas = this.buildColumnQuery(columnas, false);
 	};
+        
 
 	this.buildColumnQuery = function(columnas, honest) {
 		// TODO modificar, considerar columnas ocultas al imprimir
@@ -153,12 +219,14 @@ cudu.ui.datatable.table = function(cfg) {
 	};
 	this.queryColumnas = this.buildColumnQuery(columnas);
 
-	this.dataSource = new YAHOO.util.DataSource(cfg.dataSourceUrl + "?");
+        this.dataSource = new YAHOO.util.DataSource(cfg.dataSourceUrl + "?");
     this.dataSource.responseType = YAHOO.util.DataSource.TYPE_JSON;
     this.dataSource.responseSchema = {
-    	resultsList: "data", 
-        fields: columnas,
-        metaFields: { totalRecords: "totalRecords" }
+    	resultsList: "result.data", 
+        fields:columnas,
+        metaFields: {totalRecords: "result.totalRecords"}
+
+        
     };
 
     this.paginador = new YAHOO.widget.Paginator({
@@ -187,13 +255,17 @@ cudu.ui.datatable.table = function(cfg) {
     };
 
     var initialRequestUrl = cudu.ui.datatable.buildQuery(this.queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros);
-    // cudu.dom.btnImprimir.href = "listados/imprimir?" + initialRequestUrl;
+
+
+
+
+   // cudu.dom.btnImprimir.href = "listados/imprimir?" + initialRequestUrl;
     var tablecfg = {
         initialRequest: initialRequestUrl,
         generateRequest: this.requestBuilder,
         dynamicData: true,
         selectionMode: "standard",
-        sortedBy: { key: columnas[0].key, dir: YAHOO.widget.DataTable.CLASS_DESC },
+        sortedBy: {key: columnas[0].key, dir: YAHOO.widget.DataTable.CLASS_DESC},
         paginator: this.paginador,
         draggableColumns: true,
         MSG_EMPTY: cudu.i8n.tabla.SinDatos,
@@ -201,21 +273,48 @@ cudu.ui.datatable.table = function(cfg) {
         MSG_SORTASC: 'Pulse para ordenar de menor a mayor.',
         MSG_SORTDESC: 'Pulse para ordenar de mayor a menor.',
         dateOptions: {format:"%d/%m/%Y", locale:"es"},
+        formatRow: myRowFormatter, //ENABLE the row formatter
         width: "100%"
     };
 
-    this.tabla = new YAHOO.widget.DataTable("listado", columnas, this.dataSource, tablecfg);
+    this.tabla = new YAHOO.widget.DataTable("listado", 
+        columnas,
+        this.dataSource,
+        tablecfg
+    );
 
-    this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
+this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
     this.tabla.subscribe("rowMouseoutEvent", this.tabla.onEventUnhighlightRow);
     this.tabla.subscribe("rowClickEvent", this.tabla.onEventSelectRow);
-    this.tabla.subscribe("rowSelectEvent", function(e) {
-        window.location = 'asociado/' + e.record.getData().id; 
+    this.tabla.subscribe("theadCellDblclickEvent", this.tabla.onEventSelectColumn);
+    
+    columnSelect ="ninguna";
+    
+    this.tabla.subscribe("cellClickEvent", function (e) {
+        columnSelect = this.getColumn(e.target)
+        this.tabla.hideColumn(columnSelect);
+
+         this.selectColumn(this.getColumn(e.target));
+
     });
+       
+
+    this.tabla.subscribe("rowSelectEvent", function(e) {
+       if(columnSelect.field !="id")
+        {
+         window.location = 'asociado/' + e.record.getData().id; 
+       }
+    });
+
 
     // TODO, URL para imprimir
     this.tabla.subscribe("dataReturnEvent", function(status, b) {
     	cudu.dom.btnImprimir.href = "listados/imprimir?" + status.request;
+    });
+
+    // TODO, URL para hacer pdfs
+    this.tabla.subscribe("dataReturnEvent", function(status, b) {
+    	cudu.dom.btnPdf .href = "listados/pdf?" + status.request;
     });
     
     // this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
@@ -291,11 +390,11 @@ cudu.filtrarPor = {
 cudu.ui.toogleFilter = function() {
 	var tcFilter = cudu.dom.tcFilter;
     if (!tcFilter.isOpen) {
-      (new YAHOO.util.Anim(tcFilter, {height: { to: 75 }}, 0.9, YAHOO.util.Easing.bounceOut)).animate();
+      (new YAHOO.util.Anim(tcFilter, {height: {to: 75}}, 0.9, YAHOO.util.Easing.bounceOut)).animate();
       tcFilter.isOpen = true;
       YAHOO.util.Dom.addClass('btnFiltro', 'selected'); 
     } else {
-      (new YAHOO.util.Anim(tcFilter, {height: { to: 0 }}, 0.7, YAHOO.util.Easing.backIn)).animate();
+      (new YAHOO.util.Anim(tcFilter, {height: {to: 0}}, 0.7, YAHOO.util.Easing.backIn)).animate();
       tcFilter.isOpen = false;
       YAHOO.util.Dom.removeClass('btnFiltro', 'selected');
     }
@@ -317,14 +416,30 @@ cudu.ui.expandirUI = function() {
 })();
 
 /*
-var marcarPastelitos = false;
+var marcarPastelitos = false;*/
+
 var myRowFormatter = function(elTr, oRecord) {
-    if (marcarPastelitos && (oRecord.getData('amount') == 0)) {
-        YAHOO.util.Dom.addClass(elTr, 'mark');
+    if (oRecord.getData('ramas') == 'C') {
+        YAHOO.util.Dom.addClass(elTr, 'markC');
+        YAHOO.util.Dom.replaceClass(elTr.parentNode, "down", "up");
+    }
+    else if (oRecord.getData('ramas') == 'M') {
+        YAHOO.util.Dom.addClass(elTr, 'markM');
+        YAHOO.util.Dom.replaceClass(elTr.parentNode, "up", "down");
+    }
+    else if (oRecord.getData('ramas') == 'E') {
+        YAHOO.util.Dom.addClass(elTr, 'markE');
+        YAHOO.util.Dom.replaceClass(elTr.parentNode, "up", "down");
+    }
+    else if (oRecord.getData('ramas') == "P") {
+        YAHOO.util.Dom.addClass(elTr, 'markP');
+    }
+    else  if (oRecord.getData('ramas') == "R") {
+        YAHOO.util.Dom.addClass(elTr, 'markR');
     }
     return true;
 };
-
+/*
 function resaltarVentas() {
     if (dom.chkPasteles.checked) {
       marcarPastelitos = true;

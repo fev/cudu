@@ -57,4 +57,29 @@ public class AuditoriaServiceRedisImpl implements AuditoriaService {
 		
 		new Thread(new AsyncAuditWrite(sb.toString())).start();
 	}
+        
+        @Override
+	public void registrar(Operacion operacion, Entidad entidad, String pk1,String pk2,String pk3) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmss");
+		String fecha = dateFormat.format(new Date());
+		
+		String usuario = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(fecha);
+		sb.append(FIELDSEPARATOR);
+		sb.append(usuario);
+		sb.append(FIELDSEPARATOR);
+		sb.append(operacion.getOperacion());
+		sb.append(FIELDSEPARATOR);
+		sb.append(entidad.getEntidad());
+		sb.append(FIELDSEPARATOR);
+		sb.append(pk1);
+                sb.append(FIELDSEPARATOR);
+		sb.append(pk2);
+                sb.append(FIELDSEPARATOR);
+		sb.append(pk3);
+		
+		new Thread(new AsyncAuditWrite(sb.toString())).start();
+	}
 }

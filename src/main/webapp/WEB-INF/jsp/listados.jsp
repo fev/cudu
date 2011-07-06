@@ -21,41 +21,112 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/datatable/assets/skins/sam/datatable.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
 <style type="text/css">
-.yui-skin-sam .yui-dt tr.mark, 
-.yui-skin-sam .yui-dt tr.mark td.yui-dt-asc, 
-.yui-skin-sam .yui-dt tr.mark td.yui-dt-desc, 
-.yui-skin-sam .yui-dt tr.mark td.yui-dt-asc, 
-.yui-skin-sam .yui-dt tr.mark td.yui-dt-desc { background-color: #a33;  color: #fff; }
 
-.yui-skin-sam .yui-dt table { border-right: 0; }
-/* .yui-skin-sam .yui-dt td.yui-dt-last, .yui-skin-sam .yui-dt th.yui-dt-last { border-right: 0; } */
-.yui-dt-hidden { display: none; }
+        /* Class for marked rows */
+.yui-skin-sam .yui-dt tr.markC,
+.yui-skin-sam .yui-dt tr.markC td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markC td.yui-dt-desc,
+.yui-skin-sam .yui-dt tr.markC td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markC td.yui-dt-desc {
+    background-color: #F5D487;
+    color: #000;
+}
 
-a#radioCualquierRama { background: transparent url('<c:url value="/s/theme/img/aramas.png" />') no-repeat 0px 0px;
-	width: 90px; height: 16px; margin-top: 6px; margin-left: 9px; text-decoration: none;  }
-a#radioCualquierRama.selected { background-position: 0px -16px !important }
+.yui-skin-sam .yui-dt tr.markM,
+.yui-skin-sam .yui-dt tr.markM td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markM td.yui-dt-desc,
+.yui-skin-sam .yui-dt tr.markM td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markM td.yui-dt-desc {
+    background-color: #EAF67A;
+    color: #000;
+}
 
-div.field a.chkTipo { border: 1px solid #D4D2CC; padding: 3px 5px; margin-top: 1px; text-decoration: none; color: #333 }
-div.field a.chkTipo:hover { border-color: #0C4A64; color: #0C4A64; }
-div.field a.chkTipo.selected { border-color: #4899ce; background-color: #FFF; color: #4899ce; }
-div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #ffeeee; color: #ce4848; }
 
-#overlaySelectorColumnas { width: 450px; background: url('<c:url value="/s/theme/img/onepixb.png" />');
-	-moz-border-radius: 0 0 5px 5px; -webkit-border-radius: 0 0 8px 8px; }
-#overlaySelectorColumnas div.yui-g { border: 1px solid #D4D4D4; border-top: 0; background: #FBFBF7; padding: 4px 8px 4px 0; margin: 10px }
-#overlaySelectorColumnas a { display: block; float:left; margin: 4px 0px 4px 8px; padding: 4px; text-decoration: none;
-	cursor: pointer; min-width: 120px; border: 1px solid #FBFBF7; color: #333 }
-#overlaySelectorColumnas a.sel, #overlaySelectorColumnas a:hover { 
-	border: 1px solid #206CFF; background-color: #E0ECFF; color: #206CFF; }
-#overlaySelectorColumnas a:hover { border-style: dashed; background-color: transparent }
-#overlaySelectorColumnas a.sel:hover { background-color:#FFE3E3; border-color: #900; color:#900; }
-#overlaySelectorColumnas div.ft a { margin: 0 10px 10px 0; text-decoration: none; color: #FFF; 
-	border: 0; min-width: 70px; float:right; background: url('<c:url value="/s/theme/img/onepixb.png" />') }
-#overlaySelectorColumnas div.ft a#btnSCCerrar:hover { background: #668e35; }
+.yui-skin-sam .yui-dt tr.markE,
+.yui-skin-sam .yui-dt tr.markE td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markE td.yui-dt-desc,
+.yui-skin-sam .yui-dt tr.markE td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markE td.yui-dt-desc {
+    background-color:#B0B2F9;
+    color: #000;
+}
 
-/* Expansión de formulario */
-div#doc3 div#bd { background: #FFF; -webkit-border-radius: 6px; -moz-border-radius: 6px }
-div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
+        /* Class for marked rows */
+.yui-skin-sam .yui-dt tr.markP,
+.yui-skin-sam .yui-dt tr.markP td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markP td.yui-dt-desc,
+.yui-skin-sam .yui-dt tr.markP td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markP td.yui-dt-desc {
+    background-color: #F9B0B0;
+    color: #000;
+}
+
+.yui-skin-sam .yui-dt tr.markR,
+.yui-skin-sam .yui-dt tr.markR td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markR td.yui-dt-desc,
+.yui-skin-sam .yui-dt tr.markR td.yui-dt-asc,
+.yui-skin-sam .yui-dt tr.markR td.yui-dt-desc {
+    background-color: #A2F5A7;
+    color: #000d;
+}
+
+/* selection */
+    .yui-skin-sam th.yui-dt-selected,
+    .yui-skin-sam th.yui-dt-selected a { 
+        background-color:#446CD7; /* bright blue selected cell */
+    }
+
+        .yui-skin-sam .yui-dt table { border-right: 0; }
+        /* .yui-skin-sam .yui-dt td.yui-dt-last, .yui-skin-sam .yui-dt th.yui-dt-last { border-right: 0; } */
+        .yui-dt-hidden { display: none; }
+
+        a#radioCualquierRama { background: transparent url('<c:url value="/s/theme/img/aramas.png" />') no-repeat 0px 0px;
+                width: 90px; height: 16px; margin-top: 6px; margin-left: 9px; text-decoration: none;  }
+        a#radioCualquierRama.selected { background-position: 0px -16px !important }
+
+        div.field a.chkTipo { border: 1px solid #D4D2CC; padding: 3px 5px; margin-top: 1px; text-decoration: none; color: #333 }
+        div.field a.chkTipo:hover { border-color: #0C4A64; color: #0C4A64; }
+        div.field a.chkTipo.selected { border-color: #4899ce; background-color: #FFF; color: #4899ce; }
+        div.field a.chkTipo.selected:hover { border-color: #ce4848; background-color: #ffeeee; color: #ce4848; }
+
+        #overlaySelectorColumnas { width: 450px; background: url('<c:url value="/s/theme/img/onepixb.png" />');
+                -moz-border-radius: 0 0 5px 5px; -webkit-border-radius: 0 0 8px 8px; }
+        #overlaySelectorColumnas div.yui-g { border: 1px solid #D4D4D4; border-top: 0; background: #FBFBF7; padding: 4px 8px 4px 0; margin: 10px }
+        #overlaySelectorColumnas a { display: block; float:left; margin: 4px 0px 4px 8px; padding: 4px; text-decoration: none;
+                cursor: pointer; min-width: 120px; border: 1px solid #FBFBF7; color: #333 }
+        #overlaySelectorColumnas a.sel, #overlaySelectorColumnas a:hover {
+                border: 1px solid #206CFF; background-color: #E0ECFF; color: #206CFF; }
+        #overlaySelectorColumnas a:hover { border-style: dashed; background-color: transparent }
+        #overlaySelectorColumnas a.sel:hover { background-color:#FFE3E3; border-color: #900; color:#900; }
+        #overlaySelectorColumnas div.ft a { margin: 0 10px 10px 0; text-decoration: none; color: #FFF;
+                border: 0; min-width: 70px; float:right; background: url('<c:url value="/s/theme/img/onepixb.png" />') }
+        #overlaySelectorColumnas div.ft a#btnSCCerrar:hover { background: #668e35; }
+
+
+
+
+        #overlaySelectorFilas { width: 450px; background: url('<c:url value="/s/theme/img/onepixb.png" />');
+                -moz-border-radius: 0 0 5px 5px; -webkit-border-radius: 0 0 8px 8px; }
+        #overlaySelectorFilas div.yui-g { border: 1px solid #D4D4D4; border-top: 0; background: #FBFBF7; padding: 4px 8px 4px 0; margin: 10px }
+        #overlaySelectorFilas a { display: block; float:left; margin: 4px 0px 4px 8px; padding: 4px; text-decoration: none;
+                cursor: pointer; min-width: 120px; border: 1px solid #FBFBF7; color: #333 }
+        #overlaySelectorFilas a.sel, #overlaySelectorFilas a:hover {
+                border: 1px solid #206CFF; background-color: #E0ECFF; color: #206CFF; }
+        #overlaySelectorFilas a:hover { border-style: dashed; background-color: transparent }
+        #overlaySelectorFilas a.sel:hover { background-color:#FFE3E3; border-color: #900; color:#900; }
+        #overlaySelectorColFilas div.ft a { margin: 0 10px 10px 0; text-decoration: none; color: #FFF;
+                border: 0; min-width: 70px; float:right; background: url('<c:url value="/s/theme/img/onepixb.png" />') }
+        #overlaySelectorCoFilas div.ft a#btnSCCerrar:hover { background: #668e35; }
+
+
+
+
+        /* Expansión de formulario */
+        div#doc3 div#bd { background: #FFF; -webkit-border-radius: 6px; -moz-border-radius: 6px }
+        div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
+
+
+
 </style>
 </head>
 <body>
@@ -76,10 +147,21 @@ div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
       <img src="<c:url value="/s/theme/img/tango/select-column.png" />" />
       <span><fmt:message key="listados.tb.columnas" /></span>
     </a>
+
+    <a id="btnList" href="javascript:cudu.ui.listFilter()">
+      <img src="<c:url value="/s/theme/img/tango/document-list.png" />" />
+      <span><fmt:message key="listados.tb.list" /></span>
+    </a>
     <a id="btnImprimir" href="#" target="_blank">
       <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
       <span><fmt:message key="listados.tb.imprimir" /></span>
     </a>
+    <a id="btnPdf" href="#" target="_blank">
+      <img src="<c:url value="/s/theme/img/tango/document-pdf.png" />" />
+      <span><fmt:message key="listados.tb.pdf" /></span>
+    </a>
+    
+
     <a href="<c:url value="/" />" class="">
 		<img src="<c:url value="/s/theme/img/tango/edit-undo.png" />" />
 		<span><fmt:message key="listados.tb.volver" /></span>
@@ -143,6 +225,7 @@ div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
 </div>
 
 
+
 <!-- Combo-handled YUI JS files:
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.2r1/build/utilities/utilities.js&2.8.2r1/build/container/container-min.js&2.8.2r1/build/datasource/datasource-min.js&2.8.2r1/build/paginator/paginator-min.js&2.8.2r1/build/datatable/datatable-min.js&2.8.2r1/build/selector/selector-min.js&2.8.2r1/build/event-delegate/event-delegate-min.js&2.8.2r1/build/json/json-min.js"></script>
 -->
@@ -201,6 +284,7 @@ cudu.dom.chkTipoJ = document.getElementById('chkTipoJ');
 cudu.dom.chkTipoK = document.getElementById('chkTipoK');
 cudu.dom.chkTipoC = document.getElementById('chkTipoC');
 
+cudu.dom.btnPdf = document.getElementById('btnPdf');
 cudu.dom.btnImprimir = document.getElementById('btnImprimir');
 cudu.dom.lblBtnExpandir = document.getElementById('lblBtnExpandir');
 cudu.dom.imgBtnExpandir = document.getElementById('imgBtnExpandir');
@@ -218,9 +302,18 @@ cudu.dom.codigosRamas = {
 YAHOO.util.Event.addListener(window, "load", function() {
 	// TODO grupo.nombre no se interpreta bien por YUI
 	var listaColumnas = [
+                //{key:"checked",label:"", width:"30", formatter:YAHOO.widget.DataTable.formatCheckbox},
+                
+
+                { key: "id", label: '<fmt:message key="listados.c.seleccion" />', sortable: true, hidden: false, formatter:YAHOO.widget.DataTable.formatCheckbox },
+                //{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: false, pk: true},
    		{ key: "tipo", label: "Tipo", sortable: true, formatter: "tipo" },
    		{ key: "ramas", label: '<fmt:message key="listados.c.ramas" />', sortable: true, formatter: "rama" },
-   		{ key: "nombreCompleto", label: '<fmt:message key="listados.c.nombre" />', sortable: true },
+   		//{ key: "nombreCompleto", label: '<fmt:message key="listados.c.nombre" />', sortable: true },
+                { key: "nombre", label: '<fmt:message key="listados.c.nombre" />', sortable: true },
+                { key: "primerapellido", label: '<fmt:message key="listados.c.primerapellido" />', sortable: true },
+                { key: "segundoapellido", label: '<fmt:message key="listados.c.segundoapellido" />', sortable: true },
+
    		{ key: "fechanacimiento", label: '<fmt:message key="listados.c.fechanacimiento" />', sortable: true, parser: "date", formatter: "date" },
    		{ key: "telefonocasa", label: '<fmt:message key="listados.c.telefonocasa" />', sortable: true, formatter: "telefono" },
    		{ key: "telefonomovil", label: '<fmt:message key="listados.c.telefonomovil" />', sortable: true, formatter: "telefono"  },
@@ -228,18 +321,47 @@ YAHOO.util.Event.addListener(window, "load", function() {
    		{ key: 'idGrupo', label: '<fmt:message key="listados.c.grupo" />', sortable: true },
    		{ key: 'asociacion', label: '<fmt:message key="listados.c.asociacion" />', sortable: true, formatter: "asociacion" },
    		</sec:authorize>
-   		{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: true, pk: true },
    		{ key: "calle", label: '<fmt:message key="listados.c.direccion" />', sortable: true, hidden: true },
+                { key: "numero", label: '<fmt:message key="listados.c.numero" />', sortable: true, hidden: true },
+                { key: "escalera", label: '<fmt:message key="listados.c.escalera" />', sortable: true, hidden: true },
    		{ key: "email", label: '<fmt:message key="listados.c.email" />', sortable: true, hidden: true },
    		{ key: "dni", label: '<fmt:message key="listados.c.dni" />', sortable: true, hidden: true },
    		{ key: "provincia", label: '<fmt:message key="listados.c.provincia" />', sortable: true, hidden: true },
    		{ key: "municipio", label: '<fmt:message key="listados.c.municipio" />', sortable: true, hidden: true },
-   		{ key: "fechaActualizacion", label: '<fmt:message key="listados.c.ultimaModificacion" />', sortable: true, hidden: true, parser: "date", formatter: "date" }
+                { key: "puerta", label: '<fmt:message key="listados.c.puerta" />', sortable: true, hidden: true },
+
+               
+                
+                { key: "fechaActualizacion", label: '<fmt:message key="listados.c.ultimaModificacion" />', sortable: true, hidden: true, parser: "date", formatter: "date" }
+
+
    	];
-	
-	cudu.dom.tabla = new cudu.ui.datatable.table({ 
+
+        var listaFilas = [
+   		{ key: "10", label: "10", sortable: true },
+                { key: "20", label: "20", sortable: true },
+                { key: "50", label: "50", sortable: true },
+                { key: "9999999", label: "Todos", sortable: true }
+        ];
+
+        var asociadosPorPagina=10;
+        
+
+	cudu.dom.seleccionadoFilas = 
+            new cudu.ui.datatable.panelSeleccionFilas
+        ({
+            //columnas: listaColumnas.slice(1),
 		columnas: listaColumnas,
-		dataSourceUrl: '<c:url value="listados/asociados" />'
+                filas: listaFilas,
+                filasPorPagina: asociadosPorPagina,
+		dataSourceUrl: '<c:url value="listados/asociados.json" />'
+	});
+	cudu.dom.tabla = new cudu.ui.datatable.table({ 
+            //columnas: listaColumnas.slice(1),
+            columnas: listaColumnas,
+                filas: listaFilas,
+                    filasPorPagina: asociadosPorPagina,
+		dataSourceUrl: '<c:url value="listados/asociados.json" />'
 	});
 	
 	YAHOO.util.Dom.addClass(cudu.dom.tcLoading, 'hidden');
@@ -284,7 +406,16 @@ YAHOO.util.Event.addListener(window, "load", function() {
 
 	// DBG
 	// toogleFilter();
+
+
+        //desplegable
+        YAHOO.util.Event.onContentReady("menu_vertical", function () {
+          var elMenu = new YAHOO.widget.Menu("menu_vertical", { width: '150px' });
+          elMenu.render();
+          elMenu.show();
+        });
 });
+
 </script>
 </body>
 </html>

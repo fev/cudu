@@ -1,4 +1,4 @@
-CREATE DATABASE cudu WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'es_ES' LC_CTYPE = 'es_ES';
+﻿CREATE DATABASE cudu WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'es_ES' LC_CTYPE = 'es_ES';
 ALTER DATABASE cudu OWNER TO postgres;
 
 \connect cudu

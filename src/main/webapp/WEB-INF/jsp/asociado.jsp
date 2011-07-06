@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@include file="taglibs.jsp" %>
+<%@page import="java.io.FileInputStream"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -9,8 +10,47 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
+<%-- Desde la cache --%>
+
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yasui/base/base-min.css" />" />
+
+<%-- Normal --%>
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/container/assets/skins/sam/container.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/paginator/assets/skins/sam/paginator.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/datatable/assets/skins/sam/datatable.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
+
+
+<!-- Combo-handled YUI CSS files: -->
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/assets/skins/sam/autocomplete.css"/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/button/assets/skins/sam/button.css"/>" />
+<!-- Combo-handled YUI JS files: -->
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/autocomplete/autocomplete-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/element/element-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/button/button-min.js"></script>
 <style type="text/css">
 div#bd { padding-left: 20px; }
+
+
+
+
+
+                        /* custom styles for inline instances */
+                        .yui-skin-sam .yui-ac-input { position:static;width:20em; vertical-align:middle;}
+                        .yui-skin-sam .yui-ac-container { width:20em;left:0px;}
+
+                        /* needed for stacked instances for ie & sf z-index bug of absolute inside relative els */
+                        #bAutoComplete { z-index:9001; } 
+                        #lAutoComplete { z-index:9000; }
+
+                        /* buttons */
+                        .yui-ac .yui-button {vertical-align:middle;}
+                        .yui-ac .yui-button button       { color:#FFF; background: "<c:url value="/s/theme/img/ac-arrow-rt.png" />" center center no-repeat}
+                        .yui-ac .open .yui-button button { color:#FFF; background: "<c:url value="/s/theme/img/ac-arrow-dn.png" />" center center no-repeat}
+
 <%-- a#btnDlg01Eliminar:hover { background-color: #500; } --%>
 </style>
 </head>
@@ -26,9 +66,49 @@ div#bd { padding-left: 20px; }
   	  <c:otherwise><spring:message code="asociado.titulo.nuevo.${asociado.tipo}" /></c:otherwise>
   	</c:choose>
   </h1></div>
+      
+       <c:out value="<script language='JavaScript'>" escapeXml="false"></c:out>
+			var data=[];
+                     <c:forEach var="linea"                items="${recorrido}" varStatus="status">
+                         var rama,tipo;
+                         if("${linea[2]}"=="C"){rama = '<fmt:message key="rama.uno.C" />';}
+                         else if("${linea[2]}"=="M"){rama = '<fmt:message key="rama.uno.M" />';}
+                         else if("${linea[2]}"=="E"){rama = '<fmt:message key="rama.uno.E" />';}
+                         else if("${linea[2]}"=="P"){rama = '<fmt:message key="rama.uno.P" />';}
+                         else{rama = '<fmt:message key="rama.uno.R" />';}
+                         
+                         if("${linea[2]}"=="J"){tipo= '<fmt:message key="asociado.tipo.joven" />';}
+                         else if("${linea[2]}"=="K"){tipo = '<fmt:message key="asociado.tipo.kraal" />';}
+                         else{tipo = '<fmt:message key="asociado.tipo.comite" />';}
+                         
+                            data.push({
+                                Tipo:  tipo,
+                                Ramas: rama,
+                                Grupo: "${linea[3]}",
+                                Ronda: "${linea[4]}"
+                                
+                            });                        
+                     </c:forEach>    
+                            
+                    var grupo=[];
+                     <c:forEach var="grupo" items="${grupos}" varStatus="status">
+                        grupo.push("${grupo[0]}");
+                     </c:forEach>    
+        <c:out value="</script>" escapeXml="false"></c:out>
+        
+        
+	
+        
+        
+        
   <div class="yui-g" style="text-align:right; padding-top: 1px; margin-right: 13px">
-    <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
-    <img src="<c:url value="/s/theme/img/tango/edit-copy.png" />" />
+    <img src="<c:url value="/s/theme/img/tango/document-save.png" />" />
+
+    <a id="btnSave" href="<%=request.getContextPath()%>/s/filesClient/listado.pdf ">
+      <img src="<c:url value="/s/theme/img/tango/save_24.png" />" />
+      <span><fmt:message key="mensaje de prueba" /></span>
+    </a>
+
     <a href="javascript:dbgcopy()"><img src="<c:url value="/s/theme/img/tango/edit-paste.png" />" /></a>
   </div>
   </div>
@@ -44,7 +124,34 @@ div#bd { padding-left: 20px; }
   <c:if test="${param.ok != null && erroresValidacion == false}">
   	<cudu:message id="mp01" key="frm.ok" single="true" />
   </c:if>
-  
+
+    <sec:authorize access="hasAnyRole('ROLE_PERMISO_B','ROLE_PERMISO_A','ROLE_PERMISO_C1','ROLE_PERMISO_C2','ROLE_PERMISO_C3')">
+      <div class="yui-g legend"><h2><fmt:message key="asociado.h.tipo" /></h2></div>
+      <p align="center">
+          <c:if test="${asociado.tipo == 'J' || asociado.tipo == 'C' }"> <%-- KRAAL o COMITÃ‰ --%>
+              <form:radiobutton id="radioKraal" cssClass="radio" path="tipo" value="K" title="Kraal" />
+              <label><fmt:message key="asociado.f.cambiar_a_kraal"/></label>
+          </c:if>
+          <c:if test="${asociado.tipo == 'J' || asociado.tipo == 'K' }"> <%-- Joven--%>
+              <form:radiobutton id="radioComite" cssClass="radio" path="tipo" value="C" title="Comite" />
+              <label><fmt:message key="asociado.f.cambiar_a_comite" /></label>
+          </c:if>
+          <c:if test="${asociado.tipo == 'J'}">
+              <form:radiobutton id="radioJoven" cssClass="radio" path="tipo" value="J" title="Joven" />
+              <label><fmt:message key="asociado.tipo.joven"/></label>
+          </c:if>
+          <c:if test="${asociado.tipo == 'K'}">
+              <form:radiobutton id="radioKraal" cssClass="radio" path="tipo" value="K" title="Kraal" />
+             <label><fmt:message key="asociado.tipo.kraal"/></label>
+          </c:if>
+          <c:if test="${asociado.tipo == 'C'}">
+              <form:radiobutton id="radioJoven" cssClass="radio" path="tipo" value="C" title="Comite" />
+              <label><fmt:message key="asociado.tipo.comite"/></label>
+          </c:if>
+      </p>
+    </sec:authorize>
+
+
   <div class="yui-g legend"><h2><fmt:message key="asociado.h.info" /></h2></div>
   <div class="yui-g">
     <div class="yui-g first">    
@@ -146,10 +253,24 @@ div#bd { padding-left: 20px; }
         <label for="txtMovil"><fmt:message key="asociado.f.telefonomovil" /></label>
         <form:input id="txtMovil" path="telefonomovil" cssClass="textbox w3u" maxlength="15" />
       </div>
-      <div class="field">
+      <div class="field required">
         <label for="txtMail"><fmt:message key="asociado.f.email" /></label>
         <form:input id="txtMail" path="email" cssClass="textbox w3u" />
       </div>
+      <div class="field required">
+          
+        <label for="txtGrupo" class="w2u"><fmt:message key="asociado.f.grupo" /></label>
+        <form:input id="txtGrupo" path="grupo.nombre" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
+        
+      </div>
+      
+      <div id="divCargos">
+            <label  for="dCargos">asociado.f.cargo</label>
+            <span id="toggleDCargo">
+	      <form:input id="dCargos" type="text" path="cargo" cssClass="textbox w3u" cssErrorClass="textbox w3u error"/>
+              </span>
+	<div  id="dContainerCargos"></div>
+        </div> 
     </div>    
   </div>
   
@@ -161,50 +282,53 @@ div#bd { padding-left: 20px; }
   </c:if>
 
   <c:if test="${asociado.tipo == 'J'}"> <%-- JOVEN Responsables del menor, copias de documentos --%>
-  <div class="yui-g legend"><h2><fmt:message key="asociado.h.responsables" /></h2></div>
-  <div class="yui-g">
-    <div class="yui-g first">
-      <h3><fmt:message key="asociado.h.entornofamiliar" /></h3>
-      <div class="field required">
-        <form:checkbox id="checkTutorLegal" path="tienetutorlegal" cssClass="checkbox" title="Tutor legal" />
-        <label for="checkTutorLegal" class="checkbox"><fmt:message key="asociado.f.tutorlegal" /></label>
-        <form:checkbox id="checkPadresSeparados" path="padresdivorciados" cssClass="checkbox" title="Padres separados"  />
-        <label for="checkPadresSeparados" class="checkbox"><fmt:message key="asociado.f.padresseparados" /></label>
-      </div>
-    </div>
-  </div>  
-  <div class="yui-g">
-    <div class="yui-g first">
-      <h3><fmt:message key="asociado.h.datospadre" /></h3>
-      <div class="field">
-        <label for="txtPadreNombre"><fmt:message key="asociado.f.datospadres.nombre" /></label>
-        <form:input id="txtPadreNombre" path="padreNombre" cssClass="textbox w3u" />
-      </div>
-      <div class="field">
-        <label for="txtPadreTel"><fmt:message key="asociado.f.datospadres.telefono" /></label>
-        <form:input id="txtPadreTel" path="padreTelefono" cssClass="textbox w3u" maxlength="15" />
-      </div>
-      <div class="field">
-        <label for="txtPadreMail"><fmt:message key="asociado.f.datospadres.email" /></label>
-        <form:input id="txtPadreMail" path="padreEmail" cssClass="textbox w3u" />
-      </div>
-    </div>
-    <div class="yui-g">
-      <h3><fmt:message key="asociado.h.datosmadre" /></h3>
-      <div class="field">
-        <label for="txtMadreNombre"><fmt:message key="asociado.f.datospadres.nombre" /></label>
-        <form:input id="txtMadreNombre" path="madreNombre" cssClass="textbox w3u" />
-      </div>
-      <div class="field">
-        <label for="txtMadreTel"><fmt:message key="asociado.f.datospadres.telefono" /></label>
-        <form:input id="txtMadreTel" path="madreTelefono" cssClass="textbox w3u" maxlength="15" />
-      </div>
-      <div class="field">
-        <label for="txtMadreMail"><fmt:message key="asociado.f.datospadres.email" /></label>
-        <form:input id="txtMadreMail" path="madreEmail" cssClass="textbox w3u" />
-      </div>
-    </div>
-  </div>
+      <c:if test="${edadAsociado<18}"> 
+          <div class="yui-g legend"><h2><fmt:message key="asociado.h.responsables" /></h2></div>
+          <div class="yui-g">
+            <div class="yui-g first">
+              <h3><fmt:message key="asociado.h.entornofamiliar" /></h3>
+              <div class="field required">
+                <form:checkbox id="checkTutorLegal" path="tienetutorlegal" cssClass="checkbox" title="Tutor legal" />
+                <label for="checkTutorLegal" class="checkbox"><fmt:message key="asociado.f.tutorlegal" /></label>
+                <form:checkbox id="checkPadresSeparados" path="padresdivorciados" cssClass="checkbox" title="Padres separados"  />
+                <label for="checkPadresSeparados" class="checkbox"><fmt:message key="asociado.f.padresseparados" /></label>
+              </div>
+            </div>
+          </div>  
+      
+          <div class="yui-g">
+            <div class="yui-g first">
+              <h3><fmt:message key="asociado.h.datospadre" /></h3>
+              <div class="field">
+                <label for="txtPadreNombre"><fmt:message key="asociado.f.datospadres.nombre" /></label>
+                <form:input id="txtPadreNombre" path="padreNombre" cssClass="textbox w3u" />
+              </div>
+              <div class="field">
+                <label for="txtPadreTel"><fmt:message key="asociado.f.datospadres.telefono" /></label>
+                <form:input id="txtPadreTel" path="padreTelefono" cssClass="textbox w3u" maxlength="15" />
+              </div>
+              <div class="field">
+                <label for="txtPadreMail"><fmt:message key="asociado.f.datospadres.email" /></label>
+                <form:input id="txtPadreMail" path="padreEmail" cssClass="textbox w3u" />
+              </div>
+            </div>
+            <div class="yui-g">
+              <h3><fmt:message key="asociado.h.datosmadre" /></h3>
+              <div class="field">
+                <label for="txtMadreNombre"><fmt:message key="asociado.f.datospadres.nombre" /></label>
+                <form:input id="txtMadreNombre" path="madreNombre" cssClass="textbox w3u" />
+              </div>
+              <div class="field">
+                <label for="txtMadreTel"><fmt:message key="asociado.f.datospadres.telefono" /></label>
+                <form:input id="txtMadreTel" path="madreTelefono" cssClass="textbox w3u" maxlength="15" />
+              </div>
+              <div class="field">
+                <label for="txtMadreMail"><fmt:message key="asociado.f.datospadres.email" /></label>
+                <form:input id="txtMadreMail" path="madreEmail" cssClass="textbox w3u" />
+              </div>
+            </div>
+          </div>
+      </c:if>
 
   <div class="yui-g legend"><h2><fmt:message key="asociado.h.copiasdoc" /></h2></div>
   <div class="yui-g">
@@ -232,14 +356,46 @@ div#bd { padding-left: 20px; }
   </div>
   </c:if>
 
+  <div id="tc-loading" class="yui-g">
+  	<div id="recorrido"></div> 
+  </div>
+  
+  <div id="tc-filter" class="yui-g tc-flt" style="padding: 0px 5px">
+    <div class="yui-g">
+      <div class="field">
+        <label for="txtBusqueda" class="w2u">Búsqueda</label>
+        <input id="txtBusqueda" class="textbox w3u" />
+      </div>
+      <div class="field">
+      	<label class="w2u">Eliminados</label>
+      	<input id="radioVerEliminados" name="radioEliminados" disabled="disabled" class="radio" value="M" type="radio" />
+        <label for="radioVerEliminados" class="radio">Mostrar</label>
+        <input id="radioOcultarEliminados" name="radioEliminados" class="radio"  value="O" type="radio" checked="checked" />
+        <label for="radioOcultarEliminados" class="radio">Ocultar</label>
+      </div>
+    </div>
+    
+  </div>
+  <div class="yui-g tc-table yui-skin-sam">
+    <div id="listado"></div>
+    <div id="paginador"></div>
+  </div>
+  
+  
+  
   <div class="yui-g form-action">
     <div class="yui-g first">
    	<c:if test="${asociado.id > 0}">
-      <input type="button" value="<fmt:message key="btn.eliminar" />" class="button delete" onclick="javascript:cudu.remove()" />
-    </c:if>
+            <sec:authorize access="hasAnyRole('ROLE_PERMISO_B','ROLE_PERMISO_A','ROLE_PERMISO_C1','ROLE_PERMISO_C2','ROLE_PERMISO_C3')">
+                <input type="button" value="<fmt:message key="btn.eliminar" />" class="button delete" onclick="javascript:cudu.remove()" />
+            </sec:authorize>
+            <c:if test="${asociado.id > 0}">
+                <input type="submit" value="<fmt:message key="btn.eliminardefinitivamente" />" class="button delete" onclick="javascript:cudu.removeForEver()" />
+            </c:if>            
+        </c:if>
     </div>
-    <div class="yui-g">
-      <input type="button" value="<fmt:message key="btn.volver" />" class="button back" onclick="javascript:cudu.back()" />
+      <div class="yui-g">
+      <input type="button" value="<fmt:message key="btn.volver" />" class="button back" onclick="javascript:window.history.back();" />
       <input type="submit" value="<fmt:message key="btn.guardar" />" class="button save" />
       <%-- <input type="button" value="<fmt:message key="btn.imprimir" />" class="button print" /> --%>
     </div>
@@ -274,8 +430,10 @@ div#bd { padding-left: 20px; }
 </div>
 </div>
 
+      
 <script src="<c:url value="/s/jquery/jquery-1.4.2.js" />" type="text/javascript"></script>
-<script type="text/javascript">
+<script type="text/javascript" src="<c:url value="/s/cdn/yui-lst.js" />"></script>
+<script type="text/javascript">       
 jQuery.fn.center = function() {
 	return this.each(function() {
 		var e = jQuery(this);
@@ -283,6 +441,19 @@ jQuery.fn.center = function() {
 		var y = (offset.top + $(window).height() / 2) - (e.height() / 2);
 		e.attr("style", "top: " + y + "px");
 	});
+};
+
+cargos = {
+	'P': 	        "<fmt:message key="asociado.cargo.presidencia"/>", 
+	'S':        "<fmt:message key="asociado.cargo.secretaria"/>", 
+	'T':        "<fmt:message key="asociado.cargo.tesoreria"/>", 
+        'I':        "<fmt:message key="asociado.cargo.intendencia"/>", 
+        'C':        "<fmt:message key="asociado.cargo.cocina"/>", 
+        'N':        "<fmt:message key="asociado.cargo.consiliario"/>", 
+        'V':        "<fmt:message key="asociado.cargo.vocal"/>", 
+        'O':        "<fmt:message key="asociado.cargo.otro"/>"
+	
+	
 };
 
 cudu = {
@@ -293,6 +464,9 @@ cudu = {
 	remove: function() {		
 		$("#stddlg").center().fadeIn();
 	},
+        removeForEver: function() {
+                $("#stddlg").center().fadeIn();  
+        },
 
 	ui: {
 		dropramas: $(".dropramas"),
@@ -307,7 +481,7 @@ cudu = {
 };
 
 $(document).ready(function() {
-
+    
 	// Seleccionar las ramas del asociado
 	if (cudu.ui.ramas["radioColonia"].checked)
 		$('#radioColonia').toggleClass("selected");
@@ -337,7 +511,40 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+        //  TABLA DE RECORRIDO DEL ASOCIADO
+	  if(data.length>0){
+	  YAHOO.util.Event.addListener(window, "load", function() {
+	  YAHOO.example.Basic = function() {
+	      var myColumnDefs = [
+    
+		  {key: "Tipo", label: '<fmt:message key="recorrido.asociado.tipo" />', sortable:true, resizeable:true},
+		  {key: "Ramas", label: '<fmt:message key="recorrido.asociado.ramas" />',  sortable:true, resizeable:true},
+		  {key: "Grupo", label: '<fmt:message key="recorrido.asociado.grupo" />',  sortable:true, resizeable:true},
+		  {key: "Ronda", label: '<fmt:message key="recorrido.asociado.ronda" />',  sortable:true, resizeable:true}
+		  
+	      ];
+	      
+	      var myDataSource = new YAHOO.util.DataSource(data);
+	      myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+	      myDataSource.responseSchema = {
+		  fields: ["Tipo","Ramas","Grupo","Ronda"]
+	      };
+
+
+
+	      var myDataTable = new YAHOO.widget.DataTable("recorrido",
+		      myColumnDefs, myDataSource, {caption:"<fmt:message key="recorrido.asociado.tituloTabla" />"});
+
+	      return {
+		  oDS: myDataSource,
+		  oDT: myDataTable
+	      };
+	  }();
+      });
+    }
 });
+
 
 function dbgcopy() {
 	$('#txtNombre')[0].value = "Jack";
@@ -351,6 +558,62 @@ function dbgcopy() {
 	$('#txtProvincia')[0].value = "Valencia";
 	$('#txtMunicipio')[0].value = "Valencia";
 }
+
+//////////////////////////////////////////////////FIN DE ESTADISTICA, INICIO DE COMBOBOX
+        combobox = function() {
+                //CARGOS
+                var cargos=[
+                    "<fmt:message key="asociado.cargo.presidencia"/>", 
+                    "<fmt:message key="asociado.cargo.secretaria"/>", 
+                    "<fmt:message key="asociado.cargo.tesoreria"/>", 
+                    "<fmt:message key="asociado.cargo.intendencia"/>", 
+                    "<fmt:message key="asociado.cargo.cocina"/>", 
+                    "<fmt:message key="asociado.cargo.consiliario"/>", 
+                    "<fmt:message key="asociado.cargo.vocal"/>", 
+                    "<fmt:message key="asociado.cargo.otro"/>"
+                ];
+                 var dDcargos = new YAHOO.util.LocalDataSource(cargos);
+
+                // instanciar autocomplete
+                var oConfigs = {
+                    prehighlightClassName: "yui-ac-prehighlight",
+                    useShadow: true,
+                    queryDelay: 0,
+                    minQueryLength: 0,
+                    animVert: .01
+                }
+                var dACcargos = new YAHOO.widget.AutoComplete("dCargos", "dContainerCargos", dDcargos, oConfigs);
+
+                // Grupo combobox
+                var dToggler = YAHOO.util.Dom.get("toggleDCargo");
+                var oPushButtonDcargo= new YAHOO.widget.Button({container:dToggler});
+                var toggleDCargo = function(e) {
+                    //YAHOO.util.Event.stopEvent(e);
+                    if(!YAHOO.util.Dom.hasClass(dToggler, "open")) {
+                        YAHOO.util.Dom.addClass(dToggler, "open")
+                    }
+
+                    // Is open
+                    if(dACcargos.isContainerOpen()) {
+                        dACcargos.collapseContainer();
+                    }
+                    // Is closed
+                    else {
+                        dACcargos.getInputEl().focus(); // Needed to keep widget active
+                        setTimeout(function() { // For IE
+                            dACcargos.sendQuery("");
+                        },0);
+                    }
+                }
+                oPushButtonDcargo.on("click", toggleDCargo);
+                dACcargos.containerCollapseEvent.subscribe(function(){YAHOO.util.Dom.removeClass(dToggler, "open")});
+
+                return {
+
+                    dACcargos: dACcargos,
+                    dDcargos: dDcargos
+                };
+            }();
 </script>
 </body>
 </html>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="396"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT
+     *,
+     asociado."id" AS asociado_id,
+     asociado."idgrupo" AS asociado_idgrupo,
+     asociado."tipo" AS asociado_tipo,
+     asociado."nombre" AS asociado_nombre,
+     asociado."primerapellido" AS asociado_primerapellido,
+     asociado."sexo" AS asociado_sexo,
+     asociado."segundoapellido" AS asociado_segundoapellido,
+     asociado."fechanacimiento" AS asociado_fechanacimiento,
+     asociado."seguridadsocial" AS asociado_seguridadsocial,
+     asociado."dni" AS asociado_dni,
+     asociado."tieneseguroprivado" AS asociado_tieneseguroprivado,
+     asociado."calle" AS asociado_calle,
+     asociado."numero" AS asociado_numero,
+     asociado."escalera" AS asociado_escalera,
+     asociado."puerta" AS asociado_puerta,
+     asociado."asociacion" AS asociado_asociacion,
+     asociado."jpa_version" AS asociado_jpa_version,
+     asociado."rama_rutas" AS asociado_rama_rutas,
+     asociado."rama_pioneros" AS asociado_rama_pioneros,
+     asociado."rama_exploradores" AS asociado_rama_exploradores,
+     asociado."rama_manada" AS asociado_rama_manada,
+     asociado."rama_colonia" AS asociado_rama_colonia,
+     asociado."ramas" AS asociado_ramas,
+     asociado."fechaactualizacion" AS asociado_fechaactualizacion,
+     asociado."fechabaja" AS asociado_fechabaja,
+     asociado."fechaalta" AS asociado_fechaalta,
+     asociado."madre_email" AS asociado_madre_email,
+     asociado."madre_telefono" AS asociado_madre_telefono,
+     asociado."madre_nombre" AS asociado_madre_nombre,
+     asociado."padre_email" AS asociado_padre_email,
+     asociado."padre_telefono" AS asociado_padre_telefono,
+     asociado."padre_nombre" AS asociado_padre_nombre,
+     asociado."padresdivorciados" AS asociado_padresdivorciados,
+     asociado."tienetutorlegal" AS asociado_tienetutorlegal,
+     asociado."municipio" AS asociado_municipio,
+     asociado."idmunicipio" AS asociado_idmunicipio,
+     asociado."provincia" AS asociado_provincia,
+     asociado."idprovincia" AS asociado_idprovincia,
+     asociado."email" AS asociado_email,
+     asociado."telefonomovil" AS asociado_telefonomovil,
+     asociado."telefonocasa" AS asociado_telefonocasa,
+     asociado."codigopostal" AS asociado_codigopostal
+FROM
+     "asociado" asociado]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="tipo" class="java.lang.String"/>
+	<field name="idgrupo" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="primerapellido" class="java.lang.String"/>
+	<field name="segundoapellido" class="java.lang.String"/>
+	<field name="sexo" class="java.lang.String"/>
+	<field name="fechanacimiento" class="java.sql.Date"/>
+	<field name="dni" class="java.lang.String"/>
+	<field name="seguridadsocial" class="java.lang.String"/>
+	<field name="tieneseguroprivado" class="java.lang.Boolean"/>
+	<field name="calle" class="java.lang.String"/>
+	<field name="numero" class="java.lang.String"/>
+	<field name="escalera" class="java.lang.String"/>
+	<field name="puerta" class="java.lang.String"/>
+	<field name="codigopostal" class="java.lang.Integer"/>
+	<field name="telefonocasa" class="java.lang.String"/>
+	<field name="telefonomovil" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="idprovincia" class="java.lang.Integer"/>
+	<field name="provincia" class="java.lang.String"/>
+	<field name="idmunicipio" class="java.lang.Integer"/>
+	<field name="municipio" class="java.lang.String"/>
+	<field name="tienetutorlegal" class="java.lang.Boolean"/>
+	<field name="padresdivorciados" class="java.lang.Boolean"/>
+	<field name="padre_nombre" class="java.lang.String"/>
+	<field name="padre_telefono" class="java.lang.String"/>
+	<field name="padre_email" class="java.lang.String"/>
+	<field name="madre_nombre" class="java.lang.String"/>
+	<field name="madre_telefono" class="java.lang.String"/>
+	<field name="madre_email" class="java.lang.String"/>
+	<field name="fechaalta" class="java.sql.Timestamp"/>
+	<field name="fechabaja" class="java.sql.Timestamp"/>
+	<field name="fechaactualizacion" class="java.sql.Timestamp"/>
+	<field name="ramas" class="java.lang.String"/>
+	<field name="rama_colonia" class="java.lang.Boolean"/>
+	<field name="rama_manada" class="java.lang.Boolean"/>
+	<field name="rama_exploradores" class="java.lang.Boolean"/>
+	<field name="rama_pioneros" class="java.lang.Boolean"/>
+	<field name="rama_rutas" class="java.lang.Boolean"/>
+	<field name="jpa_version" class="java.lang.Integer"/>
+	<field name="asociacion" class="java.lang.Integer"/>
+	<field name="asociado_id" class="java.lang.Integer"/>
+	<field name="asociado_idgrupo" class="java.lang.String"/>
+	<field name="asociado_tipo" class="java.lang.String"/>
+	<field name="asociado_nombre" class="java.lang.String"/>
+	<field name="asociado_primerapellido" class="java.lang.String"/>
+	<field name="asociado_sexo" class="java.lang.String"/>
+	<field name="asociado_segundoapellido" class="java.lang.String"/>
+	<field name="asociado_fechanacimiento" class="java.sql.Date"/>
+	<field name="asociado_seguridadsocial" class="java.lang.String"/>
+	<field name="asociado_dni" class="java.lang.String"/>
+	<field name="asociado_tieneseguroprivado" class="java.lang.Boolean"/>
+	<field name="asociado_calle" class="java.lang.String"/>
+	<field name="asociado_numero" class="java.lang.String"/>
+	<field name="asociado_escalera" class="java.lang.String"/>
+	<field name="asociado_puerta" class="java.lang.String"/>
+	<field name="asociado_asociacion" class="java.lang.Integer"/>
+	<field name="asociado_jpa_version" class="java.lang.Integer"/>
+	<field name="asociado_rama_rutas" class="java.lang.Boolean"/>
+	<field name="asociado_rama_pioneros" class="java.lang.Boolean"/>
+	<field name="asociado_rama_exploradores" class="java.lang.Boolean"/>
+	<field name="asociado_rama_manada" class="java.lang.Boolean"/>
+	<field name="asociado_rama_colonia" class="java.lang.Boolean"/>
+	<field name="asociado_ramas" class="java.lang.String"/>
+	<field name="asociado_fechaactualizacion" class="java.sql.Timestamp"/>
+	<field name="asociado_fechabaja" class="java.sql.Timestamp"/>
+	<field name="asociado_fechaalta" class="java.sql.Timestamp"/>
+	<field name="asociado_madre_email" class="java.lang.String"/>
+	<field name="asociado_madre_telefono" class="java.lang.String"/>
+	<field name="asociado_madre_nombre" class="java.lang.String"/>
+	<field name="asociado_padre_email" class="java.lang.String"/>
+	<field name="asociado_padre_telefono" class="java.lang.String"/>
+	<field name="asociado_padre_nombre" class="java.lang.String"/>
+	<field name="asociado_padresdivorciados" class="java.lang.Boolean"/>
+	<field name="asociado_tienetutorlegal" class="java.lang.Boolean"/>
+	<field name="asociado_municipio" class="java.lang.String"/>
+	<field name="asociado_idmunicipio" class="java.lang.Integer"/>
+	<field name="asociado_provincia" class="java.lang.String"/>
+	<field name="asociado_idprovincia" class="java.lang.Integer"/>
+	<field name="asociado_email" class="java.lang.String"/>
+	<field name="asociado_telefonomovil" class="java.lang.String"/>
+	<field name="asociado_telefonocasa" class="java.lang.String"/>
+	<field name="asociado_codigopostal" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="378" y="0" width="263" height="62"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[FEV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="394" y="62" width="196" height="22"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Lista de asociados]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="94" width="194" height="16"/>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Listado de asociados]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="272" height="96"/>
+				<imageExpression class="java.lang.String"><![CDATA["/home/cudu/proyectoCudu/cudu/src/main/webapp/theme/img/db-logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="0" width="16" height="15"/>
+				<textElement/>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="0" width="24" height="15"/>
+				<textElement/>
+				<text><![CDATA[tipo]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15"/>
+				<textField>
+					<reportElement x="1" y="0" width="15" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$F{id}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="16" y="0" width="24" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{tipo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="40" y="0" width="75" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{nombre}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="115" y="0" width="83" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{primerapellido}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="198" y="0" width="74" height="15"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{asociado_segundoapellido}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="272" y="1" width="70" height="14"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{dni}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="641" y="1" width="100" height="14"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{idgrupo}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="342" y="0" width="104" height="14"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{email}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="446" y="1" width="83" height="13"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{telefonocasa}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#CFDFD7" backcolor="#F2EBDF"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="783" y="1" width="40" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="703" y="1" width="80" height="20" forecolor="#736343"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

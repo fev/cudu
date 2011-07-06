@@ -26,13 +26,8 @@
   <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
     <property name="cacheSeconds" value="0" />
     <property name="webBindingInitializer">
-    	<bean class="org.scoutsfev.cudu.web.BindingInitializer" />
-	</property>
-	<property name="messageConverters">
-	    <list>
-			<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
-	    </list>
-    </property>
+          <bean class="org.scoutsfev.cudu.web.BindingInitializer" />
+      </property>
   </bean>
 
   <mvc:annotation-driven />
@@ -45,6 +40,22 @@
     <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
     <property name="prefix" value="/WEB-INF/jsp/"/>
     <property name="suffix" value=".jsp"/>
+  </bean>
+    
+  <!-- Serialización JSON, dependiente del contenido 
+    TODO Seguir buscando acerca de xq @ResponseBody no funciona evitando esto. 
+    -->
+  <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="1">
+    <property name="mediaTypes">
+      <map>
+        <entry key="json" value="application/json" />
+      </map>
+    </property>
+    <property name="defaultViews">
+      <list>
+        <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+      </list>
+    </property>
   </bean>
     
   <!-- Localización  -->
@@ -68,10 +79,13 @@
   <context:annotation-config />
 
   <!-- Beans -->
+  <bean id="asociadoService" class="org.scoutsfev.cudu.services.AsociadoServiceImpl" />
   <bean id="grupoService" class="org.scoutsfev.cudu.services.GrupoServiceImpl" />
   <bean id="usuarioService" class="org.scoutsfev.cudu.services.UsuarioServiceImpl" />
-  <bean id="asociadoService" class="org.scoutsfev.cudu.services.AsociadoServiceImpl" />
   <bean id="sugerenciasService" class="org.scoutsfev.cudu.services.SugerenciasServiceRedisImpl" />
+  <bean id="cursoService" class="org.scoutsfev.cudu.services.CursoServiceImpl" />
+  <bean id="miCursoService" class="org.scoutsfev.cudu.services.MiCursoServiceImpl" />
+  <bean id="estadisticaService" class="org.scoutsfev.cudu.services.EstadisticaServiceImpl" />
 
   <!-- Beans para auditoria, Redis -->
   <bean id="redisServiceLocator" class="org.scoutsfev.cudu.services.RedisServiceLocator" />

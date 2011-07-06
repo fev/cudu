@@ -1,0 +1,87 @@
+insert into  curso (
+id,	nombre,	acronimo,	caracter,	anyo,	precio,	descripcion)
+values
+(1,	'Curso 1',	'c1',	'c',	2011,	20,	'curso 1 de prueba');
+
+insert into  curso (
+id ,	nombre,	acronimo,	caracter,	anyo,	precio,	descripcion)
+values
+(2,	'Curso 2',	'c2',	'2',	2011,	20,	'curso 2 de prueba');
+
+insert into  curso (
+id ,	nombre,	acronimo,	caracter,	anyo,	precio,	descripcion)
+values
+(4,	'Otro Curso',	'oc',	'b',	2011,	20,	'curso 4 de prueba');
+
+insert into  curso (
+id ,	nombre,	acronimo,	caracter,	anyo,	precio,	descripcion)
+values
+(3,	'Curso 3',	'c3',	'a',	2011,	20,	'curso 3 de prueba');
+
+insert into  curso (
+id ,	nombre,	acronimo,	caracter,	anyo,	precio,	descripcion)
+values
+(5,	'Curso 1',	'c1',	'c',	2010,	20,	'curso 1 de prueba');
+
+
+insert into monografico (
+	id,nombre,	fechaInicio,fechaFin,precio,bloque,bloqueUnico,obligatorio,descripcion,plazasDisponibles,plazasTotales,listaEspera,lugarPrevisto,idcurso
+)
+values(1,'monografico1','02/02/2011','02/04/2011',29.2,'bloqueA','T','F','es un monografico guay',20,30,0,'mi casa',1);
+
+insert into monografico (
+  id,nombre,	fechaInicio,fechaFin,precio,bloque,bloqueUnico,obligatorio,descripcion,plazasDisponibles,plazasTotales,listaEspera,lugarPrevisto,idcurso
+)values
+(2,'monografico2','02/04/2011','02/05/2011',29.2,'bloqueA','T','F','es un monografico guay',25,25,11,'mi casa',1);
+
+insert into monografico (
+  id,nombre,	fechaInicio,fechaFin,precio,bloque,bloqueUnico,obligatorio,descripcion,plazasDisponibles,plazasTotales,listaEspera,lugarPrevisto,idcurso
+)values
+(3,'monografico3','12/11/2011','22/11/2011',29.2,'bloqueB','F','T','es un monografico guay',25,25,0,'mi casa',1);
+
+
+insert into monografico (
+  id,nombre,	fechaInicio,fechaFin,precio,bloque,bloqueUnico,obligatorio,descripcion,plazasDisponibles,plazasTotales,listaEspera,lugarPrevisto,idcurso
+)values
+(4,'monografico4','11/11/2011','22/12/2011',29.2,'bloqueB','F','T','es un monografico guay',25,25,0,'mi casa',1);
+
+
+
+insert into monografico (
+  id,nombre,	fechaInicio,fechaFin,precio,bloque,bloqueUnico,obligatorio,descripcion,plazasDisponibles,plazasTotales,listaEspera,lugarPrevisto,idcurso
+)values
+(5,'monografico5','11/11/2011','22/12/2011',29.2,'bloqueC','F','F','es un monografico guay',25,25,0,'mi casa',1);
+
+
+insert into inscripcionCurso (
+  idasociado,	idmonografico,	fechaInscripcion,	aceptado,	  pagoRealizado)
+values
+(	8,		1,	'10/11/2010',		'T',			'F');
+
+insert into inscripcionCurso (
+  idasociado,	idmonografico,	fechaInscripcion,	aceptado,	  pagoRealizado)
+values
+(	8,		5,	'10/11/2010',		'T',			'F');
+
+
+insert into inscripcionCurso (
+  idasociado,	idmonografico,	fechaInscripcion,	aceptado,	  pagoRealizado)
+values
+(	8,		3,	'10/11/2010',		'T',			'F');
+
+
+insert into inscripcionCurso (
+  idasociado,	idmonografico,	fechaInscripcion,	aceptado,	  pagoRealizado)
+values
+(	8,		4,	'10/11/2010',		'T',			'F');
+
+
+insert into faltaMonografico (  idasociado,	  idmonografico,	fechaFalta)
+values(			8,		3,		'10/03/2011');
+--funcion: anyo monografico y curso deben de ser la misma al igual que las faltas.
+--habra que hacer pruebas.
+
+--1º pruebas con la base de datos
+--2º hacer la interfaz con las pruebas. 
+
+--3º mañana -> pruebas y algunos de los cambios de la interfaz nueva,

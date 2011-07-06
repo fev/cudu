@@ -1,0 +1,346 @@
+app.title=Cud\u00c3\u00ba
+app.copyright=(c) 2009 Federaci\u00c3\u00b3 d'Escoltisme Valenci\u00c3\u00a0
+
+btn.guardar=Guardar
+btn.volver=Volver
+btn.eliminar=Eliminar
+btn.eliminardefinitivamente=Eliminar Definitivamente
+btn.imprimir=Imprimir
+btn.login=Entrar
+btn.cancelar=Cancelar
+btn.afegir=A\u00c3\u00b1adir
+
+login.f.usuario=Usuario
+login.f.password=Contrase\u00c3\u00b1a
+login.f.olvidocontrasenya=\u00bfHas olvidado tu contrase\u00f1a?
+
+rama.cualquiera=Cualquiera
+rama.uno.C=Castor
+rama.unos.C=Castores
+rama.muchos.C=Colonia
+rama.uno.M=Lobato
+rama.unos.M=Lobatos
+rama.muchos.M=Manada
+rama.uno.E=Explorador
+rama.unos.E=Exploradores
+rama.muchos.E=Unidad de Exploradores
+rama.uno.P=Pionero
+rama.unos.P=Pioneros
+rama.muchos.P=Expedici\u00c3\u00b3n
+rama.uno.R=Compa\u00c3\u00b1ero
+rama.unos.R=Compa\u00c3\u00b1eros
+rama.muchos.R=Ruta
+
+# Listados
+listados.tb.nuevo=Nuevo
+listados.tb.filtrar=Filtrar
+listados.tb.columnas=Columnas
+listados.tb.imprimir=Imprimir
+listados.tb.volver=Volver
+listados.tb.expandir=Expandir
+listados.tb.contraer=Contraer
+
+listados.tabla.sindatos=No existen documentos.
+listados.tabla.cargando=Cargando...
+listados.tabla.ordenascendente=Pulse para ordenar de menor a mayor.
+listados.tabla.ordendescendente=Pulse para ordenar de mayor a menor.
+listados.tabla.pagactual=p\u00c3\u00a1g. {currentPage} de {totalPages}
+listados.tabla.paganterior=ant
+listados.tabla.pagsiguiente=sig
+listados.tabla.paginicio=inicio
+listados.tabla.pagfin=final
+
+listados.f.cualquiera=(cualquiera)
+
+# Columnas de los listados
+# Por motivos de implementaci\u00c3\u00b3n, no pueden contener comillas ' o ".
+# Insertarlas con una barra al principio \' o \" en cualquier caso.
+listados.c.id=Id
+listados.c.ramas=Ramas
+listados.c.nombre=Nombre
+listados.c.primerapellido=Primer Apellido
+listados.c.segundoapellido=Segundo Apellido
+listados.c.nombreCompleto=Nombre y Apellidos
+listados.c.fechanacimiento=Fecha Nac.
+listados.c.telefonocasa=Tel. Casa
+listados.c.telefonomovil=Tel. M\u00c3\u00b3vil
+listados.c.direccion=Direcci\u00c3\u00b3n
+listados.c.numero= Numero
+listados.c.escalera = Escalera
+listados.c.puerta = Puerta
+listados.c.codigopostal = CP
+listados.c.grupo=Grupo
+listados.c.dni=DNI
+listados.c.ssocial=Seg. Social
+listados.c.provincia=Provincia
+listados.c.municipio=Municipio
+listados.c.sexo=Sexo
+listados.c.seguridadSocial = Seguridad Social?
+listados.c.tieneSeguroPrivado = Seguro privado?
+listados.c.email=E-Mail
+listados.c.padre_nombre=Padre
+listados.c.madre_nombre=Madre
+listados.c.padre_telefono=Tel. Padre
+listados.c.madre_telefono=Tel. Madre
+listados.c.padre_email=E-Mail Padre
+listados.c.madre_email=E-Mail Madre
+listados.c.ultimaModificacion=\u00c3\u009altima Mod.
+listados.c.asociacion=Asociaci\u00c3\u00b3n
+
+# Formulario de edici\u00c3\u00b3n de Grupos
+grupo.h.titulo=Datos del grupo
+grupo.h.info=Informaci\u00c3\u00b3n general
+grupo.h.contacto=Datos de contacto
+grupo.f.id=Id
+grupo.f.id.ayuda=Identificador utilizado internamente para el grupo.
+grupo.f.nombre=Nombre
+grupo.f.aniversario=Aniversario
+grupo.f.entidadpatrocinadora=Ent. Patroc.
+grupo.f.direccion=Direcci\u00c3\u00b3n
+grupo.f.calle=Calle
+grupo.f.numero=N\u00c3\u00bamero
+grupo.f.escalera=Escalera
+grupo.f.puerta=Puerta
+grupo.f.codigopostal=C.P.
+grupo.f.provincia=Provincia
+grupo.f.municipio=Municipio
+grupo.f.telefono1=Tel\u00c3\u00a9fono 1
+grupo.f.telefono2=Tel\u00c3\u00a9fono 2
+grupo.f.email=E-Mail
+grupo.f.web=P\u00c3\u00a1g. web
+grupo.f.asociacion=Asociaci\u00f3n
+grupo.titulo.editar =Editar Grupo
+grupo.titulo.nuevo =Nuevo Grupo
+
+
+#\u00c7Formulario inscripcion Curso
+curso.AJ.titulo.modificar = Modificar inscripci\u00f3n de Animador Juvenil
+curso.AJ.titulo.nuevo = Inscripci\u00f3n de Animador Juvenil
+curso.AJ.libroFormacion= libro de Formaci\u00f3n
+curso.AJ.nombre= Animador Juvenil
+cursos.f.monograficos = Monogr\u00e1ficos
+
+monografico.optativo.habilidades_sociales = Habilidades Sociales
+monografico.optativo.animacion = Animaci\u00f3n
+monografico.optativo.salud = Salud
+monografico.optativo.desarrollo = Desarrollo
+
+monografico.optativo.fe = Fe
+monografico.optativo.trabajo_y_consumo = Trabajo y Consumo
+monografico.optativo.naturaleza = Naturaleza en la C.V
+    monografico.optativo.dinamicas_grupo = Din\u00e1micas de grupo
+
+descarga.libroformacion=Libro de formacion
+
+# Formulario edici\u00c3\u00b3n Asociado
+asociado.tipo.pregunta=\u00c2\u00bfQu\u00c3\u00a9 vamos a dar de alta?
+asociado.tipo.joven=Joven
+asociado.tipo.kraal=Kraal
+asociado.tipo.comite=Comit\u00c3\u00a9
+asociado.tipo.voluntario=Voluntario
+asociado.titulo.nuevo.J=Nuevo joven
+asociado.titulo.nuevo.K=Nuevo scouter del kraal
+asociado.titulo.nuevo.C=Nuevo miembro del comit\u00c3\u00a9
+asociado.titulo.editar=Ficha de asociado
+asociado.curso.AJ = Animador Juvenil
+asociado.curso.FC = Formaci\u00f3n Continua
+asociado.curso.MTL = Monitor de Tiempo Libre
+asociado.curso.MALI = Manipulador de Alimentos
+asociado.curso.FA  = Formador de Animadores
+asociado.h.info=Informaci\u00c3\u00b3n general
+asociado.h.tipo=Tipo de asociado
+asociado.f.cambiar_a_comite = Cambiar a comit\u00e9
+asociado.f.cambiar_a_kraal = Cambiar a Kraal
+asociado.f.nombre=Nombre
+asociado.f.primerapellido=1er apellido
+asociado.f.segundoapellido=2o apellido
+asociado.f.sexo=Sexo
+asociado.f.sexoM=Masculino
+asociado.f.sexoF=Femenino
+asociado.f.fechaNac=Fecha Nac.
+asociado.f.rama=Rama
+asociado.f.dni=N\u00c2\u00ba DNI
+asociado.f.ss=Seg. Social
+asociado.f.sprivado=Seg. Privado
+asociado.h.contacto=Datos de contacto
+asociado.f.calle=Calle
+asociado.f.numero=N\u00c3\u00bamero
+asociado.f.escalera=Escalera
+asociado.f.puerta=Puerta
+asociado.f.codigopostal=C.P.
+asociado.f.provincia=Provincia
+asociado.f.municipio=Municipio
+asociado.f.telefonocasa=Tel. Casa
+asociado.f.telefonomovil=M\u00c3\u00b3vil
+asociado.f.email=E-Mail
+asociado.h.cargos=Cargos o comisiones
+asociado.h.responsables=Responsables del menor
+asociado.h.entornofamiliar=Entorno familiar
+asociado.f.tutorlegal=Tiene tutor legal
+asociado.f.padresseparados=Padres separados
+asociado.h.datospadre=Datos del Padre
+asociado.h.datosmadre=Datos de la Madre
+asociado.f.datospadres.nombre=Nombre
+asociado.f.datospadres.telefono=Tel\u00c3\u00a9fono
+asociado.f.datospadres.email=E-Mail
+asociado.h.copiasdoc=Copias de documentos
+asociado.f.copiasdoc.ayuda=Cud\u00c3\u00ba puede ayudarte a recordar de qu\u00c3\u00a9 documentos dispones copia:
+asociado.f.copiasdoc.dni=Documento Nacional de Identidad (DNI)
+asociado.f.copiasdoc.ss=Cartilla SS \ Tarjeta SIP
+asociado.f.copiasdoc.fmed=Ficha m\u00c3\u00a9dica
+asociado.f.copiasdoc.vac=Cartilla Vacunaciones
+asociado.d.eliminar=\u00c2\u00bfDeseas dar de baja el asociado?
+asociado.f.grupo = Grupo
+
+dashboard.preferencias=Preferencias
+dashboard.ayuda=Ayuda
+dashboard.salir=Salir
+
+dashboard.nuevoasociado=Nuevo asociado
+dashboard.misdatos = Mis datos
+dashboard.listados=Listados
+dashboard.editarcursos=Editar Cursos
+dashboard.migrupo=Mi grupo
+
+dashboard.buscarparticipante =Buscar Participante
+dashboard.nuevoparticipanteexterno=Nuevo Participante Externo
+dashboard.administrarcursos =Administrar Cursos
+dashboard.administrarpermisos =Administrar Permisos
+dashboard.gestiondeFormadores=Gesti\u00f3n de Formadores
+dashboard.cambiarcontrasenya=Cambiar Contrase\u00f1a
+
+dashboard.nuevoasociado=Nuevo Asociado
+dashboard.liquidaciones=Liquidaciones
+dashboard.nuevogrupo=Nuevo Grupo
+
+dashboard.miscursos=Mis Cursos
+dashboard.nuevocurso=Nuevo Curso
+dashboard.migrupo=Mi Grupo
+dashboard.sugerencias=Sugerencias
+
+
+frm.ok=Los datos se han guardado correctamente.
+frm.errores=Algunos datos no son v\u00c3\u00a1lidos.
+frm.grupo.ok=La informaci\u00c3\u00b3n del grupo se ha guardado correctamente.
+frm.grupo.errores=Algunos datos no son v\u00c3\u00a1lidos.
+frm.asociado.ok=La informaci\u00c3\u00b3n del asociado se ha guardado correctamente.
+frm.asociado.errores=Algunos datos no son v\u00c3\u00a1lidos.
+
+# Mensajes de validaci\u00c3\u00b3n para la entidad Asociado
+NotNull.asociado.nombre=El nombre est\u00c3\u00a1 vacio.
+Size.asociado.nombre=El nombre debe tener de {2} a {4} car\u00c3\u00a1cteres.
+NotNull.asociado.primerapellido=El primer apellido est\u00c3\u00a1 vacio.
+Size.asociado.primerapellido=El primer apellido debe tener de {2} a {4} car\u00c3\u00a1cteres.
+Size.asociado.segundoapellido=El segundo apellido debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+NotNull.asociado.fechanacimiento=La fecha de nacimiento est\u00c3\u00a1 vacia.
+Past.asociado.fechanacimiento=La fecha de nacimiento es mayor que la actual (\u00c2\u00bftodav\u00c3\u00ada no ha nacido y ya lleva pa\u00c3\u00b1oleta?)
+typeMismatch.asociado.fechanacimiento=La fecha de nacimiento no es correcta, el formato es d\u00c3\u00ada/mes/a\u00c3\u00b1o (24/05/1984 por ejemplo).
+CaracterEnGrupo.asociado.sexo=Debe especificar uno de los sexos.
+NotNull.asociado.calle=El nombre de la calle est\u00c3\u00a1 vacio.
+Size.asociado.calle=La calle debe tener de {2} a {4} car\u00c3\u00a1cteres.
+NotNull.asociado.numero=El n\u00c3\u00bamero de la calle est\u00c3\u00a1 vacio.
+Size.asociado.numero=El n\u00c3\u00bamero de la calle debe tener de {2} a {4} car\u00c3\u00a1cteres.
+Size.asociado.escalera=La escalera debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.puerta=La puerta debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+NotNull.asociado.codigopostal=El c\u00c3\u00b3digo postal est\u00c3\u00a1 vacio.
+Min.asociado.codigopostal=El c\u00c3\u00b3digo postal debe ser un n\u00c3\u00bamero positivo.
+typeMismatch.asociado.codigopostal=El c\u00c3\u00b3digo postal debe ser un n\u00c3\u00bamero.
+Size.asociado.dni=El DNI debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.email=El email debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Email.asociado.email=La direcci\u00c3\u00b3n de email no parece ser correcta.
+Size.asociado.seguridadsocial=El n\u00c3\u00bamero de la seg. social debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.telefonocasa=El tel\u00c3\u00a9fono fijo debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.telefonomovil=El tel\u00c3\u00a9fono m\u00c3\u00b3vil debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.madreNombre=El nombre de la madre debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.padreNombre=El nombre del padre debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.madreTelefono=El tel\u00c3\u00a9fono de la madre debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.padreTelefono=El tel\u00c3\u00a9fono del padre debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.madreEmail=El email de la madre debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.asociado.padreEmail=El email del padre debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Email.asociado.padreEmail=La direcci\u00c3\u00b3n de email del padre no parece ser correcta.
+Email.asociado.madreEmail=La direcci\u00c3\u00b3n de email de la madre no parece ser correcta.
+Pattern.asociado.madreEmail=El email de la madre parece no ser correcto.
+Pattern.asociado.padreEmail=El email del padre parece no ser correcto.
+NotNull.asociado.idProvincia=No ha seleccionado ninguna provincia.
+NotNull.asociado.idMunicipio=No ha seleccionado ning\u00c3\u00ban municipio.
+Min.asociado.idProvincia=La provincia seleccionada no es correcta.
+Min.asociado.idMunicipio=El municipio seleccionado no es correcto.
+
+
+# Mensajes de validaci\u00c3\u00b3n para la entidad Grupo
+NotNull.grupo.nombre=El nombre est\u00c3\u00a1 vacio.
+Size.grupo.nombre=El nombre debe tener de {2} a {4} car\u00c3\u00a1cteres.
+NotNull.grupo.calle=La calle est\u00c3\u00a1 vacia.
+Size.grupo.calle=La calle debe tener de {2} a {4} car\u00c3\u00a1cteres.
+NotNull.grupo.numero=El n\u00c3\u00bamero de la calle est\u00c3\u00a1 vacio.
+Size.grupo.numero=El n\u00c3\u00bamero de la calle debe tener de {2} a {4} car\u00c3\u00a1cteres.
+Size.grupo.puerta=La puerta debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+Size.grupo.escalera=La escalera debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+NotNull.grupo.codigopostal=El c\u00c3\u00b3digo postal est\u00c3\u00a1 vacio.
+Min.grupo.codigopostal=El c\u00c3\u00b3digo postal debe ser un n\u00c3\u00bamero positivo.
+typeMismatch.grupo.codigopostal=El c\u00c3\u00b3digo postal debe ser un n\u00c3\u00bamero positivo.
+Past.grupo.aniversario=El aniversario del grupo no puede ser una fecha futura, sino la fech\u00c3\u00a1 en que se creo.
+typeMismatch.grupo.aniversario=El aniversario no es una fecha correcta, el formato es d\u00c3\u00ada/mes/a\u00c3\u00b1o (24/05/1984 por ejemplo).
+NotNull.grupo.telefono1=El tel\u00c3\u00a9fono 1 est\u00c3\u00a1 vacio.
+Size.grupo.telefono1=El tel\u00c3\u00a9fono 1 debe tener de {2} a {4} car\u00c3\u00a1cteres.
+Size.grupo.telefono2=El tel\u00c3\u00a9fono 2 debe tener como m\u00c3\u00a1ximo {4} car\u00c3\u00a1cteres.
+NotNull.grupo.email=El email est\u00c3\u00a1 vacio.
+Size.grupo.email=El email debe tener de {2} a {4} car\u00c3\u00a1cteres.
+Email.grupo.email=La direcci\u00c3\u00b3n de email no parece ser correcta.
+Size.grupo.web=La p\u00c3\u00a1gina web debe tener como m\u00c3\u00a1ximo {4}\u00c2\u00a0car\u00c3\u00a1cteres.
+Size.grupo.entidadpatrocinadora=La entidad patrocinadora debe tener como m\u00c3\u00a1ximo {4}\u00c2\u00a0car\u00c3\u00a1cteres.
+NotNull.grupo.idProvincia=No ha seleccionado ninguna provincia.
+NotNull.grupo.idMunicipio=No ha seleccionado ning\u00c3\u00ban municipio.
+Min.grupo.idProvincia=La provincia seleccionada no es correcta.
+Min.grupo.idMunicipio=El municipio seleccionado no es correcto.
+
+
+
+
+# Mensajes de estadisticas
+estadistica.grupos: Grupos
+estadistica.voluntarios: Voluntarios
+estadistica.asociados: Asociados
+estadistica.asociado.tipo.kraal=Scouters
+#Estadisticas grupo
+estadistica.grupo.menosActualizado=Grupo menos actualizado
+estadistica.grupo.e.menosNumeroso=Grupo menos numeroso
+estadistica.h.sinestadistica=Sin Estad\u00edsticas
+
+
+#para diferenciar sdA, sdC, MEV
+asociacion.tipo.sdA=SdA
+asociacion.tipo.sdC=SdC
+asociacion.tipo.MEV=MEV
+
+#en la interfaz buscar asociadoGrupo
+asociado.f.tipo=Tipo
+asociado.f.telefono=Tel\u00e9fono
+
+#para contrase\u00f1a
+asociado.f.contrasenyaactual = Contrase\u00f1a Actual
+asociado.f.contrasenyanueva = Contrase\u00f1a Nueva
+asociado.f.contrasenyaconfirmarnueva = Confirmar Contrase\u00f1a 
+
+
+boton.cerrar=Cerrar
+
+recorrido.asociado.tipo=Tipo
+recorrido.asociado.ramas=Ramas
+recorrido.asociado.grupo=Grupo
+recorrido.asociado.ronda=Ronda
+recorrido.asociado.tituloTabla=Recorrido Scout
+
+
+asociado.cargo.presidencia=Presidencia
+asociado.cargo.secretaria=Secretaria
+asociado.cargo.tesoreria=Tesoreria
+asociado.cargo.intendencia=Intendencia
+asociado.cargo.cocina=Cocina
+asociado.cargo.consiliario=Consiliario
+asociado.cargo.vocal=Vocal
+asociado.cargo.otro=Otro
+
+asociado.cargo=Cargo
+asocaido.titulacion=Titulaci\u00f3n
+asocaido.profesion=Profesi\u00f3n

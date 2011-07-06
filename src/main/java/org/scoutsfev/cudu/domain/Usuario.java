@@ -38,6 +38,12 @@ public class Usuario implements Serializable, UserDetails {
 
 	@OneToMany(mappedBy="usuario", targetEntity = Authority.class)
 	private Collection<GrantedAuthority> authorities;
+        
+        @Transient
+        private String confirmarPassword;
+        
+        @Transient
+        private String anteriorPassword;
 	
 	public String getNombreCompleto() {
 		return nombreCompleto;
@@ -116,4 +122,32 @@ public class Usuario implements Serializable, UserDetails {
 	public static String obtenerLoginActual() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
+
+    /**
+     * @return the confirmarPassword
+     */
+    public String getConfirmarPassword() {
+        return confirmarPassword;
+    }
+
+    /**
+     * @param confirmarPassword the confirmarPassword to set
+     */
+    public void setConfirmarPassword(String confirmarPassword) {
+        this.confirmarPassword = confirmarPassword;
+    }
+
+    /**
+     * @return the anteriorPassword
+     */
+    public String getAnteriorPassword() {
+        return anteriorPassword;
+    }
+
+    /**
+     * @param anteriorPassword the anteriorPassword to set
+     */
+    public void setAnteriorPassword(String anteriorPassword) {
+        this.anteriorPassword = anteriorPassword;
+    }
 }

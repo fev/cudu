@@ -3,13 +3,16 @@ package org.scoutsfev.cudu.services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 import org.scoutsfev.cudu.domain.Asociado;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+@Repository
 public class AsociadoServiceImpl 
 	extends StorageServiceImpl<Asociado> 
 	implements AsociadoService {
@@ -117,6 +120,26 @@ public class AsociadoServiceImpl
 		return asociado;
 	}
 
+        @Override
+        public Integer getIdAsociado(String usu)
+        {
+            Object o = null;
+            try{
+                 o = (Integer)this.entityManager
+                        .createQuery("SELECT id from Asociado a where usuario = :usu")
+                        .setParameter("usu", usu)
+                        .getSingleResult();
+            }
+            catch (javax.persistence.NoResultException no)
+            {
+                o = null;
+            }
+            finally{
+            
+                return (Integer)o;
+            }
+        }
+
 	@Override
 	@Transactional
 	public boolean delete(int id) {
@@ -129,4 +152,33 @@ public class AsociadoServiceImpl
 		auditoria.registrar(AuditoriaService.Operacion.Descartar, AuditoriaService.Entidad.Asociado, Integer.toString(id) + ":" + n);
 		return (n == 1);
 	}
+        
+        @Override
+        public Asociado findemail(String email)
+        {
+            Asociado asociado = (Asociado)this.entityManager
+                    .createQuery("SELECT a from Asociado a where email= :email")
+                    .setParameter("usu", email)
+                    .getSingleResult();
+            
+            
+            return asociado;
+        }
+        
+        @Override
+        public List getRecorridoAsociado(int id)
+        {
+            
+            String select = "select ha.id, "
+                    + "      ha.tipo, "
+                    + "      ha.ramas, "
+                    + "      g.nombre, "
+                    + "      max(to_char(ha.fecha, 'dd/mm/yyyy')) "+
+                    " from historico_asociados ha, grupo g "
+                    + " where g.id = ha.idgrupo and ha.id = :id "
+                    + "group by  ha.id,ha.tipo,ha.ramas,g.nombre";
+            
+            List  recorrido= this.entityManager.createNativeQuery(select).setParameter("id", id).getResultList();            
+            return recorrido;            
+        }
 }

@@ -17,6 +17,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -35,6 +36,9 @@ public class Asociado implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+        
+        @Transient
+        private boolean checked = false;
 	
 	@NotNull
 	@Size(min = 3, max = 30)
@@ -91,6 +95,7 @@ public class Asociado implements Serializable {
 	private String dni;
 
 	@Email
+        @NotNull
 	@Size(max = 100)
 	private String email;
 
@@ -161,6 +166,8 @@ public class Asociado implements Serializable {
 	@Embedded
 	private Rama rama;
 
+        @Column(name = "usuario")
+        private String usuario;
 	/**
 	 * Secuencia de códigos de rama separados por comas
 	 *
@@ -174,6 +181,11 @@ public class Asociado implements Serializable {
 	 */
 	private String ramas;
 	
+        
+        private char cargo;
+        private String profesion;
+        
+        
 	/**
 	 * Establece una cadena renderizable por el listado de asociados, que
 	 * contiene los códigos de las ramas separados por comas C,M,E,P,R
@@ -275,6 +287,9 @@ public class Asociado implements Serializable {
 	
 	public Grupo getGrupo() {
 		return this.grupo;
+	}
+        public void setGrupo(Grupo gr) {
+		this.grupo =gr;
 	}
 
 	public String getIdGrupo() {
@@ -516,4 +531,46 @@ public class Asociado implements Serializable {
 	public int getAsociacion() {
 		return asociacion;
 	}
+
+    /**
+     * @return the usuario
+     */
+    public String getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    /**
+     * @return the cargo
+     */
+    public char getCargo() {
+        return cargo;
+    }
+
+    /**
+     * @param cargo the cargo to set
+     */
+    public void setCargo(char cargo) {
+        this.cargo = cargo;
+    }
+
+    /**
+     * @return the profesion
+     */
+    public String getProfesion() {
+        return profesion;
+    }
+
+    /**
+     * @param profesion the profesion to set
+     */
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
+    }
 }

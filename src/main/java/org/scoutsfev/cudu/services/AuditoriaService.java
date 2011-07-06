@@ -22,7 +22,9 @@ public interface AuditoriaService {
 	public enum Entidad {
 		Asociado("asociado"),
 		Grupo("grupo"),
-		Usuario("usuario");
+		Usuario("usuario"),
+                AsociadoTrimestre("asociadoTrimestre");
+                
 		
 		private String entidad;
 		
@@ -36,4 +38,6 @@ public interface AuditoriaService {
 	}
 	
 	public void registrar(Operacion operacion, Entidad entidad, String pk);
+        
+	public void registrar(Operacion operacion, Entidad entidad, String pk1,String pk2,String pk3);
 }

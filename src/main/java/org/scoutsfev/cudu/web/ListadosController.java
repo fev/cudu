@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/listados")
@@ -59,7 +58,7 @@ public class ListadosController {
 	}
 
 	@RequestMapping(value = "/asociados", method = RequestMethod.GET)
-	public @ResponseBody Result<Asociado> listaAsociados(
+	public Result<Asociado> listaAsociados(
 			@RequestParam("c") String columnas,
 			@RequestParam("s") String ordenadoPor,
 			@RequestParam(value = "d", defaultValue = "asc") String sentido,
@@ -86,7 +85,7 @@ public class ListadosController {
 		result.setTotalRecords(storage.count(idGrupo, filtroTipo, filtroRama, false, asociacion));
 		result.setData(storage.findWhere(idGrupo, columnas, ordenadoPor, sentido, 
 				inicio, resultadosPorPágina, filtroTipo, filtroRama, false, asociacion));
-		
+
 		return result;
 	}
 	
@@ -116,5 +115,34 @@ public class ListadosController {
 		model.addAttribute("timestamp", dateFormat.format(timestamp));		
 
 		return "imprimir";
+	}
+
+
+        @RequestMapping(value = "/pdf", method = RequestMethod.GET)
+	public String pdf(Model model, @RequestParam("c") String columnas,
+			@RequestParam("s") String ordenadoPor,
+			@RequestParam(value = "d", defaultValue = "asc") String sentido,
+			@RequestParam(value = "f_tipo", required = false) String filtroTipo,
+			@RequestParam(value = "f_rama", required = false) String filtroRama,
+			HttpServletRequest request) {
+
+		Result<Asociado> result = listaAsociados(columnas, ordenadoPor, sentido, 0, MAXRESULTS, filtroTipo, filtroRama, request);
+
+		Usuario usuarioActual = Usuario.obtenerActual();
+		String userStamp = usuarioActual.getNombreCompleto();
+		model.addAttribute("userStamp", userStamp);
+
+		String[] lstColumnas = columnas.split(",");
+		model.addAttribute("columnas", lstColumnas);
+		model.addAttribute("numeroColumnas", lstColumnas.length);
+
+		model.addAttribute("asociados", result.data);
+		model.addAttribute("total", result.data.size());
+
+		Date timestamp = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS");
+		model.addAttribute("timestamp", dateFormat.format(timestamp));
+
+		return "pdf";
 	}
 }

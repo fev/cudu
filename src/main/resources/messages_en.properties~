@@ -1,0 +1,325 @@
+app.title=Cud\u00c3\u00ba
+app.copyright=(c) 2009 Federaci\u00c3\u00b3 d'Escoltisme Valenci\u00c3\u00a0
+btn.guardar=Save 
+btn.volver=Back
+btn.eliminar=Delete
+btn.eliminardefinitivamente=Delete Permanently
+btn.imprimir=Print 
+btn.login=Login 
+btn.cancelar=Cancel 
+btn.afegir=Add 
+login.f.usuario=Login
+login.f.password=Password 
+login.f.olvidocontrasenya=Forgot your password?
+rama.cualquiera=Any 
+rama.uno.C=Beaver 
+rama.unos.C=Beavers 
+rama.muchos.C=Cologne 
+rama.uno.M=Lobato 
+rama.unos.M=Cub 
+rama.muchos.M=Herd 
+rama.uno.E=Explorer 
+rama.unos.E=Explorers
+rama.muchos.E=Explorers Unit 
+rama.uno.P=Pioneer 
+rama.unos.P=Pioneer 
+rama.muchos.P=Issue 
+rama.uno.R=Partner 
+rama.unos.R=Partners 
+rama.muchos.R=Route 
+listados.tb.nuevo=New 
+listados.tb.filtrar=Filter 
+listados.tb.columnas=Columns
+listados.tb.imprimir=Print 
+listados.tb.volver=Back 
+listados.tb.expandir=Expand 
+listados.tb.contraer=Collapse 
+listados.tabla.sindatos=No documents exist. 
+listados.tabla.cargando=Loading ... 
+listados.tabla.ordenascendente=Click to order from smallest to largest. 
+listados.tabla.ordendescendente=Click to order from highest to lowest. 
+listados.tabla.pagactual=Pg. {CurrentPage} of {totalpages} 
+listados.tabla.paganterior=ant
+listados.tabla.pagsiguiente=sig 
+listados.tabla.paginicio=home 
+listados.tabla.pagfin=end 
+listados.f.cualquiera=(any) 
+listados.c.id=Id 
+listados.c.ramas=Branches 
+listados.c.nombre=Name 
+listados.c.primerapellido=First Name 
+listados.c.segundoapellido=Last Name 
+listados.c.nombreCompleto=Name
+listados.c.fechanacimiento=DOB 
+listados.c.telefonocasa=Home Phone 
+listados.c.telefonomovil=Mobile Phone 
+listados.c.direccion=Address 
+listados.c.grupo=Group 
+listados.c.dni=DNI 
+listados.c.ssocial=Social Sec 
+listados.c.provincia=Province 
+listados.c.municipio=City
+listados.c.numero= Number
+listados.c.escalera = Ladder
+listados.c.sexo=Gender
+listados.c.puerta = Gate
+listados.c.codigopostal = CP
+listados.c.seguridadSocial = Social Security?
+listados.c.tieneSeguroPrivado = Private insurance?
+listados.c.email=E-Mail
+listados.c.padre_nombre=Father 
+listados.c.madre_nombre=Mother 
+listados.c.padre_telefono=Father Tel 
+listados.c.madre_telefono=Tel Mother 
+listados.c.padre_email=Father E-Mail 
+listados.c.madre_email=E-Mail Madre 
+listados.c.ultimaModificacion=Last Mod 
+grupo.h.titulo=Group Details 
+grupo.h.info=General Information 
+grupo.h.contacto=Contact
+grupo.f.id=Id 
+grupo.f.id.ayuda=ID used internally for the group. 
+grupo.f.nombre=Name 
+grupo.f.aniversario=Anniversary 
+grupo.f.entidadpatrocinadora=Ent. Patroc.
+grupo.f.direccion=Address
+grupo.f.calle=Street 
+grupo.f.numero=Number 
+grupo.f.escalera=Ladder 
+grupo.f.puerta=Gate 
+grupo.f.codigopostal=CP
+grupo.f.provincia=Province 
+grupo.f.municipio=City 
+grupo.f.telefono1=Phone 1 
+grupo.f.telefono2=Phone 2 
+grupo.f.email=E-Mail 
+grupo.f.web=Web Page 
+grupo.f.asociacion=Association
+grupo.titulo.editar =Edit Group 
+grupo.titulo.nuevo =New Group
+
+#\u00c7Formulario inscripcion Curso
+curso.AJ.titulo.modificar = Modify Registration Youth Animator
+curso.AJ.titulo.nuevo = Youth Animator Registration
+curso.AJ.libroFormacion= Training Book
+curso.AJ.nombre= Youth Animator
+cursos.f.monograficos = Monographs
+
+monografico.optativo.habilidades_sociales = Social Skills
+monografico.optativo.animacion = Animation
+monografico.optativo.salud = Health
+monografico.optativo.desarrollo = Development
+
+monografico.optativo.fe = Fe
+monografico.optativo.trabajo_y_consumo = Work & Consumption
+monografico.optativo.naturaleza = Nature in the C.V
+monografico.optativo.dinamicas_grupo = Group dynamics
+
+descarga.libroformacion=Training book
+
+asociado.tipo.pregunta=What we give up? 
+asociado.tipo.joven=Young 
+asociado.tipo.kraal=Kraal 
+asociado.tipo.comite=Committee
+asociado.tipo.voluntario=Volunteer 
+asociado.titulo.nuevo.J=New Young 
+asociado.titulo.nuevo.K=New scouter's kraal 
+asociado.titulo.nuevo.C=New board member 
+asociado.titulo.editar=Associate File
+asociado.curso.AJ = Youth Animator
+asociado.curso.FC = Continuing Education
+asociado.curso.MTL = Free Time Monitor
+asociado.curso.MALI = Food Handler
+asociado.curso.FA  = Entertainers Trainer
+asociado.h.info=About
+asociado.h.tipo=Member type
+asociado.f.cambiar_a_comite = Change to Comittee
+asociado.f.cambiar_a_kraal = Change to Kraal
+asociado.f.nombre=Login 
+asociado.f.primerapellido=1st surname
+asociado.f.segundoapellido=2nd surname 
+asociado.f.sexo=Sex
+asociado.f.sexoM=Male 
+asociado.f.sexoF=Female 
+asociado.f.fechaNac=DOB 
+asociado.f.rama=Rama 
+asociado.f.dni=No DNI 
+asociado.f.ss=Social Sec 
+asociado.f.sprivado=Sec Privacy 
+asociado.h.contacto=Contact 
+asociado.f.calle=Street 
+asociado.f.numero=Number
+asociado.f.escalera=Ladder 
+asociado.f.puerta=Gate 
+asociado.f.codigopostal=PA 
+asociado.f.provincia=Province 
+asociado.f.municipio=City 
+asociado.f.telefonocasa=Phone Home 
+asociado.f.telefonomovil=Mobile 
+asociado.f.email=E-Mail 
+asociado.h.cargos=Fees or Commissions 
+asociado.h.responsables=Responsible lower
+asociado.h.entornofamiliar=Family Environment 
+asociado.f.tutorlegal=guardian has 
+asociado.f.padresseparados=Parents separated 
+asociado.h.datospadre=Parent Details 
+asociado.h.datosmadre=Details of the Mother 
+asociado.f.datospadres.nombre=Name 
+asociado.f.datospadres.telefono=Telephone 
+asociado.f.datospadres.email=E-Mail 
+asociado.h.copiasdoc=Copies of documents 
+asociado.f.copiasdoc.ayuda=Kudu can help you remember what you have copied documents:
+asociado.f.copiasdoc.dni=National Identity Document (DNI) 
+asociado.f.copiasdoc.ss=Primer SS \ SIP Card 
+asociado.f.copiasdoc.fmed=Medical Card 
+asociado.f.copiasdoc.vac=Booklet Vaccinations 
+asociado.d.eliminar=Do you want to cancel the partner? 
+asociado.f.grupo = Group
+
+dashboard.preferencias=Preferences 
+dashboard.ayuda=Help
+dashboard.salir=Logout 
+
+dashboard.nuevoasociado=New partnership 
+dashboard.misdatos = My data
+dashboard.listados=Listings
+dashboard.editarcursos=Edit Courses
+dashboard.migrupo=My Groups 
+
+dashboard.buscarparticipante = Search Participant
+External dashboard.nuevoparticipanteexterno = New Participant
+dashboard.administrarcursos = Manage Courses
+dashboard.administrarpermisos = Manage Permissions
+dashboard.gestiondeFormadores = Management Trainers
+dashboard.cambiarcontrasenya = Change Password
+
+dashboard.nuevoasociado = New Associate
+dashboard.liquidaciones = Closeouts
+dashboard.nuevogrupo = New Group
+
+dashboard.miscursos=My Courses
+dashboard.nuevocurso=New Course
+dashboard.migrupo = My Group
+dashboard.sugerencias=Suggestions 
+
+
+frm.ok=Data saved successfully. 
+frm.errores=Some data is invalid. 
+frm.grupo.ok=The group information was successfully saved. 
+frm.grupo.errores=Some data is invalid. 
+frm.asociado.ok=Associate Information has been saved successfully. 
+frm.asociado.errores=Some data are not valid. 
+NotNull.asociado.nombre=The name is empty. 
+Size.asociado.nombre=The name must be of {2} to {4} characters.
+NotNull.asociado.primerapellido=The first name is empty. 
+Size.asociado.primerapellido=The first name should have {2} to {4} characters. 
+Size.asociado.segundoapellido=The last name must have at most {4} characters. 
+NotNull.asociado.fechanacimiento=The date of birth is empty. 
+Past.asociado.fechanacimiento=The date of birth is greater the current (still not born and has already scarf?) 
+typeMismatch.asociado.fechanacimiento=date of birth is not correct, the format is day / month / year (24/05/1984 for instance). 
+CaracterEnGrupo.asociado.sexo=You must specify one of the sexes. 
+NotNull.asociado.calle=The name of the street is empty. 
+Size.asociado.calle=The street must have {2} to {4} characters. 
+NotNull.asociado.numero=The number of the street is empty.
+Size.asociado.numero=The street number must be between {2} {4} characters. 
+Size.asociado.escalera=The ladder must have at most {4} characters. 
+Size.asociado.puerta=The door must have at most {4} characters. 
+NotNull.asociado.codigopostal=The postcode is empty. 
+Min.asociado.codigopostal=The Postal code should be a positive number. 
+typeMismatch.asociado.codigopostal=The postcode must be a number. 
+Size.asociado.dni=The DNI should have at most {4} characters. 
+Size.asociado.email=The email must have at most {4} characters. 
+Email.asociado.email=email address does not appear to be correct . 
+Size.asociado.seguridadsocial=The number of seconds. must have at most social {4} characters.
+Size.asociado.telefonocasa=The fixed phone can be up to {4} characters. 
+Size.asociado.telefonomovil=The mobile phone can be up characters {4} 
+Size.asociado.madreNombre=. The mother's name must have at most {4} characters. 
+Size.asociado.padreNombre=The father's name can be up { 4} characters. 
+Size.asociado.madreTelefono=On your mother should have a maximum of characters {4} 
+Size.asociado.padreTelefono=. The father's phone must have at most {4} characters. 
+Size.asociado.madreEmail=Email the mother must have at most {4} characters. 
+Size.asociado.padreEmail=The email the parent must have at most {4} characters. 
+Email.asociado.padreEmail=email address of the father does not seem correct. 
+Email.asociado.madreEmail=email address of the mother does not seem correct.
+Pattern.asociado.madreEmail=The email from the mother seems to be correct. 
+Pattern.asociado.padreEmail=Email the father seems to be correct. 
+NotNull.asociado.idProvincia=You have not selected any province. 
+NotNull.asociado.idMunicipio=You have not selected any municipality. 
+Min.asociado.idProvincia=The province selected is correct. 
+Min.asociado.idMunicipio=The town selected is not correct. 
+NotNull.grupo.nombre=The name is empty. 
+Size.grupo.nombre=The name must be of {2} to {4} characters. 
+NotNull.grupo.calle=The street is empty. 
+Size.grupo.calle=The street must have {2} to {4} characters.
+NotNull.grupo.numero=The number of the street is empty. 
+Size.grupo.numero=The street number must be between {2} {4} characters. 
+Size.grupo.puerta=The door must have at most {4} characters. 
+Size.grupo.escalera=The ladder must have at most {4} characters. 
+NotNull.grupo.codigopostal=The postcode is empty. 
+Min.grupo.codigopostal=The postcode should be a positive number. 
+typeMismatch.grupo.codigopostal=The postcode should be a positive number. 
+Past.grupo.aniversario=The anniversary of the group can not be a future date, but the date on which it was created. 
+typeMismatch.grupo.aniversario=Anniversary is not a correct date format is day / month / year (24/05/1984 for example). 
+NotNull.grupo.telefono1=The phone 1 is empty.
+Size.grupo.telefono1=The phone 1 must be of {2} to {4} characters. 
+Size.grupo.telefono2=The phone must have at most 2 {4} characters. 
+NotNull.grupo.email=The email is empty. 
+Size.grupo.email=The email must be from {2} {4} characters. 
+Email.grupo.email=The email address does not appear to be correct. 
+Size.grupo.web=The website should have at most {4} characters. 
+Size.grupo.entidadpatrocinadora=The sponsor must have at most {4} characters. 
+NotNull.grupo.idProvincia=You have not selected any province. 
+NotNull.grupo.idMunicipio=You have not selected any municipality. 
+Min.grupo.idProvincia=The province is selected correctly.
+Min.grupo.idMunicipio=The town selected is not correct.
+
+
+
+# Mensajes de estadisticas
+estadistica.grupos: Groups
+estadistica.voluntarios: Volunteers
+estadistica.asociados: Associates
+estadistica.asociado.tipo.kraal=Scouters
+#Estadisticas grupo
+estadistica.grupo.menosActualizado=Less updated group
+estadistica.grupo.e.menosNumeroso=Smaller group
+estadistica.h.sinestadistica=No Statistics
+
+
+#para diferenciar sdA, sdC, MEV
+asociacion.tipo.sdA=SdA
+asociacion.tipo.sdC=SdC
+asociacion.tipo.MEV=MEV
+
+#en la interfaz buscar asociado
+asociado.f.tipo=Type
+asociado.f.telefono=Phone
+
+#para contrase\u00f1a
+asociado.f.contrasenyaactual = Actual Password
+asociado.f.contrasenyanueva = New Password
+asociado.f.contrasenyaconfirmarnueva = Confirm Password
+
+
+boton.cerrar=Close
+
+recorrido.asociado.tipo=Type
+recorrido.asociado.ramas=Branches
+recorrido.asociado.grupo=Group
+recorrido.asociado.ronda=Round
+recorrido.asociado.tituloTabla=Recorrido Scout
+
+
+
+asociado.cargo.presidencia =Presidency
+asociado.cargo.secretaria =Secretary
+asociado.cargo.tesoreria =Treasury 
+asociado.cargo.intendencia =Quartermaster
+asociado.cargo.cocina =Kitchen
+asociado.cargo.consiliario =Chaplain
+asociado.cargo.vocal=Vocal
+asociado.cargo.otro =Other
+
+asociado.cargo=Position
+asocaido.titulacion=Degree
+asocaido.profesion=Profession 

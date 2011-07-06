@@ -1,0 +1,18 @@
+ALTER TABLE ASOCIADO ADD COLUMN usuario varchar(200);
+ALTER TABLE ASOCIADO  ADD CONSTRAINT u_asociado_usuario UNIQUE(usuario);
+ALTER TABLE ASOCIADO ADD CONSTRAINT fk_asociado_users FOREIGN KEY (usuario) REFERENCES users(username);
+
+
+insert into users
+(username, password, fullname, idgrupo, enabled)
+values
+('albafo','albafo2011','cuenta interesante','UP','T');
+
+
+
+insert into authorities
+(username, authority)
+values
+('albafo','PERMISO_H');
+
+update asociado set usuario = 'albafo' where id=20;

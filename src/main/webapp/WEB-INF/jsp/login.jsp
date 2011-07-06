@@ -31,6 +31,9 @@ input.button { width: 76px; height: 34px; padding: 0px 4px; cursor: pointer; -mo
 input.button.save { padding-left:30px; padding-right:8px; font-family:'Trebuchet MS',Arial,Helvetica,sans-serif;
     background: transparent url('<c:url value="/s/theme/img/tango/tick32.png" />') no-repeat 5px 2px; width: 100px }
 input.button.save:hover { background-color: #E3FFE3; color: #64992C }
+
+div.ht { display: block; text-decoration: none; border-bottom: 0px solid #EEE; height: 70px;
+    -moz-border-radius: 8px; -webkit-border-radius: 8px; }
 </style>
 </head>
 <body>
@@ -40,6 +43,19 @@ input.button.save:hover { background-color: #E3FFE3; color: #64992C }
   <div class="yui-g">
     <div class="yui-g first">
         <img src="<c:url value="/s/theme/img/db-logo.png" />" alt="cudu" />
+        <!-- 3. Add the container -->
+<!-- ;style="width: 380px; height: auto; background: WHITE; margin: 0 " -->
+
+            <div style="width: 300px; height: auto; background: WHITE; margin: 0; display: block;
+                 border-bottom: 0px solid #EEE; height: 70px;    -moz-border-radius: 8px; -webkit-border-radius: 8px;">
+                <label for="j_username">  <fmt:message key="estadistica.grupos" /> : ${datosEstadistica.grupos}</label>
+                <label for="j_username">  <fmt:message key="estadistica.voluntarios" /> : ${datosEstadistica.voluntarios}</label>
+                <label for="j_username">  <fmt:message key="estadistica.asociados" /> :  ${datosEstadistica.asociados}</label>
+
+                <div id="chartContainer" style="width: 300px; height: 400px; margin: 0 auto">
+                </div>
+        </div>
+
     </div>
     <div class="yui-g" style="background: transparent url('<c:url value="/s/theme/img/onepix40.png" />;')">
       <div style="margin: 15px;">
@@ -54,9 +70,21 @@ input.button.save:hover { background-color: #E3FFE3; color: #64992C }
         </div>
         <div style="text-align: right">
           <%--<input type='checkbox' name='_spring_security_remember_me'/> Recordar contraseña.<br />--%>
-          <input type="submit" class="button save" value="<fmt:message key="btn.login" />" />       
-        </div>
+          <input type="submit" class="button save" value="<fmt:message key="btn.login" />" />
+          <div>
+              <a href="<c:url value="recuperarpassword" />">
+                  <fmt:message key="login.f.olvidocontrasenya"/>
+            </a>
+              
+          </div>
+        </div> 
       </form>
+        <div>
+            <!--<a href="preferencias"><fmt:message key="dashboard.preferencias" /></a> - -->
+            <a href="<c:url value="/login?hl=es" />">Castellano</a>,
+            <a href="<c:url value="/login?hl=ca" />">Valencià</a>
+          </div>
+          
       </div>
     </div>
   </div>
@@ -70,6 +98,68 @@ input.button.save:hover { background-color: #E3FFE3; color: #64992C }
 </div>
 <script type="text/javascript">
 document.getElementById('j_username').focus();
+</script>
+
+<script type="text/javascript" src="<c:url value="/s/jquery/jquery-1.4.2.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/scripts/estadistica/highcharts.js"/>"></script>
+
+<!-- 1a) Optional: add a theme file -->
+<!--
+        <script type="text/javascript" src="../js/themes/gray.js"></script>
+-->
+
+<!-- 1b) Optional: the exporting module -->
+<!-- <script type="text/javascript" src="<c:url value="/s/scripts/estadistica/modules/exporting.js"/>"></script> -->
+
+
+<!-- 2. Add the JavaScript to initialize the chart on document ready -->
+<script type="text/javascript">
+
+  		var chart;
+			$(document).ready(function() {
+				chart = new Highcharts.Chart({
+					chart: {
+						renderTo: 'chartContainer',
+						plotBackgroundColor: null,
+						plotBorderWidth: null,
+						plotShadow: false
+					},
+					title: {
+						text: '<fmt:message key="estadistica.asociados" />'
+					},
+					tooltip: {
+						formatter: function() {
+							var percent = parseInt(this.y/${datosEstadistica.asociados} *100);
+                                                        return '<b>'+ this.point.name +'</b>: '+ this.y + '  ('+percent +'%)';
+						}
+					},
+					plotOptions: {
+						pie: {
+							allowPointSelect: true,
+							cursor: 'pointer',
+							dataLabels: {
+								enabled: false
+							},
+							showInLegend: true
+						}
+					},
+				    series: [{
+						type: 'pie',
+						name: 'Browser share',
+						data: [
+							                              {name: '<fmt:message key="rama.uno.C" />',   y: ${datosEstadistica.castores}, color: '#FF9900'},
+                                    {name: '<fmt:message key="rama.uno.E" />',   y: ${datosEstadistica.exploradores},    color: '#0081CC'},
+                                    {name: '<fmt:message key="rama.uno.M" />',   y: ${datosEstadistica.lobatos},    color: '#FFFF00'},
+                                    {name: '<fmt:message key="rama.uno.P" />',   y: ${datosEstadistica.pioneros},    color: '#CC3333'},
+                                    {name: '<fmt:message key="rama.uno.R" />',   y: ${datosEstadistica.companys},    color: '#009933'},
+
+                                    {name: '<fmt:message key="estadistica.asociado.tipo.kraal" />', y:${datosEstadistica.scouters}, color: '#6600CC'},
+                                    {name: '<fmt:message key="asociado.tipo.comite" />', y:${datosEstadistica.comite}, color: '#663333'}
+						]
+					}]
+				});
+			});
+				               
 </script>
 <!-- YUI Prefetching ...
 <script type="text/javascript" src="<c:url value="/s/cdn/yui-lst.js" />"></script>

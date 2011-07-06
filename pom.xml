@@ -6,7 +6,7 @@
   <artifactId>cudu</artifactId>
   <name>Cudu</name>
   <packaging>war</packaging>
-  <version>1.0.0.RC6</version>
+  <version>1.0.0.RC5</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <org.springframework.version>3.0.3.RELEASE</org.springframework.version>
@@ -14,8 +14,9 @@
     <org.slf4j.version>1.5.10</org.slf4j.version>
     <log4j.version>1.2.16</log4j.version>
     <org.postgresql.version>8.3.604</org.postgresql.version>
-    <org.codehaus.jackson>1.4.3</org.codehaus.jackson>
+    <org.codehaus.jackson.mapper>1.4.3</org.codehaus.jackson.mapper>
     <org.aspectj>1.6.5.RELEASE</org.aspectj>
+    <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
   </properties>
   
   <organization>
@@ -189,21 +190,10 @@
         <version>${org.springframework.version}</version>
     </dependency>
     
-    <!-- Jackson (JSON) -->
-    <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>com.springsource.org.codehaus.jackson</artifactId>
-        <version>${org.codehaus.jackson}</version>
-    </dependency>
     <dependency>
         <groupId>org.codehaus.jackson</groupId>
         <artifactId>com.springsource.org.codehaus.jackson.mapper</artifactId>
-        <version>${org.codehaus.jackson}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-jaxrs</artifactId>
-        <version>${org.codehaus.jackson}</version>
+        <version>${org.codehaus.jackson.mapper}</version>
     </dependency>
     
     <dependency>
@@ -265,6 +255,34 @@
       <version>4.7</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.1</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>eclipselink</artifactId>
+      <version>2.2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>javax.persistence</artifactId>
+      <version>2.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.persistence</groupId>
+      <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+      <version>2.2.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.annotation</groupId>
+      <artifactId>jsr250-api</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <repositories>    
@@ -293,6 +311,12 @@
       <id>org.scoutsfev.cudu.repository</id>
       <name>Cudu SVN Repository</name>      
       <url>http://cudu.googlecode.com/svn/repository</url>      
+    </repository>
+    <repository>
+      <url>http://ftp.ing.umu.se/mirror/eclipse/rt/eclipselink/maven.repo</url>
+      <id>eclipselink</id>
+      <layout>default</layout>
+      <name>Repository for library Library[eclipselink]</name>
     </repository>
   </repositories>
 
