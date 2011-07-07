@@ -30,7 +30,8 @@ div#bd { padding-left: 20px; }
                     </c:choose>
                 </div>
             </div>
-            <form:form modelAttribute="usuario" method="POST">
+            <form:form modelAttribute="passwordusuario" method="POST">
+                
                 <c:set var="erroresValidacion" value="false" />
                 <spring:hasBindErrors name="asociado">
                     <cudu:message id="mp01" key="frm.errores">

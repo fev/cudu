@@ -5,6 +5,7 @@
 package org.scoutsfev.cudu.web;
 
 
+import org.scoutsfev.cudu.services.models.PasswordUsuario;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -40,45 +41,55 @@ public class CambiadorPasswordController {
 
 
 
-    @RequestMapping(value = "/{idAsociado}", method = RequestMethod.GET)
-    public String setupForm(@PathVariable("idAsociado") int idAsociado, Model model, HttpServletRequest request) {
-            logger.info("setupForm /asociado/" + idAsociado);
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String setupForm(Model model, HttpServletRequest request) {
+            logger.info("setupForm /cambiarPassword/");
 
+            Usuario usuario = usuarioService.obtenerUsuarioActual();
+            int idAsociado = asociadoService.getIdAsociado(usuario.getUsername());
             Asociado asociado = asociadoService.find(idAsociado);
             
             
             if (asociado == null)
                     return "redirect:/404 asociado nulo!";
             
-            Usuario usuario = usuarioService.obtenerUsuarioActual();
+            
 
             model.addAttribute("asociado", asociado);
             model.addAttribute("usuario", usuario);
+            model.addAttribute("passwordusuario", new PasswordUsuario(usuario.getUsername()));
             return "cambiarPassword";
     }
 
     
     
     @RequestMapping(method = RequestMethod.POST)
-    public String processSubmit(@ModelAttribute("usuario") @Valid Usuario usuario,
-    BindingResult result, SessionStatus status) {
-            logger.info("processSubmit: " + usuario.getUsername());
-
+    public String processSubmit(@ModelAttribute("passwordusuario") @Valid PasswordUsuario passUsuario,    BindingResult result, SessionStatus status) {
+            logger.info("processSubmit: " + passUsuario.getUsername());
             if (result.hasErrors()) 
             {
                     logger.info("Validation errors.");
                     //	for(ObjectError error: result.getAllErrors()) logger.info(error.getCode());
                     return "usuario";
             }
-
+//<form:input path="username" >${usuario.username}</form:input>
             Usuario userCheck = usuarioService.obtenerUsuarioActual();
-            if(userCheck.getPassword().equals(usuario.getAnteriorPassword()))
+            if(userCheck.getPassword().equals(passUsuario.getAnteriorPassword()))
             {
-                if(usuario.getPassword().equals(usuario.getConfirmarPassword()))
+                if(passUsuario.getPassword().equals(passUsuario.getConfirmarPassword()))
                 {
-                    Usuario persistedEntity = usuarioService.merge(usuario);
+                    
+                    userCheck.setPassword(passUsuario.getPassword());
+                    Usuario us = new Usuario();
+                    us.setUsername(userCheck.getUsername());
+                    us.setPassword(userCheck.getPassword());
+                    us.setGrupo(userCheck.getGrupo());
+                    us.setEnabled(userCheck.isEnabled());
+                    us.setNombreCompleto(userCheck.getNombreCompleto());
+
+                    Usuario persistedEntity = usuarioService.merge(us);
                     status.setComplete();
-                    return "redirect:/cambiarpassword/" + persistedEntity.getUsername() + "?ok";
+                    return "redirect:/cambiarpassword?ok/";
                 }
             }
             return "redirect:/cambiarpassword/" + "no!!!";

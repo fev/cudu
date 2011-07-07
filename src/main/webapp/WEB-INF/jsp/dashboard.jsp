@@ -202,7 +202,7 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
             </sec:authorize>
             
             <sec:authorize access="hasAnyRole('ROLE_PERMISO_B','ROLE_PERMISO_A','ROLE_PERMISO_C1','ROLE_PERMISO_C2','ROLE_PERMISO_C3','ROLE_PERMISO_F','ROLE_PERMISO_H')">
-                <a href="<c:url value="cambiarPassword/${idAsociado}" />">
+                <a href="<c:url value="cambiarPassword/" />">
                     <img src="<c:url value="/s/theme/img/db-asociado.png"/>" alt="ayuda" />
                     <span><fmt:message key="dashboard.cambiarcontrasenya" /></span>
                 </a>

@@ -86,6 +86,7 @@
   <bean id="cursoService" class="org.scoutsfev.cudu.services.CursoServiceImpl" />
   <bean id="miCursoService" class="org.scoutsfev.cudu.services.MiCursoServiceImpl" />
   <bean id="estadisticaService" class="org.scoutsfev.cudu.services.EstadisticaServiceImpl" />
+ 
 
   <!-- Beans para auditoria, Redis -->
   <bean id="redisServiceLocator" class="org.scoutsfev.cudu.services.RedisServiceLocator" />

@@ -24,12 +24,6 @@ public class PasswordValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword",
 				"required.confirmPassword", "Field name is required.");
  
-		Usuario cust = (Usuario)target;
- 
-		if(!(cust.getPassword().equals(cust.getConfirmarPassword()))){
-			errors.rejectValue("password", "notmatch.password");
-		}
-                
  
 	}
  
