@@ -260,7 +260,7 @@ div#bd { padding-left: 20px; }
       <div class="field required">
           
         <label for="txtGrupo" class="w2u"><fmt:message key="asociado.f.grupo" /></label>
-        <form:input id="txtGrupo" path="grupo.nombre" cssClass="textbox w3u" cssErrorClass="textbox w3u error" />
+        <form:label id="txtGrupo" path="grupo.nombre" cssClass="textbox w3u">${asociado.grupo.nombre}</form:label>
         
       </div>
       

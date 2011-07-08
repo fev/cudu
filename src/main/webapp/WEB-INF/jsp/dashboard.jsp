@@ -19,8 +19,16 @@
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/animation/animation-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/datasource/datasource-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/autocomplete/autocomplete-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/element/element-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/button/button-min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/fonts/fonts-min.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/menu/assets/skins/sam/menu.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/button/assets/skins/sam/button.css" /> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/container/container_core-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/menu/menu-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/button/button-min.js"></script> 
+ 
 <style type="text/css">
 div.ht a { display: block; text-decoration: none; border-bottom: 0px solid #EEE; height: 70px;
     -moz-border-radius: 8px; -webkit-border-radius: 8px; }
@@ -61,17 +69,85 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
                         .yui-ac .yui-button button       { color:#FFF; background: "<c:url value="/s/theme/img/ac-arrow-rt.png" />" center center no-repeat}
                         .yui-ac .open .yui-button button { color:#FFF; background: "<c:url value="/s/theme/img/ac-arrow-dn.png" />" center center no-repeat}
 
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                          /*
+        Set the "zoom" property to "normal" since it is set to "1" by the 
+        ".example-container .bd" rule in yui.css and this causes a Menu
+        instance's width to expand to 100% of the browser viewport.
+    */
+    
+    div.yuimenu .bd {
+    
+        zoom: normal;
+    
+    }
+ 
+    #button-example-form fieldset {
+ 
+        border: 2px groove #ccc;
+        margin: .5em;
+        padding: .5em;
+ 
+    }
+ 
+    #menubutton3menu,
+    #menubutton4menu {
+    
+        position: absolute;
+        visibility: hidden;
+        border: solid 1px #000;
+        padding: .5em;
+        background-color: #ccc;
+    
+    }
+ 
+    #button-example-form-postdata {
+    
+        border: dashed 1px #666;
+        background-color: #ccc;
+        padding: 1em;
+    
+    }
+ 
+    #button-example-form-postdata h2 {
+    
+        margin: 0 0 .5em 0;
+        padding: 0;
+        border: none;
+    
+    }
+    
+    
+    /*margin and padding on body element
+  can introduce errors in determining
+  element position and are not recommended;
+  we turn them off as a foundation for YUI
+  CSS treatments. */
+body {
+	margin:0;
+	padding:0;
+}
 
 </style>
 </head>
-<body>
+<body  class="yui-skin-sam"> 
 <div id="doc" class="yui-t7">
 <div id="hd" style="height: 150px; padding-top: 10px"></div> 
 <div id="bd">
     <c:out value="<script language='JavaScript'>" escapeXml="false"></c:out>
 			var grupo=[];
                      <c:forEach var="grupo"                items="${grupos}" varStatus="status">
-                        grupo.push("${grupo[0]}");
+                        grupo.push({
+                        key: "${grupo[0]}",
+                        nombre:"${grupo[1]}"
+                        });
                      </c:forEach>    
         <c:out value="</script>" escapeXml="false"></c:out>
     <div class="yui-g">
@@ -262,11 +338,8 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
                   <h1 style="text-align:center; color:#FFF;"><fmt:message key="asociado.tipo.pregunta" /></h1>
                </div>
                
-               <label style="color:#FFF;"  for="dInput">Grupo:</label>
-                                    <div id="dAutoComplete">
-                                        <input id="dInput"  type="text"> <span id="toggleD"></span>
-                                            <div style="color:#FFF;" id="dContainer"></div>
-                                    </div>       
+               <label style="color:#FFF;"  for="dInput"><fmt:message key="asociado.f.grupo" /></label>
+                 <fieldset id="menubuttonsfromjavascript"/> 
                <div class="yui-gb content">
                   <div class="yui-u first rounded">
                       <a id="step1-a-joven" href="javascript:void(0)" onclick="JavaScript:seleccionNuevo('joven')"> 
@@ -425,64 +498,55 @@ $(document).ready(function(){
                 });
         });
 //////////////////////////////////////////////////FIN DE ESTADISTICA, INICIO DE COMBOBOX
-   combobox = function() {
-
-                // inicializar DataSource
-                var dDS = new YAHOO.util.LocalDataSource(grupo);
-
-
-
-
-                // instanciar autocomplete
-                var oConfigs = {
-                    prehighlightClassName: "yui-ac-prehighlight",
-                    useShadow: true,
-                    queryDelay: 0,
-                    minQueryLength: 0,
-                    animVert: .01
-                }
-                var dAC = new YAHOO.widget.AutoComplete("dInput", "dContainer", dDS, oConfigs);
-
-                // Grupo combobox
-                var dToggler = YAHOO.util.Dom.get("toggleD");
-                var oPushButtonD = new YAHOO.widget.Button({container:dToggler});
-                var toggleD = function(e) {
-                    //YAHOO.util.Event.stopEvent(e);
-                    if(!YAHOO.util.Dom.hasClass(dToggler, "open")) {
-                        YAHOO.util.Dom.addClass(dToggler, "open")
+   //	"contentready" event handler for the "menubuttonsfrommarkup" <fieldset>
+         var sText;
+	//	Search for an element to place the Menu Button into via the 
+	//	Event utility's "onContentReady" method
+	YAHOO.util.Event.onContentReady("menubuttonsfromjavascript", function () {
+		//	"click" event handler for each item in the Button's menu
+		var onMenuItemClick = function (p_sType, p_aArgs, p_oItem) {
+			
+			sText = p_oItem.cfg.getProperty("text");
+                        sTextKey = p_oItem.value;
+			
+			YAHOO.log("[MenuItem Properties] text: " + sText + ", value: " + 
+					p_oItem.value);
+			
+    		oMenuButtonGrupo.set("label", sText);			
+ 
+		};
+ 
+ 
+		//	Create an array of YAHOO.widget.MenuItem configuration properties
+ 
+		var i, aMenuButtonGrupo = [];
+                    for(i = grupo.length-1; i >0;i--)
+                    {
+                        aMenuButtonGrupo.push({
+                            text:grupo[i].nombre,
+                            value:grupo[i].key,
+                            onclick: { fn: onMenuItemClick } 
+                        });
                     }
 
-                    // Is open
-                    if(dAC.isContainerOpen()) {
-                        dAC.collapseContainer();
-                    }
-                    // Is closed
-                    else {
-                        dAC.getInputEl().focus(); // Needed to keep widget active
-                        setTimeout(function() { // For IE
-                            dAC.sendQuery("");
-                        },0);
-                    }
-                }
-                oPushButtonD.on("click", toggleD);
-                dAC.containerCollapseEvent.subscribe(function(){YAHOO.util.Dom.removeClass(dToggler, "open")});
-
-                return {
-                    dDS: dDS,
-                    dAC: dAC
-                };
-            }();
-                    
-        function seleccionNuevo(arg){
-          var kraal =    "asociado/nuevo/"+arg+"/";
-          var ptexto=document.getElementById("dInput");
-          var nombreGrupo = ptexto.value;
-          var retorno = kraal+nombreGrupo+nombreGrupo;
-	  //document.writeln("asociado/nuevo/joven/"+document.getElementById('dInput').value)
-           window.location.href = "asociado/nuevo/"+arg+"/"+document.getElementById('dInput').value;
+ 
+ 
+		//	Instantiate a Menu Button using the array of YAHOO.widget.MenuItem 
+		//	configuration properties as the value for the "menu"  
+		//	configuration attribute.
+ 
+		var oMenuButtonGrupo = new YAHOO.widget.Button({
+                    type: "menu", 
+                    label: grupo[grupo.length-1].nombre, 
+                    name: "comboGrupo", 
+                    menu: aMenuButtonGrupo, 
+                    container: this });
+	});
+  
+	function seleccionNuevo(arg){
+          
+           window.location.href = "asociado/nuevo/"+arg+"/"+sTextKey;
         }
-        
-        
 </script>
 </body>
-</html>
+</html>     
