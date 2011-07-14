@@ -336,10 +336,16 @@ body {
             <div  class="bd">                                            
                <div class="yui-g legend">
                   <h1 style="text-align:center; color:#FFF;"><fmt:message key="asociado.tipo.pregunta" /></h1>
-               </div>
+                  
                
-               <label style="color:#FFF;"  for="dInput"><fmt:message key="asociado.f.grupo" /></label>
-                 <fieldset id="menubuttonsfromjavascript"/> 
+               </div>
+                  <div>
+                      <fieldset  id="menubuttonsfromjavascript"/> 
+                      <label style="color:#FFF ;"  for="dInput"><fmt:message key="asociado.f.grupo" /></label>
+               
+                  </div>
+               
+                 
                <div class="yui-gb content">
                   <div class="yui-u first rounded">
                       <a id="step1-a-joven" href="javascript:void(0)" onclick="JavaScript:seleccionNuevo('joven')"> 

@@ -22,4 +22,6 @@ public interface AsociadoService
         public Integer getIdAsociado(String usuario);
         public Asociado findemail(String email);
         public List getRecorridoAsociado(int id);
+
+    public void deleteFromDB(int idAsociado);
 }

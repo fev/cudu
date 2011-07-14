@@ -165,6 +165,9 @@ public class Asociado implements Serializable {
 	
 	@Embedded
 	private Rama rama;
+        
+        @Embedded
+	private Cargo cargo;
 
         @Column(name = "usuario")
         private String usuario;
@@ -182,7 +185,7 @@ public class Asociado implements Serializable {
 	private String ramas;
 	
         
-        private char cargo;
+        private String cargos;
         private String profesion;
         
         
@@ -191,7 +194,7 @@ public class Asociado implements Serializable {
 	 * contiene los códigos de las ramas separados por comas C,M,E,P,R
 	 */
 	@PrePersist @PreUpdate
-	public void establecerRamas() {
+	public void establecerPreUpdate() {
 		StringBuilder sb = new StringBuilder();
 		if (this.rama.isColonia()) sb.append("C,");
 		if (this.rama.isManada()) sb.append("M,");
@@ -205,8 +208,64 @@ public class Asociado implements Serializable {
 			sb.deleteCharAt(length - 1);
 
 		setRamas(sb.toString());
+                
+                
+                sb = new StringBuilder();
+                if (this.cargo.isPresidencia()) sb.append("P,");
+                if (this.cargo.isSecretaria()) sb.append("S,");
+                if (this.cargo.isTesoreria()) sb.append("T,");
+                if (this.cargo.isVocal()) sb.append("V,");
+		if (this.cargo.isCocina()) sb.append("C,");
+		if (this.cargo.isConsiliario()) sb.append("N,");
+		if (this.cargo.isIntendencia()) sb.append("I,");
+		if (this.cargo.isOtro()) sb.append("O,");
+		
+
+		// Eliminar coma final
+		length = sb.length();
+		if (length >= 2)
+			sb.deleteCharAt(length - 1);
+
+		setCargos(sb.toString());
 	}
 	
+        /**
+	 * Establece una cadena renderizable por el listado de asociados, que
+	 * contiene los códigos de los cargos separados por comas 
+         * 
+         * 
+         *
+         * 'P': presidencia, 
+         * 'S': secretaria, 
+         * 'T': tesoreria,
+         * 'I': intendencia,
+         * 'C': cocina,
+         * 'N': consiliario, 
+         * 'V': vocal,
+         * 'O': otro
+	 */
+	/*
+         * @PrePersist @PreUpdate
+	public void establecerCargos() {            
+		StringBuilder sb = new StringBuilder();
+                if (this.cargo.isPresidencia()) sb.append("P,");
+                if (this.cargo.isSecretaria()) sb.append("S,");
+                if (this.cargo.isTesoreria()) sb.append("T,");
+                if (this.cargo.isVocal()) sb.append("V,");
+		if (this.cargo.isCocina()) sb.append("C,");
+		if (this.cargo.isConsiliario()) sb.append("N,");
+		if (this.cargo.isIntendencia()) sb.append("I,");
+		if (this.cargo.isOtro()) sb.append("O,");
+		
+
+		// Eliminar coma final
+		int length = sb.length();
+		if (length >= 2)
+			sb.deleteCharAt(length - 1);
+
+		setCargos(sb.toString());
+	}
+        */
 	@Column(name = "jpa_version")
     @Version
     private int version;
@@ -507,6 +566,15 @@ public class Asociado implements Serializable {
 	public String getRamas() {
 		return ramas;
 	}
+        
+        public Cargo getCargo()
+        {
+            return cargo;
+        }
+        public void setCargo(Cargo cargo)
+        {
+            this.cargo = cargo;
+        }
 
 	public void setPadresdivorciados(Boolean padresdivorciados) {
 		this.padresdivorciados = padresdivorciados;
@@ -549,15 +617,15 @@ public class Asociado implements Serializable {
     /**
      * @return the cargo
      */
-    public char getCargo() {
-        return cargo;
+    public String getCargos() {
+        return cargos;
     }
 
     /**
      * @param cargo the cargo to set
      */
-    public void setCargo(char cargo) {
-        this.cargo = cargo;
+    public void setCargos(String cargos) {
+        this.cargos = cargos;
     }
 
     /**

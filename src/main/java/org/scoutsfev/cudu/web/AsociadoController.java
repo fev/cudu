@@ -198,4 +198,14 @@ public class AsociadoController {
 		asociadoService.delete(idAsociado);
 		return "redirect:/listados";
 	}
+        
+        
+	@RequestMapping(method = RequestMethod.DELETE)
+	public String eliminarAsociadoDefinitivamente(@PathVariable int idAsociado) {
+		logger.info("eliminarAsociado: " + idAsociado);
+		asociadoService.deleteFromDB(idAsociado);
+		return "redirect:/listados";
+	}
+        
+        
 }

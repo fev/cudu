@@ -6,7 +6,9 @@ public interface AuditoriaService {
 		Acceder('R'),
 		Almacenar('M'),
 		Descartar('D'),
-		Autenticar('A');
+		Autenticar('A'),
+                Eliminar('E');
+                
 		
 		private char operacion;
 		

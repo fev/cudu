@@ -264,14 +264,37 @@ div#bd { padding-left: 20px; }
         
       </div>
       
-      <div id="divCargos">
-            <label  for="dCargos">asociado.f.cargo</label>
-            <span id="toggleDCargo">
-	      <form:input id="dCargos" type="text" path="cargo" cssClass="textbox w3u" cssErrorClass="textbox w3u error"/>
-              </span>
-	<div  id="dContainerCargos"></div>
+        <div id="diviCargos">
+            <label  for="cxbCargos"><fmt:message key="asociado.f.cargo" /></label>
+                <form:checkbox id="chkPresidencia" path="cargo.presidencia" cssClass="checkbox" />
+              <label for="chkPresidencia" class="checkbox"><fmt:message key="asociado.cargo.presidencia"/></label>              
+                </div>
+
+              <label for="chkSecretaria" class="checkbox"><fmt:message key="asociado.cargo.secretaria"/></label>
+              <form:checkbox id="chkSecretaria" path="cargo.secretaria" cssClass="checkbox" />
+
+              <label for="chkTesoreria" class="checkbox"><fmt:message key="asociado.cargo.tesoreria"/></label>
+              <form:checkbox id="chkTesoreria" path="cargo.tesoreria" cssClass="checkbox" />
+
+              <label for="chkIntendencia" class="checkbox"><fmt:message key="asociado.cargo.intendencia"/></label>
+              <form:checkbox id="chkIntendencia" path="cargo.intendencia" cssClass="checkbox" />
+
+              <label for="chkCocina" class="checkbox"><fmt:message key="asociado.cargo.cocina"/></label>
+              <form:checkbox id="chkCocina" path="cargo.cocina" cssClass="checkbox" />
+
+              <label for="chkConsiliario" class="checkbox"><fmt:message key="asociado.cargo.consiliario"/></label>            
+              <form:checkbox id="chkConsiliario" path="cargo.consiliario" cssClass="checkbox" />
+            
+              <label for="chkVocal" class="checkbox"><fmt:message key="asociado.cargo.vocal"/></label>
+              <form:checkbox id="chkVocal" path="cargo.vocal" cssClass="checkbox" />/>
+
+              <label for="chkOtro" class="checkbox"><fmt:message key="asociado.cargo.otro"/></label>
+              <form:checkbox id="chkOtro" path="cargo.otro" cssClass="checkbox"/>
+              
+              
+              
         </div> 
-    </div>    
+    </div>      
   </div>
   
   <c:if test="${asociado.tipo != 'J'}"> <%-- KRAAL o COMITÉ tienen cargos --%>
@@ -408,17 +431,28 @@ div#bd { padding-left: 20px; }
 <div id="stddlg" class="popupdlg">
 <div class="yui-t7">
 <div class="bd">
+    
    <div class="yui-g legend">
       <h1><fmt:message key="asociado.d.eliminar" /></h1>
       <%-- <p>Recuerda que puedes recuperarlo posteriormente desde los listados.</p> --%>
    </div>
+   
    <div class="yui-g content">
       <div class="yui-u first rounded">
+          <sec:authorize access="hasAnyRole('ROLE_PERMISO_B','ROLE_PERMISO_A','ROLE_PERMISO_C1','ROLE_PERMISO_C2','ROLE_PERMISO_C3')">
       	<form:form id="frmEliminar" method="delete">
         <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
           <span><fmt:message key="btn.eliminar" /></span>
         </a>
-		</form:form>
+        </form:form>
+          </sec:authorize>
+          
+          <form:form id="frmEliminar" method="deleteFromDB">
+        <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
+          <span><fmt:message key="btn.eliminardefinitivamente" /></span>
+        </a>
+        </form:form>
+          
       </div>
       <div class="yui-u rounded">
         <a id="btnDlg01Cancelar" href="javascript:$('#stddlg').fadeOut(200)">
@@ -560,6 +594,7 @@ function dbgcopy() {
 }
 
 //////////////////////////////////////////////////FIN DE ESTADISTICA, INICIO DE COMBOBOX
+/*
         combobox = function() {
                 //CARGOS
                 var cargos=[
@@ -614,6 +649,7 @@ function dbgcopy() {
                     dDcargos: dDcargos
                 };
             }();
+            */
 </script>
 </body>
 </html>

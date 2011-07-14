@@ -42,6 +42,26 @@ public class AsociadoServiceImpl
 		}
 		return filtroRamas;
 	}
+        
+        private String componerFiltroCargo(String cargos) {
+		String filtroCargos = "";
+		if (!StringUtils.isBlank(cargos)) {
+			ArrayList<String> arr = new ArrayList<String>();
+			for (char cargo : cargos.toCharArray()) {
+				if (cargo == 'P') { arr.add("cargo_presidencia = true"); continue; }
+				if (cargo == 'S') { arr.add("cargo_secretaria = true"); continue; }
+				if (cargo == 'T') { arr.add("cargo_tesoreria = true"); continue; }
+				if (cargo == 'V') { arr.add("cargo_vocal = true"); continue; }
+				if (cargo == 'O') { arr.add("cargo_otro = true"); continue; }
+                                if (cargo == 'N') { arr.add("cargo_consiliario= true"); continue; }
+                                if (cargo == 'C') { arr.add("cargo_cocina= true"); continue; }
+                                if (cargo == 'I') { arr.add("cargo_intendencia= true"); continue; }
+			}
+			if (arr.size() > 0)
+				filtroCargos = " AND (" + StringUtils.join(arr.toArray(), " OR ") + ")"; 
+		}
+		return filtroCargos;
+	}
 
 	@SuppressWarnings("unchecked")
 	public Collection<Asociado> findWhere(String idGrupo, String columnas,
@@ -181,4 +201,14 @@ public class AsociadoServiceImpl
             List  recorrido= this.entityManager.createNativeQuery(select).setParameter("id", id).getResultList();            
             return recorrido;            
         }
+
+    @Override
+    public void deleteFromDB(int idAsociado) {
+        int n = this.entityManager
+			.createQuery("DELETE FROM Asociado WHERE id = :id")
+			.setParameter("id", idAsociado)
+			.executeUpdate();
+		
+		auditoria.registrar(AuditoriaService.Operacion.Eliminar, AuditoriaService.Entidad.Asociado, Integer.toString(idAsociado) + ":" + n);
+	}
 }

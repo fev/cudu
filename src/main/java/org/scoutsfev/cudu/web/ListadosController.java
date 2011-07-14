@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +13,7 @@ import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.AsociadoService;
+import org.scoutsfev.cudu.view.PdfReportView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/listados")
@@ -119,7 +123,7 @@ public class ListadosController {
 
 
         @RequestMapping(value = "/pdf", method = RequestMethod.GET)
-	public String pdf(Model model, @RequestParam("c") String columnas,
+	public ModelAndView pdf(Model model, @RequestParam("c") String columnas,
 			@RequestParam("s") String ordenadoPor,
 			@RequestParam(value = "d", defaultValue = "asc") String sentido,
 			@RequestParam(value = "f_tipo", required = false) String filtroTipo,
@@ -143,6 +147,9 @@ public class ListadosController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS");
 		model.addAttribute("timestamp", dateFormat.format(timestamp));
 
-		return "pdf";
+                //return excel view
+                PdfReportView pdfRV = new PdfReportView();
+                return new ModelAndView( pdfRV,"model",model);
+	
 	}
 }
