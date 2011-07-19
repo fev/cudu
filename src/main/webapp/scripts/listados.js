@@ -1,3 +1,7 @@
+var filasSeleccionadas = [];
+var asociadosElegidos = [];
+var idSeleccionado;
+var ischecked=0;
 if (typeof cudu == "undefined" || !cudu) {
     var cudu = {
 		dom: {},
@@ -8,6 +12,10 @@ if (typeof cudu == "undefined" || !cudu) {
                 
 	};
 }
+[].indexOf || (Array.prototype.indexOf = function(v){
+       for(var i = this.length; i-- && this[i] !== v;);
+       return i;
+});
 
 /* ----------------------------------------------------------------------------- */
 
@@ -158,9 +166,7 @@ cudu.ui.datatable.panelSeleccionFilas = function(obj) {
                 filas: obj.filas,
                 filasPorPagina: obj.filasPorPagina,
 		dataSourceUrl:obj.dataSourceUrl
-                });
-
-                
+                })                
 	}, "a");
 
 	overlaySF.subscribe("show", function() {YAHOO.util.Dom.addClass('btnList', 'selected');this.isVisible = true;});
@@ -224,10 +230,19 @@ cudu.ui.datatable.table = function(cfg) {
     this.dataSource.responseSchema = {
     	resultsList: "result.data", 
         fields:columnas,
-        metaFields: {totalRecords: "result.totalRecords"}
-
-        
+        metaFields: {totalRecords: "result.totalRecords"}    
     };
+    
+    var columnaNueva = {   
+                        key  : "checked",
+                        label: '<fmt:message key="listados.c.seleccion" />',
+                     sortable: false,
+                       hidden: false,
+                    formatter: YAHOO.widget.DataTable.formatCheckbox
+    }
+    
+
+    this.dataSource.responseSchema.fields.push(columnaNueva);
 
     this.paginador = new YAHOO.widget.Paginator({
         containers: ['paginador'],
@@ -300,11 +315,44 @@ this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
        
 
     this.tabla.subscribe("rowSelectEvent", function(e) {
-       if(columnSelect.field !="id")
+       if(columnSelect.field !="id"&&columnSelect.field !="checked")
         {
+
          window.location = 'asociado/' + e.record.getData().id; 
        }
+       if(columnSelect.field =="checked")
+           {
+               idSeleccionado = e.record.getData().id;
+               if(ischecked==1)
+               {
+                filasSeleccionadas.push(idSeleccionado);
+               }
+              else if(ischecked==2)
+              {
+                  
+                  var pos =filasSeleccionadas.indexOf(idSeleccionado);
+                  filasSeleccionadas.splice(pos);
+                
+              }
+               ischecked=0;
+           }
     });
+    
+    this.tabla.subscribe("checkboxClickEvent", function (oArgs) {
+            var elCheckbox = oArgs.target;
+            var oRecord = this.getRecord(elCheckbox);
+            
+
+            if (elCheckbox.checked) {
+                ischecked=1;
+                this.tabla.selectRow(oRecord);
+                
+            } else {
+                ischecked=2;
+                this.tabla.unselectRow(oRecord);
+                
+            };
+        });
 
 
     // TODO, URL para imprimir

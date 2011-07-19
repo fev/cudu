@@ -38,6 +38,7 @@ public class Asociado implements Serializable {
 	private Integer id;
         
         @Transient
+        @Formula(value="false")
         private boolean checked = false;
 	
 	@NotNull
@@ -640,5 +641,19 @@ public class Asociado implements Serializable {
      */
     public void setProfesion(String profesion) {
         this.profesion = profesion;
+    }
+
+    /**
+     * @return the checked
+     */
+    public boolean isChecked() {
+        return checked;
+    }
+
+    /**
+     * @param checked the checked to set
+     */
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

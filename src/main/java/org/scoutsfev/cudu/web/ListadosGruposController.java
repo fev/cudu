@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.GrupoService;
+import org.scoutsfev.cudu.view.PdfReportView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/listados_grupos")
@@ -150,7 +152,7 @@ public class ListadosGruposController {
 
 
         @RequestMapping(value = "/pdf_grupos", method = RequestMethod.GET)
-	public String pdf(Model model, @RequestParam("c") String columnas,
+	public ModelAndView pdf(Model model, @RequestParam("c") String columnas,
 			@RequestParam("s") String ordenadoPor,
 			@RequestParam(value = "d", defaultValue = "asc") String sentido,
 			@RequestParam(value = "f_asociacion", required = false) String filtroAsociacion,
@@ -166,14 +168,17 @@ public class ListadosGruposController {
 		model.addAttribute("columnas", lstColumnas);
 		model.addAttribute("numeroColumnas", lstColumnas.length);
 
-		model.addAttribute("grupos", result.data);
+		model.addAttribute("objetos", result.data);
 		model.addAttribute("total", result.data.size());
 
 		Date timestamp = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS");
 		model.addAttribute("timestamp", dateFormat.format(timestamp));
 
-		return "pdf_grupos";
+                        //return excel view
+                PdfReportView pdfRV = new PdfReportView();
+                return new ModelAndView( pdfRV,"model",model);
+		//return "pdf_grupos";
 	}
     
 }

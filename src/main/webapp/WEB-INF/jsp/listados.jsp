@@ -305,8 +305,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
                 //{key:"checked",label:"", width:"30", formatter:YAHOO.widget.DataTable.formatCheckbox},
                 
 
-                { key: "id", label: '<fmt:message key="listados.c.seleccion" />', sortable: true, hidden: false, formatter:YAHOO.widget.DataTable.formatCheckbox },
-                //{ key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: false, pk: true},
+                //{ key: "id", label: '<fmt:message key="listados.c.seleccion" />', sortable: true, hidden: false, formatter:YAHOO.widget.DataTable.formatCheckbox },
+                { key: "id", label: '<fmt:message key="listados.c.id" />', sortable: true, hidden: false, pk: true},
    		{ key: "tipo", label: "Tipo", sortable: true, formatter: "tipo" },
    		{ key: "ramas", label: '<fmt:message key="listados.c.ramas" />', sortable: true, formatter: "rama" },
    		//{ key: "nombreCompleto", label: '<fmt:message key="listados.c.nombre" />', sortable: true },

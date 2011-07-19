@@ -144,11 +144,15 @@
       <img src="<c:url value="/s/theme/img/tango/document-print.png" />" />
       <span><fmt:message key="listados.tb.imprimir" /></span>
     </a>
+    
+    <a id="btnPdf" href="#" target="_blank">
+      <img src="<c:url value="/s/theme/img/tango/document-pdf.png" />" />
+      <span><fmt:message key="listados.tb.pdf" /></span>
+    </a>
    
     <a href="<c:url value="/dashboard" />" class="">
         <img src="<c:url value="/s/theme/img/tango/edit-undo.png" />" />
         <span><fmt:message key="listados.tb.volver" /></span>
-    </a>
    
     <a id="btnExpandir" href="javascript:cudu.ui.expandirUI()" class="right single">
         <img id="imgBtnExpandir" src="<c:url value="/s/theme/img/tango/tc-expandir.png" />" />

@@ -288,12 +288,12 @@ cudu.ui.datatable.table = function(cfg) {
 
     // TODO, URL para imprimir
     this.tabla.subscribe("dataReturnEvent", function(status, b) {
-    	cudu.dom.btnImprimir.href = "listados/imprimir?" + status.request;
+    	cudu.dom.btnImprimir.href = "listados_grupos/imprimir?" + status.request;
     });
 
     // TODO, URL para hacer pdfs
     this.tabla.subscribe("dataReturnEvent", function(status, b) {
-    	cudu.dom.btnPdf .href = "listados/pdf?" + status.request;
+    	cudu.dom.btnPdf.href = "listados_grupos/pdf?" + status.request;
     });
     
     // this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
@@ -330,7 +330,7 @@ cudu.ui.datatable.table = function(cfg) {
         var requestUrl = cudu.ui.datatable.buildQuery(cudu.dom.tabla.queryColumnas, 
         		columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.dom.tabla.filtros);
         this.dataSource.sendRequest(requestUrl, oCallback);
-        // cudu.dom.btnImprimir.href = "listados/imprimir?" + requestUrl;
+        cudu.dom.btnImprimir.href = "listados_grupos/imprimir?" + requestUrl;
     };
 };
 

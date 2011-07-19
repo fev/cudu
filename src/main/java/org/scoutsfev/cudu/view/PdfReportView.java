@@ -24,7 +24,7 @@ public class PdfReportView extends AbstractPdfView{
     private  Font fuenteNegra10 = new Font(Font.TIMES_ROMAN, 12, Font.BOLD, Color.BLACK);
     private  Font fuente10 = new Font(Font.TIMES_ROMAN, 10, Font.NORMAL, Color.BLACK);
     private  Font fuente8 = new Font(Font.TIMES_ROMAN, 8, Font.NORMAL, Color.BLACK);
-    private  Font fuenteAzul25 = new Font(Font.TIMES_ROMAN, 25, Font.BOLD, Color.BLUE);
+    private  Font fuenteNegra25 = new Font(Font.TIMES_ROMAN, 25, Font.BOLD, Color.BLACK);
 
     Color grisClaro = new Color( 230,230,230);
     Color azulClaro = new Color( 124,195,255 );
@@ -41,7 +41,7 @@ public class PdfReportView extends AbstractPdfView{
         String[] lstColumnas = (String[]) model.get("columnas");
         String userStamp = (String) model.get("userStamp");
 
-        Collection<Object[]> asociados = (Collection<Object[]>) model.get("asociados");
+        Collection<Object[]> asociados = (Collection<Object[]>) model.get("objetos");
         String dateFormat = (String) model.get("timestamp");
         
 
@@ -58,13 +58,15 @@ public class PdfReportView extends AbstractPdfView{
         
         
         Paragraph ParrafoHoja = new Paragraph();
-
-        try
-        {
-            Image im = Image.getInstance("theme/favicon.png");
+        Image im;
+        
+           try
+        {   
+            im = Image.getInstance("/home/gaxp/git/cudu/target/cudu-1.0.0.RC5/theme");
             im.setAlignment(Image.ALIGN_CENTER | Image.TEXTWRAP );
             im.setWidthPercentage (50);
             ParrafoHoja.add(im);
+            
         }
         catch(Exception e)
         {
@@ -74,7 +76,7 @@ public class PdfReportView extends AbstractPdfView{
         // Agregamos una linea en blanco al principio del documento
         agregarLineasEnBlanco(ParrafoHoja, 1);
         // Colocar un encabezado (en mayusculas)
-        Paragraph p = new Paragraph("ESTO ES EL LISTADO DE CUDUUU!", fuenteAzul25);
+        Paragraph p = new Paragraph("ESTO ES EL LISTADO DE CUDU!", fuenteNegra25);
         ParrafoHoja.add(p);
         p = new Paragraph(userStamp+", a "+dateFormat+ " TotalAsociados: "+asociados.size(),fuenteNegra10);
         p.setAlignment(Alignment.CENTER.name());
@@ -101,7 +103,7 @@ public class PdfReportView extends AbstractPdfView{
             cell.setUseVariableBorders(true);
             table2.addCell(cell);
         }
-        
+
         Iterator itAsociados = asociados.iterator();
         boolean rowChangeColor = true;
         Color color;
@@ -121,6 +123,7 @@ public class PdfReportView extends AbstractPdfView{
                 for(int i = 0; i < lstColumnas.length;i++)
                 {
 
+                    
                     if(asociado[i]!=null)
                     {
                         cell = new PdfPCell(new Paragraph(asociado[i].toString(),fuente10));
