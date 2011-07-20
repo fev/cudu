@@ -160,6 +160,14 @@
       <img src="<c:url value="/s/theme/img/tango/document-pdf.png" />" />
       <span><fmt:message key="listados.tb.pdf" /></span>
     </a>
+    <a id="btnEliminarAsociados">
+      <img src="<c:url value="/s/theme/img/tango/edit-delete-row.png" />" />
+      <span><fmt:message key="listados.tb.eliminarlistaasociados" /></span>
+    </a>
+    <a id="btnCambiarGrupo" href="#" target="_blank">
+      <img src="<c:url value="/s/theme/img/tango/lc_dsbrowserexplorer.png" />" />
+      <span><fmt:message key="listados.tb.cambiarlistaasociados" /></span>
+    </a>
     
 
     <a href="<c:url value="/" />" class="">
@@ -225,7 +233,36 @@
 </div>
 
 
-
+<div id="stddlg" class="popupdlg">
+<div class="yui-t7">
+    <div class="bd">
+    
+   <div class="yui-g legend">
+      <h1><fmt:message key="asociado.d.eliminar" /></h1>
+      <%-- <p>Recuerda que puedes recuperarlo posteriormente desde los listados.</p> --%>
+   </div>
+   
+   <div class="yui-g content">
+      <div class="yui-u first rounded">
+          <sec:authorize access="hasAnyRole('ROLE_PERMISO_B','ROLE_PERMISO_A','ROLE_PERMISO_C1','ROLE_PERMISO_C2','ROLE_PERMISO_C3')">
+        <form:form id="frmEliminar" method="delete">
+        <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
+          <span><fmt:message key="btn.eliminar" /></span>
+        </a>
+        </form:form>
+          </sec:authorize>
+      </div>
+      <div class="yui-u rounded">
+        <a id="btnDlg01Cancelar" href="javascript:$('#stddlg').fadeOut(200)">
+          <span><fmt:message key="btn.cancelar" /></span>
+        </a>
+      </div>
+    </div>
+ </div>
+    
+    
+    
+    
 <!-- Combo-handled YUI JS files:
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.2r1/build/utilities/utilities.js&2.8.2r1/build/container/container-min.js&2.8.2r1/build/datasource/datasource-min.js&2.8.2r1/build/paginator/paginator-min.js&2.8.2r1/build/datatable/datatable-min.js&2.8.2r1/build/selector/selector-min.js&2.8.2r1/build/event-delegate/event-delegate-min.js&2.8.2r1/build/json/json-min.js"></script>
 -->
@@ -245,7 +282,18 @@
 <script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-debug.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> --%>
 <script type="text/javascript" src="<c:url value="/s/scripts/listados.js" />"></script>
+<script src="<c:url value="/s/jquery/jquery-1.4.2.js" />" type="text/javascript"></script>
 <script type="text/javascript">
+
+
+$("#btnEliminarAsociados").click(function () {
+		/* var popup = $("#poptaseg");
+		var y = ($(window).height() / 2) - (popup.height() / 2);
+		popup.attr("style", "top: " + y + "px").fadeIn(); */
+		$("#stddlg").fadeIn();
+	});
+
+
 cudu.i8n.ramas = {
 	'C': '<fmt:message key="rama.unos.C" />',
 	'M': '<fmt:message key="rama.unos.M" />',
@@ -298,7 +346,6 @@ cudu.dom.codigosRamas = {
 	'radioPioneros': 'P',
 	'radioRutas': 'R'
 };
-
 YAHOO.util.Event.addListener(window, "load", function() {
 	// TODO grupo.nombre no se interpreta bien por YUI
 	var listaColumnas = [

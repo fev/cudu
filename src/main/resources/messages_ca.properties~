@@ -31,6 +31,8 @@ listados.tb.nuevo=Nou
 listados.tb.filtrar=Filtrar
 listados.tb.columnas=Columnes
 listados.tb.imprimir=Imprimir
+listados.tb.eliminarlistaasociados=Eliminar asossiats
+listados.tb.cambiarlistaasociados=Canviar associats de grup
 listados.tb.pdf=Pdf
 listados.tb.list=Lista
 listados.tb.volver=Tornar
@@ -308,6 +310,24 @@ recorrido.asociado.ramas=Rames
 recorrido.asociado.grupo=Grups
 recorrido.asociado.ronda=Ronda
 recorrido.asociado.tituloTabla=Recorregut Scout
+
+miscursos.ronda=Ronda
+miscursos.formacion=Formaci\u00f3
+miscursos.curso=Curs
+miscursos.calificacion=Calificaci\u00f3
+miscursos.dardebaja=Dar de baixa
+miscursos.faltas=Faltes
+miscursos.noexistencursosactuales=No hi ha cursos realitzant
+miscursos.noexistencursosanteriores = No es van realitzar cursos
+miscursos.cursosactuales=Cursos realitzantse
+miscursos.cursosanteriores=Cursos Realizats
+miscursos.trabajo=Treball
+miscursos.calificaciontrabajo.apto=APTE
+miscursos.calificaciontrabajo.noapto=NO APTE
+miscursos.calificaciontrabajo.pendiente=PENDENT
+miscursos.calificacionmonografico.apto=APTE
+miscursos.calificacionmonografico.noapto=NO APTE
+miscursos.calificacionmonografico.pendiente=PENDENT
 
 
 asociado.cargo.presidencia =Presid\u00e8ncia

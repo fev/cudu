@@ -27,7 +27,7 @@ td,th { padding: 3px 5px; }
 		</c:forEach>
 	</tr>
 </thead>
-<c:forEach var="asociado" items="${asociados}" varStatus="status">
+<c:forEach var="asociado" items="${resultados}" varStatus="status">
 <tbody>
 <c:choose>
 	<c:when test="${status.count % 2 == 0}"><tr class="even"></c:when>

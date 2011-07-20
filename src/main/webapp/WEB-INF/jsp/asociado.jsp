@@ -426,7 +426,6 @@ div#bd { padding-left: 20px; }
 </div>
 </form:form>
 <div id="ft"><fmt:message key="app.copyright" /></div>
-</div>
 
 <div id="stddlg" class="popupdlg">
 <div class="yui-t7">

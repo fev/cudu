@@ -1,3 +1,6 @@
+var filasSeleccionadas = [];
+var idSeleccionado;
+var ischecked=0;
 if (typeof cudu == "undefined" || !cudu) {
     var cudu = {
 		dom: {},
@@ -226,6 +229,16 @@ cudu.ui.datatable.table = function(cfg) {
         
     };
 
+    var columnaNueva = {   
+                        key  : "checked",
+                        label: '<fmt:message key="listados.c.seleccion" />',
+                     sortable: false,
+                       hidden: false,
+                    formatter: YAHOO.widget.DataTable.formatCheckbox
+    }
+    
+
+    this.dataSource.responseSchema.fields.push(columnaNueva);
     this.paginador = new YAHOO.widget.Paginator({
         containers: ['paginador'],
         pageLinks: 10,
@@ -282,9 +295,57 @@ cudu.ui.datatable.table = function(cfg) {
     this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
     this.tabla.subscribe("rowMouseoutEvent", this.tabla.onEventUnhighlightRow);
     this.tabla.subscribe("rowClickEvent", this.tabla.onEventSelectRow);
-    this.tabla.subscribe("rowSelectEvent", function(e) {
-        window.location = 'grupo/' + e.record.getData().id; 
+    
+     columnSelect ="ninguna";
+     
+    this.tabla.subscribe("cellClickEvent", function (e) {
+        columnSelect = this.getColumn(e.target)
+        this.tabla.hideColumn(columnSelect);
+
+         this.selectColumn(this.getColumn(e.target));
+
     });
+       
+       this.tabla.subscribe("rowSelectEvent", function(e) {
+       if(columnSelect.field !="id"&&columnSelect.field !="checked")
+        {
+
+         window.location = 'grupo/' + e.record.getData().id; 
+       }
+       if(columnSelect.field =="checked")
+           {
+               idSeleccionado = e.record.getData().id;
+               if(ischecked==1)
+               {
+                filasSeleccionadas.push(idSeleccionado);
+               }
+              else if(ischecked==2)
+              {
+                  
+                  var pos =filasSeleccionadas.indexOf(idSeleccionado);
+                  filasSeleccionadas.splice(pos);
+                
+              }
+               ischecked=0;
+           }
+    });
+    
+    this.tabla.subscribe("checkboxClickEvent", function (oArgs) {
+            var elCheckbox = oArgs.target;
+            var oRecord = this.getRecord(elCheckbox);
+            
+
+            if (elCheckbox.checked) {
+                ischecked=1;
+                this.tabla.selectRow(oRecord);
+                
+            } else {
+                ischecked=2;
+                this.tabla.unselectRow(oRecord);
+                
+            };
+        });
+
 
     // TODO, URL para imprimir
     this.tabla.subscribe("dataReturnEvent", function(status, b) {

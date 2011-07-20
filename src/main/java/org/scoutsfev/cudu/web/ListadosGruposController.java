@@ -123,7 +123,7 @@ public class ListadosGruposController {
             return result;
 	}
 	
-	@RequestMapping(value = "/imprimir_grupos", method = RequestMethod.GET)
+	@RequestMapping(value = "/imprimir", method = RequestMethod.GET)
 	public String imprimir(Model model, @RequestParam("c") String columnas,
 			@RequestParam("s") String ordenadoPor,
 			@RequestParam(value = "d", defaultValue = "asc") String sentido,
@@ -140,18 +140,18 @@ public class ListadosGruposController {
 		model.addAttribute("columnas", lstColumnas);
 		model.addAttribute("numeroColumnas", lstColumnas.length);
 
-		model.addAttribute("grupos", result.data);
+		model.addAttribute("resultados", result.data);
 		model.addAttribute("total", result.data.size());
 
 		Date timestamp = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:MM:SS");
 		model.addAttribute("timestamp", dateFormat.format(timestamp));		
 
-		return "imprimir_grupos";
+		return "imprimir";
 	}
 
 
-        @RequestMapping(value = "/pdf_grupos", method = RequestMethod.GET)
+        @RequestMapping(value = "/pdf", method = RequestMethod.GET)
 	public ModelAndView pdf(Model model, @RequestParam("c") String columnas,
 			@RequestParam("s") String ordenadoPor,
 			@RequestParam(value = "d", defaultValue = "asc") String sentido,

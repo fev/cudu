@@ -202,6 +202,25 @@ dashboard.nuevocurso=New Course
 dashboard.migrupo = My Group
 dashboard.sugerencias=Suggestions 
 
+miscursos.ronda=Round
+miscursos.formacion=Training
+miscursos.curso=Course
+miscursos.calificacion=Rating
+miscursos.dardebaja=Unsubscribe
+miscursos.faltas=Fouls
+miscursos.dardebaja=Dar de baja
+miscursos.noexistencursosactuales=No courses taken
+miscursos.noexistencursosanteriores=No courses were
+miscursos.cursosactuales=Courses taken
+miscursos.cursosanteriores=Courses were
+miscursos.trabajo=Work
+miscursos.calificaciontrabajo.apto=FIT
+miscursos.calificaciontrabajo.noapto=UNFIT
+miscursos.calificaciontrabajo.pendiente=PENDING
+miscursos.calificacionmonografico.apto=FIT
+miscursos.calificacionmonografico.noapto=UNFIT
+miscursos.calificacionmonografico.pendiente=PENDING
+
 
 frm.ok=Data saved successfully. 
 frm.errores=Some data is invalid. 
@@ -308,7 +327,6 @@ recorrido.asociado.ramas=Branches
 recorrido.asociado.grupo=Group
 recorrido.asociado.ronda=Round
 recorrido.asociado.tituloTabla=Recorrido Scout
-
 
 
 asociado.cargo.presidencia =Presidency

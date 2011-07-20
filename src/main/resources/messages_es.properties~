@@ -36,6 +36,9 @@ listados.tb.nuevo=Nuevo
 listados.tb.filtrar=Filtrar
 listados.tb.columnas=Columnas
 listados.tb.imprimir=Imprimir
+listados.tb.imprimir=Imprimir
+listados.tb.eliminarlistaasociados=Eliminar asociados
+listados.tb.cambiarlistaasociados=Cambiar asociados de grupo
 listados.tb.volver=Volver
 listados.tb.expandir=Expandir
 listados.tb.contraer=Contraer
@@ -217,6 +220,20 @@ dashboard.miscursos=Mis Cursos
 dashboard.nuevocurso=Nuevo Curso
 dashboard.migrupo=Mi Grupo
 dashboard.sugerencias=Sugerencias
+miscursos.dardebaja=Dar de baja
+miscursos.faltas=Faltas
+miscursos.noexistencursosactuales=No existen cursos realiz\u00e1ndose
+miscursos.noexistencursosanteriores=No se realizaron cursos
+miscursos.cursosactuales=Cursos realiz\u00e1ndose
+miscursos.cursosanteriores=Cursos Realizados
+miscursos.trabajo=Trabajo
+miscursos.calificaciontrabajo.apto=APTO
+miscursos.calificaciontrabajo.noapto=NO APTO
+miscursos.calificaciontrabajo.pendiente=PENDIENTE
+miscursos.calificacionmonografico.apto=APTO
+miscursos.calificacionmonografico.noapto=NO APTO
+miscursos.calificacionmonografico.pendiente=PENDIENTE
+
 
 
 frm.ok=Los datos se han guardado correctamente.
@@ -331,6 +348,11 @@ recorrido.asociado.grupo=Grupo
 recorrido.asociado.ronda=Ronda
 recorrido.asociado.tituloTabla=Recorrido Scout
 
+
+miscursos.ronda=Ronda
+miscursos.formacion=Formacion
+miscursos.curso=Curso
+miscursos.calificacion=Calificaci\u00c3\u00b3n
 
 asociado.cargo.presidencia=Presidencia
 asociado.cargo.secretaria=Secretaria

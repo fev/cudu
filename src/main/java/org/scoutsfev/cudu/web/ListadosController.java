@@ -111,7 +111,7 @@ public class ListadosController {
 		model.addAttribute("columnas", lstColumnas);
 		model.addAttribute("numeroColumnas", lstColumnas.length);
 
-		model.addAttribute("asociados", result.data);
+		model.addAttribute("resultados", result.data);
 		model.addAttribute("total", result.data.size());
 
 		Date timestamp = new Date();

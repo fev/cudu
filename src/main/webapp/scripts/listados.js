@@ -301,7 +301,7 @@ cudu.ui.datatable.table = function(cfg) {
 this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
     this.tabla.subscribe("rowMouseoutEvent", this.tabla.onEventUnhighlightRow);
     this.tabla.subscribe("rowClickEvent", this.tabla.onEventSelectRow);
-    this.tabla.subscribe("theadCellDblclickEvent", this.tabla.onEventSelectColumn);
+    //this.tabla.subscribe("theadCellDblclickEvent", this.tabla.onEventSelectColumn);
     
     columnSelect ="ninguna";
     

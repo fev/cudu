@@ -219,6 +219,24 @@ dashboard.nuevocurso=Nuevo Curso
 dashboard.migrupo=Mi Grupo
 dashboard.sugerencias=Sugerencias
 
+miscursos.ronda=Ronda
+miscursos.formacion=Formacion
+miscursos.curso=Curso
+miscursos.calificacion=Calificaci\u00c3\u00b3n
+miscursos.faltas=Faltas
+miscursos.noexistencursosactuales=No existen cursos realiz\u00e1ndose
+miscursos.noexistencursosanteriores=No se realizaron cursos
+miscursos.cursosactuales=Cursos realiz\u00e1ndose
+miscursos.cursosanteriores=Cursos Realizados
+miscursos.trabajo=Trabajo
+miscursos.calificaciontrabajo.apto=APTO
+miscursos.calificaciontrabajo.noapto=NO APTO
+miscursos.calificaciontrabajo.pendiente=PENDIENTE
+miscursos.calificacionmonografico.apto=APTO
+miscursos.calificacionmonografico.noapto=NO APTO
+miscursos.calificacionmonografico.pendiente=PENDIENTE
+
+
 
 frm.ok=Los datos se han guardado correctamente.
 frm.errores=Algunos datos no son v\u00c3\u00a1lidos.
