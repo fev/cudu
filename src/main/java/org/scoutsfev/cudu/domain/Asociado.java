@@ -172,6 +172,21 @@ public class Asociado implements Serializable {
 
         @Column(name = "usuario")
         private String usuario;
+        
+        
+     private String colAdicional0;
+    private String colAdicional1;
+    private String colAdicional2;
+    private String colAdicional3;
+    private String colAdicional4;
+    private String colAdicional5;
+    private String colAdicional6;
+    private String colAdicional7;
+    private String colAdicional8;
+    private String colAdicional9;
+
+
+        
 	/**
 	 * Secuencia de códigos de rama separados por comas
 	 *
@@ -655,5 +670,145 @@ public class Asociado implements Serializable {
      */
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    /**
+     * @return the colAdicional0
+     */
+    public String getColAdicional0() {
+        return colAdicional0;
+    }
+
+    /**
+     * @param colAdicional0 the colAdicional0 to set
+     */
+    public void setColAdicional0(String colAdicional0) {
+        this.colAdicional0 = colAdicional0;
+    }
+
+    /**
+     * @return the colAdicional1
+     */
+    public String getColAdicional1() {
+        return colAdicional1;
+    }
+
+    /**
+     * @param colAdicional1 the colAdicional1 to set
+     */
+    public void setColAdicional1(String colAdicional1) {
+        this.colAdicional1 = colAdicional1;
+    }
+
+    /**
+     * @return the colAdicional2
+     */
+    public String getColAdicional2() {
+        return colAdicional2;
+    }
+
+    /**
+     * @param colAdicional2 the colAdicional2 to set
+     */
+    public void setColAdicional2(String colAdicional2) {
+        this.colAdicional2 = colAdicional2;
+    }
+
+    /**
+     * @return the colAdicional3
+     */
+    public String getColAdicional3() {
+        return colAdicional3;
+    }
+
+    /**
+     * @param colAdicional3 the colAdicional3 to set
+     */
+    public void setColAdicional3(String colAdicional3) {
+        this.colAdicional3 = colAdicional3;
+    }
+
+    /**
+     * @return the colAdicional4
+     */
+    public String getColAdicional4() {
+        return colAdicional4;
+    }
+
+    /**
+     * @param colAdicional4 the colAdicional4 to set
+     */
+    public void setColAdicional4(String colAdicional4) {
+        this.colAdicional4 = colAdicional4;
+    }
+
+    /**
+     * @return the colAdicional5
+     */
+    public String getColAdicional5() {
+        return colAdicional5;
+    }
+
+    /**
+     * @param colAdicional5 the colAdicional5 to set
+     */
+    public void setColAdicional5(String colAdicional5) {
+        this.colAdicional5 = colAdicional5;
+    }
+
+    /**
+     * @return the colAdicional6
+     */
+    public String getColAdicional6() {
+        return colAdicional6;
+    }
+
+    /**
+     * @param colAdicional6 the colAdicional6 to set
+     */
+    public void setColAdicional6(String colAdicional6) {
+        this.colAdicional6 = colAdicional6;
+    }
+
+    /**
+     * @return the colAdicional7
+     */
+    public String getColAdicional7() {
+        return colAdicional7;
+    }
+
+    /**
+     * @param colAdicional7 the colAdicional7 to set
+     */
+    public void setColAdicional7(String colAdicional7) {
+        this.colAdicional7 = colAdicional7;
+    }
+
+    /**
+     * @return the colAdicional8
+     */
+    public String getColAdicional8() {
+        return colAdicional8;
+    }
+
+    /**
+     * @param colAdicional8 the colAdicional8 to set
+     */
+    public void setColAdicional8(String colAdicional8) {
+        this.colAdicional8 = colAdicional8;
+    }
+
+    /**
+     * @return the colAdicional9
+     */
+    public String getColAdicional9() {
+        return colAdicional9;
+    }
+
+    /**
+     * @param colAdicional9 the colAdicional9 to set
+     */
+    public void setColAdicional9(String colAdicional9) {
+        this.colAdicional9 = colAdicional9;
     }
 }

@@ -174,6 +174,57 @@ public class AsociadoServiceImpl
 	}
         
         @Override
+	@Transactional
+	public boolean deleteGroup(String [] ids) {
+            String whereRestriccion="id = " + ids[0];
+            for(int i = 1; i < ids.length; i++)
+            {
+                whereRestriccion=whereRestriccion+" OR id = " +ids[i];
+            }
+            
+		int n = this.entityManager
+			.createQuery("UPDATE Asociado SET fechaBaja = :fechaBaja WHERE " +whereRestriccion)
+			.setParameter("fechaBaja", new Date())
+			.executeUpdate();
+		
+                for(int i = 1; i < ids.length; i++)
+                {
+                    auditoria.registrar(AuditoriaService.Operacion.Descartar, AuditoriaService.Entidad.Asociado, ids[i] + ":" + n);
+                }
+		return (n == 1);
+	}
+        
+        @Override
+	@Transactional
+        public boolean updateGrupoGroup(String[] ids,String idGrupo)
+        {
+            return updateFieldInGroup("idgrupo",idGrupo,ids);
+        }
+        
+        @Override
+	@Transactional
+        public boolean updateFieldInGroup(String column,String value,String [] ids)
+        {
+            String whereRestriccion="id = " + ids[0];
+            for(int i = 1; i < ids.length; i++)
+            {
+                whereRestriccion=whereRestriccion+" OR id = " +ids[i];
+            }
+            
+		int n = this.entityManager
+			.createQuery("UPDATE Asociado SET " + column +" = " + value + 
+                        " WHERE " +whereRestriccion)
+			.executeUpdate();
+		
+                for(int i = 1; i < ids.length; i++)
+                {
+                    auditoria.registrar(AuditoriaService.Operacion.Modificar, AuditoriaService.Entidad.Asociado, ids[i] + ":" + n);
+                }
+		return (n == 1);
+        }
+        
+        
+        @Override
         public Asociado findemail(String email)
         {
             Asociado asociado = (Asociado)this.entityManager
@@ -211,4 +262,5 @@ public class AsociadoServiceImpl
 		
 		auditoria.registrar(AuditoriaService.Operacion.Eliminar, AuditoriaService.Entidad.Asociado, Integer.toString(idAsociado) + ":" + n);
 	}
+
 }

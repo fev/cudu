@@ -151,7 +151,9 @@ public class AsociadoController {
 
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado, BindingResult result, SessionStatus status) {
+	public String processSubmit(@ModelAttribute("asociado") @Valid Asociado asociado,
+        BindingResult result,
+        SessionStatus status) {
 		logger.info("processSubmit: " + asociado.getId());
 
 		if (result.hasErrors()) {
@@ -192,10 +194,13 @@ public class AsociadoController {
 		return "redirect:/asociado/" + persistedEntity.getId() + "?ok";
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE)
-	public String eliminarAsociado(@PathVariable int idAsociado) {
-		logger.info("eliminarAsociado: " + idAsociado);
-		asociadoService.delete(idAsociado);
+	@RequestMapping(method = RequestMethod.POST)
+	public String eliminarAsociado(
+                @ModelAttribute("asociado") @Valid Asociado asociado,
+                BindingResult result, 
+                SessionStatus status) {
+		logger.info("eliminarAsociado: " + asociado.getId());
+		asociadoService.delete(asociado.getId());
 		return "redirect:/listados";
 	}
         

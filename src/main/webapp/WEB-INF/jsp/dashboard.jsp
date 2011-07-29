@@ -307,7 +307,7 @@ body {
                <div class="yui-g legend">
                   <h1 style="text-align:center; color:#FFF;"><fmt:message key="asociado.tipo.pregunta" /></h1>
                </div>
-               <div class="yui-gb content">
+               <div class="yui-g content ">
                   <div class="yui-u first rounded">
                     <a href="<c:url value="listados" />">
                     <img src="<c:url value="/s/theme/img/joven64.png" />" alt="ayuda" />
@@ -339,11 +339,11 @@ body {
                   
                
                </div>
-                  <div>
-                      <fieldset  id="menubuttonsfromjavascript"/> 
-                      <label style="color:#FFF ;"  for="dInput"><fmt:message key="asociado.f.grupo" /></label>
-               
-                  </div>
+              <div>
+                  <fieldset  id="menubuttonsfromjavascript"/> 
+                  <label style="color:#FFF ;"  for="dInput"><fmt:message key="asociado.f.grupo" /></label>
+
+              </div>
                
                  
                <div class="yui-gb content">

@@ -1,5 +1,4 @@
 var filasSeleccionadas = [];
-var asociadosElegidos = [];
 var idSeleccionado;
 var ischecked=0;
 if (typeof cudu == "undefined" || !cudu) {
@@ -160,7 +159,8 @@ cudu.ui.datatable.panelSeleccionFilas = function(obj) {
 
 
 
-
+                 //eliminamos la columna para después añadirla de checked
+                 obj.columnas.pop();
                 cudu.dom.tabla = new cudu.ui.datatable.table({
 		columnas: obj.columnas,
                 filas: obj.filas,

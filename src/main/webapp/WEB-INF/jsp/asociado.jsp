@@ -439,15 +439,16 @@ div#bd { padding-left: 20px; }
    <div class="yui-g content">
       <div class="yui-u first rounded">
           <sec:authorize access="hasAnyRole('ROLE_PERMISO_B','ROLE_PERMISO_A','ROLE_PERMISO_C1','ROLE_PERMISO_C2','ROLE_PERMISO_C3')">
-      	<form:form id="frmEliminar" method="delete">
+      	<form:form modelAttribute="asociado" id="frmEliminar" method="POST">
+            
         <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
           <span><fmt:message key="btn.eliminar" /></span>
         </a>
         </form:form>
           </sec:authorize>
           
-          <form:form id="frmEliminar" method="deleteFromDB">
-        <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
+          <form:form id="frmEliminarDefinitivamente" method="delete">
+        <a id="btnDlg01Eliminar" href="javascript:$('#rmEliminarDefinitivamente').submit()">
           <span><fmt:message key="btn.eliminardefinitivamente" /></span>
         </a>
         </form:form>

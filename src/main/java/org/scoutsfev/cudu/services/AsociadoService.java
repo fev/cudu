@@ -19,9 +19,13 @@ public interface AsociadoService
 	public Asociado merge(Asociado entity);
 	public Asociado find(String id);
 	public boolean delete(int id);
+        public boolean deleteGroup(String [] ids);
+        public boolean updateGrupoGroup(String [] ids,String idGrupo);
+        public boolean updateFieldInGroup(String column,String value,String[] ids);
+        
         public Integer getIdAsociado(String usuario);
         public Asociado findemail(String email);
         public List getRecorridoAsociado(int id);
 
-    public void deleteFromDB(int idAsociado);
+        public void deleteFromDB(int idAsociado);
 }

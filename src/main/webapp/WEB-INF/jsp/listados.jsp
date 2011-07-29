@@ -1,4 +1,6 @@
 <%@include file="taglibs.jsp" %>
+<%@page import="org.apache.commons.lang.StringUtils"%>
+<%@page import ="org.scoutsfev.cudu.domain.Grupo"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,7 +12,14 @@
 <%-- Combo-handled YUI CSS files:
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/combo?2.8.2r1/build/reset-fonts-grids/reset-fonts-grids.css&2.8.2r1/build/base/base-min.css&2.8.2r1/build/assets/skins/sam/skin.css">
 --%>
-
+<!-- Combo-handled YUI CSS files: -->
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/assets/skins/sam/autocomplete.css"/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/button/assets/skins/sam/button.css"/>" />
+<!-- Combo-handled YUI JS files: -->
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/autocomplete/autocomplete-min.js"></script>
 <%-- Desde la cache --%>
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
@@ -20,6 +29,32 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/paginator/assets/skins/sam/paginator.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/datatable/assets/skins/sam/datatable.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
+
+
+<link rel="icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
+<link rel="shortcut icon" href="<c:url value="/s/theme/favicon.ico" />" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
+<!-- Combo-handled YUI CSS files: -->
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/assets/skins/sam/autocomplete.css"/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/button/assets/skins/sam/button.css"/>" />
+<!-- Combo-handled YUI JS files: -->
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/autocomplete/autocomplete-min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/fonts/fonts-min.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/menu/assets/skins/sam/menu.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/button/assets/skins/sam/button.css" /> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/container/container_core-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/menu/menu-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/button/button-min.js"></script> 
+
+
 <style type="text/css">
 
         /* Class for marked rows */
@@ -125,6 +160,70 @@
         div#doc3 div#bd { background: #FFF; -webkit-border-radius: 6px; -moz-border-radius: 6px }
         div#doc3 div#ft, div#doc3 div#hd { background: transparent; }
 
+        
+        
+                        /* custom styles for inline instances */
+                        .yui-skin-sam .yui-ac-input { position:static;width:20em; vertical-align:middle;}
+                        .yui-skin-sam .yui-ac-container { width:20em;left:0px;}
+
+                        /* needed for stacked instances for ie & sf z-index bug of absolute inside relative els */
+                        #bAutoComplete { z-index:9001; } 
+                        #lAutoComplete { z-index:9000; }
+
+                        /* buttons */
+                        .yui-ac .yui-button {vertical-align:middle;}
+                        .yui-ac .yui-button button       { color:#FFF; background: "<c:url value="/s/theme/img/ac-arrow-rt.png" />" center center no-repeat}
+                        .yui-ac .open .yui-button button { color:#FFF; background: "<c:url value="/s/theme/img/ac-arrow-dn.png" />" center center no-repeat}
+
+                        
+                               
+                        
+                          /*
+        Set the "zoom" property to "normal" since it is set to "1" by the 
+        ".example-container .bd" rule in yui.css and this causes a Menu
+        instance's width to expand to 100% of the browser viewport.
+    */
+    
+    div.yuimenu .bd {
+    
+        zoom: normal;
+    
+    }
+ 
+    #button-example-form fieldset {
+ 
+        border: 2px groove #ccc;
+        margin: .5em;
+        padding: .5em;
+ 
+    }
+ 
+    #menubutton3menu,
+    #menubutton4menu {
+    
+        position: absolute;
+        visibility: hidden;
+        border: solid 1px #000;
+        padding: .5em;
+        background-color: #ccc;
+    
+    }
+ 
+    #button-example-form-postdata {
+    
+        border: dashed 1px #666;
+        background-color: #ccc;
+        padding: 1em;
+    
+    }
+ 
+    #button-example-form-postdata h2 {
+    
+        margin: 0 0 .5em 0;
+        padding: 0;
+        border: none;
+    
+    }
 
 
 </style>
@@ -164,12 +263,11 @@
       <img src="<c:url value="/s/theme/img/tango/edit-delete-row.png" />" />
       <span><fmt:message key="listados.tb.eliminarlistaasociados" /></span>
     </a>
-    <a id="btnCambiarGrupo" href="#" target="_blank">
+    <a id="btnCambiarGrupo">
       <img src="<c:url value="/s/theme/img/tango/lc_dsbrowserexplorer.png" />" />
       <span><fmt:message key="listados.tb.cambiarlistaasociados" /></span>
     </a>
     
-
     <a href="<c:url value="/" />" class="">
 		<img src="<c:url value="/s/theme/img/tango/edit-undo.png" />" />
 		<span><fmt:message key="listados.tb.volver" /></span>
@@ -232,7 +330,6 @@
 </div>
 </div>
 
-
 <div id="stddlg" class="popupdlg">
 <div class="yui-t7">
     <div class="bd">
@@ -259,9 +356,87 @@
       </div>
     </div>
  </div>
+</div>
+</div>
+        
+        
+<div id="nostddlg" class="popupdlg">
+<div class="yui-t7">
+    <div class="bd">
     
+   <div class="yui-g legend">
+      <h1><fmt:message key="asociado.d.eliminar" /></h1>
+      <%-- <p>Recuerda que puedes recuperarlo posteriormente desde los listados.</p> --%>
+   </div>
+   <div class="yui-u content">
+      <div class="yui-u first  rounded">
+        <a id="btnDlg02Aviso" href="javascript:$('#nostddlg').fadeOut(200)">
+          <span><fmt:message key="btn.noselasociado" /></span>
+        </a>
+      </div>
+        </div>
+    </div>
+ </div>
+</div>
     
+
+        
+           
+<div id="stddgr" class="popupdlg">
     
+
+<c:out value="<script language='JavaScript'>" escapeXml="false"></c:out>
+        var grupo=[];
+     <c:forEach var="grupo" items="${grupos}" varStatus="status">
+        grupo.push({
+        key: "${grupo[0]}",
+        nombre:"${grupo[1]}"
+        });
+     </c:forEach>    
+<c:out value="</script>" escapeXml="false"></c:out>
+
+
+
+<div class="yui-t7">
+    <div class="bd">
+    
+   <div class="yui-g legend">
+      <h1><fmt:message key="asociado.d.grupo" /></h1>
+      <%-- <p>Recuerda que puedes recuperarlo posteriormente desde los listados.</p> --%>
+   </div>
+   
+   
+   <div class="yui-g content">
+
+       <!--Combo box del grupo-->
+      <div>
+          <fieldset  id="menubuttonsfromjavascript"/> 
+          <label style="color:#FFF ;"  for="dInput"><fmt:message key="asociado.f.grupo" /></label>
+      </div>
+            
+<form:form modelAttribute="grupo" method="POST">        
+      <!--boton cambiarde grupo-->
+      <div class="yui-u first rounded">
+
+        <a id="btnDlg01CambiarGrupo" href="javascript:$('#frmCambiarGrupo').submit()">
+          <input type="submit" value="<fmt:message key="btn.guardar" />" />
+          <span><fmt:message key="btn.cambiargrupo" /></span>
+        </a>  
+      </div>
+        </form:form>
+        <!--boton cancelar-->
+      <div class="yui-u rounded">
+        <a id="btnDlg01Cancelar" href="javascript:$('#stddgr').fadeOut(200)">
+          <span><fmt:message key="btn.cancelar" /></span>
+        </a>
+      </div>
+    </div>
+    </div>
+</div>
+</div>
+        
+        
+                
     
 <!-- Combo-handled YUI JS files:
 <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.2r1/build/utilities/utilities.js&2.8.2r1/build/container/container-min.js&2.8.2r1/build/datasource/datasource-min.js&2.8.2r1/build/paginator/paginator-min.js&2.8.2r1/build/datatable/datatable-min.js&2.8.2r1/build/selector/selector-min.js&2.8.2r1/build/event-delegate/event-delegate-min.js&2.8.2r1/build/json/json-min.js"></script>
@@ -282,7 +457,9 @@
 <script type="text/javascript" src="<c:url value="/s/yui/datasource/datasource-debug.js" />"></script>
 <script type="text/javascript" src="<c:url value="/s/yui/datatable/datatable-debug.js" />"></script> --%>
 <script type="text/javascript" src="<c:url value="/s/scripts/listados.js" />"></script>
+<script type="text/javascript" src="<c:url value="/s/jquery/jquery-1.4.2.min.js" />"></script>
 <script src="<c:url value="/s/jquery/jquery-1.4.2.js" />" type="text/javascript"></script>
+<script src="<c:url value="/s/jquery/jquery-1.4.2.min.js" />" type="text/javascript"></script>
 <script type="text/javascript">
 
 
@@ -290,8 +467,19 @@ $("#btnEliminarAsociados").click(function () {
 		/* var popup = $("#poptaseg");
 		var y = ($(window).height() / 2) - (popup.height() / 2);
 		popup.attr("style", "top: " + y + "px").fadeIn(); */
+        if(filasSeleccionadas.length>0)
 		$("#stddlg").fadeIn();
+        else
+                $("#nostddlg").fadeIn();
 	});
+
+$("#btnCambiarGrupo").click(function () {
+    
+		
+    $("#stddgr").fadeIn();
+        
+})    
+    
 
 
 cudu.i8n.ramas = {
@@ -333,6 +521,7 @@ cudu.dom.chkTipoK = document.getElementById('chkTipoK');
 cudu.dom.chkTipoC = document.getElementById('chkTipoC');
 
 cudu.dom.btnPdf = document.getElementById('btnPdf');
+cudu.dom.btnCambiarGrupo = document.getElementById('btnCambiarGrupo');
 cudu.dom.btnImprimir = document.getElementById('btnImprimir');
 cudu.dom.lblBtnExpandir = document.getElementById('lblBtnExpandir');
 cudu.dom.imgBtnExpandir = document.getElementById('imgBtnExpandir');
@@ -454,15 +643,64 @@ YAHOO.util.Event.addListener(window, "load", function() {
 	// DBG
 	// toogleFilter();
 
+});
+
 
         //desplegable
         YAHOO.util.Event.onContentReady("menu_vertical", function () {
           var elMenu = new YAHOO.widget.Menu("menu_vertical", { width: '150px' });
           elMenu.render();
           elMenu.show();
-        });
-});
+        });             
+        
+  /////////////////////////////////////////////////FIN DE ESTADISTICA, INICIO DE COMBOBOX
+   //	"contentready" event handler for the "menubuttonsfrommarkup" <fieldset>
+         var sText,idgrupo;
+	//	Search for an element to place the Menu Button into via the 
+	//	Event utility's "onContentReady" method
+	YAHOO.util.Event.onContentReady("menubuttonsfromjavascript", function () {
+		//	"click" event handler for each item in the Button's menu
+		var onMenuItemClick = function (p_sType, p_aArgs, p_oItem) {
+			
+			sText = p_oItem.cfg.getProperty("text");
+                        sTextKey = p_oItem.value;
+                        idgrupo = sTextKey;
+			
+			YAHOO.log("[MenuItem Properties] text: " + sText + ", value: " + 
+					p_oItem.value);
+			
+    		oMenuButtonGrupo.set("label", sText);			
+                
+ 
+		};
+ 
+ 
+		//	Create an array of YAHOO.widget.MenuItem configuration properties
+ 
+		var i, aMenuButtonGrupo = [];
+                    for(i = grupo.length-1; i >0;i--)
+                    {
+                        aMenuButtonGrupo.push({
+                            text:grupo[i].nombre,
+                            value:grupo[i].key,
+                            onclick: { fn: onMenuItemClick } 
+                        });
+                    }
 
+ 
+ 
+		//	Instantiate a Menu Button using the array of YAHOO.widget.MenuItem 
+		//	configuration properties as the value for the "menu"  
+		//	configuration attribute.
+ 
+		var oMenuButtonGrupo = new YAHOO.widget.Button({
+                    type: "menu", 
+                    label: grupo[grupo.length-1].nombre, 
+                    name: "comboGrupo", 
+                    menu: aMenuButtonGrupo, 
+                    container: this
+                });
+	});
 </script>
 </body>
 </html>
