@@ -185,8 +185,27 @@
                 </div>
             </form:form>
         </div>
-        <div id="ft"><fmt:message key="app.copyright" /></div>
+        <div id="ft"></div>
+        
+    <div id="doc" class="yui-t7">
+        <div id="hd"><img src="<c:url value="/s/theme/img/db-logo.png" />" alt="cudu" /></div>
+    <div id="bd">
+       <div class="yui-g tc-tb">
+            <div class="yui-g tc-table yui-skin-sam">
+                <div id="listado"></div>
+                <div id="paginador"></div>
+            </div>
+        </div>
     </div>
+
+    <div id="ft"><fmt:message key="app.copyright" /></div>
+    </div>
+</div>
+
+    
+    
+    
+
 </body>
 
 

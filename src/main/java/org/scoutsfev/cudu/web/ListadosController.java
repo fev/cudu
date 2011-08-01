@@ -95,8 +95,31 @@ public class ListadosController {
                 @RequestParam(value = "r", defaultValue = "10") int resultadosPorPágina,
                 @RequestParam(value = "f_tipo", required = false) String filtroTipo,
                 @RequestParam(value = "f_rama", required = false) String filtroRama,
+                @RequestParam(value ="idsChange",required=true) String[] idsChangeString,
+                @RequestParam(value ="idGrupoChange") String  idGrupoChange,
+                @RequestParam(value ="eliminarAsociados") boolean eliminarAsociados,
                 HttpServletRequest request) {
 
+            
+            if(idsChangeString!=null&&idsChangeString.length>0
+                    &&idsChangeString[0]!=null)
+            {
+                
+                String[] idsChange = idsChangeString[0].split(",");
+               logger.info("processSubmit: " + idsChange);
+                
+               if(eliminarAsociados)
+                {
+                    logger.info("eliminarAsociados: " + idsChange);
+                    storage.deleteGroup(idsChange);
+                }
+                   else
+               {
+                //storage.updateGrupoGroup(ids.split(","), idGrupo);
+                storage.updateGrupoGroup(idsChange, idGrupoChange);
+               }
+		
+            }
             Usuario usuarioActual = Usuario.obtenerActual();
 
             Grupo grupo = usuarioActual.getGrupo();
@@ -125,7 +148,7 @@ public class ListadosController {
 			@RequestParam(value = "f_rama", required = false) String filtroRama,
 			HttpServletRequest request) {
 
-		Result<Asociado> result = listaAsociados(columnas, ordenadoPor, sentido, 0, MAXRESULTS, filtroTipo, filtroRama, request);
+		Result<Asociado> result = listaAsociados(columnas, ordenadoPor, sentido, 0, MAXRESULTS, filtroTipo, filtroRama, null,null,false,request);
 		
 		Usuario usuarioActual = Usuario.obtenerActual();
 		String userStamp = usuarioActual.getNombreCompleto();
@@ -154,7 +177,7 @@ public class ListadosController {
 			@RequestParam(value = "f_rama", required = false) String filtroRama,
 			HttpServletRequest request) {
 
-		Result<Asociado> result = listaAsociados(columnas, ordenadoPor, sentido, 0, MAXRESULTS, filtroTipo, filtroRama, request);
+		Result<Asociado> result = listaAsociados(columnas, ordenadoPor, sentido, 0, MAXRESULTS, filtroTipo, filtroRama, null,null,false,request);
 
 		Usuario usuarioActual = Usuario.obtenerActual();
 		String userStamp = usuarioActual.getNombreCompleto();
@@ -186,21 +209,6 @@ public class ListadosController {
 		return "redirect:/listados";
 	}
          
-         @RequestMapping(method = RequestMethod.POST)
-	public String processSubmit(
-            @ModelAttribute("grupo") @Valid Grupo grupo,
-            @RequestParam(value ="ids",required=true) String[] ids,
-            @RequestParam(value ="idgrupo", defaultValue = "GHE") String  idGrupo,
-            BindingResult result,
-            SessionStatus status) {
-		logger.info("processSubmit: " + ids);
-                
-                //storage.updateGrupoGroup(ids.split(","), idGrupo);
-                storage.updateGrupoGroup(ids, idGrupo);
-		status.setComplete();
-
-		return "redirect:/listados/" + "?ok";
-	}
-         
+      
          
 }

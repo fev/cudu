@@ -68,7 +68,8 @@ public class AsociadoServiceImpl
 			String campoOrden, String sentidoOrden, int inicio,
 			int resultadosPorPágina, String tipos, String ramas, boolean eliminados, int asociacion) {
 		
-		// Filtrado por tipo de asociado (joven, kraal, comite)
+		// Filtrado por tipo de 
+                //storage.updateGrupoGroup(ids.split(","), idGrupoasociado (joven, kraal, comite)
 		String filtroTipos = componerFiltroTipo(tipos);
 		
 		// Filtrado por rama
@@ -212,8 +213,8 @@ public class AsociadoServiceImpl
             }
             
 		int n = this.entityManager
-			.createQuery("UPDATE Asociado SET " + column +" = " + value + 
-                        " WHERE " +whereRestriccion)
+			.createQuery("UPDATE Asociado SET " + column +" = '" + value + 
+                        "' WHERE " +whereRestriccion)
 			.executeUpdate();
 		
                 for(int i = 1; i < ids.length; i++)

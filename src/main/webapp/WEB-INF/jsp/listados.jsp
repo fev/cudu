@@ -342,11 +342,10 @@
    <div class="yui-g content">
       <div class="yui-u first rounded">
           <sec:authorize access="hasAnyRole('ROLE_PERMISO_B','ROLE_PERMISO_A','ROLE_PERMISO_C1','ROLE_PERMISO_C2','ROLE_PERMISO_C3')">
-        <form:form id="frmEliminar" method="delete">
-        <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
+        
+        <a id="btnDlg01Eliminar">
           <span><fmt:message key="btn.eliminar" /></span>
         </a>
-        </form:form>
           </sec:authorize>
       </div>
       <div class="yui-u rounded">
@@ -414,16 +413,19 @@
           <label style="color:#FFF ;"  for="dInput"><fmt:message key="asociado.f.grupo" /></label>
       </div>
             
-<form:form modelAttribute="grupo" method="POST">        
+
       <!--boton cambiarde grupo-->
       <div class="yui-u first rounded">
 
-        <a id="btnDlg01CambiarGrupo" href="javascript:$('#frmCambiarGrupo').submit()">
-          <input type="submit" value="<fmt:message key="btn.guardar" />" />
+        <a id="btnDlg01CambiarGrupo">
+            
           <span><fmt:message key="btn.cambiargrupo" /></span>
         </a>  
+        
+        
+        
       </div>
-        </form:form>
+
         <!--boton cancelar-->
       <div class="yui-u rounded">
         <a id="btnDlg01Cancelar" href="javascript:$('#stddgr').fadeOut(200)">
@@ -463,11 +465,33 @@
 <script type="text/javascript">
 
 
+$("#btnDlg01Eliminar").click(function () {
+    cudu.dom.eliminarAsociados = "true";
+    cudu.dom.idgrupoChange     = null;
+    cudu.dom.tabla.reload();
+    
+    $("#stddlg").fadeOut();
+    
+
+    idsSeleccionados = [];
+    cudu.dom.eliminarAsociados = "false";
+        
+});
+$("#btnDlg01CambiarGrupo").click(function () {
+    
+    cudu.dom.tabla.reload();
+    $("#stddgr").fadeOut();
+    idsSeleccionados = [];
+    idgrupoChange=null;
+        
+});    
+    
+var idgrupoChange;
 $("#btnEliminarAsociados").click(function () {
 		/* var popup = $("#poptaseg");
 		var y = ($(window).height() / 2) - (popup.height() / 2);
 		popup.attr("style", "top: " + y + "px").fadeIn(); */
-        if(filasSeleccionadas.length>0)
+        if(idsSeleccionados.length>0)
 		$("#stddlg").fadeIn();
         else
                 $("#nostddlg").fadeIn();
@@ -480,9 +504,7 @@ $("#btnCambiarGrupo").click(function () {
         
 })    
     
-
-
-cudu.i8n.ramas = {
+    cudu.i8n.ramas = {
 	'C': '<fmt:message key="rama.unos.C" />',
 	'M': '<fmt:message key="rama.unos.M" />',
 	'E': '<fmt:message key="rama.unos.E" />',
@@ -515,13 +537,14 @@ cudu.i8n.btnExpandir = {
 	imgContraer: '<c:url value="/s/theme/img/tango/tc-contraer.png" />'
 };
 
+cudu.dom.changeGroup = document.getElementById('stddgr');
 cudu.dom.tcFilter = document.getElementById('tc-filter');
 cudu.dom.chkTipoJ = document.getElementById('chkTipoJ');
 cudu.dom.chkTipoK = document.getElementById('chkTipoK');
 cudu.dom.chkTipoC = document.getElementById('chkTipoC');
 
 cudu.dom.btnPdf = document.getElementById('btnPdf');
-cudu.dom.btnCambiarGrupo = document.getElementById('btnCambiarGrupo');
+cudu.dom.btnDlg01CambiarGrupo = document.getElementById('btnDlg01CambiarGrupo');
 cudu.dom.btnImprimir = document.getElementById('btnImprimir');
 cudu.dom.lblBtnExpandir = document.getElementById('lblBtnExpandir');
 cudu.dom.imgBtnExpandir = document.getElementById('imgBtnExpandir');
@@ -655,7 +678,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
         
   /////////////////////////////////////////////////FIN DE ESTADISTICA, INICIO DE COMBOBOX
    //	"contentready" event handler for the "menubuttonsfrommarkup" <fieldset>
-         var sText,idgrupo;
+         var sText;
 	//	Search for an element to place the Menu Button into via the 
 	//	Event utility's "onContentReady" method
 	YAHOO.util.Event.onContentReady("menubuttonsfromjavascript", function () {
@@ -664,7 +687,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
 			
 			sText = p_oItem.cfg.getProperty("text");
                         sTextKey = p_oItem.value;
-                        idgrupo = sTextKey;
+                        cudu.dom.idgrupochange = sTextKey;
 			
 			YAHOO.log("[MenuItem Properties] text: " + sText + ", value: " + 
 					p_oItem.value);

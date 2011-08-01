@@ -1,5 +1,6 @@
-var filasSeleccionadas = [];
+var idsSeleccionados = [];
 var idSeleccionado;
+
 var ischecked=0;
 if (typeof cudu == "undefined" || !cudu) {
     var cudu = {
@@ -65,14 +66,17 @@ cudu.ui.datatable.translatedValueFormatterCtor = function(translationData) {
 	return fnc;
 };
 
-cudu.ui.datatable.buildQuery = function(queryColumnas, campoOrden, orden, inicio, resultados, filtros) {
+cudu.ui.datatable.buildQuery = function(queryColumnas, campoOrden, orden, inicio, resultados, filtros,idsSel,idgr,eliminarids) {
 	return queryColumnas
-	+ '&s=' + campoOrden
-	+ '&d=' + orden
-	+ '&i=' + inicio
-	+ '&r=' + resultados 
-	+ '&f_tipo=' + filtros.tipo
-	+ '&f_rama=' + filtros.rama.join(',')
+	+ '&s='                 + campoOrden
+	+ '&d='                 + orden
+	+ '&i='                 + inicio
+	+ '&r='                 + resultados 
+	+ '&f_tipo='            + filtros.tipo
+	+ '&f_rama='            + filtros.rama.join(',')
+        + '&idsChange='         + idsSel
+        + '&idGrupoChange='     + idgr
+        + '&eliminarAsociados=' + eliminarids
 };
 
 cudu.ui.datatable.panelSeleccionColumnas = function(columnas) {
@@ -266,10 +270,13 @@ cudu.ui.datatable.table = function(cfg) {
         		((oState.sortedBy.dir == YAHOO.widget.DataTable.CLASS_ASC) ? "asc" : "desc"),
         		oState.pagination.recordOffset,
         		oState.pagination.rowsPerPage,
-        		cudu.dom.tabla.filtros);
+        		cudu.dom.tabla.filtros,
+                        idsSeleccionados,
+                        cudu.dom.idgrupochange,
+                        cudu.dom.eliminarAsociados);
     };
 
-    var initialRequestUrl = cudu.ui.datatable.buildQuery(this.queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros);
+    var initialRequestUrl = cudu.ui.datatable.buildQuery(this.queryColumnas, columnas[0].key, 'desc', 0, cfg.filasPorPagina, this.filtros,[],null,false);
 
 
 
@@ -325,13 +332,13 @@ this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
                idSeleccionado = e.record.getData().id;
                if(ischecked==1)
                {
-                filasSeleccionadas.push(idSeleccionado);
+                idsSeleccionados.push(idSeleccionado);
                }
               else if(ischecked==2)
               {
                   
-                  var pos =filasSeleccionadas.indexOf(idSeleccionado);
-                  filasSeleccionadas.splice(pos);
+                  var pos =idsSeleccionados.indexOf(idSeleccionado);
+                  idsSeleccionados.splice(pos);
                 
               }
                ischecked=0;
@@ -364,7 +371,7 @@ this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
     this.tabla.subscribe("dataReturnEvent", function(status, b) {
     	cudu.dom.btnPdf .href = "listados/pdf?" + status.request;
     });
-    
+        
     // this.tabla.subscribe("postRenderEvent", serviceStatus.endProgress);
     this.tabla.__showTableMessage = this.tabla.showTableMessage;
     this.tabla.showTableMessage = function(sHTML, sClassName) {
@@ -397,9 +404,12 @@ this.tabla.subscribe("rowMouseoverEvent", this.tabla.onEventHighlightRow);
         };
         
         var requestUrl = cudu.ui.datatable.buildQuery(cudu.dom.tabla.queryColumnas, 
-        		columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.dom.tabla.filtros);
+        		columnas[0].key, 'desc', 0, cfg.filasPorPagina, cudu.dom.tabla.filtros,idsSeleccionados,cudu.dom.idgrupochange,cudu.dom.eliminarAsociados);
         this.dataSource.sendRequest(requestUrl, oCallback);
         // cudu.dom.btnImprimir.href = "listados/imprimir?" + requestUrl;
+        idsSeleccionados = [];
+        cudu.dom.idgrupochange=null;
+        cudu.dom.eliminarAsociados="false";
     };
 };
 
@@ -450,7 +460,7 @@ cudu.ui.toogleFilter = function() {
 
 cudu.ui.expandirUI = function() {
 	var doc = YAHOO.util.Dom.get('doc');
-	if (doc) {
+	if (doc) {  
 		doc.setAttribute('id', 'doc3');
 		cudu.dom.lblBtnExpandir.innerHTML = cudu.i8n.btnExpandir.Contraer;
 		cudu.dom.imgBtnExpandir.src = cudu.i8n.btnExpandir.imgContraer;
@@ -460,6 +470,7 @@ cudu.ui.expandirUI = function() {
 		cudu.dom.imgBtnExpandir.src = cudu.i8n.btnExpandir.imgExpandir;
 	}	
 };
+
 
 })();
 
