@@ -117,6 +117,26 @@ public class AsociadoServiceImpl
 		return asociado;
 	}
 
+        @Override
+        public Integer getIdAsociado(String usu)
+        {
+            Object o = null;
+            try{
+                 o = (Integer)this.entityManager
+                        .createQuery("SELECT id from Asociado a where usuario = :usu")
+                        .setParameter("usu", usu)
+                        .getSingleResult();
+            }
+            catch (javax.persistence.NoResultException no)
+            {
+                o = null;
+            }
+            finally{
+            
+                return (Integer)o;
+            }
+        }
+
 	@Override
 	@Transactional
 	public boolean delete(int id) {
@@ -129,4 +149,17 @@ public class AsociadoServiceImpl
 		auditoria.registrar(AuditoriaService.Operacion.Descartar, AuditoriaService.Entidad.Asociado, Integer.toString(id) + ":" + n);
 		return (n == 1);
 	}
+
+        @Override
+        public Asociado findemail(String email)
+        {
+            Asociado asociado = (Asociado)this.entityManager
+                    .createQuery("SELECT a from Asociado a where email= :email")
+                    .setParameter("usu", email)
+                    .getSingleResult();
+
+
+            return asociado;
+        }
 }
+        

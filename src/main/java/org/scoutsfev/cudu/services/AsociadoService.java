@@ -17,4 +17,6 @@ public interface AsociadoService
 	public Asociado merge(Asociado entity);
 	public Asociado find(String id);
 	public boolean delete(int id);
+        public Integer getIdAsociado(String usuario);
+        public Asociado findemail(String email);
 }

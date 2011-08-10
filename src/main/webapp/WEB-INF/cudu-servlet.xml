@@ -72,6 +72,8 @@
   <bean id="usuarioService" class="org.scoutsfev.cudu.services.UsuarioServiceImpl" />
   <bean id="asociadoService" class="org.scoutsfev.cudu.services.AsociadoServiceImpl" />
   <bean id="sugerenciasService" class="org.scoutsfev.cudu.services.SugerenciasServiceRedisImpl" />
+  <bean id="cursoService" class="org.scoutsfev.cudu.services.CursoServiceImpl" />
+  <bean id="miCursoService" class="org.scoutsfev.cudu.services.MiCursoServiceImpl" />
 
   <!-- Beans para auditoria, Redis -->
   <bean id="redisServiceLocator" class="org.scoutsfev.cudu.services.RedisServiceLocator" />

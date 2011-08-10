@@ -10,6 +10,25 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/reset-fonts-grids/reset-fonts-grids.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/base/base-min.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/s/theme/cudu.css" />" />
+
+<!-- Combo-handled YUI CSS files: -->
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/assets/skins/sam/autocomplete.css"/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/s/yui/button/assets/skins/sam/button.css"/>" />
+<!-- Combo-handled YUI JS files: -->
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/animation/animation-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/datasource/datasource-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/combo?2.9.0/build/autocomplete/autocomplete-min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/fonts/fonts-min.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/menu/assets/skins/sam/menu.css" /> 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.9.0/build/button/assets/skins/sam/button.css" /> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/container/container_core-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/menu/menu-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/element/element-min.js"></script> 
+<script type="text/javascript" src="http://yui.yahooapis.com/2.9.0/build/button/button-min.js"></script> 
+ 
 <style type="text/css">
 div.ht a { display: block; text-decoration: none; border-bottom: 0px solid #EEE; height: 70px;
     -moz-border-radius: 8px; -webkit-border-radius: 8px; }
@@ -28,6 +47,82 @@ div#lblUsuario { font-size: 182% }
 div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 
 #lnkNuevoAsoc { cursor:pointer; }
+#lnkNuevoCurso  { cursor:pointer; }
+#lnkListados{ cursor:pointer; }
+#lnkCerrarPoPupNuevoAsociados{ cursor:pointer; }
+#lnkCerrarPoPupCursos{ cursor:pointer; }
+                        /* custom styles for inline instances */
+                        .yui-skin-sam .yui-ac-input { position:static;width:20em; vertical-align:middle;}
+                        .yui-skin-sam .yui-ac-container { width:20em;left:0px;}
+
+                        /* needed for stacked instances for ie & sf z-index bug of absolute inside relative els */
+                        #bAutoComplete { z-index:9001; } 
+                        #lAutoComplete { z-index:9000; }
+
+                        /* buttons */
+                        .yui-ac .yui-button {vertical-align:middle;}
+                        .yui-ac .yui-button button       { color:#FFF; background: "<c:url value="/s/theme/img/ac-arrow-rt.png" />" center center no-repeat}
+                        .yui-ac .open .yui-button button { color:#FFF; background: "<c:url value="/s/theme/img/ac-arrow-dn.png" />" center center no-repeat}
+
+              
+                        
+                          /*
+        Set the "zoom" property to "normal" since it is set to "1" by the 
+        ".example-container .bd" rule in yui.css and this causes a Menu
+        instance's width to expand to 100% of the browser viewport.
+    */
+    
+    div.yuimenu .bd {
+    
+        zoom: normal;
+    
+    }
+ 
+    #button-example-form fieldset {
+ 
+        border: 2px groove #ccc;
+        margin: .5em;
+        padding: .5em;
+ 
+    }
+ 
+    #menubutton3menu,
+    #menubutton4menu {
+    
+        position: absolute;
+        visibility: hidden;
+        border: solid 1px #000;
+        padding: .5em;
+        background-color: #ccc;
+    
+    }
+ 
+    #button-example-form-postdata {
+    
+        border: dashed 1px #666;
+        background-color: #ccc;
+        padding: 1em;
+    
+    }
+ 
+    #button-example-form-postdata h2 {
+    
+        margin: 0 0 .5em 0;
+        padding: 0;
+        border: none;
+    
+    }
+    
+    
+    /*margin and padding on body element
+  can introduce errors in determining
+  element position and are not recommended;
+  we turn them off as a foundation for YUI
+  CSS treatments. */
+body {
+	margin:0;
+	padding:0;
+}
 </style>
 </head>
 <body>
@@ -49,6 +144,32 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
         </div>
     </div>
     <div class="yui-g ht">
+            <sec:authorize access="hasAnyRole('ROLE_PERMISO_F','ROLE_PERMISO_H')">
+                <a href="<c:url value="asociado/${idAsociado}"/>">
+                    <img src="<c:url value="/s/theme/img/db-mis-datos.png" />" alt="ayuda" />
+                    <span><fmt:message key="dashboard.misdatos" /></span>
+                </a>  
+                <a href="<c:url value="grupo/${grupoAsociado}" />">
+                    <img src="<c:url value="/s/theme/img/db-grupo.png" />" alt="ayuda" />
+                    <span><fmt:message key="dashboard.migrupo" /></span>
+                </a>        
+                <c:if test="${anyosAsociado>18}">
+                    <a id="lnkNuevoCurso">
+                        <img src="<c:url value="/s/theme/img/db-cursos.png" />" alt="cursos" style="margin-top: 0" />
+                        <span><fmt:message key="dashboard.nuevocurso" /></span>
+                    </a>
+
+		      <a href="<c:url value="mis_cursos/${idAsociado}" />">
+                        <img src="<c:url value="/s/theme/img/db-cursos.png" />" alt="cursos" style="margin-top: 0" />
+                        <span><fmt:message key="dashboard.miscursos" /></span>
+                    </a>
+                </c:if> 
+                
+                <a href="<c:url value="sugerencias" />" class=" hidden">
+                    <img src="<c:url value="/s/theme/img/db-sugerencias.png" />" alt="ayuda" />
+                    <span><fmt:message key="dashboard.sugerencias" /></span>
+                </a>
+            </sec:authorize>
       <a id="lnkNuevoAsoc">
         <img src="<c:url value="/s/theme/img/db-asociado.png" />" alt="nuevo" style="margin-top: 0" />
         <span><fmt:message key="dashboard.nuevoasociado" /></span>
