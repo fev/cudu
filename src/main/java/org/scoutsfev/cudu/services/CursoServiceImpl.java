@@ -84,14 +84,24 @@ implements CursoService{
                 .setParameter("anyo", anyo);        
 
         List<MonograficosEnCursos> monograficosEnCursos =(List<MonograficosEnCursos>)q.getResultList();
+        System.out.println("esto funciona   "+ monograficosEnCursos.size());
         return monograficosEnCursos;
     }
 
     @Override
-    public Curso getCursoDeUnAnyo(String nombre, int anyo) {
+    public Curso getCursoActual(String acronimo)
+    {
+        EntityManager em = this.entityManager;
+        Calendar c = Calendar.getInstance();
+        int anyo = c.get(Calendar.YEAR);
+        return getCursoDeUnAnyo(acronimo, anyo);
+    }
+    
+    @Override
+    public Curso getCursoDeUnAnyo(String acronimo, int anyo) {
         EntityManager em = this.entityManager; 
-        Query q = em.createQuery("select object(c) from Curso as c where idcurso =:idcuso  and anyo :=anyo");
-        q.setParameter("nombre", nombre);
+        Query q = em.createQuery("select object(c) from Curso as c where acronimo=:acronimo and anyo :=anyo");
+        q.setParameter("acronimo", acronimo);
         q.setParameter("anyo", anyo);
         
 

@@ -29,4 +29,12 @@ public class GrupoServiceImpl
 		auditoria.registrar(AuditoriaService.Operacion.Almacenar, AuditoriaService.Entidad.Grupo, g.getId());
 		return grupo;
 	}
+	@Override
+    public long count() {
+	return (Long) this.entityManager
+		.createQuery("SELECT COUNT(a) FROM Grupo a ")
+		.getSingleResult();
 }
+
+}
+        

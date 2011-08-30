@@ -14,5 +14,5 @@ import org.scoutsfev.cudu.domain.MisCursos;
 public interface MiCursoService {
     public List<MisCursos> getMisCursosRealizados(int idAsociado);
     public List<MisCursos> getMisCursosActuales(int idAsociado);
-    
+    public List<MisCursos> getMiCursoAJActual(int idAsociado);
 }

@@ -7,5 +7,6 @@ public interface GrupoService
 
 	public Grupo find(String id);
 	public Grupo findByUser(String username);
+        public long count();
 	public Grupo merge(Grupo g);
 }

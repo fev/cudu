@@ -160,6 +160,9 @@ public class Asociado implements Serializable {
 	
 	@Embedded
 	private Rama rama;
+        
+        @Column(name = "usuario")
+        private String usuario;
 
 	/**
 	 * Secuencia de códigos de rama separados por comas
@@ -516,4 +519,18 @@ public class Asociado implements Serializable {
 	public int getAsociacion() {
 		return asociacion;
 	}
-}
+
+    /**
+     * @return the usuario
+     */
+    public String getUsuario() {
+        return usuario;
+    }
+
+    /**
+     * @param usuario the usuario to set
+     */
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+}    

@@ -1,52 +1,47 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.scoutsfev.cudu.domain;
 
+import javax.persistence.EmbeddedId;
+
+import javax.persistence.Table;
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author gaxp
- */
 @Entity
 @Table(name = "monograficos_en_cursos")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "MonograficosEnCursos.findAll", query = "SELECT m FROM MonograficosEnCursos m"),
-    @NamedQuery(name = "MonograficosEnCursos.findByIdcurso", query = "SELECT m FROM MonograficosEnCursos m WHERE m.monograficosEnCursosPK.idcurso = :idcurso"),
-    @NamedQuery(name = "MonograficosEnCursos.findByIdmonografico", query = "SELECT m FROM MonograficosEnCursos m WHERE m.monograficosEnCursosPK.idmonografico = :idmonografico"),
-    @NamedQuery(name = "MonograficosEnCursos.findByBloque", query = "SELECT m FROM MonograficosEnCursos m WHERE m.bloque = :bloque"),
-    @NamedQuery(name = "MonograficosEnCursos.findByObligatorio", query = "SELECT m FROM MonograficosEnCursos m WHERE m.obligatorio = :obligatorio"),
-    @NamedQuery(name = "MonograficosEnCursos.findByBloqueunico", query = "SELECT m FROM MonograficosEnCursos m WHERE m.bloqueunico = :bloqueunico")})
 public class MonograficosEnCursos implements Serializable {
-    private static final long serialVersionUID = 1L;
+   
+    
     @EmbeddedId
     protected MonograficosEnCursosPK monograficosEnCursosPK;
+    
     @Size(max = 100)
     @Column(name = "bloque")
     private String bloque;
+    
     @Column(name = "obligatorio")
     private Boolean obligatorio;
+    
     @Column(name = "bloqueunico")
     private Boolean bloqueunico;
+    
+    @Column(name = "fijo")
+    private Boolean fijo;
+    
     @JoinColumn(name = "idmonografico", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Monografico monografico;
+    
     @JoinColumn(name = "idcurso", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Curso curso;
+
+
+    @Column(name = "bloque_numerominimo_monograficos")
+    private int bloqueNumMinMonograficos;
 
     public MonograficosEnCursos() {
     }
@@ -130,6 +125,20 @@ public class MonograficosEnCursos implements Serializable {
     @Override
     public String toString() {
         return "org.scoutsfev.cudu.domain.MonograficosEnCursos[ monograficosEnCursosPK=" + monograficosEnCursosPK + " ]";
+    }
+
+    /**
+     * @return the fijo
+     */
+    public Boolean getFijo() {
+        return fijo;
+    }
+
+    /**
+     * @param fijo the fijo to set
+     */
+    public void setFijo(Boolean fijo) {
+        this.fijo = fijo;
     }
     
 }

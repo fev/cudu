@@ -11,6 +11,7 @@
     <intercept-url pattern="/s/yui/**" filters="none" />
     <intercept-url pattern="/s/theme/**" filters="none" />
     <intercept-url pattern="/s/jquery/**" filters="none" />
+    <intercept-url pattern="/s/scripts/**" filters="none" />
     <intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
   </http>
 

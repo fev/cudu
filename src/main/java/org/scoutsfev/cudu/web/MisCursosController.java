@@ -56,8 +56,17 @@ public class MisCursosController {
 
         Asociado asociado = asociadoService.find(idAsociado);
 
+        
+        //comprobar que el usuario que entra es el mismo del cual se ven los datos
+        Usuario usuarioActual = Usuario.obtenerActual();
+        if(usuarioActual==null)
+        	return "redirect:/403";
+        if(asociado.getUsuario()==null|| usuarioActual.getUsername().compareTo(asociado.getUsuario())!=0)
+            return "redirect:/403";
+
+        
         if (asociado == null)
-            return "cacacacaacaaaaa redirect:/404";
+            return "redirect:/404";
 
         boolean esAdmin = false;
 		int asociacion = -1;
@@ -72,7 +81,6 @@ public class MisCursosController {
 		if (!esAdmin) {
 			Grupo grupoAsociado = asociado.getGrupo();
 			if (asociacion == -1) {
-				Usuario usuarioActual = Usuario.obtenerActual();
 				Grupo grupoUsuario = usuarioActual.getGrupo();
 				if ((grupoAsociado == null) || (grupoUsuario == null) || (!grupoAsociado.getId().equals(grupoUsuario.getId()))) {
 					return "redirect:/403";

@@ -42,6 +42,7 @@ public class MiCursoServiceImpl extends StorageServiceImpl<MisCursos> implements
 
     @Override
     public List<MisCursos> getMisCursosActuales(int idAsociado) {
+        
         Calendar dat = Calendar.getInstance();
         dat.set(Calendar.YEAR, dat.get(Calendar.YEAR)-1);
         dat.set(Calendar.MONTH, 7);
@@ -53,7 +54,25 @@ public class MiCursoServiceImpl extends StorageServiceImpl<MisCursos> implements
         System.out.println(consulta);
         Query q = em.createQuery(consulta);
         q.setParameter("idAsociado", idAsociado);
-        System.out.println(dat.getTime()+" esto tiene que funcionar!!");
+        q.setParameter("anyoActual", dat.getTime(),TemporalType.DATE);
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<MisCursos> getMiCursoAJActual(int idAsociado) {
+        
+        Calendar dat = Calendar.getInstance();
+        dat.set(Calendar.YEAR, dat.get(Calendar.YEAR)-1);
+        dat.set(Calendar.MONTH, 7);
+        dat.set(Calendar.DAY_OF_MONTH, 1);
+        
+        EntityManager em = this.entityManager; 
+        String consulta = "select object(mc) from MisCursos mc, Curso c "
+                + " where idAsociado=:idAsociado and  mc.misCursosPK.idCurso = c.id and c.acronimo='AJ' "
+                + " AND ronda >=:anyoActual) ";
+        System.out.println(consulta);
+        Query q = em.createQuery(consulta);
+        q.setParameter("idAsociado", idAsociado);
         q.setParameter("anyoActual", dat.getTime(),TemporalType.DATE);
         return q.getResultList();
     }

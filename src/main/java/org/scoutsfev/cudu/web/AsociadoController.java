@@ -45,8 +45,17 @@ public class AsociadoController {
 		Asociado asociado = asociadoService.find(idAsociado);
 		if (asociado == null)
 			return "redirect:/404";
-		
+
 		// Comprobaciones de Seguridad
+
+        //comprobar que el usuario que entra es el mismo del cual se ven los datos
+        Usuario usuarioActual = Usuario.obtenerActual();
+        if(usuarioActual==null)
+        	return "redirect:/403";
+        if(asociado.getUsuario()==null|| usuarioActual.getUsername().compareTo(asociado.getUsuario())!=0)
+            return "redirect:/403";
+
+                
 		// TODO Mover comprobación a otro sitio
 		// Inicialmente, si puede acceder al asociado puede modificarlo
 		boolean esAdmin = false;
@@ -58,11 +67,11 @@ public class AsociadoController {
 			if (role.equals("SdC")) { asociacion = 1; }
 			if (role.equals("MEV")) { asociacion = 2; }
 		}
-		
+
 		if (!esAdmin) {
 			Grupo grupoAsociado = asociado.getGrupo();
 			if (asociacion == -1) {
-				Usuario usuarioActual = Usuario.obtenerActual();
+				usuarioActual = Usuario.obtenerActual();
 				Grupo grupoUsuario = usuarioActual.getGrupo();
 				if ((grupoAsociado == null) || (grupoUsuario == null) || (!grupoAsociado.getId().equals(grupoUsuario.getId()))) {
 					return "redirect:/403";

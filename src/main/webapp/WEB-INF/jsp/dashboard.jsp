@@ -48,8 +48,10 @@ div#lblGrupo { font-size: 146.5%; margin-bottom: 15px }
 
 #lnkNuevoAsoc { cursor:pointer; }
 #lnkNuevoCurso  { cursor:pointer; }
+
 #lnkListados{ cursor:pointer; }
 #lnkCerrarPoPupNuevoAsociados{ cursor:pointer; }
+#lnkCerrarPoPupListados{ cursor:pointer; }
 #lnkCerrarPoPupCursos{ cursor:pointer; }
                         /* custom styles for inline instances */
                         .yui-skin-sam .yui-ac-input { position:static;width:20em; vertical-align:middle;}
@@ -142,6 +144,7 @@ body {
             <a href="<c:url value="/j_spring_security_logout"/>"><fmt:message key="dashboard.salir" /></a>
           </div>
         </div>
+            
     </div>
     <div class="yui-g ht">
             <sec:authorize access="hasAnyRole('ROLE_PERMISO_F','ROLE_PERMISO_H')">
@@ -164,20 +167,21 @@ body {
                         <span><fmt:message key="dashboard.miscursos" /></span>
                     </a>
                 </c:if> 
-                
-                <a href="<c:url value="sugerencias" />" class=" hidden">
-                    <img src="<c:url value="/s/theme/img/db-sugerencias.png" />" alt="ayuda" />
-                    <span><fmt:message key="dashboard.sugerencias" /></span>
-                </a>
-            </sec:authorize>
+      </sec:authorize>
+
+        <sec:authorize access="hasAnyRole('ROLE_PERMISO_C1','ROLE_PERMISO_C2','ROLE_PERMISO_C3')">
+
       <a id="lnkNuevoAsoc">
         <img src="<c:url value="/s/theme/img/db-asociado.png" />" alt="nuevo" style="margin-top: 0" />
         <span><fmt:message key="dashboard.nuevoasociado" /></span>
       </a>
+      
       <a href="<c:url value="listados" />">
         <img src="<c:url value="/s/theme/img/db-listado.png" />" alt="ayuda" />
         <span><fmt:message key="dashboard.listados" /></span>
       </a>
+      </sec:authorize>
+        
       <sec:authorize access="!hasAnyRole('ROLE_ADMIN', 'SdA', 'SdC', 'MEV')">
       <a href="<c:url value="grupo" />">
         <img src="<c:url value="/s/theme/img/db-grupo.png" />" alt="ayuda" />
@@ -188,10 +192,6 @@ body {
         <img src="<c:url value="/s/theme/img/db-sugerencias.png" />" alt="ayuda" />
         <span><fmt:message key="dashboard.sugerencias" /></span>
       </a>
-      <%-- <a href="<c:url value="ayuda" />" class=" hidden">
-        <img src="<c:url value="/s/theme/img/db-ayuda.png" />" alt="ayuda" />
-        <span><fmt:message key="dashboard.ayuda" /></span>
-      </a>--%>
     </div>
   </div>
 </div>
@@ -229,15 +229,68 @@ body {
 </div>
 </div>
 
+<div id="popcurs" class="popupdlg">
+<div class="yui-t7">
+    <a id='lnkCerrarPoPupCursos' style="background-color:#FFE3E3; border-color: #900; color:#900; float:right">
+                <fmt:message key="boton.cerrar"/>
+            </a>
+<div   class="bd">
+   <div class="yui-g legend">
+      <h1 style="text-align:center; color:#FFF;"><fmt:message key="asociado.tipo.pregunta" /></h1>
+   </div>
+   <div class="yui-gb content">
+      <div class="yui-u first rounded">
+        <a id="step1-a-AJ" href="<c:url value="curso/${idAsociado}/AJ" />">
+          <img src="<c:url value="/s/theme/img/certAJ.png" />" />
+          <span><fmt:message key="asociado.curso.AJ" /></span>
+        </a>
+      </div>
+      <div class="yui-u rounded">
+        <a href="<c:url value="curso/${idAsociado}/FC" />">
+          <img src="<c:url value="/s/theme/img/certFC.png" />" />
+          <span><fmt:message key="asociado.curso.FC" /></span>
+        </a>
+      </div>
+      <div class="yui-u rounded">
+        <a id="step1-a-comite" href="curso/${idAsociado}/MTL">
+          <img src="<c:url value="/s/theme/img/certMTL.png" />" />
+          <span><fmt:message key="asociado.curso.MTL" /></span>
+        </a>
+      </div>
+        <div class="yui-u first rounded">
+        <a id="step1-a-joven" href="<c:url value="curso/${idAsociado}/MA" />">
+          <img src="<c:url value="/s/theme/img/certMALI.png" />" />
+          <span><fmt:message key="asociado.curso.MALI" /></span>
+        </a>
+      </div>
+      <sec:authorize access="!hasAnyRole('ROLE_ADMIN', 'SdA', 'SdC', 'MEV','ROLE_PERMISO_F')">
+      <div class="yui-u rounded">
+        <a id="step1-a-kraal" href="<c:url value="curso/${idAsociado}/FA" />">
+          <img src="<c:url value="/s/theme/img/certFA.png" />" />
+          <span><fmt:message key="asociado.curso.FA" /></span>
+        </a>
+      </div>
+      </sec:authorize>
+    </div>
+ </div>
+</div>
+</div>
 <script src="<c:url value="/s/jquery/jquery-1.4.2.min.js" />" type="text/javascript"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+         $("#lnkCerrarPoPupCursos").click(function (){
+            $("#popcurs").fadeOut();
+        });
 	$("#lnkNuevoAsoc").click(function () {
 		/* var popup = $("#poptaseg");
 		var y = ($(window).height() / 2) - (popup.height() / 2);
 		popup.attr("style", "top: " + y + "px").fadeIn(); */
 		$("#poptaseg").fadeIn();
 	});
+
+        $("#lnkNuevoCurso").click(function () {
+                $("#popcurs").fadeIn();
+        });
 });
 </script>
 </body>

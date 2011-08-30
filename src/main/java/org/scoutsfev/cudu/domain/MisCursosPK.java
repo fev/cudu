@@ -13,7 +13,7 @@ import javax.persistence.Embeddable;
  * @author gaxp
  */
  @Embeddable
-public class MisCursosPK implements Serializable {
+public class MisCursosPK implements Serializable {  
     @Column(name = "idAsociado", nullable = false)
     private int idAsociado;
 

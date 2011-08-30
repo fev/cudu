@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
  * @author gaxp
  */
 @Embeddable
-public class MonograficosEnCursosPK implements Serializable {
+public class MonograficosEnCursosPK  implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "idcurso")

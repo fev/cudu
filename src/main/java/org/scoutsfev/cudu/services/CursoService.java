@@ -21,6 +21,7 @@ public interface CursoService {
     public List<Curso> getCursos();
     public List<MonograficosEnCursos> getMonograficosEnCursoActual(String nombre);
     public Curso getCursoDeUnAnyo(String nombre,int anyo);
+    public Curso getCursoActual(String acronimo);
  
     
     
