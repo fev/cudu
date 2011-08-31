@@ -86,6 +86,7 @@
   <bean id="miCursoService"             class="org.scoutsfev.cudu.services.MiCursoServiceImpl" />
   <bean id="grupoService"       	class="org.scoutsfev.cudu.services.GrupoServiceImpl" />
   <bean id="InscripcionCursoService" 	class="org.scoutsfev.cudu.services.InscripcionCursoServiceImpl" />
+  <bean id="EmailService"               class="org.scoutsfev.cudu.services.EmailServiceImpl" />
   
   <!-- Beans para auditoria, Redis -->
   <bean id="redisServiceLocator" class="org.scoutsfev.cudu.services.RedisServiceLocator" />

@@ -32,10 +32,7 @@
                     
                     <div class="yui-g first">
                         <h1 id="hform">
-                            <c:choose>
-                              <c:when test="${asociado.id > 0}"><spring:message code="curso.AJ.titulo.modificar" /></c:when>
-                              <c:otherwise><spring:message code="curso.AJ.titulo.nuevo" /></c:otherwise>
-                            </c:choose>
+                              <spring:message code="asociado.curso.${tipoCurso}" />
                         </h1>
                     </div>
                     
@@ -87,33 +84,50 @@
                   </div>
                       
                   <c:out value="<script language='JavaScript'>" escapeXml="false"></c:out>
-                    var elementsMonograficos=[], idsFijos='';
+                    var idsRecogidos='';
+                    var monograficosYPreferencias='';
+                    var elementsMonograficos=[], idsFijos='',selMonograficos=[];
                   <c:out value="</script>" escapeXml="false"></c:out>
                                 
-                  <form:input id="txtMonograficosElegidos" path="monograficosElegidos" cssClass="textbox w3u" />
+                  <form:input id="txtMonograficosElegidos" path="monograficosElegidos" cssClass="hidden" />
+                  <form:input id="txtFormatoMateriales" path="formatoMateriales" cssClass="hidden" value="P" />
+                  <form:input id="txtIdiomaMateriales" path="idiomaMateriales" cssClass="hidden" value="C"/>
+                  <form:input id="txtModoContacto" path="modoContacto" cssClass="hidden" value="P" />
+                  <form:input id="txtidAsociado" path="idAsociado" cssClass="hidden" value ="${asociado.id}"/>
+                  <form:input id="txtidCurso" path="idCurso" cssClass="hidden" value ="${curso.id}"/>
+                  
+                  <div class="yui-g first legend"><h3><fmt:message key="curso.inscripcion.preferencias" /></h3></div>
+                  <label for="txt_IDIOMA">
+                      <fmt:message key="curso.inscripcion.preferencias.idioma" />
+                  </label>
+                  <SELECT NAME="sel_idioma" SIZE="1" onChange="changePreferencia(this,'txtIdiomaMateriales');">                                                     
+                        <OPTION VALUE="C"><fmt:message key="curso.inscripcion.preferencias.idioma.castellano" /></OPTION>
+                        <OPTION VALUE="V"><fmt:message key="curso.inscripcion.preferencias.idioma.valenciano" /></OPTION> 
+                  </SELECT>
+                  
+                  <label for="txt_formatoApuntes">
+                      <fmt:message key="curso.inscripcion.preferencias.formatoapuntes" />
+                  </label>
+                  <SELECT NAME="sel_formato" SIZE="1" onChange="changePreferencia(this,'txtFormatoMateriales');"> 
+                        <OPTION VALUE="P"><fmt:message key="curso.inscripcion.preferencias.formatoapuntes.papel" /></OPTION>
+                        <OPTION VALUE="E"><fmt:message key="curso.inscripcion.preferencias.formatoapuntes.electronico" /></OPTION> 
+                  </SELECT>
+                      
+                  <label for="txt_modoContacto">
+                      <fmt:message key="curso.inscripcion.preferencias.modocontacto" />
+                  </label>
+                  <SELECT NAME="sel_Contacto" SIZE="1" onChange="changePreferencia(this,'txtModoContacto');"> 
+                        <OPTION VALUE="P"><fmt:message key="curso.inscripcion.preferencias.modocontacto.postal" /></OPTION>
+                        <OPTION VALUE="E"><fmt:message key="curso.inscripcion.preferencias.modocontacto.email" /></OPTION> 
+                  </SELECT>
+                  
                   
                   <!-- aqui esta lo interesante -->
                   <c:forEach var="monograficosEnCursosDeBloque" items="${monograficosEnCursos}" varStatus="status">
                       <div class="yui-g first legend"><h3>${monograficosEnCursosDeBloque[0].bloque}</h3></div>
                       <c:set var="disabled"        value=""/>
-                      <c:forEach var="monograficosEnCursos" items="${monograficosEnCursosDeBloque}" varStatus="status2">          
-                          <div class="filed ">
-                              
-                                                                
-                              <c:forEach var="monograficoCursoAJ" items="${monograficosCursoAJ}" varStatus="status3">
-                                  <c:if test="${monograficoCursoAJ.monografico.id == monograficosEnCursos.monografico.id}">
-                                      <c:set var="disabled"        value="DISABLED"/>
-                                  </c:if>
-                                  
-                                  <c:if test="${(monograficoCursoAJ.ronda > monograficosEnCursos.monografico.fechafin && 
-                                                monograficoCursoAJ.ronda > monograficosEnCursos.monografico.fechainicio) 
-                                                ||
-                                                (monograficoCursoAJ.fechafin < monograficosEnCursos.monografico.fechafin && 
-                                                monograficoCursoAJ.fechafin  < monograficosEnCursos.monografico.fechainicio) 
-                                        }">
-                                      <c:set var="disabled"        value="DISABLED"/>
-                                  </c:if>                                  
-                              </c:forEach>
+                      <c:forEach var="monograficosEnCursos" items="${monograficosEnCursosDeBloque}" varStatus="status2">
+                          <div class="filed ">    
                               <c:choose>
                                   <c:when test ="${monograficosEnCursosDeBloque[0].fijo== true}">
                                       <label for="txt_${monograficosEnCursos.monografico.nombre}">
@@ -124,32 +138,49 @@
                                       <c:out value="<script language='JavaScript'>" escapeXml="false"></c:out>
                               
                                         idsFijos = idsFijos+',' + ${monograficosEnCursos.monografico.id};
-                              <c:out value="</script>" escapeXml="false"></c:out>
-                                      
-                                      
-                                      
-                                      
-                                      
-                                      
+                                        <c:out value="</script>" escapeXml="false"></c:out>                                      
                                   </c:when>
                                   <c:otherwise>
                                       <c:choose>
                                           <c:when test ="${monograficosEnCursos.bloqueunico== true}">
-                                              <INPUT  NAME="${monograficosEnCursos.bloque}" type="radio" id="rb_${monograficosEnCursos.monografico.nombre}" ${disabled}/>
-
+                                              <select id ="sel_${monograficosEnCursos.monografico.nombre}" name="sel_${monograficosEnCursos.monografico.nombre}" onChange="change(this);">
+                                                  <c:forEach var="opcion" items="${monograficosEnCursosDeBloque}" varStatus="status4">
+                                                      <c:choose>
+                                                          <c:when test ="${status4.index == status2.index}">
+                                                              <c:out value="<option selected='selected' value='${status4.index+1}'>${status4.index+1}</option> " escapeXml="false"></c:out>
+                                                          </c:when>
+                                                          <c:otherwise>
+                                                              <c:out value="<option value='${status4.index+1}'>${status4.index+1}</option>" escapeXml="false"></c:out>
+                                                          </c:otherwise>
+                                                      </c:choose>
+                                                  </c:forEach>
+                                                  
+                                                      <c:out value="<script language='JavaScript'>" escapeXml="false"></c:out>
+                                                          selMonograficos.push({
+                                                                 nombre: "sel_${monograficosEnCursos.monografico.nombre}",
+                                                                     id: "${monograficosEnCursos.monografico.id}", 
+                                                                 bloque: "${monograficosEnCursos.bloque}", 
+                                                               selected: "${status2.index}"
+                                                           });
+                                                           
+                                                            monograficosYPreferencias=monograficosYPreferencias+ ",${monograficosEnCursos.monografico.id}=${status2.index}";
+                                                           
+                                                       <c:out value="</script>" escapeXml="false"></c:out>                                                  
+                                              </select>
+                                              
+                                              
                                               <label for="rb_${monograficosEnCursos.monografico.nombre}">
                                                   <font size="4"> 
                                                       ${monograficosEnCursos.monografico.nombre}        
                                                   </font>
                                               </label>
                                               <c:set var="idElement" value="rb_${monograficosEnCursos.monografico.nombre}"/>
-
                                           </c:when >
 
                                           <c:otherwise>
-                                              <INPUT NAME="${monograficosEnCursos.bloque}" type="checkbox" id="cb_${monograficosEnCursos.monografico.nombre}" ${disabled}/>                                                
+                                              <INPUT NAME="${monograficosEnCursos.bloque}" type="checkbox" id="cb_${monograficosEnCursos.monografico.nombre}" ${disabled}/>
                                               <label for="cb_${monograficosEnCursos.monografico.nombre}">
-                                                  <font size="4" > ${monograficosEnCursos.monografico.nombre}   estado:${disabled}     </font> 
+                                                  <font size="4" > ${monograficosEnCursos.monografico.nombre}</font> 
                                               </label>
                                               
                                               <c:set var="idElement" value="cb_${monograficosEnCursos.monografico.nombre}"/>
@@ -177,6 +208,7 @@
                                        fechaFin: "${monograficosEnCursos.monografico.fechafin}",
                                              id: "${monograficosEnCursos.monografico.id}", 
                                 });                                  
+                                
                               <c:out value="</script>" escapeXml="false"></c:out>
                                   </c:otherwise>
                               </c:choose>       
@@ -185,16 +217,7 @@
                   </c:forEach>
               </c:if>
                       
-              <c:if test = "${asociado.tipo == 'A'}"></c:if>
-              <c:if test = "${asociado.tipo == 'S'}"></c:if>
-
-              <div class="yui-g form-action">
-                  <div class="yui-g first">
-                      <c:if test="${asociado.id > 0}">
-                          <input type="button" value="<fmt:message key="btn.eliminar" />" class="button delete" onclick="javascript:cudu.remove()" />
-                      </c:if>
-                  </div>
-                  
+              <div class="yui-g form-action">                  
                   <div class="yui-g">
                       <input type="button" value="<fmt:message key="btn.volver" />" class="button back" onclick="javascript:window.history.back();" />
                       <input type="submit" value="<fmt:message key="btn.guardar" />" class="button save" />
@@ -202,38 +225,9 @@
               </div>
             </div>
         </form:form>
+    <div id="ft"><fmt:message key="app.copyright" /></div>
+</div>
 
-        <div id="ft"><fmt:message key="app.copyright" /></div>
-
-        <div id="stddlg" class="popupdlg">
-            <div class="yui-t7">
-                <div class="bd">
-                    <div class="yui-g legend">
-                        <h1><fmt:message key="asociado.d.eliminar" /></h1>
-                    </div>
-
-                    <div class="yui-g content">
-
-                        <div class="yui-u first rounded">
-                            <form:form id="frmEliminar" method="delete">
-                                <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
-                                    <span><fmt:message key="btn.eliminar" /></span>
-                                </a>
-                            </form:form>
-                        </div>
-
-                        <div class="yui-u rounded">
-                            <a id="btnDlg01Cancelar" href="javascript:$('#stddlg').fadeOut(200)">
-                                <span><fmt:message key="btn.cancelar" /></span>
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        </div>
-    
 
 <script type="text/javascript" src="<c:url value="/s/scripts/date.js" />"></script>
 <script src="<c:url value="/s/jquery/jquery-1.4.2.js" />" type="text/javascript"></script>
@@ -255,39 +249,30 @@ cudu = {
 
 	remove: function() {
 		$("#stddlg").center().fadeIn();
-	},
-
-	ui: {
-		dropramas: $(".dropramas"),
-		ramas: {
-			"radioColonia": document.getElementById('chkRamasColonia'),
-			"radioManada": document.getElementById('chkRamasManada'),
-			"radioExploradores": document.getElementById('chkRamasExploradores'),
-			"radioPioneros": document.getElementById('chkRamasPioneros'),
-			"radioRutas": document.getElementById('chkRamasRutas')
-		}
 	}
-  
 };
 $(document).ready(function() {
+    
+    document.getElementById('txtMonograficosElegidos').value = monograficosYPreferencias;
+    
     whichElement = function (event){
         var tname;
         tname=event.srcElement.id;
 
         var posBuscada =-1;
-       if(document.getElementById(tname).checked==false)
-       {
-            
-            for(i = 0; i < elementsMonograficos.length;i++)
-            {
-                if(elementsMonograficos[i].nombre==tname)
-                    posBuscada = i;
-            }
 
+        for(i = 0; i < elementsMonograficos.length;i++)
+        {
+            if(elementsMonograficos[i].nombre==tname)
+                posBuscada = i;
+        }
+
+        if(document.getElementById(tname).checked==false)
+        {
             if(posBuscada>=0)
             {
                 //alert("You clicked on a " +posBuscada +" "+ tname + " element.");
-                var idsRecogidos=elementsMonograficos[posBuscada].id;
+                idsRecogidos=elementsMonograficos[posBuscada].id;
                 
                 for(i = 0; i<elementsMonograficos.length;i++)
                 {
@@ -316,19 +301,17 @@ $(document).ready(function() {
                             {
                                document.getElementById(elem).checked=false;
                             }
-                            
-                                
-                            
                         }
                     }
                 }
             }
        }
-       var idsRecogidos = '';
+       idsRecogidos = '';
        if(posBuscada>-1 && document.getElementById(tname).checked==false)
        {
         idsRecogidos =elementsMonograficos[posBuscada].id;
        }
+       
        for(i = 0; i< elementsMonograficos.length;i++)
        {
            if(posBuscada!=i)
@@ -336,21 +319,101 @@ $(document).ready(function() {
                var elem = elementsMonograficos[i].nombre;
                if(document.getElementById(elem).checked==true){
                    idsRecogidos = idsRecogidos + ','+elementsMonograficos[i].id;
-                   document.getElementById('nombre').innerText = i+'-'+posBuscada;
                }
            }
-
        }
        
+       
+       //los que no cambian
        if(idsFijos!='')
         {
             idsRecogidos = idsRecogidos+idsFijos;
         }
 
-        document.getElementById('txtMonograficosElegidos').value = idsRecogidos ;
+        document.getElementById('txtMonograficosElegidos').value = idsRecogidos+","+monograficosYPreferencias;
         
-    }
+    }    
 });
+
+
+function changePreferencia(currentbox,nombrePreferencia)
+{    
+    var valueSelected,i= -1;
+
+    //localizar elemento seleccionado
+    var len = currentbox.length;        
+
+    for (i = 0; i < len; i++) 
+    {
+        if (currentbox[i].selected) {
+            valueSelected = currentbox[i].value;
+        } 
+    }
+    document.getElementById(nombrePreferencia).value =valueSelected;
+    
+}
+   
+function change(currentbox) {
+    var boxSelected= currentbox.id;
+    var valueSelected;  
+
+    var i,idBoxSel = -1;
+
+    //localizar elemento seleccionado
+    var len = currentbox.length;        
+
+    for (i = 0; i < len; i++) {
+        if (currentbox[i].selected) {
+            valueSelected = currentbox[i].value;
+        } 
+    }
+
+    var idBoxSel = -1;
+
+    //encontrar pos en el array del combobox
+    for(i=0; i < selMonograficos.length && idBoxSel==-1;i++)
+    {
+        if(boxSelected == selMonograficos[i].nombre)
+        {
+            idBoxSel = i;
+        }
+    }
+
+    var idSelected = valueSelected-1;
+    monograficosYPreferencias=selMonograficos[idBoxSel].id+"="+idSelected;
+    //cambiar valores. para ello se recorren todos los comboboxes y se ven sus valores
+    for(i=0; i < selMonograficos.length ;i++)
+    {
+        if(i!=idBoxSel)
+        {
+            if(selMonograficos[i].bloque == selMonograficos[idBoxSel].bloque)
+            {
+                var boxToModify = document.getElementById(selMonograficos[i].nombre);
+                var chosen = "",j;
+                var idBoxSel2 = -1;
+
+                //encontrar pos
+                 for (j = 0; j < len; j++)
+                 {
+                    if (boxToModify[j].selected)
+                    {
+                        if(boxToModify[j].value ==valueSelected)
+                        {
+                            boxToModify[selMonograficos[idBoxSel].selected ].selected=true;
+                            boxToModify[j].selected=false;
+
+                            var selectedIndex = selMonograficos[idBoxSel].selected;
+                            selMonograficos[idBoxSel].selected  = selMonograficos[i].selected;
+                            selMonograficos[i].selected  = selectedIndex;
+                        }
+                    }
+                }
+            }
+            monograficosYPreferencias=monograficosYPreferencias+ "," + selMonograficos[i].id+"="+selMonograficos[i].selected;
+            document.getElementById('txtMonograficosElegidos').value = monograficosYPreferencias+idsRecogidos;
+        }            
+    }
+}
 </script>
 </body>
 </html>

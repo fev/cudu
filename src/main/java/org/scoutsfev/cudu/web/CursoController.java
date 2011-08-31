@@ -4,19 +4,25 @@
  */
 
 package org.scoutsfev.cudu.web;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.scoutsfev.cudu.domain.InscripcionesCurso;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
+import org.scoutsfev.cudu.domain.InscripcionCurso;
+import org.scoutsfev.cudu.domain.InscripcionCursoPK;
 import org.scoutsfev.cudu.domain.MisCursos;
 import org.scoutsfev.cudu.domain.MonograficosEnCursos;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.AsociadoService;
 import org.scoutsfev.cudu.services.CursoService;
+import org.scoutsfev.cudu.services.EmailService;
 import org.scoutsfev.cudu.services.InscripcionCursoService;
 import org.scoutsfev.cudu.services.MiCursoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +48,9 @@ public class CursoController {
     
     @Autowired
     protected InscripcionCursoService inscripcionService;
+    
+    @Autowired
+    protected EmailService emailService;
     
     @Autowired
     protected MiCursoService miCursoService;
@@ -88,7 +97,7 @@ public class CursoController {
                     return "redirect:/403";
             }
         }
-
+        model.addAttribute("curso", cursoService.getCursoActual(tipoCurso));
         model.addAttribute("asociado", asociado);
         model.addAttribute("tipoCurso",tipoCurso);
 
@@ -97,7 +106,6 @@ public class CursoController {
         
 
         List<MonograficosEnCursos> monograficosEnCursos = cursoService.getMonograficosEnCursoActual(tipoCurso);
-
         //caso especial entre AJ Y FC. -> si me matriculo en AJ, FC tiene que tener en cuenta esto. No pasa 
         //lo mismo en el caso contrario
         String opuesto =null;
@@ -162,37 +170,85 @@ public class CursoController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String processSubmit(
-            @ModelAttribute("inscripciones") List<InscripcionesCurso> inscripciones,
-            @RequestParam(value="insc", required=true) List li,
+            @ModelAttribute("inscripciones") InscripcionesCurso inscripciones,
             BindingResult result, SessionStatus status) {
-        int idAsociado = inscripciones.get(0).getIdAsociado();
-        int idCurso = inscripciones.get(0).getIdCurso();
-
-        for (int i = 0; i < inscripciones.size();i++)
-        {
-            //InscripcionCurso inscripcion = inscripciones.get(i);
-            //logger.info("processSubmit: " + inscripcion.getInscripcionCursoPK().getIdasociado()+" "+inscripcion.getInscripcionCursoPK().getIdcurso());
+        
+           //InscripcionCurso inscripcion = inscripciones.get(i);
+            logger.info("processSubmit: " + inscripciones.getIdAsociado()+" : "+inscripciones.getIdCurso()+" : "+inscripciones.getMonograficosElegidos());
 
             if (result.hasErrors()) {
                     logger.info("Validation errors.");
                     //	for(ObjectError error: result.getAllErrors()) logger.info(error.getCode());
-                    return "asociado";
+                    return "curso";
+            }
+            String[] listaMonograficos = inscripciones.getMonograficosElegidos().split(",");
+            
+            InscripcionCurso persistedEntity = null;
+            for (int i = 0; i < listaMonograficos.length;i++)
+            {
+                String[] monograficoYPreferencia = listaMonograficos[i].split("=");
+                int idMonografico=-1;
+                char preferencia = '1';
+                
+                try{
+                    idMonografico = Integer.parseInt(monograficoYPreferencia[0]);
+                    if(monograficoYPreferencia.length>1)
+                    {
+                          preferencia = monograficoYPreferencia[1].charAt(0);
+                    }
+
+
+                    InscripcionCurso ic = new InscripcionCurso();
+
+                    ic.setIdiomamateriales(inscripciones.getIdiomaMateriales());
+                    ic.setFormatomateriales(inscripciones.getFormatoMateriales());
+                    ic.setModocontacto(inscripciones.getModoContacto());
+
+                    ic.setPagorealizado(false);
+                    ic.setFechainscripcion(new Date());
+                    ic.setCalificacion(preferencia);
+                    ic.setTrabajo('N');
+
+                    InscripcionCursoPK icpk = new InscripcionCursoPK();
+                    icpk.setIdasociado(inscripciones.getIdAsociado());
+                    icpk.setIdcurso(inscripciones.getIdCurso());
+                    icpk.setIdmonografico(idMonografico);
+
+                    ic.setInscripcionCursoPK(icpk);
+                    //comprobar que el usuario que entra es el mismo del cual se ven los datos
+                    Usuario usuarioActual = Usuario.obtenerActual();
+                    //Asociado asociado = inscripcion.getAsociado();
+                    if(usuarioActual==null)
+                            return "redirect:/403";
+                    //if(asociado.getUsuario()==null|| usuarioActual.getUsername().compareTo(asociado.getUsuario())!=0)
+                     //    return "redirect:/403";
+
+
+                    persistedEntity = inscripcionService.merge(ic);
+                    status.setComplete();
+                    String string = persistedEntity.getInscripcionCursoPK().toString();
+                }
+                catch(NumberFormatException nf)
+                {}
             }
 
-            //comprobar que el usuario que entra es el mismo del cual se ven los datos
-            Usuario usuarioActual = Usuario.obtenerActual();
-            //Asociado asociado = inscripcion.getAsociado();
-            if(usuarioActual==null)
-                    return "redirect:/403";
-            //if(asociado.getUsuario()==null|| usuarioActual.getUsername().compareTo(asociado.getUsuario())!=0)
-             //    return "redirect:/403";
             
-            //inscripcion.setAsociado(asociado);
-           
-            //InscripcionCurso persistedEntity = inscripcionService.merge(inscripcion);
-            status.setComplete();
-        }
-            return "redirect:/curso/" + idAsociado + "/" + idCurso + "?ok";
+            try {
+                
+                String subject = "Te has matriculado a cursos <estamos probando>";
+                Asociado asociado = asociadoService.find(inscripciones.getIdAsociado());
+                String email = asociado.getEmail();
+                
+                String cuerpo="Aviso de confirmación de inscripción \n"+
+                    "Estimado "+asociado.getNombreCompleto() +", "+
+                    "te has matriculado a monograficos del curso FC \n"+
+                    "tu correo es : " + email;
+                emailService.enviarEmailA("pescaico@gmail.com",subject,cuerpo);
+                
+            } catch (Exception ex) {
+                Logger.getLogger(CursoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return "redirect:/curso/" + persistedEntity.getAsociado().getId()  + "/" + persistedEntity.getCurso().getAcronimo() + "?ok";
     }
-
 }
+

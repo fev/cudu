@@ -39,22 +39,24 @@ public class AuditoriaServiceRedisImpl implements AuditoriaService {
 	
 	@Override
 	public void registrar(Operacion operacion, Entidad entidad, String pk) {
+            System.out.println("peto por aqui");
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyMMddHHmmss");
 		String fecha = dateFormat.format(new Date());
 		
 		String usuario = SecurityContextHolder.getContext().getAuthentication().getName();
-		
+	System.out.println("peto por aqui 2");	
 		StringBuilder sb = new StringBuilder();
 		sb.append(fecha);
 		sb.append(FIELDSEPARATOR);
 		sb.append(usuario);
 		sb.append(FIELDSEPARATOR);
 		sb.append(operacion.getOperacion());
+        System.out.println("peto por aqui 3");	
 		sb.append(FIELDSEPARATOR);
 		sb.append(entidad.getEntidad());
 		sb.append(FIELDSEPARATOR);
 		sb.append(pk);
-		
+	System.out.println("peto por aqui 4");		
 		new Thread(new AsyncAuditWrite(sb.toString())).start();
 	}
         

@@ -1,0 +1,493 @@
+[INFO] Scanning for projects...
+[INFO] Searching repository for plugin with prefix: 'tomcat'.
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Cudu
+[INFO]    task-segment: [tomcat:run]
+[INFO] ------------------------------------------------------------------------
+[INFO] Preparing tomcat:run
+[INFO] [resources:resources {execution: default-resources}]
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 7 resources
+Downloading: http://repository.springsource.com/maven/bundles/release/com/sun/mail/all/1.4.5-SNAPSHOT/all-1.4.5-SNAPSHOT.pom
+[INFO] Unable to find resource 'com.sun.mail:all:pom:1.4.5-SNAPSHOT' in repository com.springsource.repository.bundles.release (http://repository.springsource.com/maven/bundles/release)
+Downloading: http://repository.springsource.com/maven/bundles/external/com/sun/mail/all/1.4.5-SNAPSHOT/all-1.4.5-SNAPSHOT.pom
+[INFO] Unable to find resource 'com.sun.mail:all:pom:1.4.5-SNAPSHOT' in repository com.springsource.repository.bundles.external (http://repository.springsource.com/maven/bundles/external)
+Downloading: http://cudu.googlecode.com/svn/repository/com/sun/mail/all/1.4.5-SNAPSHOT/all-1.4.5-SNAPSHOT.pom
+[INFO] Unable to find resource 'com.sun.mail:all:pom:1.4.5-SNAPSHOT' in repository org.scoutsfev.cudu.repository (http://cudu.googlecode.com/svn/repository)
+[INFO] [compiler:compile {execution: default-compile}]
+[INFO] Compiling 2 source files to /home/gasp/git/cudu/target/classes
+[INFO] [tomcat:run {execution: default-cli}]
+[INFO] Running war on http://localhost:8080/cudu
+[INFO] Using existing Tomcat server configuration at /home/gasp/git/cudu/target/tomcat
+18:46:34,928  INFO ContextLoader:187 - Root WebApplicationContext: initialization started
+18:46:35,057  INFO XmlWebApplicationContext:456 - Refreshing Root WebApplicationContext: startup date [Wed Aug 31 18:46:35 CEST 2011]; root of context hierarchy
+18:46:35,214  INFO XmlBeanDefinitionReader:315 - Loading XML bean definitions from ServletContext resource [/WEB-INF/cudu-servlet.xml]
+18:46:35,935  INFO XmlBeanDefinitionReader:315 - Loading XML bean definitions from ServletContext resource [/WEB-INF/security-applicationContext.xml]
+18:46:36,643  INFO PropertyPlaceholderConfigurer:177 - Loading properties file from class path resource [database.properties]
+18:46:36,644  INFO PropertyPlaceholderConfigurer:177 - Loading properties file from class path resource [database_release.properties]
+18:46:36,644  WARN PropertyPlaceholderConfigurer:197 - Could not load properties from class path resource [database_release.properties]: class path resource [database_release.properties] cannot be opened because it does not exist
+18:46:36,878  INFO XmlWebApplicationContext:1332 - Bean 'org.springframework.transaction.annotation.AnnotationTransactionAttributeSource#0' is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:46:36,912  INFO XmlWebApplicationContext:1332 - Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler#0' is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:46:36,940  INFO XmlWebApplicationContext:1332 - Bean '(inner bean)' is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:46:36,967  INFO XmlWebApplicationContext:1332 - Bean '(inner bean)' is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:46:36,988  INFO XmlWebApplicationContext:1332 - Bean '(inner bean)#1' is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:46:36,990  INFO XmlWebApplicationContext:1332 - Bean 'org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource#0' is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:46:37,009  INFO XmlWebApplicationContext:1332 - Bean 'org.springframework.security.methodSecurityMetadataSourceAdvisor' is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:46:37,017  INFO XmlWebApplicationContext:1332 - Bean 'org.springframework.transaction.config.internalTransactionAdvisor' is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+18:46:37,064  INFO DefaultListableBeanFactory:549 - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@1135cd9: defining beans [grupoController,dashboardController,misCursosController,asociadoController,usuarioController,cursoController,listadosController,loginController,sugerenciasController,org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.annotation.internalPersistenceAnnotationProcessor,org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter#0,org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping#0,org.springframework.format.support.FormattingConversionServiceFactoryBean#0,org.springframework.validation.beanvalidation.LocalValidatorFactoryBean#0,org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter#1,org.springframework.web.servlet.handler.MappedInterceptor#0,org.springframework.web.servlet.config.viewControllerHandlerAdapter,org.springframework.web.servlet.config.viewControllerHandlerMapping,viewResolver,org.springframework.web.servlet.view.ContentNegotiatingViewResolver#0,org.springframework.web.servlet.handler.MappedInterceptor#1,localeResolver,messageSource,usuarioService,asociadoService,sugerenciasService,cursoService,miCursoService,grupoService,InscripcionCursoService,EmailService,redisServiceLocator,redisService,auditoriaService,org.springframework.beans.factory.config.PropertyPlaceholderConfigurer#0,dataSource,entityManagerFactory,org.springframework.aop.config.internalAutoProxyCreator,org.springframework.transaction.annotation.AnnotationTransactionAttributeSource#0,org.springframework.transaction.interceptor.TransactionInterceptor#0,org.springframework.transaction.config.internalTransactionAdvisor,transactionManager,org.springframework.security.web.PortMapperImpl#0,org.springframework.security.web.context.HttpSessionSecurityContextRepository#0,org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy#0,org.springframework.security.authentication.ProviderManager#0,org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler#0,org.springframework.security.access.vote.AffirmativeBased#0,org.springframework.security.web.access.intercept.FilterSecurityInterceptor#0,org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator#0,org.springframework.security.authentication.AnonymousAuthenticationProvider#0,org.springframework.security.web.savedrequest.HttpSessionRequestCache#0,org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint#0,org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter#0,org.springframework.security.config.http.UserDetailsServiceInjectionBeanPostProcessor#0,org.springframework.security.filterChainProxy,org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler#0,org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource#0,org.springframework.security.access.vote.AffirmativeBased#1,org.springframework.security.access.intercept.aopalliance.MethodSecurityInterceptor#0,org.springframework.security.methodSecurityMetadataSourceAdvisor,org.springframework.security.authentication.dao.DaoAuthenticationProvider#0,org.springframework.security.authentication.DefaultAuthenticationEventPublisher#0,org.springframework.security.authenticationManager]; root of factory hierarchy
+18:46:37,289  INFO Version:15 - Hibernate Annotations 3.4.0.GA
+18:46:37,315  INFO Environment:560 - Hibernate 3.3.2.GA
+18:46:37,333  INFO Environment:593 - hibernate.properties not found
+18:46:37,338  INFO Environment:771 - Bytecode provider name : javassist
+18:46:37,355  INFO Environment:652 - using JDK 1.4 java.sql.Timestamp handling
+18:46:37,543  INFO Version:16 - Hibernate EntityManager 3.4.0.GA
+18:46:37,573  INFO Ejb3Configuration:315 - Processing PersistenceUnitInfo [
+	name: CuduPersistenceUnit
+	...]
+18:46:37,730  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Grupo
+18:46:37,781  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Grupo on table Grupo
+18:46:37,872  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Usuario
+18:46:37,873  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Usuario on table users
+18:46:37,956  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Asociado
+18:46:37,957  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Asociado on table Asociado
+18:46:38,026  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Authority
+18:46:38,033  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Authority on table authorities
+18:46:38,035  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Curso
+18:46:38,037  INFO QueryBinder:64 - Binding Named query: Curso.findAll => SELECT c FROM Curso c
+18:46:38,038  INFO QueryBinder:64 - Binding Named query: Curso.findById => SELECT c FROM Curso c WHERE c.id = :id
+18:46:38,038  INFO QueryBinder:64 - Binding Named query: Curso.findByNombre => SELECT c FROM Curso c WHERE c.nombre = :nombre
+18:46:38,039  INFO QueryBinder:64 - Binding Named query: Curso.findByAcronimo => SELECT c FROM Curso c WHERE c.acronimo = :acronimo
+18:46:38,039  INFO QueryBinder:64 - Binding Named query: Curso.findByAnyo => SELECT c FROM Curso c WHERE c.anyo = :anyo
+18:46:38,045  INFO QueryBinder:64 - Binding Named query: Curso.findByPrecio => SELECT c FROM Curso c WHERE c.precio = :precio
+18:46:38,046  INFO QueryBinder:64 - Binding Named query: Curso.findByDescripcion => SELECT c FROM Curso c WHERE c.descripcion = :descripcion
+18:46:38,046  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Curso on table curso
+18:46:38,061  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.MisCursos
+18:46:38,062  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.MisCursos on table MisCursos
+18:46:38,067  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Monografico
+18:46:38,068  INFO QueryBinder:64 - Binding Named query: Monografico.findAll => SELECT m FROM Monografico m
+18:46:38,068  INFO QueryBinder:64 - Binding Named query: Monografico.findById => SELECT m FROM Monografico m WHERE m.id = :id
+18:46:38,069  INFO QueryBinder:64 - Binding Named query: Monografico.findByNombre => SELECT m FROM Monografico m WHERE m.nombre = :nombre
+18:46:38,069  INFO QueryBinder:64 - Binding Named query: Monografico.findByFechainicio => SELECT m FROM Monografico m WHERE m.fechainicio = :fechainicio
+18:46:38,070  INFO QueryBinder:64 - Binding Named query: Monografico.findByFechafin => SELECT m FROM Monografico m WHERE m.fechafin = :fechafin
+18:46:38,070  INFO QueryBinder:64 - Binding Named query: Monografico.findByPrecio => SELECT m FROM Monografico m WHERE m.precio = :precio
+18:46:38,071  INFO QueryBinder:64 - Binding Named query: Monografico.findByDescripcion => SELECT m FROM Monografico m WHERE m.descripcion = :descripcion
+18:46:38,071  INFO QueryBinder:64 - Binding Named query: Monografico.findByPlazasdisponibles => SELECT m FROM Monografico m WHERE m.plazasdisponibles = :plazasdisponibles
+18:46:38,071  INFO QueryBinder:64 - Binding Named query: Monografico.findByPlazastotales => SELECT m FROM Monografico m WHERE m.plazastotales = :plazastotales
+18:46:38,072  INFO QueryBinder:64 - Binding Named query: Monografico.findByListaespera => SELECT m FROM Monografico m WHERE m.listaespera = :listaespera
+18:46:38,072  INFO QueryBinder:64 - Binding Named query: Monografico.findByLugarprevisto => SELECT m FROM Monografico m WHERE m.lugarprevisto = :lugarprevisto
+18:46:38,073  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Monografico on table monografico
+18:46:38,078  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.MonograficosEnCursos
+18:46:38,078  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.MonograficosEnCursos on table monograficos_en_cursos
+18:46:38,083  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.InscripcionCurso
+18:46:38,083  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.InscripcionCurso on table inscripcioncurso
+18:46:38,163  INFO CollectionBinder:650 - Mapping collection: org.scoutsfev.cudu.domain.Usuario.authorities -> authorities
+18:46:38,165  INFO CollectionBinder:650 - Mapping collection: org.scoutsfev.cudu.domain.Curso.monograficosEnCursosCollection -> monograficos_en_cursos
+18:46:38,166  INFO CollectionBinder:650 - Mapping collection: org.scoutsfev.cudu.domain.Monografico.monograficosEnCursosCollection -> monograficos_en_cursos
+18:46:38,168  INFO AnnotationConfiguration:369 - Hibernate Validator not found: ignoring
+18:46:38,210  INFO HibernateSearchEventListenerRegister:53 - Unable to find org.hibernate.search.event.FullTextIndexEventListener on the classpath. Hibernate Search is not enabled.
+18:46:38,282  WARN RootClass:233 - composite-id class does not override equals(): org.scoutsfev.cudu.domain.InscripcionCursoPK
+18:46:38,282  WARN RootClass:238 - composite-id class does not override hashCode(): org.scoutsfev.cudu.domain.InscripcionCursoPK
+18:46:38,284  WARN RootClass:233 - composite-id class does not override equals(): org.scoutsfev.cudu.domain.MisCursosPK
+18:46:38,285  WARN RootClass:238 - composite-id class does not override hashCode(): org.scoutsfev.cudu.domain.MisCursosPK
+18:46:38,289  INFO ConnectionProviderFactory:95 - Initializing connection provider: org.hibernate.ejb.connection.InjectedDataSourceConnectionProvider
+18:46:38,295  INFO InjectedDataSourceConnectionProvider:37 - Using provided datasource
+18:46:38,356  INFO SettingsFactory:114 - RDBMS: PostgreSQL, version: 8.4.8
+18:46:38,357  INFO SettingsFactory:115 - JDBC driver: PostgreSQL Native Driver, version: PostgreSQL 8.3 JDBC4 with SSL (build 604)
+18:46:38,389  INFO Dialect:175 - Using dialect: org.hibernate.dialect.PostgreSQLDialect
+18:46:38,396  INFO TransactionFactoryFactory:62 - Transaction strategy: org.hibernate.transaction.JDBCTransactionFactory
+18:46:38,398  INFO TransactionManagerLookupFactory:80 - No TransactionManagerLookup configured (in JTA environment, use of read-write or transactional second-level cache is not recommended)
+18:46:38,398  INFO SettingsFactory:161 - Automatic flush during beforeCompletion(): disabled
+18:46:38,399  INFO SettingsFactory:165 - Automatic session close at end of transaction: disabled
+18:46:38,399  INFO SettingsFactory:172 - JDBC batch size: 15
+18:46:38,400  INFO SettingsFactory:175 - JDBC batch updates for versioned data: disabled
+18:46:38,402  INFO SettingsFactory:180 - Scrollable result sets: enabled
+18:46:38,402  INFO SettingsFactory:188 - JDBC3 getGeneratedKeys(): disabled
+18:46:38,403  INFO SettingsFactory:196 - Connection release mode: auto
+18:46:38,404  INFO SettingsFactory:223 - Default batch fetch size: 1
+18:46:38,404  INFO SettingsFactory:227 - Generate SQL with comments: disabled
+18:46:38,405  INFO SettingsFactory:231 - Order SQL updates by primary key: disabled
+18:46:38,405  INFO SettingsFactory:235 - Order SQL inserts for batching: disabled
+18:46:38,406  INFO SettingsFactory:397 - Query translator: org.hibernate.hql.ast.ASTQueryTranslatorFactory
+18:46:38,409  INFO ASTQueryTranslatorFactory:47 - Using ASTQueryTranslatorFactory
+18:46:38,409  INFO SettingsFactory:243 - Query language substitutions: {}
+18:46:38,410  INFO SettingsFactory:248 - JPA-QL strict compliance: enabled
+18:46:38,410  INFO SettingsFactory:253 - Second-level cache: enabled
+18:46:38,410  INFO SettingsFactory:257 - Query cache: disabled
+18:46:38,411  INFO SettingsFactory:382 - Cache region factory : org.hibernate.cache.impl.NoCachingRegionFactory
+18:46:38,411  INFO SettingsFactory:267 - Optimize cache for minimal puts: disabled
+18:46:38,412  INFO SettingsFactory:276 - Structured second-level cache entries: disabled
+18:46:38,417  INFO SettingsFactory:296 - Echoing all SQL to stdout
+18:46:38,419  INFO SettingsFactory:305 - Statistics: disabled
+18:46:38,419  INFO SettingsFactory:309 - Deleted entity synthetic identifier rollback: disabled
+18:46:38,419  INFO SettingsFactory:324 - Default entity-mode: pojo
+18:46:38,420  INFO SettingsFactory:328 - Named query checking : enabled
+18:46:38,470  INFO SessionFactoryImpl:193 - building session factory
+18:46:38,820  INFO SessionFactoryObjectFactory:105 - Not binding factory to JNDI, no JNDI name configured
+18:46:39,339 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,340 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,342 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,342 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,346 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,346 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,348 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,348 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,350 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,350 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,353 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,353 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,355 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,355 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,357 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,360 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,361 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,362 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,363 ERROR JREDIS:57 - PROBLEM: Connection Fault [Synchronous Connection <host: localhost/127.0.0.1, port: 6379, db: 0>]: Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:39,363 ERROR JREDIS:55 - Error creating connection -> Socket connect failed [cause: java.net.ConnectException: Connection refused] -- make sure the server is running at localhost
+18:46:40,136  INFO Version:56 - Hibernate Validator 4.0.2.GA
+18:46:40,393  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/grupo] onto handler [org.scoutsfev.cudu.web.GrupoController@16d03ba]
+18:46:40,394  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/grupo.*] onto handler [org.scoutsfev.cudu.web.GrupoController@16d03ba]
+18:46:40,394  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/grupo/] onto handler [org.scoutsfev.cudu.web.GrupoController@16d03ba]
+18:46:40,395  INFO DefaultAnnotationHandlerMapping:398 - Root mapping to handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,396  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//dashboard] onto handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,396  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//dashboard.*] onto handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,397  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//dashboard/] onto handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,397  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard/] onto handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,397  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard] onto handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,398  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard.*] onto handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,398  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard/dashboard.*] onto handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,398  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard/dashboard/] onto handler [org.scoutsfev.cudu.web.DashboardController@fbfa2]
+18:46:40,399  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos/{idAsociado}] onto handler [org.scoutsfev.cudu.web.MisCursosController@1ee4dbe]
+18:46:40,399  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos/{idAsociado}.*] onto handler [org.scoutsfev.cudu.web.MisCursosController@1ee4dbe]
+18:46:40,400  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos/{idAsociado}/] onto handler [org.scoutsfev.cudu.web.MisCursosController@1ee4dbe]
+18:46:40,400  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos] onto handler [org.scoutsfev.cudu.web.MisCursosController@1ee4dbe]
+18:46:40,400  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos.*] onto handler [org.scoutsfev.cudu.web.MisCursosController@1ee4dbe]
+18:46:40,401  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos/] onto handler [org.scoutsfev.cudu.web.MisCursosController@1ee4dbe]
+18:46:40,402  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/{idAsociado}] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,402  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/{idAsociado}.*] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,403  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/{idAsociado}/] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,403  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/nuevo/{tipo}] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,403  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/nuevo/{tipo}.*] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,404  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/nuevo/{tipo}/] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,404  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,405  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado.*] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,405  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/] onto handler [org.scoutsfev.cudu.web.AsociadoController@3212a8]
+18:46:40,406  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos] onto handler [org.scoutsfev.cudu.web.UsuarioController@166faac]
+18:46:40,406  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos.*] onto handler [org.scoutsfev.cudu.web.UsuarioController@166faac]
+18:46:40,406  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos/] onto handler [org.scoutsfev.cudu.web.UsuarioController@166faac]
+18:46:40,407  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos/permisos.*] onto handler [org.scoutsfev.cudu.web.UsuarioController@166faac]
+18:46:40,407  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos/permisos/] onto handler [org.scoutsfev.cudu.web.UsuarioController@166faac]
+18:46:40,408  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso/{idAsociado}/{tipoCurso}] onto handler [org.scoutsfev.cudu.web.CursoController@1d3694a]
+18:46:40,408  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso/{idAsociado}/{tipoCurso}.*] onto handler [org.scoutsfev.cudu.web.CursoController@1d3694a]
+18:46:40,408  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso/{idAsociado}/{tipoCurso}/] onto handler [org.scoutsfev.cudu.web.CursoController@1d3694a]
+18:46:40,409  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso] onto handler [org.scoutsfev.cudu.web.CursoController@1d3694a]
+18:46:40,409  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso.*] onto handler [org.scoutsfev.cudu.web.CursoController@1d3694a]
+18:46:40,409  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso/] onto handler [org.scoutsfev.cudu.web.CursoController@1d3694a]
+18:46:40,410  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/asociados] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,411  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/asociados.*] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,411  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/asociados/] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,412  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/imprimir] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,412  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/imprimir.*] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,412  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/imprimir/] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,413  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,413  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados.*] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,413  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/] onto handler [org.scoutsfev.cudu.web.ListadosController@a594e1]
+18:46:40,414  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//login] onto handler [org.scoutsfev.cudu.web.LoginController@d16610]
+18:46:40,414  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//login.*] onto handler [org.scoutsfev.cudu.web.LoginController@d16610]
+18:46:40,415  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//login/] onto handler [org.scoutsfev.cudu.web.LoginController@d16610]
+18:46:40,415  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login] onto handler [org.scoutsfev.cudu.web.LoginController@d16610]
+18:46:40,415  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login.*] onto handler [org.scoutsfev.cudu.web.LoginController@d16610]
+18:46:40,416  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login/] onto handler [org.scoutsfev.cudu.web.LoginController@d16610]
+18:46:40,417  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login/login.*] onto handler [org.scoutsfev.cudu.web.LoginController@d16610]
+18:46:40,417  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login/login/] onto handler [org.scoutsfev.cudu.web.LoginController@d16610]
+18:46:40,418  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/nueva] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,418  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/nueva.*] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,419  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/nueva/] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,419  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/{pk}] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,419  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/{pk}.*] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,420  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/{pk}/] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,420  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,420  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias.*] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,420  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/] onto handler [org.scoutsfev.cudu.web.SugerenciasController@183c3a1]
+18:46:40,924  INFO SimpleUrlHandlerMapping:411 - Mapped URL path [/login] onto handler [org.springframework.web.servlet.mvc.ParameterizableViewController@12143d8]
+18:46:40,924  INFO SimpleUrlHandlerMapping:398 - Root mapping to handler [org.springframework.web.servlet.mvc.ParameterizableViewController@ed3007]
+18:46:42,516  INFO ContextLoader:214 - Root WebApplicationContext: initialization completed in 7584 ms
+18:46:42,558  INFO DispatcherServlet:301 - FrameworkServlet 'cudu': initialization started
+18:46:42,561  INFO XmlWebApplicationContext:456 - Refreshing WebApplicationContext for namespace 'cudu-servlet': startup date [Wed Aug 31 18:46:42 CEST 2011]; parent: Root WebApplicationContext
+18:46:42,563  INFO XmlBeanDefinitionReader:315 - Loading XML bean definitions from ServletContext resource [/WEB-INF/cudu-servlet.xml]
+18:46:42,792  INFO PropertyPlaceholderConfigurer:177 - Loading properties file from class path resource [database.properties]
+18:46:42,793  INFO PropertyPlaceholderConfigurer:177 - Loading properties file from class path resource [database_release.properties]
+18:46:42,794  WARN PropertyPlaceholderConfigurer:197 - Could not load properties from class path resource [database_release.properties]: class path resource [database_release.properties] cannot be opened because it does not exist
+18:46:42,833  INFO DefaultListableBeanFactory:549 - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@1ca029b: defining beans [grupoController,dashboardController,misCursosController,asociadoController,usuarioController,cursoController,listadosController,loginController,sugerenciasController,org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.annotation.internalPersistenceAnnotationProcessor,org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter#0,org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping#0,org.springframework.format.support.FormattingConversionServiceFactoryBean#0,org.springframework.validation.beanvalidation.LocalValidatorFactoryBean#0,org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter#1,org.springframework.web.servlet.handler.MappedInterceptor#0,org.springframework.web.servlet.config.viewControllerHandlerAdapter,org.springframework.web.servlet.config.viewControllerHandlerMapping,viewResolver,org.springframework.web.servlet.view.ContentNegotiatingViewResolver#0,org.springframework.web.servlet.handler.MappedInterceptor#1,localeResolver,messageSource,usuarioService,asociadoService,sugerenciasService,cursoService,miCursoService,grupoService,InscripcionCursoService,EmailService,redisServiceLocator,redisService,auditoriaService,org.springframework.beans.factory.config.PropertyPlaceholderConfigurer#0,dataSource,entityManagerFactory,org.springframework.aop.config.internalAutoProxyCreator,org.springframework.transaction.annotation.AnnotationTransactionAttributeSource#0,org.springframework.transaction.interceptor.TransactionInterceptor#0,org.springframework.transaction.config.internalTransactionAdvisor,transactionManager]; parent: org.springframework.beans.factory.support.DefaultListableBeanFactory@1135cd9
+18:46:42,862  INFO Ejb3Configuration:315 - Processing PersistenceUnitInfo [
+	name: CuduPersistenceUnit
+	...]
+18:46:42,872  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Grupo
+18:46:42,873  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Grupo on table Grupo
+18:46:42,886  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Usuario
+18:46:42,887  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Usuario on table users
+18:46:42,889  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Asociado
+18:46:42,890  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Asociado on table Asociado
+18:46:42,920  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Authority
+18:46:42,934  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Authority on table authorities
+18:46:42,936  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Curso
+18:46:42,936  INFO QueryBinder:64 - Binding Named query: Curso.findAll => SELECT c FROM Curso c
+18:46:42,937  INFO QueryBinder:64 - Binding Named query: Curso.findById => SELECT c FROM Curso c WHERE c.id = :id
+18:46:42,937  INFO QueryBinder:64 - Binding Named query: Curso.findByNombre => SELECT c FROM Curso c WHERE c.nombre = :nombre
+18:46:42,938  INFO QueryBinder:64 - Binding Named query: Curso.findByAcronimo => SELECT c FROM Curso c WHERE c.acronimo = :acronimo
+18:46:42,938  INFO QueryBinder:64 - Binding Named query: Curso.findByAnyo => SELECT c FROM Curso c WHERE c.anyo = :anyo
+18:46:42,938  INFO QueryBinder:64 - Binding Named query: Curso.findByPrecio => SELECT c FROM Curso c WHERE c.precio = :precio
+18:46:42,939  INFO QueryBinder:64 - Binding Named query: Curso.findByDescripcion => SELECT c FROM Curso c WHERE c.descripcion = :descripcion
+18:46:42,940  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Curso on table curso
+18:46:42,943  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.MisCursos
+18:46:42,946  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.MisCursos on table MisCursos
+18:46:42,948  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.Monografico
+18:46:42,949  INFO QueryBinder:64 - Binding Named query: Monografico.findAll => SELECT m FROM Monografico m
+18:46:42,949  INFO QueryBinder:64 - Binding Named query: Monografico.findById => SELECT m FROM Monografico m WHERE m.id = :id
+18:46:42,950  INFO QueryBinder:64 - Binding Named query: Monografico.findByNombre => SELECT m FROM Monografico m WHERE m.nombre = :nombre
+18:46:42,950  INFO QueryBinder:64 - Binding Named query: Monografico.findByFechainicio => SELECT m FROM Monografico m WHERE m.fechainicio = :fechainicio
+18:46:42,951  INFO QueryBinder:64 - Binding Named query: Monografico.findByFechafin => SELECT m FROM Monografico m WHERE m.fechafin = :fechafin
+18:46:42,951  INFO QueryBinder:64 - Binding Named query: Monografico.findByPrecio => SELECT m FROM Monografico m WHERE m.precio = :precio
+18:46:42,952  INFO QueryBinder:64 - Binding Named query: Monografico.findByDescripcion => SELECT m FROM Monografico m WHERE m.descripcion = :descripcion
+18:46:42,952  INFO QueryBinder:64 - Binding Named query: Monografico.findByPlazasdisponibles => SELECT m FROM Monografico m WHERE m.plazasdisponibles = :plazasdisponibles
+18:46:42,953  INFO QueryBinder:64 - Binding Named query: Monografico.findByPlazastotales => SELECT m FROM Monografico m WHERE m.plazastotales = :plazastotales
+18:46:42,953  INFO QueryBinder:64 - Binding Named query: Monografico.findByListaespera => SELECT m FROM Monografico m WHERE m.listaespera = :listaespera
+18:46:42,954  INFO QueryBinder:64 - Binding Named query: Monografico.findByLugarprevisto => SELECT m FROM Monografico m WHERE m.lugarprevisto = :lugarprevisto
+18:46:42,954  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.Monografico on table monografico
+18:46:42,959  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.MonograficosEnCursos
+18:46:42,959  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.MonograficosEnCursos on table monograficos_en_cursos
+18:46:42,964  INFO AnnotationBinder:419 - Binding entity from annotated class: org.scoutsfev.cudu.domain.InscripcionCurso
+18:46:42,964  INFO EntityBinder:422 - Bind entity org.scoutsfev.cudu.domain.InscripcionCurso on table inscripcioncurso
+18:46:42,970  INFO CollectionBinder:650 - Mapping collection: org.scoutsfev.cudu.domain.Usuario.authorities -> authorities
+18:46:42,970  INFO CollectionBinder:650 - Mapping collection: org.scoutsfev.cudu.domain.Curso.monograficosEnCursosCollection -> monograficos_en_cursos
+18:46:42,971  INFO CollectionBinder:650 - Mapping collection: org.scoutsfev.cudu.domain.Monografico.monograficosEnCursosCollection -> monograficos_en_cursos
+18:46:42,974  INFO AnnotationConfiguration:369 - Hibernate Validator not found: ignoring
+18:46:42,996  INFO HibernateSearchEventListenerRegister:53 - Unable to find org.hibernate.search.event.FullTextIndexEventListener on the classpath. Hibernate Search is not enabled.
+18:46:42,999  WARN RootClass:233 - composite-id class does not override equals(): org.scoutsfev.cudu.domain.InscripcionCursoPK
+18:46:42,999  WARN RootClass:238 - composite-id class does not override hashCode(): org.scoutsfev.cudu.domain.InscripcionCursoPK
+18:46:43,001  WARN RootClass:233 - composite-id class does not override equals(): org.scoutsfev.cudu.domain.MisCursosPK
+18:46:43,001  WARN RootClass:238 - composite-id class does not override hashCode(): org.scoutsfev.cudu.domain.MisCursosPK
+18:46:43,002  INFO ConnectionProviderFactory:95 - Initializing connection provider: org.hibernate.ejb.connection.InjectedDataSourceConnectionProvider
+18:46:43,003  INFO InjectedDataSourceConnectionProvider:37 - Using provided datasource
+18:46:43,007  INFO SettingsFactory:114 - RDBMS: PostgreSQL, version: 8.4.8
+18:46:43,007  INFO SettingsFactory:115 - JDBC driver: PostgreSQL Native Driver, version: PostgreSQL 8.3 JDBC4 with SSL (build 604)
+18:46:43,008  INFO Dialect:175 - Using dialect: org.hibernate.dialect.PostgreSQLDialect
+18:46:43,008  INFO TransactionFactoryFactory:62 - Transaction strategy: org.hibernate.transaction.JDBCTransactionFactory
+18:46:43,009  INFO TransactionManagerLookupFactory:80 - No TransactionManagerLookup configured (in JTA environment, use of read-write or transactional second-level cache is not recommended)
+18:46:43,009  INFO SettingsFactory:161 - Automatic flush during beforeCompletion(): disabled
+18:46:43,010  INFO SettingsFactory:165 - Automatic session close at end of transaction: disabled
+18:46:43,010  INFO SettingsFactory:172 - JDBC batch size: 15
+18:46:43,010  INFO SettingsFactory:175 - JDBC batch updates for versioned data: disabled
+18:46:43,011  INFO SettingsFactory:180 - Scrollable result sets: enabled
+18:46:43,011  INFO SettingsFactory:188 - JDBC3 getGeneratedKeys(): disabled
+18:46:43,012  INFO SettingsFactory:196 - Connection release mode: auto
+18:46:43,012  INFO SettingsFactory:223 - Default batch fetch size: 1
+18:46:43,013  INFO SettingsFactory:227 - Generate SQL with comments: disabled
+18:46:43,014  INFO SettingsFactory:231 - Order SQL updates by primary key: disabled
+18:46:43,014  INFO SettingsFactory:235 - Order SQL inserts for batching: disabled
+18:46:43,014  INFO SettingsFactory:397 - Query translator: org.hibernate.hql.ast.ASTQueryTranslatorFactory
+18:46:43,015  INFO ASTQueryTranslatorFactory:47 - Using ASTQueryTranslatorFactory
+18:46:43,015  INFO SettingsFactory:243 - Query language substitutions: {}
+18:46:43,021  INFO SettingsFactory:248 - JPA-QL strict compliance: enabled
+18:46:43,022  INFO SettingsFactory:253 - Second-level cache: enabled
+18:46:43,022  INFO SettingsFactory:257 - Query cache: disabled
+18:46:43,024  INFO SettingsFactory:382 - Cache region factory : org.hibernate.cache.impl.NoCachingRegionFactory
+18:46:43,024  INFO SettingsFactory:267 - Optimize cache for minimal puts: disabled
+18:46:43,024  INFO SettingsFactory:276 - Structured second-level cache entries: disabled
+18:46:43,025  INFO SettingsFactory:296 - Echoing all SQL to stdout
+18:46:43,025  INFO SettingsFactory:305 - Statistics: disabled
+18:46:43,025  INFO SettingsFactory:309 - Deleted entity synthetic identifier rollback: disabled
+18:46:43,026  INFO SettingsFactory:324 - Default entity-mode: pojo
+18:46:43,026  INFO SettingsFactory:328 - Named query checking : enabled
+18:46:43,036  INFO SessionFactoryImpl:193 - building session factory
+18:46:43,074  INFO SessionFactoryObjectFactory:105 - Not binding factory to JNDI, no JNDI name configured
+18:46:43,304  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/grupo] onto handler [org.scoutsfev.cudu.web.GrupoController@124181b]
+18:46:43,304  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/grupo.*] onto handler [org.scoutsfev.cudu.web.GrupoController@124181b]
+18:46:43,304  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/grupo/] onto handler [org.scoutsfev.cudu.web.GrupoController@124181b]
+18:46:43,305  INFO DefaultAnnotationHandlerMapping:398 - Root mapping to handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,306  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//dashboard] onto handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,306  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//dashboard.*] onto handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,306  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//dashboard/] onto handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,306  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard/] onto handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,307  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard] onto handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,308  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard.*] onto handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,308  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard/dashboard.*] onto handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,308  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/dashboard/dashboard/] onto handler [org.scoutsfev.cudu.web.DashboardController@aaca8a]
+18:46:43,309  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos/{idAsociado}] onto handler [org.scoutsfev.cudu.web.MisCursosController@d74b31]
+18:46:43,310  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos/{idAsociado}.*] onto handler [org.scoutsfev.cudu.web.MisCursosController@d74b31]
+18:46:43,310  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos/{idAsociado}/] onto handler [org.scoutsfev.cudu.web.MisCursosController@d74b31]
+18:46:43,310  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos] onto handler [org.scoutsfev.cudu.web.MisCursosController@d74b31]
+18:46:43,311  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos.*] onto handler [org.scoutsfev.cudu.web.MisCursosController@d74b31]
+18:46:43,311  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/mis_cursos/] onto handler [org.scoutsfev.cudu.web.MisCursosController@d74b31]
+18:46:43,312  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/{idAsociado}] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,312  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/{idAsociado}.*] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,312  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/{idAsociado}/] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,313  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/nuevo/{tipo}] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,313  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/nuevo/{tipo}.*] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,313  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/nuevo/{tipo}/] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,314  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,314  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado.*] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,314  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/asociado/] onto handler [org.scoutsfev.cudu.web.AsociadoController@89848d]
+18:46:43,315  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos] onto handler [org.scoutsfev.cudu.web.UsuarioController@5d4a62]
+18:46:43,315  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos.*] onto handler [org.scoutsfev.cudu.web.UsuarioController@5d4a62]
+18:46:43,315  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos/] onto handler [org.scoutsfev.cudu.web.UsuarioController@5d4a62]
+18:46:43,316  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos/permisos.*] onto handler [org.scoutsfev.cudu.web.UsuarioController@5d4a62]
+18:46:43,316  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/permisos/permisos/] onto handler [org.scoutsfev.cudu.web.UsuarioController@5d4a62]
+18:46:43,317  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso/{idAsociado}/{tipoCurso}] onto handler [org.scoutsfev.cudu.web.CursoController@be8e12]
+18:46:43,318  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso/{idAsociado}/{tipoCurso}.*] onto handler [org.scoutsfev.cudu.web.CursoController@be8e12]
+18:46:43,318  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso/{idAsociado}/{tipoCurso}/] onto handler [org.scoutsfev.cudu.web.CursoController@be8e12]
+18:46:43,318  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso] onto handler [org.scoutsfev.cudu.web.CursoController@be8e12]
+18:46:43,319  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso.*] onto handler [org.scoutsfev.cudu.web.CursoController@be8e12]
+18:46:43,319  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/curso/] onto handler [org.scoutsfev.cudu.web.CursoController@be8e12]
+18:46:43,320  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/asociados] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,320  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/asociados.*] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,320  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/asociados/] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,321  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/imprimir] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,321  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/imprimir.*] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,321  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/imprimir/] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,322  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,322  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados.*] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,323  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/listados/] onto handler [org.scoutsfev.cudu.web.ListadosController@6159c4]
+18:46:43,324  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//login] onto handler [org.scoutsfev.cudu.web.LoginController@14c92a7]
+18:46:43,325  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//login.*] onto handler [org.scoutsfev.cudu.web.LoginController@14c92a7]
+18:46:43,325  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [//login/] onto handler [org.scoutsfev.cudu.web.LoginController@14c92a7]
+18:46:43,326  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login] onto handler [org.scoutsfev.cudu.web.LoginController@14c92a7]
+18:46:43,326  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login.*] onto handler [org.scoutsfev.cudu.web.LoginController@14c92a7]
+18:46:43,326  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login/] onto handler [org.scoutsfev.cudu.web.LoginController@14c92a7]
+18:46:43,326  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login/login.*] onto handler [org.scoutsfev.cudu.web.LoginController@14c92a7]
+18:46:43,327  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/login/login/] onto handler [org.scoutsfev.cudu.web.LoginController@14c92a7]
+18:46:43,328  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/nueva] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,328  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/nueva.*] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,328  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/nueva/] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,330  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/{pk}] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,331  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/{pk}.*] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,331  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/{pk}/] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,331  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,331  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias.*] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,332  INFO DefaultAnnotationHandlerMapping:411 - Mapped URL path [/sugerencias/] onto handler [org.scoutsfev.cudu.web.SugerenciasController@3040c5]
+18:46:43,369  INFO SimpleUrlHandlerMapping:411 - Mapped URL path [/login] onto handler [org.springframework.web.servlet.mvc.ParameterizableViewController@1ec459b]
+18:46:43,370  INFO SimpleUrlHandlerMapping:398 - Root mapping to handler [org.springframework.web.servlet.mvc.ParameterizableViewController@cdf450]
+18:46:43,498  INFO DispatcherServlet:320 - FrameworkServlet 'cudu': initialization completed in 940 ms
+Hibernate: 
+    select
+        usuario0_.username as username1_1_,
+        usuario0_.enabled as enabled1_1_,
+        usuario0_.idGrupo as idGrupo1_1_,
+        usuario0_.fullname as fullname1_1_,
+        usuario0_.password as password1_1_,
+        grupo1_.id as id0_0_,
+        grupo1_.aniversario as aniversa2_0_0_,
+        grupo1_.asociacion as asociacion0_0_,
+        grupo1_.codigopostal as codigopo4_0_0_,
+        grupo1_.direccion as direccion0_0_,
+        grupo1_.email as email0_0_,
+        grupo1_.entidadpatrocinadora as entidadp7_0_0_,
+        grupo1_.idMunicipio as idMunici8_0_0_,
+        grupo1_.idProvincia as idProvin9_0_0_,
+        grupo1_.municipio as municipio0_0_,
+        grupo1_.nombre as nombre0_0_,
+        grupo1_.provincia as provincia0_0_,
+        grupo1_.telefono1 as telefono13_0_0_,
+        grupo1_.telefono2 as telefono14_0_0_,
+        grupo1_.jpa_version as jpa15_0_0_,
+        grupo1_.web as web0_0_ 
+    from
+        users usuario0_ 
+    left outer join
+        Grupo grupo1_ 
+            on usuario0_.idGrupo=grupo1_.id 
+    where
+        usuario0_.username=?
+Hibernate: 
+    select
+        authoritie0_.username as username1_,
+        authoritie0_.authority as authority1_,
+        authoritie0_.authority as authority3_0_,
+        authoritie0_.username as username3_0_ 
+    from
+        authorities authoritie0_ 
+    where
+        authoritie0_.username=?
+Hibernate: 
+    select
+        asociado0_.id as col_0_0_ 
+    from
+        Asociado asociado0_ 
+    where
+        asociado0_.usuario=? limit ?
+Hibernate: 
+    select
+        asociado0_.id as col_0_0_ 
+    from
+        Asociado asociado0_ 
+    where
+        asociado0_.usuario=? limit ?
+Hibernate: 
+    select
+        asociado0_.id as id20_1_,
+        asociado0_.asociacion as asociacion20_1_,
+        asociado0_.calle as calle20_1_,
+        asociado0_.codigopostal as codigopo4_20_1_,
+        asociado0_.dni as dni20_1_,
+        asociado0_.email as email20_1_,
+        asociado0_.escalera as escalera20_1_,
+        asociado0_.fechaActualizacion as fechaAct8_20_1_,
+        asociado0_.fechaalta as fechaalta20_1_,
+        asociado0_.fechabaja as fechabaja20_1_,
+        asociado0_.fechanacimiento as fechana11_20_1_,
+        asociado0_.idGrupo as idGrupo20_1_,
+        asociado0_.idMunicipio as idMunic13_20_1_,
+        asociado0_.idProvincia as idProvi14_20_1_,
+        asociado0_.madre_email as madre15_20_1_,
+        asociado0_.madre_nombre as madre16_20_1_,
+        asociado0_.madre_telefono as madre17_20_1_,
+        asociado0_.municipio as municipio20_1_,
+        asociado0_.nombre as nombre20_1_,
+        asociado0_.numero as numero20_1_,
+        asociado0_.padre_email as padre21_20_1_,
+        asociado0_.padre_nombre as padre22_20_1_,
+        asociado0_.padre_telefono as padre23_20_1_,
+        asociado0_.padresdivorciados as padresd24_20_1_,
+        asociado0_.primerapellido as primera25_20_1_,
+        asociado0_.provincia as provincia20_1_,
+        asociado0_.puerta as puerta20_1_,
+        asociado0_.rama_colonia as rama28_20_1_,
+        asociado0_.rama_exploradores as rama29_20_1_,
+        asociado0_.rama_manada as rama30_20_1_,
+        asociado0_.rama_pioneros as rama31_20_1_,
+        asociado0_.rama_rutas as rama32_20_1_,
+        asociado0_.ramas as ramas20_1_,
+        asociado0_.segundoapellido as segundo34_20_1_,
+        asociado0_.seguridadsocial as segurid35_20_1_,
+        asociado0_.sexo as sexo20_1_,
+        asociado0_.telefonocasa as telefon37_20_1_,
+        asociado0_.telefonomovil as telefon38_20_1_,
+        asociado0_.tieneseguroprivado as tienese39_20_1_,
+        asociado0_.tienetutorlegal as tienetu40_20_1_,
+        asociado0_.tipo as tipo20_1_,
+        asociado0_.usuario as usuario20_1_,
+        asociado0_.jpa_version as jpa43_20_1_,
+        asociado0_.nombre || ' ' || asociado0_.primerapellido || coalesce(' ' || asociado0_.segundoapellido,
+        '') as formula1_1_,
+        grupo1_.id as id18_0_,
+        grupo1_.aniversario as aniversa2_18_0_,
+        grupo1_.asociacion as asociacion18_0_,
+        grupo1_.codigopostal as codigopo4_18_0_,
+        grupo1_.direccion as direccion18_0_,
+        grupo1_.email as email18_0_,
+        grupo1_.entidadpatrocinadora as entidadp7_18_0_,
+        grupo1_.idMunicipio as idMunici8_18_0_,
+        grupo1_.idProvincia as idProvin9_18_0_,
+        grupo1_.municipio as municipio18_0_,
+        grupo1_.nombre as nombre18_0_,
+        grupo1_.provincia as provincia18_0_,
+        grupo1_.telefono1 as telefono13_18_0_,
+        grupo1_.telefono2 as telefono14_18_0_,
+        grupo1_.jpa_version as jpa15_18_0_,
+        grupo1_.web as web18_0_ 
+    from
+        Asociado asociado0_ 
+    left outer join
+        Grupo grupo1_ 
+            on asociado0_.idGrupo=grupo1_.id 
+    where
+        asociado0_.id=?

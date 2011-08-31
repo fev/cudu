@@ -39,7 +39,7 @@ div#bd { padding-left: 20px; }
     .yui-skin-sam .yui-ac-input { position:static;width:20em; vertical-align:middle;}
     .yui-skin-sam .yui-ac-container { width:20em;left:0px;}
 
-    /* needed for stacked instances for ie & sf z-index bug of absolute inside relative els */
+    /* needed for stacked instances for ie and sf z-index bug of absolute inside relative els */
     #bAutoComplete { z-index:9001; } 
     #lAutoComplete { z-index:9000; }
 
@@ -70,6 +70,9 @@ div#bd { padding-left: 20px; }
         }else if('${cursoRealizado.calificacion}'=='A')
         {
             calificacion="<fmt:message key="miscursos.calificacionmonografico.apto" />";
+        }else if(!isNaN('${cursoRealizado.calificacion}'))
+        {
+            calificacion="<fmt:message key="miscursos.calificacionmonografico.preferencia"/>  ${cursoRealizado.calificacion}";
         }else
         {
             calificacion="<fmt:message key="miscursos.calificacionmonografico.pendiente" />";
@@ -80,7 +83,6 @@ div#bd { padding-left: 20px; }
                Formacion: "${cursoRealizado.formacion}",
                    Curso: "${cursoRealizado.curso}",
             Calificacion: calificacion
-
         });                                        
      </c:forEach>    
         
@@ -92,7 +94,7 @@ div#bd { padding-left: 20px; }
             trabajo="<fmt:message key="miscursos.calificaciontrabajo.noapto" />";
         }else if('${cursoActual.trabajo}'=='A')
         {
-            trabajo="<fmt:message key="miscursos.calificaciontrabajo.apto" />";
+            trabajo="<fmt:message key="miscursos.calificaciontrabajo.apto" />";            
         }else
         {
             trabajo="<fmt:message key="miscursos.calificaciontrabajo.pendiente" />";
@@ -105,6 +107,9 @@ div#bd { padding-left: 20px; }
         }else if("${cursoActual.calificacion}"=='A')
         {
             calificacion="<fmt:message key="miscursos.calificacionmonografico.apto"/>";
+        }else if(!isNaN('${cursoActual.calificacion}'))
+        {
+            calificacion="<fmt:message key="miscursos.calificacionmonografico.preferencia"/> ${cursoActual.calificacion}";
         }else
         {
             calificacion="<fmt:message key="miscursos.calificacionmonografico.pendiente"/>";
@@ -191,7 +196,7 @@ div#bd { padding-left: 20px; }
 
         <c:otherwise>
             <div class="yui-g first" id="secondary">
-                <div id=cursosActuales>
+                <div id="cursosActuales">
                     <fmt:message key="miscursos.noexistencursosactuales"/> 
                 </div>
             </div>
@@ -226,31 +231,6 @@ div#bd { padding-left: 20px; }
   </div>
 </div>
 <div id="ft"><fmt:message key="app.copyright" /></div>
-</div>
-
-<div id="stddlg" class="popupdlg">
-<div class="yui-t7">
-<div class="bd">
-   <div class="yui-g legend">
-      <h1><fmt:message key="asociado.d.eliminar" /></h1>
-      <%-- <p>Recuerda que puedes recuperarlo posteriormente desde los listados.</p> --%>
-   </div>
-   <div class="yui-g content">
-      <div class="yui-u first rounded">
-      	<form id="frmEliminar" method="delete">
-        <a id="btnDlg01Eliminar" href="javascript:$('#frmEliminar').submit()">
-          <span><fmt:message key="btn.eliminar" /></span>
-        </a>
-		</form>
-      </div>
-      <div class="yui-u rounded">
-        <a id="btnDlg01Cancelar" href="javascript:$('#stddlg').fadeOut(200)">
-          <span><fmt:message key="btn.cancelar" /></span>
-        </a>
-      </div>
-    </div>
- </div>
-</div>
 </div>
 
       
@@ -317,8 +297,6 @@ $(document).ready(function() {
               {key: "Calificacion", label: '<fmt:message key="miscursos.calificacion" />',  sortable:true, resizeable:true},
               {key: "Trabajo", label: '<fmt:message key="miscursos.trabajo" />',  sortable:true, resizeable:true},
               {key: "Faltas", label: '<fmt:message key="miscursos.faltas" />',  sortable:true, resizeable:true}
-              
-              
 
           ];
 
@@ -327,8 +305,6 @@ $(document).ready(function() {
           myDataSource.responseSchema = {
               fields: ["Ronda","Formacion","Curso","Calificacion","Trabajo","Faltas"]
           };
-
-
 
           var myDataTable = new YAHOO.widget.DataTable("cursosActuales",
           myColumnDefs, myDataSource, {caption:'<fmt:message key="miscursos.cursosactuales" />'});
@@ -339,9 +315,7 @@ $(document).ready(function() {
           };
 	  }();
       });
-  }
-  
-  
+  }  
 });
 </script>
 </body>

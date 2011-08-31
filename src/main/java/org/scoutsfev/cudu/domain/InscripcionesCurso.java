@@ -13,8 +13,9 @@ public class InscripcionesCurso {
     //private List monograficosElegidos;
     //private List<Integer> monograficosIds;
     private int idAsociado;
-    private String monograficosElegidos;
     private int idCurso;
+    private String monograficosElegidos;
+    
     private char formatoMateriales; 
     private char idiomaMateriales;
     private char modoContacto;

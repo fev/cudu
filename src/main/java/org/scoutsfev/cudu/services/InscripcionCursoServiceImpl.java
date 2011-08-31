@@ -14,9 +14,10 @@ public class InscripcionCursoServiceImpl
     {
             InscripcionCurso persistedEntity = super.merge(entity);
             auditoria.registrar(AuditoriaService.Operacion.Almacenar, AuditoriaService.Entidad.InscripcionCurso, 
-                    persistedEntity.getAsociado().getId().toString() + " - "+
-                    persistedEntity.getCurso().getId().toString() + " - "+
-                    persistedEntity.getMonografico().getId().toString());
+                    persistedEntity.getInscripcionCursoPK().getIdasociado()+"",
+                    persistedEntity.getInscripcionCursoPK().getIdcurso()+"",
+                    persistedEntity.getInscripcionCursoPK().getIdmonografico()+""
+                    );
             return persistedEntity;
     }
 }

@@ -100,7 +100,7 @@ implements CursoService{
     @Override
     public Curso getCursoDeUnAnyo(String acronimo, int anyo) {
         EntityManager em = this.entityManager; 
-        Query q = em.createQuery("select object(c) from Curso as c where acronimo=:acronimo and anyo :=anyo");
+        Query q = em.createQuery("select object(c) from Curso as c where acronimo=:acronimo and anyo=:anyo");
         q.setParameter("acronimo", acronimo);
         q.setParameter("anyo", anyo);
         
