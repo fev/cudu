@@ -1,0 +1,10 @@
+{
+  "name": "cudu",
+  "version": "2.0.0",
+  "dependencies": {
+    "angular": "1.2.16",
+    "angular-resource": "1.2.16",
+    "bootstrap": "~3.1.1"
+  },
+  "devDependencies": {}
+}
