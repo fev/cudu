@@ -1,2 +1,77 @@
+@import "compass/css3";
+@import "support.scss";
+
+.hidden { display: none !important; }
+
 $stdfontpath: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-body { font-family: $stdfontpath; color: #333; }
+$input-border: #CCC;
+
+$cudu-padding-base-vertical: $padding-base-vertical - 2;
+$cudu-padding-base-horizontal: $padding-base-horizontal - 5;
+
+body { font-family: $stdfontpath; color: #333; background: #9bdbf7 url('../images/bg.jpg') repeat-x 0 0;}
+
+.navbar { font-family: 'Oxygen', $stdfontpath; font-weight: 300 }
+.navbar-brand { font-weight: 400 }
+
+#mainContainer { font-family: 'Oxygen', $stdfontpath; margin-top: 65px;
+  background-color: #FFF;
+  @include box-shadow(rgba(0, 0, 0, 0.4) 0px 0px 10px);
+  @include border-radius(4px);
+  > div { margin-top: 10px; margin-bottom: 10px }
+}
+
+#txtBusqueda { border-right: 0; @include box-shadow(none);
+  &:focus {
+    border: 1px solid $input-border; border-right: 0; outline: 0;
+    @include box-shadow(none);
+  }
+}
+
+.lstas {
+  max-height: 500px; overflow: scroll;
+  border: 1px solid $input-border;
+  .lstas-e {
+    border-top: 1px solid $input-border; padding: 5px 8px; cursor: pointer;
+    &:first-child { border-top: 0 }
+    &:hover { background-color: #EEE }
+    > strong { display: block; }
+    > span { font-size: $font-size-small }
+  }
+}
+
+#panelEdicion { border-left: 1px solid #DDD; min-height: 600px; }
+
+h1 { font-weight: 300; margin: 12px 10px 30px 0; text-align: right; }
+
+.form-cudu {
+  // margin-top: 30px;
+
+  .form-group { margin-bottom: 8px }
+  .control-label {
+    padding: $cudu-padding-base-vertical + 1;
+  }
+  .form-control {
+    height: $input-height-base - 4;
+    padding: $cudu-padding-base-vertical $cudu-padding-base-horizontal;
+  }
+  textarea.form-control { height: auto; }
+  .form-control-static {
+    padding-top: $cudu-padding-base-vertical + 1;
+  }
+  .checkbox-inline, .radio-inline, .checkbox {
+    padding-top: $cudu-padding-base-vertical;
+  }
+
+  > .nav, > .tab-content { margin-top: $line-height-computed + $padding-base-vertical }
+}
+
+.btn-danger-hover:hover {
+  @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+}
+.btn-primary-hover:hover {
+  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+}
+.btn-info-hover:hover {
+  @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+}

@@ -1,19 +1,58 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
-<meta charset="utf-8">
-<title>Cudú</title>
-<link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
-<!-- inject:css -->
-<!-- any *.css files among your sources will go here as: <link rel="stylesheet" href="FILE"> -->
-<!-- endinject -->
+  <meta charset="utf-8">
+  <title>Cudú</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700'>
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+  <!-- build:css styles/cudu.css -->
+  <link rel="stylesheet" href="styles/cudu.css">
+  <!-- endbuild -->
 </head>
-<body>
-<p>Hello world! Initial project setup.</p>
-<script src="lib/angular/angular.js"></script>
-<script src="lib/angular-resource/angular-resource.js"></script>
-<!-- inject:js -->
-<!-- any *.js files among your sources will go here as: <script src="FILE"></script> -->
-<!-- endinject -->
+<body ng-app="cuduApp">
+  <!--[if lt IE 7]>
+  <p class="browsehappy">Está usando un navegador desactualizado. Por favor <a href="http://browsehappy.com/">actualiza tu navegador</a>.</p>
+  <![endif]-->
+    
+  <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Cudú X</a>
+    </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Asociados</a></li>
+          <li><a href="#">Mi Grupo</a></li>
+          <li><a href="#">Mis Datos</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Mike Wazowski - Ain-Karen</a></li>
+          <li><a href="#">Salir</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div>
+  </nav>
+  
+  <div id="mainContainer" class="container" ng-view=""></div>
+
+  <script src="lib/angular/angular.js"></script>
+  <script src="lib/angular-resource/angular-resource.js"></script>
+  <script src="lib/angular-route/angular-route.js"></script>
+  <!-- build:js scripts/cudu.js -->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/services.js"></script>
+  <script src="scripts/filters.js"></script>
+  <script src="scripts/controllers/asociado.js"></script>
+  <!-- endbuild -->
 </body>
 </html>
