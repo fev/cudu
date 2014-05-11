@@ -64,6 +64,12 @@ gulp.task('images', function() {
   return gulp.src('app/images/**/*').pipe(gulp.dest('dist/images'));
 });
 
+gulp.task('lint', function() {
+  return gulp.src('app/scripts/**/*.js')
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter('jshint-stylish'));
+})
+
 gulp.task('preflight', ['compass', 'bower-files', 'images'], function() {
   var stylesFilter  = filter('**/*.css');
   var scriptsFilter = filter('**/*.js');  
@@ -93,7 +99,13 @@ gulp.task('default', ['preflight'], function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('watch', function() {
+gulp.task('server', function(next) {
+  var connect = require('connect'),
+      server = connect();
+  server.use(connect.static('app')).listen(process.env.PORT || 9000, next);
+});
+
+gulp.task('watch', ['server'], function() {
   gulp.watch('app/styles/**/*.scss', ['compass']);
 
   var server = livereload();
