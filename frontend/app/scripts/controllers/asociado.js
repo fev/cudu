@@ -20,13 +20,13 @@ angular.module('cuduApp')
     };
     
     $scope.filtrar = function(asociado) {
-      return (($scope.filtro.tipo === '' || asociado.tipo === $scope.filtro.tipo)
-          &&  ($scope.filtro.rama === '' || asociado.rama === $scope.filtro.rama)
-          &&  ($scope.filtro.eliminados  || asociado.activo));
+      return (($scope.filtro.tipo === '' || asociado.tipo === $scope.filtro.tipo) &&
+              ($scope.filtro.rama === '' || asociado.rama === $scope.filtro.rama) &&
+              ($scope.filtro.eliminados  || asociado.activo));
     };
     
-    $scope.activarFiltro = function(filtro, valor, valorPorDefecto) {
-      var valorPorDefecto = typeof valorPorDefecto !== 'undefined' ? valorPorDefecto : '';
+    $scope.activarFiltro = function(filtro, valor, porDefecto) {
+      var valorPorDefecto = typeof porDefecto !== 'undefined' ? porDefecto : '';
       if ($scope.filtro[filtro] === valor) {
         $scope.filtro[filtro] = valorPorDefecto;
       } else {
