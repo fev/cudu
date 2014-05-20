@@ -9,6 +9,7 @@ filters.filter('rama', function() {
     if (rama === 'E') { return 'Exploradores'; }
     if (rama === 'P') { return 'Pioneros'; }
     if (rama === 'R') { return 'Compañeros'; }
+    if (rama === '') { return '(sin rama)'; }
     return '¿?';
   };
 });

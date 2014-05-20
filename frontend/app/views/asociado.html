@@ -1,3 +1,4 @@
+<div class="container contenedor-central">
 <div class="row">
   <div class="col-md-4">
     <form class="form" role="form">
@@ -5,9 +6,6 @@
         <div class="input-group">
           <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda">
           <span class="input-group-btn">
-            <button class="btn btn-default btn-sm" type="button">
-              <span class="glyphicon glyphicon-refresh"></span>
-            </button>
             <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button" 
                 tooltip="Limpiar búsqueda y mostrar todos">
               <span class="glyphicon glyphicon-remove"></span>
@@ -15,7 +13,7 @@
             <button class="btn btn-default btn-sm" type="button">
               <span class="glyphicon glyphicon-sort-by-alphabet"></span>
             </button>
-            <button class="btn btn-default btn-sm" type="button">
+            <button class="btn btn-default btn-sm" type="button" ng-click="nuevoAsociado()">
               <span class="glyphicon glyphicon-plus"></span> Nuevo
             </button>
           </span>        
@@ -24,115 +22,44 @@
       <div class="form-group">
         <div class="btn-toolbar">
         <div class="btn-group btn-group-xs" data-toggle="buttons">
-          <button type="button" class="btn btn-default">Jóven</button>
-          <button type="button" class="btn btn-default">Kraal</button>
-          <button type="button" class="btn btn-default">Comité</button>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Jóven</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
         </div>
         <div class="btn-group btn-group-xs" data-toggle="buttons">
-          <button type="button" class="btn btn-default">Cast.</button>
-          <button type="button" class="btn btn-default">Lob.</button>
-          <button type="button" class="btn btn-default">Expl.</button>
-          <button type="button" class="btn btn-default">Pio.</button>
-          <button type="button" class="btn btn-default">Comp.</button>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'C'}" ng-click="activarFiltro('rama', 'C')">Cas.</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'M'}" ng-click="activarFiltro('rama', 'M')">Lob.</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'E'}" ng-click="activarFiltro('rama', 'E')">Exp.</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'P'}" ng-click="activarFiltro('rama', 'P')">Pio.</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'R'}" ng-click="activarFiltro('rama', 'R')">Com.</a>
         </div>
-        <button type="button" class="btn btn-default btn-xs pull-right" data-toggle="button">
-          <span class="glyphicon glyphicon-trash"></span>
-        </button>
+        <div class="btn-group btn-group-xs" data-toggle="buttons">
+          <a href="javascript:" class="btn btn-default active">
+            <span class="glyphicon glyphicon-fire"></span>
+          </a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.eliminados === true}" ng-click="activarFiltro('eliminados', true, false)">
+            <span class="glyphicon glyphicon-trash"></span>
+          </a>
+        </div>
         </div>
       </div>
     </form>
-    <div class="lstas">
-      <div class="lstas-e" 
-        ng-repeat="a in asociados | filter:busqueda | orderBy:'apellidos'"
+    <div class="lstas">      
+      <div class="lstas-e" ng-class="{'text-danger': a.cambiosPendientes, seleccionado: a.seleccionado, eliminado: !a.activo}"
+        ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos']"
         ng-click="editarAsociado(a.id)">
-        <strong>{{a.nombre}} {{a.apellidos}}</strong>
-        <span>{{a.tipo | tipoAsociado}}, {{a.rama | rama}}<span class="pull-right">{{a.fechaNacimiento}} {{a.dni}}</span></span>
-      </div>
-      <div class="lstas-e">
-        <strong>Mike Wazowski</strong>
-        <span>Jóven, Manada <span class="pull-right">31/01/1982 - 24391288H</span></span>
-      </div>
-      <div class="lstas-e manada">
-        <strong>Jack Sparrow</strong>
-        <span>Jóven, Manada <span class="pull-right">03/05/1985</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Rayo McQueen de l'Horta</strong>
-        <span>Jóven, Manada</span>
-      </div>
-      <div class="lstas-e eliminado">
-        <strong>Tenshin-Han</strong>
-        <span>Kraal, Compañeros</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Mike Wazowski</strong>
-        <span>Jóven, Manada <span class="pull-right">31/01/1982 - 24391288H</span></span>
-      </div>
-      <div class="lstas-e manada">
-        <strong>Jack Sparrow</strong>
-        <span>Jóven, Manada <span class="pull-right">03/05/1985</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Rayo McQueen de l'Horta</strong>
-        <span>Jóven, Manada</span>
-      </div>
-      <div class="lstas-e eliminado">
-        <strong>Tenshin-Han</strong>
-        <span>Kraal, Compañeros</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Mike Wazowski</strong>
-        <span>Jóven, Manada <span class="pull-right">31/01/1982 - 24391288H</span></span>
-      </div>
-      <div class="lstas-e manada">
-        <strong>Jack Sparrow</strong>
-        <span>Jóven, Manada <span class="pull-right">03/05/1985</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Rayo McQueen de l'Horta</strong>
-        <span>Jóven, Manada</span>
-      </div>
-      <div class="lstas-e eliminado">
-        <strong>Tenshin-Han</strong>
-        <span>Kraal, Compañeros</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Mike Wazowski</strong>
-        <span>Jóven, Manada <span class="pull-right">31/01/1982 - 24391288H</span></span>
-      </div>
-      <div class="lstas-e manada">
-        <strong>Jack Sparrow</strong>
-        <span>Jóven, Manada <span class="pull-right">03/05/1985</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Rayo McQueen de l'Horta</strong>
-        <span>Jóven, Manada</span>
-      </div>
-      <div class="lstas-e eliminado">
-        <strong>Tenshin-Han</strong>
-        <span>Kraal, Compañeros</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Mike Wazowski</strong>
-        <span>Jóven, Manada <span class="pull-right">31/01/1982 - 24391288H</span></span>
-      </div>
-      <div class="lstas-e manada">
-        <strong>Jack Sparrow</strong>
-        <span>Jóven, Manada <span class="pull-right">03/05/1985</span>
-      </div>
-      <div class="lstas-e">
-        <strong>Rayo McQueen de l'Horta</strong>
-        <span>Jóven, Manada</span>
-      </div>
-      <div class="lstas-e eliminado">
-        <strong>Tenshin-Han</strong>
-        <span>Kraal, Compañeros</span>
-      </div>
+        <strong>
+          <span class="glyphicon glyphicon-leaf" ng-class="establecerEstiloRama(a.rama)"></span>
+          <span class="glyphicon glyphicon-fire hidden pull-right" ng-show="{{a.limbo}}"></span>
+          <span class="glyphicon glyphicon-trash pull-right" ng-hide="{{a.activo}}"></span>
+          &nbsp;&nbsp;{{a.nombre}} {{a.apellidos}}</strong>
+        <span>{{a.tipo | tipoAsociado}}, {{a.rama | rama}} <span class="pull-right">{{a.actualizado}}</span></span>
+      </div>      
     </div>
   </div>
-
-  <div id="panelEdicion" class="col-md-8">
-    <h1>Mike Wazowski</h1>
+  
+  <div id="panelEdicion" class="col-md-8">    
+    <h1 class="text-right">{{obtenerNombreCompleto(asociado)}}</h1>
 
     <div class="alert alert-warning alert-dismissable hidden">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -141,17 +68,19 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <div class="btn-group">
+        <div class="btn-group" ng-hide="asociado.id && !asociado.activo">
           <button type="button" class="btn btn-default btn-primary-hover">
             <span class="glyphicon glyphicon-ok"></span>&nbsp;Guardar</button>
           <button type="button" class="btn btn-default">
             <span class="glyphicon glyphicon-refresh"></span>&nbsp;Deshacer</button>
         </div>
-        <button type="button" class="btn btn-default btn-danger-hover pull-right">
+        <button type="button" class="btn btn-default btn-danger-hover pull-right" ng-show="asociado.activo">
           <span class="glyphicon glyphicon-trash"></span>&nbsp;Eliminar</button>
+        <button type="button" class="btn btn-default btn-success-hover" ng-show="asociado.id && !asociado.activo">
+          <span class="glyphicon glyphicon-export"></span>&nbsp;Recuperar</button>
       </div>
       <div class="panel-body">
-        <form class="form-horizontal form-cudu" role="form">
+        <form name="formAsociado" class="form-horizontal form-cudu" role="form">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -163,16 +92,16 @@
               <div class="form-group">
                 <label for="txtApellidos" class="col-md-3 control-label">Apellidos</label>
                 <div class="col-md-9">
-                  <input ng-model="asociado.primerapellido" type="text" class="form-control" id="txtApellidos" placeholder="Obligatorio">
+                  <input ng-model="asociado.apellidos" type="text" class="form-control" id="txtApellidos" placeholder="Obligatorio">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-3 control-label">Tipo</label>
                 <div class="col-md-9">
                   <div class="btn-group btn-group-sm" data-toggle="buttons">
-                    <button type="button" class="btn btn-default">Jóven</button>
-                    <button type="button" class="btn btn-default">Kraal</button>
-                    <button type="button" class="btn btn-default">Comité</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'J'}" ng-click="establecerTipo('J')">Jóven</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'K'}" ng-click="establecerTipo('K')">Kraal</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'C'}" ng-click="establecerTipo('C')">Comité</button>
                   </div>
                 </div>
               </div>
@@ -180,11 +109,11 @@
                 <label class="col-md-3 control-label">Rama</label>
                 <div class="col-md-9">
                   <div class="btn-group btn-group-sm" data-toggle="buttons">
-                    <button type="button" class="btn btn-default">Cas.</button>
-                    <button type="button" class="btn btn-default">Lob.</button>
-                    <button type="button" class="btn btn-default">Exp.</button>
-                    <button type="button" class="btn btn-default">Pio.</button>
-                    <button type="button" class="btn btn-default">Com.</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'C'}" ng-click="establecerRama('C')">Cas.</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'M'}" ng-click="establecerRama('M')">Lob.</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'E'}" ng-click="establecerRama('E')">Exp.</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'P'}" ng-click="establecerRama('P')">Pio.</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'R'}" ng-click="establecerRama('R')">Com.</button>
                   </div>
                 </div>
               </div>
@@ -200,7 +129,7 @@
                 <label for="txtNombre" class="col-md-3 control-label">Fecha Nac.</label>
                 <div class="col-md-9">
                   <div class="input-group">
-                    <input ng-model="asociado.fechanacimiento" type="text" class="form-control" id="txtNombre" placeholder="Obligatorio">
+                    <input ng-model="asociado.fechaNacimiento" type="text" class="form-control" id="txtNombre" placeholder="Obligatorio">
                     <span class="input-group-btn">
                       <button class="btn btn-default btn-sm" type="button">
                         <span class="glyphicon glyphicon-calendar">
@@ -243,7 +172,7 @@
               <div class="form-group">
                 <label class="col-md-3 control-label">C.P.</label>
                 <div class="col-md-9">
-                  <input ng-model="asociado.codigopostal" type="text" class="form-control" placeholder="Obligatorio">
+                  <input ng-model="asociado.codigoPostal" type="text" class="form-control" placeholder="Obligatorio">
                 </div>
               </div>
               <div class="form-group">
@@ -257,16 +186,16 @@
               <div class="form-group">
                 <label class="col-md-3 control-label">Copiar del</label>
                 <div class="col-md-9">
-                  <label class="radio-inline">
-                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                  <label class="radio-inline" for="rdCopiarDatosPadre">
+                    <input type="radio" id="rdCopiarDatosPadre" name="rdCopiarDatos" disabled>
                     Padre
                   </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1">
+                  <label class="radio-inline" for="rdCopiarDatosMadre">
+                    <input type="radio" id="rdCopiarDatosMadre" name="rdCopiarDatos" disabled>
                     Madre
                   </label>
-                  <label class="radio-inline">
-                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option1" checked>
+                  <label class="radio-inline" for="rdCopiarDatosNadie">
+                    <input type="radio" id="rdCopiarDatosNadie" name="rdCopiarDatos" checked>
                     Usar otros
                   </label>
                 </div>
@@ -280,13 +209,13 @@
               <div class="form-group">
                 <label class="col-md-3 control-label">Tél. Móvil</label>
                 <div class="col-md-9">
-                  <input ng-model="asociado.telefonomovil" type="text" class="form-control">
+                  <input ng-model="asociado.telefono" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-3 control-label">Tél. Casa</label>
                 <div class="col-md-9">
-                  <input ng-model="asociado.telefonocasa" type="text" class="form-control">
+                  <input ng-model="asociado.telefonoCasa" type="text" class="form-control">
                 </div>
               </div>
             </div>
@@ -315,8 +244,8 @@
                 <label class="col-md-4 control-label">Copiar Datos</label>
                 <div class="col-md-8">
                   <p><small>Puede copiar los datos de contacto de la pestaña anterior al padre o la madre.</small></p>
-                  <button type="button" class="btn btn-default btn-xs">Copiar al Padre</button>
-                  <button type="button" class="btn btn-default btn-xs">Copiar al la Madre</button>
+                  <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Padre', '')">Copiar al Padre</button>
+                  <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Madre', '')">Copiar al la Madre</button>
                 </div>
               </div>
             </div>
@@ -326,19 +255,19 @@
               <div class="form-group">
                 <label class="col-md-4 control-label">Nombre Padre</label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control">
+                  <input ng-model="asociado.nombrePadre" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-4 control-label">Télefono</label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control">
+                  <input ng-model="asociado.telefonoPadre" ng-change="copiarPropiedad('telefonoPadre', 'telefonoPadre', 'copiarDePadre')" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-4 control-label">E-Mail</label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control">
+                  <input ng-model="asociado.emailPadre" type="text" class="form-control">
                 </div>
               </div>
             </div>
@@ -346,19 +275,19 @@
               <div class="form-group">
                 <label class="col-md-4 control-label">Nombre Madre</label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control">
+                  <input ng-model="asociado.nombreMadre" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-4 control-label">Télefono</label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control">
+                  <input ng-model="asociado.telefonoMadre" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-4 control-label">E-Mail</label>
                 <div class="col-md-8">
-                  <input type="text" class="form-control">
+                  <input ng-model="asociado.emailMadre" type="text" class="form-control">
                 </div>
               </div>
             </div>
@@ -418,4 +347,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

@@ -21,19 +21,19 @@
   <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Cudú X</a>
-    </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Cudú</a>
+      </div>
       <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Asociados</a></li>
-          <li><a href="#">Mi Grupo</a></li>
-          <li><a href="#">Mis Datos</a></li>
+        <ul class="nav navbar-nav" ng-controller="MenuCtrl">
+          <li ng-class="{active: controlador === 'AsociadoCtrl'}"><a href="#/asociados">Asociados</a></li>
+          <li ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/ak">Mi Grupo</a></li>
+          <li class="disabled"><a href="javascript:">Mis Datos</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Mike Wazowski - Ain-Karen</a></li>
@@ -43,8 +43,55 @@
     </div>
   </nav>
   
-  <div id="mainContainer" class="container" ng-view=""></div>
+  <div ng-view=""></div>
 
+  <script src="lib/chance/chance.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">
+  var grupo = {
+    'id': 'AK', 
+    'nombre': 'Ain-Karen',
+    'asociacion': 'Moviment Escolta de València (MEV)',
+    'comarca': 'Comarca Norte',
+    'direccion': chance.address(),
+    'codigoPostal': chance.postal(),
+    'provincia': chance.state(),
+    'municipio': chance.city(),
+    'telefono1': chance.phone(),
+    'telefono2': chance.phone(),
+    'email': chance.email(),
+    'web': chance.domain(),
+    'aniversario': chance.birthday(),
+    'entidadPatrocinadora': 'Parroquia'
+  };
+  
+  var asociadosDePrueba = [];
+  for (var i = 0; i < 150; i++) {
+    var nuevoAsociado = { 
+      'id': i, 
+      'nombre': chance.first(), 
+      'apellidos': chance.last() + ' ' + chance.last(), 
+      'rama': chance.character({pool:'CMEPR'}), 
+      'tipo': chance.character({pool:'JKC'}),
+      'fechaNacimiento': chance.birthday({ string: true, american: false }),
+      'calle': chance.street(),
+      'codigoPostal': chance.zip(),
+      'municipio': chance.city(),
+      'telefono': chance.phone(),
+      'email': chance.email(),
+      'aniversario': chance.date({ string: true, american: false }),
+      'activo': chance.bool({likelihood: 80})
+    };
+    nuevoAsociado.limbo = i <= 3;
+    if (i == 5) 
+      nuevoAsociado.activo = false;
+    if (nuevoAsociado.tipo == 'C') 
+      nuevoAsociado.rama = '';
+    if (chance.bool({likelihood: 40})) 
+      nuevoAsociado.dni = chance.integer({min: 00000000, max: 99999999}) + chance.character({ alpha: true, casing: 'upper' })
+    asociadosDePrueba[i] = nuevoAsociado;
+  }
+  </script>
+  
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular-resource/angular-resource.js"></script>
   <script src="lib/angular-route/angular-route.js"></script>
@@ -52,7 +99,9 @@
   <script src="scripts/app.js"></script>
   <script src="scripts/services.js"></script>
   <script src="scripts/filters.js"></script>
+  <script src="scripts/controllers/menu.js"></script>
   <script src="scripts/controllers/asociado.js"></script>
+  <script src="scripts/controllers/grupo.js"></script>
   <!-- endbuild -->
 </body>
 </html>

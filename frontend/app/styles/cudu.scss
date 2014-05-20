@@ -14,7 +14,7 @@ body { font-family: $stdfontpath; color: #333; background: #9bdbf7 url('../image
 .navbar { font-family: 'Oxygen', $stdfontpath; font-weight: 300 }
 .navbar-brand { font-weight: 400 }
 
-#mainContainer { font-family: 'Oxygen', $stdfontpath; margin-top: 65px;
+.contenedor-central { font-family: 'Oxygen', $stdfontpath; margin-top: 65px;
   background-color: #FFF;
   @include box-shadow(rgba(0, 0, 0, 0.4) 0px 0px 10px);
   @include border-radius(4px);
@@ -35,18 +35,31 @@ body { font-family: $stdfontpath; color: #333; background: #9bdbf7 url('../image
     border-top: 1px solid $input-border; padding: 5px 8px; cursor: pointer;
     &:first-child { border-top: 0 }
     &:hover { background-color: #EEE }
-    > strong { display: block; }
+    &.eliminado { color: #CCC; }
+    > strong { display: block; 
+      >span { 
+        font-weight: normal; color: #CCC;
+        &.ramaC { color: #FECEA8 }
+        &.ramaM { color: darken(#FFF9B8, 45%) }
+        &.ramaE { color: #8EDBDE }
+        &.ramaP { color: #FF847C }
+        &.ramaR { color: #99B898 }
+        &.glyphicon-fire { color: #E84A5F }
+      }      
+    }
     > span { font-size: $font-size-small }
+  }
+  .seleccionado { 
+    background-color: #FFFBCC;
+    &:hover { background-color: darken(#FFFBCC, 3%); }
   }
 }
 
 #panelEdicion { border-left: 1px solid #DDD; min-height: 600px; }
 
-h1 { font-weight: 300; margin: 12px 10px 30px 0; text-align: right; }
+h1 { font-weight: 300; margin: 12px 10px 30px 0; }
 
 .form-cudu {
-  // margin-top: 30px;
-
   .form-group { margin-bottom: 8px }
   .control-label {
     padding: $cudu-padding-base-vertical + 1;
@@ -74,4 +87,11 @@ h1 { font-weight: 300; margin: 12px 10px 30px 0; text-align: right; }
 }
 .btn-info-hover:hover {
   @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+}
+.btn-success-hover:hover {
+  @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
+};
+
+.grupo {
+  > h1 { margin: 20px 0 15px 10px; }
 }

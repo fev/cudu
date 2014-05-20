@@ -9,11 +9,17 @@ angular
   ])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
+      .when('/asociados', {
         templateUrl: 'views/asociado.html',
-        controller: 'AsociadoCtrl'
+        controller: 'AsociadoCtrl',
+        tabActivo: 'asociado'
+      })
+      .when('/grupo/:id', {
+        templateUrl: 'views/grupo.html',
+        controller: 'GrupoCtrl',
+        tabActivo: 'grupo'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/asociados'
       });
   });
