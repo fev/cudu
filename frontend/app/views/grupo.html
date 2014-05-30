@@ -1,6 +1,18 @@
 <div class="container contenedor-central grupo" style="width: 992px">
 <h1>{{grupo.nombre}}</h1>
 <div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="btn-group" ng-hide="asociado.id && !asociado.activo">
+      <button type="button" class="btn btn-default btn-primary-hover">
+        <span class="glyphicon glyphicon-ok"></span>&nbsp;Guardar</button>
+      <button type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-refresh"></span>&nbsp;Deshacer</button>
+    </div>
+    <button type="button" class="btn btn-default btn-danger-hover pull-right" ng-show="asociado.activo">
+      <span class="glyphicon glyphicon-trash"></span>&nbsp;Eliminar</button>
+    <button type="button" class="btn btn-default btn-success-hover" ng-show="asociado.id && !asociado.activo">
+      <span class="glyphicon glyphicon-export"></span>&nbsp;Recuperar</button>
+  </div>
   <div class="panel-body">
     <form name="formAsociado" class="form-horizontal form-cudu" role="form">
       <div class="row">
@@ -102,18 +114,6 @@
         </div>
       </div>
     </form>
-  </div>
-  <div class="panel-footer text-right">
-    <div class="btn-group" ng-hide="asociado.id && !asociado.activo">
-      <button type="button" class="btn btn-default btn-primary-hover">
-        <span class="glyphicon glyphicon-ok"></span>&nbsp;Guardar</button>
-      <button type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-refresh"></span>&nbsp;Deshacer</button>
-    </div>
-    <button type="button" class="btn btn-default btn-danger-hover pull-right" ng-show="asociado.activo">
-      <span class="glyphicon glyphicon-trash"></span>&nbsp;Eliminar</button>
-    <button type="button" class="btn btn-default btn-success-hover" ng-show="asociado.id && !asociado.activo">
-      <span class="glyphicon glyphicon-export"></span>&nbsp;Recuperar</button>
   </div>
 </div>
 </div>

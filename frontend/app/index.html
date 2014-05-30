@@ -17,7 +17,7 @@
   <!--[if lt IE 7]>
   <p class="browsehappy">Está usando un navegador desactualizado. Por favor <a href="http://browsehappy.com/">actualiza tu navegador</a>.</p>
   <![endif]-->
-    
+
   <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
@@ -42,13 +42,13 @@
       </div><!-- /.navbar-collapse -->
     </div>
   </nav>
-  
+
   <div ng-view=""></div>
 
   <script src="lib/chance/chance.js" type="text/javascript" charset="utf-8"></script>
   <script type="text/javascript">
   var grupo = {
-    'id': 'AK', 
+    'id': 'AK',
     'nombre': 'Ain-Karen',
     'asociacion': 'Moviment Escolta de València (MEV)',
     'comarca': 'Comarca Norte',
@@ -60,17 +60,18 @@
     'telefono2': chance.phone(),
     'email': chance.email(),
     'web': chance.domain(),
-    'aniversario': chance.birthday(),
+    'aniversario': chance.birthday({ string: true, american: false }),
     'entidadPatrocinadora': 'Parroquia'
   };
-  
+
   var asociadosDePrueba = [];
   for (var i = 0; i < 150; i++) {
-    var nuevoAsociado = { 
-      'id': i, 
-      'nombre': chance.first(), 
-      'apellidos': chance.last() + ' ' + chance.last(), 
-      'rama': chance.character({pool:'CMEPR'}), 
+    var nuevoAsociado = {
+      'id': i + 1,
+      'idGrupo': 'AK',
+      'nombre': chance.first(),
+      'apellidos': chance.last() + ' ' + chance.last(),
+      'rama': chance.character({pool:'CMEPR'}),
       'tipo': chance.character({pool:'JKC'}),
       'fechaNacimiento': chance.birthday({ string: true, american: false }),
       'calle': chance.street(),
@@ -78,27 +79,31 @@
       'municipio': chance.city(),
       'telefono': chance.phone(),
       'email': chance.email(),
-      'aniversario': chance.date({ string: true, american: false }),
+      'actualizado': chance.date({ string: true, american: false }),
       'activo': chance.bool({likelihood: 80})
     };
     nuevoAsociado.limbo = i <= 3;
-    if (i == 5) 
+    if (i == 5)
       nuevoAsociado.activo = false;
-    if (nuevoAsociado.tipo == 'C') 
+    if (nuevoAsociado.tipo == 'C')
       nuevoAsociado.rama = '';
-    if (chance.bool({likelihood: 40})) 
+    if (chance.bool({likelihood: 40}))
       nuevoAsociado.dni = chance.integer({min: 00000000, max: 99999999}) + chance.character({ alpha: true, casing: 'upper' })
     asociadosDePrueba[i] = nuevoAsociado;
   }
   </script>
-  
+
+  <script src="lib/jquery/dist/jquery.min.js"></script>
+  <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
   <script src="lib/angular/angular.js"></script>
   <script src="lib/angular-resource/angular-resource.js"></script>
   <script src="lib/angular-route/angular-route.js"></script>
+  <script src="lib/lodash/dist/lodash.compat.js"></script>
   <!-- build:js scripts/cudu.js -->
   <script src="scripts/app.js"></script>
   <script src="scripts/services.js"></script>
   <script src="scripts/filters.js"></script>
+  <script src="scripts/directives.js"></script>
   <script src="scripts/controllers/menu.js"></script>
   <script src="scripts/controllers/asociado.js"></script>
   <script src="scripts/controllers/grupo.js"></script>

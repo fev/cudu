@@ -6,35 +6,35 @@
         <div class="input-group">
           <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda">
           <span class="input-group-btn">
-            <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button" 
+            <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button"
                 tooltip="Limpiar búsqueda y mostrar todos">
               <span class="glyphicon glyphicon-remove"></span>
             </button>
             <button class="btn btn-default btn-sm" type="button">
               <span class="glyphicon glyphicon-sort-by-alphabet"></span>
             </button>
-            <button class="btn btn-default btn-sm" type="button" ng-click="nuevoAsociado()">
+            <button class="btn btn-default btn-sm" type="button" ng-click="nuevo()">
               <span class="glyphicon glyphicon-plus"></span> Nuevo
             </button>
-          </span>        
+          </span>
         </div>
       </div>
       <div class="form-group">
         <div class="btn-toolbar">
-        <div class="btn-group btn-group-xs" data-toggle="buttons">
+        <div class="btn-group btn-group-xs">
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Jóven</a>
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
         </div>
-        <div class="btn-group btn-group-xs" data-toggle="buttons">
+        <div class="btn-group btn-group-xs">
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'C'}" ng-click="activarFiltro('rama', 'C')">Cas.</a>
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'M'}" ng-click="activarFiltro('rama', 'M')">Lob.</a>
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'E'}" ng-click="activarFiltro('rama', 'E')">Exp.</a>
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'P'}" ng-click="activarFiltro('rama', 'P')">Pio.</a>
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'R'}" ng-click="activarFiltro('rama', 'R')">Com.</a>
         </div>
-        <div class="btn-group btn-group-xs" data-toggle="buttons">
-          <a href="javascript:" class="btn btn-default active">
+        <div class="btn-group btn-group-xs">
+          <a href="javascript:" class="btn btn-default disabled">
             <span class="glyphicon glyphicon-fire"></span>
           </a>
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.eliminados === true}" ng-click="activarFiltro('eliminados', true, false)">
@@ -44,21 +44,25 @@
         </div>
       </div>
     </form>
-    <div class="lstas">      
-      <div class="lstas-e" ng-class="{'text-danger': a.cambiosPendientes, seleccionado: a.seleccionado, eliminado: !a.activo}"
-        ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos']"
-        ng-click="editarAsociado(a.id)">
+    <div class="lstas">
+      <div class="lstas-e"
+        ng-class="{'text-danger': a.cambiosPendientes, 'text-primary': a.guardado, seleccionado: a.seleccionado, eliminado: !a.activo}"
+        ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos'] track by a.id"
+        ng-click="editar(a.id)">
         <strong>
-          <span class="glyphicon glyphicon-leaf" ng-class="establecerEstiloRama(a.rama)"></span>
-          <span class="glyphicon glyphicon-fire hidden pull-right" ng-show="{{a.limbo}}"></span>
-          <span class="glyphicon glyphicon-trash pull-right" ng-hide="{{a.activo}}"></span>
-          &nbsp;&nbsp;{{a.nombre}} {{a.apellidos}}</strong>
+          <span class="glyphicon glyphicon-fire pull-right" ng-show="{{a.limbo}}"></span>
+          {{a.nombre}} {{a.apellidos}}
+        </strong>
         <span>{{a.tipo | tipoAsociado}}, {{a.rama | rama}} <span class="pull-right">{{a.actualizado}}</span></span>
-      </div>      
+      </div>
     </div>
+    <!--
+      <span class="glyphicon glyphicon-user" ng-class="establecerEstiloRama(a.rama)"></span>
+      <span class="glyphicon glyphicon-trash pull-right" ng-show="{{!a.activo}}"></span>
+    -->
   </div>
-  
-  <div id="panelEdicion" class="col-md-8">    
+
+  <div id="panelEdicion" class="col-md-8">
     <h1 class="text-right">{{obtenerNombreCompleto(asociado)}}</h1>
 
     <div class="alert alert-warning alert-dismissable hidden">
@@ -69,15 +73,23 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="btn-group" ng-hide="asociado.id && !asociado.activo">
-          <button type="button" class="btn btn-default btn-primary-hover">
+          <button type="button" class="btn btn-default btn-primary-hover" ng-click="guardar(asociado.id)">
             <span class="glyphicon glyphicon-ok"></span>&nbsp;Guardar</button>
           <button type="button" class="btn btn-default">
             <span class="glyphicon glyphicon-refresh"></span>&nbsp;Deshacer</button>
         </div>
-        <button type="button" class="btn btn-default btn-danger-hover pull-right" ng-show="asociado.activo">
-          <span class="glyphicon glyphicon-trash"></span>&nbsp;Eliminar</button>
-        <button type="button" class="btn btn-default btn-success-hover" ng-show="asociado.id && !asociado.activo">
-          <span class="glyphicon glyphicon-export"></span>&nbsp;Recuperar</button>
+        <button type="button" class="btn btn-default btn-danger-hover pull-right"
+          ng-show="asociado.activo" ng-click="activar(asociado.id, false)">
+          <span class="glyphicon glyphicon-trash"></span>&nbsp;Desactivar
+        </button>
+        <button type="button" class="btn btn-default btn-success-hover pull-right"
+          ng-show="asociado.id && !asociado.activo" ng-click="activar(asociado.id, true)">
+          <span class="glyphicon glyphicon-export"></span>&nbsp;Recuperar
+        </button>
+        <button type="button" class="btn btn-default btn-danger-hover"
+          ng-show="asociado.id && !asociado.activo" ng-click="modal.eliminar = true">
+          <span class="glyphicon glyphicon-remove"></span>&nbsp;Eliminar
+        </button>
       </div>
       <div class="panel-body">
         <form name="formAsociado" class="form-horizontal form-cudu" role="form">
@@ -98,7 +110,7 @@
               <div class="form-group">
                 <label class="col-md-3 control-label">Tipo</label>
                 <div class="col-md-9">
-                  <div class="btn-group btn-group-sm" data-toggle="buttons">
+                  <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'J'}" ng-click="establecerTipo('J')">Jóven</button>
                     <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'K'}" ng-click="establecerTipo('K')">Kraal</button>
                     <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'C'}" ng-click="establecerTipo('C')">Comité</button>
@@ -108,7 +120,7 @@
               <div class="form-group">
                 <label class="col-md-3 control-label">Rama</label>
                 <div class="col-md-9">
-                  <div class="btn-group btn-group-sm" data-toggle="buttons">
+                  <div class="btn-group btn-group-sm">
                     <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'C'}" ng-click="establecerRama('C')">Cas.</button>
                     <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'M'}" ng-click="establecerRama('M')">Lob.</button>
                     <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'E'}" ng-click="establecerRama('E')">Exp.</button>
@@ -159,6 +171,7 @@
             <li ng-class="{active: tabActivo == 2}"><a href="" ng-click="seleccionarTab(2)">Documentos</a></li>
             <li class="disabled"><a href="javascript:">Histórico</a></li>
             <li class="disabled"><a href="javascript:">Seguridad</a></li>
+            <li ng-class="{active: tabActivo == 5}"><a href="" ng-click="seleccionarTab(5)">Notas</a></li>
           </ul>
 
           <div class="row tab-content" ng-show="tabActivo == 0">
@@ -343,9 +356,31 @@
               </tbody>
             </table>
           </div>
+
+          <div class="tab-content" ng-show="tabActivo == 5">
+            <textarea ng-model="asociado.notas" class="form-control" rows="4"
+              placeholder="aqui puedes introducir información adicional, pequeños apuntes, etc."></textarea>
+          </div>
         </form>
       </div>
     </div>
   </div>
+</div>
+</div>
+
+<div cudu-modal="modal.eliminar" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-body">
+    <p>¿Estás seguro de que quieres eliminar el asociado completamente? Una vez eliminado no se puede recuperar.</p>
+    <p><strong>Asociado:</strong> {{asociado.nombre}} {{asociado.apellidos}}<br/>
+      <strong>Rama:</strong> {{asociado.rama | rama}}<br/>
+      <strong>Identificador: </strong> {{asociado.idGrupo}}-{{asociado.id}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" ng-click="eliminar(asociado.id)">Eliminar</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.eliminar = false">Deshacer</button>
+  </div>
+</div>
 </div>
 </div>

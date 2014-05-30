@@ -40,7 +40,7 @@ body { font-family: $stdfontpath; color: #333; background: #9bdbf7 url('../image
       >span { 
         font-weight: normal; color: #CCC;
         &.ramaC { color: #FECEA8 }
-        &.ramaM { color: darken(#FFF9B8, 45%) }
+        &.ramaM { color: darken(#FFF9B8, 40%) }
         &.ramaE { color: #8EDBDE }
         &.ramaP { color: #FF847C }
         &.ramaR { color: #99B898 }
@@ -93,5 +93,5 @@ h1 { font-weight: 300; margin: 12px 10px 30px 0; }
 };
 
 .grupo {
-  > h1 { margin: 20px 0 15px 10px; }
+  > h1 { margin: 20px 20px 15px 10px; text-align: right; }
 }
