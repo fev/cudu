@@ -26,10 +26,10 @@ var revision = function() {
   return es.map(function(file, callback) {
     var contents = file.contents.toString();
     var hash = crypto.createHash('md5').update(contents, 'utf8').digest('hex');
-		var filename = hash.slice(0, 8) + '.' + path.basename(file.path);
-		file.revOrigPath = file.path;
-		file.revOrigBase = file.base;
-		file.path = path.join(path.dirname(file.path), filename);
+    var filename = hash.slice(0, 8) + '.' + path.basename(file.path);
+    file.revOrigPath = file.path;
+    file.revOrigBase = file.base;
+    file.path = path.join(path.dirname(file.path), filename);
     callback(null, file);
   });
 };
@@ -50,7 +50,7 @@ gulp.task('compass', function() {
     .pipe(compass({
       project: path.join(__dirname, 'app'),
       css: 'styles', sass: 'styles', image: 'images',
-      style: 'expanded' 
+      style: 'expanded'
     }))
     .pipe(minifycss())
     .pipe(gulp.dest('app/styles'));
@@ -72,7 +72,7 @@ gulp.task('lint', function() {
 
 gulp.task('preflight', ['compass', 'bower-files', 'images'], function() {
   var stylesFilter  = filter('**/*.css');
-  var scriptsFilter = filter('**/*.js');  
+  var scriptsFilter = filter('**/*.js');
   return gulp.src('app/**/*.html')
     .pipe(useref.assets())
     .pipe(scriptsFilter)
@@ -94,7 +94,7 @@ gulp.task('default', ['preflight'], function() {
   return gulp.src('dist/**/*.html')
     .pipe(gulpif(!opts.readable, googlecdn(require('./bower.json'), { componentsPath: 'lib' })))
     .pipe(replace(
-      'lib/bootstrap/dist/css/bootstrap.css', 
+      'lib/bootstrap/dist/css/bootstrap.css',
       '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'))
     .pipe(gulp.dest('dist'));
 });
