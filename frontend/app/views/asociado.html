@@ -49,14 +49,12 @@
         ng-class="{'text-danger': a.cambiosPendientes, 'text-primary': a.guardado, seleccionado: a.seleccionado, eliminado: !a.activo}"
         ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos'] track by a.id"
         ng-click="editar(a.id)">
-        <strong>
-          <span class="glyphicon glyphicon-fire pull-right" ng-show="{{a.limbo}}"></span>
-          {{a.nombre}} {{a.apellidos}}
-        </strong>
+        <strong>{{a.nombre}} {{a.apellidos}}</strong>
         <span>{{a.tipo | tipoAsociado}}, {{a.rama | rama}} <span class="pull-right">{{a.actualizado}}</span></span>
       </div>
     </div>
     <!--
+      <span class="glyphicon glyphicon-floppy-remove pull-right" ng-show="{{a.limbo}}"></span>
       <span class="glyphicon glyphicon-user" ng-class="establecerEstiloRama(a.rama)"></span>
       <span class="glyphicon glyphicon-trash pull-right" ng-show="{{!a.activo}}"></span>
     -->

@@ -44,7 +44,7 @@ body { font-family: $stdfontpath; color: #333; background: #9bdbf7 url('../image
         &.ramaE { color: #8EDBDE }
         &.ramaP { color: #FF847C }
         &.ramaR { color: #99B898 }
-        &.glyphicon-fire { color: #E84A5F }
+        &.glyphicon-fire, &.glyphicon-floppy-remove { color: #E84A5F }
       }      
     }
     > span { font-size: $font-size-small }
@@ -93,5 +93,5 @@ h1 { font-weight: 300; margin: 12px 10px 30px 0; }
 };
 
 .grupo {
-  > h1 { margin: 20px 20px 15px 10px; text-align: right; }
+  > h1 { margin: 20px 20px 15px 10px; }
 }
