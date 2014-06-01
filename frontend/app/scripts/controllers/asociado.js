@@ -45,7 +45,6 @@ angular.module('cuduApp')
     $scope.editar = function(id) {
       $scope.asociado.seleccionado = false;
       marcarCambiosPendientes();
-      $scope.asociado = asociadosDePrueba[i-1];
       $scope.asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
       $scope.asociado.seleccionado = true;
       /*Asociado.get({ 'idAsociado': id }, function(asociado) {
@@ -55,8 +54,7 @@ angular.module('cuduApp')
 
     $scope.guardar = function(id) {
       var asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
-      // TODO petici'on al servidor aqui
-      console.log(asociado);
+      // TODO petición al servidor aqui
       asociado.guardado = true;
       asociado.cambiosPendientes = false;
       $scope.asociado = asociado;
@@ -64,7 +62,7 @@ angular.module('cuduApp')
     };
 
     $scope.activar = function(id, activar) {
-      // TODO petici'on a servidor aqui
+      // TODO petición a servidor aqui
       $scope.asociado.activo = activar;
       $scope.asociado.cambiosPendientes = false;
       $scope.formAsociado.$setPristine();
