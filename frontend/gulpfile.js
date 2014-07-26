@@ -2,7 +2,7 @@
 'use strict';
 
 var gulp = require('gulp'),
-    bowerfiles = require('gulp-bower-files'),
+    bowerfiles = require('main-bower-files'),
     bump = require('gulp-bump'),
     clean = require('gulp-clean'),
     compass = require('gulp-compass'),
@@ -57,7 +57,8 @@ gulp.task('compass', function() {
 });
 
 gulp.task('bower-files', function() {
-  return bowerfiles().pipe(gulp.dest('dist/lib'));
+  return gulp.src(bowerfiles())
+    .pipe(gulp.dest('dist/lib'));
 });
 
 gulp.task('images', function() {
@@ -92,7 +93,7 @@ gulp.task('preflight', ['compass', 'bower-files', 'images'], function() {
 
 gulp.task('default', ['preflight'], function() {
   return gulp.src('dist/**/*.html')
-    .pipe(gulpif(!opts.readable, googlecdn(require('./bower.json'), { componentsPath: 'lib' })))
+    .pipe(googlecdn(require('./bower.json'), { componentsPath: 'lib' }))
     .pipe(replace(
       'lib/bootstrap/dist/css/bootstrap.css',
       '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'))
