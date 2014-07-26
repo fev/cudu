@@ -79,6 +79,20 @@ h1 { font-weight: 300; margin: 12px 10px 30px 0; }
   > .nav, > .tab-content { margin-top: $line-height-computed + $padding-base-vertical }
 }
 
+.alert ul { margin-top: 10px; }
+
+.btn-progress, .btn-progress:focus {
+  color: #FFF;
+  -webkit-animation: progress 0.7s ease infinite;
+  &:hover { border-color: #CCC; }
+}
+
+@-webkit-keyframes progress {
+    0%  {background-color: #5CB85C; }
+    50% {background-color: #BAE8BA; }
+    100% {background-color: #5CB85C; }
+}
+
 .btn-danger-hover:hover {
   @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
 }
@@ -95,3 +109,5 @@ h1 { font-weight: 300; margin: 12px 10px 30px 0; }
 .grupo {
   > h1 { margin: 20px 20px 15px 10px; }
 }
+
+#toast-container > div { opacity: 1; @include box-shadow(none); }

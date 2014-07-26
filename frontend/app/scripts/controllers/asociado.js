@@ -1,10 +1,20 @@
 'use strict';
 
+var estados = {
+  LIMPIO: 0,
+  GUARDANDO: 1,
+  OK: 2,
+  ERROR: 3,
+  VALIDACION: 4
+};
+
 angular.module('cuduApp')
   .controller('AsociadoCtrl', ['$scope', 'Asociado', function ($scope, Asociado) {
     $scope.grupo = grupo;
     $scope.asociados = asociadosDePrueba;
     $scope.asociado = { };
+
+    $scope.estado = estados.LIMPIO;
 
     $scope.tabActivo = 0;
     $scope.busqueda = '';
@@ -49,16 +59,40 @@ angular.module('cuduApp')
       $scope.asociado.seleccionado = true;
       /*Asociado.get({ 'idAsociado': id }, function(asociado) {
         $scope.asociado = asociado;
+        $scope.asociado.seleccionado = true;
       });*/
     };
 
     $scope.guardar = function(id) {
+      $scope.estado = estados.GUARDANDO;
+
       var asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
+
       // TODO petición al servidor aqui
-      asociado.guardado = true;
-      asociado.cambiosPendientes = false;
-      $scope.asociado = asociado;
-      $scope.formAsociado.$setPristine();
+      _.delay(function() {
+        asociado.guardado = true;
+        asociado.cambiosPendientes = false;
+        $scope.asociado = asociado;
+        $scope.formAsociado.$setPristine();
+        $scope.estado = estados.OK;
+        $scope.$apply();
+      }, 1000);
+
+      /*var completado = false;
+      var tooLongId = _.delay(function(completado) {
+        if (completado)
+          return;
+        $scope.guardando = true;
+        $scope.$apply();
+      }, 800, completado);*/
+
+      // Replace this with the actual server call
+      /*_.delay(function(completado, tooLongId) {
+        clearTimeout(tooLongId);
+        completado = true;
+        $scope.guardando = false;
+        $scope.$apply();
+      }, 2000, completado, tooLongId);*/
     };
 
     $scope.activar = function(id, activar) {
@@ -76,10 +110,21 @@ angular.module('cuduApp')
 
     $scope.establecerTipo = function(tipo) {
       $scope.asociado.tipo = tipo;
+      $scope.formAsociado.$setDirty();
     };
 
     $scope.establecerRama = function(rama) {
       $scope.asociado.rama = rama;
+      $scope.formAsociado.$setDirty();
+    };
+
+    $scope.establecerEstiloGuardado = function() {
+      if ($scope.estado === estados.LIMPIO) { return 'btn-default'; }
+      if ($scope.estado === estados.GUARDANDO) { return 'btn-progress'; }
+      if ($scope.estado === estados.OK) { return 'btn-success'; }
+      if ($scope.estado === estados.ERROR) { return 'btn-error'; }
+      if ($scope.estado === estados.VALIDACION) { return 'btn-warning'; }
+      return 'btn-default';
     };
 
     $scope.establecerEstiloRama = function(rama) {
@@ -104,8 +149,10 @@ angular.module('cuduApp')
 
     var marcarCambiosPendientes = function() {
       if ($scope.asociado.id && $scope.formAsociado.$dirty) {
+        $scope.asociado.estadoFrm = estados.VALIDACION;
         $scope.asociado.cambiosPendientes = true;
         $scope.formAsociado.$setPristine();
       }
+      $scope.estado = estados.LIMPIO;
     };
   }]);
