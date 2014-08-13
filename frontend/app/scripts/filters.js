@@ -16,7 +16,7 @@ filters.filter('rama', function() {
 
 filters.filter('tipoAsociado', function() {
   return function(rama) {
-    if (rama === 'J') { return 'Jóven'; }
+    if (rama === 'J') { return 'Joven'; }
     if (rama === 'K') { return 'Kraal'; }
     if (rama === 'C') { return 'Comité'; }
     return '¿?';
