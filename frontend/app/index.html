@@ -74,6 +74,7 @@
       'apellidos': chance.last() + ' ' + chance.last(),
       'rama': chance.character({pool:'CMEPR'}),
       'tipo': chance.character({pool:'JKC'}),
+      'sexo': chance.character({pool:'MF'}),
       'fechaNacimiento': chance.birthday({ string: true, american: false }),
       'direccion': chance.street(),
       'codigoPostal': chance.zip(),

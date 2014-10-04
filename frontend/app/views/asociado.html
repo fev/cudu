@@ -22,9 +22,9 @@
       <div class="form-group">
         <div class="btn-toolbar">
         <div class="btn-group btn-group-xs">
-          <a href="javascript:" class="btn btn-joven" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Joven</a>
-          <a href="javascript:" class="btn btn-kraal" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
-          <a href="javascript:" class="btn btn-comite" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Joven</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
+          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
         </div>
         <div class="btn-group btn-group-xs">
           <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'C'}" ng-click="activarFiltro('rama', 'C')">Cas.</a>
@@ -107,6 +107,15 @@
                 <label for="txtApellidos" class="col-md-3 control-label">Apellidos</label>
                 <div class="col-md-9">
                   <input ng-model="asociado.apellidos" type="text" class="form-control" id="txtApellidos" placeholder="Obligatorio">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Sexo</label>
+                <div class="col-md-9">
+                  <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'M'}" ng-click="establecerSexo('M')">Masculino</button>
+                    <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'F'}" ng-click="establecerSexo('F')">Femenino</button>
+                  </div>
                 </div>
               </div>
               <div class="form-group">

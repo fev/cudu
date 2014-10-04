@@ -108,6 +108,11 @@ angular.module('cuduApp')
       $scope.modal.eliminar = false;
     };
 
+    $scope.establecerSexo = function(sexo) {
+      $scope.asociado.sexo = sexo;
+      $scope.formAsociado.$setDirty();
+    };
+
     $scope.establecerTipo = function(tipo) {
       $scope.asociado.tipo = tipo;
       $scope.formAsociado.$setDirty();
