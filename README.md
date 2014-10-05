@@ -1,12 +1,9 @@
 # ¿Qué es Cudú?
 
-Cudú es una aplicación web que permite almacenar y gestionar de forma segura
-y centralizada datos de agrupaciones juveniles. Cudú ha sido desarrollado con el apoyo de la [Federació d'Escoltisme Valencià](http://www.scoutsfev.org) y un grupo desinteresado de voluntarios.
+Cudú es una aplicación web que permite almacenar y gestionar de forma segura y centralizada datos de agrupaciones juveniles. Cudú ha sido desarrollado con el apoyo de la [Federació d'Escoltisme Valencià](http://www.scoutsfev.org) y un grupo desinteresado de voluntarios.
 
-Cudú es software libre, lo que significa que no has de pagar por su uso y que puedes modificar el programa. La única restricción es que si realizas modificaciones, estas sean tambíén compartidas. Legalmente Cudú se distribuye bajo [licencia GPLv3](http://www.gnu.org/licenses/gpl-3.0.html).
+Cudú es software libre, lo que significa que no has de pagar por su uso y que puedes modificar el programa. La única restricción es que si realizas modificaciones, estas sean tambíén compartidas. Legalmente Cudú se distribuye bajo [licencia AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html).
 
-Para conocer más sobre la definición de software libre puedes consultar
-http://www.gnu.org/philosophy/free-sw.es.html
 
 ## ¿Como puedo empezar a usarlo?
 
