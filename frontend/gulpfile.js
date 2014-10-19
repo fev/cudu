@@ -4,13 +4,14 @@
 var gulp = require('gulp'),
     bowerfiles = require('main-bower-files'),
     bump = require('gulp-bump'),
-    clean = require('gulp-clean'),
     compass = require('gulp-compass'),
     crypto = require('crypto'),
     es = require('event-stream'),
     filter = require('gulp-filter'),
+    fs = require('fs'),
     googlecdn = require('gulp-google-cdn'),
     gulpif = require('gulp-if'),
+    header = require('gulp-header'),
     htmlmin = require('gulp-htmlmin'),
     jshint = require('gulp-jshint'),
     livereload = require('gulp-livereload'),
@@ -19,6 +20,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     replace = require('gulp-replace'),
     revreplace = require('gulp-rev-replace'),
+    rimraf = require('gulp-rimraf'),
     uglify = require('gulp-uglify'),
     useref = require('gulp-useref');
 
@@ -34,6 +36,8 @@ var revision = function() {
   });
 };
 
+var pkg = require('./package.json');
+
 gulp.task('bump', function () {
   return gulp.src(['./package.json', './bower.json'])
     .pipe(bump())
@@ -42,7 +46,7 @@ gulp.task('bump', function () {
 
 gulp.task('clean', function() {
   return gulp.src(['dist/**', 'app/styles/cudu.css'], { read: false })
-    .pipe(clean());
+    .pipe(rimraf());
 });
 
 gulp.task('compass', function() {
@@ -74,18 +78,20 @@ gulp.task('lint', function() {
 gulp.task('preflight', ['compass', 'bower-files', 'images'], function() {
   var stylesFilter  = filter('**/*.css');
   var scriptsFilter = filter('**/*.js');
+  var assets = useref.assets();                                  
   return gulp.src('app/**/*.html')
-    .pipe(useref.assets())
+    .pipe(assets)
     .pipe(scriptsFilter)
       .pipe(revision())
-      .pipe(uglify())
+      .pipe(gulpif(/\.cudu.js$/, uglify()))
+      .pipe(gulpif(/\.cudu.js$/, header(fs.readFileSync('header.txt', 'utf8'), { pkg : pkg } )))
       .pipe(rename({ suffix: '.min' }))
     .pipe(scriptsFilter.restore())
     .pipe(stylesFilter)
       .pipe(revision())
       .pipe(rename({ suffix: '.min' }))
     .pipe(stylesFilter.restore())
-    .pipe(useref.restore())
+    .pipe(assets.restore())
     .pipe(useref())
     .pipe(revreplace())
     .pipe(gulp.dest('dist'));
@@ -93,10 +99,12 @@ gulp.task('preflight', ['compass', 'bower-files', 'images'], function() {
 
 gulp.task('default', ['preflight'], function() {
   return gulp.src('dist/**/*.html')
+    /* TODO htmlmin, cdn replace if required
     .pipe(googlecdn(require('./bower.json'), { componentsPath: 'lib' }))
     .pipe(replace(
       'lib/bootstrap/dist/css/bootstrap.css',
       '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css'))
+    */
     .pipe(gulp.dest('dist'));
 });
 
