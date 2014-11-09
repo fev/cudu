@@ -9,9 +9,9 @@ var estados = {
 };
 
 angular.module('cuduApp')
-  .controller('AsociadoCtrl', ['$scope', 'Asociado', function ($scope, Asociado) {
-    $scope.grupo = grupo;
-    $scope.asociados = asociadosDePrueba;
+  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', function ($scope, Asociado, Grupo) {
+    $scope.grupo = Grupo.get();
+    $scope.asociados = Asociado.query();
     $scope.asociado = { };
 
     $scope.estado = estados.LIMPIO;
