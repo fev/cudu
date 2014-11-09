@@ -1,4 +1,5 @@
 .DS_Store
 .dropbox
 Icon*
-.log
+*.log
+*.swp
