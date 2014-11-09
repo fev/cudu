@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     bowerfiles = require('main-bower-files'),
     bump = require('gulp-bump'),
     compass = require('gulp-compass'),
+    connect = require('gulp-connect'),
     crypto = require('crypto'),
     es = require('event-stream'),
     filter = require('gulp-filter'),
@@ -45,7 +46,7 @@ gulp.task('bump', function () {
 });
 
 gulp.task('clean', function() {
-  return gulp.src(['dist/**', 'app/styles/cudu.css'], { read: false })
+  return gulp.src(['dist/', 'app/styles/cudu.css'], { read: false })
     .pipe(rimraf());
 });
 
@@ -108,19 +109,17 @@ gulp.task('default', ['preflight'], function() {
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('server', function(next) {
-  var connect = require('connect'),
-      server = connect();
-  server.use(connect.static('app')).listen(process.env.PORT || 9000, next);
-});
-
-gulp.task('watch', ['server'], function() {
-  gulp.watch('app/styles/**/*.scss', ['compass']);
-
-  var server = livereload();
-  gulp.watch(['dist/**']).on('change', function(file) {
-    server.changed(file.path);
+gulp.task('connect', function() {
+  connect.server({ 
+    root: 'app',
+    port: process.env.PORT || 9000,
+    livereload: true
   });
 });
 
+gulp.task('watch', function() {
+  gulp.watch('app/styles/**/*.scss', ['compass']);
+});
+
+gulp.task('serve', ['compass', 'connect', 'watch']);
 
