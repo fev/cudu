@@ -4,22 +4,31 @@ Cudú es una aplicación web que permite almacenar y gestionar de forma segura y
 
 Cudú es software libre, lo que significa que no has de pagar por su uso y que puedes modificar el programa. La única restricción es que si realizas modificaciones, estas sean tambíén compartidas. Legalmente Cudú se distribuye bajo [licencia AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html).
 
+## Primeros pasos
 
-## ¿Como puedo empezar a usarlo?
-
-Para generar el `frontend` necesitas tener instalado [npm](https://www.npmjs.org/). Una vez lo tengas disponible, puedes lanzar la generación mediante [Gulp](http://gulpjs.com/):
+Para generar el `frontend` necesitas tener instalado [npm](https://www.npmjs.org). Una vez lo tengas disponible, puedes arrancar el `frontend` con datos de prueba mediante [Gulp](http://gulpjs.com):
 
 	$ cd frontend
 	$ npm install
-	$ gulp
+	$ bower install
+	$ gulp serve
 
-Para el `backend` necesitas tener instalado GIT y JDK 7. Tres sencillos pasos:
+Pasados unos segundos el sitio de prueba estará disponible en `http://localhost:9000`. El `frontend` se ha desarrollado usando [AngularJS](https://angularjs.org) y [Bootstrap](http://getbootstrap.com).
+
+Para arrancar el `backend` únicamente necesitas tener instalado JDK 7, el resto de dependencias y librerías se descargarán automáticamente en la primera ejecución. Tres sencillos pasos:
 
 	$ cd backend
 	$ ./gradlew build
 	$ java -jar ./build/libs/cudu-2.0.0.war
 
-Pasados unos segundos el sitio de prueba estará disponible en `http://localhost:8080`.
+Cudú provee un API REST basado en [Spring](http://projects.spring.io/spring-framework). Internamente se utiliza [JPA](http://projects.spring.io/spring-data-jpa) y se soportan distintas bases de datos, aunque recomendamos utilizar [PostgreSQL](http://www.postgresql.org). Por defecto viene configurado para usar [HSQLDB](http://hsqldb.org) en memoria y crear todas las tablas necesarias al inicio.
+
+De forma predeterminada el API REST escucha peticiones en `http://localhost:8080`.
+
+Recuerda que puedes generar archivos de proyecto para distintos IDEs:
+
+	$ ./gradle idea
+	$ ./gradle eclipse
 
 ## API de datos
 
