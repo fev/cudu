@@ -1,0 +1,190 @@
+package org.scoutsfev.cudu.domain;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.URL;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+public class Grupo {
+
+    @Id
+    private String id;
+
+    @OneToMany(mappedBy = "grupo")
+    private List<Asociado> asociados;
+
+    @NotNull
+    private Asociacion asociacion;
+
+    @NotNull
+    @Size(min = 3, max = 50)
+    private String nombre;
+
+    @NotNull
+    @Size(min=3, max=300)
+    private String direccion;
+
+    @NotNull
+    @Min(1)
+    private Integer codigoPostal;
+
+    @NotNull
+    @Size(min = 3, max = 100)
+    private String municipio;
+
+    @NotNull
+    @Size(min = 3, max = 100)
+    private String provincia;
+
+    @Past
+    private Date aniversario;
+
+    @NotNull
+    @Size(min = 3, max = 15)
+    private String telefono1;
+
+    @Size(max = 15)
+    private String telefono2;
+
+    @Email
+    @NotNull
+    @Size(min = 6, max = 100)
+    private String email;
+
+    @URL
+    @Size(max = 300)
+    private String web;
+
+    @Size(max = 100)
+    private String entidadPatrocinadora;
+
+    protected Grupo() { }
+
+    public Grupo(String id, Asociacion asociacion, String nombre, String direccion,
+                 Integer codigoPostal, String municipio, String provincia,
+                 String telefono1, String email) {
+        this.telefono1 = telefono1;
+        this.provincia = provincia;
+        this.municipio = municipio;
+        this.direccion = direccion;
+        this.codigoPostal = codigoPostal;
+        this.nombre = nombre;
+        this.id = id;
+        this.email = email;
+        this.asociacion = asociacion;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public Integer getCodigoPostal() {
+        return codigoPostal;
+    }
+
+    public void setCodigoPostal(Integer codigoPostal) {
+        this.codigoPostal = codigoPostal;
+    }
+
+    public String getMunicipio() {
+        return municipio;
+    }
+
+    public void setMunicipio(String municipio) {
+        this.municipio = municipio;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public Date getAniversario() {
+        return aniversario;
+    }
+
+    public void setAniversario(Date aniversario) {
+        this.aniversario = aniversario;
+    }
+
+    public String getTelefono1() {
+        return telefono1;
+    }
+
+    public void setTelefono1(String telefono1) {
+        this.telefono1 = telefono1;
+    }
+
+    public String getTelefono2() {
+        return telefono2;
+    }
+
+    public void setTelefono2(String telefono2) {
+        this.telefono2 = telefono2;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
+    public Asociacion getAsociacion() {
+        return asociacion;
+    }
+
+    public void setAsociacion(Asociacion asociacion) {
+        this.asociacion = asociacion;
+    }
+
+    public String getEntidadPatrocinadora() {
+        return entidadPatrocinadora;
+    }
+
+    public void setEntidadpatrocinadora(String entidadPatrocinadora) {
+        this.entidadPatrocinadora = entidadPatrocinadora;
+    }
+}
+
