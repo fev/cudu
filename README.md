@@ -29,8 +29,8 @@ El servicio REST está desarrollado utilizando [Spring](http://projects.spring.i
 
 Recuerda que puedes generar archivos de proyecto para distintos IDEs:
 
-	$ ./gradle idea
-	$ ./gradle eclipse
+	$ ./gradlew idea
+	$ ./gradlew eclipse
 
 ## API de datos
 
