@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Asociado {
@@ -26,7 +27,9 @@ public class Asociado {
     private TipoAsociado tipo;
 
     @NotNull
-    private Rama rama;
+    @Column(name = "rama")
+    @ElementCollection(targetClass = Rama.class, fetch = FetchType.EAGER)
+    private Set<Rama> ramas;
 
     @NotNull
     @Size(min = 3, max = 30)
@@ -127,11 +130,11 @@ public class Asociado {
 
     protected Asociado() { }
 
-    public Asociado(Grupo grupo, TipoAsociado tipo, Rama rama, String nombre, String apellidos, Date fechaNacimiento,
+    public Asociado(Grupo grupo, TipoAsociado tipo, Set<Rama> ramas, String nombre, String apellidos, Date fechaNacimiento,
                     String direccion, Integer codigoPostal, String municipio, Sexo sexo) {
         this.grupo = grupo;
         this.tipo = tipo;
-        this.rama = rama;
+        this.ramas = ramas;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
@@ -166,12 +169,12 @@ public class Asociado {
         this.tipo = tipo;
     }
 
-    public Rama getRama() {
-        return rama;
+    public Set<Rama> getRamas() {
+        return ramas;
     }
 
-    public void setRama(Rama rama) {
-        this.rama = rama;
+    public void setRamas(Set<Rama> ramas) {
+        this.ramas = ramas;
     }
 
     public String getNombre() {
