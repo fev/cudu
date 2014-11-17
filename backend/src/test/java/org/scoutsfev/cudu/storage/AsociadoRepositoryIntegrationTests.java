@@ -23,6 +23,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
+@Category(TestIntegracion.class)
 public class AsociadoRepositoryIntegrationTests {
 
     @Autowired
