@@ -1,6 +1,5 @@
 package org.scoutsfev.cudu.web.validacion;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
