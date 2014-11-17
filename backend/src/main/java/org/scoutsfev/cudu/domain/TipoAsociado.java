@@ -14,7 +14,14 @@ public enum TipoAsociado {
     }
 
     @JsonValue
-    private char getTipo() {
+    public char getTipo() {
         return tipo;
+    }
+
+    public static TipoAsociado parse(char valor) {
+        for (TipoAsociado tipo : TipoAsociado.values())
+            if (tipo.tipo == valor)
+                return tipo;
+        throw new IllegalArgumentException("Valor incorrecto para TipoAsociado: " + valor);
     }
 }

@@ -14,7 +14,14 @@ public enum Asociacion {
     }
 
     @JsonValue
-    private int getId() {
+    public int getId() {
         return id;
+    }
+
+    public static Asociacion parse(int id) {
+        for (Asociacion asociacion : Asociacion.values())
+            if (asociacion.id == id)
+                return asociacion;
+        throw new IllegalArgumentException("Valor incorrecto para Asociacion: " + id);
     }
 }

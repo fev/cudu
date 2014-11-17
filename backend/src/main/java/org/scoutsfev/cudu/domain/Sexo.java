@@ -13,7 +13,14 @@ public enum Sexo {
     }
 
     @JsonValue
-    private char getTipo() {
+    public char getTipo() {
         return tipo;
+    }
+
+    public static Sexo parse(char valor) {
+        for (Sexo sexo : Sexo.values())
+            if (sexo.tipo == valor)
+                return sexo;
+        throw new IllegalArgumentException("Valor incorrecto para Sexo: " + valor);
     }
 }
