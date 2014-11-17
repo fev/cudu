@@ -9,6 +9,7 @@ import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.support.TestIntegracion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
@@ -135,18 +136,29 @@ public class AsociadoRepositoryIntegrationTests {
         assertFalse(a.isRamaRuta());
     }
 
+    @Test(expected = DataIntegrityViolationException.class)
+    public void no_es_posible_tener_emails_duplicados_porque_se_usa_como_login() throws Exception {
+        Asociado a1 = generarAsociado();
+        a1.setEmail("mike@example.com");
+        asociadoRepository.save(a1);
+
+        Asociado a2 = generarAsociado();
+        a2.setEmail("mike@example.com");
+        asociadoRepository.save(a2);
+    }
+
     private Grupo generarGrupo(Optional<String> idGrupo) {
         return new Grupo(idGrupo.orElse("NU"), Asociacion.MEV, "Nombre", "Calle", 46015, "Valencia", "Valencia", "963400000", "email@example.com");
     }
 
     private Asociado generarAsociado() {
-        return generarAsociado(Optional.<Grupo>empty());
+        return generarAsociado(this.grupo);
     }
 
-    private AtomicInteger lastId = new AtomicInteger(0);
+    private static AtomicInteger lastId = new AtomicInteger(0);
 
-    private Asociado generarAsociado(Optional<Grupo> grupo) {
+    public static Asociado generarAsociado(Grupo grupo) {
         int seqId = lastId.getAndIncrement();
-        return new Asociado(grupo.orElse(this.grupo), TipoAsociado.Joven, "Nombre" + seqId, "Apellidos" + seqId, new Date(190), "Calle", 46015, "Valencia", Sexo.Masculino);
+        return new Asociado(grupo, TipoAsociado.Joven, "Nombre" + seqId, "Apellidos" + seqId, new Date(190), "Calle", 46015, "Valencia", Sexo.Masculino);
     }
 }

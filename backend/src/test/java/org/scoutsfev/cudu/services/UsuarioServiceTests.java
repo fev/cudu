@@ -36,29 +36,31 @@ public class UsuarioServiceTests {
     @Test
     public void si_el_usuario_existe_lo_devuelve() {
         String username = "jack.sparrow";
-        Usuario jackSparrow = new Usuario(username, "pirate", "Jack Sparrow", true, new String[] { "KRAAL" });
-        when(repository.findOne(username)).thenReturn(jackSparrow);
+        Usuario jackSparrow = mock(Usuario.class);
+        when(repository.findByEmail(username)).thenReturn(jackSparrow);
         UserDetails userDetails = service.loadUserByUsername(username);
         assertEquals(jackSparrow, userDetails);
+        verify(repository, times(1)).findByEmail(username);
+        verify(repository, times(1)).findByEmail(anyString());
     }
 
     @Test
     public void si_el_usuario_no_existe_en_bbdd_lanza_UsernameNotFoundException() {
-        when(repository.findOne(anyString())).thenReturn(null);
+        when(repository.findByEmail(anyString())).thenReturn(null);
         buscarUsuarioEsperandoExcepcion("mike", UsernameNotFoundException.class);
-        verify(repository, times(1)).findOne(anyString());
+        verify(repository, times(1)).findByEmail(anyString());
     }
 
     @Test
     public void si_el_usuario_es_nulo_no_se_produce_llamada_a_bbdd() {
         buscarUsuarioEsperandoExcepcion(null, UsernameNotFoundException.class);
-        verify(repository, never()).findOne(null);
+        verify(repository, never()).findByEmail(null);
     }
 
     @Test
     public void si_el_usuario_es_vacio_no_se_produce_llamada_a_bbdd() {
         buscarUsuarioEsperandoExcepcion("", UsernameNotFoundException.class);
-        verify(repository, never()).findOne("");
+        verify(repository, never()).findByEmail("");
     }
 
     private void buscarUsuarioEsperandoExcepcion(String username, Class exceptionClass) {
@@ -68,4 +70,9 @@ public class UsuarioServiceTests {
             Assert.isInstanceOf(exceptionClass, exception);
         }
     }
+
+    // TODO si_el_usuario_no_tiene_password_no_puede_hacer_login
+    // TODO si_el_usuario_esta_desactivado_no_puede_hacer_login_tenga_grupo_o_no
+    // TODO si_el_usuario_es_menor_de_18_no_puede_hacer_login
+    // TODO (integracion) sin_grupo_tambien_se_puede_hacer_login
 }

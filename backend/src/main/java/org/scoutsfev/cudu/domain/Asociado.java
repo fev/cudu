@@ -1,6 +1,5 @@
 package org.scoutsfev.cudu.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
@@ -9,18 +8,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-public class Asociado {
+@Table(name = "asociado")
+public class Asociado extends AsociadoAbstracto {
 
     public static final String REGEX_NIF = "(\\d{8}|[KLMXYZ]\\d{7})-?\\w";
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idGrupo", referencedColumnName = "id")
-    private Grupo grupo;
 
     @NotNull
     private TipoAsociado tipo;
@@ -39,14 +30,6 @@ public class Asociado {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaRuta = false;
-
-    @NotNull
-    @Size(min = 3, max = 30)
-    private String nombre;
-
-    @NotNull
-    @Size(min = 3, max = 100)
-    private String apellidos;
 
     @Past
     @NotNull
@@ -70,10 +53,6 @@ public class Asociado {
     @Column(nullable = true)
     @Pattern(regexp = REGEX_NIF)
     private String dni;
-
-    @Email
-    @Size(max = 100)
-    private String email;
 
     @Size(max = 12)
     private String seguridadSocial;
@@ -153,22 +132,6 @@ public class Asociado {
         this.activo = true;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
-    }
-
     public TipoAsociado getTipo() {
         return tipo;
     }
@@ -217,22 +180,6 @@ public class Asociado {
         this.ramaRuta = ramaRuta;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
-
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
-
     public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -271,14 +218,6 @@ public class Asociado {
 
     public void setDni(String dni) {
         this.dni = dni;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getSeguridadSocial() {

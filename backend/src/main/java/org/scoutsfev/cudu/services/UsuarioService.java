@@ -22,7 +22,7 @@ public class UsuarioService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (!Strings.isNullOrEmpty(username)) {
-            Usuario usuario = usuarioRepository.findOne(username);
+            Usuario usuario = usuarioRepository.findByEmail(username);
             if (usuario != null)
                 return usuario;
         }
