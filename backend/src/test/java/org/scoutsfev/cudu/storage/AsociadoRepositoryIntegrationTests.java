@@ -1,22 +1,21 @@
 package org.scoutsfev.cudu.storage;
 
-import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.scoutsfev.cudu.Application;
 import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.support.TestIntegracion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import java.util.Date;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
@@ -41,14 +40,14 @@ public class AsociadoRepositoryIntegrationTests {
 
     @Test
     public void puede_guardar_asociados_usando_el_constructor_por_defecto() throws Exception {
-        Asociado nuevo = generarAsociado("Mike", "Wazowski");
+        Asociado nuevo = generarAsociado();
         Asociado guardado = asociadoRepository.save(nuevo);
         assertThat(guardado.getId(), is(greaterThan(0)));
     }
 
     @Test
     public void al_actualizar_un_asociado_se_preserva_el_identificador() throws Exception {
-        Asociado asociado = asociadoRepository.save(generarAsociado("Mike", "Wazowski"));
+        Asociado asociado = asociadoRepository.save(generarAsociado());
         int idOriginal = asociado.getId();
         asociado.setNombre("John");
         Asociado actualizado = asociadoRepository.save(asociado);
@@ -57,21 +56,22 @@ public class AsociadoRepositoryIntegrationTests {
 
     @Test
     public void el_identificador_de_asociado_es_incremental() throws Exception {
-        Asociado a1 = asociadoRepository.save(generarAsociado("Mike", "Wazowski"));
-        Asociado a2 = asociadoRepository.save(generarAsociado("Jack", "Sparrow"));
+        Asociado a1 = asociadoRepository.save(generarAsociado());
+        Asociado a2 = asociadoRepository.save(generarAsociado());
         assertThat(a2.getId(), is(greaterThan(a1.getId())));
+        assertNotEquals(a1.getNombre(), a2.getNombre());
     }
 
     @Test
     public void una_vez_guardado_un_usuario_esta_activado() throws Exception {
-        Asociado guardardo = asociadoRepository.save(generarAsociado("Mike", "Wazowski"));
+        Asociado guardardo = asociadoRepository.save(generarAsociado());
         Asociado asociado = asociadoRepository.findOne(guardardo.getId());
         assertTrue(asociado.isActivo());
     }
 
     @Test
     public void es_posible_activar_un_usuario() throws Exception {
-        Asociado original = generarAsociado("Mike", "Wazowski");
+        Asociado original = generarAsociado();
         original.setActivo(false);
         Asociado guardado = asociadoRepository.save(original);
         assertFalse(guardado.isActivo());
@@ -85,7 +85,7 @@ public class AsociadoRepositoryIntegrationTests {
 
     @Test
     public void es_posible_desactivar_un_usuario() throws Exception {
-        Asociado original = generarAsociado("Mike", "Wazowski");
+        Asociado original = generarAsociado();
         original.setActivo(true);
         Asociado guardado = asociadoRepository.save(original);
         int filas = asociadoRepository.activar(guardado.getId(), false);
@@ -97,10 +97,10 @@ public class AsociadoRepositoryIntegrationTests {
 
     @Test
     public void es_posible_obtener_el_codigo_del_grupo_del_asociado_sin_mezclar_datos() throws Exception {
-        Asociado a1 = asociadoRepository.save(generarAsociado("Lightning", "Mcqueen"));
+        Asociado a1 = asociadoRepository.save(generarAsociado());
 
         Grupo otroGrupo = grupoRepository.save(generarGrupo(Optional.of(grupo.getId() + "2")));
-        Asociado a2 = generarAsociado("Lightning", "Mcqueen");
+        Asociado a2 = generarAsociado();
         a2.setGrupo(otroGrupo);
         Asociado a2s = asociadoRepository.save(a2);
 
@@ -117,34 +117,35 @@ public class AsociadoRepositoryIntegrationTests {
 
     @Test
     public void si_el_asociado_no_tiene_grupo_al_obtener_el_codigo_del_grupo_devuelve_null() throws Exception {
-        Asociado nuevo = generarAsociado("John", "Doe");
+        Asociado nuevo = generarAsociado();
         nuevo.setGrupo(null);
         Asociado guardado = asociadoRepository.save(nuevo);
         assertNull(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(guardado.getId()));
     }
 
     @Test
-    public void cuando_un_asociado_esta_en_varias_ramas_se_respeta_el_mapping() throws Exception {
-        Supplier<HashSet<Rama>> generarRamas = () -> Sets.newHashSet(Rama.Lobatos, Rama.Pioneros);
-        Asociado nuevo = generarAsociado("Jack", "Sparrow");
-        nuevo.setRamas(generarRamas.get());
-        Asociado guardado = asociadoRepository.save(nuevo);
-
-        Asociado asociado = asociadoRepository.findOne(guardado.getId());
-        assertThat(Sets.difference(asociado.getRamas(), generarRamas.get()), is(empty()));
+    public void por_defecto_un_asociado_no_esta_en_ninguna_rama_y_la_bbdd_no_tiene_defaults() throws Exception {
+        Asociado nuevo = asociadoRepository.save(generarAsociado());
+        Asociado a = asociadoRepository.findOne(nuevo.getId());
+        assertFalse(a.isRamaCastores());
+        assertFalse(a.isRamaLobatos());
+        assertFalse(a.isRamaExploradores());
+        assertFalse(a.isRamaPioneros());
+        assertFalse(a.isRamaRuta());
     }
 
     private Grupo generarGrupo(Optional<String> idGrupo) {
-        return new Grupo(idGrupo.orElse("AK"), Asociacion.MEV, "Nombre",
-                "Calle", 46015, "Valencia", "Valencia", "963400000", "email@example.com");
+        return new Grupo(idGrupo.orElse("NU"), Asociacion.MEV, "Nombre", "Calle", 46015, "Valencia", "Valencia", "963400000", "email@example.com");
     }
 
-    private Asociado generarAsociado(String nombre, String apellidos) {
-        return generarAsociado(nombre, apellidos, Optional.<Grupo>empty());
+    private Asociado generarAsociado() {
+        return generarAsociado(Optional.<Grupo>empty());
     }
 
-    private Asociado generarAsociado(String nombre, String apellidos, Optional<Grupo> grupo) {
-        return new Asociado(grupo.orElse(this.grupo), TipoAsociado.Joven, Sets.newHashSet(Arrays.asList(Rama.Pioneros)),
-                nombre, apellidos, new Date(190), "Calle", 46015, "Valencia", Sexo.Masculino);
+    private AtomicInteger lastId = new AtomicInteger(0);
+
+    private Asociado generarAsociado(Optional<Grupo> grupo) {
+        int seqId = lastId.getAndIncrement();
+        return new Asociado(grupo.orElse(this.grupo), TipoAsociado.Joven, "Nombre" + seqId, "Apellidos" + seqId, new Date(190), "Calle", 46015, "Valencia", Sexo.Masculino);
     }
 }

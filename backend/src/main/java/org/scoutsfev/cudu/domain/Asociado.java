@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 public class Asociado {
@@ -26,10 +25,20 @@ public class Asociado {
     @NotNull
     private TipoAsociado tipo;
 
-    @NotNull
-    @Column(name = "rama")
-    @ElementCollection(targetClass = Rama.class, fetch = FetchType.EAGER)
-    private Set<Rama> ramas;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaCastores = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaLobatos = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaExploradores = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaPioneros = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaRuta = false;
 
     @NotNull
     @Size(min = 3, max = 30)
@@ -130,11 +139,10 @@ public class Asociado {
 
     protected Asociado() { }
 
-    public Asociado(Grupo grupo, TipoAsociado tipo, Set<Rama> ramas, String nombre, String apellidos, Date fechaNacimiento,
+    public Asociado(Grupo grupo, TipoAsociado tipo, String nombre, String apellidos, Date fechaNacimiento,
                     String direccion, Integer codigoPostal, String municipio, Sexo sexo) {
         this.grupo = grupo;
         this.tipo = tipo;
-        this.ramas = ramas;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
@@ -169,12 +177,44 @@ public class Asociado {
         this.tipo = tipo;
     }
 
-    public Set<Rama> getRamas() {
-        return ramas;
+    public boolean isRamaCastores() {
+        return ramaCastores;
     }
 
-    public void setRamas(Set<Rama> ramas) {
-        this.ramas = ramas;
+    public void setRamaCastores(boolean ramaCastores) {
+        this.ramaCastores = ramaCastores;
+    }
+
+    public boolean isRamaLobatos() {
+        return ramaLobatos;
+    }
+
+    public void setRamaLobatos(boolean ramaLobatos) {
+        this.ramaLobatos = ramaLobatos;
+    }
+
+    public boolean isRamaExploradores() {
+        return ramaExploradores;
+    }
+
+    public void setRamaExploradores(boolean ramaExploradores) {
+        this.ramaExploradores = ramaExploradores;
+    }
+
+    public boolean isRamaPioneros() {
+        return ramaPioneros;
+    }
+
+    public void setRamaPioneros(boolean ramaPioneros) {
+        this.ramaPioneros = ramaPioneros;
+    }
+
+    public boolean isRamaRuta() {
+        return ramaRuta;
+    }
+
+    public void setRamaRuta(boolean ramaRuta) {
+        this.ramaRuta = ramaRuta;
     }
 
     public String getNombre() {
