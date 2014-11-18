@@ -1,13 +1,12 @@
 package org.scoutsfev.cudu.web;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.scoutsfev.cudu.Application;
 import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
-import org.scoutsfev.cudu.storage.AsociadoRepositoryIntegrationTests;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
 import org.scoutsfev.cudu.support.TestIntegracion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class AsociadoControllerIntegrationTests {
     public void al_obtener_un_asociado_este_no_contiene_el_password() throws Exception {
         final String login = "dude@example.com";
         final String password = "wackamole";
-        Asociado nuevo = AsociadoRepositoryIntegrationTests.generarAsociado(null);
+        Asociado nuevo = GeneradorDatosDePrueba.generarAsociado(null);
         nuevo.setEmail(login);
         Asociado asociado = asociadoRepository.save(nuevo);
         usuarioRepository.activar(asociado.getId(), password);
