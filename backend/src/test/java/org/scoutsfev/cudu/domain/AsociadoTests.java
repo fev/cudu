@@ -39,8 +39,6 @@ public class AsociadoTests {
         Assert.assertTrue(asociado.isActivo());
     }
 
-    // TODO (servicio) Un joven no puede estar en más de una rama (Kraal y Comité si)
-    // TODO (servicio) Un joven debe estar obligatóriamente en una rama (Kraal y Comité no)
     // TODO cuando_un_asociado_se_serializa_no_contiene_el_password()
     // TODO (servicio, web/integración) el servicio de asociados devuelve un asociado sin el password
     // TODO Es posible guardar un asociado sin grupo
