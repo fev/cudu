@@ -1,6 +1,7 @@
 package org.scoutsfev.cudu.domain;
 
 import org.hibernate.validator.constraints.Email;
+import org.scoutsfev.cudu.domain.validadores.ValidarRama;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "asociado")
+@ValidarRama
 public class Asociado extends AsociadoAbstracto {
 
     public static final String REGEX_NIF = "(\\d{8}|[KLMXYZ]\\d{7})-?\\w";

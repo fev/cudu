@@ -22,6 +22,7 @@ public class ValidadorRamaTests {
     public void setUp() throws Exception {
         validador = new ValidadorRama();
         asociado = GeneradorDatosDePrueba.generarAsociado();
+        asociado.setRamaLobatos(false);
         assumeThat(asociado.getTipo(), is(equalTo(TipoAsociado.Joven)));
         assumeFalse(asociado.isRamaCastores());
         assumeFalse(asociado.isRamaLobatos());

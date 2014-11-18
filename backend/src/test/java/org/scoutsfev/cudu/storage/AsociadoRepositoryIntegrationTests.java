@@ -5,7 +5,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.scoutsfev.cudu.Application;
-import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.Grupo;
+import org.scoutsfev.cudu.domain.TipoAsociado;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.support.TestIntegracion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +15,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Date;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.Is.is;
@@ -129,7 +129,10 @@ public class AsociadoRepositoryIntegrationTests {
 
     @Test
     public void por_defecto_un_asociado_no_esta_en_ninguna_rama_y_la_bbdd_no_tiene_defaults() throws Exception {
-        Asociado nuevo = asociadoRepository.save(GeneradorDatosDePrueba.generarAsociado());
+        Asociado asociado = GeneradorDatosDePrueba.generarAsociado();
+        asociado.setTipo(TipoAsociado.Kraal);
+        asociado.setRamaLobatos(false);
+        Asociado nuevo = asociadoRepository.save(asociado);
         Asociado a = asociadoRepository.findOne(nuevo.getId());
         assertFalse(a.isRamaCastores());
         assertFalse(a.isRamaLobatos());
