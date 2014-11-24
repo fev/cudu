@@ -5,6 +5,8 @@ public class Error {
     private String campo;
     private String mensaje;
 
+    protected Error() { }
+
     public Error(String campo, String mensaje) {
         this.campo = campo;
         this.mensaje = mensaje;
