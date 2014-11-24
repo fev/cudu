@@ -19,13 +19,11 @@ import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -46,6 +44,9 @@ import static org.junit.Assume.assumeThat;
 @WebAppConfiguration
 @IntegrationTest("server.port:0")
 public class AsociadoControllerIntegrationTests {
+
+    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
     @Autowired
     private AsociadoRepository asociadoRepository;
@@ -95,6 +96,7 @@ public class AsociadoControllerIntegrationTests {
         ResponseEntity<List<Error>> response = template.exchange(endpoint("/asociado"), HttpMethod.POST,
                 new HttpEntity<>(asociado), new ParameterizedTypeReference<List<Error>>() { });
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
         List<Error> errores = response.getBody();
         assertThat(errores.size(), is(greaterThanOrEqualTo(1)));
         assertTrue(Iterables.any(errores, e -> e.getCampo().equals("nombre")));
