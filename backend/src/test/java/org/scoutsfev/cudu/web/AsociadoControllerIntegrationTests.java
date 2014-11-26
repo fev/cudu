@@ -7,6 +7,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.scoutsfev.cudu.Application;
 import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.TipoAsociado;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
@@ -69,6 +70,7 @@ public class AsociadoControllerIntegrationTests {
         final String login = "dude" + idPool.getAndIncrement() + "@example.com";
         final String password = "wackamole";
         Asociado nuevo = GeneradorDatosDePrueba.generarAsociado(null);
+        nuevo.setTipo(TipoAsociado.Voluntario);
         nuevo.setEmail(login);
         Asociado asociado = asociadoRepository.save(nuevo);
 

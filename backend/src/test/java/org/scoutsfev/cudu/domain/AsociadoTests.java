@@ -38,8 +38,4 @@ public class AsociadoTests {
         Asociado asociado = new Asociado();
         Assert.assertTrue(asociado.isActivo());
     }
-
-    // TODO cuando_un_asociado_se_serializa_no_contiene_el_password()
-    // TODO (servicio, web/integración) el servicio de asociados devuelve un asociado sin el password
-    // TODO Es posible guardar un asociado sin grupo
 }

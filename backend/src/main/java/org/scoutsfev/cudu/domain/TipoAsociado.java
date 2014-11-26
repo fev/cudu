@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum TipoAsociado {
     Joven('J'),
     Kraal('K'),
-    Comite('C');
+    Comite('C'),
+    Voluntario('V');
 
     private final char tipo;
 
