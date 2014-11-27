@@ -119,6 +119,12 @@ public class Asociado extends AsociadoAbstracto {
     @Column(nullable = false)
     private boolean activo = true;
 
+    @Size(max = 128)
+    private String profesion;
+
+    @Size(max = 128)
+    private String estudios;
+
     protected Asociado() { }
 
     public Asociado(Grupo grupo, TipoAsociado tipo, String nombre, String apellidos, Date fechaNacimiento,
@@ -365,5 +371,21 @@ public class Asociado extends AsociadoAbstracto {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public String getProfesion() {
+        return profesion;
+    }
+
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
+    }
+
+    public String getEstudios() {
+        return estudios;
+    }
+
+    public void setEstudios(String estudios) {
+        this.estudios = estudios;
     }
 }

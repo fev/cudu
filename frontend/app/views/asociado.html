@@ -180,6 +180,7 @@
             <li ng-class="{active: tabActivo == 0}"><a href="" ng-click="seleccionarTab(0)">Contacto</a></li>
             <li ng-class="{active: tabActivo == 1}"><a href="" ng-click="seleccionarTab(1)">Responsables</a></li>
             <li ng-class="{active: tabActivo == 2}"><a href="" ng-click="seleccionarTab(2)">Documentos</a></li>
+            <li ng-class="{active: tabActivo == 6}"><a href="" ng-click="seleccionarTab(6)">Cargos</a></li>
             <li class="disabled"><a href="javascript:">Histórico</a></li>
             <li class="disabled"><a href="javascript:">Seguridad</a></li>
             <li ng-class="{active: tabActivo == 5}"><a href="" ng-click="seleccionarTab(5)">Notas</a></li>
@@ -339,6 +340,24 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="tab-content" ng-show="tabActivo == 6">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="col-md-3 control-label">Profesión</label>
+                <div class="col-md-9">
+                  <input ng-model="asociado.profesion" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Estudios</label>
+                <div class="col-md-9">
+                  <input ng-model="asociado.estudios" type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6"></div>
           </div>
 
           <div class="tab-content" ng-show="tabActivo == 3">
