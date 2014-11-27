@@ -47,7 +47,7 @@
     <div class="lstas">
       <div class="lstas-e"
         ng-class="{'text-danger': a.cambiosPendientes, 'text-primary': a.guardado, seleccionado: a.seleccionado, eliminado: !a.activo}"
-        ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos'] track by a.id"
+        ng-repeat="a in asociados.list | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos'] track by a.id"
         ng-click="editar(a.id)">
         <strong>{{a.nombre}} {{a.apellidos}}</strong>
         <span>{{a.tipo | tipoAsociado}}, {{a.rama | rama}} <span class="pull-right">{{a.actualizado}}</span></span>
