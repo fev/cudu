@@ -67,7 +67,7 @@ angular.module('cuduApp')
     $scope.guardar = function(id) {
       $scope.estado = estados.GUARDANDO;
 
-      var asociado = _.find($scope.asociados.list, function(a) { return a ? a.id === id : false; });
+      var asociado = $filter('byId')($scope.asociados.list, id);
 
       // TODO petición al servidor aqui
       _.delay(function() {
