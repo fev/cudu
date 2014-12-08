@@ -15,6 +15,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.validation.ConstraintViolationException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.not;
@@ -152,5 +156,12 @@ public class AsociadoRepositoryIntegrationTests {
         Asociado a2 = GeneradorDatosDePrueba.generarAsociado();
         a2.setEmail("mike@example.com");
         asociadoRepository.save(a2);
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void no_es_posible_dar_de_alta_asociados_mayores_de_70() throws Exception {
+        Asociado asociado = GeneradorDatosDePrueba.generarAsociado();
+        asociado.setFechaNacimiento(Date.from(LocalDate.of(1900, 1, 1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+        asociadoRepository.save(asociado);
     }
 }

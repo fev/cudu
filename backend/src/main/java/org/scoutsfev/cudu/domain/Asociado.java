@@ -1,6 +1,7 @@
 package org.scoutsfev.cudu.domain;
 
 import org.hibernate.validator.constraints.Email;
+import org.scoutsfev.cudu.domain.validadores.Edad;
 import org.scoutsfev.cudu.domain.validadores.ValidarRama;
 import org.scoutsfev.cudu.domain.validadores.ValidarTipo;
 
@@ -36,6 +37,7 @@ public class Asociado extends AsociadoAbstracto {
 
     @Past
     @NotNull
+    @Edad(max = 70)
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
