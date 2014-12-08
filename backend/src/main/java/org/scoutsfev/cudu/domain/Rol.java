@@ -8,7 +8,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Rol implements GrantedAuthority {
 
-    @Column(name = "authority")
+    @Column(name = "rol")
     private String rol;
 
     protected Rol() { }
