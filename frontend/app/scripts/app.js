@@ -1,7 +1,7 @@
 'use strict';
 
-  angular
-    .module('cuduApp', [
+angular
+  .module('cuduApp', [
     'ngResource',
     'ngRoute',
     'cuduServices',
@@ -10,11 +10,6 @@
   .config(function ($routeProvider) {
     $routeProvider
       .when('/asociados', {
-        templateUrl: 'views/asociado.html',
-        controller: 'AsociadoCtrl',
-        tabActivo: 'asociado'
-      })
-      .when('/asociados/:id', {
         templateUrl: 'views/asociado.html',
         controller: 'AsociadoCtrl',
         tabActivo: 'asociado'

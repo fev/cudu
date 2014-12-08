@@ -22,16 +22,3 @@ filters.filter('tipoAsociado', function() {
     return '¿?';
   };
 });
-
-var app = angular.module('cuduApp');
-
-app.filter('byId', function() {
-  return function(objects, id) {
-    for(var i = 0; i < objects.length; i++) {
-      if(objects[i].id == id)
-        return objects[i];
-    }
-
-    return null;
-  };
-});

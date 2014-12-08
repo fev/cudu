@@ -8,18 +8,20 @@
   <title>Cudú</title>
   <meta name="viewport" content="width=device-width">
   <link rel="license" href="http://www.gnu.org/licenses/agpl-3.0.txt">
-  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700'>
-  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+  <link href="http://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
   <!-- build:css styles/cudu.css -->
   <link rel="stylesheet" href="styles/cudu.css">
   <!-- endbuild -->
 </head>
-<body ng-app="cuduApp" ng-controller="MainCtrl">
+<body ng-app="cuduApp" class="asociado">
   <!--[if lt IE 7]>
   <p class="browsehappy">Está usando un navegador desactualizado. Por favor <a href="http://browsehappy.com/">actualiza tu navegador</a>.</p>
   <![endif]-->
 
-  <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+  <div class="mat-header"></div>
+  <nav class="navbar navbar-material navbar-fixed-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -30,12 +32,27 @@
         </button>
         <a class="navbar-brand" href="#">Cudú</a>
       </div>
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
+      <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav" ng-controller="MenuCtrl">
+          <!-- GRUPOS -->
           <li ng-class="{active: controlador === 'AsociadoCtrl'}"><a href="#/asociados">Asociados</a></li>
           <li ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/ak">Mi Grupo</a></li>
-          <li class="disabled"><a href="javascript:">Mis Datos</a></li>
-          <li class="disabled"><a href="javascript:">Herramientas <b class="caret"></b></a></li>
+          <li><a href="javascript:">Mis Datos</a></li>
+          <li><a href="javascript:">Actividades</a></li>
+          <li><a href="javascript:">Permisos</a></li>
+
+          <!-- TECNICOS
+          <li><a href="#/asociados">Asociados</a></li>
+          <li><a href="#/grupo/ak">Grupos</a></li>
+          <li><a href="javascript:">Actividades</a></li>
+          <li><a href="javascript:">Permisos</a></li>
+          <li><a href="javascript:">Liquidaciones</a></li>
+          <li><a href="javascript:">Mis Datos</a></li> -->
+
+          <!-- LLUERNA
+          <li><a href="javascript:">Cursos</a></li>
+          <li><a href="javascript:">Participantes</a></li>
+          <li><a href="javascript:">Miembros</a></li> -->
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#">Mike Wazowski - Ain-Karen</a></li>
@@ -60,7 +77,6 @@
   <script src="scripts/services.js"></script>
   <script src="scripts/filters.js"></script>
   <script src="scripts/directives.js"></script>
-  <script src="scripts/controllers/main.js"></script>
   <script src="scripts/controllers/menu.js"></script>
   <script src="scripts/controllers/asociado.js"></script>
   <script src="scripts/controllers/grupo.js"></script>

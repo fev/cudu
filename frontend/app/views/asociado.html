@@ -1,7 +1,10 @@
-<div class="container contenedor-central">
+<div class="container contenedor-central asociado">
 <div class="row">
-  <div class="col-md-4">
-    <form class="form" role="form">
+  <div id="panelLista" class="col-md-4">
+    <div class="mat-toolbar">
+
+    </div>
+    <form class="form hidden" role="form" autocomplete="off">
       <div class="form-group">
         <div class="input-group">
           <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda">
@@ -47,353 +50,308 @@
     <div class="lstas">
       <div class="lstas-e"
         ng-class="{'text-danger': a.cambiosPendientes, 'text-primary': a.guardado, seleccionado: a.seleccionado, eliminado: !a.activo}"
-        ng-repeat="a in asociados.list | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos'] track by a.id"
+        ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos'] track by a.id"
         ng-click="editar(a.id)">
         <strong>{{a.nombre}} {{a.apellidos}}</strong>
         <span>{{a.tipo | tipoAsociado}}, {{a.rama | rama}} <span class="pull-right">{{a.actualizado}}</span></span>
       </div>
     </div>
-    <!--
-      <span class="glyphicon glyphicon-floppy-remove pull-right" ng-show="{{a.limbo}}"></span>
-      <span class="glyphicon glyphicon-user" ng-class="establecerEstiloRama(a.rama)"></span>
-      <span class="glyphicon glyphicon-trash pull-right" ng-show="{{!a.activo}}"></span>
-    -->
   </div>
 
   <div id="panelEdicion" class="col-md-8">
-    <h1 class="text-right">{{obtenerNombreCompleto(asociado)}}</h1>
+    <div class="mat-toolbar text-right">
+      <button type="button" class="btn btn-default"
+        ng-hide="asociado.id && !asociado.activo"
+        ng-class="establecerEstiloGuardado()" ng-click="guardar(asociado.id)">
+        GUARDAR
+      </button>
+      <button type="button" class="btn btn-danger"
+        ng-show="!asociado.id || asociado.activo"
+        ng-class="{disabled: !asociado.activo}" ng-click="activar(asociado.id, false)">
+        DAR DE BAJA
+      </button>
+      <button type="button" class="btn btn-default btn-danger"
+        ng-show="asociado.id && !asociado.activo" ng-click="modal.eliminar = true">
+        ELIMINAR DEFINITIVAMENTE
+      </button>
+      <button type="button" class="btn btn-default btn-success"
+        ng-show="asociado.id && !asociado.activo" ng-click="activar(asociado.id, true)">
+        RECUPERAR
+      </button>
+    </div>
 
-    <div class="alert alert-warning alert-dismissable" ng-show="estado == 4">
-      <strong>Ops!</strong> Algunos de los datos del usuario no son correctos, por favor revisa el formulario.
+    <div class="mat-toolbar-expand">
+      <h1>{{obtenerNombreCompleto(asociado)}}</h1>
+    </div>
+
+    <div class="alert alert-info hidden">
+      Se han guardado los cambios del asociado correctamente.
+    </div>
+
+    <div class="alert alert-warning" ng-show="estado == 4">
+      <strong>Ops!</strong> Algunos de los datos del asociado no son correctos, por favor revisa el formulario.
       <ul>
         <li>Nombre - Requerido</li>
         <li>Apellidos - No pueden estar en blanco</li>
       </ul>
     </div>
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="btn-group" ng-hide="asociado.id && !asociado.activo">
-          <button type="button" class="btn btn-default btn-primary-hover"
-            ng-class="establecerEstiloGuardado()" ng-click="guardar(asociado.id)">
-            <span class="glyphicon glyphicon-ok"></span>&nbsp;Guardar</button>
-          <button type="button" class="btn btn-default">
-            <span class="glyphicon glyphicon-refresh"></span>&nbsp;Deshacer</button>
+    <form name="formAsociado" class="form-horizontal form-cudu form-edicion" role="form" autocomplete="off">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="txtNombre" class="col-md-3 control-label">Nombre</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.nombre" type="text" class="form-control" id="txtNombre" placeholder="Obligatorio">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="txtApellidos" class="col-md-3 control-label">Apellidos</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.apellidos" type="text" class="form-control" id="txtApellidos" placeholder="Obligatorio">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Sexo</label>
+            <div class="col-md-9">
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'M'}" ng-click="establecerSexo('M')">Masculino</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'F'}" ng-click="establecerSexo('F')">Femenino</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Tipo</label>
+            <div class="col-md-9">
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'J'}" ng-click="establecerTipo('J')">Jóven</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'K'}" ng-click="establecerTipo('K')">Kraal</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'C'}" ng-click="establecerTipo('C')">Comité</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Rama</label>
+            <div class="col-md-9">
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'C'}" ng-click="establecerRama('C')">Cas.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'M'}" ng-click="establecerRama('M')">Lob.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'E'}" ng-click="establecerRama('E')">Exp.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'P'}" ng-click="establecerRama('P')">Pio.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'R'}" ng-click="establecerRama('R')">Com.</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <button type="button" class="btn btn-default btn-danger-hover pull-right"
-          ng-show="asociado.activo" ng-click="activar(asociado.id, false)">
-          <span class="glyphicon glyphicon-trash"></span>&nbsp;Desactivar
-        </button>
-        <button type="button" class="btn btn-default btn-success-hover pull-right"
-          ng-show="asociado.id && !asociado.activo" ng-click="activar(asociado.id, true)">
-          <span class="glyphicon glyphicon-export"></span>&nbsp;Recuperar
-        </button>
-        <button type="button" class="btn btn-default btn-danger-hover"
-          ng-show="asociado.id && !asociado.activo" ng-click="modal.eliminar = true">
-          <span class="glyphicon glyphicon-remove"></span>&nbsp;Eliminar
-        </button>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-3 control-label">Grupo</label>
+            <div class="col-md-9">
+              <p class="form-control-static">{{grupo.nombre}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="txtNombre" class="col-md-3 control-label">Fecha Nac.</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.fechaNacimiento" type="text" class="form-control" placeholder="Obligatorio (dd/mm/aaaa)">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">DNI / NIE</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.dni" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="txtSegSocial" class="col-md-3 control-label">Seg. Social</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.seguridadSocial" type="text" class="form-control" id="txtSegSocial">
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
-        <form name="formAsociado" class="form-horizontal form-cudu" role="form">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="txtNombre" class="col-md-3 control-label">Nombre</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.nombre" type="text" class="form-control" id="txtNombre" placeholder="Obligatorio">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="txtApellidos" class="col-md-3 control-label">Apellidos</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.apellidos" type="text" class="form-control" id="txtApellidos" placeholder="Obligatorio">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">Sexo</label>
-                <div class="col-md-9">
-                  <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'M'}" ng-click="establecerSexo('M')">Masculino</button>
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'F'}" ng-click="establecerSexo('F')">Femenino</button>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">Tipo</label>
-                <div class="col-md-9">
-                  <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'J'}" ng-click="establecerTipo('J')">Jóven</button>
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'K'}" ng-click="establecerTipo('K')">Kraal</button>
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'C'}" ng-click="establecerTipo('C')">Comité</button>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">Rama</label>
-                <div class="col-md-9">
-                  <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'C'}" ng-click="establecerRama('C')">Cas.</button>
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'M'}" ng-click="establecerRama('M')">Lob.</button>
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'E'}" ng-click="establecerRama('E')">Exp.</button>
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'P'}" ng-click="establecerRama('P')">Pio.</button>
-                    <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'R'}" ng-click="establecerRama('R')">Com.</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="txtApellidos" class="col-md-3 control-label">Grupo</label>
-                <div class="col-md-9">
-                  <p class="form-control-static">{{grupo.nombre}}</p>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="txtNombre" class="col-md-3 control-label">Fecha Nac.</label>
-                <div class="col-md-9">
-                  <div class="input-group">
-                    <input ng-model="asociado.fechaNacimiento" type="text" class="form-control" id="txtNombre" placeholder="Obligatorio">
-                    <span class="input-group-btn">
-                      <button class="btn btn-default btn-sm" type="button">
-                        <span class="glyphicon glyphicon-calendar">
-                      </button>
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="txtDNI" class="col-md-3 control-label">DNI</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.dni" type="text" class="form-control" id="txtDNI">
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="txtSegSocial" class="col-md-3 control-label">Seg. Social</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.seguridadSocial" type="text" class="form-control" id="txtSegSocial">
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <ul class="nav nav-tabs">
-            <li ng-class="{active: tabActivo == 0}"><a href="" ng-click="seleccionarTab(0)">Contacto</a></li>
-            <li ng-class="{active: tabActivo == 1}"><a href="" ng-click="seleccionarTab(1)">Responsables</a></li>
-            <li ng-class="{active: tabActivo == 2}"><a href="" ng-click="seleccionarTab(2)">Documentos</a></li>
-            <li ng-class="{active: tabActivo == 6}"><a href="" ng-click="seleccionarTab(6)">Cargos</a></li>
-            <li class="disabled"><a href="javascript:">Histórico</a></li>
-            <li class="disabled"><a href="javascript:">Seguridad</a></li>
-            <li ng-class="{active: tabActivo == 5}"><a href="" ng-click="seleccionarTab(5)">Notas</a></li>
-          </ul>
+      <ul class="nav nav-tabs">
+        <li ng-class="{active: tabActivo == 0}"><a href="" ng-click="seleccionarTab(0)">Contacto</a></li>
+        <li ng-class="{active: tabActivo == 1, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(1)">Responsables</a></li>
+        <li ng-class="{active: tabActivo == 2, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(2)">Documentos</a></li>
+        <li class="disabled"><a href="javascript:">Histórico</a></li>
+        <li class="disabled"><a href="javascript:">Seguridad</a></li>
+        <li ng-class="{active: tabActivo == 5}"><a href="" ng-click="seleccionarTab(5)">Notas</a></li>
+      </ul>
 
-          <div class="row tab-content" ng-show="tabActivo == 0">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-md-3 control-label">Dirección</label>
-                <div class="col-md-9">
-                  <textarea ng-model="asociado.direccion" class="form-control" rows="3" placeholder="Obligatorio"></textarea>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">C.P.</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.codigoPostal" type="text" class="form-control" placeholder="Obligatorio">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">Municipio</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.municipio" type="text" class="form-control" placeholder="Obligatorio" value="Valencia">
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-md-3 control-label">Copiar del</label>
-                <div class="col-md-9">
-                  <label class="radio-inline" for="rdCopiarDatosPadre">
-                    <input type="radio" id="rdCopiarDatosPadre" name="rdCopiarDatos" disabled>
-                    Padre
-                  </label>
-                  <label class="radio-inline" for="rdCopiarDatosMadre">
-                    <input type="radio" id="rdCopiarDatosMadre" name="rdCopiarDatos" disabled>
-                    Madre
-                  </label>
-                  <label class="radio-inline" for="rdCopiarDatosNadie">
-                    <input type="radio" id="rdCopiarDatosNadie" name="rdCopiarDatos" checked>
-                    Usar otros
-                  </label>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">E-Mail</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.email" type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">Tél. Móvil</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.telefonoMovil" type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">Tél. Casa</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.telefonoCasa" type="text" class="form-control">
-                </div>
-              </div>
+      <div class="row tab-content" ng-show="tabActivo == 0">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-3 control-label">Dirección</label>
+            <div class="col-md-9">
+              <textarea ng-model="asociado.direccion" class="form-control" rows="2"></textarea>
             </div>
           </div>
-
-          <div class="tab-content" ng-show="tabActivo == 1">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-md-4 control-label">Entorno</label>
-                <div class="col-md-8">
-                  <div class="checkbox">
-                    <label><input type="checkbox" value="">Tiene tutor legal</label>
-                  </div>
-                  <div class="checkbox">
-                    <label><input type="checkbox" value="">Padres separados</label>
-                  </div>
-                  <div class="checkbox">
-                    <label><input type="checkbox" value="">Hermanos en el grupo</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-md-4 control-label">Copiar Datos</label>
-                <div class="col-md-8">
-                  <p><small>Puede copiar los datos de contacto de la pestaña anterior al padre o la madre.</small></p>
-                  <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Padre', '')">Copiar al Padre</button>
-                  <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Madre', '')">Copiar al la Madre</button>
-                </div>
-              </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">C.P.</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.codigoPostal" type="text" class="form-control">
             </div>
           </div>
-          <div class="row tab-content" style="margin-top: 10px">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-md-4 control-label">Nombre Padre</label>
-                <div class="col-md-8">
-                  <input ng-model="asociado.nombrePadre" type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-4 control-label">Télefono</label>
-                <div class="col-md-8">
-                  <input ng-model="asociado.telefonoPadre" type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-4 control-label">E-Mail</label>
-                <div class="col-md-8">
-                  <input ng-model="asociado.emailPadre" type="text" class="form-control">
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-md-4 control-label">Nombre Madre</label>
-                <div class="col-md-8">
-                  <input ng-model="asociado.nombreMadre" type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-4 control-label">Télefono</label>
-                <div class="col-md-8">
-                  <input ng-model="asociado.telefonoMadre" type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-4 control-label">E-Mail</label>
-                <div class="col-md-8">
-                  <input ng-model="asociado.emailMadre" type="text" class="form-control">
-                </div>
-              </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Municipio</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.municipio" type="text" class="form-control">
             </div>
           </div>
-          </div><!-- #responsables, 2 rows -->
-
-          <div class="row tab-content" ng-show="tabActivo == 2">
-            <div class="col-md-12">
-              <p class="help-block"><span class="glyphicon glyphicon-info-sign"></span>
-                Cudú puede ayudarte a recordar de qué documentos dispones copia en papel.</p>
-              <div class="col-md-6">
-                <div class="checkbox">
-                  <label><input type="checkbox" value="">Documento Nacional de Identidad (DNI)</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" value="">Cartilla Seg. Social / Tarjeta SIP</label>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="checkbox">
-                  <label><input type="checkbox" value="">Ficha Médica</label>
-                </div>
-                <div class="checkbox">
-                  <label><input type="checkbox" value="">Cartilla de Vacunaciones</label>
-                </div>
-              </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-3 control-label">E-Mail</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.email" type="text" class="form-control">
             </div>
           </div>
-
-          <div class="tab-content" ng-show="tabActivo == 6">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label class="col-md-3 control-label">Profesión</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.profesion" type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">Estudios</label>
-                <div class="col-md-9">
-                  <input ng-model="asociado.estudios" type="text" class="form-control">
-                </div>
-              </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Tél. Móvil</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.telefonoMovil" type="text" class="form-control">
             </div>
-            <div class="col-md-6"></div>
           </div>
-
-          <div class="tab-content" ng-show="tabActivo == 3">
-            <table class="table table-condensed">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Hora</th>
-                  <th>Usuario</th>
-                  <th>Acción</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>17/08/2010</td>
-                  <td>19:34:01</td>
-                  <td>Mark Otto</td>
-                  <td>Crear el asociado con id = 4.</td>
-                </tr>
-                <tr>
-                  <td>21/02/2011</td>
-                  <td>19:34:01</td>
-                  <td>Jacob Thornton</td>
-                  <td>Editar nombre, calle y apellidos.</td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Tél. Casa</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.telefonoCasa" type="text" class="form-control">
+            </div>
           </div>
-
-          <div class="tab-content" ng-show="tabActivo == 5">
-            <textarea ng-model="asociado.notas" class="form-control" rows="4"
-              placeholder="aqui puedes introducir información adicional, pequeños apuntes, etc."></textarea>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+
+      <div class="tab-content" ng-show="tabActivo == 1">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Entorno</label>
+            <div class="col-md-8">
+              <div class="checkbox">
+                <label><input type="checkbox" value="">Tiene tutor legal</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="">Padres separados</label>
+              </div>
+              <div class="checkbox">
+                <label><input type="checkbox" value="">Hermanos en el grupo</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Copiar Datos</label>
+            <div class="col-md-8">
+              <p><small>Puede copiar los datos de contacto de la pestaña anterior al padre o la madre.</small></p>
+              <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Padre', '')">Copiar al Padre</button>
+              <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Madre', '')">Copiar a la Madre</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row tab-content" style="margin-top: 10px">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Nombre Padre</label>
+            <div class="col-md-8">
+              <input ng-model="asociado.nombrePadre" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Télefono</label>
+            <div class="col-md-8">
+              <input ng-model="asociado.telefonoPadre" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">E-Mail</label>
+            <div class="col-md-8">
+              <input ng-model="asociado.emailPadre" type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Nombre Madre</label>
+            <div class="col-md-8">
+              <input ng-model="asociado.nombreMadre" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Télefono</label>
+            <div class="col-md-8">
+              <input ng-model="asociado.telefonoMadre" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">E-Mail</label>
+            <div class="col-md-8">
+              <input ng-model="asociado.emailMadre" type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      </div><!-- #responsables, 2 rows -->
+
+      <div class="row tab-content" ng-show="tabActivo == 2">
+        <div class="col-md-12">
+          <p class="help-block"><span class="glyphicon glyphicon-info-sign"></span>
+            Cudú puede ayudarte a recordar de qué documentos dispones copia en papel.</p>
+          <div class="col-md-6">
+            <div class="checkbox">
+              <label><input type="checkbox" value="">Documento Nacional de Identidad (DNI)</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="">Cartilla Seg. Social / Tarjeta SIP</label>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="checkbox">
+              <label><input type="checkbox" value="">Ficha Médica</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" value="">Cartilla de Vacunaciones</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" ng-show="tabActivo == 3">
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Usuario</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>17/08/2010</td>
+              <td>19:34:01</td>
+              <td>Mark Otto</td>
+              <td>Crear el asociado con id = 4.</td>
+            </tr>
+            <tr>
+              <td>21/02/2011</td>
+              <td>19:34:01</td>
+              <td>Jacob Thornton</td>
+              <td>Editar nombre, calle y apellidos.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-content" ng-show="tabActivo == 5">
+        <textarea ng-model="asociado.notas" class="form-control" rows="4"
+          placeholder="aqui puedes introducir información adicional, pequeños apuntes, etc."></textarea>
+      </div>
+    </form>
+
   </div>
 </div>
 </div>

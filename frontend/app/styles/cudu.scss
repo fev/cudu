@@ -1,5 +1,6 @@
 @import "compass/css3";
 @import "support.scss";
+@import "material.scss";
 
 .hidden { display: none !important; }
 
@@ -9,16 +10,49 @@ $input-border: #CCC;
 $cudu-padding-base-vertical: $padding-base-vertical - 2;
 $cudu-padding-base-horizontal: $padding-base-horizontal - 5;
 
-body { font-family: $stdfontpath; color: #333; background: #9bdbf7 url('../images/bg.jpg') repeat-x 0 0;}
+body { font-family: $stdfontpath; color: #333; background-color: #EEE }
 
-.navbar { font-family: 'Oxygen', $stdfontpath; font-weight: 300 }
+.navbar { font-family: 'Oxygen', $stdfontpath; font-weight: 300; }
 .navbar-brand { font-weight: 400 }
 
-.contenedor-central { font-family: 'Oxygen', $stdfontpath; margin-top: 65px;
+@mixin navbar-material($bg, $fg) {
+  background: $bg; border: 0; margin-bottom: 0;
+
+  .navbar-brand { color: $fg; &:hover, &:focus { color: $fg; background: $bg; } }
+  .navbar-nav {
+    > li > a { color: #FFF; &:hover, &:focus { color: $fg; background: desaturate(lighten($bg, 5%), 5%); } }
+    > .active   > a { &, &:hover, &:focus { color: $fg; background: $bg } }
+    > .disabled > a { &, &:hover, &:focus { color: darken($fg, 20%); background: $bg; } }
+  }
+}
+
+.mat-header {
+  position: absolute; width: 100%; height: 106px; z-index: -200; top: 0;
+  @include box-shadow($material-bottom-shadow-1);
+}
+
+.mat-toolbar {
+  height: 56px;
+  padding: 12px 20px 0 20px;
+  button, .btn {
+    color: #555;
+    background: transparent;
+    border: 0; font-weight: 400;
+  }
+}
+.mat-toolbar-expand { height: 73px; // 72 + 1 border transparent
+  border-bottom: 1px solid $input-border;
+  padding: 15px 15px 0px 15px;
+  h1 { font-size: 24px; margin: 10px 0 0 15px }
+}
+
+.contenedor-central {
+  font-family: Roboto, $stdfontpath; margin-top: 50px;
   background-color: #FFF;
-  @include box-shadow(rgba(0, 0, 0, 0.4) 0px 0px 10px);
-  @include border-radius(4px);
-  > div { margin-top: 10px; margin-bottom: 10px }
+  > div {
+    margin-top: 0px; margin-bottom: 0px;
+    @include box-shadow($material-bottom-shadow-2)
+  }
 }
 
 #txtBusqueda { border-right: 0; @include box-shadow(none);
@@ -29,15 +63,14 @@ body { font-family: $stdfontpath; color: #333; background: #9bdbf7 url('../image
 }
 
 .lstas {
-  max-height: 511px; overflow: scroll;
-  border: 1px solid $input-border;
+  max-height: 650px; overflow: scroll;
   .lstas-e {
-    border-top: 1px solid $input-border; padding: 5px 8px; cursor: pointer;
+    border-top: 1px solid #DCDCDC; padding: 15px 16px; cursor: pointer;
     &:first-child { border-top: 0 }
     &:hover { background-color: #EEE }
     &.eliminado { color: #CCC; }
-    > strong { display: block; 
-      >span { 
+    > strong { display: block; font-size: 16px; font-weight: normal;
+      > span {
         font-weight: normal; color: #CCC;
         &.ramaC { color: #FECEA8 }
         &.ramaM { color: darken(#FFF9B8, 40%) }
@@ -45,28 +78,33 @@ body { font-family: $stdfontpath; color: #333; background: #9bdbf7 url('../image
         &.ramaP { color: #FF847C }
         &.ramaR { color: #99B898 }
         &.glyphicon-fire, &.glyphicon-floppy-remove { color: #E84A5F }
-      }      
+      }
     }
     > span { font-size: $font-size-small }
   }
-  .seleccionado { 
+  .seleccionado {
     background-color: #FFFBCC;
     &:hover { background-color: darken(#FFFBCC, 3%); }
   }
 }
 
-#panelEdicion { border-left: 1px solid #DDD; min-height: 600px; }
+.form-edicion {
+  // 15px por quitarselos a .col-md-8
+  margin: 20px 15px;
+}
 
-h1 { font-weight: 300; margin: 12px 10px 30px 0; }
+h1 { font-weight: 300; }
 
 .form-cudu {
   .form-group { margin-bottom: 8px }
-  .control-label {
-    padding: $cudu-padding-base-vertical + 1;
-  }
+  .control-label { padding: $cudu-padding-base-vertical + 1; }
   .form-control {
     height: $input-height-base - 4;
     padding: $cudu-padding-base-vertical $cudu-padding-base-horizontal;
+    @include box-shadow(none);
+    @include border-radius(0px);
+    border-width: 0px 0px 1px 0px;
+    color: #333;
   }
   textarea.form-control { height: auto; }
   .form-control-static {
@@ -75,11 +113,31 @@ h1 { font-weight: 300; margin: 12px 10px 30px 0; }
   .checkbox-inline, .radio-inline, .checkbox {
     padding-top: $cudu-padding-base-vertical;
   }
-
+  .btn-group-sm > .btn { @include border-radius(0px); }
+  .btn.active { @include box-shadow(none); }
+  .input-group-btn:last-child > .btn {
+    border-width: 0 0 1px 0; border-top: 1px solid transparent;
+    @include border-radius(0px);
+  }
   > .nav, > .tab-content { margin-top: $line-height-computed + $padding-base-vertical }
 }
 
-.alert ul { margin-top: 10px; }
+.btn {
+  @include border-radius(0px);
+}
+
+// Eliminar borde difuminado al pulsar
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus,
+.btn:active.focus, .btn.active.focus { outline: none }
+
+// Eliminar sombra interna al pulsar
+.btn:active, .btn.active {
+  @include box-shadow(none);
+  background-color: $material-grey-200;
+}
+
+// Eliminar bordes btn-group
+.btn-group .btn-default { border-color: transparent }
 
 .btn-progress, .btn-progress:focus {
   color: #FFF;
@@ -88,26 +146,43 @@ h1 { font-weight: 300; margin: 12px 10px 30px 0; }
 }
 
 @-webkit-keyframes progress {
-    0%  {background-color: #5CB85C; }
-    50% {background-color: #BAE8BA; }
-    100% {background-color: #5CB85C; }
+  0%  {background-color: #5CB85C; }
+  50% {background-color: #BAE8BA; }
+  100% {background-color: #5CB85C; }
 }
 
-.btn-danger-hover:hover {
-  @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
-}
-.btn-primary-hover:hover {
-  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
-}
-.btn-info-hover:hover {
-  @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
-}
-.btn-success-hover:hover {
-  @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
-};
-
-.grupo {
-  > h1 { margin: 20px 20px 15px 10px; }
+// TABS
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus {
+  color: $material-grey-900;
+  border-color: transparent;
+  // 3px, para no desplazar usamos box-shadow
+  border-bottom: 1px solid $material-grey-900;
+  @include box-shadow(inset 0 -2px 0 0 $material-grey-900);
 }
 
-#toast-container > div { opacity: 1; @include box-shadow(none); }
+.nav-tabs > li > a {
+  color: #333;
+  @include border-radius(0px);
+}
+
+.alert {
+  @include border-radius(0px);
+  ul { margin-top: 10px; }
+  font-weight: 300;
+  strong { font-weight: 500 }
+}
+
+.alert-info {
+  color: #FFF; border-color: $material-grey-900;
+  background-color: $material-grey-800;
+}
+
+.alert-warning {
+  color: #FFF; border-color: $material-red-500;
+  background-color: $material-red-500;
+}
+
+@import 'secciones.scss';
+@import 'asociado.scss';

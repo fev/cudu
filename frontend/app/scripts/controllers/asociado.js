@@ -9,9 +9,9 @@ var estados = {
 };
 
 angular.module('cuduApp')
-  .controller('AsociadoCtrl', ['$q', '$scope', '$routeParams', '$filter', '$location', 'Asociado', 'Grupo', function ($q, $scope, $routeParams, $filter, $location, Asociado, Grupo) {
+  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', function ($scope, Asociado, Grupo) {
     $scope.grupo = Grupo.get();
-
+    $scope.asociados = Asociado.query();
     $scope.asociado = { };
 
     $scope.estado = estados.LIMPIO;
@@ -53,11 +53,10 @@ angular.module('cuduApp')
     };
 
     $scope.editar = function(id) {
-      marcarCambiosPendientes();
       $scope.asociado.seleccionado = false;
-      $location.path('/asociados/' + id);
-      // $scope.asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
-      // $scope.asociado.seleccionado = true;
+      marcarCambiosPendientes();
+      $scope.asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
+      $scope.asociado.seleccionado = true;
       /*Asociado.get({ 'idAsociado': id }, function(asociado) {
         $scope.asociado = asociado;
         $scope.asociado.seleccionado = true;
@@ -67,7 +66,7 @@ angular.module('cuduApp')
     $scope.guardar = function(id) {
       $scope.estado = estados.GUARDANDO;
 
-      var asociado = $filter('byId')($scope.asociados.list, id);
+      var asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
 
       // TODO petición al servidor aqui
       _.delay(function() {
@@ -104,7 +103,7 @@ angular.module('cuduApp')
     };
 
     $scope.eliminar = function(id) {
-      _.remove($scope.asociados.list, function(a) { return a ? a.id === id : false; });
+      _.remove($scope.asociados, function(a) { return a ? a.id === id : false; });
       $scope.asociado = {};
       $scope.modal.eliminar = false;
     };
@@ -161,13 +160,4 @@ angular.module('cuduApp')
       }
       $scope.estado = estados.LIMPIO;
     };
-
-    if($scope.asociados.list.length == 0)
-      $scope.asociados.list = Asociado.query();
-
-    $q.when($scope.asociados.list.$promise).then(function () {
-      if(typeof($routeParams.id) !== 'undefined')
-        $scope.asociado = $filter('byId')($scope.asociados.list, $routeParams.id);
-        $scope.asociado.seleccionado = true;
-    });
   }]);

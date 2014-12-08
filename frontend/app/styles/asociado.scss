@@ -1,0 +1,23 @@
+
+#panelLista {
+  padding: 0; border-right: 1px solid $input-border;
+  .mat-toolbar {
+    background-color: $material-grey-200;
+    border-bottom: 1px solid $input-border;
+  }
+}
+
+#panelEdicion {
+  padding: 0; min-height: 600px;
+  .mat-toolbar, .mat-toolbar-expand { background-color: $material-grey-50; }
+  .mat-toolbar {
+    .btn-default:hover { color: #555; background-color: $material-grey-300; }
+    .btn-primary:hover { color: #555; background-color: $material-grey-300; }
+    .btn-danger:hover { color: #FFF; background-color: $material-red-300; }
+    .btn-success:hover { color: #FFF; background-color: $material-green-300; }
+  }
+
+  .form-control:focus {
+    border-color: $material-cyan-500;
+  }
+}

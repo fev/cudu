@@ -1,0 +1,27 @@
+// Estilos correspondientes a los distintos colores de cada sección
+
+// $material-deep-purple-500 asociado
+// $material-lime-600 mi grupo
+// $material-indigo-500 mis datos
+// $material-deep-orange-900 técnicos
+// $material-orange-700 técnico lluerna
+// $material-red-900 fev
+// $material-red-900 permisos
+// $material-green-500 actividades
+
+@mixin color-seccion($primario, $complementario: transparent) {
+  .mat-header { background-color: $primario; }
+  .navbar-material { @include navbar-material($primario, #FFF); }
+  .navbar-material .navbar-nav > .active > a {
+    // Indicador sección activa
+    @include box-shadow(inset 0 3px 0 0 $complementario);
+  }
+  .nav-tabs > li.active > a,
+  .nav-tabs > li.active > a:focus {
+    // Tabs internos
+    color: $primario; border-bottom-color: $primario;
+    @include box-shadow(inset 0 -2px 0 0 $primario);
+  }
+}
+
+.asociado { @include color-seccion($material-cyan-500, $material-lime-500); }
