@@ -39,16 +39,13 @@ public class Asociado extends AsociadoAbstracto {
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
-    @NotNull
     @Size(min = 5, max = 200)
     @Column(name = "calle")
     private String direccion;
 
-    @NotNull
     @Min(1)
     private Integer codigoPostal;
 
-    @NotNull
     @Size(min = 3, max = 100)
     private String municipio;
 
@@ -60,7 +57,6 @@ public class Asociado extends AsociadoAbstracto {
     @Size(max = 12)
     private String seguridadSocial;
 
-    @NotNull
     private Sexo sexo;
 
     @Size(max = 15)
@@ -127,17 +123,12 @@ public class Asociado extends AsociadoAbstracto {
 
     protected Asociado() { }
 
-    public Asociado(Grupo grupo, TipoAsociado tipo, String nombre, String apellidos, Date fechaNacimiento,
-                    String direccion, Integer codigoPostal, String municipio, Sexo sexo) {
+    public Asociado(Grupo grupo, TipoAsociado tipo, String nombre, String apellidos, Date fechaNacimiento) {
         this.grupo = grupo;
         this.tipo = tipo;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
-        this.direccion = direccion;
-        this.codigoPostal = codigoPostal;
-        this.municipio = municipio;
-        this.sexo = sexo;
         this.activo = true;
     }
 

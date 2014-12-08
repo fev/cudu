@@ -16,7 +16,7 @@ public class AsociadoTests {
     @Before
     public void setUp() throws Exception {
         grupo = new Grupo("TEST", Asociacion.MEV, "Placeholder", "ABCDEF", 46015, "Valencia", "Valencia", "963400000", "test@example.com");
-        asociado = new Asociado(grupo, TipoAsociado.Joven, "Mike", "Wazowski", new Date(190), "Calle", 46015, "Valencia", Sexo.Masculino);
+        asociado = new Asociado(grupo, TipoAsociado.Joven, "Mike", "Wazowski", new Date());
     }
 
     @Test

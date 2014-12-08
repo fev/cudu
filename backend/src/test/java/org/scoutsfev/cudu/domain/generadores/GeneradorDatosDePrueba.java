@@ -14,7 +14,7 @@ public class GeneradorDatosDePrueba {
 
     public static Asociado generarAsociado(Grupo grupo) {
         int seqId = idAsociado.getAndIncrement();
-        Asociado asociado = new Asociado(grupo, TipoAsociado.Joven, "Nombre" + seqId, "Apellidos" + seqId, new Date(190), "Calle", 46015, "Valencia", Sexo.Masculino);
+        Asociado asociado = new Asociado(grupo, TipoAsociado.Joven, "Nombre" + seqId, "Apellidos" + seqId, new Date());
         asociado.setRamaLobatos(true);
         return asociado;
     }
