@@ -1,119 +1,113 @@
-<div class="container contenedor-central grupo" style="width: 992px">
-<h1 class="text-right">{{grupo.nombre}}</h1>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <div class="btn-group" ng-hide="asociado.id && !asociado.activo">
-      <button type="button" class="btn btn-default btn-primary-hover">
-        <span class="glyphicon glyphicon-ok"></span>&nbsp;Guardar</button>
-      <button type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-refresh"></span>&nbsp;Deshacer</button>
+<div class="grupo"><!-- TODO: Simula class grupo en body, eliminar -->
+<div class="container contenedor-central grupo">
+  <div class="row">
+    <div id="panelEstadisticas" class="col-md-4">
+      <div class="material-panel-level-2">
+        GRÁFICAS
+      </div>
     </div>
-    <button type="button" class="btn btn-default btn-danger-hover pull-right" ng-show="asociado.activo">
-      <span class="glyphicon glyphicon-trash"></span>&nbsp;Eliminar</button>
-    <button type="button" class="btn btn-default btn-success-hover" ng-show="asociado.id && !asociado.activo">
-      <span class="glyphicon glyphicon-export"></span>&nbsp;Recuperar</button>
-  </div>
-  <div class="panel-body">
-    <form name="formAsociado" class="form-horizontal form-cudu" role="form">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="col-md-3 control-label">Nombre</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.nombre" type="text" class="form-control" placeholder="Obligatorio">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Asociación</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.asociacion" type="text" class="form-control" disabled>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Comarca</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.comarca" type="text" class="form-control" disabled>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="col-md-3 control-label">Aniversario</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.aniversario" type="text" class="form-control" placeholder="dd/mm/aaaa">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Entidad Patroc.</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.entidadPatrocinadora" type="text" class="form-control">
-            </div>
-          </div>
-        </div>
+    <div id="panelEdicion" class="col-md-8">
+      <div class="material-panel-level-2">
+      <div class="mat-toolbar text-right">
+        <button type="button" class="btn btn-default" ng-click="guardar(asociado.id)">GUARDAR</button>
       </div>
-      
-      <ul class="nav nav-tabs">
-        <li ng-class="{active: tabActivo == 0}"><a href="javascript:" ng-click="seleccionarTab(0)">Contacto</a></li>
-        <li class="disabled"><a href="javascript:">Pago de Cuotas</a></li>
-        <li class="disabled"><a href="javascript:">Histórico</a></li>
-        <li class="disabled"><a href="javascript:">Seguridad</a></li>
-      </ul>
+      <div class="mat-toolbar-expand"><h1>{{grupo.nombre}}</h1></div>
+      <form name="formAsociado" class="form-horizontal form-cudu form-edicion" role="form">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-md-3 control-label">Nombre</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.nombre" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Asociación</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.asociacion" type="text" class="form-control" disabled>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Comarca</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.comarca" type="text" class="form-control" disabled>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-md-3 control-label">Aniversario</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.aniversario" type="text" class="form-control" placeholder="dd/mm/aaaa">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Entidad Patr.</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.entidadPatrocinadora" type="text" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
 
-      <div class="row tab-content" ng-show="tabActivo == 0">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="col-md-3 control-label">Dirección</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.direccion" type="text" class="form-control" placeholder="obligatorio">
+        <ul class="nav nav-tabs">
+          <li ng-class="{active: tabActivo == 0}"><a href="javascript:" ng-click="seleccionarTab(0)">Contacto</a></li>
+          <li class="disabled"><a href="javascript:">Liquidaciones</a></li>
+          <li class="disabled"><a href="javascript:">Cargos</a></li>
+          <li class="disabled"><a href="javascript:">Histórico</a></li>
+        </ul>
+
+        <div class="row tab-content" ng-show="tabActivo == 0">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-md-3 control-label">Dirección</label>
+              <div class="col-md-9">
+                <textarea ng-model="grupo.direccion" class="form-control" rows="2"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">C. Postal</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.codigoPostal" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Municipio</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.municipio" type="text" class="form-control">
+              </div>
             </div>
           </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">C. Postal</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.codigoPostal" type="text" class="form-control" placeholder="obligatorio">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label class="col-md-3 control-label">Teléfono 1</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.telefono1" type="text" class="form-control">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Provincia</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.provincia" type="text" class="form-control" placeholder="obligatorio">
+            <div class="form-group">
+              <label class="col-md-3 control-label">Teléfono 2</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.telefono2" type="text" class="form-control">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Municipio</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.municipio" type="text" class="form-control" placeholder="obligatorio">
+            <div class="form-group">
+              <label class="col-md-3 control-label">E-Mail</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.email" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Pág. Web</label>
+              <div class="col-md-9">
+                <input ng-model="grupo.web" type="text" class="form-control">
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="col-md-3 control-label">Teléfono 1</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.telefono1" type="text" class="form-control" placeholder="obligatorio">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Teléfono 2</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.telefono2" type="text" class="form-control">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">E-Mail</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.email" type="text" class="form-control" placeholder="obligatorio">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-3 control-label">Pág. Web</label>
-            <div class="col-md-9">
-              <input ng-model="grupo.web" type="text" class="form-control">
-            </div>
-          </div>
-        </div>
+      </form>
       </div>
-    </form>
+    </div>
   </div>
 </div>
 </div>

@@ -106,6 +106,9 @@ h1 { font-weight: 300; }
     border-width: 0px 0px 1px 0px;
     color: #333;
   }
+  .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: inherit; color: $material-grey-400;
+  }
   textarea.form-control { height: auto; }
   .form-control-static {
     padding-top: $cudu-padding-base-vertical + 1;
@@ -186,3 +189,4 @@ h1 { font-weight: 300; }
 
 @import 'secciones.scss';
 @import 'asociado.scss';
+@import 'grupo.scss';
