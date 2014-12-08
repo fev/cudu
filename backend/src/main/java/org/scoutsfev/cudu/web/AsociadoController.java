@@ -26,6 +26,9 @@ public class AsociadoController {
 
     @RequestMapping(value = "/asociado", method = RequestMethod.GET)
     public Page<Asociado> listado(@AuthenticationPrincipal Usuario usuario, Pageable pageable) {
+        // TODO Si el usuario es FEV o Lluerna, devuelve todos
+        // TODO Si el usuario es SdC, SdA o MEV, devuelve solo el subconjunto
+        // TODO Si el usuario es de grupo pero no tiene permiso, denegar (esta con anotación).
         String idGrupo = usuario.getGrupo().getId();
         return asociadoRepository.findByGrupoId(idGrupo, pageable);
     }

@@ -116,7 +116,7 @@ public class AsociadoRepositoryIntegrationTests {
     }
 
     @Test
-    public void test_si_el_asociado_no_existe_al_obtener_el_codigo_del_grupo_devuelve_null() throws Exception {
+    public void si_el_asociado_no_existe_al_obtener_el_codigo_del_grupo_devuelve_null() throws Exception {
         assertNull(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(-1));
     }
 
