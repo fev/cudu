@@ -12,12 +12,12 @@ angular
       .when('/asociados', {
         templateUrl: 'views/asociado.html',
         controller: 'AsociadoCtrl',
-        tabActivo: 'asociado'
+        seccion: 'asociado'
       })
       .when('/grupo/:id', {
         templateUrl: 'views/grupo.html',
         controller: 'GrupoCtrl',
-        tabActivo: 'grupo'
+        seccion: 'grupo'
       })
       .otherwise({
         redirectTo: '/asociados'

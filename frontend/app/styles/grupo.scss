@@ -20,5 +20,8 @@
     .material-panel-level-2 {
       padding-bottom: 5px
     }
+    .form-control:focus {
+      border-color: $material-pink-A200;
+    }
   }
 }

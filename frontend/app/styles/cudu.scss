@@ -109,6 +109,9 @@ h1 { font-weight: 300; }
   .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     background-color: inherit; color: $material-grey-400;
   }
+  .form-control:focus {
+    border-color: $material-grey-700;
+  }
   textarea.form-control { height: auto; }
   .form-control-static {
     padding-top: $cudu-padding-base-vertical + 1;
