@@ -18,12 +18,14 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     minifycss = require('gulp-minify-css'),
     path = require('path'),
+    proxy = require('proxy-middleware'),
     rename = require('gulp-rename'),
     replace = require('gulp-replace'),
     revreplace = require('gulp-rev-replace'),
     rimraf = require('gulp-rimraf'),
     uglify = require('gulp-uglify'),
-    useref = require('gulp-useref');
+    useref = require('gulp-useref'),
+    url = require('url');
 
 var revision = function() {
   return es.map(function(file, callback) {
@@ -79,7 +81,7 @@ gulp.task('lint', function() {
 gulp.task('preflight', ['compass', 'bower-files', 'images'], function() {
   var stylesFilter  = filter('**/*.css');
   var scriptsFilter = filter('**/*.js');
-  var assets = useref.assets();                                  
+  var assets = useref.assets();
   return gulp.src('app/**/*.html')
     .pipe(assets)
     .pipe(scriptsFilter)
@@ -110,10 +112,18 @@ gulp.task('default', ['preflight'], function() {
 });
 
 gulp.task('connect', function() {
-  connect.server({ 
+  connect.server({
     root: 'app',
     port: process.env.PORT || 9000,
-    livereload: true
+    livereload: true,
+    middleware: function(connect, o) {
+      return [(function() {
+        var options = url.parse('http://localhost:8080/');
+        options.route = '/api';
+        options.cookieRewrite = true;
+        return proxy(options);
+      })()];
+    }
   });
 });
 
@@ -122,4 +132,3 @@ gulp.task('watch', function() {
 });
 
 gulp.task('serve', ['compass', 'connect', 'watch']);
-
