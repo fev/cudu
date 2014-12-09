@@ -22,4 +22,14 @@ angular
       .otherwise({
         redirectTo: '/asociados'
       });
+  })
+  .run(function($rootScope) {
+
+    $rootScope.$on('$routeChangeSuccess', function(e, target) {
+      if (target && target.$$route) {
+        $rootScope.controlador = target.$$route.controller;
+        $rootScope.seccion = target.$$route.seccion;
+      }
+    });
+    
   });
