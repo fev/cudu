@@ -19,6 +19,11 @@ angular
         controller: 'GrupoCtrl',
         seccion: 'grupo'
       })
+      .when('/tecnico/fev/asociado', {
+        templateUrl: 'views/tecnico_fev.html',
+        controller: 'TecnicoFevCtrl',
+        seccion: 'tecnico-fev'
+      })
       .otherwise({
         redirectTo: '/asociados'
       });

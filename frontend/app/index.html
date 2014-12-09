@@ -35,19 +35,19 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <!-- GRUPOS -->
-          <li ng-class="{active: controlador === 'AsociadoCtrl'}"><a href="#/asociados">Asociados</a></li>
-          <li ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/ak">Mi Grupo</a></li>
-          <li><a href="#/misdatos">Mis Datos</a></li>
-          <li><a href="#/actividades">Actividades</a></li>
-          <li><a href="#/permisos">Permisos</a></li>
+          <li ng-hide="controlador === 'TecnicoFevCtrl'" ng-class="{active: controlador === 'AsociadoCtrl'}"><a href="#/asociados">Asociados</a></li>
+          <li ng-hide="controlador === 'TecnicoFevCtrl'" ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/ak">Mi Grupo</a></li>
+          <li ng-hide="controlador === 'TecnicoFevCtrl'"><a href="#/misdatos">Mis Datos</a></li>
+          <li ng-hide="controlador === 'TecnicoFevCtrl'"><a href="#/actividades">Actividades</a></li>
+          <li ng-hide="controlador === 'TecnicoFevCtrl'"><a href="#/permisos">Permisos</a></li>
 
-          <!-- TECNICOS
-          <li><a href="#/asociados">Asociados</a></li>
-          <li><a href="#/grupo/ak">Grupos</a></li>
-          <li><a href="javascript:">Actividades</a></li>
-          <li><a href="javascript:">Permisos</a></li>
-          <li><a href="javascript:">Liquidaciones</a></li>
-          <li><a href="javascript:">Mis Datos</a></li> -->
+          <!-- TECNICOS -->
+          <li ng-show="controlador === 'TecnicoFevCtrl'" ng-class="{active: controlador === 'TecnicoFevCtrl'}"><a href="#/tecnico/fev/asociado">Asociados</a></li>
+          <li ng-show="controlador === 'TecnicoFevCtrl'" ng-class="{active: controlador === 'TecnicoGruposCtrl'}"><a href="#/tecnico/fev/grupo">Grupos</a></li>
+          <li ng-show="controlador === 'TecnicoFevCtrl'"><a href="javascript:">Actividades</a></li>
+          <li ng-show="controlador === 'TecnicoFevCtrl'"><a href="javascript:">Permisos</a></li>
+          <li ng-show="controlador === 'TecnicoFevCtrl'"><a href="javascript:">Liquidaciones</a></li>
+          <li ng-show="controlador === 'TecnicoFevCtrl'"><a href="javascript:">Mis Datos</a></li>
 
           <!-- LLUERNA
           <li><a href="javascript:">Cursos</a></li>
@@ -79,6 +79,7 @@
   <script src="scripts/directives.js"></script>
   <script src="scripts/controllers/asociado.js"></script>
   <script src="scripts/controllers/grupo.js"></script>
+  <script src="scripts/controllers/tecnico_fev.js"></script>
   <!-- endbuild -->
 </body>
 </html>
