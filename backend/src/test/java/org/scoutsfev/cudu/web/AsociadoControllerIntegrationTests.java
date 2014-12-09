@@ -35,6 +35,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeThat;
@@ -54,9 +55,6 @@ public class AsociadoControllerIntegrationTests {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired
-    private AsociadoController asociadoController;
 
     @Value("http://localhost:${local.server.port}")
     private String baseUrl;
@@ -88,6 +86,14 @@ public class AsociadoControllerIntegrationTests {
         String response = template.getForObject(endpoint("/asociado/{id}"), String.class, usuario.getId());
         assertThat(response, containsString(usuario.getUsername()));
         assertThat(response, not(containsString(usuario.getPassword())));
+    }
+
+    @Test
+    public void al_obtener_el_usuario_actual_este_no_contiene_el_password() throws Exception {
+        ResponseEntity<Usuario> response = template.getForEntity(endpoint("/usuario"), Usuario.class);
+        assertThat(response.getStatusCode(), is(equalTo(HttpStatus.OK)));
+        assertEquals(usuario.getEmail(), response.getBody().getEmail());
+        assertNull(response.getBody().getPassword());
     }
 
     @Test

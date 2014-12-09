@@ -22,34 +22,42 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "usuario_id"))
     protected Collection<GrantedAuthority> roles;
 
+    private String lenguaje;
+
     protected Usuario() { }
 
     @Override
+    @JsonIgnore
     public String getUsername() {
         return email;
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return !Strings.isNullOrEmpty(password);
     }
@@ -61,5 +69,9 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
 
     public String getNombreCompleto() {
         return nombre + " " + apellidos;
+    }
+
+    public String getLenguaje() {
+        return lenguaje;
     }
 }
