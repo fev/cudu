@@ -1,0 +1,45 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title th:text="#{reset.cambiarpassword}">Cambiar Contraseña</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700|Roboto+Condensed:400,300,700" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/backend.css}" href="../static/css/backend.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="container paper">
+    <form action="#" th:action="@{/reset/} + ${token.token}" method="post">
+      <div class="paper-header">
+        <h1 th:text="#{reset.cambiarpassword}">Cambiar Contraseña</h1>
+        <p th:text="#{reset.explicacion}">La contraseña debe tener un mínimo de 6 carácteres combinando letras y números.</p>
+      </div>
+      <div class="paper-body">
+          <div class="form-group">
+            <label class="control-label">Usuario</label>
+            <p class="form-control-static" th:text="${token.email}">email@example.com</p>
+          </div>
+          <div class="form-group">
+            <label for="password">Nueva contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" th:value="${token.password}" autofocus="autofocus" />
+          </div>
+          <div class="form-group">
+            <label for="password2">Repite la contraseña</label>
+            <input type="password" class="form-control" id="password2" name="password2" />
+          </div>
+          <div class="form-group">
+            <label class="control-label">Calidad de la contraseña</label>
+            <p class="form-control-static" style="color: #795548">Mediocre</p>
+          </div>
+      </div>
+      <div class="paper-actions">
+        <input type="button" class="btn btn-dlg" th:value="#{reset.cancelar}" value="Cancelar" />
+        <input type="submit" class="btn btn-dlg btn-dlg-primary" th:value="#{reset.cambiar}" value="Cambiar" />
+      </div>
+      <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> -->
+  </form>
+  </div>
+</body>
+</html>

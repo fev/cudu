@@ -3,6 +3,7 @@ package org.scoutsfev.cudu.services;
 import org.junit.Before;
 import org.junit.Test;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.storage.TokenRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,11 +17,13 @@ public class UsuarioServiceTests {
 
     private UsuarioRepository repository;
     private UsuarioService service;
+    private TokenRepository tokenRepository;
 
     @Before
     public void setUp() throws Exception {
         repository = mock(UsuarioRepository.class);
-        service = new UsuarioService(repository);
+        tokenRepository = mock(TokenRepository.class);
+        service = new UsuarioService(repository, tokenRepository);
     }
 
     @Test(expected = UsernameNotFoundException.class)
@@ -71,8 +74,8 @@ public class UsuarioServiceTests {
         }
     }
 
-    // TODO si_el_usuario_no_tiene_password_no_puede_hacer_login
-    // TODO si_el_usuario_esta_desactivado_no_puede_hacer_login_tenga_grupo_o_no
+    // TODO si_el_usuario_esta_activo_y_tiene_password_puede_hacer_login
+    // TODO si_el_usuario_esta_activo_pero_no_tiene_password_o_esta_en_blanco_no_puede_hacer_login
+    // TODO si_el_usuario_esta_inactivo_no_puede_hacer_password
     // TODO si_el_usuario_es_menor_de_18_no_puede_hacer_login
-    // TODO (integracion) sin_grupo_tambien_se_puede_hacer_login
 }

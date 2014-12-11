@@ -13,11 +13,11 @@ public interface UsuarioRepository extends Repository<Usuario, String> {
 
     @Modifying
     @Transactional
-    @Query("update Usuario a set a.password = :password where a.id = :idAsociado")
+    @Query("update Usuario a set a.password = :password, a.usuarioActivo = true where a.id = :idAsociado")
     public void activar(@Param("idAsociado") int idAsociado, @Param("password") String password);
 
-    @Modifying
-    @Transactional
-    @Query("update Usuario a set a.password = null where a.id = :idAsociado")
-    public void desactivar(@Param("idAsociado") int idAsociado);
+//    @Modifying
+//    @Transactional
+//    @Query("update Usuario a set a.password = null, a.usuarioActivo = false where a.id = :idAsociado")
+//    public void desactivar(@Param("idAsociado") int idAsociado);
 }

@@ -32,6 +32,10 @@ public abstract class AsociadoAbstracto {
     @JsonIgnore
     protected Grupo grupo;
 
+    @NotNull
+    @Column(nullable = false)
+    protected boolean usuarioActivo = false;
+
     public Integer getId() {
         return id;
     }
@@ -70,5 +74,13 @@ public abstract class AsociadoAbstracto {
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
+    }
+
+    public boolean isUsuarioActivo() {
+        return usuarioActivo;
+    }
+
+    public void setUsuarioActivo(boolean usuarioActivo) {
+        this.usuarioActivo = usuarioActivo;
     }
 }

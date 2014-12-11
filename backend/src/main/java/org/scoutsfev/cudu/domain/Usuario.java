@@ -60,7 +60,7 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isEnabled() {
-        return !Strings.isNullOrEmpty(password);
+        return usuarioActivo && !Strings.isNullOrEmpty(password);
     }
 
     @Override

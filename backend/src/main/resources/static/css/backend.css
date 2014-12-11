@@ -1,0 +1,19 @@
+body { background: #EEE; font-family: 'Roboto', Arial, sans-serif; }
+body > div.container.paper { margin-top: 50px; width: 400px }
+.paper { padding: 0px; background-color: #FFF; box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23); }
+.paper-body { padding: 25px; padding-bottom: 0px }
+.paper-body > div.form-group:last-child { margin-bottom: 0px }
+.paper-header { background-color: #FFF; }
+.paper-header h1 { margin: 0; padding: 20px 0 0 25px; color: #E91E63; font-family: 'Roboto'; font-weight: 300; font-size: 16pt; }
+.paper-header p { font-weight: 300; margin: 10px 20px 0 25px }
+.paper-separator { border-bottom: 1px solid #DDD; height: 0px; margin: 0 -20px 10px -20px; }
+.paper-actions { border-top: 1px solid #DDD; margin: 20px 0 10px 0; padding-top: 10px; padding-left: 20px }
+.form-control { border-radius: 0; box-shadow: none; border: 0; border-bottom: 1px solid #CCC; padding-left: 0; }
+.form-control:focus { border-color: #CCC; box-shadow: none; border-bottom: 1px solid #E91E63 }
+.btn { padding: 6px; font-weight: 500; color: #333 }
+.btn:active, .btn.active { box-shadow: none }
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus { outline: none; }
+.btn:hover { background-color: #EEE; }
+.btn-dlg { border-radius: 0; background-color: transparent; text-transform: uppercase; }
+.btn-dlg-primary { color: #E91E63 }
+.btn-dlg-primary:hover { color: #E91E63; background-color: #FCE4EC }

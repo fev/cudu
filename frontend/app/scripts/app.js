@@ -4,6 +4,7 @@ angular
   .module('cuduApp', [
     'ngResource',
     'ngRoute',
+    'ngCookies',
     'cuduServices',
     'cuduFilters'
   ])
@@ -12,8 +13,19 @@ angular
     "TECNICO" : "rol-tecnico",
     "LLUERNA" : "rol-lluerna"
   })
-  .config(function ($routeProvider) {
+  .config(function($routeProvider) {
     $routeProvider
+      .when('/', {
+        redirectTo: function() {
+          // TODO Redirigir dependiendo del rol del usuario
+          return '/asociado';
+        }
+      })
+      .when('/login', {
+        templateUrl: 'views/login.html',
+        controller: 'LoginCtrl',
+        seccion: 'login'
+      })
       .when('/asociados', {
         templateUrl: 'views/asociado.html',
         controller: 'AsociadoCtrl',
@@ -25,10 +37,13 @@ angular
         seccion: 'grupo'
       })
       .otherwise({
-        redirectTo: '/asociados'
+         redirectTo: '/asociados'
       });
   })
-  .run(function($rootScope, RolesMenu) {
+  .run(function($rootScope, $location, $cookies, RolesMenu, Usuario) {
+
+    // console.log("Start");
+    // console.log($cookies.JSESSIONID);
 
     $rootScope.$on('$routeChangeSuccess', function(e, target) {
       if (target && target.$$route) {
@@ -38,4 +53,8 @@ angular
       }
     });
 
+    // if (Usuario.autenticado()) {
+    //   $location.path("/");
+    // }
+    // $location.path("/login");
   });

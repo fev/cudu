@@ -72,14 +72,21 @@ public class AsociadoRepositoryIntegrationTests {
     }
 
     @Test
-    public void una_vez_guardado_un_usuario_esta_activado() throws Exception {
+    public void por_defecto_un_asociado_esta_activado() throws Exception {
         Asociado guardardo = asociadoRepository.save(GeneradorDatosDePrueba.generarAsociado());
         Asociado asociado = asociadoRepository.findOne(guardardo.getId());
         assertTrue(asociado.isActivo());
     }
 
     @Test
-    public void es_posible_activar_un_usuario() throws Exception {
+    public void por_defecto_un_usuario_esta_desactivado() throws Exception {
+        Asociado guardardo = asociadoRepository.save(GeneradorDatosDePrueba.generarAsociado());
+        Asociado asociado = asociadoRepository.findOne(guardardo.getId());
+        assertFalse(asociado.isUsuarioActivo());
+    }
+
+    @Test
+    public void es_posible_activar_un_asociado() throws Exception {
         Asociado original = GeneradorDatosDePrueba.generarAsociado();
         original.setActivo(false);
         Asociado guardado = asociadoRepository.save(original);
@@ -93,7 +100,7 @@ public class AsociadoRepositoryIntegrationTests {
     }
 
     @Test
-    public void es_posible_desactivar_un_usuario() throws Exception {
+    public void es_posible_desactivar_un_asociado() throws Exception {
         Asociado original = GeneradorDatosDePrueba.generarAsociado();
         original.setActivo(true);
         Asociado guardado = asociadoRepository.save(original);
