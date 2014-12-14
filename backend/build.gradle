@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    springBootVersion = '1.1.9.RELEASE'
+    springBootVersion = '1.2.0.RELEASE'
   }
   repositories {
     mavenCentral()
@@ -11,14 +11,13 @@ buildscript {
 }
 
 apply plugin: 'java'
+apply plugin: 'spring-boot'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
-apply plugin: 'spring-boot'
-apply plugin: 'war'
 
-war {
+jar {
   baseName = 'cudu'
-  version =  '2.0.2'
+  version =  '2.0.3'
 }
 
 sourceCompatibility = 1.8
@@ -36,19 +35,13 @@ dependencies {
   compile("org.springframework.boot:spring-boot-starter-security")
   compile("org.springframework.boot:spring-boot-starter-actuator")
   compile("org.springframework.boot:spring-boot-starter-data-jpa")
+  compile("org.springframework.boot:spring-boot-starter-web")
 
   compile("com.google.guava:guava:18.0")
-  compile("com.fasterxml.jackson.core:jackson-databind")
 
   compile("com.h2database:h2")
   compile("org.hibernate:hibernate-validator")
   compile("org.postgresql:postgresql:9.3-1102-jdbc4")
-
-  compile("org.springframework.boot:spring-boot-starter-jetty")
-  compile("org.springframework.boot:spring-boot-starter-web") {
-    exclude module: "spring-boot-starter-tomcat"
-  }
-  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
   testCompile("org.springframework.boot:spring-boot-starter-test")
 }
