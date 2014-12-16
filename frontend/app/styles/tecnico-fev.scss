@@ -4,6 +4,10 @@
     table {
 
     }
-    .btn-group .btn-default { border-color: #ccc;}
+    table tr:hover { cursor: pointer; }
+    .padded { margin: 5px; }
+    label + .btn-group { vertical-align: bottom; }
+    .separador-dcho { border-right: 1px solid #ddd; }
+    .panel-footer { text-align: center; }
   }
 }

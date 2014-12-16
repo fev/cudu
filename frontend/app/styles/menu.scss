@@ -1,0 +1,19 @@
+// Estructura del menu superior
+
+body.rol-asociado {
+  li.rol-asociado { display: inherit !important }
+  li.rol-tecnico { display: none }
+  li.rol-lluerna { display: none }
+}
+
+body.rol-tecnico {
+  li.rol-asociado { display: none }
+  li.rol-tecnico { display: inherit !important }
+  li.rol-lluerna { display: none }
+}
+
+body.rol-lluerna {
+  li.rol-asociado { display : none }
+  li.rol-tecnico { display : none }
+  li.rol-lluerna { display : inherit !important }
+}

@@ -1,102 +1,57 @@
 <div class="container contenedor-central">
   <div class="row">
-  <!--     <form class="form" role="form">
-        <div class="form-group">
-          <div class="input-group">
-            <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda">
-            <span class="input-group-btn">
-              <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button"
-              tooltip="Limpiar búsqueda y mostrar todos">
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
-            <button class="btn btn-default btn-sm" type="button">
-              <span class="glyphicon glyphicon-sort-by-alphabet"></span>
-            </button>
-            <button class="btn btn-default btn-sm" type="button" ng-click="nuevo()">
-              <span class="glyphicon glyphicon-plus"></span> Nuevo
-            </button>
-          </span>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="btn-group btn-group-sm">
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">SdC</a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">SdA</a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">MEV</a>
-        </div>
-        <div class="btn-group">
-          <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-            Selecciona grupo <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li ng-repeat="grupo in grupos"><a href="#">{{grupo}}</a></li>
-          </ul>
-        </div>
-        <div class="btn-group btn-group-sm">
-            <a href="javascript:" class="btn btn-default">
-              <span class="glyphicon glyphicon-user"></span> Ver Grupo
-            </a>
-          </div>
-      </div>
-      <div class="form-group">
-        <div class="btn-toolbar">
-          <div class="btn-group btn-group-xs">
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Joven</a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
-          </div>
-          <div class="btn-group btn-group-xs">
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'C'}" ng-click="activarFiltro('rama', 'C')">Cas.</a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'M'}" ng-click="activarFiltro('rama', 'M')">Lob.</a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'E'}" ng-click="activarFiltro('rama', 'E')">Exp.</a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'P'}" ng-click="activarFiltro('rama', 'P')">Pio.</a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'R'}" ng-click="activarFiltro('rama', 'R')">Com.</a>
-          </div>
-          <div class="btn-group btn-group-xs">
-            <a href="javascript:" class="btn btn-default disabled">
-              <span class="glyphicon glyphicon-fire"></span>
-            </a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.eliminados === true}" ng-click="activarFiltro('eliminados', true, false)">
-              <span class="glyphicon glyphicon-trash"></span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </form> -->
     <div id="listado-asociados">
-
       <div class="panel panel-default">
         <!-- Default panel contents -->
-        <div class="panel-heading">Listado de Asociados</div>
+        <div class="panel-heading">Búsqueda Avanzada</div>
         <div class="panel-body">
           <div class="row">
-            <div class="col-md-6">
-              <div class="btn-group">
-                <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">SdC</a>
-                <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">SdA</a>
-                <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">MEV</a>
-              </div>
-
-              <div class="btn-group">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  Selecciona grupo <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                  <li ng-repeat="grupo in grupos"><a href="#">{{grupo}}</a></li>
-                </ul>
-              </div>
-
-              <div class="btn-group">
-                <a href="javascript:" class="">
-                  <span class="glyphicon glyphicon-user"></span> Ver Grupo
-                </a>
+            <div class="col-md-6 separador-dcho">
+              <div class="row padded">
+                <div class="col-md-6">
+                  <div class="row">
+                    <label>Tipo</label>
+                    <div class="btn-group btn-group-sm">
+                      <a href="javascript:" class="btn btn-default">Joven</a>
+                      <a href="javascript:" class="btn btn-default">Kraal</a>
+                      <a href="javascript:" class="btn btn-default">Comité</a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label>Rama</label>
+                    <div class="btn-group btn-group-sm">
+                      <a href="javascript:" class="btn btn-default">Cas.</a>
+                      <a href="javascript:" class="btn btn-default">Lob.</a>
+                      <a href="javascript:" class="btn btn-default">Exp.</a>
+                      <a href="javascript:" class="btn btn-default">Pio.</a>
+                      <a href="javascript:" class="btn btn-default">Com.</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <label>Sexo</label>
+                    <div class="btn-group btn-group-sm">
+                      <a href="javascript:" class="btn btn-default">Maculino</a>
+                      <a href="javascript:" class="btn btn-default">Femenino</a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="input-group">
+                      <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda por DNI">
+                      <span class="input-group-btn">
+                        <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button"
+                        tooltip="Limpiar búsqueda y mostrar todos">
+                        <span class="glyphicon glyphicon-remove"></span>
+                      </button>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
+            <div class="row padded">
               <div class="input-group">
-                <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda">
+                <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda por Nombre">
                 <span class="input-group-btn">
                   <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button"
                   tooltip="Limpiar búsqueda y mostrar todos">
@@ -105,51 +60,76 @@
               </span>
             </div>
           </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row padded">
+            <label>Federación</label>
+            <div class="btn-group btn-group-sm">
+              <a href="javascript:" class="btn btn-default">SdC</a>
+              <a href="javascript:" class="btn btn-default">SdA</a>
+              <a href="javascript:" class="btn btn-default">MEV</a>
+            </div>
+          </div>
+          <div class="row padded">
+            <label>Grupo</label>
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                Selecciona grupo <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="grupo in grupos"><a href="#">{{grupo}}</a></li>
+              </ul>
+            </div>
 
-          <div class="btn-toolbar">
-            <div class="btn-group btn-group-xs">
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Joven</a>
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
-            </div>
-            <div class="btn-group btn-group-xs">
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'C'}" ng-click="activarFiltro('rama', 'C')">Cas.</a>
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'M'}" ng-click="activarFiltro('rama', 'M')">Lob.</a>
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'E'}" ng-click="activarFiltro('rama', 'E')">Exp.</a>
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'P'}" ng-click="activarFiltro('rama', 'P')">Pio.</a>
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'R'}" ng-click="activarFiltro('rama', 'R')">Com.</a>
-            </div>
-            <div class="btn-group btn-group-xs">
-              <a href="javascript:" class="btn btn-default disabled">
-                <span class="glyphicon glyphicon-fire"></span>
-              </a>
-              <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.eliminados === true}" ng-click="activarFiltro('eliminados', true, false)">
-                <span class="glyphicon glyphicon-trash"></span>
+            <div class="btn-group">
+              <a href="javascript:" class="">
+                <span class="glyphicon glyphicon-user"></span> Ver Grupo
               </a>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Table -->
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Actualizado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="a in asociados.list">
-            <td>{{a.nombre}} {{a.apellidos}}</td>
-            <td>{{a.tipo | tipoAsociado}}, {{a.rama | rama}}</td>
-            <td>{{a.actualizado}}</td>
-          </tr>
-        </tbody>
-      </table>
+    </div>
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th width="30%">Nombre</th>
+          <th width="15%">DNI</th>
+          <th width="15%">Tipo</th>
+          <th width="15%">Rama</th>
+          <th width="15%">Grupo</th>
+          <th width="15%">Federacion</th>
+          <th width="10%">Actualizado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="a in asociados.list">
+          <td>{{a.nombre}} {{a.apellidos}}</td>
+          <td ng-if="a.dni !== undefined">{{a.dni}}</td>
+          <td ng-if="a.dni === undefined">(sin DNI)</td>
+          <td>{{a.tipo | tipoAsociado}}</td>
+          <td>{{a.rama | rama}}</td>
+          <td>Grupo 1</td>
+          <td>SdC</td>
+          <td>{{a.actualizado}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="panel-footer">
+      <nav>
+        <ul class="pagination">
+          <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Anterior</span></a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Siguiente</span></a></li>
+        </ul>
+      </nav>
     </div>
   </div>
+</div>
 
 </div>
 </div>

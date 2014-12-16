@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -20,7 +21,7 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
 
     @ElementCollection(targetClass = Rol.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "usuario_id"))
-    protected Collection<GrantedAuthority> roles;
+    protected Collection<GrantedAuthority> roles = new ArrayList<>();
 
     private String lenguaje;
 

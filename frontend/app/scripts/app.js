@@ -7,6 +7,11 @@ angular
     'cuduServices',
     'cuduFilters'
   ])
+  .constant("RolesMenu", {
+    "ASOCIADO": "rol-asociado",
+    "TECNICO" : "rol-tecnico",
+    "LLUERNA" : "rol-lluerna"
+  })
   .config(function ($routeProvider) {
     $routeProvider
       .when('/asociados', {
@@ -28,13 +33,14 @@ angular
         redirectTo: '/asociados'
       });
   })
-  .run(function($rootScope) {
+  .run(function($rootScope, RolesMenu) {
 
     $rootScope.$on('$routeChangeSuccess', function(e, target) {
       if (target && target.$$route) {
         $rootScope.controlador = target.$$route.controller;
         $rootScope.seccion = target.$$route.seccion;
+        $rootScope.rol = RolesMenu.ASOCIADO;
       }
     });
-    
+
   });
