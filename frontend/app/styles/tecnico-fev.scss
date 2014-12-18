@@ -9,5 +9,10 @@
     label + .btn-group { vertical-align: bottom; }
     .separador-dcho { border-right: 1px solid #ddd; }
     .panel-footer { text-align: center; }
+    .btn {color: inherit; }
+    .btn:hover { background-color: $material-orange-A200; } 
+    .btn.active {
+    	background-color: $material-orange-A100;
+    }
   }
 }

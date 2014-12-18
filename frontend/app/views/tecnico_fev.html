@@ -12,19 +12,19 @@
                   <div class="row">
                     <label>Tipo</label>
                     <div class="btn-group btn-group-sm">
-                      <a href="javascript:" class="btn btn-default">Joven</a>
-                      <a href="javascript:" class="btn btn-default">Kraal</a>
-                      <a href="javascript:" class="btn btn-default">Comité</a>
+                      <a href="javascript:" ng-click="JovenActivo=!JovenActivo" ng-class="{'active': JovenActivo}" class="btn">Joven</a>
+                      <a href="javascript:" ng-click="KraalActivo=!KraalActivo" ng-class="{'active': KraalActivo}" class="btn">Kraal</a>
+                      <a href="javascript:" ng-click="ComiteActivo=!ComiteActivo" ng-class="{'active': ComiteActivo}" class="btn">Comité</a>
                     </div>
                   </div>
                   <div class="row">
                     <label>Rama</label>
                     <div class="btn-group btn-group-sm">
-                      <a href="javascript:" class="btn btn-default">Cas.</a>
-                      <a href="javascript:" class="btn btn-default">Lob.</a>
-                      <a href="javascript:" class="btn btn-default">Exp.</a>
-                      <a href="javascript:" class="btn btn-default">Pio.</a>
-                      <a href="javascript:" class="btn btn-default">Com.</a>
+                      <a href="javascript:" ng-click="CasActivo=!CasActivo" ng-class="{'active': CasActivo}" class="btn">Cas.</a>
+                      <a href="javascript:" ng-click="LobActivo=!LobActivo" ng-class="{'active': LobActivo}" class="btn">Lob.</a>
+                      <a href="javascript:" ng-click="ExpActivo=!ExpActivo" ng-class="{'active': ExpActivo}" class="btn">Exp.</a>
+                      <a href="javascript:" ng-click="PioActivo=!PioActivo" ng-class="{'active': PioActivo}" class="btn">Pio.</a>
+                      <a href="javascript:" ng-click="ComActivo=!ComActivo" ng-class="{'active': ComActivo}" class="btn">Com.</a>
                     </div>
                   </div>
                 </div>
@@ -32,8 +32,8 @@
                   <div class="row">
                     <label>Sexo</label>
                     <div class="btn-group btn-group-sm">
-                      <a href="javascript:" class="btn btn-default">Maculino</a>
-                      <a href="javascript:" class="btn btn-default">Femenino</a>
+                      <a href="javascript:" ng-click="MasculinoActivo=!MasculinoActivo" ng-class="{'active': MasculinoActivo}" class="btn">Masculino</a>
+                      <a href="javascript:" ng-click="FemeninoActivo=!FemeninoActivo" ng-class="{'active': FemeninoActivo}" class="btn">Femenino</a>
                     </div>
                   </div>
                   <div class="row">
@@ -63,11 +63,12 @@
         </div>
         <div class="col-md-6">
           <div class="row padded">
-            <label>Federación</label>
+            <label>Asociación</label>
             <div class="btn-group btn-group-sm">
-              <a href="javascript:" class="btn btn-default">SdC</a>
-              <a href="javascript:" class="btn btn-default">SdA</a>
-              <a href="javascript:" class="btn btn-default">MEV</a>
+             <a href="javascript:" ng-click="SdCActivo=!SdCActivo" ng-class="{'active': SdCActivo}" class="btn">SdC</a>
+              <a href="javascript:" ng-click="SdAActivo=!SdAActivo" ng-class="{'active': SdAActivo}" class="btn">SdA</a>
+              <a href="javascript:" ng-click="MEVActivo=!MEVActivo" ng-class="{'active': MEVActivo}" class="btn">MEV</a>
+              <a href="javascript:" ng-click="VoluntariosActivo=!VoluntariosActivo" ng-class="{'active': VoluntariosActivo}" class="btn">Voluntarios</a>
             </div>
           </div>
           <div class="row padded">
@@ -87,49 +88,64 @@
               </a>
             </div>
           </div>
+          <div class="row padded has-warning">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> Mostrar Inactivos
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover ">
       <thead>
         <tr>
-          <th width="30%">Nombre</th>
-          <th width="15%">DNI</th>
-          <th width="15%">Tipo</th>
-          <th width="15%">Rama</th>
-          <th width="15%">Grupo</th>
-          <th width="15%">Federacion</th>
-          <th width="10%">Actualizado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="a in asociados.list">
-          <td>{{a.nombre}} {{a.apellidos}}</td>
-          <td ng-if="a.dni !== undefined">{{a.dni}}</td>
-          <td ng-if="a.dni === undefined">(sin DNI)</td>
-          <td>{{a.tipo | tipoAsociado}}</td>
-          <td>{{a.rama | rama}}</td>
-          <td>Grupo 1</td>
-          <td>SdC</td>
-          <td>{{a.actualizado}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="panel-footer">
-      <nav>
-        <ul class="pagination">
-          <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Anterior</span></a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Siguiente</span></a></li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-</div>
+          <th width="15%">Nombre</th> 
+          <th width="15%" ng-click="ApellidosAsc=!ApellidosAsc" ng-class="{'dropup': ApellidosAsc}">
+            Apellidos <span class="caret"></span></th>
+            <th width="15%">DNI</th>
+            <th width="15%">Teléfono</th>
+            <th width="15%" ng-click="tipoAsc=!tipoAsc" ng-class="{'dropup': tipoAsc}">
+              Tipo <span class="caret"></span></th>
+              <th width="10%" ng-click="RamaAsc=!RamaAsc" ng-class="{'dropup': RamaAsc}">
+                Rama <span class="caret"></span></th>
+                <th width="10%" ng-click="GrupoAsc=!GrupoAsc" ng-class="{'dropup': GrupoAsc}">
+                  Grupo <span class="caret"></span></th>
+                  <th width="10%">Asociación</th>
+                  <th width="10%">Actualizado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="a in asociados.list">
+                  <td>{{a.nombre}}</td>
+                  <td>{{a.apellidos}}</td>
+                  <td ng-if="a.dni !== undefined">{{a.dni}}</td>
+                  <td ng-if="a.dni === undefined">(sin DNI)</td>
+                  <td>3333333</td>
+                  <td>{{a.tipo | tipoAsociado}}</td>
+                  <td>{{a.rama | rama}}</td>
+                  <td>Grupo 1</td>
+                  <td>SdC</td>
+                  <td>{{a.actualizado}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="panel-footer">
+              <nav>
+                <ul class="pagination">
+                  <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Anterior</span></a></li>
+                  <li><a href="#">1</a></li>
+                  <li><a href="#">2</a></li>
+                  <li><a href="#">3</a></li>
+                  <li><a href="#">4</a></li>
+                  <li><a href="#">5</a></li>
+                  <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Siguiente</span></a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
 
-</div>
-</div>
+      </div>
+    </div>

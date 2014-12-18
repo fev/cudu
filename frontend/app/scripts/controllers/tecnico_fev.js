@@ -11,7 +11,7 @@ angular.module('cuduApp')
 
   	$scope.asociado = {};
     $q.when($scope.asociados.total.$promise).then(function () {
-      $scope.asociados.list = $scope.asociados.total.slice(0, 15); 
+      $scope.asociados.list = $scope.asociados.total.slice(0, 10); 
       // if(typeof($routeParams.id) !== 'undefined')
       //   $scope.asociado = $filter('byId')($scope.asociados.list, $routeParams.id);
       //   $scope.asociado.seleccionado = true;
