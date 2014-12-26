@@ -10,14 +10,26 @@ angular.module('cuduApp')
       $scope.asociados.total = Asociado.query();
 
   	$scope.asociado = {};
+    $scope.inactivos = false;
     $q.when($scope.asociados.total.$promise).then(function () {
-      $scope.asociados.list = $scope.asociados.total.slice(0, 10); 
+      filtraAsociados($scope.inactivos);
       // if(typeof($routeParams.id) !== 'undefined')
       //   $scope.asociado = $filter('byId')($scope.asociados.list, $routeParams.id);
       //   $scope.asociado.seleccionado = true;
     });
 
-    $scope.alert = function(a) {
-      var s="";
+    var filtraAsociados = function (incluirInactivos) {
+      var asociados = $scope.asociados.total;
+      if(!incluirInactivos) {
+        asociados = $.grep(asociados, function (a) { return a.activo; });
+      }
+
+      $scope.asociados.list = asociados.slice(0, 10); 
+    }
+
+    $scope.mostrarInactivos = function () {
+      $scope.inactivos = !$scope.inactivos;
+      filtraAsociados($scope.inactivos);
     };
+
   }]);

@@ -91,14 +91,14 @@
           <div class="row padded has-warning">
             <div class="checkbox">
               <label>
-                <input type="checkbox"> Mostrar Inactivos
+                <input type="checkbox" ng-click="mostrarInactivos()"> Mostrar Inactivos
               </label>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <table class="table table-striped table-hover ">
+    <table class="table table-hover ">
       <thead>
         <tr>
           <th width="15%">Nombre</th> 
@@ -117,7 +117,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="a in asociados.list">
+                <tr ng-repeat="a in asociados.list" ng-class="{'bg-danger': !a.activo}">
                   <td>{{a.nombre}}</td>
                   <td>{{a.apellidos}}</td>
                   <td ng-if="a.dni !== undefined">{{a.dni}}</td>
