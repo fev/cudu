@@ -44,10 +44,6 @@ public class Grupo {
     @Size(min = 3, max = 100)
     private String municipio;
 
-    @NotNull
-    @Size(min = 3, max = 100)
-    private String provincia;
-
     @Past
     private Date aniversario;
 
@@ -73,10 +69,8 @@ public class Grupo {
     protected Grupo() { }
 
     public Grupo(String id, Asociacion asociacion, String nombre, String direccion,
-                 Integer codigoPostal, String municipio, String provincia,
-                 String telefono1, String email) {
+                 Integer codigoPostal, String municipio, String telefono1, String email) {
         this.telefono1 = telefono1;
-        this.provincia = provincia;
         this.municipio = municipio;
         this.direccion = direccion;
         this.codigoPostal = codigoPostal;
@@ -124,14 +118,6 @@ public class Grupo {
 
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
-    }
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
     }
 
     public Date getAniversario() {

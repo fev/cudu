@@ -9,7 +9,6 @@ var grupo = {
   'comarca': 'Comarca Norte',
   'direccion': chance.address(),
   'codigoPostal': chance.postal(),
-  'provincia': chance.state(),
   'municipio': chance.city(),
   'telefono1': chance.phone(),
   'telefono2': chance.phone(),

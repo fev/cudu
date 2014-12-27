@@ -1,6 +1,9 @@
 package org.scoutsfev.cudu.domain.generadores;
 
-import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.domain.Asociacion;
+import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.Grupo;
+import org.scoutsfev.cudu.domain.TipoAsociado;
 
 import java.util.Date;
 import java.util.Optional;
@@ -25,6 +28,6 @@ public class GeneradorDatosDePrueba {
     }
 
     public static Grupo generarGrupo(Optional<String> id) {
-        return new Grupo(id.orElse(ID_GRUPO), Asociacion.MEV, "Nombre", "Calle", 46015, "Valencia", "Valencia", "963400000", "email@example.com");
+        return new Grupo(id.orElse(ID_GRUPO), Asociacion.MEV, "Nombre", "Calle", 46015, "Valencia", "963400000", "email@example.com");
     }
 }

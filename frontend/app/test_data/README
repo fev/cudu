@@ -1,0 +1,3 @@
+Para generar otra vez los datos de prueba, ejecuta:
+$ node generate.js
+
