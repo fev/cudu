@@ -85,6 +85,9 @@ public class UsuarioService implements UserDetailsService {
         return null;
     }
 
+    // TODO establecerRestricciones + audit event + email
+    // TODO cambiarIdioma(idAsociado, codigo)
+
     private String logError(String mensaje, Token token) {
         String codigoError = "E" + Strings.padStart(new BigInteger(16, secureRandom).toString(16).toUpperCase(), 4, '0');
         if (token != null)

@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class AsociadoTests {
@@ -36,5 +37,11 @@ public class AsociadoTests {
         assertFalse(asociado.isRamaExploradores());
         assertFalse(asociado.isRamaPioneros());
         assertFalse(asociado.isRamaRuta());
+    }
+
+    @Test
+    public void por_defecto_las_restricciones_de_un_usuario_no_son_nulas() throws Exception {
+        Usuario usuario = new Usuario();
+        assertNotNull(usuario.getRestricciones());
     }
 }

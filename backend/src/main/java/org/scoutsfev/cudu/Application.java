@@ -1,5 +1,7 @@
 package org.scoutsfev.cudu;
 
+import org.scoutsfev.cudu.domain.AmbitoEdicion;
+import org.scoutsfev.cudu.domain.Asociacion;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.TipoAsociado;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
@@ -21,11 +23,20 @@ public class Application {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
 
         AsociadoRepository asociadoRepository = context.getBean(AsociadoRepository.class);
-        Asociado asociado = new Asociado(null, TipoAsociado.Voluntario, "Baden", "Powell", new Date());
-        asociado.setEmail("baden@scoutsfev.org");
-        asociadoRepository.save(asociado);
-
         UsuarioRepository usuarioRepository = context.getBean(UsuarioRepository.class);
-        usuarioRepository.activar(asociado.getId(), "1234");
+
+        Asociado fev = new Asociado(null, TipoAsociado.Tecnico, AmbitoEdicion.Federacion, "Tecnico", "FEV", new Date());
+        fev.setEmail("fev@scoutsfev.org");
+        asociadoRepository.save(fev);
+        usuarioRepository.activar(fev.getId(), "test");
+        usuarioRepository.cambiarIdioma(fev.getId(), "ca");
+
+        Asociado sda = new Asociado(null, TipoAsociado.Tecnico, AmbitoEdicion.Asociacion, "Tecnico", "SdA", new Date());
+        sda.setEmail("sda@scoutsfev.org");
+        asociadoRepository.save(sda);
+        usuarioRepository.activar(sda.getId(), "test");
+        usuarioRepository.establecerRestricciones(sda.getId(), false, false, false, Asociacion.SdA);
+
+        // curl -i -w '\n' -u sda@scoutsfev.org:test localhost:9000/api/usuario
     }
 }

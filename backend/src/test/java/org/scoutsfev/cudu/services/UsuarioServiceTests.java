@@ -78,4 +78,5 @@ public class UsuarioServiceTests {
     // TODO si_el_usuario_esta_activo_pero_no_tiene_password_o_esta_en_blanco_no_puede_hacer_login
     // TODO si_el_usuario_esta_inactivo_no_puede_hacer_password
     // TODO si_el_usuario_es_menor_de_18_no_puede_hacer_login
+    // TODO al_desactivar_el_usuario_no_puede_hacer_login_y_su_password_es_nulo
 }
