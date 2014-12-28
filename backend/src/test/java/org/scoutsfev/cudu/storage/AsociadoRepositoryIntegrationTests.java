@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.scoutsfev.cudu.Application;
+import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.TipoAsociado;
@@ -135,6 +136,7 @@ public class AsociadoRepositoryIntegrationTests {
     public void si_el_asociado_no_tiene_grupo_al_obtener_el_codigo_del_grupo_devuelve_null() throws Exception {
         Asociado nuevo = GeneradorDatosDePrueba.generarAsociado(grupo);
         nuevo.setTipo(TipoAsociado.Voluntario);
+        nuevo.setAmbitoEdicion(AmbitoEdicion.Personal);
         nuevo.setGrupo(null);
         Asociado guardado = asociadoRepository.save(nuevo);
         assertNull(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(guardado.getId()));

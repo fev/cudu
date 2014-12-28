@@ -33,6 +33,12 @@ public abstract class AsociadoAbstracto {
     protected Grupo grupo;
 
     @NotNull
+    protected TipoAsociado tipo;
+
+    @NotNull
+    protected AmbitoEdicion ambitoEdicion;
+
+    @NotNull
     @Column(nullable = false)
     protected boolean usuarioActivo = false;
 
@@ -74,6 +80,22 @@ public abstract class AsociadoAbstracto {
 
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
+    }
+
+    public TipoAsociado getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoAsociado tipo) {
+        this.tipo = tipo;
+    }
+
+    public AmbitoEdicion getAmbitoEdicion() {
+        return ambitoEdicion;
+    }
+
+    public void setAmbitoEdicion(AmbitoEdicion ambitoEdicion) {
+        this.ambitoEdicion = ambitoEdicion;
     }
 
     public boolean isUsuarioActivo() {

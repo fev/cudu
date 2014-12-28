@@ -6,7 +6,8 @@ public enum TipoAsociado {
     Joven('J'),
     Kraal('K'),
     Comite('C'),
-    Voluntario('V');
+    Voluntario('V'),
+    Tecnico('T');
 
     private final char tipo;
 
@@ -26,3 +27,4 @@ public enum TipoAsociado {
         throw new IllegalArgumentException("Valor incorrecto para TipoAsociado: " + valor);
     }
 }
+

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.scoutsfev.cudu.Application;
+import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.TipoAsociado;
 import org.scoutsfev.cudu.domain.Usuario;
@@ -34,9 +35,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.junit.Assume.assumeNotNull;
 import static org.junit.Assume.assumeThat;
 
@@ -69,6 +68,7 @@ public class AsociadoControllerIntegrationTests {
         final String password = "wackamole";
         Asociado nuevo = GeneradorDatosDePrueba.generarAsociado(null);
         nuevo.setTipo(TipoAsociado.Voluntario);
+        nuevo.setAmbitoEdicion(AmbitoEdicion.Personal);
         nuevo.setEmail(login);
         Asociado asociado = asociadoRepository.save(nuevo);
 

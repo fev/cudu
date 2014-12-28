@@ -17,9 +17,6 @@ public class Asociado extends AsociadoAbstracto {
 
     public static final String REGEX_NIF = "(\\d{8}|[KLMXYZ]\\d{7})-?\\w";
 
-    @NotNull
-    private TipoAsociado tipo;
-
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaCastores = false;
 
@@ -125,21 +122,14 @@ public class Asociado extends AsociadoAbstracto {
 
     protected Asociado() { }
 
-    public Asociado(Grupo grupo, TipoAsociado tipo, String nombre, String apellidos, Date fechaNacimiento) {
+    public Asociado(Grupo grupo, TipoAsociado tipo, AmbitoEdicion ambitoEdicion, String nombre, String apellidos, Date fechaNacimiento) {
         this.grupo = grupo;
         this.tipo = tipo;
+        this.ambitoEdicion = ambitoEdicion;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
         this.activo = true;
-    }
-
-    public TipoAsociado getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoAsociado tipo) {
-        this.tipo = tipo;
     }
 
     public boolean isRamaCastores() {

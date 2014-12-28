@@ -65,7 +65,7 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return new ArrayList<>();
     }
 
     public String getNombreCompleto() {
