@@ -1,5 +1,33 @@
-.login {
+body.login {
+  background: $material-cyan-500; //#9bdbf7 url('../images/bg.jpg') repeat-x 0 0;
+  #explicacion {
+    padding-top: 20px; padding-left: 30px;
+    color: #FFF; font-weight: 300;
+    img { margin-bottom: 25px }
+    p a { color:#FFF; text-decoration: underline; }
+  }
+  a, h1 { color: $material-cyan-500 }
+  h1 { margin-top: 0; padding-left: 3px; margin-bottom: 25px }
   > div.mat-header { display: none }
   > nav.navbar { display:none }
-  .contenedor-central { background: transparent }
+  .contenedor-central {
+    margin-top: 100px;
+    background: transparent;
+    > div { box-shadow: none; border: none }
+  }
+  form.form-cudu {
+    padding: 25px 20px;
+    .form-control-static {
+      margin-left: 5px; cursor: pointer;
+      .glyphicon { color: $material-cyan-800; }
+    }
+    .form-control:focus {
+      border-color: $material-cyan-500;
+    }
+    .row { margin-top: 20px }
+    .btn-primary { background-color: $material-cyan-500; color: #FFF; border: none; }
+    .btn-primary:hover { background-color: $material-cyan-400; }
+    .help-block { margin-left: 5px }
+    .help-block.text-warning { color: $material-red-500; }
+  }
 }

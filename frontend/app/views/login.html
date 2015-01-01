@@ -1,5 +1,60 @@
 <div class="container contenedor-central">
-  This is the login.<br><br>  
-  <a href="javascript:" ng-click="login(0)">Admin</a><br>
-  <a href="javascript:" ng-click="login(1)">User</a><br>
+  <div class="row">
+    <div id="explicacion" class="col-md-7">
+      <img src="images/logo.png">
+      <p>Bienvenido a Cudú, la aplicación de gestón de datos de la Federació d'Escoltisme Valencià.</p>
+      <p>Si todavía no tienes cuenta de usuario, puedes solicitarla en la sede de la FEV o pedir a alguien de tu grupo que tenga acceso que te cree una.
+      Las instrucciones para activar una cuenta desde tu grupo puedes encontrarlas <a href="#">aquí</a>.</p>
+      <p><a href="#">Política de Privacidad</a> | <a href="https://github.com/fev/cudu">Código Fuente y Licencia</a>
+    </div>
+    <div class="col-md-5">
+      <div class="material-panel-level-3">
+        <form id="loginForm" class="form-cudu" method="POST" action="/login/" novalidate="novalidate">
+          <h1>Bienvenido</h1>
+          <div class="alert alert-warning" ng-show="error">
+            {{error}}
+          </div>
+          <div class="form-group">
+            <label for="username" class="control-label">Email</label>
+            <input type="text" class="form-control" id="txtEmail" ng-keypress="detectarMayusculas($event)" name="email" value="" placeholder="baden@example.com" autofocus>
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="password" class="control-label">Contraseña</label>
+            <input type="password" class="form-control" id="txtPassword"  ng-keypress="detectarMayusculas($event)" name="password" value="">
+            <span class="help-block text-warning" ng-show="mayusculas">
+              <span class="glyphicon glyphicon-warning-sign"></span>
+              Bloqueo de mayúsculas activado.
+            </span>
+          </div>
+          <div class="form-group">
+            <p class="form-control-static">
+              <span class="glyphicon glyphicon-check"></span>
+              Acepto la clausula de confidencialidad y el uso de cookies.
+            </p>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <button type="submit" class="btn btn-default btn-primary">ENTRAR</button>
+            </div>
+            <div class="col-md-6 text-right">
+              <a href="javascript:" ng-click="test()">¿Has olvidado tu contraseña?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row hidden" style="margin-top: 60px">
+    <div class="col-md-4">
+      <div id="container" style="width:100%; height:400px;"></div>
+    </div>
+    <div class="col-md-4">
+      Crecimiento
+    </div>
+    <div class="col-md-4">
+      Voluntarios
+    </div>
+  </div>
 </div>
