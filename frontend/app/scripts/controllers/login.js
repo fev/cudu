@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', 'Usuario', function ($scope, $http, Usuario) {
+angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', 'Usuario', 'Traducciones', function ($scope, $http, Usuario, Traducciones) {
 
   $scope.error = null;
   $scope.mayusculas = false;
@@ -11,16 +11,25 @@ angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', 'Usuario',
     $scope.mayusculas = (((keyCode >= 65 && keyCode <= 90) && !shiftKey) || ((keyCode >= 97 && keyCode <= 122) && shiftKey));
   };
 
-  $scope.login = function() {
-    var email = "baden@scoutsfev.org";
-    var password = "1234";
+  $scope.noAceptaClausula = function() {
+    $scope.error = Traducciones.texto('login.clausula');
+  };
 
-    Usuario.autenticar(email, password)
+  $scope.login = function() {
+    if (!$scope.email || !$scope.password) {
+      $scope.error = Traducciones.texto('login.emailPasswordVacio');
+      return;
+    }
+
+    // $scope.error = Traducciones.texto('login.credencialesIncorrectas');
+    // grecaptcha.render("recaptcha", {"sitekey": "6Lev6P8SAAAAAJOf3EeaZg3CclR-MUmLRL-ghRch", "theme": "light"});
+
+    Usuario.autenticar($scope.email, $scope.password)
       .success(function(status, data) {
 
       })
       .error(function(status, data) {
-
+        $scope.error = Traducciones.texto('login.error');
       });
   };
 }]);

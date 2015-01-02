@@ -5,6 +5,7 @@ angular
     'ngResource',
     'ngRoute',
     'ngCookies',
+    'cuduTraducciones',
     'cuduServices',
     'cuduFilters'
   ])

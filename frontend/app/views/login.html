@@ -11,31 +11,32 @@
       <div class="material-panel-level-3">
         <form id="loginForm" class="form-cudu" method="POST" action="/login/" novalidate="novalidate">
           <h1>Bienvenido</h1>
-          <div class="alert alert-warning" ng-show="error">
+          <div class="alert alert-danger" ng-show="error">
             {{error}}
           </div>
           <div class="form-group">
             <label for="username" class="control-label">Email</label>
-            <input type="text" class="form-control" id="txtEmail" ng-keypress="detectarMayusculas($event)" name="email" value="" placeholder="baden@example.com" autofocus>
+            <input type="text" class="form-control" id="txtEmail" ng-model="email" ng-keypress="detectarMayusculas($event)" name="email" value="" placeholder="baden@example.com" autofocus>
             <span class="help-block"></span>
           </div>
           <div class="form-group">
             <label for="password" class="control-label">Contraseña</label>
-            <input type="password" class="form-control" id="txtPassword"  ng-keypress="detectarMayusculas($event)" name="password" value="">
+            <input type="password" class="form-control" id="txtPassword" ng-model="password" ng-keypress="detectarMayusculas($event)" name="password" value="">
             <span class="help-block text-warning" ng-show="mayusculas">
               <span class="glyphicon glyphicon-warning-sign"></span>
               Bloqueo de mayúsculas activado.
             </span>
           </div>
+          <div id="recaptcha"></div>
           <div class="form-group">
-            <p class="form-control-static">
+            <p class="form-control-static" ng-click="noAceptaClausula()">
               <span class="glyphicon glyphicon-check"></span>
               Acepto la clausula de confidencialidad y el uso de cookies.
             </p>
           </div>
           <div class="row">
             <div class="col-md-6">
-              <button type="submit" class="btn btn-default btn-primary">ENTRAR</button>
+              <button type="button" ng-click="login()" class="btn btn-default btn-primary">ENTRAR</button>
             </div>
             <div class="col-md-6 text-right">
               <a href="javascript:" ng-click="test()">¿Has olvidado tu contraseña?</a>
@@ -58,3 +59,5 @@
     </div>
   </div>
 </div>
+
+<!-- <div style="background-color: #2E7D32; width: 100%; height: 20%; position: absolute; bottom: 0">&nbsp;</div> -->
