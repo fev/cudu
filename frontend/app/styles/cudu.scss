@@ -185,9 +185,14 @@ h1 { font-weight: 300; }
   background-color: $material-grey-800;
 }
 
-.alert-warning {
+.alert-danger {
   color: #FFF; border-color: $material-red-500;
   background-color: $material-red-500;
+}
+
+.alert-warning {
+  color: #333; border-color: $material-yellow-200;
+  background-color: $material-yellow-200;
 }
 
 @import 'secciones.scss';
