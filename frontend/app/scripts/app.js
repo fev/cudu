@@ -18,8 +18,7 @@ angular
     $routeProvider
       .when('/', {
         redirectTo: function() {
-          // TODO Redirigir dependiendo del rol del usuario
-          return '/asociado';
+          return '/asociados';
         }
       })
       .when('/login', {
@@ -38,13 +37,10 @@ angular
         seccion: 'grupo'
       })
       .otherwise({
-         redirectTo: '/asociados'
+         redirectTo: '/'
       });
   })
   .run(function($rootScope, $location, $cookies, RolesMenu, Usuario) {
-
-    // console.log("Start");
-    // console.log($cookies.JSESSIONID);
 
     $rootScope.$on('$routeChangeSuccess', function(e, target) {
       if (target && target.$$route) {
@@ -54,8 +50,29 @@ angular
       }
     });
 
-    // if (Usuario.autenticado()) {
-    //   $location.path("/");
-    // }
-    // $location.path("/login");
+    // Handler para botón de "Salir" en menú principal
+    $rootScope.desautenticar = function() {
+      Usuario.desautenticar()
+        .success(function() {
+          // window.location = "http://www.scoutsfev.org";
+          window.location = "/";
+        });
+    };
+
+    // Intentamos obtener el usuario actual. Si el servidor devuelve 403,
+    // redirigimos a la página de login, en caso contrario las credenciales
+    // son correctas (almacenadas en la cookie JSESSIONID).
+    Usuario.obtenerActual()
+      .success(function(usuario) {
+        // No muy elegante, pero es rápido y sólo se ejecuta una vez
+        $("#lnkUsuarioActual").text(usuario.nombreCompleto);
+        $('#cuduNav, #cuduNavBg').removeClass("hidden");
+
+        // TODO Si el usuario es asociado, redirigir a /asociados
+        // Tecnicos y Lluerna tienen otras url de entrada
+        $location.path("/asociados");
+      })
+      .error(function() {
+        $location.path("/login");
+      });
   });

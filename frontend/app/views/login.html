@@ -16,12 +16,14 @@
           </div>
           <div class="form-group">
             <label for="username" class="control-label">Email</label>
-            <input type="text" class="form-control" id="txtEmail" ng-model="email" ng-keypress="detectarMayusculas($event)" name="email" value="" placeholder="baden@example.com" autofocus>
+            <input type="text" class="form-control" id="txtEmail" ng-model="email" ng-keypress="detectarMayusculas($event)" name="email" value=""
+              placeholder="baden@example.com" autofocus autocapitalize="off" spellcheck="false">
             <span class="help-block"></span>
           </div>
           <div class="form-group">
             <label for="password" class="control-label">Contraseña</label>
-            <input type="password" class="form-control" id="txtPassword" ng-model="password" ng-keypress="detectarMayusculas($event)" name="password" value="">
+            <input type="password" class="form-control" id="txtPassword" ng-model="password" ng-keypress="detectarMayusculas($event)"
+              name="password" value="" autocapitalize="off" spellcheck="false">
             <span class="help-block text-warning" ng-show="mayusculas">
               <span class="glyphicon glyphicon-warning-sign"></span>
               Bloqueo de mayúsculas activado.
@@ -57,6 +59,16 @@
     <div class="col-md-4">
       Voluntarios
     </div>
+  </div>
+</div>
+
+<div style="position: absolute; bottom: 10px; right: 10px">
+  <span style="color: #B2EBF2; margin-right: 5px">Autologin</span>
+  <div class="btn-group btn-group-xs" role="group">
+    <button type="button" ng-click="__dbgAutoLogin('baden@example.com')" class="btn btn-default">Asociado</button>
+    <button type="button" ng-click="__dbgAutoLogin('fev@scoutsfev.org')" class="btn btn-default">FEV</button>
+    <button type="button" ng-click="__dbgAutoLogin('sdc@scoutsfev.org')" class="btn btn-default">Tecnico SdC</button>
+    <button type="button" ng-click="__dbgAutoLogin('lluerna@scoutsfev.org')" class="btn btn-default">Lluerna</button>
   </div>
 </div>
 

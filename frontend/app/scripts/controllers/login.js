@@ -1,9 +1,10 @@
 'use strict';
 
-angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', 'Usuario', 'Traducciones', function ($scope, $http, Usuario, Traducciones) {
+angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', '$location', 'Usuario', 'Traducciones', function ($scope, $http, $location, Usuario, Traducciones) {
 
   $scope.error = null;
   $scope.mayusculas = false;
+  $scope.captchaVisible = false;
 
   $scope.detectarMayusculas = function(e) {
     var keyCode = e.keyCode ? e.keyCode : e.which;
@@ -21,15 +22,44 @@ angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', 'Usuario',
       return;
     }
 
-    // $scope.error = Traducciones.texto('login.credencialesIncorrectas');
-    // grecaptcha.render("recaptcha", {"sitekey": "6Lev6P8SAAAAAJOf3EeaZg3CclR-MUmLRL-ghRch", "theme": "light"});
+    var respuestaCaptcha = null;
+    if ($scope.captchaVisible) {
+      respuestaCaptcha = grecaptcha.getResponse();
+      if (respuestaCaptcha === "") {
+        $scope.error = Traducciones.texto('login.debeVerificar');
+        return;
+      }
+    }
 
-    Usuario.autenticar($scope.email, $scope.password)
-      .success(function(status, data) {
-
+    Usuario.autenticar($scope.email, $scope.password, respuestaCaptcha)
+      .success(function(usuario, status) {
+        // No muy elegante, pero es rápido y sólo se ejecuta una vez
+        $("#lnkUsuarioActual").text(usuario.nombreCompleto);
+        $('#cuduNav, #cuduNavBg').removeClass("hidden");
+        $location.path("/");
       })
-      .error(function(status, data) {
-        $scope.error = Traducciones.texto('login.error');
+      .error(function(data, status) {
+        if (status == 403) {
+          $scope.error = Traducciones.texto("login.credencialesIncorrectas");
+        } else {
+          $scope.error = Traducciones.texto('login.error');
+        }
+        $scope.mostrarCaptcha();
       });
+  };
+
+  $scope.mostrarCaptcha = function() {
+    if ($scope.captchaVisible) {
+      grecaptcha.reset();
+    } else {
+      grecaptcha.render("recaptcha", {"sitekey": "6Lev6P8SAAAAAJOf3EeaZg3CclR-MUmLRL-ghRch", "theme": "light"});
+    }
+    $scope.captchaVisible = true;
+  };
+
+  $scope.__dbgAutoLogin = function(email) {
+    $scope.email = email;
+    $scope.password = 'test';
+    $scope.login();
   };
 }]);

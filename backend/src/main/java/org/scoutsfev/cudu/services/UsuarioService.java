@@ -45,6 +45,8 @@ public class UsuarioService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (logger.isDebugEnabled())
+            logger.debug("Cargando datos para usuario '{}'.", username);
         if (!Strings.isNullOrEmpty(username)) {
             Usuario usuario = usuarioRepository.findByEmail(username);
             if (usuario != null)

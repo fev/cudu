@@ -18,25 +18,28 @@ cuduServices.factory('Grupo', ['$resource',
   }]);
 
 cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $cookies, $q) {
-  var usuario = null;
-  var svc = {};
+  var svc = { usuario: null };
 
-  svc.autenticado = function() {
-    return usuario != null;
+  svc.obtenerActual = function() {
+    var respuesta = $http.get('/api/usuario/actual');
+    respuesta.success(function(data, status) { svc.usuario = data });
+    return respuesta;
   };
 
-  svc.autenticar = function(email, password) {
+  svc.autenticar = function(email, password, captcha) {
     delete $cookies["JSESSIONID"];
-    // TODO Limpiar campos, btoa polyfill
-    return $http.get('/api/usuario', {
-      withCredentials: true,
-      headers: {'Authorization': 'Basic ' + btoa(email + ":" + password)}
-    });
+    var respuesta = $http.post('/api/usuario/autenticar', { 'email': email, 'password': password, 'catpcha': captcha });
+    respuesta.success(function(data, status) { svc.usuario = data; });
+    return respuesta;
   };
 
   svc.desautenticar = function() {
-    delete $cookies["JSESSIONID"];
-    usuario = null;
+    var respuesta = $http.post("/api/usuario/desautenticar", {});
+    respuesta.success(function() {
+      delete $cookies["JSESSIONID"];
+      svc.usuario = null;
+    });
+    return respuesta;
   };
 
   return svc;

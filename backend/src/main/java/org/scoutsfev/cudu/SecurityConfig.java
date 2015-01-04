@@ -1,6 +1,7 @@
 package org.scoutsfev.cudu;
 
 import org.scoutsfev.cudu.services.UsuarioService;
+import org.scoutsfev.cudu.web.UsuarioController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,7 +13,7 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 @Configuration
 @EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UsuarioService usuarioService;
@@ -20,14 +21,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //http.csrf().requireCsrfProtectionMatcher()
+        //http.sessionManagement().maximumSessions(1);
         http.csrf().disable();
         http.authorizeRequests()
             .antMatchers("/reset/*").permitAll()
             .antMatchers("/resetnew/**").permitAll()
+            .antMatchers("/usuario/autenticar").permitAll()
             .anyRequest().authenticated();
-        http.httpBasic();
+
+        // TODO AuditEvent en log no muestra la ruta de la peticion
     }
 
+    @Autowired
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(usuarioService);
