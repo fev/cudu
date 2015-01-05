@@ -6,6 +6,7 @@ angular
     'ngRoute',
     'ngCookies',
     'cuduTraducciones',
+    'cuduDom',
     'cuduServices',
     'cuduFilters'
   ])
@@ -40,23 +41,19 @@ angular
          redirectTo: '/'
       });
   })
-  .run(function($rootScope, $location, $cookies, RolesMenu, Usuario) {
+  .run(function($rootScope, $location, $cookies, RolesMenu, Dom, Usuario) {
 
     $rootScope.$on('$routeChangeSuccess', function(e, target) {
       if (target && target.$$route) {
         $rootScope.controlador = target.$$route.controller;
         $rootScope.seccion = target.$$route.seccion;
-        $rootScope.rol = RolesMenu.ASOCIADO;
       }
     });
 
     // Handler para botón de "Salir" en menú principal
     $rootScope.desautenticar = function() {
-      Usuario.desautenticar()
-        .success(function() {
-          // window.location = "http://www.scoutsfev.org";
-          window.location = "/";
-        });
+      var redirigirLogin = function() { window.location = "/"; };
+      Usuario.desautenticar().success(redirigirLogin).error(redirigirLogin);
     };
 
     // Intentamos obtener el usuario actual. Si el servidor devuelve 403,
@@ -64,10 +61,7 @@ angular
     // son correctas (almacenadas en la cookie JSESSIONID).
     Usuario.obtenerActual()
       .success(function(usuario) {
-        // No muy elegante, pero es rápido y sólo se ejecuta una vez
-        $("#lnkUsuarioActual").text(usuario.nombreCompleto);
-        $('#cuduNav, #cuduNavBg').removeClass("hidden");
-
+        Dom.loginCompleto(usuario);
         // TODO Si el usuario es asociado, redirigir a /asociados
         // Tecnicos y Lluerna tienen otras url de entrada
         $location.path("/asociados");

@@ -1,7 +1,7 @@
+(function() {
 'use strict';
 
-angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', '$location', 'Usuario', 'Traducciones', function ($scope, $http, $location, Usuario, Traducciones) {
-
+function LoginCtrl($scope, $location, Usuario, Traducciones, Dom) {
   $scope.error = null;
   $scope.mayusculas = false;
   $scope.captchaVisible = false;
@@ -33,9 +33,7 @@ angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', '$location
 
     Usuario.autenticar($scope.email, $scope.password, respuestaCaptcha)
       .success(function(usuario, status) {
-        // No muy elegante, pero es rápido y sólo se ejecuta una vez
-        $("#lnkUsuarioActual").text(usuario.nombreCompleto);
-        $('#cuduNav, #cuduNavBg').removeClass("hidden");
+        Dom.loginCompleto(usuario);
         $location.path("/");
       })
       .error(function(data, status) {
@@ -62,4 +60,8 @@ angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$http', '$location
     $scope.password = 'test';
     $scope.login();
   };
-}]);
+}
+
+angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$location', 'Usuario', 'Traducciones', 'Dom', LoginCtrl]);
+
+}());
