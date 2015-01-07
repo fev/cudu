@@ -18,16 +18,16 @@
       </div>
       <div class="paper-body">
           <div class="form-group">
-            <label class="control-label">Usuario</label>
+            <label class="control-label" th:text="#{reset.usuario}">Usuario</label>
             <p class="form-control-static" th:text="${token.email}">email@example.com</p>
           </div>
           <div class="form-group">
-            <label for="password">Nueva contraseña</label>
+            <label for="password" th:text="#{reset.nueva}">Nueva contraseña</label>
             <input type="password" class="form-control" id="password" name="password" th:value="${token.password}" autofocus="autofocus" />
             <p id="minimo" th:text="#{reset.minimo}" class="help-text small text-danger" style="display: none">La contraseña debe tener un mínimo de 6 carácteres.</p>
           </div>
           <div class="form-group">
-            <label for="password2">Repite la contraseña</label>
+            <label for="password2" th:text="#{reset.repite}">Repite la contraseña</label>
             <input type="password" class="form-control" id="password2" name="password2" />
             <p id="coinciden" th:text="#{reset.coinciden}" class="help-text small text-danger" style="display: none">Las contraseñas no coinciden.</p>
           </div>
