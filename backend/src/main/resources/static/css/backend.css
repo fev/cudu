@@ -17,3 +17,4 @@ body > div.container.paper { margin-top: 50px; width: 400px }
 .btn-dlg { border-radius: 0; background-color: transparent; text-transform: uppercase; }
 .btn-dlg-primary { color: #E91E63 }
 .btn-dlg-primary:hover { color: #E91E63; background-color: #FCE4EC }
+.text-danger { color: #E91E63 }
