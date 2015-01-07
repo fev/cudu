@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
+import java.time.Instant;
 
 @Controller
 @RequestMapping("/reset")
@@ -27,7 +28,8 @@ public class ResetPasswordController {
 
     @RequestMapping(value = "/{token}", method = RequestMethod.GET)
     public String resetForm(@PathVariable("token") Token token, Model model) throws NoSuchAlgorithmException {
-        // TODO if (token == null || token.expirado(Instant.now())) return "redirect:/404";
+        if (token == null || token.expirado(Instant.now()))
+            return "forward:/404";
         model.addAttribute("token", token);
         return "reset";
     }

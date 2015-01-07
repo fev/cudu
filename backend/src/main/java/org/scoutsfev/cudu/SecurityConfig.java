@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.sessionManagement().maximumSessions(1);
         http.csrf().disable();
         http.authorizeRequests()
+            .antMatchers("/404").permitAll()
             .antMatchers("/reset/*").permitAll()
             .antMatchers("/resetnew/**").permitAll()
             .antMatchers("/usuario/autenticar").permitAll()

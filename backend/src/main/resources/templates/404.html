@@ -1,0 +1,22 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title th:text="#{error.404.titulo}">No encontrado</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700|Roboto+Condensed:400,300,700" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/backend.css}" href="../static/css/backend.css" rel="stylesheet" type="text/css" />
+</head>
+<body class="e404">
+  <div class="container paper">
+    <div class="paper-body">
+      <h1 th:text="#{error.404.titulo}">404 - No encontrado!</h1>
+      <p th:utext="#{error.404.explicacion}">Lo sentimos, no encontramos la página que buscas.
+      Puedes volver a Cudú pulsando <a href="http://cudu.scoutsfev.org">aquí</a>.</p>
+      <p th:text="#{error.404.masinfo}">Para más información contacta con la sede de la FEV.</p>
+    </div>
+  </div>
+</body>
+</html>
