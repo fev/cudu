@@ -1,10 +1,7 @@
 package org.scoutsfev.cudu.services;
 
 import com.google.common.base.Strings;
-import org.scoutsfev.cudu.domain.Credenciales;
-import org.scoutsfev.cudu.domain.Token;
-import org.scoutsfev.cudu.domain.Usuario;
-import org.scoutsfev.cudu.domain.VerificacionCaptcha;
+import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.storage.TokenRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
 import org.slf4j.Logger;
@@ -119,7 +116,7 @@ public class UsuarioService implements UserDetailsService {
             return;
 
         if (Strings.isNullOrEmpty(credenciales.getCaptcha())) {
-            eventPublisher.publishEvent(new AuditApplicationEvent(credenciales.getEmail(), InvalidCaptchaException.MISSING_CAPTCHA_EVENT));
+            eventPublisher.publishEvent(new AuditApplicationEvent(credenciales.getEmail(), EventosAuditoria.CaptchaVacio));
             throw new InvalidCaptchaException("No se ha podido verificar el código captcha proveniente del cliente porque era nulo o vacio.");
         }
 
@@ -128,10 +125,10 @@ public class UsuarioService implements UserDetailsService {
             HashMap<String, Object> datosAddicionales = new HashMap<>();
             datosAddicionales.put("direccionIp", direccionIp);
             datosAddicionales.put("codigosDeError", verificacion.getCodigosDeError());
-            eventPublisher.publishEvent(new AuditApplicationEvent(credenciales.getEmail(), InvalidCaptchaException.INVALID_CAPTCHA_EVENT, datosAddicionales));
+            eventPublisher.publishEvent(new AuditApplicationEvent(credenciales.getEmail(), EventosAuditoria.CaptchaInvalido, datosAddicionales));
             throw new InvalidCaptchaException("Ha fallado la verificación de captcha.");
         }
-        eventPublisher.publishEvent(new AuditApplicationEvent(credenciales.getEmail(), InvalidCaptchaException.VERIFIED_CAPTCHA_EVENT, direccionIp));
+        eventPublisher.publishEvent(new AuditApplicationEvent(credenciales.getEmail(), EventosAuditoria.CaptchaVerificado, direccionIp));
     }
 
     private String obtenerDireccionIp(HttpServletRequest request) {
