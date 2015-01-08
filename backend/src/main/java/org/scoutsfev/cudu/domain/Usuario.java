@@ -23,10 +23,14 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
     private String password;
 
     @Embedded
-    protected Restricciones restricciones = new Restricciones();
+    private Restricciones restricciones = new Restricciones();
 
     @Column(length = 3)
     private String lenguaje;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    @JsonIgnore
+    private boolean requiereCaptcha;
 
     protected Usuario() { }
 
@@ -80,15 +84,15 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
         return restricciones;
     }
 
-    public void setRestricciones(Restricciones restricciones) {
-        this.restricciones = restricciones;
-    }
-
     public String getLenguaje() {
         return lenguaje;
     }
 
     public void setLenguaje(String lenguaje) {
         this.lenguaje = lenguaje;
+    }
+
+    public boolean isRequiereCaptcha() {
+        return requiereCaptcha;
     }
 }

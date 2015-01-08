@@ -1,7 +1,6 @@
 package org.scoutsfev.cudu;
 
 import org.scoutsfev.cudu.services.UsuarioService;
-import org.scoutsfev.cudu.web.UsuarioController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

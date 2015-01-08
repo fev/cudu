@@ -1,8 +1,6 @@
 package org.scoutsfev.cudu.storage;
 
 import org.scoutsfev.cudu.domain.Asociacion;
-import org.scoutsfev.cudu.domain.Asociado;
-import org.scoutsfev.cudu.domain.Restricciones;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,6 +8,7 @@ import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 public interface UsuarioRepository extends Repository<Usuario, String> {
 
@@ -41,6 +40,14 @@ public interface UsuarioRepository extends Repository<Usuario, String> {
 
     @Modifying
     @Transactional
-    @Query("update Usuario a set a.lenguaje = :lenguaje where a.id = :idAsociado")
+    @Query("update Usuario u set u.lenguaje = :lenguaje where u.id = :idAsociado")
     public void cambiarIdioma(@Param("idAsociado") int idAsociado, @Param("lenguaje") String lenguaje);
+
+    @Modifying
+    @Transactional
+    @Query("update Usuario u set u.requiereCaptcha = :positivo where u.email = :email")
+    public void marcarCaptcha(@Param("email") String email, @Param("positivo") boolean positivo);
+
+    @Query("select u.requiereCaptcha from Usuario u where u.email = :email")
+    public Optional<Boolean> requiereCaptcha(@Param("email") String email);
 }

@@ -23,7 +23,7 @@ public class UsuarioServiceTests {
     public void setUp() throws Exception {
         repository = mock(UsuarioRepository.class);
         tokenRepository = mock(TokenRepository.class);
-        service = new UsuarioService(repository, tokenRepository);
+        service = new UsuarioService(repository, tokenRepository, null);
     }
 
     @Test(expected = UsernameNotFoundException.class)
@@ -76,7 +76,15 @@ public class UsuarioServiceTests {
 
     // TODO si_el_usuario_esta_activo_y_tiene_password_puede_hacer_login
     // TODO si_el_usuario_esta_activo_pero_no_tiene_password_o_esta_en_blanco_no_puede_hacer_login
-    // TODO si_el_usuario_esta_inactivo_no_puede_hacer_password
+    // TODO si_el_usuario_esta_inactivo_no_puede_hacer_login
     // TODO si_el_usuario_es_menor_de_18_no_puede_hacer_login
-    // TODO al_desactivar_el_usuario_no_puede_hacer_login_y_su_password_es_nulo
+    // TODO al_desactivar_el_usuario_su_password_es_nulo
+
+    // TODO al_comprobar_captcha_si_no_se_encuentra_el_usuario_no_lanza_excepcion_ni_publica_evento
+    // TODO al_comprobar_captcha_si_el_captcha_es_nulo_o_vacio_lanza_InvalidCaptchaException
+    // TODO al_comprobar_captcha_si_el_captcha_es_nulo_audita_el_evento
+    // TODO al_comprobar_captcha_si_la_verificacion_es_negativa_lanza_InvalidCaptchaException
+    // TODO al_comprobar_captcha_si_la_verificacion_es_negativa_audita_el_evento
+    // TODO al_comprobar_captcha_si_la_verificacion_es_positiva_devuelve_ok
+    // TODO al_comprobar_captcha_si_la_verificacion_es_positiva_audita_el_evento
 }

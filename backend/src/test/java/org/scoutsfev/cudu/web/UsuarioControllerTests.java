@@ -8,6 +8,7 @@ import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
@@ -23,6 +24,7 @@ public class UsuarioControllerTests {
     private UsuarioController usuarioController;
     private Asociado asociado;
     private UsuarioService usuarioService;
+    private AuthenticationManager authenticationManager;
 
     @Before
     public void setUp() throws Exception {
@@ -30,7 +32,8 @@ public class UsuarioControllerTests {
         asociado.setEmail(null);
         asociadoRepository = mock(AsociadoRepository.class);
         usuarioService = mock(UsuarioService.class);
-        usuarioController = new UsuarioController(asociadoRepository, usuarioService, null);
+        authenticationManager = mock(AuthenticationManager.class);
+        usuarioController = new UsuarioController(asociadoRepository, usuarioService, authenticationManager);
     }
 
     @Test
@@ -72,4 +75,10 @@ public class UsuarioControllerTests {
         verify(usuarioService, times(0)).resetPassword(nuevoEmail);
         verifyNoMoreInteractions(usuarioService);
     }
+
+    // TODO al_hacer_login_por_primera_vez_con_credenciales_erroneas_devuelve_403_y_BadCredentialsException
+    // TODO al_hacer_login_por_primera_vez_con_credenciales_erroneas_se_marca_requiereCaptcha
+    // TODO al_hacer_login_por_segunda_vez_sin_captcha_devuelve_403_y_InvalidCaptchaException
+    // TODO al_hacer_login_por_segunda_vez_con_captcha_invalido_devuelve_403_y_InvalidCaptchaException
+    // TODO al_hacer_login_por_segunda_vez_con_captcha_valido_y_credenciales_ok_devuelve_200_y_el_usuario
 }

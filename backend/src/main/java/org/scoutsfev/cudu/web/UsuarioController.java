@@ -6,13 +6,12 @@ import org.scoutsfev.cudu.domain.Credenciales;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,8 +37,7 @@ public class UsuarioController {
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public UsuarioController(AsociadoRepository asociadoRepository, UsuarioService usuarioService,
-                             @Qualifier("authenticationManager") AuthenticationManager authenticationManager) {
+    public UsuarioController(AsociadoRepository asociadoRepository, UsuarioService usuarioService, @Qualifier("authenticationManager") AuthenticationManager authenticationManager) {
         this.asociadoRepository = asociadoRepository;
         this.usuarioService = usuarioService;
         this.authenticationManager = authenticationManager;
@@ -48,11 +46,21 @@ public class UsuarioController {
     @RequestMapping(value = "/autenticar", method = RequestMethod.POST)
     public ResponseEntity<Usuario> login(@RequestBody Credenciales credenciales, HttpServletRequest request) {
         // TODO Limpiar campos, sql, xss etc
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(credenciales.getEmail(), credenciales.getPassword());
-        authenticationToken.setDetails(new WebAuthenticationDetails(request));
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        return new ResponseEntity<>((Usuario)authentication.getPrincipal(), HttpStatus.OK);
+        // TODO @RequestBody not null @Valid
+
+        usuarioService.comprobarCaptcha(credenciales, request);
+
+        try {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(credenciales.getEmail(), credenciales.getPassword());
+            authenticationToken.setDetails(new WebAuthenticationDetails(request));
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            usuarioService.marcarCaptcha(credenciales.getEmail(), false);
+            return new ResponseEntity<>((Usuario)authentication.getPrincipal(), HttpStatus.OK);
+        } catch (BadCredentialsException badCredentialsException) {
+            usuarioService.marcarCaptcha(credenciales.getEmail(), true);
+            throw badCredentialsException;
+        }
     }
 
     @RequestMapping(value = "/desautenticar", method = RequestMethod.POST)
