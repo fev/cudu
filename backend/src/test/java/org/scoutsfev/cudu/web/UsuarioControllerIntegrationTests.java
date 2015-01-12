@@ -55,7 +55,7 @@ public class UsuarioControllerIntegrationTests extends EndToEndTest {
     }
 
     @Test
-    public void cuando_las_credenciales_son_incorrectas_devuelve_403() throws Exception {
+    public void si_las_credenciales_son_incorrectas_devuelve_403() throws Exception {
         devuelveErrorAlHacerLogin(usuario.getEmail(), usuario.getPassword() + "1", HttpStatus.FORBIDDEN);
     }
 
@@ -68,8 +68,15 @@ public class UsuarioControllerIntegrationTests extends EndToEndTest {
         assertNull(response.getBody().getPassword());
     }
 
-    // TODO Integration test: si_el_usuario_no_esta_autenticado_devuelve_403_en_usuario_actual
-    // TODO Integration test: si_el_usuario_esta_autenticado_devuelve_200_y_el_usuario_actual_en_auth_check
+    @Test
+    public void al_obtener_el_usuario_actual_no_estando_autenticado_devuelve_403() throws Exception {
+        try {
+            template.getForEntity(endpoint("/usuario/actual"), Usuario.class);
+            fail("Se esperaba capturar HttpClientErrorException.");
+        } catch (HttpClientErrorException error) {
+            assertThat(error.getStatusCode(), is(equalTo(HttpStatus.FORBIDDEN)));
+        }
+    }
 
     private void devuelveErrorAlHacerLogin(String login, String password, HttpStatus status) {
         try {
