@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.storage.TokenRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
@@ -40,6 +41,7 @@ public class UsuarioServiceTests {
     public void si_el_usuario_existe_lo_devuelve() {
         String username = "jack.sparrow";
         Usuario jackSparrow = mock(Usuario.class);
+        when(jackSparrow.isUsuarioActivo()).thenReturn(true);
         when(repository.findByEmail(username)).thenReturn(jackSparrow);
         UserDetails userDetails = service.loadUserByUsername(username);
         assertEquals(jackSparrow, userDetails);
@@ -52,6 +54,15 @@ public class UsuarioServiceTests {
         when(repository.findByEmail(anyString())).thenReturn(null);
         buscarUsuarioEsperandoExcepcion("mike", UsernameNotFoundException.class);
         verify(repository, times(1)).findByEmail(anyString());
+    }
+
+    @Test
+    public void si_el_usuario_esta_desactivado_lanza_DisabledException() throws Exception {
+        String username = "jack.sparrow";
+        Usuario jackSparrow = mock(Usuario.class);
+        when(jackSparrow.isUsuarioActivo()).thenReturn(false);
+        when(repository.findByEmail(username)).thenReturn(jackSparrow);
+        buscarUsuarioEsperandoExcepcion("jack.sparrow", DisabledException.class);
     }
 
     @Test

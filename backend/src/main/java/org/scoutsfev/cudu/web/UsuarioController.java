@@ -71,8 +71,6 @@ public class UsuarioController {
 
     @RequestMapping(value = "/actual", method = RequestMethod.GET)
     public ResponseEntity<Usuario> obtener(@AuthenticationPrincipal Usuario usuario) {
-        // TODO Integration test: si_el_usuario_no_esta_autenticado_devuelve_403_en_auth_check
-        // TODO Integration test: si_el_usuario_esta_autenticado_devuelve_200_y_el_usuario_actual_en_auth_check
         return new ResponseEntity<>(usuario, HttpStatus.OK);
     }
 
