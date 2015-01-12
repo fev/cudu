@@ -38,7 +38,9 @@ public class UsuarioService implements UserDetailsService {
     private final SecureRandom secureRandom;
 
     // private final EmailService emailService;
-    // private final ApplicationEventPublisher applicationEventPublisher;
+
+    // TODO Mover @Value a clase separada con @ConfigurationProperties
+    // http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-typesafe-configuration-properties
 
     @Value("${cudu.reset.duracionTokenEnSegundos}")
     private final int duracionTokenEnSegundos = 600;
@@ -79,7 +81,7 @@ public class UsuarioService implements UserDetailsService {
         Duration duracionToken = Duration.ofSeconds(duracionTokenEnSegundos);
         Token token = new Token(email, oneTimeCode, Instant.now(), duracionToken);
         tokenRepository.save(token);
-        // TODO AuditEvent
+        eventPublisher.publishEvent(new AuditApplicationEvent(email, EventosAuditoria.ResetPassword));
         // TODO emailService.SendEmail("Luis Belloch", "luisbelloch@gmail.com", Locale.ENGLISH);
     }
 
@@ -101,7 +103,7 @@ public class UsuarioService implements UserDetailsService {
         usuarioRepository.activar(usuario.getId(), token.getPassword());
         tokenRepository.delete(original);
 
-        // TODO AuditApplicationEvent event = new AuditApplicationEvent(token.getEmail(), EventosAuditoria.CambioPassword, token.getToken());
+        eventPublisher.publishEvent(new AuditApplicationEvent(token.getEmail(), EventosAuditoria.CambioPassword, token.getToken()));
         // TODO emailService.SendEmail("Luis Belloch", "luisbelloch@gmail.com", Locale.ENGLISH);
         return null;
     }
