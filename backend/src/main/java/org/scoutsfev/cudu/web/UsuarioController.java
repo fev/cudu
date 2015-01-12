@@ -44,7 +44,7 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/autenticar", method = RequestMethod.POST)
-    public ResponseEntity<Usuario> login(@RequestBody Credenciales credenciales, HttpServletRequest request) {
+    public ResponseEntity<Usuario> login(@RequestBody @Valid Credenciales credenciales, HttpServletRequest request) {
         // TODO Limpiar campos, sql, xss etc
         // TODO @RequestBody not null @Valid
 
