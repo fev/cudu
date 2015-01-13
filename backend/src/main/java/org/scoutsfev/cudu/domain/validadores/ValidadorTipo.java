@@ -9,6 +9,12 @@ import javax.validation.ConstraintValidatorContext;
 
 public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado> {
 
+    public static final String TIPO_NULO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.TipoNulo.message}";
+    public static final String AMBITO_NULO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.AmbitoNulo.message}";
+    public static final String AMBITO_NO_VALIDO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.AmbitoNoValido.message}";
+    public static final String DEBE_TENER_GRUPO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.DebeTenerGrupo.message}";
+    public static final String NO_DEBE_TENER_GRUPO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.NoDebeTenerGrupo.message}";
+
     @Override
     public void initialize(ValidarTipo constraintAnnotation) { }
 
@@ -17,8 +23,17 @@ public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado>
         if (asociado == null)
             return true;
 
-        if (asociado.getTipo() == null || asociado.getAmbitoEdicion() == null)
+        context.disableDefaultConstraintViolation();
+
+        if (asociado.getTipo() == null) {
+            context.buildConstraintViolationWithTemplate(TIPO_NULO).addConstraintViolation();
             return false;
+        }
+
+        if (asociado.getAmbitoEdicion() == null) {
+            context.buildConstraintViolationWithTemplate(AMBITO_NULO).addConstraintViolation();
+            return false;
+        }
 
         boolean ambitoValido;
         if (asociado.getTipo() == TipoAsociado.Tecnico)
@@ -28,11 +43,19 @@ public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado>
         else
             ambitoValido = asociado.getAmbitoEdicion() == AmbitoEdicion.Grupo || asociado.getAmbitoEdicion() == AmbitoEdicion.Personal;
 
+        if (!ambitoValido)
+            context.buildConstraintViolationWithTemplate(AMBITO_NO_VALIDO).addConstraintViolation();
+
         boolean grupoValido;
-        if (asociado.getTipo() == TipoAsociado.Voluntario || asociado.getTipo() == TipoAsociado.Tecnico)
+        if (asociado.getTipo() == TipoAsociado.Voluntario || asociado.getTipo() == TipoAsociado.Tecnico) {
             grupoValido = asociado.getGrupo() == null;
-        else
+            if (!grupoValido)
+                context.buildConstraintViolationWithTemplate(NO_DEBE_TENER_GRUPO).addConstraintViolation();
+        } else {
             grupoValido = asociado.getGrupo() != null;
+            if (!grupoValido)
+                context.buildConstraintViolationWithTemplate(DEBE_TENER_GRUPO).addConstraintViolation();
+        }
 
         return ambitoValido && grupoValido;
     }
