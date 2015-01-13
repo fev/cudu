@@ -1,5 +1,6 @@
 package org.scoutsfev.cudu.domain.validadores;
 
+import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.TipoAsociado;
 
@@ -16,12 +17,23 @@ public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado>
         if (asociado == null)
             return true;
 
-        if (asociado.getTipo() == null)
+        if (asociado.getTipo() == null || asociado.getAmbitoEdicion() == null)
             return false;
 
-        if (asociado.getTipo() == TipoAsociado.Voluntario)
-            return asociado.getGrupo() == null;
+        boolean ambitoValido;
+        if (asociado.getTipo() == TipoAsociado.Tecnico)
+            ambitoValido = asociado.getAmbitoEdicion() != AmbitoEdicion.Grupo && asociado.getAmbitoEdicion() != AmbitoEdicion.Personal;
+        else if (asociado.getTipo() == TipoAsociado.Voluntario)
+            ambitoValido = asociado.getAmbitoEdicion() == AmbitoEdicion.Personal;
+        else
+            ambitoValido = asociado.getAmbitoEdicion() == AmbitoEdicion.Grupo || asociado.getAmbitoEdicion() == AmbitoEdicion.Personal;
 
-        return asociado.getGrupo() != null;
+        boolean grupoValido;
+        if (asociado.getTipo() == TipoAsociado.Voluntario || asociado.getTipo() == TipoAsociado.Tecnico)
+            grupoValido = asociado.getGrupo() == null;
+        else
+            grupoValido = asociado.getGrupo() != null;
+
+        return ambitoValido && grupoValido;
     }
 }

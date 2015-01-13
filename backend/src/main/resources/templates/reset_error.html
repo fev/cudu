@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title th:text="#{reset.cambiarpassword}">Cambiar Contraseña</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700|Roboto+Condensed:400,300,700" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/backend.css}" href="../static/css/backend.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="container paper">
+    <div class="paper-header">
+      <h1 th:text="#{reset.error}">Error</h1>
+      <p th:text="#{reset.hahabidounerror}">Se ha producido un error cambiado la contraseña para el usuario:</p>
+      <p><strong th:text="${email}">email@example.com</strong></p>
+      <p th:text="#{reset.masinfoerror(${codigoError})}">La contraseña anterior se ha mantenido. Para más información contacta con la oficina de la FEV y proporciona el código 3M4A.</p>
+    </div>
+    <div class="paper-actions">
+      <a type="button" class="btn btn-dlg btn-dlg-primary" href="/" th:text="#{reset.volver}" style="margin-left: -5px">Volver</a>
+    </div>
+  </div>
+</body>
+</html>

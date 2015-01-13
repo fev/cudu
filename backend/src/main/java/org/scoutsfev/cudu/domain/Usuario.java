@@ -6,7 +6,10 @@ import org.hibernate.annotations.Immutable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -15,15 +18,19 @@ import java.util.Collection;
 @Table(name = "asociado")
 public class Usuario extends AsociadoAbstracto implements UserDetails {
 
-    @Column(length = 255, nullable = true)
+    @Column(length = 255, nullable = true, insertable = false, updatable = false)
     @JsonIgnore
     private String password;
 
-    @ElementCollection(targetClass = Rol.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "usuario_id"))
-    protected Collection<GrantedAuthority> roles = new ArrayList<>();
+    @Embedded
+    private Restricciones restricciones = new Restricciones();
 
+    @Column(length = 3)
     private String lenguaje;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    @JsonIgnore
+    private boolean requiereCaptcha;
 
     protected Usuario() { }
 
@@ -60,19 +67,32 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
     @Override
     @JsonIgnore
     public boolean isEnabled() {
-        return !Strings.isNullOrEmpty(password);
+        return usuarioActivo && !Strings.isNullOrEmpty(password);
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return new ArrayList<>();
     }
 
     public String getNombreCompleto() {
         return nombre + " " + apellidos;
     }
 
+    public Restricciones getRestricciones() {
+        return restricciones;
+    }
+
     public String getLenguaje() {
         return lenguaje;
+    }
+
+    public void setLenguaje(String lenguaje) {
+        this.lenguaje = lenguaje;
+    }
+
+    public boolean isRequiereCaptcha() {
+        return requiereCaptcha;
     }
 }

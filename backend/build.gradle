@@ -17,7 +17,7 @@ apply plugin: 'idea'
 
 jar {
   baseName = 'cudu'
-  version =  '2.0.3'
+  version =  '2.0.4'
 }
 
 sourceCompatibility = 1.8
@@ -36,6 +36,8 @@ dependencies {
   compile("org.springframework.boot:spring-boot-starter-actuator")
   compile("org.springframework.boot:spring-boot-starter-data-jpa")
   compile("org.springframework.boot:spring-boot-starter-web")
+  compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+  compile("org.springframework.boot:spring-boot-starter-mail")
 
   compile("com.google.guava:guava:18.0")
 

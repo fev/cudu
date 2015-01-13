@@ -14,14 +14,15 @@
   <!-- build:css styles/cudu.css -->
   <link rel="stylesheet" href="styles/cudu.css">
   <!-- endbuild -->
+  <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 </head>
-<body ng-app="cuduApp" ng-class="[seccion,rol]">
-  <!--[if lt IE 7]>
+<body ng-app="cuduApp" ng-class="[seccion]">
+  <!--[if lt IE 8]>
   <p class="browsehappy">Está usando un navegador desactualizado. Por favor <a href="http://browsehappy.com/">actualiza tu navegador</a>.</p>
   <![endif]-->
 
-  <div class="mat-header"></div>
-  <nav class="navbar navbar-material navbar-fixed-top" role="navigation">
+  <div id="cuduNavBg" class="mat-header hidden"></div>
+  <nav id="cuduNav" class="navbar navbar-material navbar-fixed-top hidden" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -47,8 +48,8 @@
           <li><a href="#/misdatos">Mis Datos</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#/misdatos">Mike Wazowski - Ain-Karen</a></li>
-          <li><a href="#/logout">Salir</a></li>
+          <li><a id="lnkUsuarioActual" href="#/misdatos"></a></li>
+          <li><a href="javascript:" ng-click="desautenticar()">Salir</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div>
@@ -62,13 +63,16 @@
   <script src="lib/angular/angular.min.js"></script>
   <script src="lib/angular-resource/angular-resource.min.js"></script>
   <script src="lib/angular-route/angular-route.min.js"></script>
+  <script src="lib/angular-cookies/angular-cookies.min.js"></script>
   <script src="lib/lodash/dist/lodash.compat.min.js"></script>
   <!-- endbuild -->
   <!-- build:js scripts/cudu.js -->
   <script src="scripts/app.js"></script>
+  <script src="scripts/traducciones/traducciones.js"></script>
   <script src="scripts/services.js"></script>
   <script src="scripts/filters.js"></script>
   <script src="scripts/directives.js"></script>
+  <script src="scripts/controllers/login.js"></script>
   <script src="scripts/controllers/asociado.js"></script>
   <script src="scripts/controllers/grupo.js"></script>
   <script src="scripts/controllers/tecnico_fev.js"></script>

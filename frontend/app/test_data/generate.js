@@ -37,7 +37,8 @@ for (var i = 0; i < 200; i++) {
     'actualizado': chance.date({ string: true, american: false }),
     'activo': chance.bool({likelihood: 80})
   };
-  nuevoAsociado.limbo = i <= 3;
+  if (nuevoAsociado.activo)
+    nuevoAsociado.usuarioActivo = chance.bool({likelihood: 30});
   if (i == 5)
     nuevoAsociado.activo = false;
   if (nuevoAsociado.tipo == 'C')

@@ -12,19 +12,27 @@ import org.springframework.security.config.annotation.web.servlet.configuration.
 @Configuration
 @EnableWebMvcSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UsuarioService usuarioService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        //http.csrf().requireCsrfProtectionMatcher()
+        //http.sessionManagement().maximumSessions(1);
         http.csrf().disable();
         http.authorizeRequests()
+            .antMatchers("/404").permitAll()
+            .antMatchers("/reset/*").permitAll()
+            .antMatchers("/resetnew/**").permitAll()
+            .antMatchers("/usuario/autenticar").permitAll()
             .anyRequest().authenticated();
-        http.httpBasic();
+
+        // TODO AuditEvent en log no muestra la ruta de la peticion
     }
 
+    @Autowired
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(usuarioService);

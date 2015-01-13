@@ -1,0 +1,75 @@
+<div class="container contenedor-central">
+  <div class="row">
+    <div id="explicacion" class="col-md-7">
+      <img src="images/logo.png">
+      <p>Bienvenido a Cudú, la aplicación de gestón de datos de la Federació d'Escoltisme Valencià.</p>
+      <p>Si todavía no tienes cuenta de usuario, puedes solicitarla en la sede de la FEV o pedir a alguien de tu grupo que tenga acceso que te cree una.
+      Las instrucciones para activar una cuenta desde tu grupo puedes encontrarlas <a href="#">aquí</a>.</p>
+      <p><a href="#">Política de Privacidad</a> | <a href="https://github.com/fev/cudu">Código Fuente y Licencia</a>
+    </div>
+    <div class="col-md-5">
+      <div class="material-panel-level-3">
+        <form id="loginForm" class="form-cudu" method="POST" action="/login/" novalidate="novalidate">
+          <h1>Bienvenido</h1>
+          <div class="alert alert-danger" ng-show="error">
+            {{error}}
+          </div>
+          <div class="form-group">
+            <label for="username" class="control-label">Email</label>
+            <input type="text" class="form-control" id="txtEmail" ng-model="email" ng-keypress="detectarMayusculas($event)" name="email" value=""
+              placeholder="baden@example.com" autofocus autocapitalize="off" spellcheck="false">
+            <span class="help-block"></span>
+          </div>
+          <div class="form-group">
+            <label for="password" class="control-label">Contraseña</label>
+            <input type="password" class="form-control" id="txtPassword" ng-model="password" ng-keypress="detectarMayusculas($event)"
+              name="password" value="" autocapitalize="off" spellcheck="false">
+            <span class="help-block text-warning" ng-show="mayusculas">
+              <span class="glyphicon glyphicon-warning-sign"></span>
+              Bloqueo de mayúsculas activado.
+            </span>
+          </div>
+          <div id="recaptcha"></div>
+          <div class="form-group">
+            <p class="form-control-static" ng-click="noAceptaClausula()">
+              <span class="glyphicon glyphicon-check"></span>
+              Acepto la clausula de confidencialidad y el uso de cookies.
+            </p>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <button type="button" ng-click="login()" class="btn btn-default btn-primary">ENTRAR</button>
+            </div>
+            <div class="col-md-6 text-right">
+              <a href="javascript:" ng-click="test()">¿Has olvidado tu contraseña?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row hidden" style="margin-top: 60px">
+    <div class="col-md-4">
+      <div id="container" style="width:100%; height:400px;"></div>
+    </div>
+    <div class="col-md-4">
+      Crecimiento
+    </div>
+    <div class="col-md-4">
+      Voluntarios
+    </div>
+  </div>
+</div>
+
+<div style="position: absolute; bottom: 10px; right: 10px">
+  <span style="color: #B2EBF2; margin-right: 5px">Autologin</span>
+  <div class="btn-group btn-group-xs" role="group">
+    <button type="button" ng-click="__dbgAutoLogin('baden@example.com')" class="btn btn-default">Asociado</button>
+    <button type="button" ng-click="__dbgAutoLogin('fev@scoutsfev.org')" class="btn btn-default">FEV</button>
+    <button type="button" ng-click="__dbgAutoLogin('sdc@scoutsfev.org')" class="btn btn-default">Tecnico SdC</button>
+    <button type="button" ng-click="__dbgAutoLogin('lluerna@scoutsfev.org')" class="btn btn-default">Lluerna</button>
+  </div>
+</div>
+
+<!-- <div style="background-color: #2E7D32; width: 100%; height: 20%; position: absolute; bottom: 0">&nbsp;</div> -->

@@ -1,7 +1,9 @@
 package org.scoutsfev.cudu.domain.validadores;
 
+import com.google.common.collect.FluentIterable;
 import org.junit.Before;
 import org.junit.Test;
+import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.TipoAsociado;
@@ -15,10 +17,15 @@ import static org.junit.Assert.assertTrue;
 public class ValidadorTipoTests {
 
     private ValidadorTipo validador;
+    private Asociado asociado;
+    private Grupo grupo;
 
     @Before
     public void setUp() throws Exception {
         validador = new ValidadorTipo();
+        grupo = GeneradorDatosDePrueba.generarGrupo(Optional.<String>empty());
+        asociado = GeneradorDatosDePrueba.generarAsociado();
+        asociado.setGrupo(null);
     }
 
     @Test
@@ -28,44 +35,74 @@ public class ValidadorTipoTests {
 
     @Test
     public void el_tipo_no_puede_ser_nulo() throws Exception {
-        Asociado asociado = GeneradorDatosDePrueba.generarAsociado();
         asociado.setTipo(null);
         assertFalse(validador.isValid(asociado, null));
     }
 
     @Test
-    public void cuando_el_asociado_no_es_de_tipo_voluntario_debe_pertenecer_a_un_grupo() throws Exception {
-        TipoAsociado tipo = TipoAsociado.Joven;
-        Grupo grupo = GeneradorDatosDePrueba.generarGrupo(Optional.<String>empty());
-        Asociado asociado = GeneradorDatosDePrueba.generarAsociado(grupo);
-        asociado.setTipo(tipo);
-        asociado.setGrupo(grupo);
-        assertTrue(validador.isValid(asociado, null));
-    }
-
-    @Test
-    public void es_invalido_cuando_el_asociado_no_es_voluntario_y_no_pertenece_a_un_grupo() throws Exception {
-        TipoAsociado tipo = TipoAsociado.Joven;
-        Asociado asociado = GeneradorDatosDePrueba.generarAsociado();
-        asociado.setTipo(tipo);
-        asociado.setGrupo(null);
+    public void el_ambito_de_edicion_no_puede_ser_nulo() throws Exception {
+        asociado.setTipo(TipoAsociado.Voluntario);
+        asociado.setAmbitoEdicion(null);
         assertFalse(validador.isValid(asociado, null));
     }
 
     @Test
-    public void es_valido_cuando_el_asociado_es_voluntario_y_no_tiene_grupo() throws Exception {
-        Asociado asociado = GeneradorDatosDePrueba.generarAsociado();
-        asociado.setTipo(TipoAsociado.Voluntario);
-        asociado.setGrupo(null);
-        assertTrue(validador.isValid(asociado, null));
+    public void si_el_asociado_es_joven_kraal_o_comite_su_ambito_de_edicion_es_el_grupo_o_personal() throws Exception {
+        valido(grupo, TipoAsociado.Joven, AmbitoEdicion.Grupo, AmbitoEdicion.Personal);
+        valido(grupo, TipoAsociado.Kraal, AmbitoEdicion.Grupo, AmbitoEdicion.Personal);
+        valido(grupo, TipoAsociado.Comite, AmbitoEdicion.Grupo, AmbitoEdicion.Personal);
+        noValido(grupo, TipoAsociado.Joven, AmbitoEdicion.Asociacion, AmbitoEdicion.Federacion, AmbitoEdicion.Escuela, AmbitoEdicion.Seguro);
     }
 
     @Test
-    public void es_invalido_cuando_el_asociado_es_voluntario_y_tiene_grupo() throws Exception {
-        Grupo grupo = GeneradorDatosDePrueba.generarGrupo(Optional.<String>empty());
-        Asociado asociado = GeneradorDatosDePrueba.generarAsociado(grupo);
-        asociado.setTipo(TipoAsociado.Voluntario);
-        asociado.setGrupo(grupo);
-        assertFalse(validador.isValid(asociado, null));
+    public void si_el_asociado_es_tecnico_su_ambito_de_edicion_es_asociacion_federacion_lluerna_o_seguro() throws Exception {
+        valido(null, TipoAsociado.Tecnico, AmbitoEdicion.Asociacion, AmbitoEdicion.Federacion, AmbitoEdicion.Escuela, AmbitoEdicion.Seguro);
+        noValido(null, TipoAsociado.Tecnico, AmbitoEdicion.Grupo, AmbitoEdicion.Personal);
+    }
+
+    @Test
+    public void si_el_asociado_es_voluntario_su_ambito_de_edicion_es_personal() throws Exception {
+        valido(null, TipoAsociado.Voluntario, AmbitoEdicion.Personal);
+        noValido(null, TipoAsociado.Voluntario, FluentIterable.of(AmbitoEdicion.values()).filter(a -> a != AmbitoEdicion.Personal).toArray(AmbitoEdicion.class));
+    }
+
+    @Test
+    public void si_el_asociado_es_tecnico_no_tiene_grupo() throws Exception {
+        valido(null, TipoAsociado.Tecnico, AmbitoEdicion.Asociacion);
+        noValido(grupo, TipoAsociado.Tecnico, AmbitoEdicion.Asociacion);
+    }
+
+    @Test
+    public void si_el_asociado_es_voluntario_no_tiene_grupo() throws Exception {
+        valido(null, TipoAsociado.Voluntario, AmbitoEdicion.Personal);
+        noValido(grupo, TipoAsociado.Voluntario, AmbitoEdicion.Personal);
+    }
+
+    @Test
+    public void si_el_asociado_no_es_tecnico_o_voluntario_debe_de_tener_grupo() throws Exception {
+        for (TipoAsociado tipo : FluentIterable.of(TipoAsociado.values()).filter(t -> t != TipoAsociado.Tecnico && t != TipoAsociado.Voluntario)) {
+            valido(grupo, tipo, AmbitoEdicion.Grupo, AmbitoEdicion.Personal);
+            noValido(null, tipo, AmbitoEdicion.Grupo, AmbitoEdicion.Personal);
+        }
+    }
+
+    private void valido(Grupo grupo, TipoAsociado tipo, AmbitoEdicion ... ambitos) {
+        String grupoNulo = grupo == null ? "nulo" : "no nulo";
+        for (AmbitoEdicion ambito : ambitos) {
+            asociado.setGrupo(grupo);
+            asociado.setTipo(tipo);
+            asociado.setAmbitoEdicion(ambito);
+            assertTrue("El validador debería pasar con grupo " + grupoNulo + ", tipo '" + tipo + "' y Ambito '" + ambito + "'.", validador.isValid(asociado, null));
+        }
+    }
+
+    private void noValido(Grupo grupo, TipoAsociado tipo, AmbitoEdicion ... ambitos) {
+        String grupoNulo = grupo == null ? "nulo" : "no nulo";
+        for (AmbitoEdicion ambito : ambitos) {
+            asociado.setGrupo(grupo);
+            asociado.setTipo(tipo);
+            asociado.setAmbitoEdicion(ambito);
+            assertFalse("El validador no debería pasar con grupo " + grupoNulo + ", tipo '" + tipo + "' y Ambito '" + ambito + "'.", validador.isValid(asociado, null));
+        }
     }
 }

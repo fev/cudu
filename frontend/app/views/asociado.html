@@ -2,7 +2,6 @@
 <div class="row">
   <div id="panelLista" class="col-md-4">
     <div class="mat-toolbar">
-
     </div>
     <form class="form hidden" role="form" autocomplete="off">
       <div class="form-group">
@@ -58,7 +57,7 @@
     </div>
   </div>
 
-  <div id="panelEdicion" class="col-md-8">
+  <div id="panelEdicion" class="col-sm-8">
     <div class="mat-toolbar text-right">
       <button type="button" class="btn btn-default"
         ng-hide="asociado.id && !asociado.activo"
@@ -88,7 +87,7 @@
       Se han guardado los cambios del asociado correctamente.
     </div>
 
-    <div class="alert alert-warning" ng-show="estado == 4">
+    <div class="alert alert-danger" ng-show="estado == 4">
       <strong>Ops!</strong> Algunos de los datos del asociado no son correctos, por favor revisa el formulario.
       <ul>
         <li>Nombre - Requerido</li>
@@ -175,8 +174,8 @@
         <li ng-class="{active: tabActivo == 0}"><a href="" ng-click="seleccionarTab(0)">Contacto</a></li>
         <li ng-class="{active: tabActivo == 1, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(1)">Responsables</a></li>
         <li ng-class="{active: tabActivo == 2, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(2)">Documentos</a></li>
-        <li class="disabled"><a href="javascript:">Histórico</a></li>
-        <li class="disabled"><a href="javascript:">Seguridad</a></li>
+        <li ng-class="{active: tabActivo == 4}"><a href="" ng-click="seleccionarTab(4)">Formación</a></li>
+        <li ng-class="{active: tabActivo == 3}"><a href="" ng-click="seleccionarTab(3)">Seguridad</a></li>
         <li ng-class="{active: tabActivo == 5}"><a href="" ng-click="seleccionarTab(5)">Notas</a></li>
       </ul>
 
@@ -252,7 +251,7 @@
           </div>
         </div>
       </div>
-      <div class="row tab-content" style="margin-top: 10px">
+      <div class="row" style="margin-top: 10px">
         <div class="col-md-6">
           <div class="form-group">
             <label class="col-md-4 control-label">Nombre Padre</label>
@@ -319,26 +318,70 @@
         </div>
       </div>
 
-      <div class="tab-content" ng-show="tabActivo == 3">
+      <div class="row tab-content" ng-show="tabActivo == 3" ng-controller="SeguridadCtrl">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-3 control-label">Usuario</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.email" type="text" class="form-control" placeholder="Obligatorio">
+              <span class="help-block small">El email del asociado se usa para entrar a Cudú.</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Cuenta</label>
+            <div ng-show="asociado.usuarioActivo" class="col-md-9">
+              <button type="button" class="btn btn-default btn-sm" ng-click="cambiarPassword(asociado)">Cambiar contraseña</button>
+              <button type="button" class="btn btn-default btn-sm" ng-click="desactivar(asociado)">Desactivar cuenta</button>
+            </div>
+            <div ng-show="!asociado.usuarioActivo" class="col-md-9">
+              <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)">Activar cuenta</button>
+              <p ng-show="mostrarAlertaPassword" class="small text-danger">Para activar un usuario es necesario que sea mayor de 18 años y tenga una dirección de email conocida.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Estado</label>
+            <div class="col-md-8">
+              <p class="form-control-static">Activo</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Creado por</label>
+            <div class="col-md-8">
+              <p class="form-control-static">Mike Wazowski</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Última entrada</label>
+            <div class="col-md-8">
+              <p class="form-control-static">25/10/2012 10:50:03</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" ng-show="tabActivo == 4">
+        DATOS FORMACION
+      </div>
+
+      <div class="tab-content" ng-show="tabActivo == 6">
         <table class="table table-condensed">
           <thead>
             <tr>
               <th>Fecha</th>
-              <th>Hora</th>
               <th>Usuario</th>
               <th>Acción</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>17/08/2010</td>
-              <td>19:34:01</td>
+              <td>17/08/2010 19:34:01</td>
               <td>Mark Otto</td>
               <td>Crear el asociado con id = 4.</td>
             </tr>
             <tr>
-              <td>21/02/2011</td>
-              <td>19:34:01</td>
+              <td>21/02/2011 19:34:01</td>
               <td>Jacob Thornton</td>
               <td>Editar nombre, calle y apellidos.</td>
             </tr>

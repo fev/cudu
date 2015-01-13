@@ -1,0 +1,67 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title th:text="#{reset.cambiarpassword}">Cambiar Contraseña</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700|Roboto+Condensed:400,300,700" rel="stylesheet" type="text/css" />
+  <link th:href="@{/css/backend.css}" href="../static/css/backend.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="container paper">
+    <form id="formulario" action="#" th:action="@{/reset/} + ${token.token}" method="post">
+      <div class="paper-header">
+        <h1 th:text="#{reset.cambiarpassword}">Cambiar Contraseña</h1>
+        <p th:text="#{reset.explicacion}">La contraseña debe tener un mínimo de 6 carácteres combinando letras y números.</p>
+      </div>
+      <div class="paper-body">
+          <div class="form-group">
+            <label class="control-label" th:text="#{reset.usuario}">Usuario</label>
+            <p class="form-control-static" th:text="${token.email}">email@example.com</p>
+          </div>
+          <div class="form-group">
+            <label for="password" th:text="#{reset.nueva}">Nueva contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" th:value="${token.password}" autofocus="autofocus" />
+            <p id="minimo" th:text="#{reset.minimo}" class="help-text small text-danger" style="display: none">La contraseña debe tener un mínimo de 6 carácteres.</p>
+          </div>
+          <div class="form-group">
+            <label for="password2" th:text="#{reset.repite}">Repite la contraseña</label>
+            <input type="password" class="form-control" id="password2" name="password2" />
+            <p id="coinciden" th:text="#{reset.coinciden}" class="help-text small text-danger" style="display: none">Las contraseñas no coinciden.</p>
+          </div>
+          <div class="form-group">
+            <label class="control-label" th:text="#{reset.calidad}">Calidad de la contraseña</label>
+            <p id="calidad" class="form-control-static">&nbsp;</p>
+          </div>
+      </div>
+      <div class="paper-actions">
+        <input type="button" class="btn btn-dlg" th:value="#{reset.cancelar}" value="Cancelar" />
+        <input type="submit" class="btn btn-dlg btn-dlg-primary" th:value="#{reset.cambiar}" value="Cambiar" />
+      </div>
+      <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> -->
+  </form>
+  </div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script th:src="@{/js/zxcvbn-cudu.js}" src="../static/scripts/zxcvbn-cudu.js"></script>
+  <script th:src="@{/js/reset.js}" src="../static/scripts/reset.js"></script>
+  <script type="text/javascript">
+  var textos = [
+    "Mediocre, un castor lo haría mejor.",
+    "Mala, evita obviedades.",
+    "Decente, puedes mejorarla añadiendo carácteres.",
+    "Buena.",
+    "Muy buena. Siempre listos."
+  ];
+
+  var fncMedicion = function(password) {
+    return zxcvbn(password, []).score;
+  };
+
+  $(function() {
+    ResetCtrlFactory(textos, fncMedicion);
+  });
+  </script>
+</body>
+</html>

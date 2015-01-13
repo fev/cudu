@@ -1,5 +1,6 @@
 'use strict';
 
+// TODO Mover a constantes de angular
 var estados = {
   LIMPIO: 0,
   GUARDANDO: 1,
@@ -9,6 +10,20 @@ var estados = {
 };
 
 angular.module('cuduApp')
+  .controller('SeguridadCtrl', ['$scope', function($scope) {
+    $scope.mostrarAlertaPassword = false;
+
+    $scope.cambiarPassword = function(asociado) {
+    };
+
+    $scope.activar = function(asociado) {
+      console.log(asociado);
+      $scope.mostrarAlertaPassword = true;
+    };
+
+    $scope.desactivar = function(asociado) {
+    };
+  }])
   .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', function ($scope, Asociado, Grupo) {
     $scope.grupo = Grupo.get();
     $scope.asociados = Asociado.query();
@@ -57,10 +72,10 @@ angular.module('cuduApp')
       marcarCambiosPendientes();
       $scope.asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
       $scope.asociado.seleccionado = true;
-      /*Asociado.get({ 'idAsociado': id }, function(asociado) {
+      /* Asociado.get({ 'idAsociado': id }, function(asociado) {
         $scope.asociado = asociado;
         $scope.asociado.seleccionado = true;
-      });*/
+      }); */
     };
 
     $scope.guardar = function(id) {

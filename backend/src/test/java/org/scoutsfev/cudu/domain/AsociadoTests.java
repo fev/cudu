@@ -1,12 +1,11 @@
 package org.scoutsfev.cudu.domain;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 public class AsociadoTests {
 
@@ -16,12 +15,17 @@ public class AsociadoTests {
     @Before
     public void setUp() throws Exception {
         grupo = new Grupo("TEST", Asociacion.MEV, "Placeholder", "ABCDEF", 46015, "Valencia", "963400000", "test@example.com");
-        asociado = new Asociado(grupo, TipoAsociado.Joven, "Mike", "Wazowski", new Date());
+        asociado = new Asociado(grupo, TipoAsociado.Joven, AmbitoEdicion.Grupo, "Mike", "Wazowski", new Date());
     }
 
     @Test
-    public void por_defecto_un_usuario_esta_activado() throws Exception {
-        Assert.assertTrue(asociado.isActivo());
+    public void por_defecto_un_asociado_esta_activado() throws Exception {
+        assertTrue(asociado.isActivo());
+    }
+
+    @Test
+    public void por_defecto_el_usuario_de_un_asociado_esta_activado() throws Exception {
+        assertFalse(asociado.isUsuarioActivo());
     }
 
     @Test
@@ -34,8 +38,8 @@ public class AsociadoTests {
     }
 
     @Test
-    public void usando_el_ctor_por_defecto_un_usuario_esta_activado() throws Exception {
-        Asociado asociado = new Asociado();
-        Assert.assertTrue(asociado.isActivo());
+    public void por_defecto_las_restricciones_de_un_usuario_no_son_nulas() throws Exception {
+        Usuario usuario = new Usuario();
+        assertNotNull(usuario.getRestricciones());
     }
 }

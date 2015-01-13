@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.scoutsfev.cudu.Application;
+import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.TipoAsociado;
@@ -72,14 +73,21 @@ public class AsociadoRepositoryIntegrationTests {
     }
 
     @Test
-    public void una_vez_guardado_un_usuario_esta_activado() throws Exception {
+    public void por_defecto_un_asociado_esta_activado() throws Exception {
         Asociado guardardo = asociadoRepository.save(GeneradorDatosDePrueba.generarAsociado());
         Asociado asociado = asociadoRepository.findOne(guardardo.getId());
         assertTrue(asociado.isActivo());
     }
 
     @Test
-    public void es_posible_activar_un_usuario() throws Exception {
+    public void por_defecto_un_usuario_esta_desactivado() throws Exception {
+        Asociado guardardo = asociadoRepository.save(GeneradorDatosDePrueba.generarAsociado());
+        Asociado asociado = asociadoRepository.findOne(guardardo.getId());
+        assertFalse(asociado.isUsuarioActivo());
+    }
+
+    @Test
+    public void es_posible_activar_un_asociado() throws Exception {
         Asociado original = GeneradorDatosDePrueba.generarAsociado();
         original.setActivo(false);
         Asociado guardado = asociadoRepository.save(original);
@@ -93,7 +101,7 @@ public class AsociadoRepositoryIntegrationTests {
     }
 
     @Test
-    public void es_posible_desactivar_un_usuario() throws Exception {
+    public void es_posible_desactivar_un_asociado() throws Exception {
         Asociado original = GeneradorDatosDePrueba.generarAsociado();
         original.setActivo(true);
         Asociado guardado = asociadoRepository.save(original);
@@ -128,6 +136,7 @@ public class AsociadoRepositoryIntegrationTests {
     public void si_el_asociado_no_tiene_grupo_al_obtener_el_codigo_del_grupo_devuelve_null() throws Exception {
         Asociado nuevo = GeneradorDatosDePrueba.generarAsociado(grupo);
         nuevo.setTipo(TipoAsociado.Voluntario);
+        nuevo.setAmbitoEdicion(AmbitoEdicion.Personal);
         nuevo.setGrupo(null);
         Asociado guardado = asociadoRepository.save(nuevo);
         assertNull(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(guardado.getId()));
