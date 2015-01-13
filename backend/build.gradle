@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    springBootVersion = '1.2.0.RELEASE'
+    springBootVersion = '1.2.1.RELEASE'
   }
   repositories {
     mavenCentral()
@@ -49,7 +49,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.2'
+  gradleVersion = '2.2.1'
 }
 
 idea {
