@@ -59,7 +59,6 @@ public class Grupo {
     @Size(min = 6, max = 100)
     private String email;
 
-    @URL
     @Size(max = 300)
     private String web;
 
