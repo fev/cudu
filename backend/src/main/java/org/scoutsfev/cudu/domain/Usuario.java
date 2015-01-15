@@ -30,7 +30,7 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     @JsonIgnore
-    private boolean requiereCaptcha;
+    private boolean requiereCaptcha = false;
 
     protected Usuario() { }
 
