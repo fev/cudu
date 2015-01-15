@@ -38,8 +38,7 @@ public class Asociado extends AsociadoAbstracto {
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
-    @Size(min = 5, max = 200)
-    @Column(name = "calle")
+    @Size(min = 5, max = 100)
     private String direccion;
 
     @Min(1)
