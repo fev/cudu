@@ -57,6 +57,10 @@ public class Asociado extends AsociadoAbstracto {
 
     private Sexo sexo;
 
+    @Email
+    @Size(max = 100)
+    protected String email_contacto;
+
     @Size(max = 15)
     private String telefonoCasa;
 
@@ -226,6 +230,14 @@ public class Asociado extends AsociadoAbstracto {
 
     public void setSexo(Sexo sexo) {
         this.sexo = sexo;
+    }
+
+    public String getEmail_contacto() {
+        return email_contacto;
+    }
+
+    public void setEmail_contacto(String email_contacto) {
+        this.email_contacto = email_contacto;
     }
 
     public String getTelefonoCasa() {
