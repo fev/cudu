@@ -99,7 +99,7 @@ public abstract class EndToEndTest {
 
         Asociado nuevo = GeneradorDatosDePrueba.generarAsociado(grupo);
         nuevo.setTipo(TipoAsociado.Kraal);
-        nuevo.setRamaPioneros(true);
+        nuevo.setRamaExpedicion(true);
         nuevo.setFechaNacimiento(new Date(379513552));
         nuevo.setEmail(login);
         Asociado asociado = asociadoRepository.save(nuevo);

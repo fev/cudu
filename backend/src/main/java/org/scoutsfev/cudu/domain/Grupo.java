@@ -1,12 +1,8 @@
 package org.scoutsfev.cudu.domain;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.URL;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -45,6 +41,7 @@ public class Grupo {
     private String municipio;
 
     @Past
+    @Temporal(TemporalType.DATE)
     private Date aniversario;
 
     @NotNull

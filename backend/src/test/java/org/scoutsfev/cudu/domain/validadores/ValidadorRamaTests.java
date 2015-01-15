@@ -22,12 +22,12 @@ public class ValidadorRamaTests {
     public void setUp() throws Exception {
         validador = new ValidadorRama();
         asociado = GeneradorDatosDePrueba.generarAsociado();
-        asociado.setRamaLobatos(false);
+        asociado.setRamaManada(false);
         assumeThat(asociado.getTipo(), is(equalTo(TipoAsociado.Joven)));
-        assumeFalse(asociado.isRamaCastores());
-        assumeFalse(asociado.isRamaLobatos());
+        assumeFalse(asociado.isRamaColonia());
+        assumeFalse(asociado.isRamaManada());
         assumeFalse(asociado.isRamaExploradores());
-        assumeFalse(asociado.isRamaPioneros());
+        assumeFalse(asociado.isRamaExpedicion());
         assumeFalse(asociado.isRamaRuta());
     }
 
@@ -44,15 +44,15 @@ public class ValidadorRamaTests {
 
     @Test
     public void un_joven_no_puede_estar_en_mas_de_una_rama() throws Exception {
-        asociado.setRamaCastores(true);
-        asociado.setRamaLobatos(true);
+        asociado.setRamaColonia(true);
+        asociado.setRamaManada(true);
         assertFalse(validador.isValid(asociado, null));
     }
 
     @Test
     public void un_joven_debe_estar_obligatoriamente_en_una_rama() throws Exception {
         assertFalse(validador.isValid(asociado, null));
-        asociado.setRamaLobatos(true);
+        asociado.setRamaManada(true);
         assertTrue(validador.isValid(asociado, null));
     }
 
@@ -68,8 +68,8 @@ public class ValidadorRamaTests {
 
     @Test
     public void los_asociados_que_no_son_jovenes_pueden_estar_en_multiples_ramas() throws Exception {
-        asociado.setRamaCastores(true);
-        asociado.setRamaLobatos(true);
+        asociado.setRamaColonia(true);
+        asociado.setRamaManada(true);
         for (TipoAsociado tipo : TipoAsociado.values()) {
             if (tipo == TipoAsociado.Joven)
                 continue;

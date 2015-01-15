@@ -18,16 +18,16 @@ public class Asociado extends AsociadoAbstracto {
     public static final String REGEX_NIF = "(\\d{8}|[KLMXYZ]\\d{7})-?\\w";
 
     @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean ramaCastores = false;
+    private boolean ramaColonia = false;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean ramaLobatos = false;
+    private boolean ramaManada = false;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaExploradores = false;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean ramaPioneros = false;
+    private boolean ramaExpedicion = false;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaRuta = false;
@@ -72,7 +72,8 @@ public class Asociado extends AsociadoAbstracto {
     @Column(insertable = false, updatable = false)
     private Timestamp fechaActualizacion;
 
-    private Boolean tieneSeguroPrivado;
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean tieneSeguroPrivado = false;
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean tieneTutorLegal = false;
@@ -132,20 +133,20 @@ public class Asociado extends AsociadoAbstracto {
         this.activo = true;
     }
 
-    public boolean isRamaCastores() {
-        return ramaCastores;
+    public boolean isRamaColonia() {
+        return ramaColonia;
     }
 
-    public void setRamaCastores(boolean ramaCastores) {
-        this.ramaCastores = ramaCastores;
+    public void setRamaColonia(boolean ramaColonia) {
+        this.ramaColonia = ramaColonia;
     }
 
-    public boolean isRamaLobatos() {
-        return ramaLobatos;
+    public boolean isRamaManada() {
+        return ramaManada;
     }
 
-    public void setRamaLobatos(boolean ramaLobatos) {
-        this.ramaLobatos = ramaLobatos;
+    public void setRamaManada(boolean ramaManada) {
+        this.ramaManada = ramaManada;
     }
 
     public boolean isRamaExploradores() {
@@ -156,12 +157,12 @@ public class Asociado extends AsociadoAbstracto {
         this.ramaExploradores = ramaExploradores;
     }
 
-    public boolean isRamaPioneros() {
-        return ramaPioneros;
+    public boolean isRamaExpedicion() {
+        return ramaExpedicion;
     }
 
-    public void setRamaPioneros(boolean ramaPioneros) {
-        this.ramaPioneros = ramaPioneros;
+    public void setRamaExpedicion(boolean ramaExpedicion) {
+        this.ramaExpedicion = ramaExpedicion;
     }
 
     public boolean isRamaRuta() {

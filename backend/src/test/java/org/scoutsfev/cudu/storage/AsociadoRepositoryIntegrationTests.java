@@ -146,13 +146,13 @@ public class AsociadoRepositoryIntegrationTests {
     public void por_defecto_un_asociado_no_esta_en_ninguna_rama_y_la_bbdd_no_tiene_defaults() throws Exception {
         Asociado asociado = GeneradorDatosDePrueba.generarAsociado();
         asociado.setTipo(TipoAsociado.Kraal);
-        asociado.setRamaLobatos(false);
+        asociado.setRamaManada(false);
         Asociado nuevo = asociadoRepository.save(asociado);
         Asociado a = asociadoRepository.findOne(nuevo.getId());
-        assertFalse(a.isRamaCastores());
-        assertFalse(a.isRamaLobatos());
+        assertFalse(a.isRamaColonia());
+        assertFalse(a.isRamaManada());
         assertFalse(a.isRamaExploradores());
-        assertFalse(a.isRamaPioneros());
+        assertFalse(a.isRamaExpedicion());
         assertFalse(a.isRamaRuta());
     }
 

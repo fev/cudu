@@ -17,10 +17,10 @@ public class ValidadorRama implements ConstraintValidator<ValidarRama, Asociado>
             return true;
 
         int noRamas = 0;
-        noRamas = asociado.isRamaCastores() ? ++noRamas : noRamas;
-        noRamas = asociado.isRamaLobatos() ? ++noRamas : noRamas;
+        noRamas = asociado.isRamaColonia() ? ++noRamas : noRamas;
+        noRamas = asociado.isRamaManada() ? ++noRamas : noRamas;
         noRamas = asociado.isRamaExploradores() ? ++noRamas : noRamas;
-        noRamas = asociado.isRamaPioneros() ? ++noRamas : noRamas;
+        noRamas = asociado.isRamaExpedicion() ? ++noRamas : noRamas;
         noRamas = asociado.isRamaRuta() ? ++noRamas : noRamas;
         return asociado.getTipo() != TipoAsociado.Joven || noRamas == 1;
     }

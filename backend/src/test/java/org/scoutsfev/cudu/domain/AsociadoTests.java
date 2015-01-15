@@ -30,10 +30,10 @@ public class AsociadoTests {
 
     @Test
     public void por_defecto_un_asociado_no_esta_en_ninguna_rama() throws Exception {
-        assertFalse(asociado.isRamaCastores());
-        assertFalse(asociado.isRamaLobatos());
+        assertFalse(asociado.isRamaColonia());
+        assertFalse(asociado.isRamaManada());
         assertFalse(asociado.isRamaExploradores());
-        assertFalse(asociado.isRamaPioneros());
+        assertFalse(asociado.isRamaExpedicion());
         assertFalse(asociado.isRamaRuta());
     }
 
