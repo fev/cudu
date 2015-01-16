@@ -6,6 +6,8 @@ import org.scoutsfev.cudu.domain.Credenciales;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -32,6 +34,8 @@ import javax.validation.Valid;
 @RequestMapping("/usuario")
 public class UsuarioController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UsuarioService.class);
+
     private final AsociadoRepository asociadoRepository;
     private final UsuarioService usuarioService;
     private final AuthenticationManager authenticationManager;
@@ -46,21 +50,28 @@ public class UsuarioController {
     @RequestMapping(value = "/autenticar", method = RequestMethod.POST)
     public ResponseEntity<Usuario> login(@RequestBody @Valid Credenciales credenciales, HttpServletRequest request) {
         // TODO Limpiar campos, sql, xss etc
-        // TODO @RequestBody not null @Valid
-
-        usuarioService.comprobarCaptcha(credenciales, request);
+        // TODO @RequestBody null?
 
         try {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(credenciales.getEmail(), credenciales.getPassword());
-            authenticationToken.setDetails(new WebAuthenticationDetails(request));
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            usuarioService.marcarCaptcha(credenciales.getEmail(), false);
-            return new ResponseEntity<>((Usuario)authentication.getPrincipal(), HttpStatus.OK);
+            usuarioService.comprobarCaptcha(credenciales, request);
+            Usuario usuario = autenticar(credenciales, request);
+            usuarioService.marcarCaptcha(usuario.getEmail(), false);
+            return new ResponseEntity<>(usuario, HttpStatus.OK);
         } catch (BadCredentialsException badCredentialsException) {
             usuarioService.marcarCaptcha(credenciales.getEmail(), true);
             throw badCredentialsException;
+        } catch (Exception e) {
+            logger.error("Error inesperado al autenticar al usuario ", e);
+            throw e;
         }
+    }
+
+    private Usuario autenticar(Credenciales credenciales, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(credenciales.getEmail(), credenciales.getPassword());
+        authenticationToken.setDetails(new WebAuthenticationDetails(request));
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return (Usuario)authentication.getPrincipal();
     }
 
     @RequestMapping(value = "/desautenticar", method = RequestMethod.POST)
