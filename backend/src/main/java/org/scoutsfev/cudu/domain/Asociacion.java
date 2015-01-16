@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum Asociacion {
     SdA(0),
     SdC(1),
-    MEV(3);
+    MEV(2);
 
     private final int id;
 
