@@ -13,8 +13,7 @@ cuduServices.factory('Asociado', ['$resource',
 
 cuduServices.factory('Grupo', ['$resource',
   function($resource) {
-    return $resource('test_data/grupo.json');
-    // return $resource('grupo/:idGroup');
+    return $resource('/api/grupo/:id');
   }]);
 
 cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $cookies, $q) {
