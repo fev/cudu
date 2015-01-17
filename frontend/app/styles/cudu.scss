@@ -4,6 +4,10 @@
 
 .hidden { display: none !important; }
 
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 $stdfontpath: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $input-border: #CCC;
 
@@ -55,32 +59,15 @@ body { font-family: $stdfontpath; color: #333; background-color: #EEE }
   }
 }
 
-#txtBusqueda { border-right: 0; @include box-shadow(none);
-  &:focus {
-    border: 1px solid $input-border; border-right: 0; outline: 0;
-    @include box-shadow(none);
-  }
-}
-
 .lstas {
-  max-height: 650px; overflow: scroll;
+  height: 650px; overflow: scroll;
   .lstas-e {
     border-top: 1px solid #DCDCDC; padding: 15px 16px; cursor: pointer;
     &:first-child { border-top: 0 }
     &:hover { background-color: #EEE }
     &.eliminado { color: #CCC; }
-    > strong { display: block; font-size: 16px; font-weight: normal;
-      > span {
-        font-weight: normal; color: #CCC;
-        &.ramaC { color: #FECEA8 }
-        &.ramaM { color: darken(#FFF9B8, 40%) }
-        &.ramaE { color: #8EDBDE }
-        &.ramaP { color: #FF847C }
-        &.ramaR { color: #99B898 }
-        &.glyphicon-fire, &.glyphicon-floppy-remove { color: #E84A5F }
-      }
-    }
-    > span { font-size: $font-size-small }
+    > strong { display: block; font-size: 16px; font-weight: normal; }
+    > div { font-size: $font-size-small }
   }
   .seleccionado {
     background-color: #FFFBCC;
@@ -128,7 +115,7 @@ h1 { font-weight: 300; }
   > .nav, > .tab-content { margin-top: $line-height-computed + $padding-base-vertical }
 }
 
-.btn {
+.btn, .btn-xs, .btn-group-xs > .btn {
   @include border-radius(0px);
 }
 
@@ -137,7 +124,7 @@ h1 { font-weight: 300; }
 .btn:active.focus, .btn.active.focus { outline: none }
 
 // Eliminar sombra interna al pulsar
-.btn:active, .btn.active {
+.btn:active, .btn.active, .btn-group.open .dropdown-toggle {
   @include box-shadow(none);
   background-color: $material-grey-200;
 }
@@ -149,6 +136,13 @@ h1 { font-weight: 300; }
   color: #FFF;
   -webkit-animation: progress 0.7s ease infinite;
   &:hover { border-color: #CCC; }
+}
+
+.dropdown-menu {
+  @include border-radius(0px);
+  font-weigth: 300; margin-top: 0; // antes 2px
+  .dropdown-header { font-size: inherit; text-transform: uppercase; }
+  .fa, .glyphicon { margin-right: 10px }
 }
 
 @-webkit-keyframes progress {

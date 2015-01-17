@@ -13,27 +13,36 @@ angular.module('cuduApp')
   .controller('SeguridadCtrl', ['$scope', function($scope) {
     $scope.mostrarAlertaPassword = false;
 
-    $scope.cambiarPassword = function(asociado) {
-    };
+    $scope.cambiarPassword = function(asociado) { };
 
     $scope.activar = function(asociado) {
-      console.log(asociado);
       $scope.mostrarAlertaPassword = true;
     };
 
     $scope.desactivar = function(asociado) {
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', function ($scope, Asociado, Grupo) {
-    $scope.grupo = Grupo.get();
-    $scope.asociados = Asociado.query();
+  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', function ($scope, Asociado, Grupo, Usuario) {
+    // var idGrupo = Usuario.usuario.idGrupo;
+    // Grupo.get({id: idGrupo}, function(grupo) {
+    //   $scope.grupo = grupo;
+    // });
+    $scope.grupo = { };
+
+    $scope.asociados = [];
+    Asociado.query(function(asociados) {
+      $scope.asociados = asociados.content;
+    });
+
     $scope.asociado = { };
 
     $scope.estado = estados.LIMPIO;
 
     $scope.tabActivo = 0;
     $scope.busqueda = '';
-    $scope.filtro = { tipo: '', rama: '', eliminados: false };
+    $scope.filtro = { tipo: '', eliminados: false };
+    $scope.columnas = { rama: true, direccion: false, contacto: false };
+    $scope.orden = 'apellidos';
 
     $scope.modal = { eliminar: false };
 
@@ -43,13 +52,21 @@ angular.module('cuduApp')
 
     $scope.limpiarFiltro = function() {
       $scope.busqueda = '';
-      $scope.filtro = { tipo: '', rama: '', eliminados: false };
+      $scope.filtro = { tipo: '', eliminados: false };
     };
 
     $scope.filtrar = function(asociado) {
-      return (($scope.filtro.tipo === '' || asociado.tipo === $scope.filtro.tipo) &&
-              ($scope.filtro.rama === '' || asociado.rama === $scope.filtro.rama) &&
-              ($scope.filtro.eliminados  || asociado.activo));
+      var f = $scope.filtro || {};
+      var sinFiltroDeRama = !(f.ramaColonia || f.ramaManada ||
+        f.ramaExploradores || f.ramaExpedicion || f.ramaRuta);
+
+      return ((f.tipo === '' || asociado.tipo === f.tipo) &&
+              (sinFiltroDeRama || (f.ramaColonia && asociado.ramaColonia) ||
+                  (f.ramaManada && asociado.ramaManada) ||
+                  (f.ramaExploradores && asociado.ramaExploradores) ||
+                  (f.ramaExpedicion && asociado.ramaExpedicion) || 
+                  (f.ramaRuta && asociado.ramaRuta)) &&
+              (f.eliminados || asociado.activo));
     };
 
     $scope.activarFiltro = function(filtro, valor, porDefecto) {
@@ -70,12 +87,12 @@ angular.module('cuduApp')
     $scope.editar = function(id) {
       $scope.asociado.seleccionado = false;
       marcarCambiosPendientes();
-      $scope.asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
-      $scope.asociado.seleccionado = true;
-      /* Asociado.get({ 'idAsociado': id }, function(asociado) {
+      // $scope.asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
+      // $scope.asociado.seleccionado = true;
+      Asociado.get({ 'id': id }, function(asociado) {
         $scope.asociado = asociado;
         $scope.asociado.seleccionado = true;
-      }); */
+      });
     };
 
     $scope.guardar = function(id) {
@@ -134,7 +151,12 @@ angular.module('cuduApp')
     };
 
     $scope.establecerRama = function(rama) {
-      $scope.asociado.rama = rama;
+      var actual = $scope.asociado[rama];
+      if (actual) {
+        $scope.asociado[rama] = false;
+      } else {
+        $scope.asociado[rama] = true;
+      }
       $scope.formAsociado.$setDirty();
     };
 
@@ -145,13 +167,6 @@ angular.module('cuduApp')
       if ($scope.estado === estados.ERROR) { return 'btn-error'; }
       if ($scope.estado === estados.VALIDACION) { return 'btn-warning'; }
       return 'btn-default';
-    };
-
-    $scope.establecerEstiloRama = function(rama) {
-      if (rama !== '') {
-        return 'rama' + rama;
-      }
-      return '';
     };
 
     $scope.copiarDatosContacto = function(desde, hasta) {
@@ -165,6 +180,31 @@ angular.module('cuduApp')
         return [asociado.nombre, asociado.apellidos].join(' ');
       }
       return '(nuevo)';
+    };
+
+    $scope.mostrarColumna = function(nombre) {
+      var columnas = $scope.columnas || {};
+      if (columnas[nombre]) {
+        columnas[nombre] = false;
+      } else {
+        columnas[nombre] = true;
+      }
+    };
+
+    $scope.cssRadio = function(valor) {
+      if (valor) {
+        return "fa-dot-circle-o";
+      } else {
+        return "fa-circle-o";
+      }
+    };
+
+    $scope.cssCheck = function(valor) {
+      if (valor) {
+        return "fa-check-square-o";
+      } else {
+        return "fa-square-o";
+      }
     };
 
     var marcarCambiosPendientes = function() {

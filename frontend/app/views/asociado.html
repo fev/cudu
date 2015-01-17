@@ -2,57 +2,114 @@
 <div class="row">
   <div id="panelLista" class="col-md-4">
     <div class="mat-toolbar">
-    </div>
-    <form class="form hidden" role="form" autocomplete="off">
-      <div class="form-group">
-        <div class="input-group">
-          <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda">
-          <span class="input-group-btn">
-            <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button"
-                tooltip="Limpiar búsqueda y mostrar todos">
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
-            <button class="btn btn-default btn-sm" type="button">
-              <span class="glyphicon glyphicon-sort-by-alphabet"></span>
-            </button>
-            <button class="btn btn-default btn-sm" type="button" ng-click="nuevo()">
-              <span class="glyphicon glyphicon-plus"></span> Nuevo
-            </button>
-          </span>
+      <form class="form" autocomplete="off">
+        <div class="form-group">
+          <div class="input-group">
+            <input id="txtBusqueda" ng-model="busqueda" type="text" class="form-control" placeholder="Búsqueda">
+            <span class="input-group-btn">
+              <button class="btn btn-default btn-sm" type="button">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+              <button ng-click="limpiarFiltro()" class="hidden btn btn-default btn-danger-hover btn-sm" type="button"
+                  tooltip="Limpiar búsqueda y mostrar todos">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-header">Ordenar</li>
+                  <li><a href="javascript:" ng-click="orden = 'nombre'"><i class="fa" ng-class="cssRadio(orden === 'nombre')"></i> Nombre</a></li>
+                  <li><a href="javascript:" ng-click="orden = 'apellidos'"><i class="fa" ng-class="cssRadio(orden === 'apellidos')"></i> Apellidos</a></li>
+                  <li><a href="javascript:" ng-click="orden = 'tipo'"><i class="fa" ng-class="cssRadio(orden === 'tipo')"></i> Tipo</a></li>
+                  <li><a href="javascript:" ng-click="orden = 'rama'"><i class="fa" ng-class="cssRadio(orden === 'rama')"></i> Rama</a></li>
+                  <li><a href="javascript:" ng-click="orden = 'fechaActualizacion'"><i class="fa" ng-class="cssRadio(orden === 'fechaActualizacion')"></i> Última Actualización</a></li>
+                </ul>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-list-alt"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-header">Mostrar</li>
+                  <li><a href="javascript:" ng-click="mostrarColumna('rama')"><i class="fa" ng-class="cssCheck(columnas.rama)"></i> Rama, tipo y edad</a>
+                  <li><a href="javascript:" ng-click="mostrarColumna('contacto')"><i class="fa" ng-class="cssCheck(columnas.contacto)"></i> Datos de contacto</a></li>
+                  <li><a href="javascript:" ng-click="mostrarColumna('direccion')"><i class="fa" ng-class="cssCheck(columnas.direccion)"></i> Dirección, C.P. y Municipio</a></li>
+                </ul>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-print"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-header">Imprimir</li>
+                  <li><a href="javascript:">Listado completo</a></li>
+                  <li><a href="javascript:">Listado, solo visibles</a></li>
+                  <li><a href="javascript:">Autorizaciones</a></li>
+                  <li><a href="javascript:">Fichas Individuales</a></li>
+                </ul>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <span class="glyphicon glyphicon-fire"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-header">Edición Multiple</li>
+                  <li><a href="javascript:">Cambiar rama</a></li>
+                  <li><a href="javascript:">Cambiar tipo</a></li>
+                  <li><a href="javascript:">Eliminar</a></li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" type="button" ng-click="nuevo()">NUEVO</button>
+            </span>
+          </div>
         </div>
-      </div>
+
+      </form>
+    </div>
+    <div class="mat-subtoolbar">
       <div class="form-group">
         <div class="btn-toolbar">
-        <div class="btn-group btn-group-xs">
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Joven</a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
-        </div>
-        <div class="btn-group btn-group-xs">
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'C'}" ng-click="activarFiltro('rama', 'C')">Cas.</a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'M'}" ng-click="activarFiltro('rama', 'M')">Lob.</a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'E'}" ng-click="activarFiltro('rama', 'E')">Exp.</a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'P'}" ng-click="activarFiltro('rama', 'P')">Pio.</a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.rama == 'R'}" ng-click="activarFiltro('rama', 'R')">Com.</a>
-        </div>
-        <div class="btn-group btn-group-xs">
-          <a href="javascript:" class="btn btn-default disabled">
-            <span class="glyphicon glyphicon-fire"></span>
-          </a>
-          <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.eliminados === true}" ng-click="activarFiltro('eliminados', true, false)">
-            <span class="glyphicon glyphicon-trash"></span>
-          </a>
-        </div>
+          <div class="btn-group btn-group-xs">
+            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Jóven</a>
+            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
+            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
+          </div>
+          <div class="btn-group btn-group-xs">
+            <a href="javascript:" class="btn btn-default ramaColonia" ng-class="{active: filtro.ramaColonia}" ng-click="activarFiltro('ramaColonia', true, false)">
+              <i class="fa fa-circle"></i>
+            </a>
+            <a href="javascript:" class="btn btn-default ramaManada" ng-class="{active: filtro.ramaManada}" ng-click="activarFiltro('ramaManada', true, false)">
+              <i class="fa fa-circle"></i>
+            </a>
+            <a href="javascript:" class="btn btn-default ramaExploradores" ng-class="{active: filtro.ramaExploradores}" ng-click="activarFiltro('ramaExploradores', true, false)">
+              <i class="fa fa-circle"></i>
+            </a>
+            <a href="javascript:" class="btn btn-default ramaExpedicion" ng-class="{active: filtro.ramaExpedicion}" ng-click="activarFiltro('ramaExpedicion', true, false)">
+              <i class="fa fa-circle"></i>
+            </a>
+            <a href="javascript:" class="btn btn-default ramaRuta" ng-class="{active: filtro.ramaRuta}" ng-click="activarFiltro('ramaRuta', true, false)">
+              <i class="fa fa-circle"></i>
+            </a>
+          </div>
+          <div class="btn-group btn-group-xs pull-right">
+            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.eliminados === true}" ng-click="activarFiltro('eliminados', true, false)">
+              <span class="glyphicon glyphicon-trash"></span>
+            </a>
+          </div>
         </div>
       </div>
-    </form>
-    <div class="lstas">
+    </div>
+    <div class="lstas" ng-class="{'ver-rama': columnas.rama, 'ver-contacto': columnas.contacto, 'ver-direccion': columnas.direccion}">
       <div class="lstas-e"
         ng-class="{'text-danger': a.cambiosPendientes, 'text-primary': a.guardado, seleccionado: a.seleccionado, eliminado: !a.activo}"
-        ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:['!limbo','apellidos'] track by a.id"
+        ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:orden track by a.id"
         ng-click="editar(a.id)">
         <strong>{{a.nombre}} {{a.apellidos}}</strong>
-        <span>{{a.tipo | tipoAsociado}}, {{a.rama | rama}} <span class="pull-right">{{a.actualizado}}</span></span>
+        <div class="rama">{{a.tipo | tipoAsociado}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
+        <div class="direccion">{{a.direccion}} <span class="pull-right">{{a.codigoPostal}} {{a.municipio}}</span></div>
+        <div class="contacto">{{a.emailContacto}}&nbsp;<span class="pull-right">{{a.telefonoMovil}}</span></div>
       </div>
     </div>
   </div>
@@ -133,11 +190,11 @@
             <label class="col-md-3 control-label">Rama</label>
             <div class="col-md-9">
               <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'C'}" ng-click="establecerRama('C')">Cas.</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'M'}" ng-click="establecerRama('M')">Lob.</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'E'}" ng-click="establecerRama('E')">Exp.</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'P'}" ng-click="establecerRama('P')">Pio.</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.rama == 'R'}" ng-click="establecerRama('R')">Com.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaColonia}" ng-click="establecerRama('ramaColonia')">Cas.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaManada}" ng-click="establecerRama('ramaManada')">Lob.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaExploradores}" ng-click="establecerRama('ramaExploradores')">Exp.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaPioneros}" ng-click="establecerRama('ramaPioneros')">Pio.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaRutas}" ng-click="establecerRama('ramaRutas')">Com.</button>
               </div>
             </div>
           </div>
@@ -204,7 +261,7 @@
           <div class="form-group">
             <label class="col-md-3 control-label">E-Mail</label>
             <div class="col-md-9">
-              <input ng-model="asociado.email" type="text" class="form-control">
+              <input ng-model="asociado.emailContacto" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">

@@ -22,6 +22,7 @@
     color: $primario; border-bottom-color: $primario;
     @include box-shadow(inset 0 -2px 0 0 $primario);
   }
+  .dropdown-header { color: $primario; }
 }
 
 .asociado { @include color-seccion($material-cyan-500, $material-lime-500); }

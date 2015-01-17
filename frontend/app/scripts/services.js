@@ -6,10 +6,9 @@ var cuduServices = angular.module('cuduServices', ['ngResource']);
 
 cuduServices.factory('Asociado', ['$resource',
   function($resource) {
-    return $resource('test_data/asociados.json');
-    // return $resource('/api/asociado/:idAsociado', {}, {
-    //   query: { method: 'GET', params: { }, isArray: true }
-    // });
+    return $resource('/api/asociado/:id', {}, {
+      'query': { method: 'GET', params: { size: 200 }, isArray: false }
+    });
   }]);
 
 cuduServices.factory('Grupo', ['$resource',

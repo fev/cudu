@@ -1,10 +1,65 @@
 
 .asociado {
+  #txtBusqueda {
+    font-weight: 300;
+    color: transparent;
+    padding: 6px;
+    @include box-shadow(none);
+    @include border-radius(0px);
+    background-color: transparent; border: 1px solid transparent;
+    &:hover, &:focus { border-bottom: 1px solid $input-border; }
+    &:focus {
+      border-bottom: 1px solid $material-cyan-500;
+      color: $material-grey-900;
+      outline: 0;
+      @include box-shadow(none);
+    }
+  }
+
   #panelLista {
     padding: 0; border-right: 1px solid $input-border;
     .mat-toolbar {
+      padding-left: 10px; padding-right: 10px;
       background-color: $material-grey-200;
       border-bottom: 1px solid $input-border;
+      .btn { padding: 5px 7px }
+
+      .dropdown-menu { margin-top: -28px }
+      .btn:hover, .btn-group.open .dropdown-toggle { background-color: $material-grey-50; }
+      /*
+      .btn-group.open > .btn { background-color: #FFF; }
+      span.texto { display: none }
+      .btn-group.open span.texto { display: inline } */
+    }
+    .mat-subtoolbar {
+      padding: 5px 10px;
+      border-bottom: 1px solid $input-border;
+      .btn-group .btn+.btn { margin-left: 0 }
+      .form-group { margin-bottom: 0; }
+    }
+
+    .btn-default:focus { background-color: transparent; }
+    .btn-default.active { background-color: $material-grey-300; }
+
+    .ramaColonia { @include btnRama ($material-orange-500, $material-orange-100); }
+    .ramaManada { @include btnRama ($material-yellow-700, $material-yellow-200); }
+    .ramaExploradores { @include btnRama ($material-blue-500, $material-blue-100); }
+    .ramaExpedicion { @include btnRama ($material-red-700, $material-red-100); }
+    .ramaRuta { @include btnRama ($material-green-600, $material-green-100); }
+
+    // Campos visibles  
+    .rama { display: none }
+    .contacto { display: none }
+    .direccion { display: none }
+
+    .ver-contacto {
+      .contacto { display: block }
+    }
+    .ver-direccion {
+      .direccion { display: block }
+    }
+    .ver-rama {
+      .rama { display: block }
     }
   }
 
@@ -17,7 +72,8 @@
       .btn-danger:hover { color: #FFF; background-color: $material-red-300; }
       .btn-success:hover { color: #FFF; background-color: $material-green-300; }
     }
-
+    .btn-group .btn-default:focus { background-color: transparent; }
+    .btn-group .btn-default.active { background-color: $material-grey-300; }
     .form-control:focus {
       border-color: $material-cyan-500;
     }

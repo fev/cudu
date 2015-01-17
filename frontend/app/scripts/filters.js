@@ -3,14 +3,21 @@
 var filters = angular.module('cuduFilters', []);
 
 filters.filter('rama', function() {
-  return function(rama) {
-    if (rama === 'C') { return 'Castores'; }
-    if (rama === 'M') { return 'Lobatos'; }
-    if (rama === 'E') { return 'Exploradores'; }
-    if (rama === 'P') { return 'Pioneros'; }
-    if (rama === 'R') { return 'Compañeros'; }
-    if (rama === '') { return '(sin rama)'; }
-    return '¿?';
+  return function(a) {
+    if (!a) {
+      return '¿?';
+    }
+    var rama = [];
+    if (a.ramaColonia) { rama.push('Castores'); }
+    if (a.ramaManada) { rama.push('Lobatos'); }
+    if (a.ramaExploradores) { rama.push('Exploradores'); }
+    if (a.ramaExpedicion) { rama.push('Pioneros'); }
+    if (a.ramaRuta) { rama.push('Compañeros'); }
+
+    if (rama.length === 0) {
+      return '(sin rama)';
+    }
+    return rama.join(', ');
   };
 });
 
@@ -20,5 +27,13 @@ filters.filter('tipoAsociado', function() {
     if (rama === 'K') { return 'Kraal'; }
     if (rama === 'C') { return 'Comité'; }
     return '¿?';
+  };
+});
+
+filters.filter('edad', function() {
+  return function(fechaNacimiento) {
+    fechaNacimiento = new Date(fechaNacimiento);
+    var hoy = new Date();
+    return hoy.getYear() - fechaNacimiento.getYear();
   };
 });
