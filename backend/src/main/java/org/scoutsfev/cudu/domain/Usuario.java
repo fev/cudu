@@ -6,10 +6,8 @@ import org.hibernate.annotations.Immutable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -31,6 +29,9 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
     @Column(nullable = false, columnDefinition = "boolean default false")
     @JsonIgnore
     private boolean requiereCaptcha = false;
+
+    @Column(name = "grupo_id", insertable = false, updatable = false)
+    private String idGrupo;
 
     protected Usuario() { }
 
@@ -94,5 +95,9 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
 
     public boolean isRequiereCaptcha() {
         return requiereCaptcha;
+    }
+
+    public String getIdGrupo() {
+        return idGrupo;
     }
 }
