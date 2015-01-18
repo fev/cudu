@@ -65,7 +65,6 @@
             </span>
           </div>
         </div>
-
       </form>
     </div>
     <div class="mat-subtoolbar">
@@ -101,15 +100,21 @@
         </div>
       </div>
     </div>
-    <div class="lstas" ng-class="{'ver-rama': columnas.rama, 'ver-contacto': columnas.contacto, 'ver-direccion': columnas.direccion}">
-      <div class="lstas-e"
-        ng-class="{'text-danger': a.cambiosPendientes, 'text-primary': a.guardado, seleccionado: a.seleccionado, eliminado: !a.activo}"
+
+    <div class="lista" ng-class="{'ver-rama': columnas.rama, 'ver-contacto': columnas.contacto, 'ver-direccion': columnas.direccion}">
+      <div class="elemento"
+        ng-class="{'text-danger': a.cambiosPendientes, 'text-primary': a.guardado, 'marcado': a.marcado, seleccionado: a.seleccionado, eliminado: !a.activo}"
         ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:orden track by a.id"
         ng-click="editar(a.id)">
-        <strong>{{a.nombre}} {{a.apellidos}}</strong>
-        <div class="rama">{{a.tipo | tipoAsociado}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
-        <div class="direccion">{{a.direccion}} <span class="pull-right">{{a.codigoPostal}} {{a.municipio}}</span></div>
-        <div class="contacto">{{a.emailContacto}}&nbsp;<span class="pull-right">{{a.telefonoMovil}}</span></div>
+        <div class="selector" ng-click="marcar(a, $event)">
+          <i class="fa fa-check-square"></i>
+        </div>
+        <div class="datos">
+          <strong>{{a.nombre}} {{a.apellidos}}</strong>
+          <div class="rama">{{a.tipo | tipoAsociado}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
+          <div class="direccion">{{a.direccion}} <span class="pull-right">{{a.codigoPostal}} {{a.municipio}}</span></div>
+          <div class="contacto">{{a.emailContacto}}&nbsp;<span class="pull-right">{{a.telefonoMovil}}</span></div>
+        </div>
       </div>
     </div>
   </div>

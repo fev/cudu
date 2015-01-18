@@ -35,6 +35,7 @@ angular.module('cuduApp')
     });
 
     $scope.asociado = { };
+    $scope.marcados = [];
 
     $scope.estado = estados.LIMPIO;
 
@@ -79,20 +80,27 @@ angular.module('cuduApp')
     };
 
     $scope.nuevo = function() {
-      $scope.asociado.seleccionado = false;
       marcarCambiosPendientes();
       $scope.asociado = {};
     };
 
     $scope.editar = function(id) {
-      $scope.asociado.seleccionado = false;
       marcarCambiosPendientes();
-      // $scope.asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
-      // $scope.asociado.seleccionado = true;
-      Asociado.get({ 'id': id }, function(asociado) {
-        $scope.asociado = asociado;
-        $scope.asociado.seleccionado = true;
-      });
+
+      var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; })
+      var original = $scope.asociados[pos];
+      if (original.cambiosPendientes)
+      {
+        // Si previamente no se han guardado los cambios, evitamos recargar desde
+        // el servidor y dejamos el asociado original con cambios pendientes.
+        $scope.asociado = original;
+      } else {
+        Asociado.get({ 'id': id }, function(asociado) {
+          asociado.marcado = original.marcado;
+          $scope.asociado = asociado;
+          $scope.asociados[pos] = asociado;
+        });
+      }
     };
 
     $scope.guardar = function(id) {
@@ -138,6 +146,16 @@ angular.module('cuduApp')
       _.remove($scope.asociados, function(a) { return a ? a.id === id : false; });
       $scope.asociado = {};
       $scope.modal.eliminar = false;
+    };
+
+    $scope.marcar = function(asociado, e) {
+      if (!asociado.marcado) {
+        asociado.marcado = true;
+        $scope.marcados.push(asociado.id);
+      } else {
+        asociado.marcado = false;
+        _.remove($scope.marcados, function(i) { return i === asociado.id; });
+      }
     };
 
     $scope.establecerSexo = function(sexo) {

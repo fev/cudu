@@ -26,16 +26,47 @@
 
       .dropdown-menu { margin-top: -28px }
       .btn:hover, .btn-group.open .dropdown-toggle { background-color: $material-grey-50; }
-      /*
-      .btn-group.open > .btn { background-color: #FFF; }
-      span.texto { display: none }
-      .btn-group.open span.texto { display: inline } */
     }
     .mat-subtoolbar {
       padding: 5px 10px;
       border-bottom: 1px solid $input-border;
       .btn-group .btn+.btn { margin-left: 0 }
       .form-group { margin-bottom: 0; }
+    }
+
+    .lista {
+      $color-fondo-elemento-hover: #EEE;
+      $color-fondo-elemento-seleccionado: $material-yellow-50;
+      $color-fondo-elemento-marcado: $material-cyan-500;
+
+      height: 650px; overflow: scroll;
+
+      .elemento {
+        display: table; padding: 0;
+        border-top: 1px solid #DCDCDC; cursor: pointer;
+        &:first-child { border-top: 0 }
+        &:hover {  background-color: $color-fondo-elemento-hover; }
+        &.eliminado { color: #CCC; }
+        .selector {
+          display: table-cell; width: 15px; min-width: 15px;
+          background: transparent; color: #FFF;
+          i { display: none }
+        }
+        &.marcado .selector, .selector:hover {
+          width: 40px; min-width: 40px; text-align: center;
+          border-right: 10px solid $color-fondo-elemento-hover;
+          background-color: $color-fondo-elemento-marcado;
+          i { display: inline }
+        }
+        &.marcado .selector { border-color: #FFF; }
+        &.marcado:hover .selector { border-color: $color-fondo-elemento-hover }
+        .datos {
+          display: table-cell; width: 100%;
+          padding: 15px 16px 15px 0;
+          > strong { display: block; font-size: 16px; font-weight: normal; }
+          > div { font-size: $font-size-small }
+        }
+      }
     }
 
     .btn-default:focus { background-color: transparent; }
@@ -47,7 +78,7 @@
     .ramaExpedicion { @include btnRama ($material-red-700, $material-red-100); }
     .ramaRuta { @include btnRama ($material-green-600, $material-green-100); }
 
-    // Campos visibles  
+    // Campos visibles
     .rama { display: none }
     .contacto { display: none }
     .direccion { display: none }
