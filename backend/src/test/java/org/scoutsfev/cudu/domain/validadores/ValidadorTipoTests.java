@@ -9,19 +9,27 @@ import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.TipoAsociado;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 
+import javax.validation.ConstraintValidatorContext;
 import java.util.Optional;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ValidadorTipoTests {
 
     private ValidadorTipo validador;
     private Asociado asociado;
     private Grupo grupo;
+    private ConstraintValidatorContext contexto;
 
     @Before
     public void setUp() throws Exception {
+        ConstraintValidatorContext.ConstraintViolationBuilder constraintViolationBuilder = mock(ConstraintValidatorContext.ConstraintViolationBuilder.class);
+        contexto = mock(ConstraintValidatorContext.class);
+        when(contexto.buildConstraintViolationWithTemplate(anyString())).thenReturn(constraintViolationBuilder);
         validador = new ValidadorTipo();
         grupo = GeneradorDatosDePrueba.generarGrupo(Optional.<String>empty());
         asociado = GeneradorDatosDePrueba.generarAsociado();
@@ -30,20 +38,20 @@ public class ValidadorTipoTests {
 
     @Test
     public void cuando_el_asociado_es_nulo_el_validador_pasa() throws Exception {
-        assertTrue(validador.isValid(null, null));
+        assertTrue(validador.isValid(null, contexto));
     }
 
     @Test
     public void el_tipo_no_puede_ser_nulo() throws Exception {
         asociado.setTipo(null);
-        assertFalse(validador.isValid(asociado, null));
+        assertFalse(validador.isValid(asociado, contexto));
     }
 
     @Test
     public void el_ambito_de_edicion_no_puede_ser_nulo() throws Exception {
         asociado.setTipo(TipoAsociado.Voluntario);
         asociado.setAmbitoEdicion(null);
-        assertFalse(validador.isValid(asociado, null));
+        assertFalse(validador.isValid(asociado, contexto));
     }
 
     @Test
@@ -92,7 +100,7 @@ public class ValidadorTipoTests {
             asociado.setGrupo(grupo);
             asociado.setTipo(tipo);
             asociado.setAmbitoEdicion(ambito);
-            assertTrue("El validador debería pasar con grupo " + grupoNulo + ", tipo '" + tipo + "' y Ambito '" + ambito + "'.", validador.isValid(asociado, null));
+            assertTrue("El validador debería pasar con grupo " + grupoNulo + ", tipo '" + tipo + "' y Ambito '" + ambito + "'.", validador.isValid(asociado, contexto));
         }
     }
 
@@ -102,7 +110,7 @@ public class ValidadorTipoTests {
             asociado.setGrupo(grupo);
             asociado.setTipo(tipo);
             asociado.setAmbitoEdicion(ambito);
-            assertFalse("El validador no debería pasar con grupo " + grupoNulo + ", tipo '" + tipo + "' y Ambito '" + ambito + "'.", validador.isValid(asociado, null));
+            assertFalse("El validador no debería pasar con grupo " + grupoNulo + ", tipo '" + tipo + "' y Ambito '" + ambito + "'.", validador.isValid(asociado, contexto));
         }
     }
 }
