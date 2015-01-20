@@ -9,11 +9,11 @@ import javax.validation.ConstraintValidatorContext;
 
 public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado> {
 
-    public static final String TIPO_NULO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.TipoNulo.message}";
-    public static final String AMBITO_NULO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.AmbitoNulo.message}";
-    public static final String AMBITO_NO_VALIDO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.AmbitoNoValido.message}";
-    public static final String DEBE_TENER_GRUPO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.DebeTenerGrupo.message}";
-    public static final String NO_DEBE_TENER_GRUPO = "{org.scoutsfev.cudu.domain.validadores.ValidarTipo.NoDebeTenerGrupo.message}";
+    public static final String TIPO_NULO = "{ValidarTipo.TipoNulo}";
+    public static final String AMBITO_NULO = "{ValidarTipo.AmbitoNulo}";
+    public static final String AMBITO_NO_VALIDO = "{ValidarTipo.AmbitoNoValido}";
+    public static final String DEBE_TENER_GRUPO = "{ValidarTipo.DebeTenerGrupo}";
+    public static final String NO_DEBE_TENER_GRUPO = "{ValidarTipo.NoDebeTenerGrupo}";
 
     @Override
     public void initialize(ValidarTipo constraintAnnotation) { }
