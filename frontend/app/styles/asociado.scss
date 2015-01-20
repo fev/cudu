@@ -2,7 +2,6 @@
 .asociado {
   #txtBusqueda {
     font-weight: 300;
-    color: transparent;
     padding: 6px;
     @include box-shadow(none);
     @include border-radius(0px);
@@ -66,6 +65,8 @@
           > strong { display: block; font-size: 16px; font-weight: normal; }
           > div { font-size: $font-size-small }
         }
+        &.guardado { color: $material-cyan-500; }
+        &.cambiosPendientes { color: $material-red-500; }
       }
     }
 

@@ -103,7 +103,7 @@
 
     <div class="lista" ng-class="{'ver-rama': columnas.rama, 'ver-contacto': columnas.contacto, 'ver-direccion': columnas.direccion}">
       <div class="elemento"
-        ng-class="{'text-danger': a.cambiosPendientes, 'text-primary': a.guardado, 'marcado': a.marcado, seleccionado: a.seleccionado, eliminado: !a.activo}"
+        ng-class="{'cambiosPendientes': a.cambiosPendientes, 'guardado': a.guardado, 'marcado': a.marcado, seleccionado: a.seleccionado, eliminado: !a.activo}"
         ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:orden track by a.id"
         ng-click="editar(a.id)">
         <div class="selector" ng-click="marcar(a, $event)">
@@ -145,15 +145,18 @@
       <h1>{{obtenerNombreCompleto(asociado)}}</h1>
     </div>
 
-    <div class="alert alert-info hidden">
+    <div class="alert alert-info" ng-show="estado == 2">
       Se han guardado los cambios del asociado correctamente.
     </div>
 
-    <div class="alert alert-danger" ng-show="estado == 4">
+    <div class="alert alert-danger" ng-show="estado == 3">
+      Ha ocurido un error inesperado, los cambios no se han salvado correctamente. Por favor, inténtalo más tarde o contacta con la sede FEV para más información.
+    </div>
+
+    <div class="alert alert-warning" ng-show="estado == 4">
       <strong>Ops!</strong> Algunos de los datos del asociado no son correctos, por favor revisa el formulario.
       <ul>
-        <li>Nombre - Requerido</li>
-        <li>Apellidos - No pueden estar en blanco</li>
+        <li ng-repeat="error in erroresValidacion">{{error.mensaje}}</li>
       </ul>
     </div>
 
@@ -198,8 +201,8 @@
                 <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaColonia}" ng-click="establecerRama('ramaColonia')">Cas.</button>
                 <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaManada}" ng-click="establecerRama('ramaManada')">Lob.</button>
                 <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaExploradores}" ng-click="establecerRama('ramaExploradores')">Exp.</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaPioneros}" ng-click="establecerRama('ramaPioneros')">Pio.</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaRutas}" ng-click="establecerRama('ramaRutas')">Com.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaExpedicion}" ng-click="establecerRama('ramaExpedicion')">Pio.</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.ramaRuta}" ng-click="establecerRama('ramaRuta')">Com.</button>
               </div>
             </div>
           </div>
@@ -214,7 +217,7 @@
           <div class="form-group">
             <label for="txtNombre" class="col-md-3 control-label">Fecha Nac.</label>
             <div class="col-md-9">
-              <input ng-model="asociado.fechaNacimiento" type="text" class="form-control" placeholder="Obligatorio (dd/mm/aaaa)">
+              <input ng-model="asociado.fechaNacimiento" cudu-fecha type="text" class="form-control" placeholder="Obligatorio (dd/mm/aaaa)">
             </div>
           </div>
           <div class="form-group">
@@ -467,8 +470,8 @@
   <div class="modal-body">
     <p>¿Estás seguro de que quieres eliminar el asociado completamente? Una vez eliminado no se puede recuperar.</p>
     <p><strong>Asociado:</strong> {{asociado.nombre}} {{asociado.apellidos}}<br/>
-      <strong>Rama:</strong> {{asociado.rama | rama}}<br/>
-      <strong>Identificador: </strong> {{asociado.idGrupo}}-{{asociado.id}}</p>
+      <strong>Rama:</strong> {{asociado | rama}}<br/>
+      <strong>Identificador: </strong> {{asociado.grupoId}}-{{asociado.id}}</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" ng-click="eliminar(asociado.id)">Eliminar</button>

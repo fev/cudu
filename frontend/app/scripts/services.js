@@ -7,7 +7,9 @@ var cuduServices = angular.module('cuduServices', ['ngResource']);
 cuduServices.factory('Asociado', ['$resource',
   function($resource) {
     return $resource('/api/asociado/:id', {}, {
-      'query': { method: 'GET', params: { size: 200 }, isArray: false }
+      'query': { method: 'GET', params: { size: 200 }, isArray: false },
+      'crear': { method: 'POST' },
+      'actualizar': { method:'PUT' }
     });
   }]);
 

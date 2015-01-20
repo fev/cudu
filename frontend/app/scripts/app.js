@@ -15,6 +15,13 @@ angular
     "TECNICO" : "rol-tecnico",
     "LLUERNA" : "rol-lluerna"
   })
+  .constant("EstadosFormulario", {
+    'LIMPIO'     : 0,
+    'GUARDANDO'  : 1,
+    'OK'         : 2,
+    'ERROR'      : 3,
+    'VALIDACION' : 4
+  })
   .config(function($routeProvider) {
     $routeProvider
       .when('/', {

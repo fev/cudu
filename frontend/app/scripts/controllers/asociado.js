@@ -22,22 +22,18 @@ angular.module('cuduApp')
     $scope.desactivar = function(asociado) {
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', function ($scope, Asociado, Grupo, Usuario) {
-    // var idGrupo = Usuario.usuario.idGrupo;
-    // Grupo.get({id: idGrupo}, function(grupo) {
-    //   $scope.grupo = grupo;
-    // });
-    $scope.grupo = { };
-
+  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', function ($scope, Asociado, Grupo, Usuario, EstadosFormulario) {
+    $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {
       $scope.asociados = asociados.content;
     });
 
-    $scope.asociado = { };
+    $scope.asociado = { 'grupoId': $scope.grupo.id, 'ambitoEdicion': 'G' };
     $scope.marcados = [];
 
-    $scope.estado = estados.LIMPIO;
+    $scope.estado = EstadosFormulario.LIMPIO;
+    $scope.erroresValidacion = [];
 
     $scope.tabActivo = 0;
     $scope.busqueda = '';
@@ -81,13 +77,16 @@ angular.module('cuduApp')
 
     $scope.nuevo = function() {
       marcarCambiosPendientes();
-      $scope.asociado = {};
+      $scope.asociado = {
+        'grupoId': $scope.grupo.id,
+        'ambitoEdicion': 'G'
+      };
     };
 
     $scope.editar = function(id) {
       marcarCambiosPendientes();
 
-      var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; })
+      var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
       var original = $scope.asociados[pos];
       if (original.cambiosPendientes)
       {
@@ -97,6 +96,7 @@ angular.module('cuduApp')
       } else {
         Asociado.get({ 'id': id }, function(asociado) {
           asociado.marcado = original.marcado;
+          asociado.guardado = original.guardado;
           $scope.asociado = asociado;
           $scope.asociados[pos] = asociado;
         });
@@ -104,35 +104,28 @@ angular.module('cuduApp')
     };
 
     $scope.guardar = function(id) {
-      $scope.estado = estados.GUARDANDO;
+      $scope.estado = EstadosFormulario.GUARDANDO;
 
-      var asociado = _.find($scope.asociados, function(a) { return a ? a.id === id : false; });
+      var guardar = Asociado.actualizar;
+      if (!$scope.asociado.id) {
+        guardar = Asociado.crear;
+      }
 
-      // TODO petición al servidor aqui
-      _.delay(function() {
-        asociado.guardado = true;
-        asociado.cambiosPendientes = false;
-        $scope.asociado = asociado;
+      guardar({ id: id }, $scope.asociado).$promise.then(function(asociadoGuardado) {
+        $scope.estado = EstadosFormulario.OK;
+        asociadoGuardado.guardado = true;
+        $scope.asociado = asociadoGuardado;
+        var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
+        $scope.asociados[pos] = asociadoGuardado;
         $scope.formAsociado.$setPristine();
-        $scope.estado = estados.OK;
-        $scope.$apply();
-      }, 1000);
-
-      /*var completado = false;
-      var tooLongId = _.delay(function(completado) {
-        if (completado)
-          return;
-        $scope.guardando = true;
-        $scope.$apply();
-      }, 800, completado);*/
-
-      // Replace this with the actual server call
-      /*_.delay(function(completado, tooLongId) {
-        clearTimeout(tooLongId);
-        completado = true;
-        $scope.guardando = false;
-        $scope.$apply();
-      }, 2000, completado, tooLongId);*/
+      }, function(respuesta) {
+        if (respuesta.status == 400) {
+          $scope.estado = EstadosFormulario.VALIDACION;
+          $scope.erroresValidacion = respuesta.data || [];
+        } else {
+          $scope.estado = EstadosFormulario.ERROR;
+        }
+      });
     };
 
     $scope.activar = function(id, activar) {
@@ -179,11 +172,11 @@ angular.module('cuduApp')
     };
 
     $scope.establecerEstiloGuardado = function() {
-      if ($scope.estado === estados.LIMPIO) { return 'btn-default'; }
-      if ($scope.estado === estados.GUARDANDO) { return 'btn-progress'; }
-      if ($scope.estado === estados.OK) { return 'btn-success'; }
-      if ($scope.estado === estados.ERROR) { return 'btn-error'; }
-      if ($scope.estado === estados.VALIDACION) { return 'btn-warning'; }
+      if ($scope.estado === EstadosFormulario.LIMPIO) { return 'btn-default'; }
+      if ($scope.estado === EstadosFormulario.GUARDANDO) { return 'btn-progress'; }
+      if ($scope.estado === EstadosFormulario.OK) { return 'btn-success'; }
+      if ($scope.estado === EstadosFormulario.ERROR) { return 'btn-error'; }
+      if ($scope.estado === EstadosFormulario.VALIDACION) { return 'btn-warning'; }
       return 'btn-default';
     };
 
@@ -227,10 +220,10 @@ angular.module('cuduApp')
 
     var marcarCambiosPendientes = function() {
       if ($scope.asociado.id && $scope.formAsociado.$dirty) {
-        $scope.asociado.estadoFrm = estados.VALIDACION;
+        $scope.asociado.estadoFrm = EstadosFormulario.VALIDACION;
         $scope.asociado.cambiosPendientes = true;
         $scope.formAsociado.$setPristine();
       }
-      $scope.estado = estados.LIMPIO;
+      $scope.estado = EstadosFormulario.LIMPIO;
     };
   }]);
