@@ -3,11 +3,9 @@ package org.scoutsfev.cudu.domain.validadores;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
-public class ValidadorEdad implements ConstraintValidator<Edad, Date> {
+public class ValidadorEdad implements ConstraintValidator<Edad, LocalDate> {
 
     private Edad opts;
 
@@ -17,10 +15,9 @@ public class ValidadorEdad implements ConstraintValidator<Edad, Date> {
     }
 
     @Override
-    public boolean isValid(Date value, ConstraintValidatorContext context) {
-        if (value == null)
+    public boolean isValid(LocalDate fechaNacimiento, ConstraintValidatorContext context) {
+        if (fechaNacimiento == null)
             return true;
-        LocalDate fechaNacimiento = value.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         long edad = fechaNacimiento.until(obtenerFechaActual(), ChronoUnit.YEARS);
         return edad >= opts.min() && edad <= opts.max();
     }

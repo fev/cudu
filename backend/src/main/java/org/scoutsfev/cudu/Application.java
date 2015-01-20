@@ -4,18 +4,27 @@ import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.GrupoRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
-public class Application {
+public class Application extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
@@ -24,6 +33,7 @@ public class Application {
         GrupoRepository grupoRepository = context.getBean(GrupoRepository.class);
         UsuarioRepository usuarioRepository = context.getBean(UsuarioRepository.class);
 
+        /*
         Asociado fev = new Asociado(null, TipoAsociado.Tecnico, AmbitoEdicion.Federacion, "Tecnico", "FEV", new Date());
         fev.setEmail("fev@scoutsfev.org");
         asociadoRepository.save(fev);
@@ -47,7 +57,36 @@ public class Application {
         baden.setEmail("baden@example.com");
         asociadoRepository.save(baden);
         usuarioRepository.activar(baden.getId(), "wackamole");
+        */
+
+        final Grupo ainKaren = grupoRepository.findOne("AK");
+        final Usuario baden = usuarioRepository.findByEmail("baden@example.com");
+        if (baden == null) {
+            Asociado nuevo = new Asociado(ainKaren.getId(), TipoAsociado.Kraal, AmbitoEdicion.Grupo, "Baden", "Powell", LocalDate.of(1982, 1, 31));
+            nuevo.setEmail("baden@example.com");
+            asociadoRepository.save(nuevo);
+            usuarioRepository.activar(nuevo.getId(), "wackamole");
+        }
+
+        asociadoRepository.findByGrupoId("AK", new PageRequest(0, 200));
 
         // curl -i -w '\n' -u sda@scoutsfev.org:test localhost:9000/api/usuario
+    }
+
+    @Autowired
+    private MessageSource messageSource;
+
+    @Bean
+    public LocalValidatorFactoryBean validator() {
+        // Configuramos NHibernate para que recoja las traducciones de messages.properties
+        // en lugar de la localización por defecto (validation_messages.properties).
+        LocalValidatorFactoryBean validatorFactoryBean = new LocalValidatorFactoryBean();
+        validatorFactoryBean.setValidationMessageSource(messageSource);
+        return validatorFactoryBean;
+    }
+
+    @Override
+    public Validator getValidator() {
+        return validator();
     }
 }

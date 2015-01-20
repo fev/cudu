@@ -1,5 +1,6 @@
 package org.scoutsfev.cudu.domain.validadores;
 
+import org.apache.tomcat.jni.Local;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,12 +16,12 @@ import static org.mockito.Mockito.when;
 public class ValidadorEdadTest {
 
     private ValidadorEdad validador;
-    private Date fecha30;
+    private LocalDate fecha30;
 
     @Before
     public void setUp() throws Exception {
         LocalDate fechaActual = LocalDate.of(2000, 1, 1);
-        fecha30 = new Date(fechaActual.minus(30, ChronoUnit.YEARS).toEpochDay());
+        fecha30 = fechaActual.minus(30, ChronoUnit.YEARS);
         validador = new ValidadorEdadTesteable(fechaActual);
     }
 

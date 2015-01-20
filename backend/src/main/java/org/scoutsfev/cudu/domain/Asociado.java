@@ -1,5 +1,10 @@
 package org.scoutsfev.cudu.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.validator.constraints.Email;
 import org.scoutsfev.cudu.domain.validadores.Edad;
 import org.scoutsfev.cudu.domain.validadores.ValidarRama;
@@ -8,6 +13,7 @@ import org.scoutsfev.cudu.domain.validadores.ValidarTipo;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -37,8 +43,10 @@ public class Asociado extends AsociadoAbstracto {
 
     @NotNull
     @Edad(max = 70)
-    @Temporal(TemporalType.DATE)
-    private Date fechaNacimiento;
+    @Column(columnDefinition = "date NOT NULL")
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate fechaNacimiento;
 
     @Size(min = 5, max = 100)
     private String direccion;
@@ -178,11 +186,11 @@ public class Asociado extends AsociadoAbstracto {
         this.ramaRuta = ramaRuta;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 

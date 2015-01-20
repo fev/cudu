@@ -170,7 +170,7 @@ public class AsociadoRepositoryIntegrationTests {
     @Test(expected = ConstraintViolationException.class)
     public void no_es_posible_dar_de_alta_asociados_mayores_de_70() throws Exception {
         Asociado asociado = GeneradorDatosDePrueba.generarAsociado();
-        asociado.setFechaNacimiento(Date.from(LocalDate.of(1900, 1, 1).atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
+        asociado.setFechaNacimiento(LocalDate.of(1900, 1, 1));
         asociadoRepository.save(asociado);
     }
 }

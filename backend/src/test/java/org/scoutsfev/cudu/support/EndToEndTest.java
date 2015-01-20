@@ -25,6 +25,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.HttpCookie;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -100,7 +102,7 @@ public abstract class EndToEndTest {
         Asociado nuevo = GeneradorDatosDePrueba.generarAsociado(grupo);
         nuevo.setTipo(TipoAsociado.Kraal);
         nuevo.setRamaExpedicion(true);
-        nuevo.setFechaNacimiento(new Date(379513552));
+        nuevo.setFechaNacimiento(LocalDate.now().minus(20, ChronoUnit.YEARS));
         nuevo.setEmail(login);
         Asociado asociado = asociadoRepository.save(nuevo);
 
