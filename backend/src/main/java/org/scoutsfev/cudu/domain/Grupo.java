@@ -19,7 +19,7 @@ public class Grupo {
     private String id;
 
     @OneToMany(mappedBy = "grupo")
-    private List<Asociado> asociados;
+    private List<Usuario> usuarios;
 
     @NotNull
     private Asociacion asociacion;

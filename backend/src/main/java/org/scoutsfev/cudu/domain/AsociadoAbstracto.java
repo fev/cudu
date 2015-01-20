@@ -27,11 +27,6 @@ public abstract class AsociadoAbstracto {
     @Column(unique = true)
     protected String email;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "grupo_id", referencedColumnName = "id")
-    @JsonIgnore
-    protected Grupo grupo;
-
     @NotNull
     protected TipoAsociado tipo;
 
@@ -72,14 +67,6 @@ public abstract class AsociadoAbstracto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Grupo getGrupo() {
-        return grupo;
-    }
-
-    public void setGrupo(Grupo grupo) {
-        this.grupo = grupo;
     }
 
     public TipoAsociado getTipo() {

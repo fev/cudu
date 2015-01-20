@@ -32,7 +32,9 @@ public class Asociado extends AsociadoAbstracto {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaRuta = false;
 
-    @Past
+    @Column(name = "grupo_id")
+    private String grupoId;
+
     @NotNull
     @Edad(max = 70)
     @Temporal(TemporalType.DATE)
@@ -126,8 +128,8 @@ public class Asociado extends AsociadoAbstracto {
 
     protected Asociado() { }
 
-    public Asociado(Grupo grupo, TipoAsociado tipo, AmbitoEdicion ambitoEdicion, String nombre, String apellidos, Date fechaNacimiento) {
-        this.grupo = grupo;
+    public Asociado(String grupoId, TipoAsociado tipo, AmbitoEdicion ambitoEdicion, String nombre, String apellidos, LocalDate fechaNacimiento) {
+        this.grupoId = grupoId;
         this.tipo = tipo;
         this.ambitoEdicion = ambitoEdicion;
         this.nombre = nombre;
@@ -182,6 +184,14 @@ public class Asociado extends AsociadoAbstracto {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getGrupoId() {
+        return grupoId;
+    }
+
+    public void setGrupoId(String grupoId) {
+        this.grupoId = grupoId;
     }
 
     public String getDireccion() {

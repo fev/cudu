@@ -2,6 +2,8 @@ package org.scoutsfev.cudu.domain.generadores;
 
 import org.scoutsfev.cudu.domain.*;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,7 +16,7 @@ public class GeneradorDatosDePrueba {
 
     public static Asociado generarAsociado(Grupo grupo) {
         int seqId = idAsociado.getAndIncrement();
-        Asociado asociado = new Asociado(grupo, TipoAsociado.Joven, AmbitoEdicion.Grupo, "Nombre" + seqId, "Apellidos" + seqId, new Date(1418077278));
+        Asociado asociado = new Asociado(grupo.getId(), TipoAsociado.Joven, AmbitoEdicion.Grupo, "Nombre" + seqId, "Apellidos" + seqId, LocalDate.now().minus(12, ChronoUnit.YEARS));
         asociado.setRamaManada(true);
         return asociado;
     }

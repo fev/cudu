@@ -19,6 +19,6 @@ public interface AsociadoRepository extends PagingAndSortingRepository<Asociado,
     @Query("update Asociado a set a.activo = :activo where a.id = :idAsociado")
     int activar(@Param("idAsociado") int idAsociado, @Param("activo") boolean activo);
 
-    @Query("select a.grupo.id from Asociado a where a.id = :idAsociado")
+    @Query("select a.grupoId from Asociado a where a.id = :idAsociado")
     String obtenerCodigoDeGrupoDelAsociado(@Param("idAsociado") Integer idAsociado);
 }

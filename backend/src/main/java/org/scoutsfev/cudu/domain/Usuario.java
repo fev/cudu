@@ -2,12 +2,13 @@ package org.scoutsfev.cudu.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Immutable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -30,8 +31,9 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
     @JsonIgnore
     private boolean requiereCaptcha = false;
 
-    @Column(name = "grupo_id", insertable = false, updatable = false)
-    private String idGrupo;
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "grupo_id", referencedColumnName = "id")
+    protected Grupo grupo;
 
     protected Usuario() { }
 
@@ -97,7 +99,7 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
         return requiereCaptcha;
     }
 
-    public String getIdGrupo() {
-        return idGrupo;
+    public Grupo getGrupo() {
+        return grupo;
     }
 }

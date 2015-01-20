@@ -118,7 +118,7 @@ public class AsociadoRepositoryIntegrationTests {
 
         Grupo otroGrupo = grupoRepository.save(GeneradorDatosDePrueba.generarGrupo(Optional.of(grupo.getId() + "2")));
         Asociado a2 = GeneradorDatosDePrueba.generarAsociado();
-        a2.setGrupo(otroGrupo);
+        a2.setGrupoId(otroGrupo.getId());
         Asociado a2s = asociadoRepository.save(a2);
 
         assertThat(a1.getId(), is(not(equalTo(a2s.getId()))));
@@ -137,7 +137,7 @@ public class AsociadoRepositoryIntegrationTests {
         Asociado nuevo = GeneradorDatosDePrueba.generarAsociado(grupo);
         nuevo.setTipo(TipoAsociado.Voluntario);
         nuevo.setAmbitoEdicion(AmbitoEdicion.Personal);
-        nuevo.setGrupo(null);
+        nuevo.setGrupoId(null);
         Asociado guardado = asociadoRepository.save(nuevo);
         assertNull(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(guardado.getId()));
     }

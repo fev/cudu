@@ -49,7 +49,7 @@ public class AsociadoControllerIntegrationTests extends EndToEndTest {
 
     @Test
     public void al_crear_un_asociado_con_algun_error_de_validacion_el_controlador_devuelve_el_error_en_un_json() throws IOException {
-        Asociado asociado = GeneradorDatosDePrueba.generarAsociado(null);
+        Asociado asociado = GeneradorDatosDePrueba.generarAsociado();
         asociado.setNombre(null);
 
         try {

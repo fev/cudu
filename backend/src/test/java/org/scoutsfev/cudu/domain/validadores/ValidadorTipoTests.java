@@ -33,7 +33,7 @@ public class ValidadorTipoTests {
         validador = new ValidadorTipo();
         grupo = GeneradorDatosDePrueba.generarGrupo(Optional.<String>empty());
         asociado = GeneradorDatosDePrueba.generarAsociado();
-        asociado.setGrupo(null);
+        asociado.setGrupoId(null);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class ValidadorTipoTests {
     private void valido(Grupo grupo, TipoAsociado tipo, AmbitoEdicion ... ambitos) {
         String grupoNulo = grupo == null ? "nulo" : "no nulo";
         for (AmbitoEdicion ambito : ambitos) {
-            asociado.setGrupo(grupo);
+            asociado.setGrupoId(grupo == null ? null : grupo.getId());
             asociado.setTipo(tipo);
             asociado.setAmbitoEdicion(ambito);
             assertTrue("El validador debería pasar con grupo " + grupoNulo + ", tipo '" + tipo + "' y Ambito '" + ambito + "'.", validador.isValid(asociado, contexto));
@@ -107,7 +107,7 @@ public class ValidadorTipoTests {
     private void noValido(Grupo grupo, TipoAsociado tipo, AmbitoEdicion ... ambitos) {
         String grupoNulo = grupo == null ? "nulo" : "no nulo";
         for (AmbitoEdicion ambito : ambitos) {
-            asociado.setGrupo(grupo);
+            asociado.setGrupoId(grupo == null ? null : grupo.getId());
             asociado.setTipo(tipo);
             asociado.setAmbitoEdicion(ambito);
             assertFalse("El validador no debería pasar con grupo " + grupoNulo + ", tipo '" + tipo + "' y Ambito '" + ambito + "'.", validador.isValid(asociado, contexto));

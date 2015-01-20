@@ -48,11 +48,11 @@ public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado>
 
         boolean grupoValido;
         if (asociado.getTipo() == TipoAsociado.Voluntario || asociado.getTipo() == TipoAsociado.Tecnico) {
-            grupoValido = asociado.getGrupo() == null;
+            grupoValido = asociado.getGrupoId() == null;
             if (!grupoValido)
                 context.buildConstraintViolationWithTemplate(NO_DEBE_TENER_GRUPO).addConstraintViolation();
         } else {
-            grupoValido = asociado.getGrupo() != null;
+            grupoValido = asociado.getGrupoId() != null;
             if (!grupoValido)
                 context.buildConstraintViolationWithTemplate(DEBE_TENER_GRUPO).addConstraintViolation();
         }

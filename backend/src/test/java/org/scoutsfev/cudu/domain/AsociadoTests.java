@@ -3,6 +3,8 @@ package org.scoutsfev.cudu.domain;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 import static org.junit.Assert.*;
@@ -15,7 +17,7 @@ public class AsociadoTests {
     @Before
     public void setUp() throws Exception {
         grupo = new Grupo("TEST", Asociacion.MEV, "Placeholder", "ABCDEF", 46015, "Valencia", "963400000", "test@example.com");
-        asociado = new Asociado(grupo, TipoAsociado.Joven, AmbitoEdicion.Grupo, "Mike", "Wazowski", new Date());
+        asociado = new Asociado(grupo.getId(), TipoAsociado.Joven, AmbitoEdicion.Grupo, "Mike", "Wazowski", LocalDate.now().minus(20, ChronoUnit.YEARS));
     }
 
     @Test
