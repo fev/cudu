@@ -46,6 +46,7 @@ public class AsociadoController {
     @ResponseStatus(HttpStatus.CREATED)
     // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public Asociado crear(@RequestBody @Valid Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
+        asociado.setId(null);
         return asociadoRepository.save(asociado);
     }
 
