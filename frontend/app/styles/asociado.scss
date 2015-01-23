@@ -71,13 +71,7 @@
     }
 
     .btn-default:focus { background-color: transparent; }
-    .btn-default.active { background-color: $material-grey-300; }
-
-    .ramaColonia { @include btnRama ($material-orange-500, $material-orange-100); }
-    .ramaManada { @include btnRama ($material-yellow-700, $material-yellow-200); }
-    .ramaExploradores { @include btnRama ($material-blue-500, $material-blue-100); }
-    .ramaExpedicion { @include btnRama ($material-red-700, $material-red-100); }
-    .ramaRuta { @include btnRama ($material-green-600, $material-green-100); }
+    .btn-default.active { background-color: $material-grey-300; }    
 
     // Campos visibles
     .rama { display: none }

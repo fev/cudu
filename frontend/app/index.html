@@ -43,7 +43,9 @@
           <li class="rol-lluerna"><a href="javascript:">Participantes</a></li>
           <li class="rol-lluerna"><a href="javascript:">Miembros</a></li>
           <li class="rol-tecnico"><a href="#/grupo/ak">Grupos</a></li>
-          <li class="rol-asociado"><a href="#/actividades">Actividades</a></li>
+          <li class="rol-asociado" ng-class="{active: controlador === 'ActividadesListadoCtrl' || controlador === 'ActividadesDetalleCtrl'}">
+            <a href="#/actividades">Actividades</a>
+            </li>
           <li class="rol-tecnico"><a href="javascript:">Liquidaciones</a></li>
           <li class="rol-asociado rol-tecnico"><a href="#/permisos">Permisos</a></li>
           <li><a href="#/misdatos">Mis Datos</a></li>
@@ -76,6 +78,7 @@
   <script src="scripts/directives.js"></script>
   <script src="scripts/controllers/login.js"></script>
   <script src="scripts/controllers/asociado.js"></script>
+  <script src="scripts/controllers/actividades.js"></script>
   <script src="scripts/controllers/grupo.js"></script>
   <script src="scripts/controllers/tecnico_fev.js"></script>
   <!-- endbuild -->

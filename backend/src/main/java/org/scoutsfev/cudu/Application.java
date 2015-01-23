@@ -1,9 +1,12 @@
 package org.scoutsfev.cudu;
 
 import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.storage.ActividadRepository;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.GrupoRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,18 +16,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class Application extends WebMvcConfigurerAdapter {
+
+    private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
@@ -59,18 +63,30 @@ public class Application extends WebMvcConfigurerAdapter {
         usuarioRepository.activar(baden.getId(), "wackamole");
         */
 
-        final Grupo ainKaren = grupoRepository.findOne("AK");
-        final Usuario baden = usuarioRepository.findByEmail("baden@example.com");
+        Grupo ainKaren = grupoRepository.findOne("AK");
+        Usuario baden = usuarioRepository.findByEmail("baden@example.com");
         if (baden == null) {
+            if (ainKaren == null) {
+                ainKaren = new Grupo("AK", Asociacion.MEV, "Nombre", "Calle", 46015, "Valencia", "963400000", "email@example.com");
+                grupoRepository.save(ainKaren);
+            }
+
             Asociado nuevo = new Asociado(ainKaren.getId(), TipoAsociado.Kraal, AmbitoEdicion.Grupo, "Baden", "Powell", LocalDate.of(1982, 1, 31));
             nuevo.setEmail("baden@example.com");
             asociadoRepository.save(nuevo);
             usuarioRepository.activar(nuevo.getId(), "wackamole");
         }
 
-        asociadoRepository.findByGrupoId("AK", new PageRequest(0, 200));
+//        ActividadRepository actividadRepository = context.getBean(ActividadRepository.class);
+//        Actividad nuevaActividad = new Actividad(ainKaren, "Salida al rio", baden);
+//        actividadRepository.save(nuevaActividad);
 
-        // curl -i -w '\n' -u sda@scoutsfev.org:test localhost:9000/api/usuario
+//        Actividad salidaAlRio = actividadRepository.findOne(1);
+//        actividadRepository.añadirAsistente(salidaAlRio.getId(), baden.getId());
+//        actividadRepository.añadirRamaCompleta(salidaAlRio.getId(), false, true, false, false, false);
+
+//        Asociado asistente = asociadoRepository.findOne(baden.getId());
+//        salidaAlRio.añadirAsistente(asistente);
     }
 
     @Autowired

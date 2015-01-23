@@ -49,6 +49,16 @@ angular
         controller: 'TecnicoFevCtrl',
         seccion: 'tecnico-fev'
       })
+      .when('/actividades', {
+        templateUrl: 'views/actividades/listado.html',
+        controller: 'ActividadesListadoCtrl',
+        seccion: 'actividades'
+      })
+      .when('/actividades/:id', {
+        templateUrl: 'views/actividades/detalle.html',
+        controller: 'ActividadesDetalleCtrl',
+        seccion: 'actividades'
+      })
       .otherwise({
          redirectTo: '/'
       });

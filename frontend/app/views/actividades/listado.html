@@ -1,0 +1,57 @@
+<div class="container contenedor-central actividades-listado">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="mat-toolbar">
+
+        <form class="form form-inline" autocomplete="off">
+          <div class="form-group">
+            <div class="input-group">
+              <input id="txtBusqueda" ng-model="busqueda" type="text" class="form-control" placeholder="Búsqueda">
+              <span class="input-group-btn">
+                <button class="btn btn-default btn-sm" type="button">
+                  <span class="glyphicon glyphicon-search"></span>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div class="form-group pull-right">
+            <button ng-click="detalle('nueva')" class="btn btn-default" type="button"><i class="fa fa-plus"></i>&nbsp; NUEVA</button>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="tabla">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th width="30%">Nombre de la Actividad</th>
+              <th>Fecha</th>
+              <th>Lugar</th>
+              <th>Ramas</th>
+              <th>Precio</th>
+              <th>Creada Por</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="a in actividades | filter:busqueda" ng-click="detalle(a.id)">
+              <th scope="row">{{a.id}}</th>
+              <td>{{a.nombre}}</td>
+              <td>{{a.fecha | fechaArray}}</td>
+              <td>{{a.lugar}}</td>
+              <td>{{a | rama}}</td>
+              <td>{{a.precio}}</td>
+              <td>{{a.creadaPor}}</td>
+            </tr>
+            <tr ng-show="!actividades">
+              <td colspan="7">No hay actividades para mostrar.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>* Nota: Las actividades de hace más de cuatro meses no se muestran.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+
+.actividades {
+
+  .actividades-listado {
+
+    div.tabla { padding: 15px }
+    table.table tr:hover { cursor: pointer; }
+    & > .row > .col-md-12 { padding: 0 }
+
+    .mat-toolbar {
+      background: $material-green-100;
+      .btn {
+        color: $material-green-900;
+        &:hover { background-color: $material-green-200; }
+      }
+    }
+
+    #txtBusqueda {
+      font-weight: 300;
+      padding: 6px;
+      @include box-shadow(none);
+      @include border-radius(0px);
+      @include input-placeholder { color: $material-green-400; }
+      color: $material-green-900; background-color: transparent; border: 1px solid transparent;
+      &:hover, &:focus { border-bottom: 1px solid $material-green-300; }
+      &:focus {
+        border-bottom: 1px solid $material-green-500;
+        color: $material-grey-900;
+        outline: 0;
+        @include box-shadow(none);
+      }
+    }
+  }
+
+  .actividades-detalle {
+    & > .row > .col-md-12 { padding: 0 }
+    textarea { border: 1px solid $input-border; }
+    .mat-toolbar, .mat-toolbar-expand {
+      background: $material-green-50;
+      color: $material-green-900;
+    }
+    #panelEdicion {
+      border-left: 1px solid $input-border;
+      @include box-shadow(-5px 0 8px -4px #CCC);
+      padding-left: 0;
+    }
+    #listadoAsistentes {
+      .table>tbody>tr>th {
+        padding: 1px 0 0 0;
+        .btn { padding-left: 6px; padding-right: 6px }
+      }
+      margin: 15px;
+      label { font-weight: normal; margin-right: 10px }
+      #txtApuntar {
+        @include box-shadow(none);
+        @include border-radius(0px);
+      }
+    }
+  }
+
+}

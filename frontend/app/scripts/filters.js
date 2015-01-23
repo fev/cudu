@@ -37,3 +37,11 @@ filters.filter('edad', function() {
     return hoy.getYear() - fechaNacimiento.getYear();
   };
 });
+
+filters.filter('fechaArray', function() {
+  return function(fecha) {
+    return _.foldr(fecha, function(t, q) {
+      return t + "/" + q;
+    });
+  };
+});

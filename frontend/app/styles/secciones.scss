@@ -7,7 +7,7 @@
 // $material-orange-700 técnico lluerna
 // $material-red-900 fev
 // $material-red-900 permisos
-// $material-green-500 actividades
+// $material-green-500 actividadeses
 
 @mixin color-seccion($primario, $complementario: transparent) {
   .mat-header { background-color: $primario; }
@@ -28,3 +28,4 @@
 .asociado { @include color-seccion($material-cyan-500, $material-lime-500); }
 .grupo { @include color-seccion($material-indigo-500, $material-pink-A200); }
 .tecnico-fev { @include color-seccion($material-teal-500, $material-orange-A200); }
+.actividades { @include color-seccion($material-green-500, $material-light-green-300); }

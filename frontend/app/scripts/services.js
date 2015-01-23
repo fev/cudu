@@ -4,18 +4,27 @@
 // TODO Add ngCookies here
 var cuduServices = angular.module('cuduServices', ['ngResource']);
 
+var metodos = {
+  'crear': { method: 'POST' },
+  'actualizar': { method: 'PUT' },
+  'query': { method: 'GET', params: { size: 200 }, isArray: false },
+  'queryAll': { method: 'GET', params: { }, isArray: true }
+};
+
 cuduServices.factory('Asociado', ['$resource',
   function($resource) {
-    return $resource('/api/asociado/:id', {}, {
-      'query': { method: 'GET', params: { size: 200 }, isArray: false },
-      'crear': { method: 'POST' },
-      'actualizar': { method:'PUT' }
-    });
+    return $resource('/api/asociado/:id', {}, metodos);
   }]);
 
 cuduServices.factory('Grupo', ['$resource',
   function($resource) {
-    return $resource('/api/grupo/:id');
+    return $resource('/api/grupo/:id', {}, metodos);
+  }]);
+
+
+cuduServices.factory('Actividad', ['$resource',
+  function($resource) {
+    return $resource('/api/actividad/:id', {}, metodos);
   }]);
 
 cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $cookies, $q) {

@@ -151,6 +151,16 @@ h1 { font-weight: 300; }
   @include border-radius(0px);
 }
 
+.table {
+  tr > th, tr > td {
+    border-top: 1px solid rgba(0,0,0,.12);
+    padding: 1.6rem;
+    font-weight: 300;
+  }
+  tr > th { font-weight: 400; color: $material-grey-800; }
+  & > thead > tr > th { border-color: $material-grey-300; }
+}
+
 .alert {
   @include border-radius(0px);
   ul { margin-top: 10px; }
@@ -173,9 +183,19 @@ h1 { font-weight: 300; }
   background-color: $material-yellow-100;
 }
 
+// Selectores de rama
+a, button {
+  &.colonia { @include btnRama($material-orange-500, $material-orange-100); }
+  &.manada { @include btnRama($material-yellow-700, $material-yellow-200); }
+  &.exploradores { @include btnRama($material-blue-500, $material-blue-100); }
+  &.expedicion { @include btnRama($material-red-700, $material-red-100); }
+  &.ruta { @include btnRama($material-green-600, $material-green-100); }
+}
+
 @import 'secciones.scss';
 @import 'menu.scss';
 @import 'login.scss';
 @import 'asociado.scss';
 @import 'grupo.scss';
 @import 'tecnico-fev.scss';
+@import 'actividades.scss';

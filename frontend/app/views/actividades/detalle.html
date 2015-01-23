@@ -1,0 +1,171 @@
+<div class="container contenedor-central actividades-detalle">
+<div class="row">
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-md-7">
+      <div id="listadoAsistentes">
+        <form class="form-inline">
+          <div class="form-group">
+            <label>Añadir Asociado</label>
+            <input type="text" class="form-control" id="txtApuntar" placeholder="Jane Doe">
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              Añadir Rama <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a href="#">Colonia</a></li>
+              <li><a href="#">Manada</a></li>
+              <li><a href="#">Exploradores</a></li>
+              <li><a href="#">Expedición</a></li>
+              <li><a href="#">Manada</a></li>
+            </ul>
+          </div>
+        </form>
+        <div style="margin-top: 15px">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Estado</th>
+                <th>Nombre</th>
+                <th>Rama</th>
+                <th>Tipo</th>
+                <th>Teléfono</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      Pagado <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Duda</a></li>
+                      <li><a href="#">No viene</a></li>
+                      <li><a href="#">Viene</a></li>
+                      <li><a href="#">Pagado</a></li>
+                      <li><a href="#">Becado</a></li>
+                    </ul>
+                  </div>
+                </th>
+                <td>Mark</td>
+                <td>Castores</td>
+                <td>Kraal</td>
+                <td>786547786</td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      Pagado <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Duda</a></li>
+                      <li><a href="#">No viene</a></li>
+                      <li><a href="#">Viene</a></li>
+                      <li><a href="#">Pagado</a></li>
+                      <li><a href="#">Becado</a></li>
+                    </ul>
+                  </div>
+                </th>
+                <td>Joahn Dollwe Miganel</td>
+                <td>Otto</td>
+                <td>Kraal</td>
+                <td>976543321 (madre)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="panelEdicion" class="col-md-5">
+      <div class="mat-toolbar text-right">
+        <a href="#/actividades" class="btn btn-default">VOLVER</a>
+        <button type="button" class="btn btn-default" ng-click="guardar(actividad.id)">GUARDAR</button>
+      </div>
+      <div class="mat-toolbar-expand"><h1>{{actividad.nombre || '(nueva)'}}</h1></div>
+      <div>
+
+        <div class="alert alert-info" ng-show="estado == 2">
+          Se han guardado los cambios de la actividad correctamente.
+        </div>
+
+        <div class="alert alert-danger" ng-show="estado == 3">
+          Ha ocurido un error inesperado, los cambios no se han salvado correctamente. Por favor, inténtalo más tarde o contacta con la sede FEV para más información.
+        </div>
+
+        <div class="alert alert-warning" ng-show="estado == 4">
+          <strong>Ops!</strong> Algunos de los datos de la actividad no son correctos, por favor revisa el formulario.
+          <ul>
+            <li ng-repeat="error in erroresValidacion">{{error.mensaje}}</li>
+          </ul>
+        </div>
+
+        <form name="formAsociado" class="form-horizontal form-cudu form-edicion" role="form">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-md-3 control-label">Nombre</label>
+                <div class="col-md-9">
+                  <input ng-model="actividad.nombre" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Fecha</label>
+                <div class="col-md-9">
+                  <input ng-model="actividad.fecha" cudu-fecha type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Lugar</label>
+                <div class="col-md-9">
+                  <input ng-model="actividad.lugar" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Precio</label>
+                <div class="col-md-9">
+                  <input ng-model="actividad.precio" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Rama</label>
+                <div class="col-md-9">
+                  <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default colonia" ng-class="{active: actividad.ramaColonia}" ng-click="establecerRama('ramaColonia')">
+                      <i class="fa fa-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-default manada" ng-class="{active: actividad.ramaManada}" ng-click="establecerRama('ramaManada')">
+                      <i class="fa fa-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-default exploradores" ng-class="{active: actividad.ramaExploradores}" ng-click="establecerRama('ramaExploradores')">
+                      <i class="fa fa-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-default expedicion" ng-class="{active: actividad.ramaExpedicion}" ng-click="establecerRama('ramaExpedicion')">
+                      <i class="fa fa-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-default ruta" ng-class="{active: actividad.ramaRuta}" ng-click="establecerRama('ramaRuta')">
+                      <i class="fa fa-circle"></i>
+                    </button>
+                    <button type="button" class="btn btn-default" ng-class="{active: actividad.ramaCualquiera}" ng-click="establecerRama('ramaCualquiera')">
+                      Cualquiera
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Notas</label>
+                <div class="col-md-9">
+                  <textarea ng-model="actividad.notas" class="form-control" rows="3"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
