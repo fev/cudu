@@ -18,8 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.not;
@@ -28,7 +26,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.junit.Assert.*;
 import static org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba.ID_GRUPO;
-import static org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba.generarAsociado;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)

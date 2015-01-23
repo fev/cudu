@@ -9,8 +9,6 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Locale;
 
 @Service

@@ -1,7 +1,6 @@
 package org.scoutsfev.cudu;
 
 import org.scoutsfev.cudu.domain.*;
-import org.scoutsfev.cudu.storage.ActividadRepository;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.GrupoRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
@@ -15,13 +14,11 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Configuration
 @EnableAutoConfiguration

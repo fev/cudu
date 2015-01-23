@@ -1,6 +1,5 @@
 package org.scoutsfev.cudu.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
