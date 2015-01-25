@@ -1,4 +1,6 @@
-package org.scoutsfev.cudu.domain;
+package org.scoutsfev.cudu.domain.conversores;
+
+import org.scoutsfev.cudu.domain.Sexo;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

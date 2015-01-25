@@ -1,4 +1,4 @@
-package org.scoutsfev.cudu.domain;
+package org.scoutsfev.cudu.domain.conversores;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
