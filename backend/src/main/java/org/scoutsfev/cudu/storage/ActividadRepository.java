@@ -21,7 +21,6 @@ public interface ActividadRepository extends CrudRepository<Actividad, Integer> 
            "and id not in (select asociado_id from asistente_actividad where actividad_id = :actividad_id)", nativeQuery = true)
     public int añadirAsistente(@Param("actividad_id") int actividadId, @Param("asociado_id") int asociadoId);
 
-
     @Modifying
     @Transactional
     @Query(value = "insert into asistente_actividad (actividad_id, asociado_id, estado) \n" +
@@ -34,4 +33,13 @@ public interface ActividadRepository extends CrudRepository<Actividad, Integer> 
     public int añadirRamaCompleta(@Param("actividad_id") int actividadId, @Param("colonia") boolean colonia, @Param("manada") boolean manada,
                                   @Param("exploradores") boolean exploradores, @Param("expedicion") boolean expedicion, @Param("ruta") boolean ruta);
 
+    @Modifying
+    @Transactional
+    @Query(value = "delete from asistente_actividad where actividad_id = :actividad_id and asociado_id = :asociado_id", nativeQuery = true)
+    public void eliminarAsistente(@Param("actividad_id") int actividadId, @Param("asociado_id") int asociadoId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update asistente_actividad set estado = :estado where actividad_id = :actividad_id and asociado_id = :asociado_id", nativeQuery = true)
+    public void cambiarEstadoAsistente(@Param("actividad_id") int actividadId, @Param("asociado_id") int asociadoId, @Param("estado") char estado);
 }

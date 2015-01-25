@@ -18,14 +18,14 @@ public class AsistenteActividad implements Serializable {
     protected Asociado asociado;
 
     @NotNull
-    protected EstadoActividad estado = EstadoActividad.Incognita;
+    protected EstadoAsistente estado = EstadoAsistente.Incognita;
 
     protected AsistenteActividad() { }
 
     public AsistenteActividad(Actividad actividad, Asociado asociado) {
         this.actividad = actividad;
         this.asociado = asociado;
-        this.estado = EstadoActividad.Incognita;
+        this.estado = EstadoAsistente.Incognita;
     }
 
     public Actividad getActividad() {
@@ -36,11 +36,29 @@ public class AsistenteActividad implements Serializable {
         return asociado;
     }
 
-    public EstadoActividad getEstado() {
+    public EstadoAsistente getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoActividad estado) {
+    public void setEstado(EstadoAsistente estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AsistenteActividad)) return false;
+        AsistenteActividad that = (AsistenteActividad) o;
+        return !(actividad != null ? !actividad.equals(that.actividad) : that.actividad != null)
+            && !(asociado != null ? !asociado.equals(that.asociado) : that.asociado != null)
+            && estado == that.estado;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = actividad != null ? actividad.hashCode() : 0;
+        result = 31 * result + (asociado != null ? asociado.hashCode() : 0);
+        result = 31 * result + (estado != null ? estado.hashCode() : 0);
+        return result;
     }
 }

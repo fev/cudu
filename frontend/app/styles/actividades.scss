@@ -43,14 +43,42 @@
       border-left: 1px solid $input-border;
       @include box-shadow(-5px 0 8px -4px #CCC);
       padding-left: 0;
+      margin-bottom: 30px;
+      .form-cudu { margin-bottom: 0 }
+      .multi-2 {
+        .col-md-9 {
+          label { width: 65px; margin-left: 10px }
+          input { display: inline-block; width: 125px }
+        }
+      }
+      .form-control:focus {
+        border-color: $material-green-500;
+      }
+    }
+    #panelEdicionCt {
+      @include box-shadow(0px 3px 7px -2px #CCC);
+      border-bottom: 1px solid $input-border;
+      padding-bottom: 20px;
     }
     #listadoAsistentes {
-      .table>tbody>tr>th {
-        padding: 1px 0 0 0;
-        .btn { padding-left: 6px; padding-right: 6px }
-      }
       margin: 15px;
+      .table {
+        margin-top: 8px;
+        &>tbody>tr>th {
+          padding: 1px 0 0 0;
+          .btn { padding-left: 6px; padding-right: 6px }
+        }
+        &>caption {
+          padding-left: 10px;
+          background: #f2f2f2;
+          padding-right: 10px;
+        }
+      }
+      .estado-N { color: $material-grey-400 }
+      .estado-S { color: $material-green-600 }
+      .estado-P, .estado-B { color: $material-green-A700 }
       label { font-weight: normal; margin-right: 10px }
+      form { padding-left: 5px }
       #txtApuntar {
         @include box-shadow(none);
         @include border-radius(0px);

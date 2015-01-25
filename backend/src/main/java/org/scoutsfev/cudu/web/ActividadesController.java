@@ -1,9 +1,10 @@
 package org.scoutsfev.cudu.web;
 
-import org.scoutsfev.cudu.domain.Actividad;
-import org.scoutsfev.cudu.domain.EventosAuditoria;
-import org.scoutsfev.cudu.domain.Usuario;
+import com.google.common.base.Strings;
+import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.domain.dto.ActividadDetalleDto;
 import org.scoutsfev.cudu.storage.ActividadRepository;
+import org.scoutsfev.cudu.storage.dto.ActividadDetalleDtoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -13,22 +14,22 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.Validator;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController()
 public class ActividadesController {
 
     private final ActividadRepository actividadRepository;
-    private final Validator validator;
+    private final ActividadDetalleDtoRepository actividadDetalleDtoRepository;
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public ActividadesController(ActividadRepository actividadRepository, Validator validator, ApplicationEventPublisher eventPublisher) {
+    public ActividadesController(ActividadRepository actividadRepository, ActividadDetalleDtoRepository actividadDetalleDtoRepository, ApplicationEventPublisher eventPublisher) {
         this.actividadRepository = actividadRepository;
-        this.validator = validator;
+        this.actividadDetalleDtoRepository = actividadDetalleDtoRepository;
         this.eventPublisher = eventPublisher;
     }
 
@@ -44,17 +45,19 @@ public class ActividadesController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         if (actividad.getFechaBaja() != null)
             return new ResponseEntity<>(HttpStatus.GONE);
-        if (usuario.getGrupo() == null || !actividad.getGrupoId().equals(usuario.getGrupo().getId())) {
+        if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /actividad/" + id));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        List<ActividadDetalleDto> detalle = actividadDetalleDtoRepository.findByActividadId(actividad.getId());
+        actividad.setDetalle(detalle);
         return new ResponseEntity<>(actividad, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/actividad", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Actividad> crear(@RequestBody @Valid Actividad actividad, @AuthenticationPrincipal Usuario usuario) {
-        if (usuario.getGrupo() == null || !actividad.getGrupoId().equals(usuario.getGrupo().getId())) {
+        if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /actividad"));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -66,7 +69,7 @@ public class ActividadesController {
 
     @RequestMapping(value = "/actividad/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Actividad> editar(@RequestBody @Valid Actividad editada, @PathVariable("id") Actividad original, @AuthenticationPrincipal Usuario usuario) {
-        if (usuario.getGrupo() == null || !editada.getGrupoId().equals(usuario.getGrupo().getId())) {
+        if (!laActividadPerteneceAlGrupoDelUsuario(editada, usuario)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "PUT /actividad/" + editada.getId()));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -77,15 +80,69 @@ public class ActividadesController {
         return new ResponseEntity<>(guardada, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/actividad/id", method = RequestMethod.DELETE)
-    public ResponseEntity eliminar(@PathVariable Integer id, @AuthenticationPrincipal Usuario usuario) {
-        Actividad actividad = actividadRepository.findOne(id);
-        if (usuario.getGrupo() == null || !actividad.getGrupoId().equals(usuario.getGrupo().getId())) {
-            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "DELETE /actividad/" + id));
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    @RequestMapping(value = "/actividad/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity eliminar(@PathVariable("id") Actividad actividad, @AuthenticationPrincipal Usuario usuario) {
+        if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "DELETE /actividad/" + actividad.getId()));
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
         actividad.setFechaBaja(Timestamp.valueOf(LocalDateTime.now()));
         actividadRepository.save(actividad);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/actividad/{id}/asociado/{asociadoId}", method = RequestMethod.POST)
+    public ResponseEntity añadirAsistente(@PathVariable("id") Actividad actividad, @PathVariable Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+        if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "añadirAsistente"));
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+        actividadRepository.añadirAsistente(actividad.getId(), asociadoId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/actividad/{id}/rama", method = RequestMethod.POST)
+    public ResponseEntity añadirRama(@RequestBody Rama rama, @PathVariable("id") Actividad actividad, @AuthenticationPrincipal Usuario usuario) {
+        if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "añadirAsistente"));
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+        actividadRepository.añadirRamaCompleta(actividad.getId(), rama.isColonia(), rama.isManada(), rama.isExploradores(), rama.isExpedicion(), rama.isRuta());
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/actividad/{id}/asociado/{asociadoId}", method = RequestMethod.DELETE)
+    public ResponseEntity eliminarAsistente(@PathVariable("id") Actividad actividad, @PathVariable Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+        if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "eliminarAsistente"));
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+        actividadRepository.eliminarAsistente(actividad.getId(), asociadoId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/actividad/{id}/asociado/{asociadoId}/estado", method = RequestMethod.POST)
+    public ResponseEntity<String> cambiarEstadoAsistente(@RequestBody String estadoAsistente, @PathVariable("id") Actividad actividad,
+                                                         @PathVariable Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+        if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "cambiarEstadoAsistente"));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        Optional<EstadoAsistente> estado = parsearEstadoAsistente(estadoAsistente);
+        if (!estado.isPresent())
+            return new ResponseEntity<>("No es posible parsear el estado.", HttpStatus.BAD_REQUEST);
+        actividadRepository.cambiarEstadoAsistente(actividad.getId(), asociadoId, estado.get().getEstado());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private Optional<EstadoAsistente> parsearEstadoAsistente(String valor) {
+        if (Strings.isNullOrEmpty(valor) || valor.length() != 1)
+            return Optional.empty();
+        return EstadoAsistente.tryParse(valor.charAt(0));
+    }
+
+    private boolean laActividadPerteneceAlGrupoDelUsuario(Actividad actividad, Usuario usuario) {
+        return actividad != null && usuario != null && usuario.getGrupo() != null
+            && actividad.getGrupoId().equals(usuario.getGrupo().getId());
     }
 }

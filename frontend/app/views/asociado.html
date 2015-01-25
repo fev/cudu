@@ -71,7 +71,7 @@
       <div class="form-group">
         <div class="btn-toolbar">
           <div class="btn-group btn-group-xs">
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Jóven</a>
+            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Joven</a>
             <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
             <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
           </div>
@@ -111,7 +111,7 @@
         </div>
         <div class="datos">
           <strong>{{a.nombre}} {{a.apellidos}}</strong>
-          <div class="rama">{{a.tipo | tipoAsociado}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
+          <div class="rama">{{a.tipo | i8n:'tipo'}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
           <div class="direccion">{{a.direccion}} <span class="pull-right">{{a.codigoPostal}} {{a.municipio}}</span></div>
           <div class="contacto">{{a.emailContacto}}&nbsp;<span class="pull-right">{{a.telefonoMovil}}</span></div>
         </div>
@@ -188,7 +188,7 @@
             <label class="col-md-3 control-label">Tipo</label>
             <div class="col-md-9">
               <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'J'}" ng-click="establecerTipo('J')">Jóven</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'J'}" ng-click="establecerTipo('J')">Joven</button>
                 <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'K'}" ng-click="establecerTipo('K')">Kraal</button>
                 <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'C'}" ng-click="establecerTipo('C')">Comité</button>
               </div>

@@ -5,6 +5,21 @@ var traducciones = angular.module('cuduTraducciones', []);
 
 traducciones.factory('Traducciones', [function() {
   var ca = {
+    'tipo.J': 'Jove',
+    'tipo.K': 'Kraal',
+    'tipo.C': 'Comitè',
+    'rama.colonia': 'Colonia',
+    'rama.manada': 'Manada',
+    'rama.exploradores': 'Exploradores',
+    'rama.expedicion': 'Expedición',
+    'rama.ruta': 'Ruta',
+    'rama.cualquiera': '(cualsevol)',
+    'rama.ninguna': '(cap)',
+    'asistente.D': 'Duda',
+    'asistente.N': 'No Viene',
+    'asistente.S': 'Viene',
+    'asistente.P': 'Pagado',
+    'asistente.B': 'Becado',
     'login.clausula': 'Has d\'acceptar la clàusula de confidencialitat i la política de cookies per poder utilitzar Cudú.',
     'login.credencialesIncorrectas': 'El nom d\'usuari o la contrasenya són incorrectes. Torna a introduir i verifica que no ets un robot.',
     'login.error': 'S\'ha produït un error, si us plau intenta-ho més tard.',
@@ -12,6 +27,21 @@ traducciones.factory('Traducciones', [function() {
     'login.debeVerificar': 'Has de verificar que no ets un robot abans de continuar.'
   };
   var es = {
+    'tipo.J': 'Joven',
+    'tipo.K': 'Kraal',
+    'tipo.C': 'Comité',
+    'rama.colonia': 'Colonia',
+    'rama.manada': 'Manada',
+    'rama.exploradores': 'Exploradores',
+    'rama.expedicion': 'Expedición',
+    'rama.ruta': 'Ruta',
+    'rama.cualquiera': '(cualquiera)',
+    'rama.ninguna': '(ninguna)',
+    'asistente.D': 'Duda',
+    'asistente.N': 'No Viene',
+    'asistente.S': 'Viene',
+    'asistente.P': 'Pagado',
+    'asistente.B': 'Becado',
     'login.clausula': 'Debes aceptar la clausula de confidencialidad y la política de cookies para poder utilizar Cudú.',
     'login.credencialesIncorrectas': 'El nombre de usuario o la contraseña son incorrectos. Vuelve a introducirlos y verifica que no eres un robot.',
     'login.error': 'Se ha producido un error, por favor intentalo más tarde.',

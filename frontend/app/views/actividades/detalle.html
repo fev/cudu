@@ -22,8 +22,12 @@
             </ul>
           </div>
         </form>
-        <div style="margin-top: 15px">
+        <div>
           <table class="table">
+            <caption ng-show="actividad.precio">
+              Asistentes: {{resumen.asistentes}} - Pagados: {{resumen.pagados}}
+              <span class="pull-right">Recaudación estimada: {{resumen.recaudacion}}€ / {{resumen.esperado}}€</span>
+            </caption>
             <thead>
               <tr>
                 <th>Estado</th>
@@ -34,45 +38,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr ng-repeat="asistente in actividad.detalle | orderBy:'nombreCompleto' track by asistente.asociadoId"
+                  ng-class="('estado-' + asistente.estadoAsistente)">
                 <th scope="row">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      Pagado <span class="caret"></span>
+                      {{asistente.estadoAsistente | i8n:'asistente'}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a href="#">Duda</a></li>
-                      <li><a href="#">No viene</a></li>
-                      <li><a href="#">Viene</a></li>
-                      <li><a href="#">Pagado</a></li>
-                      <li><a href="#">Becado</a></li>
+                      <li><a href="javascript:" ng-click="establecerAsistencia(asistente, 'D')">Duda</a></li>
+                      <li><a href="javascript:" ng-click="establecerAsistencia(asistente, 'N')">No viene</a></li>
+                      <li><a href="javascript:" ng-click="establecerAsistencia(asistente, 'S')">Viene</a></li>
+                      <li><a href="javascript:" ng-click="establecerAsistencia(asistente, 'P')">Pagado</a></li>
+                      <li><a href="javascript:" ng-click="establecerAsistencia(asistente, 'B')">Becado</a></li>
                     </ul>
                   </div>
                 </th>
-                <td>Mark</td>
-                <td>Castores</td>
-                <td>Kraal</td>
-                <td>786547786</td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      Pagado <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Duda</a></li>
-                      <li><a href="#">No viene</a></li>
-                      <li><a href="#">Viene</a></li>
-                      <li><a href="#">Pagado</a></li>
-                      <li><a href="#">Becado</a></li>
-                    </ul>
-                  </div>
-                </th>
-                <td>Joahn Dollwe Miganel</td>
-                <td>Otto</td>
-                <td>Kraal</td>
-                <td>976543321 (madre)</td>
+                <td>{{asistente.nombreCompleto}}</td>
+                <td>{{asistente.rama | rama:'rama.cualquiera'}}</td>
+                <td>{{asistente.tipo | i8n:'tipo'}}</td>
+                <td>{{asistente.telefono}}</td>
               </tr>
             </tbody>
           </table>
@@ -85,7 +70,7 @@
         <button type="button" class="btn btn-default" ng-click="guardar(actividad.id)">GUARDAR</button>
       </div>
       <div class="mat-toolbar-expand"><h1>{{actividad.nombre || '(nueva)'}}</h1></div>
-      <div>
+      <div id="panelEdicionCt">
 
         <div class="alert alert-info" ng-show="estado == 2">
           Se han guardado los cambios de la actividad correctamente.
@@ -102,7 +87,7 @@
           </ul>
         </div>
 
-        <form name="formAsociado" class="form-horizontal form-cudu form-edicion" role="form">
+        <form name="formActividad" class="form-horizontal form-cudu form-edicion">
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
@@ -111,10 +96,12 @@
                   <input ng-model="actividad.nombre" type="text" class="form-control">
                 </div>
               </div>
-              <div class="form-group">
-                <label class="col-md-3 control-label">Fecha</label>
+              <div class="form-group multi-2">
+                <label class="col-md-3 control-label">Fecha Inicio</label>
                 <div class="col-md-9">
-                  <input ng-model="actividad.fecha" cudu-fecha type="text" class="form-control">
+                  <input ng-model="actividad.fechaInicio" cudu-fecha type="text" class="form-control">
+                  <label>Fecha Fin</label>
+                  <input ng-model="actividad.fechaFin" cudu-fecha type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
@@ -126,29 +113,36 @@
               <div class="form-group">
                 <label class="col-md-3 control-label">Precio</label>
                 <div class="col-md-9">
-                  <input ng-model="actividad.precio" type="text" class="form-control">
+                  <input ng-model="actividad.precio" type="text" class="form-control"
+                    ng-change="recalcularPrecio()" ng-model-options="{ debounce: 600 }">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label">Responsable</label>
+                <div class="col-md-9">
+                  <input ng-model="actividad.responsable" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-3 control-label">Rama</label>
                 <div class="col-md-9">
                   <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-default colonia" ng-class="{active: actividad.ramaColonia}" ng-click="establecerRama('ramaColonia')">
+                    <button type="button" class="btn btn-default colonia" ng-class="{active: actividad.rama.colonia}" ng-click="establecerRama('colonia')">
                       <i class="fa fa-circle"></i>
                     </button>
-                    <button type="button" class="btn btn-default manada" ng-class="{active: actividad.ramaManada}" ng-click="establecerRama('ramaManada')">
+                    <button type="button" class="btn btn-default manada" ng-class="{active: actividad.rama.manada}" ng-click="establecerRama('manada')">
                       <i class="fa fa-circle"></i>
                     </button>
-                    <button type="button" class="btn btn-default exploradores" ng-class="{active: actividad.ramaExploradores}" ng-click="establecerRama('ramaExploradores')">
+                    <button type="button" class="btn btn-default exploradores" ng-class="{active: actividad.rama.exploradores}" ng-click="establecerRama('exploradores')">
                       <i class="fa fa-circle"></i>
                     </button>
-                    <button type="button" class="btn btn-default expedicion" ng-class="{active: actividad.ramaExpedicion}" ng-click="establecerRama('ramaExpedicion')">
+                    <button type="button" class="btn btn-default expedicion" ng-class="{active: actividad.rama.expedicion}" ng-click="establecerRama('expedicion')">
                       <i class="fa fa-circle"></i>
                     </button>
-                    <button type="button" class="btn btn-default ruta" ng-class="{active: actividad.ramaRuta}" ng-click="establecerRama('ramaRuta')">
+                    <button type="button" class="btn btn-default ruta" ng-class="{active: actividad.rama.ruta}" ng-click="establecerRama('ruta')">
                       <i class="fa fa-circle"></i>
                     </button>
-                    <button type="button" class="btn btn-default" ng-class="{active: actividad.ramaCualquiera}" ng-click="establecerRama('ramaCualquiera')">
+                    <button type="button" class="btn btn-default" ng-class="{active: !actividad.rama.alguna}" ng-click="establecerRama('alguna')">
                       Cualquiera
                     </button>
                   </div>

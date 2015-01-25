@@ -27,21 +27,25 @@
             <tr>
               <th>#</th>
               <th width="30%">Nombre de la Actividad</th>
-              <th>Fecha</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
               <th>Lugar</th>
               <th>Ramas</th>
               <th>Precio</th>
+              <th>Responsable</th>
               <th>Creada Por</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="a in actividades | filter:busqueda" ng-click="detalle(a.id)">
+            <tr ng-repeat="a in actividades | filter:busqueda | orderBy:'-id' track by a.id" ng-click="detalle(a.id)">
               <th scope="row">{{a.id}}</th>
               <td>{{a.nombre}}</td>
-              <td>{{a.fecha | fechaArray}}</td>
+              <td>{{a.fechaInicio | fechaArray}}</td>
+              <td>{{a.fechaFin | fechaArray}}</td>
               <td>{{a.lugar}}</td>
-              <td>{{a | rama}}</td>
+              <td>{{a.rama | rama:'rama.cualquiera'}}</td>
               <td>{{a.precio}}</td>
+              <td>{{a.responsable}}</td>
               <td>{{a.creadaPor}}</td>
             </tr>
             <tr ng-show="!actividades">

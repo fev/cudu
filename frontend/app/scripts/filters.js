@@ -2,31 +2,23 @@
 
 var filters = angular.module('cuduFilters', []);
 
-filters.filter('rama', function() {
-  return function(a) {
+filters.filter('rama', function(Traducciones) {
+  return function(a, fallback) {
     if (!a) {
       return '¿?';
     }
     var rama = [];
-    if (a.ramaColonia) { rama.push('Castores'); }
-    if (a.ramaManada) { rama.push('Lobatos'); }
-    if (a.ramaExploradores) { rama.push('Exploradores'); }
-    if (a.ramaExpedicion) { rama.push('Pioneros'); }
-    if (a.ramaRuta) { rama.push('Compañeros'); }
+    if (a.ramaColonia || a.colonia) { rama.push(Traducciones.texto('rama.colonia')); }
+    if (a.ramaManada || a.manada) { rama.push(Traducciones.texto('rama.manada')); }
+    if (a.ramaExploradores || a.exploradores) { rama.push(Traducciones.texto('rama.exploradores')); }
+    if (a.ramaExpedicion || a.expedicion) { rama.push(Traducciones.texto('rama.expedicion')); }
+    if (a.ramaRuta || a.ruta) { rama.push(Traducciones.texto('rama.ruta')); }
 
     if (rama.length === 0) {
-      return '(sin rama)';
+      var clave = fallback || 'rama.ninguna';
+      return Traducciones.texto(clave);
     }
     return rama.join(', ');
-  };
-});
-
-filters.filter('tipoAsociado', function() {
-  return function(rama) {
-    if (rama === 'J') { return 'Joven'; }
-    if (rama === 'K') { return 'Kraal'; }
-    if (rama === 'C') { return 'Comité'; }
-    return '¿?';
   };
 });
 
@@ -43,5 +35,12 @@ filters.filter('fechaArray', function() {
     return _.foldr(fecha, function(t, q) {
       return t + "/" + q;
     });
+  };
+});
+
+filters.filter('i8n', function(Traducciones) {
+  return function(value, base) {
+    if (!value) { return '¿?'; }
+    return Traducciones.texto(base + '.' + value);
   };
 });

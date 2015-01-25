@@ -24,7 +24,14 @@ cuduServices.factory('Grupo', ['$resource',
 
 cuduServices.factory('Actividad', ['$resource',
   function($resource) {
-    return $resource('/api/actividad/:id', {}, metodos);
+    return $resource('/api/actividad/:id', {}, {
+      'crear'      : { method: 'POST' },
+      'actualizar' : { method: 'PUT' },
+      'queryAll'   : { method: 'GET', params: { }, isArray: true },
+      'afegirAssistent' : { url: '/api/actividad/:id/asociado/:asociadoId', method: 'POST' },
+      'llevarAssistent' : { url: '/api/actividad/:id/asociado/:asociadoId', method: 'DELETE' },
+      'canviarEstat'    : { url: '/api/actividad/:id/asociado/:asociadoId/estado', method: 'POST' }
+    });
   }]);
 
 cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $cookies, $q) {
