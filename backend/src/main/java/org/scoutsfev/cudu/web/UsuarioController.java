@@ -6,6 +6,8 @@ import org.scoutsfev.cudu.domain.Credenciales;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.web.validacion.CodigoError;
+import org.scoutsfev.cudu.web.validacion.ErrorUnico;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +57,7 @@ public class UsuarioController {
         try {
             usuarioService.comprobarCaptcha(credenciales, request);
             Usuario usuario = autenticar(credenciales, request);
-            usuarioService.marcarCaptcha(usuario.getEmail(), false);
+            usuarioService.marcarEntrada(usuario.getEmail());
             return new ResponseEntity<>(usuario, HttpStatus.OK);
         } catch (BadCredentialsException badCredentialsException) {
             usuarioService.marcarCaptcha(credenciales.getEmail(), true);
@@ -87,12 +89,27 @@ public class UsuarioController {
 
     @RequestMapping(value = "/activar/{id}", method = RequestMethod.POST)
     // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
-    public ResponseEntity activarUsuario(@PathVariable("id") Asociado asociado, @RequestBody @Valid @Email String email, @AuthenticationPrincipal Usuario usuario) throws MessagingException {
+    public ResponseEntity<ErrorUnico> activarUsuario(@PathVariable("id") Asociado asociado, @RequestBody @Valid @Email String email, @AuthenticationPrincipal Usuario usuario) throws MessagingException {
         if (!asociado.isActivo())
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(CodigoError.AsociadoInactivo.asError(), HttpStatus.BAD_REQUEST);
+        if (usuarioService.existeActivacionEnCurso(email))
+            return new ResponseEntity<>(CodigoError.ActivacionDeUsuarioEnCurso.asError(), HttpStatus.CONFLICT);
         asociado.setEmail(email);
+        if (asociado.getUsuarioCreadoPorId() == null) {
+            asociado.setUsuarioCreadoPorId(usuario.getId());
+            asociado.setUsuarioCreadoPorNombre(usuario.getNombreCompleto());
+        }
         asociadoRepository.save(asociado);
         usuarioService.resetPassword(asociado.getEmail());
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/desactivar/{id}", method = RequestMethod.POST)
+    // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
+    public ResponseEntity<ErrorUnico> desactivarUsuario(@PathVariable("id") Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
+        if (usuario.getId().equals(asociado.getId()))
+            return new ResponseEntity<>(CodigoError.DeshabilitarUsuarioActual.asError(), HttpStatus.BAD_REQUEST);
+        usuarioService.desactivarUsuario(asociado.getId());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

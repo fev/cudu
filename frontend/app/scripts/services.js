@@ -60,6 +60,22 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
     return respuesta;
   };
 
+  svc.activar = function(id, email) {
+    return $http.post('/api/usuario/activar/' + id, email);
+  };
+
+  svc.desactivar = function(id) {
+    return $http.post('/api/usuario/desactivar/' + id);
+  };
+
+  svc.calcularEdad = function(valor) {
+    var fechaNacimiento = new Date(valor);
+    if (isNaN(fechaNacimiento.valueOf()))
+      return '¿?';
+    var hoy = new Date();
+    return hoy.getYear() - fechaNacimiento.getYear();
+  };
+
   return svc;
 }]);
 

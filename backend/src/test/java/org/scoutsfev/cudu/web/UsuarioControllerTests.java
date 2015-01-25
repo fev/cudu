@@ -3,6 +3,7 @@ package org.scoutsfev.cudu.web;
 import org.junit.Before;
 import org.junit.Test;
 import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
@@ -25,10 +26,12 @@ public class UsuarioControllerTests {
     private Asociado asociado;
     private UsuarioService usuarioService;
     private AuthenticationManager authenticationManager;
+    private Usuario usuario;
 
     @Before
     public void setUp() throws Exception {
         asociado = GeneradorDatosDePrueba.generarAsociado();
+        usuario = mock(Usuario.class);
         asociado.setEmail(null);
         asociadoRepository = mock(AsociadoRepository.class);
         usuarioService = mock(UsuarioService.class);
@@ -39,7 +42,7 @@ public class UsuarioControllerTests {
     @Test
     public void al_activar_un_usuario_se_debe_sobreescribir_el_email() throws Exception {
         assumeThat(asociado.getEmail(), is(nullValue()));
-        usuarioController.activarUsuario(asociado, nuevoEmail, null);
+        usuarioController.activarUsuario(asociado, nuevoEmail, usuario);
         verify(asociadoRepository, times(1)).save(asociado);
         verifyNoMoreInteractions(asociadoRepository);
         assertEquals(nuevoEmail, asociado.getEmail());
@@ -47,30 +50,31 @@ public class UsuarioControllerTests {
 
     @Test
     public void al_activar_un_usuario_se_lanza_el_procedimiento_para_resetear_el_password() throws Exception {
-        ResponseEntity response = usuarioController.activarUsuario(asociado, nuevoEmail, null);
+        ResponseEntity response = usuarioController.activarUsuario(asociado, nuevoEmail, usuario);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(usuarioService, times(1)).resetPassword(nuevoEmail);
+        verify(usuarioService, times(1)).existeActivacionEnCurso(nuevoEmail);
         verifyNoMoreInteractions(usuarioService);
     }
 
     @Test
     public void al_activar_un_usuario_activado_no_se_modifica_el_flag_de_usuario_activo() throws Exception {
         asociado.setUsuarioActivo(true);
-        usuarioController.activarUsuario(asociado, nuevoEmail, null);
+        usuarioController.activarUsuario(asociado, nuevoEmail, usuario);
         assertTrue(asociado.isUsuarioActivo());
     }
 
     @Test
     public void al_activar_un_usuario_desactivado_no_se_modifica_el_flag_de_usuario_activo() throws Exception {
         asociado.setUsuarioActivo(false);
-        usuarioController.activarUsuario(asociado, nuevoEmail, null);
+        usuarioController.activarUsuario(asociado, nuevoEmail, usuario);
         assertFalse(asociado.isUsuarioActivo());
     }
 
     @Test
     public void no_se_puede_activar_un_usuario_cuyo_asociado_esta_desactivado() throws Exception {
         asociado.setActivo(false);
-        ResponseEntity response = usuarioController.activarUsuario(asociado, nuevoEmail, null);
+        ResponseEntity response = usuarioController.activarUsuario(asociado, nuevoEmail, usuario);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         verify(usuarioService, times(0)).resetPassword(nuevoEmail);
         verifyNoMoreInteractions(usuarioService);

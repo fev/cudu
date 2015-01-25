@@ -27,7 +27,7 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(value = "/{token}", method = RequestMethod.GET)
-    public String resetForm(@PathVariable("token") Token token, Model model) throws NoSuchAlgorithmException {
+    public String prepareResetForm(@PathVariable("token") Token token, Model model) throws NoSuchAlgorithmException {
         if (token == null || token.expirado(Instant.now()))
             return "forward:/404";
         model.addAttribute("token", token);
@@ -35,7 +35,7 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(value = "/{token}", method = RequestMethod.POST)
-    public String reset(@Valid @ModelAttribute Token token, BindingResult result, Model model) {
+    public String submitPasswordReset(@Valid @ModelAttribute Token token, BindingResult result, Model model) {
         // TODO if (result.hasErrors()) Redirect a 400 Bad Request
         String codigoError = usuarioService.cambiarPassword(token);
         model.addAttribute("email", token.getEmail());

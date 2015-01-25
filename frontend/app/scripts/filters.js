@@ -22,11 +22,9 @@ filters.filter('rama', function(Traducciones) {
   };
 });
 
-filters.filter('edad', function() {
+filters.filter('edad', function(Usuario) {
   return function(fechaNacimiento) {
-    fechaNacimiento = new Date(fechaNacimiento);
-    var hoy = new Date();
-    return hoy.getYear() - fechaNacimiento.getYear();
+    return Usuario.calcularEdad(fechaNacimiento);
   };
 });
 
@@ -40,7 +38,9 @@ filters.filter('fechaArray', function() {
 
 filters.filter('i8n', function(Traducciones) {
   return function(value, base) {
-    if (!value) { return '¿?'; }
+    if (_.isUndefined(value) || _.isNull(value)) {
+      return '¿?';
+    }
     return Traducciones.texto(base + '.' + value);
   };
 });

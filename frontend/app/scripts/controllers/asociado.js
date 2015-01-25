@@ -10,19 +10,63 @@ var estados = {
 };
 
 angular.module('cuduApp')
-  .controller('SeguridadCtrl', ['$scope', function($scope) {
-    $scope.mostrarAlertaPassword = false;
+  .controller('SeguridadCtrl', ['$scope', '$rootScope', 'Traducciones', 'Usuario', function($scope, $rootScope, Traducciones, Usuario) {
+    $scope.mensajeError = null;
+    $scope.activando = false;
 
-    $scope.cambiarPassword = function(asociado) { };
+    $rootScope.$on('asociado.editar', function() {
+      $scope.mensajeError = null;
+      $scope.activando = false;
+    });
 
     $scope.activar = function(asociado) {
-      $scope.mostrarAlertaPassword = true;
+      var edad = Usuario.calcularEdad(asociado.fechaNacimiento);
+      if (!asociado.email || edad < 18) {
+        $scope.mensajeError = Traducciones.texto('activar.email18');
+        return;
+      }
+      Usuario.activar(asociado.id, asociado.email)
+        .success(function(data, status) {
+          $scope.activando = true;
+        })
+        .error(function(error, status) {
+          if (status === 400 && error.codigo === 'AsociadoInactivo') {
+            $scope.mensajeError = Traducciones.texto('activar.asociadoInactivo');
+          } else if (status === 409 && error.codigo === 'ActivacionDeUsuarioEnCurso') {
+            $scope.mensajeError = Traducciones.texto('activar.activacionEnCurso');
+          } else {
+            $scope.mensajeError = Traducciones.texto('activar.errorServidor');
+          }
+        });
+    };
+
+    $scope.reenviarEmail = function() {
+      $scope.mensajeError = null;
+      $scope.activando = false;
     };
 
     $scope.desactivar = function(asociado) {
+      if (asociado.id === Usuario.usuario.id) {
+        $scope.mensajeError = Traducciones.texto('activar.deshabilitarUsuarioActual');
+        return;
+      }
+      Usuario.desactivar(asociado.id)
+        .success(function(data, status) {
+          asociado.usuarioActivo = false;
+          $scope.activando = false;
+          $scope.mensajeError = null;
+        })
+        .error(function(error, status) {
+          if (status === 400 && error.codigo === 'DeshabilitarUsuarioActual') {
+            $scope.mensajeError = Traducciones.texto('activar.deshabilitarUsuarioActual');
+          } else {
+            $scope.mensajeError = Traducciones.texto('activar.errorServidor');
+          }
+        });
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', function ($scope, Asociado, Grupo, Usuario, EstadosFormulario) {
+  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario',
+      function ($scope, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {
@@ -35,13 +79,17 @@ angular.module('cuduApp')
     $scope.estado = EstadosFormulario.LIMPIO;
     $scope.erroresValidacion = [];
 
-    $scope.tabActivo = 0;
+    $scope.tabActivo = 3;
     $scope.busqueda = '';
     $scope.filtro = { tipo: '', eliminados: false };
     $scope.columnas = { rama: true, direccion: false, contacto: false };
     $scope.orden = 'apellidos';
 
     $scope.modal = { eliminar: false };
+
+    var emitirAsociadoEditandose = function(asociado) {
+      $scope.$emit('asociado.editar', asociado);
+    };
 
     $scope.seleccionarTab = function(tabId) {
       $scope.tabActivo = tabId;
@@ -77,10 +125,7 @@ angular.module('cuduApp')
 
     $scope.nuevo = function() {
       marcarCambiosPendientes();
-      $scope.asociado = {
-        'grupoId': $scope.grupo.id,
-        'ambitoEdicion': 'G'
-      };
+      $scope.asociado = { 'grupoId': $scope.grupo.id, 'ambitoEdicion': 'G' };
     };
 
     $scope.editar = function(id) {
@@ -93,12 +138,14 @@ angular.module('cuduApp')
         // Si previamente no se han guardado los cambios, evitamos recargar desde
         // el servidor y dejamos el asociado original con cambios pendientes.
         $scope.asociado = original;
+        emitirAsociadoEditandose(original);
       } else {
         Asociado.get({ 'id': id }, function(asociado) {
           asociado.marcado = original.marcado;
           asociado.guardado = original.guardado;
           $scope.asociado = asociado;
           $scope.asociados[pos] = asociado;
+          emitirAsociadoEditandose(asociado);
         });
       }
     };

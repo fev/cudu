@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 
 @MappedSuperclass
 public abstract class AsociadoAbstracto {
@@ -35,6 +36,13 @@ public abstract class AsociadoAbstracto {
     @NotNull
     @Column(nullable = false)
     protected boolean usuarioActivo = false;
+
+    protected Timestamp fechaUsuarioCreado = null;
+    protected Timestamp fechaUsuarioVisto = null;
+    protected Integer usuarioCreadoPorId = null;
+
+    @Column(length = 130)
+    protected String usuarioCreadoPorNombre = null;
 
     public Integer getId() {
         return id;
@@ -90,5 +98,37 @@ public abstract class AsociadoAbstracto {
 
     public void setUsuarioActivo(boolean usuarioActivo) {
         this.usuarioActivo = usuarioActivo;
+    }
+
+    public Timestamp getFechaUsuarioCreado() {
+        return fechaUsuarioCreado;
+    }
+
+    public void setFechaUsuarioCreado(Timestamp fechaUsuarioCreado) {
+        this.fechaUsuarioCreado = fechaUsuarioCreado;
+    }
+
+    public Timestamp getFechaUsuarioVisto() {
+        return fechaUsuarioVisto;
+    }
+
+    public void setFechaUsuarioVisto(Timestamp fechaUsuarioVisto) {
+        this.fechaUsuarioVisto = fechaUsuarioVisto;
+    }
+
+    public String getUsuarioCreadoPorNombre() {
+        return usuarioCreadoPorNombre;
+    }
+
+    public void setUsuarioCreadoPorNombre(String usuarioCreadoPorNombre) {
+        this.usuarioCreadoPorNombre = usuarioCreadoPorNombre;
+    }
+
+    public Integer getUsuarioCreadoPorId() {
+        return usuarioCreadoPorId;
+    }
+
+    public void setUsuarioCreadoPorId(Integer usuarioCreadoPorId) {
+        this.usuarioCreadoPorId = usuarioCreadoPorId;
     }
 }

@@ -22,8 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @Service
@@ -85,6 +87,22 @@ public class UsuarioService implements UserDetailsService {
         // TODO emailService.SendEmail("Luis Belloch", "luisbelloch@gmail.com", Locale.ENGLISH);
     }
 
+    public void desactivarUsuario(int asociadoId) {
+        usuarioRepository.desactivar(asociadoId);
+        tokenRepository.eliminarTodos(asociadoId);
+    }
+
+    public boolean existeActivacionEnCurso(String email) {
+        Token token = tokenRepository.findByEmail(email);
+        if (token == null)
+            return false;
+        if (token.expirado(Instant.now())) {
+            tokenRepository.delete(token);
+            return false;
+        }
+        return true;
+    }
+
     public String cambiarPassword(Token token) {
         if (token == null || Strings.isNullOrEmpty(token.getToken()))
             return logError("El token es nulo o vacio al cambiar el password.", token);
@@ -106,6 +124,10 @@ public class UsuarioService implements UserDetailsService {
         eventPublisher.publishEvent(new AuditApplicationEvent(token.getEmail(), EventosAuditoria.CambioPassword, token.getToken()));
         // TODO emailService.SendEmail("Luis Belloch", "luisbelloch@gmail.com", Locale.ENGLISH);
         return null;
+    }
+
+    public void marcarEntrada(String email) {
+        usuarioRepository.marcarEntrada(email, Timestamp.valueOf(LocalDateTime.now()));
     }
 
     public void marcarCaptcha(String email, boolean positivo) {

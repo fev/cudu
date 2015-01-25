@@ -2,6 +2,7 @@ package org.scoutsfev.cudu.services;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.scoutsfev.cudu.domain.Token;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.storage.TokenRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
@@ -10,7 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.Assert;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -83,6 +90,33 @@ public class UsuarioServiceTests {
         } catch (Exception exception) {
             Assert.isInstanceOf(exceptionClass, exception);
         }
+    }
+
+    @Test
+    public void existeActivacionEnCurso_si_no_existe_token_en_bbdd_devuelve_false() throws Exception {
+        String email = "jack.sparrow@example.com";
+        when(tokenRepository.findByEmail(email)).thenReturn(null);
+        assertFalse(service.existeActivacionEnCurso(email));
+    }
+
+    @Test
+    public void existeActivacionEnCurso_si_existe_token_en_bbdd_pero_esta_caducado_lo_elimina_y_devulve_false() throws Exception {
+        String email = "jack.sparrow@example.com";
+        Token token = new Token(email, "ABCD", Instant.now().minus(1, ChronoUnit.HOURS), Duration.ofMinutes(1));
+        assertTrue(token.expirado(Instant.now()));
+        when(tokenRepository.findByEmail(email)).thenReturn(token);
+        assertFalse(service.existeActivacionEnCurso(email));
+        verify(tokenRepository, times(1)).delete(token);
+    }
+
+    @Test
+    public void existeActivacionEnCurso_si_existe_token_en_bbdd_sin_caducar_devuelve_true() throws Exception {
+        String email = "jack.sparrow@example.com";
+        Token token = new Token(email, "ABCD", Instant.now(), Duration.ofMinutes(1));
+        assertFalse(token.expirado(Instant.now()));
+        when(tokenRepository.findByEmail(email)).thenReturn(token);
+        assertTrue(service.existeActivacionEnCurso(email));
+        verify(tokenRepository, never()).delete(token);
     }
 
     // TODO si_el_usuario_esta_activo_y_tiene_password_puede_hacer_login

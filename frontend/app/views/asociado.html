@@ -389,18 +389,25 @@
             <label class="col-md-3 control-label">Usuario</label>
             <div class="col-md-9">
               <input ng-model="asociado.email" type="text" class="form-control" placeholder="Obligatorio">
-              <span class="help-block small">El email del asociado se usa para entrar a Cudú.</span>
+              <span class="help-block small">Puedes usar el <a href="javascript:" ng-click="asociado.email = asociado.emailContacto">mismo email</a> que el del asociado.</span>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-3 control-label">Cuenta</label>
-            <div ng-show="asociado.usuarioActivo" class="col-md-9">
-              <button type="button" class="btn btn-default btn-sm" ng-click="cambiarPassword(asociado)">Cambiar contraseña</button>
+            <div class="col-md-9" ng-show="!activando">
+              <div ng-show="asociado.usuarioActivo">
+                <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)">Cambiar contraseña</button>
               <button type="button" class="btn btn-default btn-sm" ng-click="desactivar(asociado)">Desactivar cuenta</button>
             </div>
-            <div ng-show="!asociado.usuarioActivo" class="col-md-9">
+              <div ng-show="!asociado.usuarioActivo">
               <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)">Activar cuenta</button>
-              <p ng-show="mostrarAlertaPassword" class="small text-danger">Para activar un usuario es necesario que sea mayor de 18 años y tenga una dirección de email conocida.</p>
+              </div>
+              <p class="form-control-static small text-danger">{{mensajeError}}</p>
+            </div>
+            <div class="col-md-9" ng-show="activando">
+              <p class="form-control-static">Se ha enviado un email al usuario con las instrucciones para establecer una contraseña y activar la cuenta.</p>
+              <p class="form-control-static">¿Nunca llegó el email? <a href="javascript:" ng-click="reenviarEmail()">Vuelve a enviarlo.</a>
+              </p>
             </div>
           </div>
         </div>
@@ -408,13 +415,13 @@
           <div class="form-group">
             <label class="col-md-4 control-label">Estado</label>
             <div class="col-md-8">
-              <p class="form-control-static">Activo</p>
+              <p class="form-control-static">{{asociado.usuarioActivo | i8n:'activo'}}</p>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-4 control-label">Creado por</label>
             <div class="col-md-8">
-              <p class="form-control-static">Mike Wazowski</p>
+              <p class="form-control-static">{{asociado.usuarioCreadoPorNombre}}</p>
             </div>
           </div>
           <div class="form-group">
