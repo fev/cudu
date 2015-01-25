@@ -36,6 +36,16 @@ filters.filter('fechaArray', function() {
   };
 });
 
+filters.filter('desdeHace', function(Traducciones) {
+  return function(fecha) {
+    var m = moment(fecha);
+    if (!m.isValid()) {
+      return Traducciones.texto('nunca');
+    }
+    return m.fromNow();
+  };
+});
+
 filters.filter('i8n', function(Traducciones) {
   return function(value, base) {
     if (_.isUndefined(value) || _.isNull(value)) {

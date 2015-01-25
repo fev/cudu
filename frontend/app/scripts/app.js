@@ -97,6 +97,10 @@ angular
     Usuario.obtenerActual()
       .success(function(usuario) {
         Dom.loginCompleto(usuario);
+
+        var lenguaje = usuario.lenguaje || 'es';
+        moment.locale(lenguaje);
+
         // TODO Si el usuario es asociado, redirigir a /asociados
         // Tecnicos y Lluerna tienen otras url de entrada
         $location.path("/asociados");
