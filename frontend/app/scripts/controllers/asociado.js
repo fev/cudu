@@ -73,13 +73,17 @@ angular.module('cuduApp')
       $scope.asociados = asociados.content;
     });
 
-    $scope.asociado = { 'grupoId': $scope.grupo.id, 'ambitoEdicion': 'G' };
+    var generarAsociadoVacio = function() {
+      return { 'grupoId': $scope.grupo.id, 'ambitoEdicion': 'G', 'puntosCovol': 0 };
+    };
+
+    $scope.asociado = generarAsociadoVacio();
     $scope.marcados = [];
 
     $scope.estado = EstadosFormulario.LIMPIO;
     $scope.erroresValidacion = [];
 
-    $scope.tabActivo = 3;
+    $scope.tabActivo = 0;
     $scope.busqueda = '';
     $scope.filtro = { tipo: '', eliminados: false };
     $scope.columnas = { rama: true, direccion: false, contacto: false };
@@ -125,7 +129,7 @@ angular.module('cuduApp')
 
     $scope.nuevo = function() {
       marcarCambiosPendientes();
-      $scope.asociado = { 'grupoId': $scope.grupo.id, 'ambitoEdicion': 'G' };
+      $scope.asociado = generarAsociadoVacio();
     };
 
     $scope.editar = function(id) {
@@ -143,6 +147,7 @@ angular.module('cuduApp')
         Asociado.get({ 'id': id }, function(asociado) {
           asociado.marcado = original.marcado;
           asociado.guardado = original.guardado;
+          asociado.puntosCovol = calcularPuntosCovol(asociado);
           $scope.asociado = asociado;
           $scope.asociados[pos] = asociado;
           emitirAsociadoEditandose(asociado);
@@ -161,6 +166,7 @@ angular.module('cuduApp')
       guardar({ id: id }, $scope.asociado).$promise.then(function(asociadoGuardado) {
         $scope.estado = EstadosFormulario.OK;
         asociadoGuardado.guardado = true;
+        asociadoGuardado.puntosCovol = calcularPuntosCovol(asociadoGuardado);
         $scope.asociado = asociadoGuardado;
         var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
         $scope.asociados[pos] = asociadoGuardado;
@@ -263,6 +269,19 @@ angular.module('cuduApp')
       } else {
         return "fa-square-o";
       }
+    };
+
+    var calcularPuntosCovol = function(asociado) {
+      if (typeof asociado === 'undefined') {
+        return 0;
+      }
+      var cargos = asociado.cargos || [];
+      var total = 0;
+      for (var i = 0; i < cargos.length; i++) {
+        total = total + cargos[i].puntos;
+      }
+      return total;
+      // return _.reduce(cargos, function(a,c) { return a + c.puntos }, 0);
     };
 
     var marcarCambiosPendientes = function() {

@@ -239,8 +239,9 @@
         <li ng-class="{active: tabActivo == 0}"><a href="" ng-click="seleccionarTab(0)">Contacto</a></li>
         <li ng-class="{active: tabActivo == 1, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(1)">Responsables</a></li>
         <li ng-class="{active: tabActivo == 2, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(2)">Documentos</a></li>
-        <li ng-class="{active: tabActivo == 4}"><a href="" ng-click="seleccionarTab(4)">Formación</a></li>
-        <li ng-class="{active: tabActivo == 3}"><a href="" ng-click="seleccionarTab(3)">Seguridad</a></li>
+        <li ng-class="{active: tabActivo == 6, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(6)">Voluntariado</a></li>
+        <li ng-class="{active: tabActivo == 4, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(4)">Formación</a></li>
+        <li ng-class="{active: tabActivo == 3, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(3)">Seguridad</a></li>
         <li ng-class="{active: tabActivo == 5}"><a href="" ng-click="seleccionarTab(5)">Notas</a></li>
       </ul>
 
@@ -397,10 +398,10 @@
             <div class="col-md-9" ng-show="!activando">
               <div ng-show="asociado.usuarioActivo">
                 <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)">Cambiar contraseña</button>
-              <button type="button" class="btn btn-default btn-sm" ng-click="desactivar(asociado)">Desactivar cuenta</button>
-            </div>
+                <button type="button" class="btn btn-default btn-sm" ng-click="desactivar(asociado)">Desactivar cuenta</button>
+              </div>
               <div ng-show="!asociado.usuarioActivo">
-              <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)">Activar cuenta</button>
+                <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)">Activar cuenta</button>
               </div>
               <p class="form-control-static small text-danger">{{mensajeError}}</p>
             </div>
@@ -437,28 +438,66 @@
         DATOS FORMACION
       </div>
 
-      <div class="tab-content" ng-show="tabActivo == 6">
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>Fecha</th>
-              <th>Usuario</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>17/08/2010 19:34:01</td>
-              <td>Mark Otto</td>
-              <td>Crear el asociado con id = 4.</td>
-            </tr>
-            <tr>
-              <td>21/02/2011 19:34:01</td>
-              <td>Jacob Thornton</td>
-              <td>Editar nombre, calle y apellidos.</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="tab-content tab-cargos" ng-show="tabActivo == 6">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-md-3 control-label">Ptos. COVOL</label>
+            <div class="col-md-9">
+              <p class="form-control-static">{{asociado.puntosCovol}}</p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Estudios</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.estudios" type="text" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Profesión</label>
+            <div class="col-md-9">
+              <input ng-model="asociado.profesion" type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group add-element">
+              <span class="input-group-addon">Añadir Cargo</span>
+              <input type="text" class="form-control">
+              <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Otros Cargos <span class="caret"></span></button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="padding-left: 12px">
+            <table class="table table-condensed table-hover table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center">#</th>
+                  <th>Cargo</th>
+                  <th>Puntos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="cargo in asociado.cargos" ng-class="{'editable': cargo.ambito === 'C'}">
+                  <td class="text-center"><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
+                  <td>{{cargo.etiqueta}}</td>
+                  <td class="text-right">{{cargo.puntos}}</td>
+                </tr>
+                <tr ng-show="!asociado.cargos">
+                  <td colspan="3">No hay cargos.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
       <div class="tab-content" ng-show="tabActivo == 5">

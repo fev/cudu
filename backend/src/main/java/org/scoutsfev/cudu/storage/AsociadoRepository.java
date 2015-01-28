@@ -21,4 +21,7 @@ public interface AsociadoRepository extends PagingAndSortingRepository<Asociado,
 
     @Query("select a.grupoId from Asociado a where a.id = :idAsociado")
     String obtenerCodigoDeGrupoDelAsociado(@Param("idAsociado") Integer idAsociado);
+
+    @Query("SELECT a FROM Asociado a LEFT JOIN FETCH a.cargos WHERE a.id = :id")
+    Asociado findByIdAndFetchCargosEagerly(@Param("id") int id);
 }

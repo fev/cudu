@@ -5,20 +5,19 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.validator.constraints.Email;
+import org.scoutsfev.cudu.domain.dto.CargoAsociadoDto;
 import org.scoutsfev.cudu.domain.validadores.Edad;
 import org.scoutsfev.cudu.domain.validadores.ValidarRama;
 import org.scoutsfev.cudu.domain.validadores.ValidarTipo;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "asociado")
@@ -44,6 +43,9 @@ public class Asociado extends AsociadoAbstracto {
 
     @Column(name = "grupo_id")
     private String grupoId;
+
+    @OneToMany(mappedBy = "asociado", fetch = FetchType.LAZY)
+    protected List<CargoAsociadoDto> cargos;
 
     @NotNull
     @Edad(max = 70)
@@ -204,6 +206,11 @@ public class Asociado extends AsociadoAbstracto {
 
     public void setGrupoId(String grupoId) {
         this.grupoId = grupoId;
+    }
+
+    // Importante, no establecer setCargos, la colección mapea sobre un dto en vista
+    public List<CargoAsociadoDto> getCargos() {
+        return cargos;
     }
 
     public String getDireccion() {

@@ -71,7 +71,7 @@
     }
 
     .btn-default:focus { background-color: transparent; }
-    .btn-default.active { background-color: $material-grey-300; }    
+    .btn-default.active { background-color: $material-grey-300; }
 
     // Campos visibles
     .rama { display: none }
@@ -102,6 +102,21 @@
     .btn-group .btn-default.active { background-color: $material-grey-300; }
     .form-control:focus {
       border-color: $material-cyan-500;
+    }
+
+    .tab-cargos {
+      .form-group .add-element {
+        .input-group-addon { background: inherit; border: 0; font-weight: bold; color: #333 }
+        input.form-control { height: 34px }
+      }
+      .table {
+        margin-top: 10px;
+        tr > th { font-weight: bold}
+        span.glyphicon { visibility: hidden; }
+        tr.editable:hover {
+          span.glyphicon { visibility: visible; color: $material-red-700 }
+        }
+      }
     }
   }
 }
