@@ -1,5 +1,6 @@
 package org.scoutsfev.cudu;
 
+import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
 import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.GrupoRepository;
@@ -14,6 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -84,6 +86,12 @@ public class Application extends WebMvcConfigurerAdapter {
 
 //        Asociado asistente = asociadoRepository.findOne(baden.getId());
 //        salidaAlRio.añadirAsistente(asistente);
+    }
+
+    @Bean
+    @SuppressWarnings("unchecked")
+    public Jackson2ObjectMapperBuilder configurarSerializacionJson() {
+        return new Jackson2ObjectMapperBuilder().modulesToInstall(Hibernate4Module.class);
     }
 
     @Autowired
