@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/reset/*").permitAll()
             .antMatchers("/resetnew/**").permitAll()
             .antMatchers("/usuario/autenticar").permitAll()
+            .antMatchers("/graficas/*").permitAll()
             .anyRequest().authenticated();
 
         // TODO AuditEvent en log no muestra la ruta de la peticion

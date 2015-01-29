@@ -8,7 +8,8 @@ angular
     'cuduTraducciones',
     'cuduDom',
     'cuduServices',
-    'cuduFilters'
+    'cuduFilters',
+    'chart.js'
   ])
   .constant("RolesMenu", {
     "ASOCIADO": "rol-asociado",

@@ -1,9 +1,11 @@
 package org.scoutsfev.cudu.web;
 
 import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.CacheKeys;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,10 +20,12 @@ import javax.validation.Valid;
 public class AsociadoController {
 
     private final AsociadoRepository asociadoRepository;
+    private final CacheManager cacheManager;
 
     @Autowired
-    public AsociadoController(AsociadoRepository asociadoRepository) {
+    public AsociadoController(AsociadoRepository asociadoRepository, CacheManager cacheManager) {
         this.asociadoRepository = asociadoRepository;
+        this.cacheManager = cacheManager;
     }
 
     @RequestMapping(value = "/asociado", method = RequestMethod.GET)
@@ -47,6 +51,7 @@ public class AsociadoController {
     // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public Asociado crear(@RequestBody @Valid Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
         asociado.setId(null);
+        descartarCacheGraficas(asociado.getGrupoId());
         return asociadoRepository.save(asociado);
     }
 
@@ -56,6 +61,8 @@ public class AsociadoController {
         editado.setGrupoId(original.getGrupoId());
         editado.setUsuarioActivo(original.isUsuarioActivo());
         editado.setAmbitoEdicion(original.getAmbitoEdicion());
+        if (editado.isActivo() != original.isActivo())
+            descartarCacheGraficas(editado.getGrupoId());
         return asociadoRepository.save(editado);
     }
 
@@ -69,5 +76,13 @@ public class AsociadoController {
     @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public void desactivar(@PathVariable("id") Integer id, @AuthenticationPrincipal Usuario usuario) {
         asociadoRepository.activar(id, false);
+    }
+
+    private void descartarCacheGraficas(String grupoId) {
+        cacheManager.getCache(CacheKeys.DatosGraficasGlobales).clear();
+        if (grupoId != null) {
+            cacheManager.getCache(CacheKeys.DatosGraficasPorGrupoRama).evict(grupoId);
+            cacheManager.getCache(CacheKeys.DatosGraficasPorGrupoTipo).evict(grupoId);
+        }
     }
 }

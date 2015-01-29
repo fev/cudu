@@ -1,10 +1,40 @@
 (function() {
 'use strict';
 
-function LoginCtrl($scope, $location, Usuario, Traducciones, Dom) {
+function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas) {
   $scope.error = null;
   $scope.mayusculas = false;
   $scope.captchaVisible = false;
+
+  $scope.etiquetas = {
+    'rama': ['colonia', 'manada', 'exploradores', 'expedición', 'ruta']
+  };
+
+  var colores = ["#E0F7FA", "#B2EBF2", "#80DEEA", "#4DD0E1", "#00ACC1"];
+  var colorLinea = "rgba(148,159,177,1)";
+  $scope.colours = _.map(colores, function(c) {
+    return {
+      fillColor: c,
+      strokeColor: c,
+      pointColor: c,
+      pointStrokeColor: "#E4FCFF",
+      pointHighlightFill: c,
+      pointHighlightStroke: c
+    };
+  });
+
+  $scope.opcionesHistorico = {
+    scaleFontColor: "#80DEEA"
+  };
+  $scope.coloresHistorico = [
+    { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#B2EBF2" },
+    { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#80DEEA" },
+    { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#76FF03" }
+  ];
+
+  Graficas.login().success(function(data) {
+    $scope.graficas = data;
+  });
 
   $scope.detectarMayusculas = function(e) {
     var keyCode = e.keyCode ? e.keyCode : e.which;
@@ -62,6 +92,6 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom) {
   };
 }
 
-angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$location', 'Usuario', 'Traducciones', 'Dom', LoginCtrl]);
+angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$location', 'Usuario', 'Traducciones', 'Dom', 'Graficas', LoginCtrl]);
 
 }());

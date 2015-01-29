@@ -34,6 +34,14 @@ cuduServices.factory('Actividad', ['$resource',
     });
   }]);
 
+cuduServices.factory('Graficas', ['$http', function($http) {
+  return {
+    login: function() {
+      return $http.get('/api/graficas/login');
+    }
+  };
+}]);
+
 cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $cookies, $q) {
   var svc = { usuario: null };
 

@@ -32,7 +32,7 @@ traducciones.factory('Traducciones', [function() {
     'activar.asociadoInactivo': 'No es posible activar la cuenta de un usuario cuya ficha de asociado esta eliminada o desactivada.',
     'activar.activacionEnCurso': 'No hemos enviado un email al asociado porque alguien previamente solicitó el cambio de contraseña. Por favor, espera 30 minutos y vuelve a intentarlo.',
     'activar.deshabilitarUsuarioActual': 'No es posible deshabilitar el usuario actual.',
-    'activar.errorServidor': 'Se ha producido un error en el servidor.',
+    'activar.errorServidor': 'Se ha producido un error en el servidor.'
   };
   var es = {
     'tipo.J': 'Joven',

@@ -1,15 +1,20 @@
 package org.scoutsfev.cudu;
 
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
-import org.scoutsfev.cudu.domain.*;
-import org.scoutsfev.cudu.storage.AsociadoRepository;
-import org.scoutsfev.cudu.storage.GrupoRepository;
-import org.scoutsfev.cudu.storage.UsuarioRepository;
+import org.scoutsfev.cudu.domain.AmbitoEdicion;
+import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.CacheKeys;
+import org.scoutsfev.cudu.domain.TipoAsociado;
+import org.scoutsfev.cudu.storage.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -21,10 +26,12 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
+@EnableCaching
 public class Application extends WebMvcConfigurerAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
@@ -86,6 +93,16 @@ public class Application extends WebMvcConfigurerAdapter {
 
 //        Asociado asistente = asociadoRepository.findOne(baden.getId());
 //        salidaAlRio.añadirAsistente(asistente);
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        SimpleCacheManager cacheManager = new SimpleCacheManager();
+        cacheManager.setCaches(Arrays.asList(
+                new ConcurrentMapCache(CacheKeys.DatosGraficasGlobales),
+                new ConcurrentMapCache(CacheKeys.DatosGraficasPorGrupoRama),
+                new ConcurrentMapCache(CacheKeys.DatosGraficasPorGrupoTipo)));
+        return cacheManager;
     }
 
     @Bean
