@@ -215,7 +215,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="txtNombre" class="col-md-3 control-label">Fecha Nac.</label>
+            <label class="col-md-3 control-label">Fecha Nac.</label>
             <div class="col-md-9">
               <input ng-model="asociado.fechaNacimiento" cudu-fecha type="text" class="form-control" placeholder="Obligatorio (dd/mm/aaaa)">
             </div>
@@ -227,9 +227,17 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="txtSegSocial" class="col-md-3 control-label">Seg. Social</label>
+            <label class="col-md-3 control-label">Seg. Social</label>
             <div class="col-md-9">
               <input ng-model="asociado.seguridadSocial" type="text" class="form-control" id="txtSegSocial">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"><i class="fa fa-check-square-o fa-lg"></i></label>
+            <div class="col-md-9">
+              <p class="form-control-static">
+                Acepto los <a href="javascript:">términos y condiciones</a> de la cláusula de deber de secreto.
+              </p>
             </div>
           </div>
         </div>

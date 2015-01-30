@@ -65,7 +65,7 @@ angular.module('cuduApp')
         });
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario',
+  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones',
       function ($scope, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];

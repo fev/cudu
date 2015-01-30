@@ -91,6 +91,7 @@
 
   #panelEdicion {
     padding: 0; min-height: 600px;
+    i.fa-check-square-o { cursor: pointer }
     .mat-toolbar, .mat-toolbar-expand { background-color: $material-grey-50; }
     .mat-toolbar {
       .btn-default:hover { color: #555; background-color: $material-grey-300; }
