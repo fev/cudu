@@ -21,11 +21,9 @@ public class GrupoController {
     }
 
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Grupo> obtener(@PathVariable("id") String idGrupo) {
-        Grupo grupo = grupoRepository.findOne(idGrupo);
-        if (grupo == null)
-            return new ResponseEntity<Grupo>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<Grupo>(grupo, HttpStatus.OK);
+    public ResponseEntity<Grupo> obtener(@PathVariable("id") String grupoId) {
+        Grupo grupo = grupoRepository.findOne(grupoId);
+        return new ResponseEntity<>(grupo, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.PUT)

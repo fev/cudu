@@ -35,9 +35,25 @@ cuduServices.factory('Actividad', ['$resource',
   }]);
 
 cuduServices.factory('Graficas', ['$http', function($http) {
+  var _rango5pink = ['#fce4ec', '#fdbfce', '#fa99b1', '#f47195', '#ec407a'];
+  var _colorLinea = "rgba(148,159,177,1)";
+  var _coloresRamas = _.map(_rango5pink, function(c) {
+    return { fillColor: _colorLinea, strokeColor: c, };
+  });
+
+  var _colorRellenoTipo = ['#9FA8DA', '#7986CB', '#3F51B5'];
+  var _coloresTipos = _.map(_colorRellenoTipo, function(c) {
+    return { fillColor: _colorLinea, strokeColor: c, };
+  });
+
   return {
+    coloresRama: _coloresRamas,
+    coloresTipo: _coloresTipos,
     login: function() {
       return $http.get('/api/graficas/login');
+    },
+    grupo: function(grupoId) {
+      return $http.get('/api/graficas/grupo/' + grupoId);
     }
   };
 }]);

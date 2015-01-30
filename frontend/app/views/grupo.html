@@ -2,7 +2,12 @@
   <div class="row">
     <div id="panelEstadisticas" class="col-md-4">
       <div class="material-panel-level-2">
-        GRÁFICAS
+        <h2 class="text-center">Datos por Ramas</h2>
+        <canvas id="doughnutTipo" class="chart chart-doughnut" data="graficas.rama"
+          labels="etiquetas.rama" legend="Jóvenes por Rama" colours="coloresRama"></canvas>
+        <h2 class="text-center">Datos por Tipo</h2>
+        <canvas id="doughnutRama" class="chart chart-doughnut" data="graficas.tipo"
+          labels="etiquetas.tipo" legend="Jóvenes por Tipo" colours="coloresTipo"></canvas>
       </div>
     </div>
     <div id="panelEdicion" class="col-md-8">
@@ -74,6 +79,13 @@
               <label class="col-md-3 control-label">Municipio</label>
               <div class="col-md-9">
                 <input ng-model="grupo.municipio" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-3 control-label">Jefe Grupo</label>
+              <div class="col-md-9">
+                <p class="form-control-static">Mike Wazowski<br>
+                675000000s<br>mike.wazowski@example.com</p>
               </div>
             </div>
           </div>
