@@ -45,6 +45,11 @@ angular
         controller: 'GrupoCtrl',
         seccion: 'grupo'
       })
+      .when('/permisos', {
+        templateUrl: 'views/permisos.html',
+        controller: 'PermisosCtrl',
+        seccion: 'permisos'
+      })
       .when('/tecnico/fev/asociado', {
         templateUrl: 'views/tecnico_fev.html',
         controller: 'TecnicoFevCtrl',

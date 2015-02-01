@@ -1,0 +1,10 @@
+.permisos {
+  @include paginaMultiPanel();
+
+  td.accionable { 
+    padding: 0;
+    .dropdown-toggle { padding: 4px 3px; }
+  }
+
+  .fa { color: #4E4E4E }
+}

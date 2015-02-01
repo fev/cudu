@@ -48,7 +48,7 @@
             <a href="#/actividades">Actividades</a>
             </li>
           <li class="rol-tecnico"><a href="javascript:">Liquidaciones</a></li>
-          <li class="rol-asociado rol-tecnico"><a href="#/permisos">Permisos</a></li>
+          <li class="rol-asociado rol-tecnico" ng-class="{active: controlador === 'PermisosCtrl'}"><a href="#/permisos">Permisos</a></li>
           <li><a href="#/misdatos">Mis Datos</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -85,6 +85,7 @@
   <script src="scripts/controllers/asociado.js"></script>
   <script src="scripts/controllers/actividades.js"></script>
   <script src="scripts/controllers/grupo.js"></script>
+  <script src="scripts/controllers/permisos.js"></script>
   <script src="scripts/controllers/tecnico_fev.js"></script>
   <!-- endbuild -->
 </body>
