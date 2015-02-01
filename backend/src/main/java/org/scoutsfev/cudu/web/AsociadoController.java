@@ -51,6 +51,7 @@ public class AsociadoController {
     // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public Asociado crear(@RequestBody @Valid Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
         asociado.setId(null);
+        asociado.setUsuarioActivo(false);
         descartarCacheGraficas(asociado.getGrupoId());
         return asociadoRepository.save(asociado);
     }
@@ -61,6 +62,7 @@ public class AsociadoController {
         editado.setGrupoId(original.getGrupoId());
         editado.setUsuarioActivo(original.isUsuarioActivo());
         editado.setAmbitoEdicion(original.getAmbitoEdicion());
+        editado.setUsuarioActivo(original.isUsuarioActivo());
         if (editado.isActivo() != original.isActivo())
             descartarCacheGraficas(editado.getGrupoId());
         return asociadoRepository.save(editado);
