@@ -73,3 +73,14 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
   &:focus { color: $secundario; background-color: transparent; }
   &.active { color: $primario; background-color: $secundario !important; }
 }
+
+@mixin paginaMultiPanel {
+  .contenedor-central {
+    background-color: transparent;
+    &>div {
+      @include box-shadow(none);
+      background-color: transparent;
+    }
+  }
+}
+

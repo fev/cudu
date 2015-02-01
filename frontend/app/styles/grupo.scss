@@ -1,12 +1,6 @@
 
 .grupo {
-  .contenedor-central {
-    background-color: transparent;
-    &>div {
-      @include box-shadow(none);
-      background-color: transparent;
-    }
-  }
+  @include paginaMultiPanel();
 
   #panelEstadisticas {
     padding-left: 0;
