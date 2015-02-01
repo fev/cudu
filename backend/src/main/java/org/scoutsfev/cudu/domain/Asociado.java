@@ -129,8 +129,7 @@ public class Asociado extends AsociadoAbstracto {
     @Email
     private String emailPadre;
 
-    @Lob
-    @Column(name = "notas")
+    @Column(columnDefinition="TEXT NULL", nullable = true)
     private String notas;
 
     @NotNull
