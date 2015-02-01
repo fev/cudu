@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = {ValidadorRama.class})
 public @interface ValidarRama {
 
-    String message() default "{org.scoutsfev.cudu.domain.validadores.ValidarRama.message}";
+    String message() default "{ValidarRama.JovenSoloEnUnaRama}";
 
     Class<?>[] groups() default {};
 
