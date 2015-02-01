@@ -35,6 +35,9 @@ angular.module('cuduApp')
     };
 
     var resumir = function(listado, precio) {
+      if (typeof listado === "undefined") {
+        return { asistentes: 0, pagados: 0, recaudacion: 0, esperado: 0 };
+      }
       var precio = normalizarPrecio(precio);
       var van = 0;
       var pagados = 0;
