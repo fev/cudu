@@ -271,6 +271,36 @@ angular.module('cuduApp')
       }
     };
 
+    $scope.comprobarAlertaRama = function(a) {
+      if (a.tipo !== 'J') {
+        return;
+      }
+      var algunaRama = (a.ramaColonia || a.ramaManada || a.ramaExpedicion || a.ramaExploradores || a.ramaRuta);
+      var rama = calcularRamaRecomendada(a.fechaNacimiento);
+      if (!algunaRama) {
+        if (rama != null) {
+          a['rama' + rama] = true;
+        }
+        return; 
+      }      
+      if (rama == null) { return; }
+      if (!a['rama' + rama]) {
+        a.alertaRama = Traducciones.texto('rama.' + rama.toLowerCase());
+      } else {
+        a.alertaRama = null;
+      }
+    };
+
+    var calcularRamaRecomendada = function(fechaNacimiento) {
+      var edad = Usuario.calcularEdad(fechaNacimiento);
+      if (edad <= 7) { return 'Colonia'; }
+      if (edad > 7 && edad <= 10) { return 'Manada'; }
+      if (edad > 10 && edad <= 13) { return 'Exploradores'; }
+      if (edad > 13 && edad <= 16) { return 'Expedicion'; }
+      if (edad > 16) { return 'Ruta'; }
+      return null;
+    }
+
     var calcularPuntosCovol = function(asociado) {
       if (typeof asociado === 'undefined') {
         return 0;

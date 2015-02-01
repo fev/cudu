@@ -71,5 +71,5 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
   color: $secundario;
   &:hover { color: $primario; background-color: transparentize($secundario, 0.7); }
   &:focus { color: $secundario; background-color: transparent; }
-  &.active { color: $primario; background-color: $secundario; }
+  &.active { color: $primario; background-color: $secundario !important; }
 }
