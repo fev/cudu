@@ -74,7 +74,13 @@ angular.module('cuduApp')
     });
 
     var generarAsociadoVacio = function() {
-      return { 'grupoId': $scope.grupo.id, 'ambitoEdicion': 'G', 'puntosCovol': 0 };
+      return {
+        'grupoId': $scope.grupo.id,
+        'ambitoEdicion': 'G', 
+        'puntosCovol': 0,
+        'municipio': $scope.grupo.municipio,
+        'codigoPostal': $scope.grupo.codigoPostal
+      };
     };
 
     $scope.asociado = generarAsociadoVacio();
