@@ -100,6 +100,9 @@ public class Asociado extends AsociadoAbstracto {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean padresDivorciados = false;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean hermanosEnElGrupo = false;
+
     @Column(name = "madre_nombre")
     @Size(max = 250)
     private String nombreMadre;
@@ -331,6 +334,14 @@ public class Asociado extends AsociadoAbstracto {
 
     public void setPadresDivorciados(Boolean padresDivorciados) {
         this.padresDivorciados = padresDivorciados;
+    }
+
+    public Boolean getHermanosEnElGrupo() {
+        return hermanosEnElGrupo;
+    }
+
+    public void setHermanosEnElGrupo(Boolean hermanosEnElGrupo) {
+        this.hermanosEnElGrupo = hermanosEnElGrupo;
     }
 
     public String getNombreMadre() {
