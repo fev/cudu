@@ -7,4 +7,15 @@
   }
 
   .fa { color: #4E4E4E }
+  .panel-content { padding: 20px }
+
+  #panelPermisos {
+    .mat-toolbar, .mat-toolbar-expand { background-color: #FAFAFA; }
+  }
+
+  #panelRegistro {
+    .mat-toolbar, .mat-toolbar-expand { background-color: #EEE; }
+    .panel-content { padding-top: 15px; padding-bottom: 15px; }
+    .log-warn, .log-warn .fa { color: #B71C1C }
+  }
 }

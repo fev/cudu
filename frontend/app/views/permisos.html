@@ -1,101 +1,101 @@
 <div class="container contenedor-central grupo">
   <div class="row">
-    <div class="col-md-8">
+    <div id="panelPermisos" class="col-md-8">
       <div class="material-panel-level-2">
-        <div class="mat-toolbar text-right" style="background-color: #fafafa">
+        <div class="mat-toolbar text-right">
           <button type="button" class="btn btn-default" ng-click="recargar()"><span class="glyphicon glyphicon-refresh"></span></button>
         </div>
-        <div class="mat-toolbar-expand" style="background-color: #fafafa"><h1>Permisos y seguridad</h1></div>
-        <div style="padding: 20px">
+        <div class="mat-toolbar-expand"><h1>Permisos y seguridad</h1></div>
+        <div class="panel-content">
           <table class="table table-condensed table-hover">
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Nombre</th>
-                  <th>Calidad Contraseña</th>
-                  <th>Último uso</th>                  
-                  <th>Info. Grupo</th>
-                  <th>Asociados</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{{actual.id}}</td>
-                  <td>{{actual.nombreCompleto}}</td>
-                  <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
-                  <td>{{actual.fechaUsuarioVistoTxt}}</td>                  
-                  <td class="accionable">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        Edición <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Edición</a></li>
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo lectura</a></li>
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sin Acceso</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                  <td class="accionable">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        Todos <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Todos</a></li>
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Todos, sólo lectura</a></li>
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo a su rama</a></li>
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo a su rama, sólo lectura</a></li>
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sólo sus datos</a></li>
-                        <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sin acceso</a></li>
-                      </ul>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>720</td>
-                  <td>Quincy Cunningham Parrish</td>
-                  <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></td>
-                  <td>hace media hora</td>
-                  <td>Edición</td>
-                  <td>Todos</td>
-                </tr>
-                <tr>
-                  <td>17651</td>
-                  <td>Jack Sparrow</td>
-                  <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></td>
-                  <td>hace 3 meses</td>
-                  <td>Sólo lectura</td>
-                  <td>Sólo su rama</td>
-                </tr>
-                <tr>
-                  <td>908</td>
-                  <td>Aline Acosta Ericksön</td>
-                  <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
-                  <td>hace 2 semanas</td>
-                  <td>Sin acceso</td>
-                  <td>Sólo sus datos</td>
-                </tr>
-              </tbody>
-            </table>
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Calidad Contraseña</th>
+                <th>Último uso</th>                  
+                <th>Info. Grupo</th>
+                <th>Asociados</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{actual.id}}</td>
+                <td>{{actual.nombreCompleto}}</td>
+                <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
+                <td>{{actual.fechaUsuarioVistoTxt}}</td>                  
+                <td class="accionable">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      Edición <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Edición</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo lectura</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sin Acceso</a></li>
+                    </ul>
+                  </div>
+                </td>
+                <td class="accionable">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      Todos <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Todos</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Todos, sólo lectura</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo a su rama</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo a su rama, sólo lectura</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sólo sus datos</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sin acceso</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>720</td>
+                <td>Quincy Cunningham Parrish</td>
+                <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></td>
+                <td>hace media hora</td>
+                <td>Edición</td>
+                <td>Todos</td>
+              </tr>
+              <tr>
+                <td>17651</td>
+                <td>Jack Sparrow</td>
+                <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></td>
+                <td>hace 3 meses</td>
+                <td>Sólo lectura</td>
+                <td>Sólo su rama</td>
+              </tr>
+              <tr>
+                <td>908</td>
+                <td>Aline Acosta Ericksön</td>
+                <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
+                <td>hace 2 semanas</td>
+                <td>Sin acceso</td>
+                <td>Sólo sus datos</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <div id="panelRegistro" class="col-md-4">
       <div class="material-panel-level-2">
-        <div class="mat-toolbar" style="background-color: #EEE;">
+        <div class="mat-toolbar">
           <strong>Registro de Actividad</strong>  
           <p class="small">Se muestran eventos del último mes.</p>
         </div>
-        <div style="padding: 20px; padding-bottom: 20px;">
+        <div class="panel-content">
           <p><span class="small">12/01/15 22:01:17</span><br/> Quincy Cunningham Parrish <br><i class="fa fa-trash-o"></i> Eliminó el asociado 1192.</p>
           <p><span class="small">12/01/15 22:00:33</span><br/> Quincy Cunningham Parrish <br><i class="fa fa-pencil"></i> Editó el asociado 3421.</p>
           <p><span class="small">12/01/15 21:58:21</span><br/> Quincy Cunningham Parrish <br><i class="fa fa-pencil"></i> Editó el asociado 1456.</p>
           <p><span class="small">12/01/15 21:54:12</span><br/> Quincy Cunningham Parrish <br><i class="fa fa-sign-in"></i> Entró a Cudú.</p>
           <p><span class="small">12/01/15 21:20:23</span><br/> Quincy Cunningham Parrish <br><i class="fa fa-unlock-alt"></i> Cambió su password.</p>
           <p><span class="small">12/01/15 21:00:32</span><br/> Quincy Cunningham Parrish <br><i class="fa fa-unlock-alt"></i> Solicitó cambiar su password.</p>
-          <p style="color: #B71C1C"><span class="small">11/01/15 16:20:19</span><br/> Aline Acosta Ericksön <br><i class="fa fa-exclamation-circle" style="color: #B71C1C"></i> Utilizó una contraseña incorrecta.</p>
-          <p class="hidden"><a href="">Cargar mas eventos</a></p>
+          <p class="log-warn"><span class="small">11/01/15 16:20:19</span><br/> Aline Acosta Ericksön <br><i class="fa fa-exclamation-circle"></i> Utilizó una contraseña incorrecta.</p>
+          <p class="hidden"><a href="">Cargar mas eventos</a></p>        
           <i class="hidden">No hay eventos disponibles.</i>
         </div>
       </div>
