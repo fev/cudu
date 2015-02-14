@@ -22,9 +22,9 @@
       background-color: $material-grey-200;
       border-bottom: 1px solid $input-border;
       .btn { padding: 5px 7px }
-
       .dropdown-menu { margin-top: -28px }
       .btn:hover, .btn-group.open .dropdown-toggle { background-color: $material-grey-50; }
+      .disabled { color: $material-grey-400 }
     }
     .mat-subtoolbar {
       padding: 5px 10px;

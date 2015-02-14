@@ -8,7 +8,6 @@
   <title>Cudú</title>
   <meta name="viewport" content="width=device-width">
   <link rel="license" href="http://www.gnu.org/licenses/agpl-3.0.txt">
-  <link href="http://fonts.googleapis.com/css?family=Oxygen:400,300,700" rel="stylesheet" type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700|Roboto+Condensed:400,300,700' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css">
@@ -33,7 +32,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="http://www.scoutsfev.org">
           <img src="images/logofev43.png" alt="Cudú" />
         </a>
       </div>
@@ -50,14 +49,14 @@
             <a href="#/actividades">Actividades</a>
             </li>
           <li class="rol-tecnico"><a href="javascript:">Liquidaciones</a></li>
-          <li class="rol-asociado rol-tecnico" ng-class="{active: controlador === 'PermisosCtrl'}"><a href="#/permisos">Permisos</a></li>
+          <li class="rol-asociado rol-tecnico hidden" ng-class="{active: controlador === 'PermisosCtrl'}"><a href="#/permisos">Permisos</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a id="_lnkUsuarioActual" href="#/misdatos"></a></li>
           <li class="dropdown">
             <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown" id="lnkUsuarioActual">Dropdown <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Mis Datos</a></li>
+              <li class="disabled"><a href="javascript:">Mis Datos <span class="small">(próximamente)</span></a></li>
               <li class="divider"></li>
               <li><a href="#">Castellano <span class="glyphicon glyphicon-ok pull-right"></span></a></li>
               <li><a href="#">Valencià</a></li>

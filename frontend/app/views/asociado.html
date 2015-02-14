@@ -7,13 +7,6 @@
           <div class="input-group">
             <input id="txtBusqueda" ng-model="busqueda" type="text" class="form-control" placeholder="Búsqueda">
             <span class="input-group-btn">
-              <button class="btn btn-default btn-sm" type="button">
-                <span class="glyphicon glyphicon-refresh"></span>
-              </button>
-              <button ng-click="limpiarFiltro()" class="hidden btn btn-default btn-danger-hover btn-sm" type="button"
-                  tooltip="Limpiar búsqueda y mostrar todos">
-                <span class="glyphicon glyphicon-remove"></span>
-              </button>
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                   <span class="glyphicon glyphicon-sort-by-alphabet"></span>
@@ -39,7 +32,7 @@
                 </ul>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle disabled" data-toggle="dropdown">
                   <span class="glyphicon glyphicon-print"></span>
                 </button>
                 <ul class="dropdown-menu">
@@ -51,7 +44,7 @@
                 </ul>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle disabled" data-toggle="dropdown">
                   <span class="glyphicon glyphicon-wrench"></span>
                 </button>
                 <ul class="dropdown-menu">
