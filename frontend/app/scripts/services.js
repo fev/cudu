@@ -11,9 +11,13 @@ var metodos = {
   'queryAll': { method: 'GET', params: { }, isArray: true }
 };
 
+var metodosAsociado = _.clone(metodos);
+metodosAsociado['activar'] = { url: '/api/asociado/:id/activar', method: 'PUT' };
+metodosAsociado['desactivar'] = { url: '/api/asociado/:id/desactivar', method: 'PUT' };
+
 cuduServices.factory('Asociado', ['$resource',
   function($resource) {
-    return $resource('/api/asociado/:id', {}, metodos);
+    return $resource('/api/asociado/:id', {}, metodosAsociado);
   }]);
 
 cuduServices.factory('Grupo', ['$resource',

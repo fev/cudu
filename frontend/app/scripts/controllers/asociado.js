@@ -188,16 +188,25 @@ angular.module('cuduApp')
     };
 
     $scope.activar = function(id, activar) {
-      // TODO petición a servidor aqui
+      var metodo = Asociado.desactivar;
+      if (activar) { metodo = Asociado.activar; }
+      metodo({id: id}, {}, function(data, status) {
       $scope.asociado.activo = activar;
       $scope.asociado.cambiosPendientes = false;
       $scope.formAsociado.$setPristine();
+      }, function(data, status) {
+        $scope.estado = EstadosFormulario.ERROR;
+      });
     };
 
     $scope.eliminar = function(id) {
+      $scope.modal.eliminar = false;
+      Asociado.delete({ id: id }, function() {
       _.remove($scope.asociados, function(a) { return a ? a.id === id : false; });
       $scope.asociado = {};
-      $scope.modal.eliminar = false;
+      }, function() {
+        $scope.estado = EstadosFormulario.ERROR;
+      });      
     };
 
     $scope.marcar = function(asociado, e) {

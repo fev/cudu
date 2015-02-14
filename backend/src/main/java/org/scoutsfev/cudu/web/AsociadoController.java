@@ -80,6 +80,14 @@ public class AsociadoController {
         asociadoRepository.activar(id, false);
     }
 
+    @RequestMapping(value = "/asociado/{id}", method = RequestMethod.DELETE)
+    @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
+    public void eliminar(@PathVariable("id") Integer id, @AuthenticationPrincipal Usuario usuario) {
+        // TODO No puedes eliminarte
+        // TODO Integridad referencial (cargos OK, revisar actividades)
+        asociadoRepository.delete(id);
+    }
+
     private void descartarCacheGraficas(String grupoId) {
         cacheManager.getCache(CacheKeys.DatosGraficasGlobales).clear();
         if (grupoId != null) {
