@@ -82,7 +82,7 @@ angular
     };
     $httpProvider.interceptors.push(interceptor);
   })
-  .run(function($rootScope, $location, $cookies, RolesMenu, Dom, Usuario) {
+  .run(function($rootScope, $location, RolesMenu, Dom, Usuario) {
 
     $rootScope.$on('$routeChangeSuccess', function(e, target) {
       if (target && target.$$route) {

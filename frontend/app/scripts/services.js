@@ -25,7 +25,6 @@ cuduServices.factory('Grupo', ['$resource',
     return $resource('/api/grupo/:id', {}, metodos);
   }]);
 
-
 cuduServices.factory('Actividad', ['$resource',
   function($resource) {
     return $resource('/api/actividad/:id', {}, {
@@ -63,7 +62,11 @@ cuduServices.factory('Graficas', ['$http', function($http) {
 }]);
 
 cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $cookies, $q) {
-  var svc = { usuario: null };
+  // Angular carga algunos de los controladores antes que el servidor devuelva
+  // los datos del usuario actual, por ello es necesario establecer un usuario
+  // anónimo que evite problemas al navegar propiedades.
+  var usuarioAnonimo = { grupo: null };
+  var svc = { usuario: usuarioAnonimo };
 
   svc.obtenerActual = function() {
     var respuesta = $http.get('/api/usuario/actual');
@@ -82,7 +85,7 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
     var respuesta = $http.post('/api/usuario/desautenticar', {});
     var limpiar = function() {
       delete $cookies['JSESSIONID'];
-      svc.usuario = null;
+      svc.usuario = usuarioAnonimo;
     };
     respuesta.success(limpiar).error(limpiar);
     return respuesta;
