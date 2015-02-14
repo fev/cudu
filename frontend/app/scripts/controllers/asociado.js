@@ -191,9 +191,9 @@ angular.module('cuduApp')
       var metodo = Asociado.desactivar;
       if (activar) { metodo = Asociado.activar; }
       metodo({id: id}, {}, function(data, status) {
-      $scope.asociado.activo = activar;
-      $scope.asociado.cambiosPendientes = false;
-      $scope.formAsociado.$setPristine();
+        $scope.asociado.activo = activar;
+        $scope.asociado.cambiosPendientes = false;
+        $scope.formAsociado.$setPristine();
       }, function(data, status) {
         $scope.estado = EstadosFormulario.ERROR;
       });
@@ -202,8 +202,8 @@ angular.module('cuduApp')
     $scope.eliminar = function(id) {
       $scope.modal.eliminar = false;
       Asociado.delete({ id: id }, function() {
-      _.remove($scope.asociados, function(a) { return a ? a.id === id : false; });
-      $scope.asociado = {};
+        _.remove($scope.asociados, function(a) { return a ? a.id === id : false; });
+        $scope.asociado = {};              
       }, function() {
         $scope.estado = EstadosFormulario.ERROR;
       });      
@@ -230,12 +230,22 @@ angular.module('cuduApp')
     };
 
     $scope.establecerRama = function(rama) {
-      var actual = $scope.asociado[rama];
-      if (actual) {
-        $scope.asociado[rama] = false;
-      } else {
+      /* var tipo = $scope.asociado.tipo;
+      if (!tipo || tipo === 'J') {
+        $scope.asociado.ramaColonia = false;
+        $scope.asociado.ramaManada = false;
+        $scope.asociado.ramaExpedicion = false;
+        $scope.asociado.ramaExploradores = false;
+        $scope.asociado.ramaRuta = false;
         $scope.asociado[rama] = true;
-      }
+      } else { */
+        var actual = $scope.asociado[rama];
+        if (actual) {
+          $scope.asociado[rama] = false;
+        } else {
+          $scope.asociado[rama] = true;
+        }
+      // }
       $scope.formAsociado.$setDirty();
     };
 
@@ -268,7 +278,7 @@ angular.module('cuduApp')
       } else {
         columnas[nombre] = true;
       }
-    };
+    };    
 
     $scope.cssRadio = function(valor) {
       if (valor) {

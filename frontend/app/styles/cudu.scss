@@ -17,7 +17,7 @@ $cudu-padding-base-horizontal: $padding-base-horizontal - 5;
 body { font-family: $stdfontpath; color: #333; background-color: #EEE }
 
 .navbar { font-family: 'Oxygen', $stdfontpath; font-weight: 300; }
-.navbar-brand { font-weight: 400 }
+.navbar-brand { font-weight: 400; padding-top: 2px }
 
 @mixin navbar-material($bg, $fg) {
   background: $bg; border: 0; margin-bottom: 0;
