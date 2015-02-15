@@ -126,6 +126,15 @@ angular.module('cuduApp')
       });
     };
 
+    $scope.eliminarAsistente = function(asistente) {      
+      Actividad.llevarAssistent({ 'id': asistente.actividadId, 'asociadoId': asistente.asociadoId }, function() { 
+        var listado = $scope.actividad.detalle;
+        var idx = _.findIndex(listado, function(a) { return a.asociadoId == asistente.asociadoId; });
+        listado.splice(idx, 1);
+        $scope.resumen = resumir($scope.actividad.detalle, $scope.actividad.precio);
+      });
+    };
+
     $scope.recalcularPrecio = function() {
       $scope.resumen = resumir($scope.actividad.detalle, $scope.actividad.precio);
     };
