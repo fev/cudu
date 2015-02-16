@@ -5,6 +5,9 @@ var traducciones = angular.module('cuduTraducciones', []);
 
 traducciones.factory('Traducciones', [function() {
   var ca = {
+    'asociacion.0': 'Scouts de Alicante (SdA)',
+    'asociacion.1': 'Scouts de Castelló (SdC)',
+    'asociacion.2': 'Moviment Escolta de València (MEV)',
     'tipo.J': 'Jove',
     'tipo.K': 'Kraal',
     'tipo.C': 'Comitè',
@@ -35,6 +38,9 @@ traducciones.factory('Traducciones', [function() {
     'activar.errorServidor': 'Se ha producido un error en el servidor.'
   };
   var es = {
+    'asociacion.0': 'Scouts de Alicante (SdA)',
+    'asociacion.1': 'Scouts de Castelló (SdC)',
+    'asociacion.2': 'Moviment Escolta de València (MEV)',
     'tipo.J': 'Joven',
     'tipo.K': 'Kraal',
     'tipo.C': 'Comité',
