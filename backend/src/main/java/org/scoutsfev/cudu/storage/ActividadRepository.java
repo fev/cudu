@@ -16,7 +16,7 @@ public interface ActividadRepository extends CrudRepository<Actividad, Integer> 
     @Modifying
     @Transactional
     @Query(value = "insert into asistente_actividad (actividad_id, asociado_id, estado) \n" +
-           "select :actividad_id, id, 'I' from asociado \n" +
+           "select :actividad_id, id, 'D' from asociado \n" +
            "where id = :asociado_id \n" +
            "and id not in (select asociado_id from asistente_actividad where actividad_id = :actividad_id)", nativeQuery = true)
     public int añadirAsistente(@Param("actividad_id") int actividadId, @Param("asociado_id") int asociadoId);
@@ -24,7 +24,7 @@ public interface ActividadRepository extends CrudRepository<Actividad, Integer> 
     @Modifying
     @Transactional
     @Query(value = "insert into asistente_actividad (actividad_id, asociado_id, estado) \n" +
-            "select distinct :actividad_id , p.id, 'I' from asociado p, actividad a \n" +
+            "select distinct :actividad_id , p.id, 'D' from asociado p, actividad a \n" +
             "where a.id = :actividad_id and a.grupo_id = p.grupo_id \n" +
             "  and p.activo = true and p.tipo in ('J', 'K') \n" +
             "  and p.rama_colonia = :colonia and p.rama_manada = :manada and p.rama_exploradores = :exploradores \n" +

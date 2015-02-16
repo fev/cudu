@@ -11,7 +11,7 @@ angular.module('cuduApp')
       $location.path('/actividades/' + id);
     };
   }])
-  .controller('ActividadesDetalleCtrl', ['$scope', '$routeParams', 'Actividad', 'EstadosFormulario', 'Usuario', function($scope, $routeParams, Actividad, EstadosFormulario, Usuario) {
+  .controller('ActividadesDetalleCtrl', ['$scope', '$routeParams', 'Actividad', 'EstadosFormulario', 'Usuario', 'Typeahead', function($scope, $routeParams, Actividad, EstadosFormulario, Usuario, Typeahead) {
     $scope.estado = EstadosFormulario.LIMPIO;
 
     $scope.resumen = {
@@ -19,6 +19,33 @@ angular.module('cuduApp')
       pagados: 0,
       recaudacion: 0,
       esperado: 0
+    };
+
+    $scope.typeaheadAsociadoOpt = { highlight: true, editable: false };
+    $scope.typeaheadAsociadoDts = Typeahead.asociado();
+    $scope.asistentPerAfegir = null;
+
+    // Afegir asistent
+    $scope.$on('typeahead:selected', function(e, asistente) {
+      var idx = _.findIndex($scope.actividad.detalle, { 'asociadoId': asistente.id });
+      if (idx != -1) {
+        $scope.asistentPerAfegir = null;
+        return;
+      }
+      Actividad.afegirAssistent({ 'id': $scope.actividad.id, 'asociadoId': asistente.id }, {}, function(dto) { 
+        dto.nuevo = true;
+        $scope.actividad.detalle.unshift(dto);
+        $scope.resumen = resumir($scope.actividad.detalle, $scope.actividad.precio);
+        $scope.asistentPerAfegir = null;
+      });
+    });
+
+    $scope.afegirBranca = function(nom) {
+      var branca = {};
+      branca[nom] = true;
+      Actividad.afegirBranca({ 'id': $scope.actividad.id }, branca, function(activitat) {
+        $scope.actividad = activitat;
+      });
     };
 
     var normalizarPrecio = function(precio) {
@@ -124,6 +151,12 @@ angular.module('cuduApp')
         asistente.estadoAsistente = estado;
         $scope.resumen = resumir($scope.actividad.detalle, $scope.actividad.precio);
       });
+    };
+
+    $scope.estiloAsistencia = function(asistente) {
+      var estilo = 'estado-' + asistente.estadoAsistente;
+      if (asistente.nuevo) { estilo = estilo + ' flash' }
+      return estilo;
     };
 
     $scope.eliminarAsistente = function(asistente) {      

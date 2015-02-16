@@ -3,6 +3,7 @@ package org.scoutsfev.cudu.web;
 import com.google.common.base.Strings;
 import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.domain.dto.ActividadDetalleDto;
+import org.scoutsfev.cudu.domain.dto.ActividadDetalleDtoPk;
 import org.scoutsfev.cudu.storage.ActividadRepository;
 import org.scoutsfev.cudu.storage.dto.ActividadDetalleDtoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,23 +93,24 @@ public class ActividadesController {
     }
 
     @RequestMapping(value = "/actividad/{id}/asociado/{asociadoId}", method = RequestMethod.POST)
-    public ResponseEntity añadirAsistente(@PathVariable("id") Actividad actividad, @PathVariable Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<ActividadDetalleDto> añadirAsistente(@PathVariable("id") Actividad actividad, @PathVariable Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
         if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "añadirAsistente"));
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         actividadRepository.añadirAsistente(actividad.getId(), asociadoId);
-        return new ResponseEntity(HttpStatus.OK);
+        ActividadDetalleDto asistente = actividadDetalleDtoRepository.findOne(new ActividadDetalleDtoPk(actividad.getId(), asociadoId));
+        return new ResponseEntity<>(asistente, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/actividad/{id}/rama", method = RequestMethod.POST)
-    public ResponseEntity añadirRama(@RequestBody Rama rama, @PathVariable("id") Actividad actividad, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<Actividad> añadirRama(@RequestBody Rama rama, @PathVariable("id") Actividad actividad, @AuthenticationPrincipal Usuario usuario) {
         if (!laActividadPerteneceAlGrupoDelUsuario(actividad, usuario)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "añadirAsistente"));
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         actividadRepository.añadirRamaCompleta(actividad.getId(), rama.isColonia(), rama.isManada(), rama.isExploradores(), rama.isExpedicion(), rama.isRuta());
-        return new ResponseEntity(HttpStatus.OK);
+        return obtenerDetalle(actividad.getId(), usuario);
     }
 
     @RequestMapping(value = "/actividad/{id}/asociado/{asociadoId}", method = RequestMethod.DELETE)

@@ -192,6 +192,29 @@ a, button {
   &.ruta { @include btnRama($material-green-600, $material-green-100); }
 }
 
+// typeahead.js
+.tt-dropdown-menu {
+  background-color: #FFF;
+  border: 1px solid $input-border;
+  max-height: 200px; min-width: 250px;
+  overflow-y: auto; 
+  /* solo si existe textbox encima: margin-top: -1px; */
+}
+.tt-suggestion { padding: 6px 8px; height: 32px; line-height: 20px; }
+.tt-suggestion.tt-cursor { background-color: $material-grey-300; }
+.tt-hint { color: $material-grey-300; }
+
+@include keyframes(flash) {
+    0% { background-color: #FFFBCC; }
+    100% { background-color: #FFF; }
+}
+.flash.ng-enter {
+    @include animation-name(flash);
+    @include animation-duration(2s);
+    @include animation-iteration-count(1);
+    @include animation-timing-function(ease-in);
+}
+
 @import 'secciones.scss';
 @import 'menu.scss';
 @import 'login.scss';

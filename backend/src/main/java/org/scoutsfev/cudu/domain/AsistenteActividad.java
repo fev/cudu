@@ -18,14 +18,14 @@ public class AsistenteActividad implements Serializable {
     protected Asociado asociado;
 
     @NotNull
-    protected EstadoAsistente estado = EstadoAsistente.Incognita;
+    protected EstadoAsistente estado = EstadoAsistente.Duda;
 
     protected AsistenteActividad() { }
 
     public AsistenteActividad(Actividad actividad, Asociado asociado) {
         this.actividad = actividad;
         this.asociado = asociado;
-        this.estado = EstadoAsistente.Incognita;
+        this.estado = EstadoAsistente.Duda;
     }
 
     public Actividad getActividad() {

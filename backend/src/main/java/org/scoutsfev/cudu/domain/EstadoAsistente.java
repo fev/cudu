@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Optional;
 
 public enum EstadoAsistente {
-    Incognita('I'),
     Duda('D'),
     NoViene('N'),
     Viene('S'),

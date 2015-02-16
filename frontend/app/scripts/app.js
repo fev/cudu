@@ -5,11 +5,13 @@ angular
     'ngResource',
     'ngRoute',
     'ngCookies',
+    'ngAnimate',
     'cuduTraducciones',
     'cuduDom',
     'cuduServices',
     'cuduFilters',
-    'chart.js'
+    'chart.js',
+    'siyfion.sfTypeahead'
   ])
   .constant("RolesMenu", {
     "ASOCIADO": "rol-asociado",

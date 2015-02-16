@@ -31,11 +31,32 @@ cuduServices.factory('Actividad', ['$resource',
       'crear'      : { method: 'POST' },
       'actualizar' : { method: 'PUT' },
       'queryAll'   : { method: 'GET', params: { }, isArray: true },
+      'afegirBranca'    : { url: '/api/actividad/:id/rama', method: 'POST' },
       'afegirAssistent' : { url: '/api/actividad/:id/asociado/:asociadoId', method: 'POST' },
       'llevarAssistent' : { url: '/api/actividad/:id/asociado/:asociadoId', method: 'DELETE' },
       'canviarEstat'    : { url: '/api/actividad/:id/asociado/:asociadoId/estado', method: 'POST' }
     });
   }]);
+
+cuduServices.factory('Typeahead', [function() {
+  return {
+    'asociado': function() {
+      var source = new Bloodhound({
+        datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.nombre); },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+          url: '/api/typeahead/asociado/%QUERY',
+          filter: function(response) { return response.content; }
+        }
+      });
+      source.initialize();
+      return { 
+        displayKey: function(r) { return r.nombre + ' ' + r.apellidos; }, 
+        source: source.ttAdapter() 
+      };
+    }
+  };
+}]);
 
 cuduServices.factory('Graficas', ['$http', function($http) {
   var _rango5pink = ['#fce4ec', '#fdbfce', '#fa99b1', '#f47195', '#ec407a'];

@@ -7,6 +7,13 @@ public class ActividadDetalleDtoPk implements Serializable {
     Integer actividadId;
     Integer asociadoId;
 
+    public ActividadDetalleDtoPk() { }
+
+    public ActividadDetalleDtoPk(Integer actividadId, Integer asociadoId) {
+        this.actividadId = actividadId;
+        this.asociadoId = asociadoId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
