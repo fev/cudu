@@ -70,7 +70,7 @@ angular
       .otherwise({
          redirectTo: '/'
       });
-  })
+  })  
   .config(function($httpProvider) {
     var interceptor = function($q, $location) {
       return {
@@ -84,8 +84,7 @@ angular
     };
     $httpProvider.interceptors.push(interceptor);
   })
-  .run(function($rootScope, $location, RolesMenu, Dom, Usuario) {
-
+  .run(function($rootScope, $location, RolesMenu, Dom, Usuario, Traducciones) {
     $rootScope.$on('$routeChangeSuccess', function(e, target) {
       if (target && target.$$route) {
         $rootScope.controlador = target.$$route.controller;
@@ -99,21 +98,29 @@ angular
       Usuario.desautenticar().success(redirigirLogin).error(redirigirLogin);
     };
 
+    $rootScope.cambiarIdioma = function(codigo) {
+      var recarga = function() { window.location = "/"; };
+      Usuario.cambiarIdioma(codigo).success(recarga).error(recarga);
+    };
+
     // Intentamos obtener el usuario actual. Si el servidor devuelve 403,
     // redirigimos a la página de login, en caso contrario las credenciales
     // son correctas (almacenadas en la cookie JSESSIONID).
     Usuario.obtenerActual()
-      .success(function(usuario) {
-        Dom.loginCompleto(usuario);
-
-        var lenguaje = usuario.lenguaje || 'es';
-        moment.locale(lenguaje);
+      .success(function(usuario) {        
+        // Cada vez que el usuario cambia de lenguaje se guarda en la columna
+        // 'lenguaje' de la tabla asociado. Si nunca ha cambiado de lenguaje,
+        // la columna será null y usaremos el lenguaje del navegador (lang).
+        var lang = Traducciones.establecerLenguaje(usuario.lenguaje);
+        Dom.loginCompleto(usuario, lang);
 
         // TODO Si el usuario es asociado, redirigir a /asociados
         // Tecnicos y Lluerna tienen otras url de entrada
         $location.path("/asociados");
       })
       .error(function() {
+        // TODO Último lenguaje conocido o el del navegador
+        Traducciones.establecerLenguaje();
         $location.path("/login");
       });
   });

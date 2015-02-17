@@ -1,9 +1,9 @@
+(function() {
 'use strict';
 
-// TODO Add ngCookies here
 var traducciones = angular.module('cuduTraducciones', []);
 
-traducciones.factory('Traducciones', [function() {
+traducciones.factory('Traducciones', ['$http', function($http) {
   var ca = {
     'asociacion.0': 'Scouts de Alicante (SdA)',
     'asociacion.1': 'Scouts de Castelló (SdC)',
@@ -73,6 +73,15 @@ traducciones.factory('Traducciones', [function() {
 
   var lenguajePorDefecto = 'ca';
 
+  var lenguajeDelNavegador = function() {
+    var lang = navigator.language || navigator.userLanguage || lenguajePorDefecto;
+    lang = lang.split('-')[0]; // es-ES, RFC-4646
+    if (lang === 'es' || lang === 'ca') {
+      return lang;
+    }
+    return lenguajePorDefecto;
+  };
+
   return {
     tr: { 'ca': ca, 'es': es },
     lenguaje: lenguajePorDefecto,
@@ -94,6 +103,14 @@ traducciones.factory('Traducciones', [function() {
       return '';
     },
 
+    establecerLenguaje: function(codigo) {
+      var lang = codigo || lenguajeDelNavegador();
+      moment.locale(lang);
+      this.lenguaje = lang;
+      $http.defaults.headers.common['Accept-Language'] = lang;
+      return lang;
+    },
+
     warn: function(msg) {
       if (console) {
         console.warn(msg);
@@ -101,3 +118,5 @@ traducciones.factory('Traducciones', [function() {
     }
   };
 }]);
+
+})();

@@ -174,4 +174,11 @@ public class UsuarioService implements UserDetailsService {
             logger.error("[{0}] {1}. Token NULL", codigoError, mensaje);
         return codigoError;
     }
+
+    public boolean cambiarIdioma(int id, String codigo) {
+        if (Strings.isNullOrEmpty(codigo) || (!codigo.equalsIgnoreCase("es") && !codigo.equalsIgnoreCase("ca")))
+            return false;
+        usuarioRepository.cambiarIdioma(id, codigo);
+        return true;
+    }
 }

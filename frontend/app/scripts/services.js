@@ -128,6 +128,10 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
     return hoy.getYear() - fechaNacimiento.getYear();
   };
 
+  svc.cambiarIdioma = function(codigo) {
+    return $http.post('/api/usuario/lenguaje', codigo);
+  };
+
   return svc;
 }]);
 
@@ -136,9 +140,11 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
 // No muy elegante, pero es rápido y evita bindings en el rootScope.
 angular.module('cuduDom', []).factory('Dom', ['RolesMenu', function(RolesMenu) {
   return {
-    loginCompleto: function(usuario) {
+    loginCompleto: function(usuario, lang) {
       $('#lnkUsuarioActual').text(usuario.nombreCompleto);
       $('#cuduNav, #cuduNavBg').removeClass('hidden');
+      $('#checkLenguajeES, #checkLenguajeCA').hide();
+      $('#checkLenguaje' + lang.toUpperCase()).show();
 
       var rolMenu = RolesMenu.ASOCIADO;
       if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'E')) {

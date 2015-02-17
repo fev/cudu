@@ -63,7 +63,8 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas) {
 
     Usuario.autenticar($scope.email, $scope.password, respuestaCaptcha)
       .success(function(usuario, status) {
-        Dom.loginCompleto(usuario);
+        var lang = Traducciones.establecerLenguaje(usuario.lenguaje);
+        Dom.loginCompleto(usuario, lang);
         $location.path("/");
       })
       .error(function(data, status) {
