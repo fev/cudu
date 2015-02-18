@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('cuduApp')
-  .controller('GrupoCtrl', ['$scope', 'Grupo', 'Usuario', 'Graficas', function ($scope, Grupo, Usuario, Graficas) {
-    var grupoId = Usuario.usuario.grupo.id;
-    Grupo.get({id: grupoId}, function(grupo) {
+  .controller('GrupoCtrl', ['$scope', 'Grupo', 'Usuario', 'Graficas', 'EstadosFormulario', function ($scope, Grupo, Usuario, Graficas, EstadosFormulario) {
+    $scope.estado = EstadosFormulario.LIMPIO;
+    var grupo = Usuario.usuario.grupo || { id: -1 };
+    Grupo.get({id: grupo.id}, function(grupo) {
       $scope.grupo = grupo;
     });
     $scope.tabActivo = 0;
@@ -15,7 +16,11 @@ angular.module('cuduApp')
       'tipo': ['joven', 'kraal', 'comite']
     };
 
-    Graficas.grupo(grupoId).success(function(data) {
+    Graficas.grupo(grupo.id).success(function(data) {
       $scope.graficas = data;
     });
+
+    $scope.guardar = function() {
+      
+    };
   }]);

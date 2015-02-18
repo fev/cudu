@@ -79,8 +79,8 @@ angular.module('cuduApp')
         'grupoId': grupo.id,
         'ambitoEdicion': 'G', 
         'puntosCovol': 0,
-        'municipio': $scope.grupo.municipio,
-        'codigoPostal': $scope.grupo.codigoPostal
+        'municipio': grupo.municipio,
+        'codigoPostal': grupo.codigoPostal
       };
     };
 
