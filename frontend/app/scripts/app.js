@@ -25,6 +25,9 @@ angular
     'ERROR'      : 3,
     'VALIDACION' : 4
   })
+  .constant('CuduEtc', {
+    'IDIOMA': 'cudu.lenguaje'
+  })
   .config(function($routeProvider) {
     $routeProvider
       .when('/', {
@@ -33,45 +36,52 @@ angular
         }
       })
       .when('/login', {
-        templateUrl: 'views/login.html',
+        templateUrl: 'i18n/views/login.html',
         controller: 'LoginCtrl',
         seccion: 'login'
       })
       .when('/asociados', {
-        templateUrl: 'views/asociado.html',
+        templateUrl: 'i18n/views/asociado.html',
         controller: 'AsociadoCtrl',
         seccion: 'asociado'
       })
       .when('/grupo/:id', {
-        templateUrl: 'views/grupo.html',
+        templateUrl: 'i18n/views/grupo.html',
         controller: 'GrupoCtrl',
         seccion: 'grupo'
       })
       .when('/permisos', {
-        templateUrl: 'views/permisos.html',
+        templateUrl: 'i18n/views/permisos.html',
         controller: 'PermisosCtrl',
         seccion: 'permisos'
       })
       .when('/tecnico/fev/asociado', {
-        templateUrl: 'views/tecnico_fev.html',
+        templateUrl: 'i18n/views/tecnico_fev.html',
         controller: 'TecnicoFevCtrl',
         seccion: 'tecnico-fev'
       })
       .when('/actividades', {
-        templateUrl: 'views/actividades/listado.html',
+        templateUrl: 'i18n/views/actividades/listado.html',
         controller: 'ActividadesListadoCtrl',
         seccion: 'actividades'
       })
       .when('/actividades/:id', {
-        templateUrl: 'views/actividades/detalle.html',
+        templateUrl: 'i18n/views/actividades/detalle.html',
         controller: 'ActividadesDetalleCtrl',
         seccion: 'actividades'
       })
       .otherwise({
          redirectTo: '/'
       });
-  })  
-  .config(function($httpProvider) {
+  })
+  .config(function($httpProvider, CuduEtc) {
+    // Al cambiar de idioma la selección se guarda en el localStorage del navegador.
+    // Cuando angular recarge el template asociado a '/' es necesario que lo pida
+    // con el header correcto, por lo que establecemos los defaults del provider aqui.
+    var lenguajeSeleccionado = localStorage.getItem(CuduEtc.IDIOMA);
+    if (lenguajeSeleccionado != null) {
+      $httpProvider.defaults.headers.common['Accept-Language'] = lenguajeSeleccionado;
+    }
     var interceptor = function($q, $location) {
       return {
         'responseError': function(rejection) {
@@ -84,7 +94,7 @@ angular
     };
     $httpProvider.interceptors.push(interceptor);
   })
-  .run(function($rootScope, $location, RolesMenu, Dom, Usuario, Traducciones) {
+  .run(function($rootScope, $location, RolesMenu, Dom, Usuario, Traducciones, CuduEtc) {
     $rootScope.$on('$routeChangeSuccess', function(e, target) {
       if (target && target.$$route) {
         $rootScope.controlador = target.$$route.controller;
@@ -99,7 +109,10 @@ angular
     };
 
     $rootScope.cambiarIdioma = function(codigo) {
-      var recarga = function() { window.location = "/"; };
+      var recarga = function() { 
+        localStorage.setItem(CuduEtc.IDIOMA, codigo);
+        window.location = "/";         
+      };
       Usuario.cambiarIdioma(codigo).success(recarga).error(recarga);
     };
 
@@ -116,7 +129,7 @@ angular
 
         // TODO Si el usuario es asociado, redirigir a /asociados
         // Tecnicos y Lluerna tienen otras url de entrada
-        $location.path("/asociados");
+        $location.path("/");
       })
       .error(function() {
         // TODO Último lenguaje conocido o el del navegador

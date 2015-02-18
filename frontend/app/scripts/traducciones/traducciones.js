@@ -3,7 +3,7 @@
 
 var traducciones = angular.module('cuduTraducciones', []);
 
-traducciones.factory('Traducciones', ['$http', function($http) {
+traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEtc) {
   var ca = {
     'asociacion.0': 'Scouts de Alicante (SdA)',
     'asociacion.1': 'Scouts de Castelló (SdC)',
@@ -108,6 +108,7 @@ traducciones.factory('Traducciones', ['$http', function($http) {
       moment.locale(lang);
       this.lenguaje = lang;
       $http.defaults.headers.common['Accept-Language'] = lang;
+      localStorage.setItem(CuduEtc.IDIOMA, codigo);
       return lang;
     },
 
