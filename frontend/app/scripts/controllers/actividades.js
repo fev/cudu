@@ -26,18 +26,28 @@ angular.module('cuduApp')
     $scope.asistentPerAfegir = null;
 
     // Afegir asistent
-    $scope.$on('typeahead:selected', function(e, asistente) {
-      var idx = _.findIndex($scope.actividad.detalle, { 'asociadoId': asistente.id });
-      if (idx != -1) {
-        $scope.asistentPerAfegir = null;
-        return;
+    $scope.$on('typeahead:selected', function(e, asistente) {      
+      var guardarAsistencia = function(actividad, asistente) {
+        var idx = _.findIndex(actividad.detalle, { 'asociadoId': asistente.id });
+        if (idx != -1) {
+          $scope.asistentPerAfegir = null;
+          return;
+        }
+        Actividad.afegirAssistent({ 'id': actividad.id, 'asociadoId': asistente.id }, {}, function(dto) { 
+          dto.nuevo = true;
+          $scope.actividad.detalle.unshift(dto);
+          $scope.resumen = resumir($scope.actividad.detalle, $scope.actividad.precio);
+          $scope.asistentPerAfegir = null;
+        });
+      };
+      // Si la actividad no está guardada, la guardamos y enviamos una función para 
+      // añadir el asociado que acabamos de buscar en cuanto el servidor responda
+      // positivamente al guardado de la actividad.
+      if (!($scope.actividad.id)) {
+        $scope.guardar($scope.actividad.id, function() { guardarAsistencia($scope.actividad, asistente); });
+      } else {
+        guardarAsistencia($scope.actividad, asistente);
       }
-      Actividad.afegirAssistent({ 'id': $scope.actividad.id, 'asociadoId': asistente.id }, {}, function(dto) { 
-        dto.nuevo = true;
-        $scope.actividad.detalle.unshift(dto);
-        $scope.resumen = resumir($scope.actividad.detalle, $scope.actividad.precio);
-        $scope.asistentPerAfegir = null;
-      });
     });
 
     $scope.afegirBranca = function(nom) {
@@ -106,7 +116,7 @@ angular.module('cuduApp')
       });
     }
 
-    $scope.guardar = function(id) {
+    $scope.guardar = function(id, callback) {
       $scope.estado = EstadosFormulario.GUARDANDO;
 
       var guardar = Actividad.actualizar;
@@ -114,9 +124,12 @@ angular.module('cuduApp')
         guardar = Actividad.crear;
       }
 
-      guardar({ id: id }, $scope.actividad).$promise.then(function(asociadoGuardado) {
+      guardar({ id: id }, $scope.actividad).$promise.then(function(actividadGuardada) {
+        $scope.actividad.id = actividadGuardada.id;
+        $scope.actividad.detalle = actividadGuardada.detalle || [];
         $scope.estado = EstadosFormulario.OK;
         $scope.formActividad.$setPristine();
+        callback();
       }, function(respuesta) {
         if (respuesta.status == 400) {
           $scope.estado = EstadosFormulario.VALIDACION;
