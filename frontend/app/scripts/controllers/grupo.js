@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('cuduApp')
-  .controller('GrupoCtrl', ['$scope', 'Grupo', 'Usuario', 'Graficas', 'EstadosFormulario', function ($scope, Grupo, Usuario, Graficas, EstadosFormulario) {
+  .controller('GrupoCtrl', ['$scope', 'Grupo', 'Usuario', 'Graficas', 'EstadosFormulario', 'Traducciones', function ($scope, Grupo, Usuario, Graficas, EstadosFormulario, Traducciones) {
     $scope.estado = EstadosFormulario.LIMPIO;
     var grupo = Usuario.usuario.grupo || { id: -1 };
     Grupo.get({id: grupo.id}, function(grupo) {
@@ -12,8 +12,18 @@ angular.module('cuduApp')
     $scope.coloresRama = Graficas.coloresRama;
     $scope.coloresTipo = Graficas.coloresTipo;
     $scope.etiquetas = {
-      'rama': ['colonia', 'manada', 'exploradores', 'expedición', 'ruta'],
-      'tipo': ['joven', 'kraal', 'comite']
+      'rama': [
+        Traducciones.texto('rama.colonia'), 
+        Traducciones.texto('rama.manada'), 
+        Traducciones.texto('rama.exploradores'),
+        Traducciones.texto('rama.expedicion'),
+        Traducciones.texto('rama.ruta')
+      ],
+      'tipo': [
+        Traducciones.texto('tipo.J'),
+        Traducciones.texto('tipo.K'),
+        Traducciones.texto('tipo.C')
+      ]
     };
 
     Graficas.grupo(grupo.id).success(function(data) {

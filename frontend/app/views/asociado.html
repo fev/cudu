@@ -5,19 +5,19 @@
       <form class="form" autocomplete="off">
         <div class="form-group">
           <div class="input-group">
-            <input id="txtBusqueda" ng-model="busqueda" type="text" class="form-control" placeholder="Búsqueda">
+            <input id="txtBusqueda" ng-model="busqueda" type="text" class="form-control" placeholder="<%= asociado.busqueda %>">
             <span class="input-group-btn">
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                   <span class="glyphicon glyphicon-sort-by-alphabet"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <li class="dropdown-header">Ordenar</li>
-                  <li><a href="javascript:" ng-click="orden = 'nombre'"><i class="fa" ng-class="cssRadio(orden === 'nombre')"></i> Nombre</a></li>
-                  <li><a href="javascript:" ng-click="orden = 'apellidos'"><i class="fa" ng-class="cssRadio(orden === 'apellidos')"></i> Apellidos</a></li>
-                  <li><a href="javascript:" ng-click="orden = 'tipo'"><i class="fa" ng-class="cssRadio(orden === 'tipo')"></i> Tipo</a></li>
-                  <li><a href="javascript:" ng-click="orden = 'rama'"><i class="fa" ng-class="cssRadio(orden === 'rama')"></i> Rama</a></li>
-                  <li><a href="javascript:" ng-click="orden = 'fechaActualizacion'"><i class="fa" ng-class="cssRadio(orden === 'fechaActualizacion')"></i> Última Actualización</a></li>
+                  <li class="dropdown-header"><%= asociado.ordenar %></li>
+                  <li><a href="javascript:" ng-click="orden = 'nombre'"><i class="fa" ng-class="cssRadio(orden === 'nombre')"></i> <%= asociado.nombre %></a></li>
+                  <li><a href="javascript:" ng-click="orden = 'apellidos'"><i class="fa" ng-class="cssRadio(orden === 'apellidos')"></i> <%= asociado.apellidos %></a></li>
+                  <li><a href="javascript:" ng-click="orden = 'tipo'"><i class="fa" ng-class="cssRadio(orden === 'tipo')"></i> <%= asociado.tipo %></a></li>
+                  <li><a href="javascript:" ng-click="orden = 'rama'"><i class="fa" ng-class="cssRadio(orden === 'rama')"></i> <%= asociado.rama %></a></li>
+                  <li><a href="javascript:" ng-click="orden = 'fechaActualizacion'"><i class="fa" ng-class="cssRadio(orden === 'fechaActualizacion')"></i> <%= asociado.ultimaActualizacion %></a></li>
                 </ul>
               </div>
               <div class="btn-group">
@@ -25,10 +25,10 @@
                   <span class="glyphicon glyphicon-list-alt"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <li class="dropdown-header">Mostrar</li>
-                  <li><a href="javascript:" ng-click="mostrarColumna('rama')"><i class="fa" ng-class="cssCheck(columnas.rama)"></i> Rama, tipo y edad</a>
-                  <li><a href="javascript:" ng-click="mostrarColumna('contacto')"><i class="fa" ng-class="cssCheck(columnas.contacto)"></i> Datos de contacto</a></li>
-                  <li><a href="javascript:" ng-click="mostrarColumna('direccion')"><i class="fa" ng-class="cssCheck(columnas.direccion)"></i> Dirección, C.P. y Municipio</a></li>
+                  <li class="dropdown-header"><%= asociado.mostrar %></li>
+                  <li><a href="javascript:" ng-click="mostrarColumna('rama')"><i class="fa" ng-class="cssCheck(columnas.rama)"></i> <%= asociado.ramaTipoYEdad %></a>
+                  <li><a href="javascript:" ng-click="mostrarColumna('contacto')"><i class="fa" ng-class="cssCheck(columnas.contacto)"></i> <%= asociado.datosDeContacto %></a></li>
+                  <li><a href="javascript:" ng-click="mostrarColumna('direccion')"><i class="fa" ng-class="cssCheck(columnas.direccion)"></i> <%= asociado.direccionCpYMunicipio %></a></li>
                 </ul>
               </div>
               <div class="btn-group">
@@ -36,11 +36,11 @@
                   <span class="glyphicon glyphicon-print"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <li class="dropdown-header">Imprimir</li>
-                  <li><a href="javascript:">Listado completo</a></li>
-                  <li><a href="javascript:">Listado, solo visibles</a></li>
-                  <li><a href="javascript:">Autorizaciones</a></li>
-                  <li><a href="javascript:">Fichas Individuales</a></li>
+                  <li class="dropdown-header"><%= asociado.imprimir %></li>
+                  <li><a href="javascript:"><%= asociado.listadoCompleto %></a></li>
+                  <li><a href="javascript:"><%= asociado.listadoSoloVisibles %></a></li>
+                  <li><a href="javascript:"><%= asociado.autorizaciones %></a></li>
+                  <li><a href="javascript:"><%= asociado.fichasIndividuales %></a></li>
                 </ul>
               </div>
               <div class="btn-group">
@@ -48,13 +48,13 @@
                   <span class="glyphicon glyphicon-wrench"></span>
                 </button>
                 <ul class="dropdown-menu">
-                  <li class="dropdown-header">Edición Multiple</li>
-                  <li><a href="javascript:">Cambiar rama</a></li>
-                  <li><a href="javascript:">Cambiar tipo</a></li>
-                  <li><a href="javascript:">Eliminar</a></li>
+                  <li class="dropdown-header"><%= asociado.edicionMultiple %></li>
+                  <li><a href="javascript:"><%= asociado.cambiarRama %></a></li>
+                  <li><a href="javascript:"><%= asociado.cambiarTipo %></a></li>
+                  <li><a href="javascript:"><%= asociado.eliminar %></a></li>
                 </ul>
               </div>
-              <button class="btn btn-default btn-sm" type="button" ng-click="nuevo()">NUEVO</button>
+              <button class="btn btn-default btn-sm" type="button" ng-click="nuevo()"><%= asociado.nuevo %></button>
             </span>
           </div>
         </div>
@@ -64,9 +64,9 @@
       <div class="form-group">
         <div class="btn-toolbar">
           <div class="btn-group btn-group-xs">
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')">Joven</a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')">Kraal</a>
-            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')">Comité</a>
+            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'J'}" ng-click="activarFiltro('tipo', 'J')"><%= tipo.joven %></a>
+            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'K'}" ng-click="activarFiltro('tipo', 'K')"><%= tipo.kraal %></a>
+            <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.tipo == 'C'}" ng-click="activarFiltro('tipo', 'C')"><%= tipo.comite %></a>
           </div>
           <div class="btn-group btn-group-xs">
             <a href="javascript:" class="btn colonia" ng-class="{active: filtro.ramaColonia}" ng-click="activarFiltro('ramaColonia', true, false)">
@@ -117,20 +117,20 @@
       <button type="button" class="btn btn-default"
         ng-hide="asociado.id && !asociado.activo"
         ng-class="establecerEstiloGuardado()" ng-click="guardar(asociado.id)">
-        GUARDAR
+        <%= asociado.guardar %>
       </button>
       <button type="button" class="btn btn-danger"
         ng-show="!asociado.id || asociado.activo"
         ng-class="{disabled: !asociado.activo}" ng-click="activar(asociado.id, false)">
-        DAR DE BAJA
+        <%= asociado.darDeBaja %>
       </button>
       <button type="button" class="btn btn-default btn-danger"
         ng-show="asociado.id && !asociado.activo" ng-click="modal.eliminar = true">
-        ELIMINAR DEFINITIVAMENTE
+        <%= asociado.eliminarDefinitivamente %>
       </button>
       <button type="button" class="btn btn-default btn-success"
         ng-show="asociado.id && !asociado.activo" ng-click="activar(asociado.id, true)">
-        RECUPERAR
+        <%= asociado.recuperar %>
       </button>
     </div>
 
@@ -139,15 +139,15 @@
     </div>
 
     <div class="alert alert-info" ng-show="estado == 2">
-      Se han guardado los cambios del asociado correctamente.
+      <%= asociado.guardadoOk %>
     </div>
 
     <div class="alert alert-danger" ng-show="estado == 3">
-      Ha ocurido un error inesperado, los cambios no se han salvado correctamente. Por favor, inténtalo más tarde o contacta con la sede FEV para más información.
+      <%= asociado.errorServidor %>
     </div>
 
     <div class="alert alert-warning" ng-show="estado == 4">
-      <strong>Ops!</strong> Algunos de los datos del asociado no son correctos, por favor revisa el formulario.
+      <%= asociado.errorValidacion %>
       <ul>
         <li ng-repeat="error in erroresValidacion">{{error.mensaje}}</li>
       </ul>
@@ -157,38 +157,38 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label for="txtNombre" class="col-md-3 control-label">Nombre</label>
+            <label for="txtNombre" class="col-md-3 control-label"><%= asociado.nombre %></label>
             <div class="col-md-9">
-              <input ng-model="asociado.nombre" type="text" class="form-control" id="txtNombre" placeholder="Obligatorio">
+              <input ng-model="asociado.nombre" type="text" class="form-control" id="txtNombre" placeholder="<%=asociado.obligatorio%>">
             </div>
           </div>
           <div class="form-group">
-            <label for="txtApellidos" class="col-md-3 control-label">Apellidos</label>
+            <label for="txtApellidos" class="col-md-3 control-label"><%= asociado.apellidos %></label>
             <div class="col-md-9">
-              <input ng-model="asociado.apellidos" type="text" class="form-control" id="txtApellidos" placeholder="Obligatorio">
+              <input ng-model="asociado.apellidos" type="text" class="form-control" id="txtApellidos" placeholder="<%=asociado.obligatorio%>">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Sexo</label>
+            <label class="col-md-3 control-label"><%= asociado.sexo %></label>
             <div class="col-md-9">
               <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'M'}" ng-click="establecerSexo('M')">Masculino</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'F'}" ng-click="establecerSexo('F')">Femenino</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'M'}" ng-click="establecerSexo('M')"><%= asociado.masculino %></button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'F'}" ng-click="establecerSexo('F')"><%= asociado.femenino %></button>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Tipo</label>
+            <label class="col-md-3 control-label"><%= asociado.tipo %></label>
             <div class="col-md-9">
               <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'J'}" ng-click="establecerTipo('J')">Joven</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'K'}" ng-click="establecerTipo('K')">Kraal</button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'C'}" ng-click="establecerTipo('C')">Comité</button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'J'}" ng-click="establecerTipo('J')"><%=tipo.Joven%></button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'K'}" ng-click="establecerTipo('K')"><%=tipo.Kraal%></button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.tipo == 'C'}" ng-click="establecerTipo('C')"><%=tipo.Comite%></button>
               </div>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Rama</label>
+            <label class="col-md-3 control-label"><%=asociado.rama%></label>
             <div class="col-md-9">
               <div class="btn-group btn-group-sm">            
                 <button type="button" class="btn btn-default colonia" ng-class="{active: asociado.ramaColonia}" ng-click="establecerRama('ramaColonia')">
@@ -211,31 +211,31 @@
           </div>
           <div class="form-group">
             <label class="col-md-3 control-label">&nbsp;</label>
-            <p id="txtRecRama" class="col-md-9 form-control-static small" ng-show="asociado.alertaRama">La recomendada para esta edad es <strong>{{asociado.alertaRama}}</strong>.</p>
+            <p id="txtRecRama" class="col-md-9 form-control-static small" ng-show="asociado.alertaRama"><%= asociado.ramaRecomendada %> <strong>{{asociado.alertaRama}}</strong>.</p>
           </div>
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="col-md-3 control-label">Grupo</label>
+            <label class="col-md-3 control-label"><%= asociado.grupo %></label>
             <div class="col-md-9">
               <p class="form-control-static">{{grupo.nombre}}</p>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Fecha Nac.</label>
+            <label class="col-md-3 control-label"><%= asociado.fechaNac %></label>
             <div class="col-md-9">
               <input ng-model="asociado.fechaNacimiento" cudu-fecha type="text" class="form-control" 
-                placeholder="Obligatorio (dd/mm/aaaa)" ng-blur="comprobarAlertaRama(asociado)">
+                placeholder="<%=asociado.obligatorio%> (dd/mm/aaaa)" ng-blur="comprobarAlertaRama(asociado)">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">DNI / NIE</label>
+            <label class="col-md-3 control-label"><%= asociado.dniNie%></label>
             <div class="col-md-9">
               <input ng-model="asociado.dni" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Seg. Social</label>
+            <label class="col-md-3 control-label"><%=asociado.segSocial%></label>
             <div class="col-md-9">
               <input ng-model="asociado.seguridadSocial" type="text" class="form-control" id="txtSegSocial">
             </div>
@@ -244,7 +244,7 @@
             <label class="col-md-3 control-label"><i class="fa fa-check-square-o fa-lg"></i></label>
             <div class="col-md-9">
               <p class="form-control-static">
-                Acepto los <a href="javascript:">términos y condiciones</a> de la cláusula de deber de secreto.
+                <%= asociado.aceptoClausulaDeberSecreto %>
               </p>
             </div>
           </div>
@@ -252,31 +252,31 @@
       </div>
 
       <ul class="nav nav-tabs">
-        <li ng-class="{active: tabActivo == 0}"><a href="" ng-click="seleccionarTab(0)">Contacto</a></li>
-        <li ng-class="{active: tabActivo == 1, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(1)">Responsables</a></li>
-        <li ng-class="{active: tabActivo == 2, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(2)">Documentos</a></li>
-        <li ng-class="{active: tabActivo == 6, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(6)">Voluntariado</a></li>
-        <li ng-class="{active: tabActivo == 4, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(4)">Formación</a></li>
-        <li ng-class="{active: tabActivo == 3, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(3)">Seguridad</a></li>
-        <li ng-class="{active: tabActivo == 5}"><a href="" ng-click="seleccionarTab(5)">Notas</a></li>
+        <li ng-class="{active: tabActivo == 0}"><a href="" ng-click="seleccionarTab(0)"><%=asociado.contacto%></a></li>
+        <li ng-class="{active: tabActivo == 1, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(1)"><%=asociado.responsables%></a></li>
+        <li ng-class="{active: tabActivo == 2, hidden: asociado.tipo != 'J'}"><a href="" ng-click="seleccionarTab(2)"><%=asociado.documentos%></a></li>
+        <li ng-class="{active: tabActivo == 6, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(6)"><%=asociado.voluntariado%></a></li>
+        <li ng-class="{active: tabActivo == 4, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(4)"><%=asociado.formacion%></a></li>
+        <li ng-class="{active: tabActivo == 3, hidden: asociado.tipo === 'J' || !asociado.id}"><a href="" ng-click="seleccionarTab(3)"><%=asociado.seguridad%></a></li>
+        <li ng-class="{active: tabActivo == 5}"><a href="" ng-click="seleccionarTab(5)"><%=asociado.notas%></a></li>
       </ul>
 
       <div class="row tab-content" ng-show="tabActivo == 0">
         <div class="col-md-6">
           <div class="form-group">
-            <label class="col-md-3 control-label">Dirección</label>
+            <label class="col-md-3 control-label"><%=asociado.direccion%></label>
             <div class="col-md-9">
               <textarea ng-model="asociado.direccion" class="form-control" rows="2"></textarea>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">C.P.</label>
+            <label class="col-md-3 control-label"><%=asociado.codigoPostal%></label>
             <div class="col-md-9">
               <input ng-model="asociado.codigoPostal" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Municipio</label>
+            <label class="col-md-3 control-label"><%=asociado.municipio%></label>
             <div class="col-md-9">
               <input ng-model="asociado.municipio" type="text" class="form-control">
             </div>
@@ -284,19 +284,19 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="col-md-3 control-label">E-Mail</label>
+            <label class="col-md-3 control-label"><%=asociado.email%></label>
             <div class="col-md-9">
               <input ng-model="asociado.emailContacto" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Tél. Móvil</label>
+            <label class="col-md-3 control-label"><%=asociado.telMovil%></label>
             <div class="col-md-9">
               <input ng-model="asociado.telefonoMovil" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Tél. Casa</label>
+            <label class="col-md-3 control-label"><%=asociado.telCasa%></label>
             <div class="col-md-9">
               <input ng-model="asociado.telefonoCasa" type="text" class="form-control">
             </div>
@@ -308,16 +308,16 @@
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
-            <label class="col-md-4 control-label">Entorno</label>
+            <label class="col-md-4 control-label"><%=asociado.entorno%></label>
             <div class="col-md-8">
               <div class="checkbox">
-                <label><input type="checkbox" ng-model="asociado.tieneTutorLegal">Tiene tutor legal</label>
+                <label><input type="checkbox" ng-model="asociado.tieneTutorLegal"><%=asociado.tieneTutorLegal%></label>
               </div>
               <div class="checkbox">
-                <label><input type="checkbox" ng-model="asociado.padresDivorciados">Padres separados</label>
+                <label><input type="checkbox" ng-model="asociado.padresDivorciados"><%=asociado.padresSeparados%></label>
               </div>
               <div class="checkbox">
-                <label><input type="checkbox" ng-model="asociado.hermanosEnElGrupo">Hermanos en el grupo</label>
+                <label><input type="checkbox" ng-model="asociado.hermanosEnElGrupo"><%=asociado.hermanosEnElGrupo%></label>
               </div>
             </div>
           </div>
@@ -326,9 +326,9 @@
           <div class="form-group">
             <label class="col-md-4 control-label">Copiar Datos</label>
             <div class="col-md-8">
-              <p><small>Puede copiar los datos de contacto de la pestaña anterior al padre o la madre.</small></p>
-              <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Padre', '')">Copiar al Padre</button>
-              <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Madre', '')">Copiar a la Madre</button>
+              <p><small><%=asociado.puedeCopiarDatosContacto%></small></p>
+              <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Padre', '')"><%=asociado.copiarAlPadre%></button>
+              <button type="button" class="btn btn-default btn-xs" ng-click="copiarDatosContacto('Madre', '')"><%=asociado.copiarALaMadre%></button>
             </div>
           </div>
         </div>
@@ -336,19 +336,19 @@
       <div class="row" style="margin-top: 10px">
         <div class="col-md-6">
           <div class="form-group">
-            <label class="col-md-4 control-label">Nombre Padre</label>
+            <label class="col-md-4 control-label"><%=asociado.nombrePadre%></label>
             <div class="col-md-8">
               <input ng-model="asociado.nombrePadre" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-4 control-label">Télefono</label>
+            <label class="col-md-4 control-label"><%=asociado.telefono%></label>
             <div class="col-md-8">
               <input ng-model="asociado.telefonoPadre" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-4 control-label">E-Mail</label>
+            <label class="col-md-4 control-label"><%=asociado.email%></label>
             <div class="col-md-8">
               <input ng-model="asociado.emailPadre" type="text" class="form-control">
             </div>
@@ -356,19 +356,19 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="col-md-4 control-label">Nombre Madre</label>
+            <label class="col-md-4 control-label"><%=asociado.nombreMadre%></label>
             <div class="col-md-8">
               <input ng-model="asociado.nombreMadre" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-4 control-label">Télefono</label>
+            <label class="col-md-4 control-label"><%=asociado.telefono%></label>
             <div class="col-md-8">
               <input ng-model="asociado.telefonoMadre" type="text" class="form-control">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-4 control-label">E-Mail</label>
+            <label class="col-md-4 control-label"><%=asociado.email%></label>
             <div class="col-md-8">
               <input ng-model="asociado.emailMadre" type="text" class="form-control">
             </div>
@@ -380,21 +380,21 @@
       <div class="row tab-content" ng-show="tabActivo == 2">
         <div class="col-md-12">
           <p class="help-block"><span class="glyphicon glyphicon-info-sign"></span>
-            Cudú puede ayudarte a recordar de qué documentos dispones copia en papel.</p>
+            <%=asociado.copiaEnPapel%></p>
           <div class="col-md-6">
             <div class="checkbox">
-              <label><input type="checkbox" value="">Documento Nacional de Identidad (DNI)</label>
+              <label><input type="checkbox" value=""><%=asociado.documentoNacionalDeIdentidaddni%></label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" value="">Cartilla Seg. Social / Tarjeta SIP</label>
+              <label><input type="checkbox" value=""><%=asociado.cartillaSegSocialTarjetaSip%></label>
             </div>
           </div>
           <div class="col-md-6">
             <div class="checkbox">
-              <label><input type="checkbox" value="">Ficha Médica</label>
+              <label><input type="checkbox" value=""><%=asociado.fichaMedica%></label>
             </div>
             <div class="checkbox">
-              <label><input type="checkbox" value="">Cartilla de Vacunaciones</label>
+              <label><input type="checkbox" value=""><%=asociado.cartillaDeVacunaciones%></label>
             </div>
           </div>
         </div>
@@ -403,26 +403,26 @@
       <div class="row tab-content" ng-show="tabActivo == 3" ng-controller="SeguridadCtrl">
         <div class="col-md-6">
           <div class="form-group">
-            <label class="col-md-3 control-label">Usuario</label>
+            <label class="col-md-3 control-label"><%=asociado.usuario%></label>
             <div class="col-md-9">
-              <input ng-model="asociado.email" type="text" class="form-control" placeholder="Obligatorio">
-              <span class="help-block small">Puedes usar el <a href="javascript:" ng-click="asociado.email = asociado.emailContacto">mismo email</a> que el del asociado.</span>
+              <input ng-model="asociado.email" type="text" class="form-control" placeholder="<%=asociado.obligatorio%>">
+              <span class="help-block small"><%=asociado.puedesUsarEmailAsociado3%> <a href="javascript:" ng-click="asociado.email = asociado.emailContacto"><%=asociado.puedesUsarEmailAsociado2%></a> <%=asociado.puedesUsarEmailAsociado3%></span>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label">Cuenta</label>
+            <label class="col-md-3 control-label"><%=asociado.cuenta%></label>
             <div class="col-md-9" ng-show="!activando">
               <div ng-show="asociado.usuarioActivo">
                 <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)">Cambiar contraseña</button>
                 <button type="button" class="btn btn-default btn-sm" ng-click="desactivar(asociado)">Desactivar cuenta</button>
               </div>
               <div ng-show="!asociado.usuarioActivo">
-                <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)">Activar cuenta</button>
+                <button type="button" class="btn btn-default btn-sm" ng-click="activar(asociado)"><%=asociado.activarCuenta%></button>
               </div>
               <p class="form-control-static small text-danger">{{mensajeError}}</p>
             </div>
             <div class="col-md-9" ng-show="activando">
-              <p class="form-control-static">Se ha enviado un email al usuario con las instrucciones para establecer una contraseña y activar la cuenta.</p>
+              <p class="form-control-static"><%=asociado.seHaEnviadoUnEmailPassword%></p>
               <p class="form-control-static">¿Nunca llegó el email? <a href="javascript:" ng-click="reenviarEmail()">Vuelve a enviarlo.</a>
               </p>
             </div>
@@ -430,19 +430,19 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <label class="col-md-4 control-label">Estado</label>
+            <label class="col-md-4 control-label"><%=asociado.estado%></label>
             <div class="col-md-8">
               <p class="form-control-static">{{asociado.usuarioActivo | i8n:'activo'}}</p>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-4 control-label">Creado por</label>
+            <label class="col-md-4 control-label"><%=asociado.creadoPor%></label>
             <div class="col-md-8">
               <p class="form-control-static">{{asociado.usuarioCreadoPorNombre}}</p>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-4 control-label">Última entrada</label>
+            <label class="col-md-4 control-label"><%=asociado.ultimaEntrada%></label>
             <div class="col-md-8">
               <p class="form-control-static">{{asociado.fechaUsuarioVisto | desdeHace }}</p>
             </div>
@@ -454,41 +454,41 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="col-md-3 control-label">Estudios</label>
+              <label class="col-md-3 control-label"><%=asociado.estudios%></label>
               <div class="col-md-9">
                 <input ng-model="asociado.estudios" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Profesión</label>
+              <label class="col-md-3 control-label"><%=asociado.profesion%></label>
               <div class="col-md-9">
                 <input ng-model="asociado.profesion" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Titulación</label>
+              <label class="col-md-3 control-label"><%=asociado.titulacion%></label>
               <div class="col-md-9">
-                <div class="checkbox"><label><input type="checkbox" value="">Monitor de Tiempo Libre</label></div>
-                <div class="checkbox"><label><input type="checkbox" value="">Director de Campamento</label></div>
-                <div class="checkbox"><label><input type="checkbox" value="">Formador de Animadores</label></div>
-                <div class="checkbox"><label><input type="checkbox" value="">Manipulador de Alimentos</label></div>
+                <div class="checkbox"><label><input type="checkbox" value=""><%=asociado.monitorDeTiempoLibre%></label></div>
+                <div class="checkbox"><label><input type="checkbox" value=""><%=asociado.directorDeCampamento%></label></div>
+                <div class="checkbox"><label><input type="checkbox" value=""><%=asociado.formadorDeAnimadores%></label></div>
+                <div class="checkbox"><label><input type="checkbox" value=""><%=asociado.manipuladorDeAlimentos%></label></div>
               </div>
             </div>
           </div>
           <div class="col-md-6" style="margin-top: 7px">
-            <p style="margin-left: 5px"><strong>Cursos Lluerna Realizados</strong></p>
+            <p style="margin-left: 5px"><strong><%=asociado.cursosLluernaRealizados%></strong></p>
             <table class="table table-condensed">
               <thead>
                 <tr>
-                  <th>Curso</th>
-                  <th>Fecha</th>
-                  <th>Calificación</th>
+                  <th><%=asociado.curso%></th>
+                  <th><%=asociado.fecha%></th>
+                  <th><%=asociado.calificacion%></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td colspan="6">Ningún curso realizado<br>
-                    <small class="">Nota: los cursos Lluerna previos al 2014 no se muestran.</small>
+                  <td colspan="6"><%=asociado.ningunCursoRealizado%><br>
+                    <small><%=asociado.asociado.notaLosCursosLluernaPreviosAlNoSeMuestran%></small>
                   </td>
                 </tr>
                 <tr class="hidden">
@@ -510,15 +510,14 @@
       <div class="tab-content tab-cargos" ng-show="tabActivo == 6">
         <div class="col-md-6">          
           <div class="form-group">
-            <label class="col-md-3 control-label" style="text-align: left; padding-left: 0">Ptos. COVOL</label>
+            <label class="col-md-3 control-label" style="text-align: left; padding-left: 0"><%=asociado.puntosCovol%></label>
             <div class="col-md-9">
               <p class="form-control-static">{{asociado.puntosCovol}}</p>              
             </div>
           </div>
           <div class="form-group">
-            <p class="small">Los puntos COVOL son una medida de la cantidad de trabajo que realiza una persona dentro de su actividad Scout,
-            y corresponde con los cargos asignados en el grupo, la asociación, Lluerna o la FEV.</p>
-            <p><i class="fa fa-heart-o"></i> Lo recomendable es estar por debajo de los <strong>10 puntos</strong>.</p>
+            <p class="small"><%=asociado.puntosCovolExplicacion%></p>
+            <p><i class="fa fa-heart-o"></i> <%= asociado.puntosCovolRecomendados %>.</p>
           </div>
         </div>
         <div class="col-md-6">
@@ -527,21 +526,21 @@
               <span class="input-group-addon">Añadir Cargo</span>
               <input type="text" class="form-control">
               <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Otros Cargos <span class="caret"></span></button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%=asociado.otrosCargos%> <span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="javascript:" ng-click="seleccionarCargo(1)">Jefe de grupo</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(2)">Subjefe de grupo</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(3)">Tesorero</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(4)">Secretario</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(5)">Dinamizador de kraal</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(6)">Responsable de progresión personal</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(7)">Responsable de material</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(8)">Consiliario</a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(1)"><%=asociado.jefeDeGrupo%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(2)"><%=asociado.subjefeDeGrupo%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(3)"><%=asociado.tesorero%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(4)"><%=asociado.secretario%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(5)"><%=asociado.dinamizadorDeKraal%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(6)"><%=asociado.responsableDeProgresionPersonal%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(7)"><%=asociado.responsableDeMaterial%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(8)"><%=asociado.consiliario%></a></li>
                   <li class="divider"></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(9)">Presidencia del Comité</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(10)">Tesoreria del Comité</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(11)">Secretaria del Comité</a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(12)">Vocal del Comité</a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(9)"><%=asociado.presidenciaDelComite%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(10)"><%=asociado.tesoreriaDelComite%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(11)"><%=asociado.secretariaDelComite%></a></li>
+                  <li><a href="javascript:" ng-click="seleccionarCargo(12)"><%=asociado.vocalDelComite%></a></li>
                 </ul>
               </div>
             </div>
@@ -551,8 +550,8 @@
               <thead>
                 <tr>
                   <th class="text-center">#</th>
-                  <th>Cargo</th>
-                  <th>Puntos</th>
+                  <th><%=asociado.cargo%></th>
+                  <th><%=asociado.puntos%></th>
                 </tr>
               </thead>
               <tbody>
@@ -562,7 +561,7 @@
                   <td class="text-right">{{cargo.puntos}}</td>
                 </tr>
                 <tr ng-show="!asociado.cargos">
-                  <td colspan="3">No hay cargos.</td>
+                  <td colspan="3"><%=asociado.noHayCargos%></td>
                 </tr>
               </tbody>
             </table>
@@ -572,7 +571,7 @@
 
       <div class="tab-content tab-notas" ng-show="tabActivo == 5">        
         <textarea ng-model="asociado.notas" class="form-control" rows="5"
-          placeholder="aqui puedes introducir información adicional, pequeños apuntes, etc."></textarea>
+          placeholder="<%=asociado.notasExplicacion%>"></textarea>
       </div>
     </form>
 
@@ -584,14 +583,14 @@
 <div class="modal-dialog">
 <div class="modal-content">
   <div class="modal-body">
-    <p>¿Estás seguro de que quieres eliminar el asociado completamente? Una vez eliminado no se puede recuperar.</p>
-    <p><strong>Asociado:</strong> {{asociado.nombre}} {{asociado.apellidos}}<br/>
-      <strong>Rama:</strong> {{asociado | rama}}<br/>
-      <strong>Identificador: </strong> {{asociado.grupoId}}-{{asociado.id}}</p>
+    <p><%=asociado.confirmarEliminarAsociado%></p>
+    <p><strong><%=asociado.asociado%>:</strong> {{asociado.nombre}} {{asociado.apellidos}}<br/>
+      <strong><%=asociado.rama%>:</strong> {{asociado | rama}}<br/>
+      <strong><%=asociado.identificador%>: </strong> {{asociado.grupoId}}-{{asociado.id}}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" ng-click="eliminar(asociado.id)">Eliminar</button>
-    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.eliminar = false">Deshacer</button>
+    <button type="button" class="btn btn-danger" ng-click="eliminar(asociado.id)"><%=asociado.eliminar%></button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.eliminar = false"><%=asociado.deshacer%></button>
   </div>
 </div>
 </div>

@@ -6,7 +6,7 @@
         <form class="form form-inline" autocomplete="off">
           <div class="form-group">
             <div class="input-group">
-              <input id="txtBusqueda" ng-model="busqueda" type="text" class="form-control" placeholder="Búsqueda">
+              <input id="txtBusqueda" ng-model="busqueda" type="text" class="form-control" placeholder="<%= actividades.busqueda %>">
               <span class="input-group-btn">
                 <button class="btn btn-default btn-sm" type="button">
                   <span class="glyphicon glyphicon-search"></span>
@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="form-group pull-right">
-            <button ng-click="detalle('nueva')" class="btn btn-default" type="button"><i class="fa fa-plus"></i>&nbsp; NUEVA</button>
+            <button ng-click="detalle('nueva')" class="btn btn-default" type="button"><i class="fa fa-plus"></i>&nbsp; <%= actividades.nueva %></button>
           </div>
         </form>
 
@@ -25,15 +25,15 @@
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>#</th>
-              <th width="30%">Nombre de la Actividad</th>
-              <th>Fecha Inicio</th>
-              <th>Fecha Fin</th>
-              <th>Lugar</th>
-              <th>Ramas</th>
-              <th>Precio</th>
-              <th>Responsable</th>
-              <th>Creada Por</th>
+              <th><%= actividades.id %></th>
+              <th width="30%"><%= actividades.nombreDeLaActividad %></th>
+              <th><%= actividades.fechaInicio %></th>
+              <th><%= actividades.fechaFin %></th>
+              <th><%= actividades.lugar %></th>
+              <th><%= actividades.ramas %></th>
+              <th><%= actividades.precio %></th>
+              <th><%= actividades.responsable %></th>
+              <th><%= actividades.creadaPor %></th>
             </tr>
           </thead>
           <tbody>
@@ -49,12 +49,12 @@
               <td>{{a.creadaPor}}</td>
             </tr>
             <tr ng-show="!actividades">
-              <td colspan="7">No hay actividades para mostrar.</td>
+              <td colspan="7"><%= actividades.noHayActividadesParaMostrar %></td>
             </tr>
           </tbody>
         </table>
 
-        <p>* Nota: Las actividades de hace más de cuatro meses no se muestran.</p>
+        <p><%= actividades.actividadesMasDe4Meses %></p>
       </div>
     </div>
   </div>

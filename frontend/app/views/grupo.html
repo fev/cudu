@@ -2,10 +2,10 @@
   <div class="row">
     <div id="panelEstadisticas" class="col-md-4">
       <div class="material-panel-level-2">
-        <h2 class="text-center">Datos por Ramas</h2>
+        <h2 class="text-center"><%= grupo.datosRamas %></h2>
         <canvas id="doughnutTipo" class="chart chart-doughnut" data="graficas.rama"
           labels="etiquetas.rama" legend="Jóvenes por Rama" colours="coloresRama"></canvas>
-        <h2 class="text-center">Datos por Tipo</h2>
+        <h2 class="text-center"><%= grupo.datosTipo %></h2>
         <canvas id="doughnutRama" class="chart chart-doughnut" data="graficas.tipo"
           labels="etiquetas.tipo" legend="Jóvenes por Tipo" colours="coloresTipo"></canvas>
       </div>
@@ -13,20 +13,33 @@
     <div id="panelEdicion" class="col-md-8">
       <div class="material-panel-level-2">
       <div class="mat-toolbar text-right">
-        <button type="button" class="btn btn-default" ng-click="guardar(asociado.id)">GUARDAR</button>
+        <button type="button" class="btn btn-default" ng-click="guardar()"><%= grupo.guardar %></button>
       </div>
       <div class="mat-toolbar-expand"><h1>{{grupo.nombre}}</h1></div>
+      <div class="alert alert-info" ng-show="estado == 2">
+        <%= formulario.guardadoOk %>
+      </div>
+      <div class="alert alert-danger" ng-show="estado == 3">
+        <%= formulario.errorServidor %>
+      </div>
+
+      <div class="alert alert-warning" ng-show="estado == 4">
+        <%= formulario.errorValidacion %>
+        <ul>
+          <li ng-repeat="error in erroresValidacion">{{error.mensaje}}</li>
+        </ul>
+      </div>
       <form name="formAsociado" class="form-horizontal form-cudu form-edicion" role="form">
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="col-md-3 control-label">Nombre</label>
+              <label class="col-md-3 control-label"><%= grupo.nombre %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.nombre" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Asociación</label>
+              <label class="col-md-3 control-label"><%= grupo.asociacion %></label>
               <div class="col-md-9">
                 <p class="form-control-static">{{grupo.asociacion | i8n:'asociacion'}}</p>
               </div>
@@ -34,13 +47,13 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="col-md-3 control-label">Aniversario</label>
+              <label class="col-md-3 control-label"><%= grupo.aniversario %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.aniversario" type="text" class="form-control" placeholder="dd/mm/aaaa">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Entidad Patr.</label>
+              <label class="col-md-3 control-label"><%= grupo.entidadPatrocinadora %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.entidadPatrocinadora" type="text" class="form-control">
               </div>
@@ -50,60 +63,59 @@
 
         <ul class="nav nav-tabs">
           <li ng-class="{active: tabActivo == 0}"><a href="javascript:" ng-click="seleccionarTab(0)">Contacto</a></li>
-          <li class="disabled"><a href="javascript:">Liquidaciones</a></li>
-          <li class="disabled"><a href="javascript:">Cargos</a></li>
-          <li class="disabled"><a href="javascript:">Histórico</a></li>
+          <li class="disabled"><a href="javascript:"><%= grupo.liquidaciones %></a></li>
+          <li class="disabled"><a href="javascript:"><%= grupo.cargos %></a></li>
+          <li class="disabled"><a href="javascript:"><%= grupo.historico %></a></li>
         </ul>
 
         <div class="row tab-content" ng-show="tabActivo == 0">
           <div class="col-md-6">
             <div class="form-group">
-              <label class="col-md-3 control-label">Dirección</label>
+              <label class="col-md-3 control-label"><%= grupo.direccion %></label>
               <div class="col-md-9">
                 <textarea ng-model="grupo.direccion" class="form-control" rows="2"></textarea>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">C. Postal</label>
+              <label class="col-md-3 control-label"><%= grupo.codigoPostal %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.codigoPostal" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Municipio</label>
+              <label class="col-md-3 control-label"><%= grupo.municipio %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.municipio" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Jefe Grupo</label>
+              <label class="col-md-3 control-label"><%= grupo.jefeGrupo %></label>
               <div class="col-md-9">
-                <p class="form-control-static">Mike Wazowski<br>
-                675000111<br>mike.wazowski@example.com</p>
+                <p class="form-control-static">--</p>
               </div>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label class="col-md-3 control-label">Teléfono 1</label>
+              <label class="col-md-3 control-label"><%= grupo.telefono1 %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.telefono1" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Teléfono 2</label>
+              <label class="col-md-3 control-label"><%= grupo.telefono2 %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.telefono2" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">E-Mail</label>
+              <label class="col-md-3 control-label"><%= grupo.email %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.email" type="text" class="form-control">
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label">Pág. Web</label>
+              <label class="col-md-3 control-label"><%= grupo.paginaWeb %></label>
               <div class="col-md-9">
                 <input ng-model="grupo.web" type="text" class="form-control">
               </div>
