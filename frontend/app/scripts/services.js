@@ -138,13 +138,33 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
 // Servicio de manipulación del DOM fuera del scope de angular, para cambiar
 // entre el modo de login y el de APP y renderizar algunos estáticos adicionales.
 // No muy elegante, pero es rápido y evita bindings en el rootScope.
-angular.module('cuduDom', []).factory('Dom', ['RolesMenu', function(RolesMenu) {
+angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'RolesMenu', function($rootScope, Traducciones, RolesMenu) {
+  var establecerTextosMenu = function(nombreCompletoUsuario) {
+    // ELementos del menú, para uso con bind-once.
+    $rootScope.menu = {
+      actividades: Traducciones.texto('menu.actividades'),
+      asociados: Traducciones.texto('menu.asociados'),
+      cursos: Traducciones.texto('menu.cursos'),
+      grupos: Traducciones.texto('menu.grupos'),
+      liquidaciones: Traducciones.texto('menu.liquidaciones'),
+      miembros: Traducciones.texto('menu.miembros'),
+      migrupo: Traducciones.texto('menu.migrupo'),
+      misdatos: Traducciones.texto('menu.misdatos'),
+      participantes: Traducciones.texto('menu.participantes'),
+      permisos: Traducciones.texto('menu.permisos'),
+      salir: Traducciones.texto('menu.salir'),
+      nombreCompletoUsuario: nombreCompletoUsuario
+    };
+  };
+
   return {
     loginCompleto: function(usuario, lang) {
-      $('#lnkUsuarioActual').text(usuario.nombreCompleto);
+      // TODO Mover algunas de las propiedades a bindonce
       $('#cuduNav, #cuduNavBg').removeClass('hidden');
       $('#checkLenguajeES, #checkLenguajeCA').hide();
       $('#checkLenguaje' + lang.toUpperCase()).show();
+
+      establecerTextosMenu(usuario.nombreCompleto);
 
       var rolMenu = RolesMenu.ASOCIADO;
       if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'E')) {
@@ -153,7 +173,7 @@ angular.module('cuduDom', []).factory('Dom', ['RolesMenu', function(RolesMenu) {
         rolMenu = RolesMenu.TECNICO;
       }
       $('body').addClass(rolMenu);
-    }
+    }    
   };
 }]);
 

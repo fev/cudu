@@ -35,7 +35,18 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'activar.asociadoInactivo': 'No és possible activar el compte d\'un usuari la fitxa d\'associat del qual estiga eliminada o desactivada',
     'activar.activacionEnCurso': 'No hem enviat un email a l\'associat perquè algú prèviament va sol·licitar el canvi de contrasenya. Per favor, espera 30 minuts i torna a intentar-ho.',
     'activar.deshabilitarUsuarioActual': 'No és possible deshabilitar l\'usuari actual.',
-    'activar.errorServidor': 'S\'ha produït un error en el servidor.'
+    'activar.errorServidor': 'S\'ha produït un error en el servidor.',
+    'menu.actividades': 'Activitats', 
+    'menu.asociados': 'Associats', 
+    'menu.cursos': 'Cursos', 
+    'menu.grupos': 'Agrupaments', 
+    'menu.liquidaciones': 'Liquidacions', 
+    'menu.miembros': 'Membres', 
+    'menu.migrupo': 'El Meu Agrupament',
+    'menu.misdatos': 'Dades d\'usuari',
+    'menu.participantes': 'Participants', 
+    'menu.permisos': 'Permisos', 
+    'menu.salir': 'Eixir'
   };
   var es = {
     'asociacion.0': 'Scouts de Alicante (SdA)',
@@ -68,10 +79,21 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'activar.asociadoInactivo': 'No es posible activar la cuenta de un usuario cuya ficha de asociado esta eliminada o desactivada.',
     'activar.activacionEnCurso': 'No hemos enviado un email al asociado porque alguien previamente solicitó el cambio de contraseña. Por favor, espera 30 minutos y vuelve a intentarlo.',
     'activar.deshabilitarUsuarioActual': 'No es posible deshabilitar el usuario actual.',
-    'activar.errorServidor': 'Se ha producido un error en el servidor.'
+    'activar.errorServidor': 'Se ha producido un error en el servidor.',
+    'menu.actividades': 'Actividades',
+    'menu.asociados': 'Asociados',
+    'menu.cursos': 'Cursos',
+    'menu.grupos': 'Grupos',
+    'menu.liquidaciones': 'Liquidaciones',
+    'menu.miembros': 'Miembros',
+    'menu.migrupo': 'Mi Grupo',
+    'menu.misdatos': 'Mis Datos',
+    'menu.participantes': 'Participantes',
+    'menu.permisos': 'Permisos',
+    'menu.salir': 'Salir'
   };
 
-  var lenguajePorDefecto = 'ca';
+  var lenguajePorDefecto = 'es';
 
   var lenguajeDelNavegador = function() {
     var lang = navigator.language || navigator.userLanguage || lenguajePorDefecto;
