@@ -165,9 +165,11 @@ angular.module('cuduApp')
     $scope.guardar = function(id) {
       $scope.estado = EstadosFormulario.GUARDANDO;
 
+      var asociadoNuevo = false;
       var guardar = Asociado.actualizar;
       if (!$scope.asociado.id) {
         guardar = Asociado.crear;
+        asociadoNuevo = true;
       }
 
       guardar({ id: id }, $scope.asociado).$promise.then(function(asociadoGuardado) {
@@ -175,8 +177,12 @@ angular.module('cuduApp')
         asociadoGuardado.guardado = true;
         asociadoGuardado.puntosCovol = calcularPuntosCovol(asociadoGuardado);
         $scope.asociado = asociadoGuardado;
-        var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
-        $scope.asociados[pos] = asociadoGuardado;
+        if (!asociadoNuevo) {
+          var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });        
+          $scope.asociados[pos] = asociadoGuardado;
+        } else {
+          $scope.asociados.unshift(asociadoGuardado);
+        }
         $scope.formAsociado.$setPristine();
       }, function(respuesta) {
         if (respuesta.status == 400) {
