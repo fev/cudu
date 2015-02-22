@@ -31,6 +31,17 @@ angular.module('cuduApp')
     });
 
     $scope.guardar = function() {
-      
+      $scope.estado = EstadosFormulario.GUARDANDO;
+      Grupo.actualizar({id: $scope.grupo.id }, $scope.grupo).$promise.then(function(grupoGuardado) {
+        $scope.estado = EstadosFormulario.OK;
+        $scope.formAsociado.$setPristine();
+      }, function(respuesta) {
+        if (respuesta.status == 400) {
+          $scope.estado = EstadosFormulario.VALIDACION;
+          $scope.erroresValidacion = respuesta.data || [];
+        } else {
+          $scope.estado = EstadosFormulario.ERROR;
+        }
+      }); 
     };
   }]);

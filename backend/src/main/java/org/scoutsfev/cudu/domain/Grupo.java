@@ -1,13 +1,19 @@
 package org.scoutsfev.cudu.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -41,9 +47,10 @@ public class Grupo {
     @Size(min = 3, max = 100)
     private String municipio;
 
-    @Past
-    @Temporal(TemporalType.DATE)
-    private Date aniversario;
+    @Column(columnDefinition = "date NULL", nullable = true)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    private LocalDate aniversario;
 
     @NotNull
     @Size(min = 3, max = 15)
@@ -117,11 +124,11 @@ public class Grupo {
         this.municipio = municipio;
     }
 
-    public Date getAniversario() {
+    public LocalDate getAniversario() {
         return aniversario;
     }
 
-    public void setAniversario(Date aniversario) {
+    public void setAniversario(LocalDate aniversario) {
         this.aniversario = aniversario;
     }
 
