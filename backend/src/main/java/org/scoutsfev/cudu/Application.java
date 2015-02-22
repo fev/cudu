@@ -1,13 +1,7 @@
 package org.scoutsfev.cudu;
 
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
-import org.scoutsfev.cudu.domain.AmbitoEdicion;
-import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.CacheKeys;
-import org.scoutsfev.cudu.domain.TipoAsociado;
-import org.scoutsfev.cudu.storage.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -15,7 +9,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.support.SimpleCacheManager;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,7 +18,6 @@ import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 
 @Configuration
@@ -34,65 +26,11 @@ import java.util.Arrays;
 @EnableCaching
 public class Application extends WebMvcConfigurerAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(Application.class);
+    @Autowired
+    private MessageSource messageSource;
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
-
-        AsociadoRepository asociadoRepository = context.getBean(AsociadoRepository.class);
-        GrupoRepository grupoRepository = context.getBean(GrupoRepository.class);
-        UsuarioRepository usuarioRepository = context.getBean(UsuarioRepository.class);
-
-        /*
-        Asociado fev = new Asociado(null, TipoAsociado.Tecnico, AmbitoEdicion.Federacion, "Tecnico", "FEV", new Date());
-        fev.setEmail("fev@scoutsfev.org");
-        asociadoRepository.save(fev);
-        usuarioRepository.activar(fev.getId(), "wackamole");
-        usuarioRepository.cambiarIdioma(fev.getId(), "ca");
-
-        Asociado sda = new Asociado(null, TipoAsociado.Tecnico, AmbitoEdicion.Asociacion, "Tecnico", "SdA", new Date());
-        sda.setEmail("sda@scoutsfev.org");
-        asociadoRepository.save(sda);
-        usuarioRepository.activar(sda.getId(), "wackamole");
-        usuarioRepository.establecerRestricciones(sda.getId(), false, false, false, Asociacion.SdA);
-
-        Asociado lluerna = new Asociado(null, TipoAsociado.Tecnico, AmbitoEdicion.Escuela, "Tecnico", "Lluerna", new Date());
-        lluerna.setEmail("lluerna@scoutsfev.org");
-        asociadoRepository.save(lluerna);
-        usuarioRepository.activar(lluerna.getId(), "wackamole");
-
-        Grupo grupo = new Grupo("UP", Asociacion.MEV, "X de la Educación", "Calle", 46015, "Valencia", "963400000", "email@example.com");
-        grupoRepository.save(grupo);
-        Asociado baden = new Asociado(grupo, TipoAsociado.Kraal, AmbitoEdicion.Grupo, "Baden", "Powell", new Date(457819200));
-        baden.setEmail("baden@example.com");
-        asociadoRepository.save(baden);
-        usuarioRepository.activar(baden.getId(), "wackamole");
-        */
-
-        Grupo ainKaren = grupoRepository.findOne("AK");
-        Usuario baden = usuarioRepository.findByEmail("baden@example.com");
-        if (baden == null) {
-            if (ainKaren == null) {
-                ainKaren = new Grupo("AK", Asociacion.MEV, "Nombre", "Calle", 46015, "Valencia", "963400000", "email@example.com");
-                grupoRepository.save(ainKaren);
-            }
-
-            Asociado nuevo = new Asociado(ainKaren.getId(), TipoAsociado.Kraal, AmbitoEdicion.Grupo, "Baden", "Powell", LocalDate.of(1982, 1, 31));
-            nuevo.setEmail("baden@example.com");
-            asociadoRepository.save(nuevo);
-            usuarioRepository.activar(nuevo.getId(), "wackamole");
-        }
-
-//        ActividadRepository actividadRepository = context.getBean(ActividadRepository.class);
-//        Actividad nuevaActividad = new Actividad(ainKaren, "Salida al rio", baden);
-//        actividadRepository.save(nuevaActividad);
-
-//        Actividad salidaAlRio = actividadRepository.findOne(1);
-//        actividadRepository.añadirAsistente(salidaAlRio.getId(), baden.getId());
-//        actividadRepository.añadirRamaCompleta(salidaAlRio.getId(), false, true, false, false, false);
-
-//        Asociado asistente = asociadoRepository.findOne(baden.getId());
-//        salidaAlRio.añadirAsistente(asistente);
+        SpringApplication.run(Application.class, args);
     }
 
     @Bean
@@ -110,9 +48,6 @@ public class Application extends WebMvcConfigurerAdapter {
     public Jackson2ObjectMapperBuilder configurarSerializacionJson() {
         return new Jackson2ObjectMapperBuilder().modulesToInstall(Hibernate4Module.class);
     }
-
-    @Autowired
-    private MessageSource messageSource;
 
     @Bean
     public LocalValidatorFactoryBean validator() {
