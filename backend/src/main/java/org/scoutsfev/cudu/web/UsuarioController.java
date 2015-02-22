@@ -115,13 +115,9 @@ public class UsuarioController {
 
     @RequestMapping(value = "/lenguaje", method = RequestMethod.POST)
     public ResponseEntity cambiarIdioma(@RequestBody String codigo, @AuthenticationPrincipal Usuario usuario) {
-        boolean codigoCorrecto = usuarioService.cambiarIdioma(usuario.getId(), codigo);
-
+        boolean codigoCorrecto = usuarioService.cambiarIdioma(usuario, codigo);
         if (!codigoCorrecto)
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        // Al recargar la página, la ruta /actual no toca BBDD, saca el usuario del contexto actual
-        // por lo que no contiene los cambios realizados. Rellenamos la propiedad con el nuevo codigo.
-        usuario.setLenguaje(codigo);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

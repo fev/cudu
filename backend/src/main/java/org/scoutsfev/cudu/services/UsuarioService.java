@@ -54,7 +54,8 @@ public class UsuarioService implements UserDetailsService {
     private final String captchaSecret = null;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, TokenRepository tokenRepository, ApplicationEventPublisher eventPublisher) throws NoSuchAlgorithmException {
+    public UsuarioService(UsuarioRepository usuarioRepository, TokenRepository tokenRepository, ApplicationEventPublisher eventPublisher)
+            throws NoSuchAlgorithmException {
         this.usuarioRepository = usuarioRepository;
         this.tokenRepository = tokenRepository;
         this.eventPublisher = eventPublisher;
@@ -175,10 +176,13 @@ public class UsuarioService implements UserDetailsService {
         return codigoError;
     }
 
-    public boolean cambiarIdioma(int id, String codigo) {
+    public boolean cambiarIdioma(Usuario usuario, String codigo) {
         if (Strings.isNullOrEmpty(codigo) || (!codigo.equalsIgnoreCase("es") && !codigo.equalsIgnoreCase("ca")))
             return false;
-        usuarioRepository.cambiarIdioma(id, codigo);
+        usuarioRepository.cambiarIdioma(usuario.getId(), codigo);
+        // Al recargar la página, la ruta /actual no toca BBDD, saca el usuario del contexto actual
+        // por lo que no contiene los cambios realizados. Rellenamos la propiedad con el nuevo codigo.
+        usuario.setLenguaje(codigo);
         return true;
     }
 }
