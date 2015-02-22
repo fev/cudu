@@ -22,6 +22,7 @@ public class Grupo {
     private List<Usuario> usuarios;
 
     @NotNull
+    @Column(insertable = false, updatable = false)
     private Asociacion asociacion;
 
     @NotNull
