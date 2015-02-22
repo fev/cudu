@@ -524,23 +524,23 @@
           <div class="form-group">
             <div class="input-group add-element">
               <span class="input-group-addon">Añadir Cargo</span>
-              <input type="text" class="form-control">
+              <input type="text" class="form-control" ng-model="nuevoCargo" ng-keydown="asignarCargoCustom($event)">
               <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><%=asociado.otrosCargos%> <span class="caret"></span></button>
                 <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="javascript:" ng-click="seleccionarCargo(1)"><%=asociado.jefeDeGrupo%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(2)"><%=asociado.subjefeDeGrupo%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(3)"><%=asociado.tesorero%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(4)"><%=asociado.secretario%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(5)"><%=asociado.dinamizadorDeKraal%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(6)"><%=asociado.responsableDeProgresionPersonal%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(7)"><%=asociado.responsableDeMaterial%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(8)"><%=asociado.consiliario%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(1)"><%=asociado.jefeDeGrupo%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(2)"><%=asociado.subjefeDeGrupo%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(3)"><%=asociado.tesorero%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(4)"><%=asociado.secretario%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(5)"><%=asociado.dinamizadorDeKraal%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(6)"><%=asociado.responsableDeProgresionPersonal%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(7)"><%=asociado.responsableDeMaterial%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(8)"><%=asociado.consiliario%></a></li>
                   <li class="divider"></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(9)"><%=asociado.presidenciaDelComite%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(10)"><%=asociado.tesoreriaDelComite%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(11)"><%=asociado.secretariaDelComite%></a></li>
-                  <li><a href="javascript:" ng-click="seleccionarCargo(12)"><%=asociado.vocalDelComite%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(9)"><%=asociado.presidenciaDelComite%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(10)"><%=asociado.tesoreriaDelComite%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(11)"><%=asociado.secretariaDelComite%></a></li>
+                  <li><a href="javascript:" ng-click="asignarCargo(12)"><%=asociado.vocalDelComite%></a></li>
                 </ul>
               </div>
             </div>
@@ -550,17 +550,17 @@
               <thead>
                 <tr>
                   <th class="text-center">#</th>
-                  <th><%=asociado.cargo%></th>
+                  <th><%=asociado.cargo %></th>
                   <th><%=asociado.puntos%></th>
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="cargo in asociado.cargos" ng-class="{'editable': cargo.ambito === 'C'}">
-                  <td class="text-center"><a href="#"><span class="glyphicon glyphicon-remove"></span></a></td>
-                  <td>{{cargo.etiqueta}}</td>
+                <tr ng-repeat="cargo in asociado.cargos" ng-class="{'editable': cargo.ambito !== 'F'}">
+                  <td class="text-center"><a href="javascript:" ng-click="eliminarCargo(cargo.id)"><span class="glyphicon glyphicon-remove"></span></a></td>
+                  <td>{{cargo | cargo}}</td>
                   <td class="text-right">{{cargo.puntos}}</td>
                 </tr>
-                <tr ng-show="!asociado.cargos">
+                <tr ng-show="!(asociado.cargos) || asociado.cargos.length == 0">
                   <td colspan="3"><%=asociado.noHayCargos%></td>
                 </tr>
               </tbody>

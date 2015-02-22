@@ -303,6 +303,29 @@ angular.module('cuduApp')
       }
     };
 
+    $scope.asignarCargo = function(cargoId) {
+      Asociado.asignarCargo({ id: $scope.asociado.id, cargoId: cargoId }, {}, function(cargoGuardado) {
+        $scope.asociado.cargos.unshift(cargoGuardado);
+      });
+    };
+
+    $scope.asignarCargoCustom = function(evt) {
+      if (evt.keyCode != 13) {
+        return;
+      }
+      Asociado.asignarCargoCustom({ id: $scope.asociado.id }, $scope.nuevoCargo, function(cargoGuardado) {
+        $scope.asociado.cargos.unshift(cargoGuardado);
+      });
+      nuevoCargo = '';
+    };
+
+    $scope.eliminarCargo = function(cargoId) {
+      Asociado.eliminarCargo({ id: $scope.asociado.id, cargoId: cargoId }, function() {
+        var pos = _.findIndex($scope.asociado.cargos, function(c) { return c.id === cargoId; });
+        $scope.asociado.cargos.splice(pos, 1);
+      })
+    };
+
     $scope.comprobarAlertaRama = function(a) {
       if (a.tipo !== 'J') {
         return;

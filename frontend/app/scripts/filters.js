@@ -54,3 +54,16 @@ filters.filter('i18n', function(Traducciones) {
     return Traducciones.texto(base + '.' + value);
   };
 });
+
+filters.filter('cargo', function(Traducciones) {
+  return function(cargo) {
+    if (_.isUndefined(cargo) || _.isNull(cargo)) {
+      return '';
+    }
+    if (cargo.ambito === 'P') {
+      return cargo.etiqueta;
+    }
+    return Traducciones.texto('cargo.' + cargo.etiqueta);
+  };
+});
+
