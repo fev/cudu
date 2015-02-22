@@ -275,7 +275,7 @@ angular.module('cuduApp')
       if (asociado && (asociado.nombre || asociado.apellidos)) {
         return [asociado.nombre, asociado.apellidos].join(' ');
       }
-      return '(nuevo)';
+      return Traducciones.texto('asociado.nuevoNombre');
     };
 
     $scope.mostrarColumna = function(nombre) {
