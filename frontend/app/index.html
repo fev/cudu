@@ -34,7 +34,7 @@
         <ul class="nav navbar-nav">
           <li class="rol-asociado" ng-class="{active: controlador === 'AsociadoCtrl'}"><a href="#/asociados">{{::menu.asociados}}</a></li>
           <li class="rol-tecnico"><a href="#/asociados">{{::menu.asociados}}</a></li>
-          <li class="rol-asociado" ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/ak">{{::menu.migrupo}}</a></li>
+          <li class="rol-asociado" ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/{{::menu.codigoGrupo}}">{{::menu.migrupo}}</a></li>
           <li class="rol-lluerna"><a href="javascript:">{{::menu.cursos}}</a></li>
           <li class="rol-lluerna"><a href="javascript:">{{::menu.participantes}}</a></li>
           <li class="rol-lluerna"><a href="javascript:">{{::menu.miembros}}</a></li>

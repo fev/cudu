@@ -42,7 +42,7 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'menu.grupos': 'Agrupaments', 
     'menu.liquidaciones': 'Liquidacions', 
     'menu.miembros': 'Membres', 
-    'menu.migrupo': 'El Meu Agrupament',
+    'menu.migrupo': 'Agrupament',
     'menu.misdatos': 'Dades d\'usuari',
     'menu.participantes': 'Participants', 
     'menu.permisos': 'Permisos', 

@@ -139,7 +139,7 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
 // entre el modo de login y el de APP y renderizar algunos estáticos adicionales.
 // No muy elegante, pero es rápido y evita bindings en el rootScope.
 angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'RolesMenu', function($rootScope, Traducciones, RolesMenu) {
-  var establecerTextosMenu = function(nombreCompletoUsuario) {
+  var establecerTextosMenu = function(nombreCompletoUsuario, codigoGrupo) {
     // ELementos del menú, para uso con bind-once.
     $rootScope.menu = {
       actividades: Traducciones.texto('menu.actividades'),
@@ -153,7 +153,8 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
       participantes: Traducciones.texto('menu.participantes'),
       permisos: Traducciones.texto('menu.permisos'),
       salir: Traducciones.texto('menu.salir'),
-      nombreCompletoUsuario: nombreCompletoUsuario
+      nombreCompletoUsuario: nombreCompletoUsuario,
+      codigoGrupo: codigoGrupo
     };
   };
 
@@ -164,7 +165,8 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
       $('#checkLenguajeES, #checkLenguajeCA').hide();
       $('#checkLenguaje' + lang.toUpperCase()).show();
 
-      establecerTextosMenu(usuario.nombreCompleto);
+      var grupo = usuario.grupo || { id: 'up' };
+      establecerTextosMenu(usuario.nombreCompleto, grupo.id.toLowerCase());
 
       var rolMenu = RolesMenu.ASOCIADO;
       if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'E')) {
