@@ -1,34 +1,59 @@
 package org.scoutsfev.cudu.web;
 
+import org.scoutsfev.cudu.domain.EventosAuditoria;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.storage.GrupoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class GrupoController {
 
     private final GrupoRepository grupoRepository;
+    private final ApplicationEventPublisher eventPublisher;
+    private final AuthorizationService authorizationService;
 
     @Autowired
-    public GrupoController(GrupoRepository grupoRepository) {
+    public GrupoController(GrupoRepository grupoRepository, ApplicationEventPublisher eventPublisher, AuthorizationService authorizationService) {
         this.grupoRepository = grupoRepository;
+        this.eventPublisher = eventPublisher;
+        this.authorizationService = authorizationService;
     }
 
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Grupo> obtener(@PathVariable("id") String grupoId) {
+    public ResponseEntity<Grupo> obtener(@PathVariable("id") String grupoId, @AuthenticationPrincipal Usuario usuario) {
+        // TODO FEV y Asociación, mover a servicio de autorizaciones
+        if (usuario.getGrupo() == null || !usuario.getGrupo().getId().equals(grupoId)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /grupo/" + grupoId));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         Grupo grupo = grupoRepository.findOne(grupoId);
+        if (grupo == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(grupo, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Grupo> editar(@RequestBody Grupo editado, @PathVariable("id") Grupo original, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<Grupo> editar(@RequestBody @Valid Grupo editado, @PathVariable("id") Grupo original, @AuthenticationPrincipal Usuario usuario) {
+        // Si el usuario no tiene grupo, o el grupo no es el del usuario, o el usuario no tiene permisos entonces no podemos editar
+        if (!authorizationService.puedeEditarGrupo(editado, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "PUT /grupo/" + editado.getId()));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        // TODO Mover checks a servicio
+        // TODO Si el usuario es FEV permitir editar
+        // TODO Si el usuario es asociación, y el grupo es de la asociación, permitir editar
         BeanUtils.copyProperties(editado, original, "asociados");
-        return new ResponseEntity<Grupo>(grupoRepository.save(original), HttpStatus.OK);
+        return new ResponseEntity<>(grupoRepository.save(original), HttpStatus.OK);
     }
 }

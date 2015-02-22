@@ -3,7 +3,9 @@ package org.scoutsfev.cudu.web;
 import org.hibernate.validator.constraints.Email;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Credenciales;
+import org.scoutsfev.cudu.domain.EventosAuditoria;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.web.validacion.CodigoError;
@@ -12,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,13 +44,18 @@ public class UsuarioController {
 
     private final AsociadoRepository asociadoRepository;
     private final UsuarioService usuarioService;
+    private final ApplicationEventPublisher eventPublisher;
     private final AuthenticationManager authenticationManager;
+    private final AuthorizationService authorizationService;
 
     @Autowired
-    public UsuarioController(AsociadoRepository asociadoRepository, UsuarioService usuarioService, @Qualifier("authenticationManager") AuthenticationManager authenticationManager) {
+    public UsuarioController(AsociadoRepository asociadoRepository, UsuarioService usuarioService, ApplicationEventPublisher eventPublisher,
+                             @Qualifier("authenticationManager") AuthenticationManager authenticationManager, AuthorizationService authorizationService) {
         this.asociadoRepository = asociadoRepository;
         this.usuarioService = usuarioService;
+        this.eventPublisher = eventPublisher;
         this.authenticationManager = authenticationManager;
+        this.authorizationService = authorizationService;
     }
 
     @RequestMapping(value = "/autenticar", method = RequestMethod.POST)
@@ -88,8 +97,11 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/activar/{id}", method = RequestMethod.POST)
-    // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public ResponseEntity<ErrorUnico> activarUsuario(@PathVariable("id") Asociado asociado, @RequestBody @Valid @Email String email, @AuthenticationPrincipal Usuario usuario) throws MessagingException {
+        if (!authorizationService.puedeEditarAsociado(asociado, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /usuario/activar" + asociado.getId()));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         if (!asociado.isActivo())
             return new ResponseEntity<>(CodigoError.AsociadoInactivo.asError(), HttpStatus.BAD_REQUEST);
         if (usuarioService.existeActivacionEnCurso(email))
@@ -105,8 +117,11 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/desactivar/{id}", method = RequestMethod.POST)
-    // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public ResponseEntity<ErrorUnico> desactivarUsuario(@PathVariable("id") Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
+        if (!authorizationService.puedeEditarAsociado(asociado, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /usuario/desactivar" + asociado.getId()));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         if (usuario.getId().equals(asociado.getId()))
             return new ResponseEntity<>(CodigoError.DeshabilitarUsuarioActual.asError(), HttpStatus.BAD_REQUEST);
         usuarioService.desactivarUsuario(asociado.getId());

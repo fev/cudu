@@ -5,8 +5,10 @@ import org.junit.Test;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
+import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +29,8 @@ public class UsuarioControllerTests {
     private UsuarioService usuarioService;
     private AuthenticationManager authenticationManager;
     private Usuario usuario;
+    private AuthorizationService authorizationService;
+    private ApplicationEventPublisher eventPublisher;
 
     @Before
     public void setUp() throws Exception {
@@ -36,7 +40,9 @@ public class UsuarioControllerTests {
         asociadoRepository = mock(AsociadoRepository.class);
         usuarioService = mock(UsuarioService.class);
         authenticationManager = mock(AuthenticationManager.class);
-        usuarioController = new UsuarioController(asociadoRepository, usuarioService, authenticationManager);
+        eventPublisher = mock(ApplicationEventPublisher.class);
+        authorizationService = new AuthorizationService(asociadoRepository);
+        usuarioController = new UsuarioController(asociadoRepository, usuarioService, eventPublisher, authenticationManager, authorizationService);
     }
 
     @Test

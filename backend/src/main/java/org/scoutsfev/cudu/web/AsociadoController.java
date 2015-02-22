@@ -1,5 +1,6 @@
 package org.scoutsfev.cudu.web;
 
+import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.CacheKeys;
 import org.scoutsfev.cudu.domain.Usuario;
@@ -38,7 +39,7 @@ public class AsociadoController {
     }
 
     @RequestMapping(value = "/asociado/{id}", method = RequestMethod.GET)
-    // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
+    @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public ResponseEntity<Asociado> obtener(@PathVariable Integer id, @AuthenticationPrincipal Usuario usuario) {
         Asociado asociado = asociadoRepository.findByIdAndFetchCargosEagerly(id);
         if (asociado == null)
@@ -48,16 +49,16 @@ public class AsociadoController {
 
     @RequestMapping(value = "/asociado", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public Asociado crear(@RequestBody @Valid Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
         asociado.setId(null);
         asociado.setUsuarioActivo(false);
+        asociado.setAmbitoEdicion(AmbitoEdicion.Grupo);
+        asociado.setGrupoId(usuario.getGrupo().getId());
         descartarCacheGraficas(asociado.getGrupoId());
         return asociadoRepository.save(asociado);
     }
 
     @RequestMapping(value = "/asociado/{id}", method = RequestMethod.PUT)
-    // @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public Asociado editar(@RequestBody @Valid Asociado editado, @PathVariable("id") Asociado original, @AuthenticationPrincipal Usuario usuario) {
         editado.setGrupoId(original.getGrupoId());
         editado.setUsuarioActivo(original.isUsuarioActivo());

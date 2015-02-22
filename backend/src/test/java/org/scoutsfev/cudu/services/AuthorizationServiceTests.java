@@ -2,6 +2,7 @@ package org.scoutsfev.cudu.services;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
@@ -24,9 +25,9 @@ public class AuthorizationServiceTests {
 
     @Test
     public void no_puedeEditarAsociado_si_el_asociado_o_el_usuario_son_nulos() throws Exception {
-        assertFalse(service.puedeEditarAsociado(null, mock(Usuario.class)));
+        assertFalse(service.puedeEditarAsociado((Asociado)null, mock(Usuario.class)));
         assertFalse(service.puedeEditarAsociado(42, null));
-        assertFalse(service.puedeEditarAsociado(null, null));
+        assertFalse(service.puedeEditarAsociado((Asociado)null, null));
     }
 
     @Test
