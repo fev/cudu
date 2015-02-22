@@ -129,7 +129,7 @@ angular
 
         // TODO Si el usuario es asociado, redirigir a /asociados
         // Tecnicos y Lluerna tienen otras url de entrada
-        $location.path("/grupo/" + usuario.grupo.id.toLowerCase());
+        $location.path("/asociados");
       })
       .error(function() {
         // TODO Último lenguaje conocido o el del navegador

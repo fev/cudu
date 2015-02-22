@@ -46,7 +46,7 @@ filters.filter('desdeHace', function(Traducciones) {
   };
 });
 
-filters.filter('i8n', function(Traducciones) {
+filters.filter('i18n', function(Traducciones) {
   return function(value, base) {
     if (_.isUndefined(value) || _.isNull(value)) {
       return '¿?';

@@ -46,7 +46,7 @@
                 <th scope="row">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      {{asistente.estadoAsistente | i8n:'asistente'}} <span class="caret"></span>
+                      {{asistente.estadoAsistente | i18n:'asistente'}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
                       <li><a href="javascript:" ng-click="establecerAsistencia(asistente, 'D')"><%= actividades.duda %></a></li>
@@ -61,7 +61,7 @@
                 </th>
                 <td>{{asistente.nombreCompleto}}</td>
                 <td>{{asistente.rama | rama:'rama.cualquiera'}}</td>
-                <td>{{asistente.tipo | i8n:'tipo'}}</td>
+                <td>{{asistente.tipo | i18n:'tipo'}}</td>
                 <td>{{asistente.telefono}}</td>
               </tr>
             </tbody>

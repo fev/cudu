@@ -104,7 +104,7 @@
         </div>
         <div class="datos">
           <strong>{{a.nombre}} {{a.apellidos}}</strong>
-          <div class="rama">{{a.tipo | i8n:'tipo'}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
+          <div class="rama">{{a.tipo | i18n:'tipo'}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
           <div class="direccion">{{a.direccion}} <span class="pull-right">{{a.codigoPostal}} {{a.municipio}}</span></div>
           <div class="contacto">{{a.emailContacto}}&nbsp;<span class="pull-right">{{a.telefonoMovil}}</span></div>
         </div>
@@ -432,7 +432,7 @@
           <div class="form-group">
             <label class="col-md-4 control-label"><%=asociado.estado%></label>
             <div class="col-md-8">
-              <p class="form-control-static">{{asociado.usuarioActivo | i8n:'activo'}}</p>
+              <p class="form-control-static">{{asociado.usuarioActivo | i18n:'activo'}}</p>
             </div>
           </div>
           <div class="form-group">
