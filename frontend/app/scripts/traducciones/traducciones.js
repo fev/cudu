@@ -212,7 +212,7 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
       moment.locale(lang);
       this.lenguaje = lang;
       $http.defaults.headers.common['Accept-Language'] = lang;
-      localStorage.setItem(CuduEtc.IDIOMA, codigo);
+      localStorage.setItem(CuduEtc.IDIOMA, lang);
       return lang;
     },
 

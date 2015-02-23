@@ -79,7 +79,7 @@ angular
     // Cuando angular recarge el template asociado a '/' es necesario que lo pida
     // con el header correcto, por lo que establecemos los defaults del provider aqui.
     var lenguajeSeleccionado = localStorage.getItem(CuduEtc.IDIOMA);
-    if (lenguajeSeleccionado != null) {
+    if (lenguajeSeleccionado) {
       $httpProvider.defaults.headers.common['Accept-Language'] = lenguajeSeleccionado;
     }
     var interceptor = function($q, $location) {
@@ -109,7 +109,7 @@ angular
     };
 
     $rootScope.cambiarIdioma = function(codigo) {
-      var recarga = function() { 
+      var recarga = function() {        
         localStorage.setItem(CuduEtc.IDIOMA, codigo);
         window.location = "/";         
       };

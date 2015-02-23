@@ -244,7 +244,7 @@
             <label class="col-md-3 control-label"><i class="fa fa-check-square-o fa-lg"></i></label>
             <div class="col-md-9">
               <p class="form-control-static">
-                <%= asociado.aceptoClausulaDeberSecreto %>
+                <%= asociado.aceptoClausulaDeberSecreto %>                
               </p>
             </div>
           </div>
@@ -576,6 +576,17 @@
     </form>
 
   </div>
+</div>
+</div>
+
+<div cudu-modal="modal.clausulaDeberSecreto" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-body"><%= asociado.clausulaDeberSecreto %></div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.clausulaDeberSecreto = false"><%= asociado.clausulaDeberSecretoEntendido %></button>
+  </div>
+</div>
 </div>
 </div>
 
