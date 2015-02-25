@@ -7,13 +7,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.validator.constraints.Email;
 import org.scoutsfev.cudu.domain.dto.CargoAsociadoDto;
 import org.scoutsfev.cudu.domain.validadores.Edad;
+import org.scoutsfev.cudu.domain.validadores.DniNie;
 import org.scoutsfev.cudu.domain.validadores.ValidarRama;
 import org.scoutsfev.cudu.domain.validadores.ValidarTipo;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -23,8 +23,6 @@ import java.util.List;
 @Table(name = "asociado")
 @ValidarRama @ValidarTipo
 public class Asociado extends AsociadoAbstracto {
-
-    public static final String REGEX_NIF = "(\\d{8}|[KLMXYZ]\\d{7})-?\\w";
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaColonia = false;
@@ -63,9 +61,9 @@ public class Asociado extends AsociadoAbstracto {
     @Size(min = 3, max = 100)
     private String municipio;
 
-    @Size(max=10, min=9)
+    @DniNie
+    @Size(max=10)
     @Column(nullable = true)
-    @Pattern(regexp = REGEX_NIF)
     private String dni;
 
     @Size(max = 12)
