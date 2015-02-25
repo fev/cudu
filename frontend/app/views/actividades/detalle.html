@@ -105,12 +105,12 @@
                 <label class="col-md-3 control-label"><%= actividades.fechaInicio %></label>
                 <div class="col-md-9">
                   <input ng-model="actividad.fechaInicio" cudu-fecha type="text" class="form-control">
-                  <label>Fecha Fin</label>
+                  <label><%= actividades.fechaFin %></label>
                   <input ng-model="actividad.fechaFin" cudu-fecha type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-md-3 control-label"><%= actividades.fechaFin %></label>
+                <label class="col-md-3 control-label"><%= actividades.lugar %></label>
                 <div class="col-md-9">
                   <input ng-model="actividad.lugar" type="text" class="form-control">
                 </div>
@@ -154,7 +154,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-md-3 control-label"><%= actividades.notas %></label>
+                <label class="col-md-3 control-label"><%= actividades.edicion.notas %></label>
                 <div class="col-md-9">
                   <textarea ng-model="actividad.notas" class="form-control" rows="3"></textarea>
                 </div>
