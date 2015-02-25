@@ -265,10 +265,21 @@ angular.module('cuduApp')
       return 'btn-default';
     };
 
-    $scope.copiarDatosContacto = function(desde, hasta) {
-      $scope.asociado['telefono' + desde] = $scope.asociado['telefono' + hasta];
-      $scope.asociado['email' + desde] = $scope.asociado['email' + hasta];
-      $scope.formAsociado.$setDirty();
+    $scope.copiarDatosContacto = function(destino) {
+      var algunoModificado = false;
+      var telefono = $scope.asociado['telefonoMovil'];
+      if (!_.isEmpty(telefono)) {
+        $scope.asociado['telefono' + destino] = telefono;
+        algunoModificado = true;
+      }
+      var email = $scope.asociado['emailContacto'];
+      if (!_.isEmpty(email)) {
+        $scope.asociado['email' + destino] = email;
+        algunoModificado = true;
+      }
+      if (algunoModificado === true) {
+        $scope.formAsociado.$setDirty();
+      }
     };
 
     $scope.obtenerNombreCompleto = function(asociado) {
