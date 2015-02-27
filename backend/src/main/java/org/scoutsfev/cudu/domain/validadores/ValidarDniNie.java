@@ -3,20 +3,20 @@ package org.scoutsfev.cudu.domain.validadores;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Constraint(validatedBy = ValidadorDniNie.class)
 @Documented
-public @interface DniNie {
+public @interface ValidarDniNie {
 
-    String message() default "{org.scoutsfev.cudu.domain.validadores.Nif.message}";
+    String message() default "{org.scoutsfev.cudu.domain.validadores.DniNie.message}";
 
     Class<?>[] groups() default {};
 

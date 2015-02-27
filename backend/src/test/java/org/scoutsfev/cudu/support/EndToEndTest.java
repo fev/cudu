@@ -102,6 +102,7 @@ public abstract class EndToEndTest {
         nuevo.setTipo(TipoAsociado.Kraal);
         nuevo.setRamaExpedicion(true);
         nuevo.setFechaNacimiento(LocalDate.now().minus(20, ChronoUnit.YEARS));
+        nuevo.setDni("12345678Z");
         nuevo.setEmail(login);
         Asociado asociado = asociadoRepository.save(nuevo);
 

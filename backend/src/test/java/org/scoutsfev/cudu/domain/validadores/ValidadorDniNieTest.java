@@ -1,24 +1,63 @@
 package org.scoutsfev.cudu.domain.validadores;
 
+import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 import org.junit.Before;
 import org.junit.Test;
+import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
+
+import javax.validation.ConstraintValidatorContext;
+
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ValidadorDniNieTest {
 
     private ValidadorDniNie validador;
+    private ConstraintValidatorContext context;
+    private Asociado asociado;
 
     @Before
     public void setUp() throws Exception {
+        asociado = GeneradorDatosDePrueba.generarAsociado();
         validador = new ValidadorDniNie();
+        context = mock(ConstraintValidatorContext.class);
+        ConstraintValidatorContext.ConstraintViolationBuilder violationBuilder = mock(ConstraintValidatorContext.ConstraintViolationBuilder.class);
+        HibernateConstraintValidatorContext nhContext = mock(HibernateConstraintValidatorContext.class);
+        when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(violationBuilder);
+        when(nhContext.buildConstraintViolationWithTemplate(anyString())).thenReturn(violationBuilder);
+        when(context.unwrap(HibernateConstraintValidatorContext.class)).thenReturn(nhContext);
     }
 
     @Test
-    public void valida_cuando_el_nif_es_nulo_o_vacio() throws Exception {
-        valida(null);
-        valida("");
+    public void si_la_fecha_de_nacimiento_del_asociado_es_nula_no_valida_el_dni() throws Exception {
+        asociado.setDni("AAA");
+        asociado.setFechaNacimiento(null);
+        assertTrue(validador.isValid(asociado, context));
+    }
+
+    @Test
+    public void el_dni_es_requerido_cuando_el_asociado_es_mayor_de_18_años() throws Exception {
+        asociado.setDni(null);
+        asociado.setFechaNacimiento(LocalDate.now().minus(30, ChronoUnit.YEARS));
+        assertFalse(validador.isValid(asociado, context));
+        asociado.setDni("");
+        assertFalse(validador.isValid(asociado, context));
+    }
+
+    @Test
+    public void el_dni_puede_ser_nulo_cuando_el_asociado_es_menor_de_18_años() throws Exception {
+        asociado.setDni(null);
+        asociado.setFechaNacimiento(LocalDate.now().minus(10, ChronoUnit.YEARS));
+        assertTrue(validador.isValid(asociado, context));
+        asociado.setDni("");
+        assertTrue(validador.isValid(asociado, context));
     }
 
     @Test
@@ -107,10 +146,10 @@ public class ValidadorDniNieTest {
     }
 
     private void valida(String nif) {
-        assertTrue(validador.isValid(nif, null));
+        assertTrue(ValidadorDniNie.validarDniNie(nif, context));
     }
 
     private void noValida(String nif) {
-        assertFalse(validador.isValid(nif, null));
+        assertFalse(ValidadorDniNie.validarDniNie(nif, context));
     }
 }

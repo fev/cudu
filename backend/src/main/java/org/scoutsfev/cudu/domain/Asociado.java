@@ -6,7 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.validator.constraints.Email;
 import org.scoutsfev.cudu.domain.dto.CargoAsociadoDto;
-import org.scoutsfev.cudu.domain.validadores.DniNie;
+import org.scoutsfev.cudu.domain.validadores.ValidarDniNie;
 import org.scoutsfev.cudu.domain.validadores.Edad;
 import org.scoutsfev.cudu.domain.validadores.ValidarRama;
 import org.scoutsfev.cudu.domain.validadores.ValidarTipo;
@@ -21,7 +21,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "asociado")
-@ValidarRama @ValidarTipo
+@ValidarRama @ValidarTipo @ValidarDniNie
 public class Asociado extends AsociadoAbstracto {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
@@ -61,7 +61,6 @@ public class Asociado extends AsociadoAbstracto {
     @Size(min = 3, max = 100)
     private String municipio;
 
-    @DniNie
     @Size(max=10)
     @Column(nullable = true)
     private String dni;
