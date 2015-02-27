@@ -6,6 +6,8 @@ import org.scoutsfev.cudu.domain.Token;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.storage.TokenRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +31,8 @@ public class UsuarioServiceTests {
     public void setUp() throws Exception {
         repository = mock(UsuarioRepository.class);
         tokenRepository = mock(TokenRepository.class);
-        service = new UsuarioService(repository, tokenRepository, null);
+        ApplicationEventPublisher eventPublisher = mock(ApplicationEventPublisher.class);
+        service = new UsuarioService(repository, tokenRepository, eventPublisher, new NullEmailServiceImpl(), new NullCaptchaServiceImpl());
     }
 
     @Test(expected = UsernameNotFoundException.class)
@@ -115,6 +118,44 @@ public class UsuarioServiceTests {
         when(tokenRepository.findByEmail(email)).thenReturn(token);
         assertTrue(service.existeActivacionEnCurso(email));
         verify(tokenRepository, never()).delete(token);
+    }
+
+    @Test(expected = AccountExpiredException.class)
+    public void al_resetear_el_password_estando_el_usuario_desactivado_lanza_AccountExpiredException() throws Exception {
+        String username = "jack.sparrow";
+        Usuario jackSparrow = mock(Usuario.class);
+        when(jackSparrow.isActivo()).thenReturn(true);
+        when(jackSparrow.isUsuarioActivo()).thenReturn(false);
+        when(repository.findByEmail(username)).thenReturn(jackSparrow);
+        service.resetPassword(username, true);
+    }
+
+    @Test(expected = AccountExpiredException.class)
+    public void al_resetear_el_password_estando_el_asociado_desactivado_lanza_AccountExpiredException() throws Exception {
+        String username = "jack.sparrow";
+        Usuario jackSparrow = mock(Usuario.class);
+        when(jackSparrow.isActivo()).thenReturn(false);
+        when(jackSparrow.isUsuarioActivo()).thenReturn(true);
+        when(repository.findByEmail(username)).thenReturn(jackSparrow);
+        service.resetPassword(username, true);
+    }
+
+    @Test
+    public void si_el_reset_de_password_evita_el_check_de_activo_entonces_no_se_lanza_excepcion_aunque_el_usuario_este_inactivo() throws Exception {
+        String username = "jack.sparrow";
+        Usuario jackSparrow = mock(Usuario.class);
+        when(jackSparrow.getEmail()).thenReturn(username);
+        when(jackSparrow.isActivo()).thenReturn(false);
+        when(jackSparrow.isUsuarioActivo()).thenReturn(false);
+        when(repository.findByEmail(username)).thenReturn(jackSparrow);
+        service.resetPassword(username, false);
+    }
+
+    @Test(expected = UsernameNotFoundException.class)
+    public void al_resetear_password_si_no_encuentra_el_usuario_por_email_lanza_UsernameNotFoundException() throws Exception {
+        String username = "jack.sparrow";
+        when(repository.findByEmail(username)).thenReturn(null);
+        service.resetPassword(username, false);
     }
 
     // TODO si_el_usuario_esta_activo_y_tiene_password_puede_hacer_login

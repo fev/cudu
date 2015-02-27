@@ -28,6 +28,20 @@ body.login {
     .btn-primary { background-color: $material-cyan-500; color: #FFF; border: none; }
     .btn-primary:hover { background-color: $material-cyan-400; }
     .help-block { margin-left: 5px }
-    .help-block.text-warning { color: $material-red-500; }
+    .help-block.text-warning { color: $material-red-500; } 
+    .modoCambioPassword { display: none }
+    &.cambioPassword {
+      .modoLogin { display: none }
+      .modoCambioPassword { display: block }
+    }
+  }
+  .titulo {  text-align: center; font-family: Roboto, $stdfontpath; color: #FFF; font-size: 14px; font-weight: 300 }
+  #txtCambioPassword {
+    height: $input-height-base - 4;
+    padding: $cudu-padding-base-vertical $cudu-padding-base-horizontal;
+    @include box-shadow(none);
+    @include border-radius(0px);
+    margin-bottom: 10px;
+    color: #333;
   }
 }

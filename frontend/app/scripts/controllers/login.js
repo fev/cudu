@@ -1,18 +1,25 @@
 (function() {
 'use strict';
 
-function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas) {
+function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focus) {
   $scope.error = null;
   $scope.mayusculas = false;
   $scope.captchaVisible = false;
+  $scope.cambioPassword = false;
+  $scope.completado = null;
 
   $scope.etiquetas = {
-    'rama': ['colonia', 'manada', 'exploradores', 'expedición', 'ruta']
+    'rama': [
+      Traducciones.texto('rama.colonia'), 
+      Traducciones.texto('rama.manada'), 
+      Traducciones.texto('rama.exploradores'),
+      Traducciones.texto('rama.expedicion'),
+      Traducciones.texto('rama.ruta')
+    ]
   };
 
-  var colores = ["#E0F7FA", "#B2EBF2", "#80DEEA", "#4DD0E1", "#00ACC1"];
-  var colorLinea = "rgba(148,159,177,1)";
-  $scope.colours = _.map(colores, function(c) {
+  var colorLinea = Graficas.colorLinea;
+  $scope.colours = _.map(Graficas.rango5azul, function(c) {
     return {
       fillColor: c,
       strokeColor: c,
@@ -23,14 +30,8 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas) {
     };
   });
 
-  $scope.opcionesHistorico = {
-    scaleFontColor: "#80DEEA"
-  };
-  $scope.coloresHistorico = [
-    { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#B2EBF2" },
-    { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#80DEEA" },
-    { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#76FF03" }
-  ];
+  $scope.opcionesHistorico = { scaleFontColor: Graficas.colorEscalaLogin };
+  $scope.coloresHistorico = Graficas.coloresHistoricoLogin;
 
   Graficas.login().success(function(data) {
     $scope.graficas = data;
@@ -46,22 +47,31 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas) {
     $scope.error = Traducciones.texto('login.clausula');
   };
 
+  var respuestaCaptchaOk = function($scope) {    
+    if (!$scope.captchaVisible) {
+      return { ok: true, respuesta: null };
+    }
+    var respuestaCaptcha = grecaptcha.getResponse();
+    if (respuestaCaptcha === "") {
+      $scope.error = Traducciones.texto('login.debeVerificar');
+      return { ok: false, respuesta: null };
+    }
+    return { ok: true, respuesta: respuestaCaptcha };
+  };
+
   $scope.login = function() {
+    $scope.completado = null;
     if (!$scope.email || !$scope.password) {
       $scope.error = Traducciones.texto('login.emailPasswordVacio');
       return;
     }
 
-    var respuestaCaptcha = null;
-    if ($scope.captchaVisible) {
-      respuestaCaptcha = grecaptcha.getResponse();
-      if (respuestaCaptcha === "") {
-        $scope.error = Traducciones.texto('login.debeVerificar');
-        return;
-      }
+    var respuestaCaptcha = respuestaCaptchaOk($scope);
+    if (!respuestaCaptcha.ok) {
+      return;
     }
 
-    Usuario.autenticar($scope.email, $scope.password, respuestaCaptcha)
+    Usuario.autenticar($scope.email, $scope.password, respuestaCaptcha.respuesta)
       .success(function(usuario, status) {
         var lang = Traducciones.establecerLenguaje(usuario.lenguaje);
         Dom.loginCompleto(usuario, lang);
@@ -86,6 +96,39 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas) {
     $scope.captchaVisible = true;
   };
 
+  $scope.mostrarOlvidoPassword = function() {
+    $scope.mostrarCaptcha();
+    $scope.cambioPassword = true;
+    $scope.completado = null;
+    $scope.error = null;
+    focus("txtEmail");
+  };
+
+  $scope.ocultarEnvioPassword = function() {
+    $scope.cambioPassword = false;
+    $scope.completado = null;
+    $scope.error = null;
+    focus("txtEmail");
+  };
+
+  $scope.enviarCambioPassword = function() {    
+    if (!$scope.email) {
+      $scope.error = Traducciones.texto('login.emailVacio');
+      focus("txtEmail");
+      return;
+    }
+
+    var respuestaCaptcha = respuestaCaptchaOk($scope);
+    if (!respuestaCaptcha.ok) {
+      return;
+    }
+
+    Usuario.resetPassword($scope.email, respuestaCaptcha.respuesta);
+    $scope.cambioPassword = false;
+    $scope.error = null;
+    $scope.completado = Traducciones.texto('login.envioCompleto');
+  };
+
   $scope.__dbgAutoLogin = function(email) {
     $scope.email = email;
     $scope.password = 'wackamole';
@@ -93,6 +136,6 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas) {
   };
 }
 
-angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$location', 'Usuario', 'Traducciones', 'Dom', 'Graficas', LoginCtrl]);
+angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$location', 'Usuario', 'Traducciones', 'Dom', 'Graficas', 'focus', LoginCtrl]);
 
 }());

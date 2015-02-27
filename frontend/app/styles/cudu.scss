@@ -216,6 +216,8 @@ a, button {
     @include animation-timing-function(ease-in);
 }
 
+.modal .modal-dialog .modal-content { @include border-radius(0px); }
+
 @import 'secciones.scss';
 @import 'menu.scss';
 @import 'login.scss';

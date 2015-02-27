@@ -35,6 +35,10 @@ public abstract class AsociadoAbstracto {
 
     @NotNull
     @Column(nullable = false)
+    protected boolean activo = true;
+
+    @NotNull
+    @Column(nullable = false)
     protected boolean usuarioActivo = false;
 
     protected Timestamp fechaUsuarioCreado = null;
@@ -90,6 +94,14 @@ public abstract class AsociadoAbstracto {
 
     public void setAmbitoEdicion(AmbitoEdicion ambitoEdicion) {
         this.ambitoEdicion = ambitoEdicion;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
     }
 
     public boolean isUsuarioActivo() {

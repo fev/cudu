@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +27,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.Locale;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -36,10 +37,9 @@ public class UsuarioService implements UserDetailsService {
     private final UsuarioRepository usuarioRepository;
     private final TokenRepository tokenRepository;
     private final ApplicationEventPublisher eventPublisher;
-    private final RestTemplate restTemplate;
     private final SecureRandom secureRandom;
-
-    // private final EmailService emailService;
+    private final EmailService emailService;
+    private final CaptchaService captchaService;
 
     // TODO Mover @Value a clase separada con @ConfigurationProperties
     // http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-typesafe-configuration-properties
@@ -47,19 +47,14 @@ public class UsuarioService implements UserDetailsService {
     @Value("${cudu.reset.duracionTokenEnSegundos}")
     private final int duracionTokenEnSegundos = 600;
 
-    @Value("${cudu.captcha.url}")
-    private final String captchaUrl = "https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={response}&remoteip={remoteip}";
-
-    @Value("${cudu.captcha.secret}")
-    private final String captchaSecret = null;
-
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, TokenRepository tokenRepository, ApplicationEventPublisher eventPublisher)
+    public UsuarioService(UsuarioRepository usuarioRepository, TokenRepository tokenRepository, ApplicationEventPublisher eventPublisher, EmailService emailService, CaptchaService captchaService)
             throws NoSuchAlgorithmException {
         this.usuarioRepository = usuarioRepository;
         this.tokenRepository = tokenRepository;
         this.eventPublisher = eventPublisher;
-        this.restTemplate = new RestTemplate();
+        this.emailService = emailService;
+        this.captchaService = captchaService;
         this.secureRandom = SecureRandom.getInstanceStrong();
     }
 
@@ -79,13 +74,26 @@ public class UsuarioService implements UserDetailsService {
         throw new UsernameNotFoundException("El usuario especificado no existe.");
     }
 
-    public void resetPassword(String email) throws MessagingException {
+    public void resetPassword(String email, boolean comprobarQueElUsuarioEstaActivo) throws MessagingException {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        if (usuario == null)
+            throw new UsernameNotFoundException("Imposible encontrar al usuario: " + email);
+
+        if (comprobarQueElUsuarioEstaActivo && (!usuario.isActivo() || !usuario.isUsuarioActivo())) {
+            throw new AccountExpiredException("El usuario " + email + " está desactivado.");
+        }
+
         String oneTimeCode = new BigInteger(130, secureRandom).toString(32);
         Duration duracionToken = Duration.ofSeconds(duracionTokenEnSegundos);
-        Token token = new Token(email, oneTimeCode, Instant.now(), duracionToken);
+        Token token = new Token(usuario.getEmail(), oneTimeCode, Instant.now(), duracionToken);
         tokenRepository.save(token);
-        eventPublisher.publishEvent(new AuditApplicationEvent(email, EventosAuditoria.ResetPassword));
-        // TODO emailService.SendEmail("Luis Belloch", "luisbelloch@gmail.com", Locale.ENGLISH);
+        eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.ResetPassword));
+        Locale locale;
+        if (usuario.getLenguaje() == null)
+            locale = Locale.forLanguageTag("es");
+        else
+            locale = Locale.forLanguageTag(usuario.getLenguaje());
+        emailService.enviarMailCambioContraseña(usuario.getNombreCompleto(), usuario.getEmail(), token.getToken(), locale);
     }
 
     public void desactivarUsuario(int asociadoId) {
@@ -137,7 +145,7 @@ public class UsuarioService implements UserDetailsService {
 
     public void comprobarCaptcha(Credenciales credenciales, HttpServletRequest request) throws InvalidCaptchaException {
         String direccionIp = obtenerDireccionIp(request);
-        if (!usuarioRepository.requiereCaptcha(credenciales.getEmail()).orElse(false))
+        if (!credenciales.isForzarComprobacion() && !usuarioRepository.requiereCaptcha(credenciales.getEmail()).orElse(false))
             return;
 
         if (Strings.isNullOrEmpty(credenciales.getCaptcha())) {
@@ -145,7 +153,7 @@ public class UsuarioService implements UserDetailsService {
             throw new InvalidCaptchaException("No se ha podido verificar el código captcha proveniente del cliente porque era nulo o vacio.");
         }
 
-        VerificacionCaptcha verificacion = restTemplate.getForObject(captchaUrl, VerificacionCaptcha.class, captchaSecret, credenciales.getCaptcha(), direccionIp);
+        VerificacionCaptcha verificacion = captchaService.verificar(credenciales.getCaptcha(), direccionIp);
         if (!verificacion.isPositiva()) {
             HashMap<String, Object> datosAddicionales = new HashMap<>();
             datosAddicionales.put("direccionIp", direccionIp);

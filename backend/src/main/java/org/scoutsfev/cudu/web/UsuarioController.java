@@ -77,6 +77,21 @@ public class UsuarioController {
         }
     }
 
+    @RequestMapping(value = "/reset", method = RequestMethod.POST)
+    public ResponseEntity enviarInstruccionesReset(@RequestBody Credenciales credenciales, HttpServletRequest request) throws MessagingException {
+        try {
+            credenciales.setForzarComprobacion(true);
+            usuarioService.comprobarCaptcha(credenciales, request);
+            usuarioService.resetPassword(credenciales.getEmail(), true);
+        } catch (Exception e) {
+            // El método es publico, debemos evitar propagar la excepción o
+            // comunicar la existencia de usuarios de alguna forma.
+            // Deberíamos evitar hacer logging directo, aunque no estaría
+            // mal incrementar un counter para ayudar al monitoring.
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     private Usuario autenticar(Credenciales credenciales, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(credenciales.getEmail(), credenciales.getPassword());
         authenticationToken.setDetails(new WebAuthenticationDetails(request));
@@ -112,7 +127,7 @@ public class UsuarioController {
             asociado.setUsuarioCreadoPorNombre(usuario.getNombreCompleto());
         }
         asociadoRepository.save(asociado);
-        usuarioService.resetPassword(asociado.getEmail());
+        usuarioService.resetPassword(asociado.getEmail(), false);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

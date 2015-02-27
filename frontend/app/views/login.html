@@ -7,18 +7,22 @@
     </div>
     <div class="col-md-5">
       <div class="material-panel-level-3">
-        <form id="loginForm" class="form-cudu" method="POST" action="/login/" novalidate="novalidate">
+        <form id="loginForm" class="form-cudu" ng-class="{cambioPassword: cambioPassword }" method="POST" action="/login/" novalidate="novalidate">
           <h1><%= login.bienvenido %></h1>
+          <p class="modoCambioPassword"><%= login.cambioExplicacion %></p>           
           <div class="alert alert-danger" ng-show="error">
             {{error}}
+          </div>
+          <div class="alert alert-info" ng-show="completado">
+            {{completado}}
           </div>
           <div class="form-group">
             <label for="username" class="control-label"><%= login.email %></label>
             <input type="text" class="form-control" id="txtEmail" ng-model="email" ng-keypress="detectarMayusculas($event)" name="email" value=""
               placeholder="baden@example.com" autofocus autocapitalize="off" spellcheck="false">
-            <span class="help-block"></span>
+            <span class="help-block small modoCambioPassword"><%= login.duda %></span>
           </div>
-          <div class="form-group">
+          <div class="form-group modoLogin">
             <label for="password" class="control-label"><%= login.password %></label>
             <input type="password" class="form-control" id="txtPassword" ng-model="password" ng-keypress="detectarMayusculas($event)"
               name="password" value="" autocapitalize="off" spellcheck="false">
@@ -28,18 +32,24 @@
             </span>
           </div>
           <div id="recaptcha"></div>
-          <div class="form-group">
+          <div class="form-group modoLogin">
             <p class="form-control-static" ng-click="noAceptaClausula()">
               <span class="glyphicon glyphicon-check"></span>
               <%= login.aceptoClausula %>
             </p>
-          </div>
-          <div class="row">
+          </div>          
+          <div class="row modoLogin">
             <div class="col-md-6">
               <button type="button" ng-click="login()" class="btn btn-default btn-primary"><%= login.entrar %></button>
             </div>
             <div class="col-md-6 text-right">
-              <a href="javascript:" ng-click="test()"><%= login.olvidoPassword %></a>
+              <a href="javascript:" ng-click="mostrarOlvidoPassword()"><%= login.olvidoPassword %></a>
+            </div>
+          </div>
+          <div class="row modoCambioPassword">
+            <div class="col-md-12">
+              <button type="button" ng-click="enviarCambioPassword()" class="btn btn-default btn-danger"><%= login.enviar %></button>
+              <button type="button" ng-click="ocultarEnvioPassword()" class="btn btn-default"><%= login.cancelar %></button>
             </div>
           </div>
         </form>
@@ -50,6 +60,7 @@
   <div class="row" style="margin-top: 60px">
     <div class="col-md-4">
       <canvas id="doughnutJoven" class="chart chart-doughnut" data="graficas.datosPorRamaTipo.joven" labels="etiquetas.rama" colours="colours" legend="Jóvenes por Rama"></canvas>
+      <div class="titulo"><%= login.jovenesPorRama %></div>
     </canvas>
     </div>
     <div class="col-md-4">
@@ -59,6 +70,7 @@
     </div>
     <div class="col-md-4">
       <canvas id="doughnutVoluntario" class="chart chart-doughnut" data="graficas.datosPorRamaTipo.voluntario" labels="etiquetas.rama" colours="colours" legend="Voluntarios por Rama"></canvas>
+      <div class="titulo"><%= login.voluntariosPorRama %></div>
     </div>
   </div>
 </div>

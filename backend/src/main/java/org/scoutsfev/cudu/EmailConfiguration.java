@@ -9,7 +9,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 public class EmailConfiguration {
 
     @Bean
-    public ITemplateResolver emailTemplateResolver(){
+    public ITemplateResolver emailTemplateResolver() {
         ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
         emailTemplateResolver.setPrefix("mail/");
         emailTemplateResolver.setSuffix(".html");

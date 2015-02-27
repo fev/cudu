@@ -62,20 +62,31 @@ cuduServices.factory('Typeahead', [function() {
 }]);
 
 cuduServices.factory('Graficas', ['$http', function($http) {
-  var _rango5pink = ['#fce4ec', '#fdbfce', '#fa99b1', '#f47195', '#ec407a'];
+  var _rango5rosa = ['#fce4ec', '#fdbfce', '#fa99b1', '#f47195', '#ec407a'];
+  var _rango5azul = ["#E0F7FA", "#B2EBF2", "#80DEEA", "#4DD0E1", "#00ACC1"];
+  var _rangoMulticolor = ['#ffc107', '#ffeb3b', '#5677fc', '#e51c23', '#8bc34a'];
   var _colorLinea = "rgba(148,159,177,1)";
-  var _coloresRamas = _.map(_rango5pink, function(c) {
+  var _coloresRamas = _.map(_rangoMulticolor, function(c) {
     return { fillColor: _colorLinea, strokeColor: c, };
   });
 
-  var _colorRellenoTipo = ['#9FA8DA', '#7986CB', '#3F51B5'];
+  var _colorRellenoTipo = ['#3F51B5', '#7986CB', '#9FA8DA'];
   var _coloresTipos = _.map(_colorRellenoTipo, function(c) {
     return { fillColor: _colorLinea, strokeColor: c, };
   });
 
   return {
+    colorLinea : _colorLinea,
+    rango5azul : _rango5azul,
+    rangoMulticolor: _rangoMulticolor,
     coloresRama: _coloresRamas,
     coloresTipo: _coloresTipos,
+    colorEscalaLogin: "#80DEEA",
+    coloresHistoricoLogin: [
+      { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#B2EBF2" },
+      { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#80DEEA" },
+      { fillColor: "rgba(20, 20, 20, 0.1)", strokeColor: "#76FF03" }
+    ],
     login: function() {
       return $http.get('/api/graficas/login');
     },
@@ -123,6 +134,10 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
     return $http.post('/api/usuario/desactivar/' + id);
   };
 
+  svc.resetPassword = function(email, captcha) {
+    return $http.post('/api/usuario/reset', { 'email': email, 'password': null, 'captcha': captcha });
+  };
+
   svc.calcularEdad = function(valor) {
     var fechaNacimiento = new Date(valor);
     if (isNaN(fechaNacimiento.valueOf()))
@@ -137,6 +152,17 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
 
   return svc;
 }]);
+
+cuduServices.factory('focus', function($timeout) {
+  return function(id) {
+    $timeout(function() {
+      var element = document.getElementById(id);
+      if(element) {
+        element.focus();
+      }
+    });
+  };
+});
 
 // Servicio de manipulación del DOM fuera del scope de angular, para cambiar
 // entre el modo de login y el de APP y renderizar algunos estáticos adicionales.

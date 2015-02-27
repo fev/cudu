@@ -18,6 +18,8 @@ public class Credenciales {
 
     private String captcha;
 
+    private boolean forzarComprobacion = false;
+
     protected Credenciales() { }
 
     public Credenciales(String email, String password) {
@@ -47,5 +49,13 @@ public class Credenciales {
 
     public void setCaptcha(String captcha) {
         this.captcha = captcha;
+    }
+
+    public boolean isForzarComprobacion() {
+        return forzarComprobacion;
+    }
+
+    public void setForzarComprobacion(boolean forzarComprobacion) {
+        this.forzarComprobacion = forzarComprobacion;
     }
 }

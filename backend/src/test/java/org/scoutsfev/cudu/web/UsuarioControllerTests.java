@@ -3,6 +3,7 @@ package org.scoutsfev.cudu.web;
 import org.junit.Before;
 import org.junit.Test;
 import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.services.AuthorizationService;
@@ -12,6 +13,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+
+import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.core.Is.is;
@@ -34,8 +37,10 @@ public class UsuarioControllerTests {
 
     @Before
     public void setUp() throws Exception {
-        asociado = GeneradorDatosDePrueba.generarAsociado();
+        Grupo grupo = GeneradorDatosDePrueba.generarGrupo(Optional.of("AK"));
+        asociado = GeneradorDatosDePrueba.generarAsociado(grupo);
         usuario = mock(Usuario.class);
+        when(usuario.getGrupo()).thenReturn(grupo);
         asociado.setEmail(null);
         asociadoRepository = mock(AsociadoRepository.class);
         usuarioService = mock(UsuarioService.class);
@@ -58,7 +63,7 @@ public class UsuarioControllerTests {
     public void al_activar_un_usuario_se_lanza_el_procedimiento_para_resetear_el_password() throws Exception {
         ResponseEntity response = usuarioController.activarUsuario(asociado, nuevoEmail, usuario);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(usuarioService, times(1)).resetPassword(nuevoEmail);
+        verify(usuarioService, times(1)).resetPassword(anyString(), anyBoolean());
         verify(usuarioService, times(1)).existeActivacionEnCurso(nuevoEmail);
         verifyNoMoreInteractions(usuarioService);
     }
@@ -82,7 +87,7 @@ public class UsuarioControllerTests {
         asociado.setActivo(false);
         ResponseEntity response = usuarioController.activarUsuario(asociado, nuevoEmail, usuario);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        verify(usuarioService, times(0)).resetPassword(nuevoEmail);
+        verify(usuarioService, times(0)).resetPassword(anyString(), anyBoolean());
         verifyNoMoreInteractions(usuarioService);
     }
 

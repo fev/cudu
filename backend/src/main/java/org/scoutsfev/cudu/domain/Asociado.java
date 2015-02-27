@@ -6,8 +6,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.validator.constraints.Email;
 import org.scoutsfev.cudu.domain.dto.CargoAsociadoDto;
-import org.scoutsfev.cudu.domain.validadores.Edad;
 import org.scoutsfev.cudu.domain.validadores.DniNie;
+import org.scoutsfev.cudu.domain.validadores.Edad;
 import org.scoutsfev.cudu.domain.validadores.ValidarRama;
 import org.scoutsfev.cudu.domain.validadores.ValidarTipo;
 
@@ -129,10 +129,6 @@ public class Asociado extends AsociadoAbstracto {
 
     @Column(columnDefinition="TEXT NULL", nullable = true)
     private String notas;
-
-    @NotNull
-    @Column(nullable = false)
-    private boolean activo = true;
 
     @Size(max = 128)
     private String profesion;
@@ -395,14 +391,6 @@ public class Asociado extends AsociadoAbstracto {
 
     public void setNotas(String notas) {
         this.notas = notas;
-    }
-
-    public boolean isActivo() {
-        return activo;
-    }
-
-    public void setActivo(boolean activo) {
-        this.activo = activo;
     }
 
     public String getProfesion() {
