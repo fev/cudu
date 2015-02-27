@@ -9,6 +9,11 @@ angular.module('cuduApp')
     });
     $scope.tabActivo = 0;
 
+    $scope.opciones = {
+      rama: {
+        legendTemplate: ""
+      }
+    };
     $scope.coloresRama = Graficas.coloresRama;
     $scope.coloresTipo = Graficas.coloresTipo;
     $scope.etiquetas = {

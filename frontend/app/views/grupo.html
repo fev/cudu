@@ -3,7 +3,7 @@
     <div id="panelEstadisticas" class="col-md-4">
       <div class="material-panel-level-2">
         <h2 class="text-center"><%= grupo.datosRamas %></h2>
-        <canvas id="doughnutTipo" class="chart chart-doughnut" data="graficas.rama"
+        <canvas id="doughnutTipo" class="chart chart-doughnut" data="graficas.rama" options="opciones.rama"
           labels="etiquetas.rama" legend="Jóvenes por Rama" colours="coloresRama"></canvas>
         <h2 class="text-center"><%= grupo.datosTipo %></h2>
         <canvas id="doughnutRama" class="chart chart-doughnut" data="graficas.tipo"
