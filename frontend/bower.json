@@ -1,6 +1,6 @@
 {
   "name": "cudu",
-  "version": "2.0.5",
+  "version": "2.0.7",
   "dependencies": {
     "angular": "~1.4.0",
     "angular-animate": "~1.4.0",
