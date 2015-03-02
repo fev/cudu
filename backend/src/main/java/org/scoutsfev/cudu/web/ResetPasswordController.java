@@ -44,14 +44,4 @@ public class ResetPasswordController {
         model.addAttribute("codigoError", codigoError);
         return "reset_error";
     }
-
-    /*@RequestMapping(value="/new", method = RequestMethod.GET)
-    public @ResponseBody Token resetPlayground() throws NoSuchAlgorithmException {
-        SecureRandom secureRandom = SecureRandom.getInstanceStrong();
-        String oneTimeCode = new BigInteger(130, secureRandom).toString(32);
-        Duration duracion = Duration.ofSeconds(600);
-        Token token = new Token("jack.sparrow@gmail.com", oneTimeCode, Instant.now(), duracion);
-        tokenRepository.save(token);
-        return token;
-    }*/
 }

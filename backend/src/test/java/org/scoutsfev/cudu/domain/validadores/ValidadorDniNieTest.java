@@ -7,7 +7,6 @@ import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 
 import javax.validation.ConstraintValidatorContext;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 

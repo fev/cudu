@@ -25,10 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
             .antMatchers("/404").permitAll()
             .antMatchers("/reset/*").permitAll()
-            .antMatchers("/resetnew/**").permitAll()
             .antMatchers("/usuario/autenticar").permitAll()
             .antMatchers("/usuario/reset").permitAll()
             .antMatchers("/graficas/*").permitAll()
+            .antMatchers("/health").permitAll()
             .anyRequest().authenticated();
 
         // TODO AuditEvent en log no muestra la ruta de la peticion

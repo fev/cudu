@@ -6,8 +6,8 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.hibernate.validator.constraints.Email;
 import org.scoutsfev.cudu.domain.dto.CargoAsociadoDto;
-import org.scoutsfev.cudu.domain.validadores.ValidarDniNie;
 import org.scoutsfev.cudu.domain.validadores.Edad;
+import org.scoutsfev.cudu.domain.validadores.ValidarDniNie;
 import org.scoutsfev.cudu.domain.validadores.ValidarRama;
 import org.scoutsfev.cudu.domain.validadores.ValidarTipo;
 
