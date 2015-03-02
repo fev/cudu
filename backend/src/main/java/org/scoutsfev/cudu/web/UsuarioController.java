@@ -35,6 +35,7 @@ import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 @Controller
 @RequestMapping("/usuario")
@@ -112,7 +113,8 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/activar/{id}", method = RequestMethod.POST)
-    public ResponseEntity<ErrorUnico> activarUsuario(@PathVariable("id") Asociado asociado, @RequestBody @Valid @Email String email, @AuthenticationPrincipal Usuario usuario) throws MessagingException {
+    public ResponseEntity<ErrorUnico> activarUsuario(@PathVariable("id") Asociado asociado, @RequestBody @Valid @Email String email, @AuthenticationPrincipal Usuario usuario)
+            throws MessagingException, UnsupportedEncodingException {
         if (!authorizationService.puedeEditarAsociado(asociado, usuario)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /usuario/activar" + asociado.getId()));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -74,7 +75,7 @@ public class UsuarioService implements UserDetailsService {
         throw new UsernameNotFoundException("El usuario especificado no existe.");
     }
 
-    public void resetPassword(String email, boolean comprobarQueElUsuarioEstaActivo) throws MessagingException {
+    public void resetPassword(String email, boolean comprobarQueElUsuarioEstaActivo) throws MessagingException, UnsupportedEncodingException {
         Usuario usuario = usuarioRepository.findByEmail(email);
         if (usuario == null)
             throw new UsernameNotFoundException("Imposible encontrar al usuario: " + email);
@@ -93,7 +94,7 @@ public class UsuarioService implements UserDetailsService {
             locale = Locale.forLanguageTag("es");
         else
             locale = Locale.forLanguageTag(usuario.getLenguaje());
-        emailService.enviarMailCambioContraseña(usuario.getNombreCompleto(), usuario.getEmail(), token.getToken(), locale);
+        emailService.enviarMailCambioContraseña(usuario.getNombre(), usuario.getEmail(), token.getToken(), locale);
     }
 
     public void desactivarUsuario(int asociadoId) {
