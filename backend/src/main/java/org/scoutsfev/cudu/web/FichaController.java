@@ -28,7 +28,7 @@ public class FichaController {
 
         try {
 
-            return reportingService.GenerarFichaAsociados(asociados, null, idFicha, "es"); //TODO: obtener lenguaje, del user?
+            return reportingService.GenerarFicha(asociados, null, null, idFicha, "es"); //TODO: obtener lenguaje, del user?
 
         } catch (Exception ex) {
 

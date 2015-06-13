@@ -13,6 +13,11 @@ public class AsociadoPdfFiller extends PdfFiller<Asociado> {
 
     private Asociado asociado;
 
+    public AsociadoPdfFiller(Asociado asociado)
+    {
+        this.asociado = asociado;
+    }
+
     @Override
     public void RellenarPdf(PDAcroForm form) {
         try {
@@ -31,12 +36,7 @@ public class AsociadoPdfFiller extends PdfFiller<Asociado> {
     }
 
     @Override
-    Asociado GetEntity() {
-        return asociado;
-    }
-
-    @Override
-    void SetUp(Asociado entity) {
-        asociado = entity;
+    Asociado Get() {
+        return this.asociado;
     }
 }

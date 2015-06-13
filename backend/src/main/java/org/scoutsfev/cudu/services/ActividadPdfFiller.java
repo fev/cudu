@@ -7,7 +7,13 @@ import org.scoutsfev.cudu.domain.Asociado;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ActividadPdfFiller extends PdfFiller {
+public class ActividadPdfFiller extends PdfFiller<Actividad> {
+
+    private Actividad actividad;
+
+    public ActividadPdfFiller(Actividad actividad) {
+        this.actividad = actividad;
+    }
 
     @Override
     void RellenarPdf(PDAcroForm form) {
@@ -15,12 +21,7 @@ public class ActividadPdfFiller extends PdfFiller {
     }
 
     @Override
-    Object GetEntity() {
-        return null;
-    }
-
-    @Override
-    void SetUp(Object entity) {
-
+    Actividad Get() {
+        return this.actividad;
     }
 }
