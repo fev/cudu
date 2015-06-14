@@ -7,7 +7,11 @@ import org.scoutsfev.cudu.domain.Asociado;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 public class ActividadPdfFiller extends PdfFiller<Actividad> {
+
+    private static Logger logger = LoggerFactory.getLogger(ActividadPdfFiller.class);
 
     private Actividad actividad;
 
@@ -17,7 +21,16 @@ public class ActividadPdfFiller extends PdfFiller<Actividad> {
 
     @Override
     void RellenarPdf(PDAcroForm form) {
+        try {
 
+            PDField nombreActividad = form.getField("NombreActividad");
+            nombreActividad.setValue(this.actividad.getNombre());
+
+        } catch (Exception ex) {
+
+            logger.error("Error al rellenar la plantilla:");
+            logger.error(ex.getMessage());
+        }
     }
 
     @Override

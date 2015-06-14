@@ -19,7 +19,7 @@ public class CreadorPdf {
         this.destino = destino;
     }
 
-    public void RellenarPdf(PdfFiller pdfFiller) {
+    public void RellenarPdf(PdfFiller pdfFiller) throws IOException {
         if (pdAcroForm != null)
             pdfFiller.RellenarPdf(this.pdAcroForm);
     }
