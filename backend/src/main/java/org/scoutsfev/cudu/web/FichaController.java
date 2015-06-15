@@ -1,6 +1,7 @@
 package org.scoutsfev.cudu.web;
 
 
+import org.scoutsfev.cudu.domain.Ficha;
 import org.scoutsfev.cudu.services.FichaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,5 +48,10 @@ public class FichaController {
             logger.error("Error generando fichas");
             return NO_FILES;
         }
+    }
+
+    @RequestMapping(value = "/fichas/lenguaje/{lenguajeId}/tipo/{tipoFicha}", method = RequestMethod.GET)
+    public List<Ficha> ObtenerFichas(@PathVariable String lenguajeId, @PathVariable int tipoFicha) {
+        return reportingService.ObtenerFichas(lenguajeId, tipoFicha);
     }
 }

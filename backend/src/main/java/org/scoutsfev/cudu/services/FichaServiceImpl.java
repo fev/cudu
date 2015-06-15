@@ -1,8 +1,6 @@
 package org.scoutsfev.cudu.services;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.scoutsfev.cudu.domain.Actividad;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Ficha;
@@ -65,5 +63,10 @@ public class FichaServiceImpl implements FichaService {
         }
 
         return resultado;
+    }
+
+    @Override
+    public List<Ficha> ObtenerFichas(String lenguaje, int tipo) {
+        return _fichaRepository.obtenerFichas(tipo, lenguaje);
     }
 }
