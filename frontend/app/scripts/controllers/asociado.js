@@ -13,7 +13,7 @@ angular.module('cuduApp')
   .controller('SeguridadCtrl', ['$scope', '$rootScope', 'Traducciones', 'Usuario', function($scope, $rootScope, Traducciones, Usuario) {
     $scope.mensajeError = null;
     $scope.activando = false;
-
+    
     $rootScope.$on('asociado.editar', function() {
       $scope.mensajeError = null;
       $scope.activando = false;
@@ -65,13 +65,20 @@ angular.module('cuduApp')
         });
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones',
-      function ($scope, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones) {
+  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Ficha',
+      function ($scope, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Ficha) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {
       $scope.asociados = asociados.content;
     });
+    
+    $scope.fichas = [];
+    Ficha.queryAll({ lenguaje: 'es', tipo: 0}, function(fichas) { //TODO: necesitamos obtener el codigo de lenguaje
+      $scope.fichas = fichas;
+    });
+    
+    $scope.autorizaciones = [{nombre: 'autorizaciones 1'}, {nombre: 'autorizaciones 2'}, {nombre: 'autorizaciones 3'}];
 
     var generarAsociadoVacio = function() {
       var grupo = $scope.grupo || { id: -1, municipio: '', codigoPostal: '' };

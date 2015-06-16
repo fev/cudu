@@ -40,6 +40,13 @@ cuduServices.factory('Actividad', ['$resource',
       'canviarEstat'    : { url: '/api/actividad/:id/asociado/:asociadoId/estado', method: 'POST' }
     });
   }]);
+  
+  cuduServices.factory('Ficha', ['$resource',
+  function($resource) {
+    return $resource('/api/fichas/:id', {}, {
+      'queryAll' : { url : '/api/fichas/lenguaje/:lenguaje/tipo/:tipo', method : 'GET', params : { }, isArray : true}
+    });
+  }]);
 
 cuduServices.factory('Typeahead', [function() {
   return {

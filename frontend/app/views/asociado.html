@@ -32,15 +32,25 @@
                 </ul>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle disabled" data-toggle="dropdown">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                   <span class="glyphicon glyphicon-print"></span>
                 </button>
                 <ul class="dropdown-menu">
                   <li class="dropdown-header"><%= asociado.imprimir %></li>
                   <li><a href="javascript:"><%= asociado.listadoCompleto %></a></li>
                   <li><a href="javascript:"><%= asociado.listadoSoloVisibles %></a></li>
-                  <li><a href="javascript:"><%= asociado.autorizaciones %></a></li>
-                  <li><a href="javascript:"><%= asociado.fichasIndividuales %></a></li>
+                  <li class="dropdown-submenu">
+                    <a data-toggle="dropdown" href="javascript:"><%= asociado.autorizaciones %></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="javascript:" ng-repeat="autorizacion in autorizaciones">{{autorizacion.nombre}}</a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                    <a data-toggle="dropdown" href="javascript:"><%= asociado.fichasIndividuales %></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="javascript:" ng-repeat="ficha in fichas">{{ficha.nombre}}</a></li>
+                    </ul>
+                  </li>
                 </ul>
               </div>
               <div class="btn-group">
@@ -606,3 +616,6 @@
 </div>
 </div>
 </div>
+<script type="text/javascript"> 
+  $('.dropdown-submenu > a').submenupicker();
+</script>

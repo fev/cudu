@@ -12,6 +12,7 @@
     "bootstrap": "~3.3.0",
     "font-awesome": "~4.3.0",
     "lodash": "~3.2.0",
-    "moment": "~2.9.0"
+    "moment": "~2.9.0",
+    "bootstrap-submenu": "~1.2.13"
   }
 }
