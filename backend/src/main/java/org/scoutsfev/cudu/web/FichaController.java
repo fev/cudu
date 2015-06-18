@@ -15,7 +15,7 @@ import java.util.List;
 public class FichaController {
 
     private static final Logger logger = LoggerFactory.getLogger(FichaController.class);
-    private static final List<String> NO_FILES = new ArrayList<>();
+    private static final String NO_FILE = "";
 
     private final FichaService reportingService;
 
@@ -25,7 +25,7 @@ public class FichaController {
     }
 
     @RequestMapping(value = "/ficha/{idFicha}/generar", method = RequestMethod.POST)
-    public List<String> GenerarReport(@PathVariable Integer idFicha, @RequestBody List<Integer> asociados) {
+    public String GenerarReport(@PathVariable Integer idFicha, @RequestBody List<Integer> asociados) {
         try {
 
             return reportingService.GenerarFicha(asociados, null, null, idFicha, "es"); //TODO: obtener lenguaje, del user?
@@ -33,12 +33,12 @@ public class FichaController {
         } catch (Exception ex) {
 
             logger.error("Error generando fichas");
-            return NO_FILES;
+            return "";
         }
     }
 
     @RequestMapping(value = "/ficha/{idFicha}/actividad/{actividadId}/generar", method = RequestMethod.POST)
-    public List<String> GenerarReport(@PathVariable Integer idFicha, @PathVariable Integer actividadId, @RequestBody List<Integer> asociados) {
+    public String GenerarReport(@PathVariable Integer idFicha, @PathVariable Integer actividadId, @RequestBody List<Integer> asociados) {
         try {
 
             return reportingService.GenerarFicha(asociados, actividadId, null, idFicha, "es"); //TODO: obtener lenguaje, del user?
@@ -46,7 +46,7 @@ public class FichaController {
         } catch (Exception ex) {
 
             logger.error("Error generando fichas");
-            return NO_FILES;
+            return "";
         }
     }
 

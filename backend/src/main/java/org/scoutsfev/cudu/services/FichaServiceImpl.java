@@ -1,6 +1,7 @@
 package org.scoutsfev.cudu.services;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.scoutsfev.cudu.domain.Actividad;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Ficha;
@@ -12,16 +13,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+import org.zeroturnaround.zip.ZipEntrySource;
+import org.zeroturnaround.zip.ZipUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.zip.ZipEntry;
 
 @Service
 @EnableConfigurationProperties
 public class FichaServiceImpl implements FichaService {
 
-    private String TIPO_ARCHIVO = ".pdf";
+    private String PDF = ".pdf";
+    private String ZIP = ".zip";
 
     @Autowired
     private FichaProperties _fichaProperties;
@@ -38,7 +45,7 @@ public class FichaServiceImpl implements FichaService {
     }
 
     @Override
-    public List<String> GenerarFicha(List<Integer> asociados, Integer actividadId, String[] datos, int fichaId, String lenguaje) throws IOException, COSVisitorException {
+    public String GenerarFicha(List<Integer> asociados, Integer actividadId, String[] datos, int fichaId, String lenguaje) throws IOException, COSVisitorException {
 
         Ficha ficha = _fichaRepository.obtenerFicha(fichaId, lenguaje);
         Actividad actividad = null;
@@ -47,7 +54,7 @@ public class FichaServiceImpl implements FichaService {
 
         List<String> resultado = new ArrayList();
         for (Integer id : asociados) {
-            String nombreFicha = UUID.randomUUID().toString().concat(TIPO_ARCHIVO);
+            String nombreFicha = UUID.randomUUID().toString().concat(PDF);
             String plantilla = Paths.get(_fichaProperties.getCarpetaPlantilla(), ficha.getArchivo()).toString();
             String destino = Paths.get(_fichaProperties.getCarpetaFichas(), nombreFicha).toString();
 
@@ -62,11 +69,33 @@ public class FichaServiceImpl implements FichaService {
             resultado.add(destino);
         }
 
-        return resultado;
+        if (resultado.size() > 1)
+            return ComprimirFichas(resultado, _fichaProperties.getCarpetaFichas());
+
+        return resultado.get(0);
     }
 
     @Override
     public List<Ficha> ObtenerFichas(String lenguaje, int tipo) {
         return _fichaRepository.obtenerFichas(tipo, lenguaje);
+    }
+
+    private String ComprimirFichas(List<String> fichas, String destino) throws IOException {
+
+        String pathFolder = Paths.get(destino, UUID.randomUUID().toString()).toString();
+        File folder = new File(pathFolder);
+        folder.mkdir();
+
+        for (String ficha : fichas) {
+            File fichaFile = new File(ficha);
+            fichaFile.renameTo(new File(Paths.get(pathFolder, fichaFile.getName()).toString()));
+        }
+
+        String pathZip = pathFolder.concat(ZIP);
+        ZipUtil.pack(folder, new File(pathZip));
+
+        FileUtils.deleteDirectory(folder);
+
+        return pathZip;
     }
 }
