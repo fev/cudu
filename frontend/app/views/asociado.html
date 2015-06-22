@@ -32,7 +32,7 @@
                 </ul>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle disabled" data-toggle="dropdown">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                   <span class="glyphicon glyphicon-print"></span>
                 </button>
                 <ul class="dropdown-menu">
@@ -48,7 +48,7 @@
                   <li class="dropdown-submenu">
                     <a data-toggle="dropdown" href="javascript:"><%= asociado.fichasIndividuales %></a>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-repeat="ficha in fichas">{{ficha.nombre}}</a></li>
+                      <li><a href="javascript:" ng-repeat="ficha in fichas" ng-click="generarFicha(ficha.id)">{{ficha.nombre}}</a></li>
                     </ul>
                   </li>
                 </ul>

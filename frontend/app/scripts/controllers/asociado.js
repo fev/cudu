@@ -65,8 +65,8 @@ angular.module('cuduApp')
         });
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Ficha',
-      function ($scope, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Ficha) {
+  .controller('AsociadoCtrl', ['$scope', '$window', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Ficha',
+      function ($scope, $window, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Ficha) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {
@@ -74,9 +74,9 @@ angular.module('cuduApp')
     });
     
     $scope.fichas = [];
-    Ficha.queryAll({ lenguaje: 'es', tipo: 0}, function(fichas) { //TODO: necesitamos obtener el codigo de lenguaje
-      $scope.fichas = fichas;
-    });
+    Ficha.queryAll('es', 0, function (data) { 
+      $scope.fichas = data;
+    }, function () { });
     
     $scope.autorizaciones = [{nombre: 'autorizaciones 1'}, {nombre: 'autorizaciones 2'}, {nombre: 'autorizaciones 3'}];
 
@@ -362,6 +362,13 @@ angular.module('cuduApp')
       } else {
         a.alertaRama = null;
       }
+    };
+    
+    $scope.generarFicha = function(id) {
+     Ficha.generar(id, $scope.marcados, function (data) {
+       var url = _.template('/api/ficha/<%= nombre %>/descargar');
+       $window.open(url({ 'nombre' : data.nombre }), '_blank');
+     }, function () {});
     };
 
     var calcularRamaRecomendada = function(fechaNacimiento) {

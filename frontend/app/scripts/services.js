@@ -41,11 +41,22 @@ cuduServices.factory('Actividad', ['$resource',
     });
   }]);
   
-  cuduServices.factory('Ficha', ['$resource',
-  function($resource) {
-    return $resource('/api/fichas/:id', {}, {
-      'queryAll' : { url : '/api/fichas/lenguaje/:lenguaje/tipo/:tipo', method : 'GET', params : { }, isArray : true}
-    });
+  cuduServices.factory('Ficha', ['$http',
+  function($http) {
+    return {
+      queryAll : function(lenguaje, tipo, onSuccess, onError) {
+        var url = _.template('/api/fichas/lenguaje/<%= lenguaje  %>/tipo/<%= tipo %>');
+        return $http.get(url({ 'lenguaje' : lenguaje, 'tipo' : tipo }))
+        .success(onSuccess)
+        .error(onError);
+      },
+      generar : function(fichaId, asociados, onSuccess, onError) {
+        var url = _.template('/api/ficha/<%= id %>/generar');
+        return $http.post(url({ 'id' : fichaId }), asociados)
+        .success(onSuccess)
+        .error(onError);
+      }
+    };
   }]);
 
 cuduServices.factory('Typeahead', [function() {
