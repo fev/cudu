@@ -45,6 +45,7 @@ public class FichaController {
     public void DescargarFicha(@PathVariable String nombreArchivo, HttpServletResponse response) throws IOException, COSVisitorException {
         String path = Paths.get(_fichaProperties.getCarpetaFichas(), nombreArchivo).toString();
         DevolverArchivo(path, response);
+        new File(path).delete();
     }
 
     @RequestMapping(value = "/ficha/{idFicha}/generar", method = RequestMethod.POST)

@@ -365,10 +365,14 @@ angular.module('cuduApp')
     };
     
     $scope.generarFicha = function(id) {
-     Ficha.generar(id, $scope.marcados, function (data) {
-       var url = _.template('/api/ficha/<%= nombre %>/descargar');
-       $window.open(url({ 'nombre' : data.nombre }), '_blank');
-     }, function () {});
+     Ficha.generar(id, $scope.marcados, 
+     function (data) {
+      var url = _.template('/api/ficha/<%= nombre %>/descargar');
+      $window.location.assign(url({ 'nombre' : data.nombre }));
+     }, 
+     function (data, status) {
+      $scope.estado = EstadosFormulario.ERROR;
+     });
     };
 
     var calcularRamaRecomendada = function(fechaNacimiento) {
