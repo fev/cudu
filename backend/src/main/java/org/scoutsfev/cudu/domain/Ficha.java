@@ -31,17 +31,21 @@ public class Ficha implements Serializable {
     private String plantilla;
 
     @Column(length = 1)
-    private int tipo;
+    private int tipoEntidad;
+
+    @Column(length = 1)
+    private int tipoFicha;
 
     protected Ficha() {
     }
 
-    public Ficha(Integer id, String lenguaje, String nombre, String archivo, int tipo) {
+    public Ficha(Integer id, String lenguaje, String nombre, String archivo, int tipoEntidad, int tipoFicha) {
         this.id = id;
         this.lenguaje = lenguaje;
         this.nombre = nombre;
         this.plantilla = archivo;
-        this.tipo = tipo;
+        this.tipoEntidad = tipoEntidad;
+        this.tipoFicha = tipoFicha;
     }
 
     public int getId() {
@@ -84,11 +88,21 @@ public class Ficha implements Serializable {
         this.plantilla = archivo;
     }
 
-    public int getTipo() {
-        return this.tipo;
+    public int getTipoEntidad() {
+
+        return this.tipoEntidad;
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setTipoEntidad(int tipoEntidad) {
+
+        this.tipoEntidad = tipoEntidad;
+    }
+
+    public int getTipoFicha() {
+        return this.tipoFicha;
+    }
+
+    public void setTipoFicha(int tipoFicha) {
+        this.tipoFicha = tipoFicha;
     }
 }

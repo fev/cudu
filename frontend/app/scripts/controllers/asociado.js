@@ -75,11 +75,10 @@ angular.module('cuduApp')
     
     $scope.fichas = [];
     Ficha.queryAll('es', 0, function (data) { 
-      $scope.fichas = data;
+      $scope.fichas = _.filter(data, function (f) { return f.tipoFicha == 0; });
+      $scope.autorizaciones = _.filter(data, function (f) { return f.tipoFicha == 1; });
     }, function () { });
     
-    $scope.autorizaciones = [{nombre: 'autorizaciones 1'}, {nombre: 'autorizaciones 2'}, {nombre: 'autorizaciones 3'}];
-
     var generarAsociadoVacio = function() {
       var grupo = $scope.grupo || { id: -1, municipio: '', codigoPostal: '' };
       return {

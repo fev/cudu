@@ -42,7 +42,7 @@
                   <li class="dropdown-submenu">
                     <a data-toggle="dropdown" href="javascript:"><%= asociado.autorizaciones %></a>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-repeat="autorizacion in autorizaciones">{{autorizacion.nombre}}</a></li>
+                      <li><a href="javascript:" ng-repeat="autorizacion in autorizaciones" ng-click="generarFicha(autorizacion.id)">{{autorizacion.nombre}}</a></li>
                     </ul>
                   </li>
                   <li class="dropdown-submenu">
