@@ -5,23 +5,20 @@ import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.scoutsfev.cudu.domain.Actividad;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Ficha;
+import org.scoutsfev.cudu.pdfbuilder.CreadorPdf;
 import org.scoutsfev.cudu.storage.ActividadRepository;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.FichaRepository;
 import org.scoutsfev.cudu.web.FichaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
-import org.zeroturnaround.zip.ZipEntrySource;
 import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.zip.ZipEntry;
 
 @Service
 @EnableConfigurationProperties

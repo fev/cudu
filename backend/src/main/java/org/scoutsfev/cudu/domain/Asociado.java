@@ -10,6 +10,7 @@ import org.scoutsfev.cudu.domain.validadores.Edad;
 import org.scoutsfev.cudu.domain.validadores.ValidarDniNie;
 import org.scoutsfev.cudu.domain.validadores.ValidarRama;
 import org.scoutsfev.cudu.domain.validadores.ValidarTipo;
+import org.scoutsfev.cudu.pdfbuilder.IPrintable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -17,12 +18,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "asociado")
 @ValidarRama @ValidarTipo @ValidarDniNie
-public class Asociado extends AsociadoAbstracto {
+public class Asociado extends AsociadoAbstracto implements IPrintable {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaColonia = false;
@@ -406,5 +410,14 @@ public class Asociado extends AsociadoAbstracto {
 
     public void setEstudios(String estudios) {
         this.estudios = estudios;
+    }
+
+    @Override
+    public Map<String, String> ToPrintableRow() {
+        Map<String, String> diccionario = new HashMap<String, String>();
+        diccionario.put("nombre", this.nombre);
+        diccionario.put("apellidos", this.apellidos);
+
+        return diccionario;
     }
 }

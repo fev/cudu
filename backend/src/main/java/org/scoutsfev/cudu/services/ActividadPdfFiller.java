@@ -3,11 +3,9 @@ package org.scoutsfev.cudu.services;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.scoutsfev.cudu.domain.Actividad;
-import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.pdfbuilder.PdfFiller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 public class ActividadPdfFiller extends PdfFiller<Actividad> {
 
@@ -20,7 +18,7 @@ public class ActividadPdfFiller extends PdfFiller<Actividad> {
     }
 
     @Override
-    void RellenarPdf(PDAcroForm form) {
+    public void RellenarPdf(PDAcroForm form) {
         try {
 
             PDField nombreActividad = form.getField("NombreActividad");
@@ -34,7 +32,7 @@ public class ActividadPdfFiller extends PdfFiller<Actividad> {
     }
 
     @Override
-    Actividad Get() {
+    public Actividad Get() {
         return this.actividad;
     }
 }
