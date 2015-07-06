@@ -1,11 +1,8 @@
 package org.scoutsfev.cudu.domain;
 
-public class RespuestaFicha {
+public class RespuestaFichero {
 
     private String nombre;
-
-    public RespuestaFicha() {
-    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;

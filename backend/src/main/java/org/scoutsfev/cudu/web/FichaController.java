@@ -2,7 +2,7 @@ package org.scoutsfev.cudu.web;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.scoutsfev.cudu.domain.Ficha;
-import org.scoutsfev.cudu.domain.RespuestaFicha;
+import org.scoutsfev.cudu.domain.RespuestaFichero;
 import org.scoutsfev.cudu.services.FichaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,13 +49,12 @@ public class FichaController {
     }
 
     @RequestMapping(value = "/ficha/{idFicha}/generar", method = RequestMethod.POST)
-    public
     @ResponseBody
-    RespuestaFicha GenerarReport(@PathVariable Integer idFicha, @RequestBody List<Integer> asociados) throws IOException, COSVisitorException {
+    public RespuestaFichero GenerarReport(@PathVariable Integer idFicha, @RequestBody List<Integer> asociados) throws IOException, COSVisitorException {
         try {
 
             Path path = Paths.get(reportingService.GenerarFicha(asociados, null, null, idFicha, "es")); //TODO: obtener lenguaje, del user?
-            RespuestaFicha ficha = new RespuestaFicha();
+            RespuestaFichero ficha = new RespuestaFichero();
             ficha.setNombre(path.getFileName().toString());
 
             return ficha;
@@ -68,13 +67,12 @@ public class FichaController {
     }
 
     @RequestMapping(value = "/ficha/{idFicha}/actividad/{actividadId}/generar", method = RequestMethod.POST)
-    public
     @ResponseBody
-    RespuestaFicha GenerarReport(@PathVariable Integer idFicha, @PathVariable Integer actividadId, @RequestBody List<Integer> asociados) throws IOException, COSVisitorException {
+    public RespuestaFichero GenerarReport(@PathVariable Integer idFicha, @PathVariable Integer actividadId, @RequestBody List<Integer> asociados) throws IOException, COSVisitorException {
         try {
 
             Path path = Paths.get(reportingService.GenerarFicha(asociados, actividadId, null, idFicha, "es")); //TODO: obtener lenguaje, del user
-            RespuestaFicha ficha = new RespuestaFicha();
+            RespuestaFichero ficha = new RespuestaFichero();
             ficha.setNombre(path.getFileName().toString());
 
             return ficha;

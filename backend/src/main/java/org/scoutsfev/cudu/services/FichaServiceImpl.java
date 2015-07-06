@@ -1,6 +1,7 @@
 package org.scoutsfev.cudu.services;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.scoutsfev.cudu.domain.Actividad;
 import org.scoutsfev.cudu.domain.Asociado;

@@ -1,9 +1,8 @@
 package org.scoutsfev.cudu.web;
 
-import org.scoutsfev.cudu.domain.AmbitoEdicion;
-import org.scoutsfev.cudu.domain.Asociado;
-import org.scoutsfev.cudu.domain.CacheKeys;
-import org.scoutsfev.cudu.domain.Usuario;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.pdfbuilder.PdfTable;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -16,6 +15,9 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 public class AsociadoController {
@@ -27,6 +29,21 @@ public class AsociadoController {
     public AsociadoController(AsociadoRepository asociadoRepository, CacheManager cacheManager) {
         this.asociadoRepository = asociadoRepository;
         this.cacheManager = cacheManager;
+    }
+
+    @RequestMapping(value = "/asociado/generarlistado", method = RequestMethod.POST)
+    public RespuestaFichero GenerarListado(
+            @RequestBody String[] asociados,
+            @RequestBody String[] columnas,
+            @AuthenticationPrincipal Usuario usuario) throws IOException, COSVisitorException {
+
+        PdfTable<Asociado> tabla = new PdfTable(Arrays.asList(asociados));
+        String archivo = tabla.CreatePdfTable(columnas);
+
+        RespuestaFichero respuesta = new RespuestaFichero();
+        respuesta.setNombre(archivo);
+
+        return respuesta;
     }
 
     @RequestMapping(value = "/asociado", method = RequestMethod.GET)
