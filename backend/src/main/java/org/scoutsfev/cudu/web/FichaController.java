@@ -45,22 +45,17 @@ public class FichaController {
     public void DescargarFicha(@PathVariable String nombreArchivo, HttpServletResponse response) throws IOException, COSVisitorException {
         String path = Paths.get(_fichaProperties.getCarpetaFichas(), nombreArchivo).toString();
         DevolverArchivo(path, response);
-        new File(path).delete();
     }
 
     @RequestMapping(value = "/ficha/{idFicha}/generar", method = RequestMethod.POST)
     @ResponseBody
     public RespuestaFichero GenerarReport(@PathVariable Integer idFicha, @RequestBody List<Integer> asociados) throws IOException, COSVisitorException {
         try {
-
             Path path = Paths.get(reportingService.GenerarFicha(asociados, null, null, idFicha, "es")); //TODO: obtener lenguaje, del user?
             RespuestaFichero ficha = new RespuestaFichero();
             ficha.setNombre(path.getFileName().toString());
-
             return ficha;
-
         } catch (Exception ex) {
-
             logger.error("Error generando fichas");
             throw ex;
         }
@@ -70,15 +65,11 @@ public class FichaController {
     @ResponseBody
     public RespuestaFichero GenerarReport(@PathVariable Integer idFicha, @PathVariable Integer actividadId, @RequestBody List<Integer> asociados) throws IOException, COSVisitorException {
         try {
-
             Path path = Paths.get(reportingService.GenerarFicha(asociados, actividadId, null, idFicha, "es")); //TODO: obtener lenguaje, del user
             RespuestaFichero ficha = new RespuestaFichero();
             ficha.setNombre(path.getFileName().toString());
-
             return ficha;
-
         } catch (Exception ex) {
-
             logger.error("Error generando fichas: {0}", ex.getMessage());
             throw ex;
         }
