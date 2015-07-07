@@ -10,5 +10,5 @@ import java.util.List;
 public interface FichaService {
     String GenerarFicha(List<Integer> asociados, Integer actividad, String[] datos, int fichaId, Usuario usuario) throws IOException, COSVisitorException;
 
-    List<Ficha> ObtenerFichas(String lenguaje, int tipo);
+    List<Ficha> ObtenerFichas(String lenguaje);
 }

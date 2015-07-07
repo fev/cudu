@@ -84,8 +84,8 @@ public class FichaServiceImpl implements FichaService {
     }
 
     @Override
-    public List<Ficha> ObtenerFichas(String lenguaje, int tipo) {
-        return _fichaRepository.obtenerFichas(tipo, lenguaje);
+    public List<Ficha> ObtenerFichas(String lenguaje) {
+        return _fichaRepository.obtenerFichas(lenguaje);
     }
 
     private String ComprimirFichas(List<String> fichas, String destino) throws IOException {

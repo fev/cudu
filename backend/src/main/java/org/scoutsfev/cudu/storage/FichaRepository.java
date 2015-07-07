@@ -15,7 +15,7 @@ public interface FichaRepository extends Repository<Ficha, FichaId> {
     public Ficha obtenerFicha(@Param("idFicha") int idFicha, @Param("lenguaje") String lenguaje);
 
     @Query("SELECT new org.scoutsfev.cudu.domain.Ficha(F.id, F.lenguaje, F.nombre, F.plantilla, F.tipoEntidad, F.tipoFicha) FROM Ficha F " +
-            "WHERE F.lenguaje = :lenguaje AND F.tipoEntidad = :tipoEntidad")
-    public List<Ficha>  obtenerFichas(@Param("tipoEntidad") int tipoEntidad, @Param("lenguaje") String lenguaje);
+            "WHERE F.lenguaje = :lenguaje")
+    public List<Ficha>  obtenerFichas(@Param("lenguaje") String lenguaje);
 
 }

@@ -74,7 +74,7 @@ angular.module('cuduApp')
     });
     
     $scope.fichas = [];
-    Ficha.queryAll('es', 0, function (data) { 
+    Ficha.queryAll(0, function (data) { 
       $scope.fichas = _.filter(data, function (f) { return f.tipoFicha == 0; });
       $scope.autorizaciones = _.filter(data, function (f) { return f.tipoFicha == 1; });
     }, function () { });

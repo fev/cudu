@@ -44,9 +44,9 @@ cuduServices.factory('Actividad', ['$resource',
   cuduServices.factory('Ficha', ['$http',
   function($http) {
     return {
-      queryAll : function(lenguaje, tipo, onSuccess, onError) {
-        var url = _.template('/api/fichas/lenguaje/<%= lenguaje  %>/entidad/<%= tipo %>');
-        return $http.get(url({ 'lenguaje' : lenguaje, 'tipo' : tipo }))
+      queryAll : function(tipo, onSuccess, onError) {
+        var url = _.template('/api/fichas/entidad/<%= tipo %>');
+        return $http.get(url({ 'tipo' : tipo }))
         .success(onSuccess)
         .error(onError);
       },

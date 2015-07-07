@@ -83,9 +83,9 @@ public class FichaController {
         }
     }
 
-    @RequestMapping(value = "/fichas/lenguaje/{lenguajeId}/entidad/{tipoEntidad}", method = RequestMethod.GET)
-    public List<Ficha> ObtenerFichas(@PathVariable String lenguajeId, @PathVariable int tipoEntidad) {
-        return reportingService.ObtenerFichas(lenguajeId, tipoEntidad);
+    @RequestMapping(value = "/fichas/entidad/{tipoEntidad}", method = RequestMethod.GET)
+    public List<Ficha> ObtenerFichas(@PathVariable int tipoEntidad, @AuthenticationPrincipal Usuario usuario) {
+        return reportingService.ObtenerFichas(usuario.getLenguaje());
     }
 
     private void DevolverArchivo(String pathArchivo, HttpServletResponse response) throws IOException {
