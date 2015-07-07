@@ -15,7 +15,6 @@ public class Ficha implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
-
     @Id
     @Column(length = 3)
     private String lenguaje;

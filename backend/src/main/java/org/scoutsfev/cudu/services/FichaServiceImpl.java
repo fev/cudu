@@ -3,13 +3,12 @@ package org.scoutsfev.cudu.services;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.scoutsfev.cudu.domain.Actividad;
-import org.scoutsfev.cudu.domain.Asociado;
-import org.scoutsfev.cudu.domain.Ficha;
+import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.pdfbuilder.CreadorPdf;
 import org.scoutsfev.cudu.storage.ActividadRepository;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.FichaRepository;
+import org.scoutsfev.cudu.storage.RegistroImpresionRepository;
 import org.scoutsfev.cudu.web.FichaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -34,18 +33,23 @@ public class FichaServiceImpl implements FichaService {
     private AsociadoRepository _asociadoRepository;
     private FichaRepository _fichaRepository;
     private ActividadRepository _actividadRepository;
+    private RegistroImpresionRepository _registroImpresionRepository;
 
     @Autowired
-    public FichaServiceImpl(AsociadoRepository asociadoRepository, FichaRepository fichaRepository, ActividadRepository actividadRepository) {
+    public FichaServiceImpl(AsociadoRepository asociadoRepository,
+                            FichaRepository fichaRepository,
+                            ActividadRepository actividadRepository,
+                            RegistroImpresionRepository registroImpresionRepository) {
         _asociadoRepository = asociadoRepository;
         _fichaRepository = fichaRepository;
         _actividadRepository = actividadRepository;
+        _registroImpresionRepository = registroImpresionRepository;
     }
 
     @Override
-    public String GenerarFicha(List<Integer> asociados, Integer actividadId, String[] datos, int fichaId, String lenguaje) throws IOException, COSVisitorException {
+    public String GenerarFicha(List<Integer> asociados, Integer actividadId, String[] datos, int fichaId, Usuario usuario) throws IOException, COSVisitorException {
 
-        Ficha ficha = _fichaRepository.obtenerFicha(fichaId, lenguaje);
+        Ficha ficha = _fichaRepository.obtenerFicha(fichaId, usuario.getLenguaje());
         Actividad actividad = null;
         if (actividadId != null)
             actividad = _actividadRepository.findOne(actividadId);
@@ -67,10 +71,16 @@ public class FichaServiceImpl implements FichaService {
             resultado.add(destino);
         }
 
+        String path = resultado.get(0);
         if (resultado.size() > 1)
-            return ComprimirFichas(resultado, _fichaProperties.getCarpetaFichas());
+            path = ComprimirFichas(resultado, _fichaProperties.getCarpetaFichas());
 
-        return resultado.get(0);
+        // Registrar la impresion
+        String nombreFichero = Paths.get(path).getFileName().toString();
+        RegistroImpresion registroImpresion = new RegistroImpresion(usuario.getId(), nombreFichero);
+        _registroImpresionRepository.save(registroImpresion);
+
+        return path;
     }
 
     @Override

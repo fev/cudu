@@ -3,11 +3,13 @@ package org.scoutsfev.cudu.web;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.scoutsfev.cudu.domain.Ficha;
 import org.scoutsfev.cudu.domain.RespuestaFichero;
+import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.FichaService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.zeroturnaround.zip.commons.FileUtils;
 import org.zeroturnaround.zip.commons.FilenameUtils;
@@ -45,13 +47,16 @@ public class FichaController {
     public void DescargarFicha(@PathVariable String nombreArchivo, HttpServletResponse response) throws IOException, COSVisitorException {
         String path = Paths.get(_fichaProperties.getCarpetaFichas(), nombreArchivo).toString();
         DevolverArchivo(path, response);
+
     }
 
     @RequestMapping(value = "/ficha/{idFicha}/generar", method = RequestMethod.POST)
     @ResponseBody
-    public RespuestaFichero GenerarReport(@PathVariable Integer idFicha, @RequestBody List<Integer> asociados) throws IOException, COSVisitorException {
+    public RespuestaFichero GenerarReport(@PathVariable Integer idFicha,
+                                          @RequestBody List<Integer> asociados,
+                                          @AuthenticationPrincipal Usuario usuario) throws IOException, COSVisitorException {
         try {
-            Path path = Paths.get(reportingService.GenerarFicha(asociados, null, null, idFicha, "es")); //TODO: obtener lenguaje, del user?
+            Path path = Paths.get(reportingService.GenerarFicha(asociados, null, null, idFicha, usuario));
             RespuestaFichero ficha = new RespuestaFichero();
             ficha.setNombre(path.getFileName().toString());
             return ficha;
@@ -63,9 +68,12 @@ public class FichaController {
 
     @RequestMapping(value = "/ficha/{idFicha}/actividad/{actividadId}/generar", method = RequestMethod.POST)
     @ResponseBody
-    public RespuestaFichero GenerarReport(@PathVariable Integer idFicha, @PathVariable Integer actividadId, @RequestBody List<Integer> asociados) throws IOException, COSVisitorException {
+    public RespuestaFichero GenerarReport(@PathVariable Integer idFicha,
+                                          @PathVariable Integer actividadId,
+                                          @RequestBody List<Integer> asociados,
+                                          @AuthenticationPrincipal Usuario usuario) throws IOException, COSVisitorException {
         try {
-            Path path = Paths.get(reportingService.GenerarFicha(asociados, actividadId, null, idFicha, "es")); //TODO: obtener lenguaje, del user
+            Path path = Paths.get(reportingService.GenerarFicha(asociados, actividadId, null, idFicha, usuario));
             RespuestaFichero ficha = new RespuestaFichero();
             ficha.setNombre(path.getFileName().toString());
             return ficha;
