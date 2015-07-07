@@ -3,10 +3,11 @@ package org.scoutsfev.cudu.pdfbuilder;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.scoutsfev.cudu.pdfbuilder.PdfFiller;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class CreadorPdf {
 
@@ -23,6 +24,10 @@ public class CreadorPdf {
     public void RellenarPdf(PdfFiller pdfFiller) throws IOException {
         if (pdAcroForm != null)
             pdfFiller.RellenarPdf(this.pdAcroForm);
+
+        // Nombre Fichero
+        PDField nombre = this.pdAcroForm.getField("#NombreFichero");
+        nombre.setValue(Paths.get(destino).getFileName().toString());
     }
 
     public void Cerrar() throws IOException, COSVisitorException {
