@@ -4,11 +4,11 @@ import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-
 public class CreadorPdf {
 
     private PDDocument pdDocument;
@@ -28,6 +28,10 @@ public class CreadorPdf {
         // Nombre Fichero
         PDField nombre = this.pdAcroForm.getField("#NombreFichero");
         nombre.setValue(Paths.get(destino).getFileName().toString());
+
+        // Fecha Fichero
+        PDField fecha = this.pdAcroForm.getField("#Fecha");
+        fecha.setValue(DateTime.now().toString("dd/MM/yyyy"));
     }
 
     public void Cerrar() throws IOException, COSVisitorException {
