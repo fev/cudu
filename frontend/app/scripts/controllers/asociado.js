@@ -364,6 +364,7 @@ angular.module('cuduApp')
     };
     
     $scope.generarFicha = function(id) {
+     if ($scope.marcados.length == 0) return;
      Ficha.generar(id, $scope.marcados, 
      function (data) {
       var url = _.template('/api/ficha/<%= nombre %>/descargar');
