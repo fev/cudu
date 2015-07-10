@@ -24,7 +24,16 @@
               <li><a href="javascript:" ng-click="afegirBranca('ruta')"><%= rama.ruta %></a></li>
             </ul>
           </div>
-          <button type="submit" class="btn btn-default pull-right hidden" style="border: 0"><i class="fa fa-print"></i>&nbsp; IMPRIMIR</button>
+          <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+              <span class="glyphicon glyphicon-print"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header"><%= asociado.imprimir %></li>
+              <li><a href="javascript:">ejemplo 1</a></li>
+              <li><a href="javascript:">ejemplo 2</a></li>
+            </ul>
+          </div>
         </form>
         <div>
           <table class="table">

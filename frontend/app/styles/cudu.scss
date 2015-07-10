@@ -218,6 +218,9 @@ a, button {
 
 .modal .modal-dialog .modal-content { @include border-radius(0px); }
 
+.pull-right { float: right; }
+.pull-left { float: left; }
+
 @import 'secciones.scss';
 @import 'menu.scss';
 @import 'login.scss';
