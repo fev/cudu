@@ -27,11 +27,11 @@ public class CreadorPdf {
 
         // Nombre Fichero
         PDField nombre = this.pdAcroForm.getField("#NombreFichero");
-        nombre.setValue(Paths.get(destino).getFileName().toString());
+        if(nombre != null) nombre.setValue(Paths.get(destino).getFileName().toString());
 
         // Fecha Fichero
         PDField fecha = this.pdAcroForm.getField("#Fecha");
-        fecha.setValue(DateTime.now().toString("dd/MM/yyyy"));
+        if(fecha != null) fecha.setValue(DateTime.now().toString("dd/MM/yyyy"));
     }
 
     public void Cerrar() throws IOException, COSVisitorException {
