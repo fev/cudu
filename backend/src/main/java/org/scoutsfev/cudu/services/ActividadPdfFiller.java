@@ -21,8 +21,8 @@ public class ActividadPdfFiller extends PdfFiller<Actividad> {
     public void RellenarPdf(PDAcroForm form) {
         try {
 
-            PDField nombreActividad = form.getField("NombreActividad");
-            nombreActividad.setValue(this.actividad.getNombre());
+            PDField nombreActividad = form.getField("Actividad#Nombre");
+            if(nombreActividad != null) nombreActividad.setValue(this.actividad.getNombre());
 
         } catch (Exception ex) {
 

@@ -11,7 +11,7 @@ angular.module('cuduApp')
       $location.path('/actividades/' + id);
     };
   }])
-  .controller('ActividadesDetalleCtrl', ['$scope', '$routeParams', 'Actividad', 'EstadosFormulario', 'Usuario', 'Typeahead', function($scope, $routeParams, Actividad, EstadosFormulario, Usuario, Typeahead) {
+  .controller('ActividadesDetalleCtrl', ['$scope', '$routeParams', '$window', 'Actividad', 'EstadosFormulario', 'Usuario', 'Typeahead','Ficha', function($scope, $routeParams, $window, Actividad, EstadosFormulario, Usuario, Typeahead, Ficha) {
     $scope.estado = EstadosFormulario.LIMPIO;
 
     $scope.resumen = {
@@ -24,6 +24,12 @@ angular.module('cuduApp')
     $scope.typeaheadAsociadoOpt = { highlight: true, editable: false };
     $scope.typeaheadAsociadoDts = Typeahead.asociado();
     $scope.asistentPerAfegir = null;
+    
+    $scope.autorizaciones = [];
+    Ficha.queryAll(1, function (data) {
+      $scope.autorizaciones = _.filter(data, function (f) { return f.tipoFicha == 1 && f.tipoEntidad == 1; });
+    }, function () { });
+    
 
     // Afegir asistent
     $scope.$on('typeahead:selected', function(e, asistente) {      
@@ -184,4 +190,17 @@ angular.module('cuduApp')
     $scope.recalcularPrecio = function() {
       $scope.resumen = resumir($scope.actividad.detalle, $scope.actividad.precio);
     };
-  }])
+    
+    $scope.generar = function(id) {
+     var asistentes = _.filter($scope.actividad.detalle, function(data) { return _.includes(["S", "P", "B"], data.estadoAsistente); });
+     if (asistentes.length == 0) return;
+     Ficha.generar(id, _.map(asistentes, "asociadoId"), $scope.actividad.id, 
+     function (data) {
+      var url = _.template('/api/ficha/<%= nombre %>/descargar');
+      $window.location.assign(url({ 'nombre' : data.nombre }));
+     }, 
+     function (data, status) {
+      $scope.estado = EstadosFormulario.ERROR;
+     });
+    };
+  }]);

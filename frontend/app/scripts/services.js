@@ -50,9 +50,14 @@ cuduServices.factory('Actividad', ['$resource',
         .success(onSuccess)
         .error(onError);
       },
-      generar : function(fichaId, asociados, onSuccess, onError) {
-        var url = _.template('/api/ficha/<%= id %>/generar');
-        return $http.post(url({ 'id' : fichaId }), asociados)
+      generar : function(fichaId, asociados, actividadId, onSuccess, onError) {
+        var template = _.template('/api/ficha/<%= id %>/generar');
+        var url = template({ 'id' : fichaId });
+        if(actividadId != null) {
+          template = _.template('/api/ficha/<%= id %>/actividad/<%= actividadId %>/generar');
+          url = template({ 'id' : fichaId, 'actividadId': actividadId });
+        }
+        return $http.post(url, asociados)
         .success(onSuccess)
         .error(onError);
       }

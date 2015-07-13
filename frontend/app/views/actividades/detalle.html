@@ -30,8 +30,7 @@
             </button>
             <ul class="dropdown-menu">
               <li class="dropdown-header"><%= asociado.imprimir %></li>
-              <li><a href="javascript:">ejemplo 1</a></li>
-              <li><a href="javascript:">ejemplo 2</a></li>
+              <li ng-repeat="autorizacion in autorizaciones"><a href="" ng-click="generar(autorizacion.id)">{{autorizacion.nombre}}</a></li>
             </ul>
           </div>
         </form>
