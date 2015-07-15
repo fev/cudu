@@ -65,8 +65,8 @@ angular.module('cuduApp')
         });
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', '$window', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Ficha',
-      function ($scope, $window, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Ficha) {
+  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Ficha',
+      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Ficha) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {
@@ -374,6 +374,26 @@ angular.module('cuduApp')
       $scope.estado = EstadosFormulario.ERROR;
      });
     };
+    
+    $scope.imprimirTodos = function() {
+      $scope.imprimirListado($scope.asociados);
+    };
+    
+    $scope.imprimirVisibles = function() {
+      var f = $filter('filter');
+      var visibles = f(f($scope.asociados, $scope.busqueda), function(a) { return $scope.filtrar(a); });
+      $scope.imprimirListado(visibles);
+    };
+    
+    $scope.imprimirListado = function(asociados) {
+      var columnas = ["nombre", "apellidos", "direccion"]; // TODO: columnas seleccionadas
+      Ficha.imprimir(_.map(asociados, "id"), columnas, 
+      function(data) {
+        var url = _.template('/api/ficha/<%= nombre %>/descargar');
+        $window.location.assign(url({ 'nombre' : data.nombre }));
+      },
+      function(data, status) { $scope.estado = EstadosFormulario.ERROR; });
+    };
 
     var calcularRamaRecomendada = function(fechaNacimiento) {
       var edad = Usuario.calcularEdad(fechaNacimiento);
@@ -383,7 +403,7 @@ angular.module('cuduApp')
       if (edad > 13 && edad <= 16) { return 'Expedicion'; }
       if (edad > 16) { return 'Ruta'; }
       return null;
-    }
+    };
 
     var calcularPuntosCovol = function(asociado) {
       if (typeof asociado === 'undefined') {

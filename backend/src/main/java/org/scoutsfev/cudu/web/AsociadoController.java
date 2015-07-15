@@ -2,6 +2,7 @@ package org.scoutsfev.cudu.web;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.domain.validadores.ImpresionTabla;
 import org.scoutsfev.cudu.pdfbuilder.PdfTable;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -31,17 +36,18 @@ public class AsociadoController {
         this.cacheManager = cacheManager;
     }
 
-    @RequestMapping(value = "/asociado/generarlistado", method = RequestMethod.POST)
+    @RequestMapping(value = "/asociado/imprimir", method = RequestMethod.POST)
     public RespuestaFichero GenerarListado(
-            @RequestBody String[] asociados,
-            @RequestBody String[] columnas,
+            @RequestBody ImpresionTabla impresionTabla,
             @AuthenticationPrincipal Usuario usuario) throws IOException, COSVisitorException {
 
-        PdfTable<Asociado> tabla = new PdfTable(Arrays.asList(asociados));
-        String archivo = tabla.CreatePdfTable(columnas);
+        Iterable<Asociado> asociados = this.asociadoRepository.findAll(Arrays.asList(impresionTabla.getIdentificadores()));
+        PdfTable<Asociado> tabla = new PdfTable((List) asociados);
+        String archivo = tabla.CreatePdfTable(impresionTabla.getColumnas());
 
+        Path path  = Paths.get(archivo);
         RespuestaFichero respuesta = new RespuestaFichero();
-        respuesta.setNombre(archivo);
+        respuesta.setNombre(path.getFileName().toString());
 
         return respuesta;
     }

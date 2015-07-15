@@ -37,8 +37,8 @@
                 </button>
                 <ul class="dropdown-menu">
                   <li class="dropdown-header"><%= asociado.imprimir %></li>
-                  <li><a href="javascript:"><%= asociado.listadoCompleto %></a></li>
-                  <li><a href="javascript:"><%= asociado.listadoSoloVisibles %></a></li>
+                  <li><a href="javascript:" ng-click="imprimirTodos()"><%= asociado.listadoCompleto %></a></li>
+                  <li><a href="javascript:" ng-click="imprimirVisibles()"><%= asociado.listadoSoloVisibles %></a></li>
                   <li class="dropdown-submenu">
                     <a data-toggle="dropdown" href="javascript:"><%= asociado.autorizaciones %></a>
                     <ul class="dropdown-menu">
