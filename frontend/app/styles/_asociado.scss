@@ -126,4 +126,7 @@
       textarea { border: 1px solid $input-border; }
     }
   }
+  
+  // Bootstrap 3.3 añade un z-index: 2 que hunde el popup de los menus
+  .input-group-btn:last-child > .btn-group { z-index: inherit; }
 }
