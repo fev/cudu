@@ -76,16 +76,16 @@
     // Campos visibles
     .rama { display: none }
     .contacto { display: none }
-    .direccion { display: none }
+    .direccion { display: none }
 
     .ver-contacto {
       .contacto { display: block }
     }
-    .ver-direccion {
-      .direccion { display: block }
-    }
     .ver-rama {
       .rama { display: block }
+    }
+    .ver-direccion {
+      .direccion { display: block }
     }
   }
 
