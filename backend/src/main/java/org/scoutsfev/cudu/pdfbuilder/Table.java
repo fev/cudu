@@ -16,6 +16,7 @@ public class Table {
 
     // font attributes
     private PDFont textFont;
+    private PDFont headerTextFont;
     private float fontSize;
 
     // Content attributes
@@ -61,6 +62,12 @@ public class Table {
 
     public void setTextFont(PDFont textFont) {
         this.textFont = textFont;
+    }
+
+    public PDFont getHeaderTextFont() { return headerTextFont;}
+
+    public void setHeaderTextFont(PDFont textFont) {
+        this.headerTextFont = textFont;
     }
 
     public float getFontSize() {

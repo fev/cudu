@@ -5,6 +5,7 @@ import org.scoutsfev.cudu.domain.Ficha;
 import org.scoutsfev.cudu.domain.RespuestaFichero;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.FichaService;
+import org.scoutsfev.cudu.web.properties.FichaProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +13,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.zeroturnaround.zip.commons.FileUtils;
-import org.zeroturnaround.zip.commons.FilenameUtils;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLConnection;
 import java.nio.file.Path;
 import java.nio.file.Paths;

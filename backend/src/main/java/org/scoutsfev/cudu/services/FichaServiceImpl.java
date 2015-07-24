@@ -1,17 +1,20 @@
 package org.scoutsfev.cudu.services;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
-import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.pdfbuilder.Columna;
 import org.scoutsfev.cudu.pdfbuilder.CreadorPdf;
+import org.scoutsfev.cudu.pdfbuilder.PdfTable;
 import org.scoutsfev.cudu.storage.ActividadRepository;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.FichaRepository;
 import org.scoutsfev.cudu.storage.RegistroImpresionRepository;
-import org.scoutsfev.cudu.web.FichaProperties;
+import org.scoutsfev.cudu.web.properties.FichaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.MessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.zeroturnaround.zip.ZipUtil;
 
@@ -19,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @EnableConfigurationProperties
@@ -34,16 +38,22 @@ public class FichaServiceImpl implements FichaService {
     private FichaRepository _fichaRepository;
     private ActividadRepository _actividadRepository;
     private RegistroImpresionRepository _registroImpresionRepository;
+    private MessageSource _messageSource;
+    private Environment _environment;
 
     @Autowired
     public FichaServiceImpl(AsociadoRepository asociadoRepository,
                             FichaRepository fichaRepository,
                             ActividadRepository actividadRepository,
-                            RegistroImpresionRepository registroImpresionRepository) {
+                            RegistroImpresionRepository registroImpresionRepository,
+                            MessageSource messageSource,
+                            Environment environment) {
         _asociadoRepository = asociadoRepository;
         _fichaRepository = fichaRepository;
         _actividadRepository = actividadRepository;
         _registroImpresionRepository = registroImpresionRepository;
+        _messageSource = messageSource;
+        _environment = environment;
     }
 
     @Override
@@ -81,6 +91,51 @@ public class FichaServiceImpl implements FichaService {
         _registroImpresionRepository.save(registroImpresion);
 
         return path;
+    }
+
+    @Override
+    public String GenerarListado(Integer[] asociados, String[] columnas, Usuario usuario) throws IOException, COSVisitorException {
+        Iterable<Asociado> objectosAsociado = _asociadoRepository.findAll(Arrays.asList(asociados));
+
+        // Obtener datos de la rama por cada asociado
+        if (Arrays.asList(columnas).contains("rama")) {
+            Locale locale = Locale.forLanguageTag(usuario.getLenguaje());
+            for (Asociado a : objectosAsociado) {
+                List<String> ramas = new ArrayList();
+                if (a.isRamaColonia()) {
+                    ramas.add(_messageSource.getMessage("rama.colonia", null, locale));
+                }
+                if (a.isRamaManada()) {
+                    ramas.add(_messageSource.getMessage("rama.manada", null, locale));
+                }
+                if (a.isRamaExploradores()) {
+                    ramas.add(_messageSource.getMessage("rama.exploradores", null, locale));
+                }
+                if (a.isRamaExpedicion()) {
+                    ramas.add(_messageSource.getMessage("rama.expedicion", null, locale));
+                }
+                if (a.isRamaRuta()) {
+                    ramas.add(_messageSource.getMessage("rama.ruta", null, locale));
+                }
+                if (ramas.size() > 0) {
+                    String rama = ramas.stream().map(Object::toString).collect(Collectors.joining(","));
+                    a.setRama(rama);
+                }
+            }
+        }
+
+        // Obtener ancho de columnas y generar tabla
+        PdfTable<Asociado> tabla = new PdfTable((List) objectosAsociado);
+        List<Columna> cols = new ArrayList();
+        for (String col : columnas) {
+            String key = String.format("listado.columnas.ancho.%s", col);
+            String w = _environment.getRequiredProperty(key);
+            cols.add(new Columna(col, Float.valueOf(w)));
+        }
+        Columna[] array = new Columna[cols.size()];
+        String archivo = tabla.CreatePdfTable(cols.toArray(array));
+
+        return archivo;
     }
 
     @Override

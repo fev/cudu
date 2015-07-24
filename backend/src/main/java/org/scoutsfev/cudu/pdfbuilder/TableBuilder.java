@@ -59,6 +59,11 @@ public class TableBuilder {
         return this;
     }
 
+    public TableBuilder setHeaderTextFont(PDFont textFont) {
+        table.setHeaderTextFont(textFont);
+        return this;
+    }
+
     public TableBuilder setFontSize(float fontSize) {
         table.setFontSize(fontSize);
         return this;

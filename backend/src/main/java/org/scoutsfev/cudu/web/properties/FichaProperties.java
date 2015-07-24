@@ -1,4 +1,4 @@
-package org.scoutsfev.cudu.web;
+package org.scoutsfev.cudu.web.properties;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;

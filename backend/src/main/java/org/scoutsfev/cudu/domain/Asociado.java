@@ -43,6 +43,8 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaRuta = false;
 
+    private String rama;
+
     @Column(name = "grupo_id")
     private String grupoId;
 
@@ -412,11 +414,21 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
         this.estudios = estudios;
     }
 
+    public String getRama() {
+        return this.rama;
+    }
+
+    public void setRama(String rama) {
+        this.rama = rama;
+    }
+
     @Override
     public Map<String, String> ToPrintableRow() {
         Map<String, String> diccionario = new HashMap<String, String>();
-        diccionario.put("nombre", this.nombre);
-        diccionario.put("apellidos", this.apellidos);
+        diccionario.put("nombre", String.format("%s %s", this.nombre, this.apellidos));
+        diccionario.put("direccion", String.format("%s, %s, %s", this.direccion, this.codigoPostal, this.municipio));
+        diccionario.put("rama", this.rama);
+        diccionario.put("contacto", String.format("%s, %s", this.emailContacto, this.telefonoMovil));
 
         return diccionario;
     }

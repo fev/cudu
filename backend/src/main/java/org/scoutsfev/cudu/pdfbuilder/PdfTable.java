@@ -6,10 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class PdfTable<T extends IPrintable> extends BaseTable {
 
@@ -21,37 +18,32 @@ public class PdfTable<T extends IPrintable> extends BaseTable {
         this.list = list;
     }
 
-    public String CreatePdfTable(String[] columns) throws IOException, COSVisitorException {
-
-        List<Columna> columnas = new ArrayList();
-        for (String c : columns)
-            columnas.add(new Columna(c, DEFAULT_CELL_WIDTH));
-
+    public String CreatePdfTable(Columna[] columns) throws IOException, COSVisitorException {
         if (list.size() == 0) {
             logger.warn("Impossible to create a PDF file from an empty list");
             return EMPTY;
         }
 
-        Table table = super.CreateTable(columnas, GetContent(columns));
+        Table table = super.CreateTable(Arrays.asList(columns), GetContent(columns));
         String archivo = Paths.get("temp", UUID.randomUUID().toString() + ".pdf").toString();
         new PDFTableGenerator().generatePDF(table, archivo);
 
         return archivo;
     }
 
-    public String[][] GetContent(String[] columns) {
+    public String[][] GetContent(Columna[] columns) {
         List<String[]> contents = new ArrayList();
         for (T entity : list) {
             List<String> fila = new ArrayList();
             Map<String, String> map = entity.ToPrintableRow();
-            for (String c : columns) {
+            for (Columna c : columns) {
                 try {
-                    if (map.containsKey(c))
-                        fila.add(map.get(c));
+                    if (map.containsKey(c.getName()))
+                        fila.add(map.get(c.getName()));
                     else
                         fila.add(EMPTY);
                 } catch (Exception ex) {
-                    logger.error("Error al generar tabla en pdf de tipo '{0}, columna '{1}'", list.get(0).getClass(), c);
+                    logger.error("Error al generar tabla en pdf de tipo '{0}, columna '{1}'", list.get(0).getClass(), c.getName());
                     throw ex;
                 }
             }

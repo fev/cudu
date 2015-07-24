@@ -4,6 +4,7 @@ import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.domain.validadores.ImpresionTabla;
 import org.scoutsfev.cudu.pdfbuilder.PdfTable;
+import org.scoutsfev.cudu.services.FichaService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
@@ -19,9 +20,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -29,11 +28,13 @@ public class AsociadoController {
 
     private final AsociadoRepository asociadoRepository;
     private final CacheManager cacheManager;
+    private final FichaService fichaService;
 
     @Autowired
-    public AsociadoController(AsociadoRepository asociadoRepository, CacheManager cacheManager) {
+    public AsociadoController(AsociadoRepository asociadoRepository, FichaService fichaService, CacheManager cacheManager) {
         this.asociadoRepository = asociadoRepository;
         this.cacheManager = cacheManager;
+        this.fichaService = fichaService;
     }
 
     @RequestMapping(value = "/asociado/imprimir", method = RequestMethod.POST)
@@ -41,11 +42,9 @@ public class AsociadoController {
             @RequestBody ImpresionTabla impresionTabla,
             @AuthenticationPrincipal Usuario usuario) throws IOException, COSVisitorException {
 
-        Iterable<Asociado> asociados = this.asociadoRepository.findAll(Arrays.asList(impresionTabla.getIdentificadores()));
-        PdfTable<Asociado> tabla = new PdfTable((List) asociados);
-        String archivo = tabla.CreatePdfTable(impresionTabla.getColumnas());
+        String archivo = fichaService.GenerarListado(impresionTabla.getIdentificadores(), impresionTabla.getColumnas(), usuario);
 
-        Path path  = Paths.get(archivo);
+        Path path = Paths.get(archivo);
         RespuestaFichero respuesta = new RespuestaFichero();
         respuesta.setNombre(path.getFileName().toString());
 
