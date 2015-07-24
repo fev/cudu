@@ -65,8 +65,8 @@ angular.module('cuduApp')
         });
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Ficha',
-      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Ficha) {
+  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Ficha', 'Ramas',
+      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Ficha, Ramas) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {
@@ -99,7 +99,7 @@ angular.module('cuduApp')
     $scope.tabActivo = 0;
     $scope.busqueda = '';
     $scope.filtro = { tipo: '', eliminados: false };
-    $scope.columnas = { rama: true, direccion: false, contacto: false };
+    $scope.columnas = { rama: true, direccion: true, contacto: false };
     $scope.orden = 'apellidos';
 
     $scope.modal = { eliminar: false };
@@ -386,8 +386,12 @@ angular.module('cuduApp')
     };
     
     $scope.imprimirListado = function(asociados) {
-      var columnas = ["nombre", "apellidos", "direccion"]; // TODO: columnas seleccionadas
-      Ficha.imprimir(_.map(asociados, "id"), columnas, 
+      var columnas = ["nombre"];
+      if($scope.columnas.contacto) columnas.push("contacto");
+      if($scope.columnas.direccion) columnas.push("direccion");
+      if($scope.columnas.rama) columnas.push("rama");
+      
+      Ficha.listado(_.map(asociados, "id"), columnas, 
       function(data) {
         var url = _.template('/api/ficha/<%= nombre %>/descargar');
         $window.location.assign(url({ 'nombre' : data.nombre }));

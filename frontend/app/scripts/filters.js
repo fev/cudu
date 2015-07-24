@@ -2,23 +2,12 @@
 
 var filters = angular.module('cuduFilters', []);
 
-filters.filter('rama', function(Traducciones) {
+filters.filter('rama', function(Traducciones, Ramas) {
   return function(a, fallback) {
     if (!a) {
       return '¿?';
     }
-    var rama = [];
-    if (a.ramaColonia || a.colonia) { rama.push(Traducciones.texto('rama.colonia')); }
-    if (a.ramaManada || a.manada) { rama.push(Traducciones.texto('rama.manada')); }
-    if (a.ramaExploradores || a.exploradores) { rama.push(Traducciones.texto('rama.exploradores')); }
-    if (a.ramaExpedicion || a.expedicion) { rama.push(Traducciones.texto('rama.expedicion')); }
-    if (a.ramaRuta || a.ruta) { rama.push(Traducciones.texto('rama.ruta')); }
-
-    if (rama.length === 0) {
-      var clave = fallback || 'rama.ninguna';
-      return Traducciones.texto(clave);
-    }
-    return rama.join(', ');
+    Ramas.get(a, fallback);
   };
 });
 
