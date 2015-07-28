@@ -64,7 +64,9 @@ public class Table {
         this.textFont = textFont;
     }
 
-    public PDFont getHeaderTextFont() { return headerTextFont;}
+    public PDFont getHeaderTextFont() {
+        return headerTextFont;
+    }
 
     public void setHeaderTextFont(PDFont textFont) {
         this.headerTextFont = textFont;
@@ -78,10 +80,10 @@ public class Table {
         this.fontSize = fontSize;
     }
 
-    public String[] getColumnsNamesAsArray() {
+    public String[] getColumnsNamesAsArray(Boolean toUpper) {
         String[] columnNames = new String[getNumberOfColumns()];
         for (int i = 0; i < getNumberOfColumns(); i++) {
-            columnNames[i] = columns.get(i).getName();
+            columnNames[i] = toUpper ? columns.get(i).getName().toUpperCase() : columns.get(i).getName();
         }
         return columnNames;
     }

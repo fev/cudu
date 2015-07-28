@@ -54,11 +54,13 @@ public class PDFTableGenerator {
                 - ((table.getTextFont().getFontDescriptor().getFontBoundingBox().getHeight() / 1000 * table.getFontSize()) / 4);
 
         // Write column headers
-        writeContentLine(table.getColumnsNamesAsArray(), contentStream, nextTextX, nextTextY, table);
+        contentStream.setFont(table.getHeaderTextFont(), table.getFontSize());
+        writeContentLine(table.getColumnsNamesAsArray(true), contentStream, nextTextX, nextTextY, table);
         nextTextY -= table.getRowHeight();
         nextTextX = table.getMargin() + table.getCellMargin();
 
         // Write content
+        contentStream.setFont(table.getTextFont(), table.getFontSize());
         for (int i = 0; i < currentPageContent.length; i++) {
             writeContentLine(currentPageContent[i], contentStream, nextTextX, nextTextY, table);
             nextTextY -= table.getRowHeight();
@@ -125,7 +127,7 @@ public class PDFTableGenerator {
         if (table.isLandscape()) {
             contentStream.concatenate2CTM(0, 1, -1, 0, table.getPageSize().getWidth(), 0);
         }
-        contentStream.setFont(table.getTextFont(), table.getFontSize());
+        
         return contentStream;
     }
 }
