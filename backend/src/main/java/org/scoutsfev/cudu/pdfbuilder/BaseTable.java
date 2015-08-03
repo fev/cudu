@@ -11,7 +11,7 @@ public class BaseTable {
 
     // Page configuration
     protected static final PDRectangle PAGE_SIZE = PDPage.PAGE_SIZE_A4;
-    protected static final float MARGIN = 20;
+    protected static final float MARGIN = 50;
     protected static final boolean IS_LANDSCAPE = true;
 
     // Font configuration
