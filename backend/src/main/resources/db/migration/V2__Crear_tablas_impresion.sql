@@ -1,10 +1,11 @@
-CREATE TABLE "ficha" (
-  id serial,
-  lenguaje varchar,
-  nombre varchar,
-  plantilla varchar,
-  tipo_entidad int4,
-  tipo_ficha int4
+create TABLE "ficha" (
+    "id" serial not null default nextval('ficha_id_seq'::regclass),
+    "lenguaje" varchar(3) not null,
+    "nombre" varchar(200) not null,
+    "plantilla" varchar(200) not null,
+    "tipo_entidad" int4,
+    "tipo_ficha" int4,
+    PRIMARY KEY ("id", "lenguaje")
 );
 INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (4, 'es', 'Autorización fotografias mayor de edad', 'FEV_Autorizacion_fotografias_mayor_de_edad.pdf', 0, 1);
 INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (6, 'es', 'Autorización fotografias menor de edad', 'FEV_Autorizacion_fotografias_menor_de_edad.pdf', 0, 1);
