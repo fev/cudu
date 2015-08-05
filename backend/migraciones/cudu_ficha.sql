@@ -24,3 +24,10 @@ INSERT INTO "MY_TABLE"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha
 INSERT INTO "MY_TABLE"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (9, 'es', 'Autorización menor viaje vehiculo privado', 'FEV_Autorizacion_menor_viaje_vehiculo_privado.pdf', 1, 1);
 INSERT INTO "MY_TABLE"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (0, 'es', 'Participacion en actividades', 'FEV_Autorizacion_participacion_en_actividades.pdf', 1, 1);
 INSERT INTO "MY_TABLE"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (12, 'ca', 'Participació en activitats', 'FEV_Autoritzacio_participacio_en_activitats.pdf', 1, 1);
+
+create TABLE "impresion" (
+    "fichero" varchar(100) not null,
+    "usuario_id" int4 not null,
+    "fecha" timestamp default now(),
+    PRIMARY KEY ("fichero", "usuario_id")
+);
