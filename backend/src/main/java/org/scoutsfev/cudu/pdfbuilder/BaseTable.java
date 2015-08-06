@@ -17,7 +17,7 @@ public class BaseTable {
     // Font configuration
     protected static final PDFont TEXT_FONT = PDType1Font.HELVETICA;
     protected static final PDFont TEXT_HEADER_FONT = PDType1Font.HELVETICA_BOLD;
-    protected static final float FONT_SIZE = 12;
+    protected static final float FONT_SIZE = 10;
 
     // Table configuration
     protected static final float ROW_HEIGHT = 15;
