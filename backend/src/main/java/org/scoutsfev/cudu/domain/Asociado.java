@@ -428,7 +428,8 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
         diccionario.put("nombre", String.format("%s %s", this.nombre, this.apellidos));
         diccionario.put("direccion", String.format("%s, %s, %s", this.direccion, this.codigoPostal, this.municipio));
         diccionario.put("rama", this.rama);
-        diccionario.put("contacto", String.format("%s, %s", this.emailContacto, this.telefonoMovil));
+        diccionario.put("email", this.emailContacto);
+        diccionario.put("telefono", this.telefonoMovil);
 
         return diccionario;
     }

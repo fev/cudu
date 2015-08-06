@@ -397,7 +397,10 @@ angular.module('cuduApp')
     
     $scope.imprimirListado = function(asociados) {
       var columnas = ["nombre"];
-      if($scope.columnas.contacto) columnas.push("contacto");
+      if($scope.columnas.contacto) {
+        columnas.push("telefono");
+        columnas.push("email");
+      }
       if($scope.columnas.direccion) columnas.push("direccion");
       if($scope.columnas.rama) columnas.push("rama");
       
