@@ -6,7 +6,8 @@ var estados = {
   GUARDANDO: 1,
   OK: 2,
   ERROR: 3,
-  VALIDACION: 4
+  VALIDACION: 4,
+  CUSTOM: 5
 };
 
 angular.module('cuduApp')
@@ -101,6 +102,7 @@ angular.module('cuduApp')
     $scope.filtro = { tipo: '', eliminados: false };
     $scope.columnas = { rama: true, direccion: true, contacto: false };
     $scope.orden = 'apellidos';
+    $scope.info = { mensaje: ''};
 
     $scope.modal = { eliminar: false };
 
@@ -364,7 +366,10 @@ angular.module('cuduApp')
     };
     
     $scope.generarFicha = function(id) {
-     if ($scope.marcados.length == 0) return;
+     if ($scope.marcados.length == 0) {
+       $scope.mensajeCustom(Traducciones.texto('impresion.noseleccionados'));
+       return;
+     }
      Ficha.generar(id, $scope.marcados, null, 
      function (data) {
       var url = _.template('/api/ficha/<%= nombre %>/descargar');
@@ -373,6 +378,11 @@ angular.module('cuduApp')
      function (data, status) {
       $scope.estado = EstadosFormulario.ERROR;
      });
+    };
+    
+    $scope.mensajeCustom = function(msn) {
+      $scope.estado = EstadosFormulario.CUSTOM;
+      $scope.info.mensaje = msn;
     };
     
     $scope.imprimirTodos = function() {

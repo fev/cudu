@@ -24,7 +24,8 @@ angular
     'GUARDANDO'  : 1,
     'OK'         : 2,
     'ERROR'      : 3,
-    'VALIDACION' : 4
+    'VALIDACION' : 4,
+    'CUSTOM' : 5,
   })
   .constant('CuduEtc', {
     'IDIOMA': 'cudu.lenguaje'

@@ -162,6 +162,10 @@
         <li ng-repeat="error in erroresValidacion">{{error.mensaje}}</li>
       </ul>
     </div>
+    
+    <div class="alert alert-warning" ng-show="estado == 5">
+      {{info.mensaje}}
+    </div>
 
     <form name="formAsociado" class="form-horizontal form-cudu form-edicion" role="form" autocomplete="off">
       <div class="row">
