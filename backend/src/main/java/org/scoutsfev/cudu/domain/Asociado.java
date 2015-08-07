@@ -25,7 +25,9 @@ import java.util.Map;
 
 @Entity
 @Table(name = "asociado")
-@ValidarRama @ValidarTipo @ValidarDniNie
+@ValidarRama
+@ValidarTipo
+@ValidarDniNie
 public class Asociado extends AsociadoAbstracto implements IPrintable {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
@@ -67,7 +69,7 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Size(min = 3, max = 100)
     private String municipio;
 
-    @Size(max=10)
+    @Size(max = 10)
     @Column(nullable = true)
     private String dni;
 
@@ -132,7 +134,7 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Email
     private String emailPadre;
 
-    @Column(columnDefinition="TEXT NULL", nullable = true)
+    @Column(columnDefinition = "TEXT NULL", nullable = true)
     private String notas;
 
     @Size(max = 128)
@@ -141,7 +143,8 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Size(max = 128)
     private String estudios;
 
-    protected Asociado() { }
+    protected Asociado() {
+    }
 
     public Asociado(String grupoId, TipoAsociado tipo, AmbitoEdicion ambitoEdicion, String nombre, String apellidos, LocalDate fechaNacimiento) {
         this.grupoId = grupoId;
@@ -426,7 +429,15 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     public Map<String, String> ToPrintableRow() {
         Map<String, String> diccionario = new HashMap<String, String>();
         diccionario.put("nombre", String.format("%s %s", this.nombre, this.apellidos));
-        diccionario.put("direccion", String.format("%s, %s, %s", this.direccion, this.codigoPostal, this.municipio));
+
+        StringBuilder direccionSb = new StringBuilder();
+        direccionSb.append(this.direccion);
+        if (this.codigoPostal != null)
+            direccionSb.append(String.format(", %s", this.codigoPostal));
+        if (this.municipio != null)
+            direccionSb.append(String.format(", %s", this.municipio));
+        diccionario.put("direccion", direccionSb.toString());
+
         diccionario.put("rama", this.rama);
         diccionario.put("email", this.emailContacto);
         diccionario.put("telefono", this.telefonoMovil);

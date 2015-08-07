@@ -98,8 +98,8 @@ public class FichaServiceImpl implements FichaService {
         Iterable<Asociado> objectosAsociado = _asociadoRepository.findAll(Arrays.asList(asociados));
 
         // Obtener datos de la rama por cada asociado
+        Locale locale = Locale.forLanguageTag(usuario.getLenguaje());
         if (Arrays.asList(columnas).contains("rama")) {
-            Locale locale = Locale.forLanguageTag(usuario.getLenguaje());
             for (Asociado a : objectosAsociado) {
                 List<String> ramas = new ArrayList();
                 if (a.isRamaColonia()) {
@@ -128,9 +128,13 @@ public class FichaServiceImpl implements FichaService {
         PdfTable<Asociado> tabla = new PdfTable((List) objectosAsociado);
         List<Columna> cols = new ArrayList();
         for (String col : columnas) {
-            String key = String.format("listado.columnas.ancho.%s", col);
-            String w = _environment.getRequiredProperty(key);
-            cols.add(new Columna(col, Float.valueOf(w)));
+            String anchoClave = String.format("listado.columnas.ancho.%s", col);
+            String anchoValor = _environment.getRequiredProperty(anchoClave);
+
+            String traduccionClave = String.format("impresion.columna.%s", col);
+            String traduccionValor = _messageSource.getMessage(traduccionClave, null, locale);
+
+            cols.add(new Columna(traduccionValor, col, Float.valueOf(anchoValor)));
         }
         Columna[] array = new Columna[cols.size()];
         String archivo = tabla.CreatePdfTable(cols.toArray(array));

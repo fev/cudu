@@ -24,51 +24,60 @@ public class PdfTableTests {
 
     }
 
-    @Ignore
     @Test
     public void puede_generar_contenidos() {
         List<Asociado> asociados = new ArrayList();
-        asociados.add(new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Ragnar", "Lordbrok", LocalDate.now()));
-        asociados.add(new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Rollo", "Lordbrok", LocalDate.now()));
+        Asociado a1 = new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Ragnar", "Lordbrok", LocalDate.now());
+        a1.setDireccion("Escandinavia");
+        asociados.add(a1);
+        Asociado a2 = new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Rollo", "Lordbrok", LocalDate.now());
+        a2.setDireccion("Escandinavia");
+        asociados.add(a2);
 
         PdfTable<Asociado> tabla = new PdfTable(asociados);
-        String[][] contenido = tabla.GetContent(new Columna[]{new Columna("nombre", 0), new Columna("apellidos", 0)});
+        String[][] contenido = tabla.GetContent(new Columna[]{new Columna("nombre", "nombre", 0), new Columna("direccion", "direccion", 0)});
 
         String[][] esperado = new String[][]{
-                new String[]{"Ragnar", "Lordbrok"},
-                new String[]{"Rollo", "Lordbrok"}
+                new String[]{"Ragnar Lordbrok", "Escandinavia"},
+                new String[]{"Rollo Lordbrok", "Escandinavia"}
         };
 
         Assert.assertArrayEquals(contenido, esperado);
     }
 
-    @Ignore
     @Test
     public void si_columna_no_existe_devuelve_valor_vacio() {
         List<Asociado> asociados = new ArrayList();
-        asociados.add(new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Ragnar", "Lordbrok", LocalDate.now()));
-        asociados.add(new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Rollo", "Lordbrok", LocalDate.now()));
+        Asociado a1 = new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Ragnar", "Lordbrok", LocalDate.now());
+        a1.setDireccion("Escandinavia");
+        asociados.add(a1);
+        Asociado a2 = new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Rollo", "Lordbrok", LocalDate.now());
+        a2.setDireccion("Escandinavia");
+        asociados.add(a2);
 
         PdfTable<Asociado> tabla = new PdfTable(asociados);
-        String[][] contenido = tabla.GetContent(new Columna[]{new Columna("nombre", 0), new Columna("noexiste", 0), new Columna("apellidos", 0)});
+        String[][] contenido = tabla.GetContent(new Columna[]{new Columna("nombre", "nombre", 0), new Columna("noexiste", "", 0), new Columna("direccion", "direccion", 0)});
 
         String[][] esperado = new String[][]{
-                new String[]{"Ragnar", "", "Lordbrok"},
-                new String[]{"Rollo", "", "Lordbrok"}
+                new String[]{"Ragnar Lordbrok", "", "Escandinavia"},
+                new String[]{"Rollo Lordbrok", "", "Escandinavia"}
         };
 
         Assert.assertArrayEquals(contenido, esperado);
     }
 
-    @Ignore
     @Test
     public void puede_crear_pdf() throws IOException, COSVisitorException {
         List<Asociado> asociados = new ArrayList();
-        asociados.add(new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Ragnar", "Lordbrok", LocalDate.now()));
-        asociados.add(new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Rollo", "Lordbrok", LocalDate.now()));
+        Asociado a1 = new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Ragnar", "Lordbrok", LocalDate.now());
+        a1.setDireccion("Escandinavia");
+        asociados.add(a1);
+        Asociado a2 = new Asociado("grupo1", TipoAsociado.Joven, AmbitoEdicion.Asociacion, "Rollo", "Lordbrok", LocalDate.now());
+        a2.setDireccion("Escandinavia");
+        asociados.add(a2);
 
         PdfTable<Asociado> tabla = new PdfTable(asociados);
-        String archivo = tabla.CreatePdfTable(new Columna[]{new Columna("nombre", 0), new Columna("apellidos", 0)});
+        String archivo = tabla.CreatePdfTable(new Columna[]{new Columna("nombre", "nombre", 0), new Columna("direccion", "direccion", 0)});
 
         Assert.assertTrue(new File(archivo).exists());
     }

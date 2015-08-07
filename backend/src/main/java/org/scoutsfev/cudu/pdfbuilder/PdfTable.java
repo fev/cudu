@@ -38,8 +38,8 @@ public class PdfTable<T extends IPrintable> extends BaseTable {
             Map<String, String> map = entity.ToPrintableRow();
             for (Columna c : columns) {
                 try {
-                    if (map.containsKey(c.getName()))
-                        fila.add(map.get(c.getName()));
+                    if (map.containsKey(c.getClave()))
+                        fila.add(map.get(c.getClave()));
                     else
                         fila.add(EMPTY);
                 } catch (Exception ex) {
