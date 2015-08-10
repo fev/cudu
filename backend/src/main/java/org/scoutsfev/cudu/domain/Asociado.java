@@ -45,6 +45,7 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean ramaRuta = false;
 
+    @Transient // Sólo para impresión en PDF
     private String rama;
 
     @Column(name = "grupo_id")
