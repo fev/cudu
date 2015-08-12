@@ -6,10 +6,7 @@ import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.pdfbuilder.Columna;
 import org.scoutsfev.cudu.pdfbuilder.CreadorPdf;
 import org.scoutsfev.cudu.pdfbuilder.PdfTable;
-import org.scoutsfev.cudu.storage.ActividadRepository;
-import org.scoutsfev.cudu.storage.AsociadoRepository;
-import org.scoutsfev.cudu.storage.FichaRepository;
-import org.scoutsfev.cudu.storage.RegistroImpresionRepository;
+import org.scoutsfev.cudu.storage.*;
 import org.scoutsfev.cudu.web.properties.FichaProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -35,6 +32,7 @@ public class FichaServiceImpl implements FichaService {
     private FichaProperties _fichaProperties;
 
     private AsociadoRepository _asociadoRepository;
+    private GrupoRepository _grupoRepository;
     private FichaRepository _fichaRepository;
     private ActividadRepository _actividadRepository;
     private RegistroImpresionRepository _registroImpresionRepository;
@@ -43,12 +41,14 @@ public class FichaServiceImpl implements FichaService {
 
     @Autowired
     public FichaServiceImpl(AsociadoRepository asociadoRepository,
+                            GrupoRepository grupoRepository,
                             FichaRepository fichaRepository,
                             ActividadRepository actividadRepository,
                             RegistroImpresionRepository registroImpresionRepository,
                             MessageSource messageSource,
                             Environment environment) {
         _asociadoRepository = asociadoRepository;
+        _grupoRepository = grupoRepository;
         _fichaRepository = fichaRepository;
         _actividadRepository = actividadRepository;
         _registroImpresionRepository = registroImpresionRepository;
@@ -76,6 +76,13 @@ public class FichaServiceImpl implements FichaService {
 
             Asociado asociado = _asociadoRepository.findByIdAndFetchCargosEagerly(id);
             creadorPdf.RellenarPdf(new AsociadoPdfFiller(asociado));
+
+            if (asociado.getGrupoId() != null && asociado.getGrupoId() != "") {
+                Grupo grupo = _grupoRepository.findOne(asociado.getGrupoId());
+                if (grupo != null) {
+                    creadorPdf.RellenarPdf(new GrupoPdfFiller(grupo));
+                }
+            }
 
             creadorPdf.Cerrar();
             resultado.add(destino);
