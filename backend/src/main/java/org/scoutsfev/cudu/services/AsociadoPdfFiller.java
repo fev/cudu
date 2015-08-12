@@ -99,6 +99,14 @@ public class AsociadoPdfFiller extends PdfFiller<Asociado> {
                     telefono2.setValue(asociado.getTelefonoMadre().toString());
             }
 
+            // Telefono del Padre
+            PDField telefonoPadre = form.getField("Asociado#TelefonoPadre");
+            if (telefonoPadre != null) telefonoPadre.setValue(asociado.getTelefonoPadre().toString());
+
+            // Telefono de la Madre
+            PDField telefonoMadre = form.getField("Asociado#TelefonoMadre");
+            if (telefonoMadre != null) telefonoMadre.setValue(asociado.getTelefonoMadre().toString());
+
             // Numero de la Seguridad Social
             PDField nss = form.getField("Asociado#NumeroSeguridadSocial");
             if (nss != null) nss.setValue(asociado.getSeguridadSocial().toString());
