@@ -1,0 +1,62 @@
+<div class="container contenedor-central miembros-listado">
+<div class="row">
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="listadoEntidades">
+        <form class="form-inline">      
+          <div class="form-group">
+            <label><%= miembros.anadirMiembro %></label>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control typeahead" id="txtApuntar" placeholder="Baden Powell" 
+              sf-typeahead options="typeaheadAsociadoOpt" datasets="typeaheadAsociadoDts" ng-model="miembroPorIncluir">
+          </div>
+        </form>
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="first"><%= miembros.nombre %></th>
+                <th><%= miembros.tipo %></th>
+                <th><%= miembros.mesapedagogica %></th>
+                <th><%= miembros.telefono %></th>
+                <th><%= miembros.email %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="miembro in miembros | orderBy:'nombreCompleto' track by miembro.id" class="flash">
+                <td>{{miembro.nombreCompleto}}</td>
+                <th scope="row">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                      {{traduce(miembro.tipoMiembro) | i18n:'miembros'}} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="javascript:" ng-click="establecerTipo(miembro, 'F')"><%= miembros.formador %></a></li>
+                      <li><a href="javascript:" ng-click="establecerTipo(miembro, 'C')"><%= miembros.colaborador %></a></li>
+                      <li><a href="javascript:" ng-click="establecerTipo(miembro, 'T')"><%= miembros.tufo %></a></li>
+                      <li class="divider"></li>
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" ng-model="miembro.mesaPedagogica" ng-click="mesaPedagogica(miembro)"> Mesa Pedagógica
+                          </label>
+                        </div>
+                      <li class="divider"></li>
+                      <li><a href="javascript:" ng-click="quitarTipo(miembro)"><%= miembros.quitarTipo %></a></li>
+                    </ul>
+                  </div>
+                </th>
+                <td>{{miembro.mesaPedagogica ? 'Si': 'No'}}</td>
+                <td>{{miembro.telefono}}</td>
+                <td>{{miembro.email}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

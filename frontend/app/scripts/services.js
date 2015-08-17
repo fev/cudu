@@ -18,9 +18,18 @@ metodosAsociado['asignarCargo'] = { url: '/api/asociado/:id/cargo/:cargoId', met
 metodosAsociado['asignarCargoCustom'] = { url: '/api/asociado/:id/cargo', method: 'POST' };
 metodosAsociado['eliminarCargo'] = { url: '/api/asociado/:id/cargo/:cargoId', method: 'DELETE' };
 
+var metodosMiembro = _.clone(metodos);
+metodosMiembro['añadir'] = { url: '/api/lluerna/miembro/:id', method: 'PUT' };
+metodosMiembro['eliminar'] = { url: '/api/lluerna/miembro/:id', method: 'DELETE' };
+
 cuduServices.factory('Asociado', ['$resource',
   function($resource) {
     return $resource('/api/asociado/:id', {}, metodosAsociado);
+  }]);
+
+cuduServices.factory('Miembro', ['$resource',
+  function($resource) {
+    return $resource('api/lluerna/miembro/:id', {}, metodosMiembro);
   }]);
 
 cuduServices.factory('Grupo', ['$resource',
@@ -71,21 +80,28 @@ cuduServices.factory('Actividad', ['$resource',
   }]);
 
 cuduServices.factory('Typeahead', [function() {
-  return {
-    'asociado': function() {
+  var doit = function(url, func) {
       var source = new Bloodhound({
         datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.nombre); },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-          url: '/api/typeahead/asociado/%QUERY',
+          url: url,
           filter: function(response) { return response.content; }
         }
       });
       source.initialize();
       return { 
-        displayKey: function(r) { return r.nombre + ' ' + r.apellidos; }, 
+        displayKey: function(r) { return func(r); }, 
         source: source.ttAdapter() 
       };
+    };
+    
+  return {
+    'asociado': function() {
+      return doit('/api/typeahead/asociado/%QUERY', function(r) { return r.nombre + ' ' + r.apellidos; });
+    },
+    'miembro' : function() {
+      return doit('/api/typeahead/miembro/%QUERY', function(r) { return r.nombre + ' ' + r.apellidos; });
     }
   };
 }]);

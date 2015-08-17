@@ -37,9 +37,9 @@
           <li class="rol-asociado" ng-class="{active: controlador === 'AsociadoCtrl'}"><a href="#/asociados">{{::menu.asociados}}</a></li>
           <li class="rol-tecnico"><a href="#/asociados">{{::menu.asociados}}</a></li>
           <li class="rol-asociado" ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/{{::menu.codigoGrupo}}">{{::menu.migrupo}}</a></li>
-          <li class="rol-lluerna"><a href="javascript:">{{::menu.cursos}}</a></li>
+          <li class="rol-asociado"><a href="javascript:">{{::menu.cursos}}</a></li>
           <li class="rol-lluerna"><a href="javascript:">{{::menu.participantes}}</a></li>
-          <li class="rol-lluerna"><a href="javascript:">{{::menu.miembros}}</a></li>
+          <li class="rol-asociado"><a href="#/miembros">{{::menu.miembros}}</a></li>
           <li class="rol-tecnico"><a href="javascript:">{{::menu.grupos}}</a></li>
           <li class="rol-asociado" ng-class="{active: controlador === 'ActividadesListadoCtrl' || controlador === 'ActividadesDetalleCtrl'}">
             <a href="#/actividades">{{::menu.actividades}}</a>
@@ -97,6 +97,7 @@
   <script src="scripts/controllers/grupo.js"></script>
   <script src="scripts/controllers/permisos.js"></script>
   <script src="scripts/controllers/tecnico_fev.js"></script>
+  <script src="scripts/controllers/miembro.js"></script>
   <!-- /build -->
 </body>
 </html>

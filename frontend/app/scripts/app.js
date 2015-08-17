@@ -72,6 +72,11 @@ angular
         controller: 'ActividadesDetalleCtrl',
         seccion: 'actividades'
       })
+      .when('/miembros', {
+        templateUrl: 'i18n/views/miembro.html',
+        controller: 'MiembrosCtrl',
+        seccion: 'miembros'
+      })
       .otherwise({
          redirectTo: '/'
       });

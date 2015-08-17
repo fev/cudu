@@ -16,7 +16,8 @@ var templates = [
   'app/views/tecnico_fev.html',
   'app/views/tecnico_lluerna.html',
   'app/views/actividades/detalle.html',
-  'app/views/actividades/listado.html'
+  'app/views/actividades/listado.html',
+  'app/views/miembro.html'
 ];
 
 function leerTemplate(traducciones, template, lang) {
