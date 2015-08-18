@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
 CREATE TABLE grupo (
     id varchar(20) NOT NULL,
     nombre varchar(50) NOT NULL,

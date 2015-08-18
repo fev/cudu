@@ -16,8 +16,8 @@ CREATE OR REPLACE VIEW dto_datos_periodo_tipo
 AS
   SELECT
     extract(YEAR FROM CURRENT_TIMESTAMP) :: INT AS periodo,
-    sum((tipo = 'J') :: INT)                    AS jovenes,
-    sum((tipo <> 'J') :: INT)                   AS voluntarios,
+    coalesce(sum((tipo =  'J') :: INT), 0)      AS jovenes,
+    coalesce(sum((tipo <> 'J') :: INT), 0)      AS voluntarios,
     count(1)                                    AS total
   FROM asociado
   WHERE activo = TRUE AND grupo_id <> 'UP'
