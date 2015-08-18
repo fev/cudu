@@ -1,5 +1,5 @@
 create TABLE "ficha" (
-    "id" serial not null default nextval('ficha_id_seq'::regclass),
+    "id" serial not null,
     "lenguaje" varchar(3) not null,
     "nombre" varchar(200) not null,
     "plantilla" varchar(200) not null,
@@ -32,3 +32,4 @@ create TABLE "impresion" (
     "fecha" timestamp default now(),
     PRIMARY KEY ("fichero", "usuario_id")
 );
+

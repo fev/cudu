@@ -7,6 +7,7 @@ buildscript {
   }
   dependencies {
     classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    classpath("org.flywaydb:flyway-gradle-plugin:3.2.1")
   }
 }
 
@@ -14,6 +15,7 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'idea'
+apply plugin: 'org.flywaydb.flyway'
 
 jar {
   baseName = 'cudu'

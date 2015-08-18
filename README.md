@@ -43,6 +43,17 @@ Recuerda que puedes generar archivos de proyecto para distintos IDEs:
 	$ ./gradlew idea
 	$ ./gradlew eclipse
 
+## Migraciones de la base de datos
+
+Cudú utiliza [Flyway](http://flywaydb.org/) para mantener las actualizaciones de la base de datos. Es posible ejecutarlas directamente desde Gradle:
+
+	$ createdb cudu_dev
+	$ ./gradlew flywayMigrate -Dflyway.url=jdbc:postgresql://localhost:5432/cudu_dev
+	
+Los scripts de migración siguen las [convenciones de nombres](http://flywaydb.org/documentation/migration/sql.html) de Flyway y residen en la carpeta `backend/src/main/resources/db/migration`.
+
+Para comprobar el estado de una base de datos existente puedes utilizar la opción `flywayInfo` en lugar de `flywayMigrate`. Hay más información en la documentación de [Flyway para Gradle](http://flywaydb.org/documentation/gradle/).
+
 
 ## Contacto
 
