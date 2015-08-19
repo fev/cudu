@@ -100,6 +100,7 @@ COPY cargo (id, etiqueta, ambito, unico, puntos) FROM stdin WITH DELIMITER ',';
 67,fev.mev_coordinacion_de_comarca,F,false,3
 68,fev.mev_secretaria_de_comarca,F,false,2
 69,fev.mev_tesoreria_de_comarca,F,false,2
+70,fev.colaborador_lluerna,F,false,3
 \.
 
 CREATE SEQUENCE cargo_id_seq
