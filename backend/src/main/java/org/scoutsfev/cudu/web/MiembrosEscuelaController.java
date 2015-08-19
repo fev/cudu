@@ -1,6 +1,5 @@
 package org.scoutsfev.cudu.web;
 
-import org.scoutsfev.cudu.domain.TipoMiembroEscuela;
 import org.scoutsfev.cudu.domain.dto.MiembroEscuelaDto;
 import org.scoutsfev.cudu.domain.dto.MiembroEscuelaEdicionDto;
 import org.scoutsfev.cudu.services.LluernaService;

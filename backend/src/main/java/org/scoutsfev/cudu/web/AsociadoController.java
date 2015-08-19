@@ -3,7 +3,6 @@ package org.scoutsfev.cudu.web;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.domain.validadores.ImpresionTabla;
-import org.scoutsfev.cudu.pdfbuilder.PdfTable;
 import org.scoutsfev.cudu.services.FichaService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +19,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 
 @RestController
 public class AsociadoController {
