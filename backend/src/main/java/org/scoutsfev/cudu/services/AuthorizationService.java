@@ -1,8 +1,6 @@
 package org.scoutsfev.cudu.services;
 
-import org.scoutsfev.cudu.domain.Asociado;
-import org.scoutsfev.cudu.domain.Grupo;
-import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,5 +34,11 @@ public class AuthorizationService {
         return grupo != null && usuario != null
             && usuario.getGrupo() != null && usuario.getGrupo().getId().equals(grupo.getId())
             && !usuario.getRestricciones().isNoPuedeEditarDatosDelGrupo();
+    }
+
+    public boolean puedeAccederLluerna(Usuario usuario) {
+        return !(usuario == null || !usuario.isUsuarioActivo() || usuario.getAmbitoEdicion() == null || usuario.getTipo() == null || usuario.getTipo() != TipoAsociado.Tecnico)
+            && ((usuario.getAmbitoEdicion() == AmbitoEdicion.Escuela) || (usuario.getAmbitoEdicion() == AmbitoEdicion.Federacion && usuario.getRestricciones() != null && usuario.getRestricciones().getRestriccionAsociacion() == null));
+
     }
 }
