@@ -122,16 +122,20 @@ angular
     // redirigimos a la página de login, en caso contrario las credenciales
     // son correctas (almacenadas en la cookie JSESSIONID).
     Usuario.obtenerActual()
-      .success(function(usuario) {        
+      .success(function(usuario) {
         // Cada vez que el usuario cambia de lenguaje se guarda en la columna
         // 'lenguaje' de la tabla asociado. Si nunca ha cambiado de lenguaje,
         // la columna será null y usaremos el lenguaje del navegador (lang).
         var lang = Traducciones.establecerLenguaje(usuario.lenguaje);
         Dom.loginCompleto(usuario, lang);
 
-        // TODO Si el usuario es asociado, redirigir a /asociados
-        // Tecnicos y Lluerna tienen otras url de entrada
-        $location.path("/asociados");
+        if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'E')) {
+          $location.path("/lluerna/cursos");
+        } else if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
+            $location.path("/tecnico/asociados");
+        } else  {
+          $location.path("/asociados");
+        }
       })
       .error(function() {
         // TODO Último lenguaje conocido o el del navegador
