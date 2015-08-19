@@ -29,7 +29,11 @@ public interface AsociadoRepository extends PagingAndSortingRepository<Asociado,
     // Requiere un índice extra en BBDD, para postgres (se incluye en scripts de migración):
     // CREATE INDEX CREATE INDEX typeahead_asociado_nombre_completo ON asociado (lower(nombre) varchar_pattern_ops, lower(apellidos) varchar_pattern_ops);
     // El texto debe estar en minúsculas para que pueda encontrar el índice correctamente.
-    @Query("SELECT new org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto(a.id, a.grupoId, a.activo, a.nombre, a.apellidos) FROM Asociado a " +
+    @Query("SELECT new org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto(a.id, a.grupoId, a.activo, a.nombre, a.apellidos, a.email, a.telefonoMovil, a.telefonoCasa) FROM Asociado a " +
            "WHERE a.grupoId = :grupoId AND (lower(a.nombre) LIKE :texto% OR lower(a.apellidos) LIKE :texto%) AND a.activo = true")
     Page<AsociadoTypeaheadDto> typeahead(@Param("grupoId") String grupoId, @Param("texto") String texto, Pageable pageable);
+
+    @Query("SELECT new org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto(A.id, A.grupoId, A.activo, A.nombre, A.apellidos, A.email, A.telefonoMovil, A.telefonoCasa) FROM Asociado A " +
+            "WHERE (lower(A.nombre) LIKE :texto% OR lower(A.apellidos) LIKE :texto%) AND (EDAD(A.fechaNacimiento) >= 18)")
+    Page<AsociadoTypeaheadDto> typeahead(@Param("texto") String texto, Pageable pageable);
 }

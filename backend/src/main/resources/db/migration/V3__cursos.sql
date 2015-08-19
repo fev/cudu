@@ -31,6 +31,7 @@ create table curso_formador (
 create or replace view dto_miembros_escuela AS
   select
   a.id as id,
+  c.id as cargo_id,
   concat_ws(' ', a.nombre, a.apellidos) AS nombre_completo, g.nombre as nombre_grupo,
   c.etiqueta,
   c.id as cargo_id,

@@ -18,10 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Table(name = "asociado")
@@ -426,7 +423,7 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
         this.rama = rama;
     }
 
-    @Override
+     @Override
     public Map<String, String> ToPrintableRow() {
         Map<String, String> diccionario = new HashMap<String, String>();
         diccionario.put("nombre", String.format("%s %s", this.nombre, this.apellidos));
