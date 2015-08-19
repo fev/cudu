@@ -32,9 +32,9 @@ public class PdfTable<T extends IPrintable> extends BaseTable {
     }
 
     public String[][] GetContent(Columna[] columns) {
-        List<String[]> contents = new ArrayList();
+        List<String[]> contents = new ArrayList<>();
         for (T entity : list) {
-            List<String> fila = new ArrayList();
+            List<String> fila = new ArrayList<>();
             Map<String, String> map = entity.ToPrintableRow();
             for (Columna c : columns) {
                 try {
