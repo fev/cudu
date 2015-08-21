@@ -7,6 +7,7 @@ create table curso (
   plazas INTEGER NOT NULL,
   descripcion_fechas TEXT NOT NULL,
   descripcion_lugar TEXT NOT NULL,
+  visible BOOLEAN NOT NULL DEFAULT false,
   CONSTRAINT pk_curso PRIMARY KEY (id)
 );
 
