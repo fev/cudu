@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 
 public interface AsociadoRepository extends PagingAndSortingRepository<Asociado, Integer> {
 
-    public Page<Asociado> findByGrupoId(@Param("id") String id, Pageable pageable);
+    Page<Asociado> findByGrupoId(@Param("id") String id, Pageable pageable);
 
     @Modifying
     @Transactional
