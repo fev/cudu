@@ -33,6 +33,7 @@ create or replace view dto_miembros_escuela AS
   a.id as id,
   concat_ws(' ', a.nombre, a.apellidos) AS nombre_completo, g.nombre as nombre_grupo,
   c.etiqueta,
+  c.id as cargo_id,
   (select count(1) > 0 from cargo_asociado ca where ca.asociado_id = a.id and ca.cargo_id = 37) as mesa_pedagogica,
   coalesce(a.telefono_movil, a.telefono_casa) as telefono, a.email, a.fecha_nacimiento
 from asociado a

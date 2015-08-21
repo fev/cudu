@@ -22,6 +22,7 @@ public class MiembroEscuelaDto {
     private String nombreCompleto;
     private String nombreGrupo;
     private String etiqueta;
+    private int cargoId;
     private boolean mesaPedagogica;
     private String telefono;
     private String email;
@@ -45,6 +46,14 @@ public class MiembroEscuelaDto {
 
     public String getEtiqueta() {
         return etiqueta;
+    }
+
+    public int getCargoId() {
+        return cargoId;
+    }
+
+    public void setCargoId(int cargoId) {
+        this.cargoId = cargoId;
     }
 
     public boolean isMesaPedagogica() {
