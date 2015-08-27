@@ -1,9 +1,12 @@
 package org.scoutsfev.cudu.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import org.scoutsfev.cudu.domain.dto.MiembroCursoDto;
+import org.scoutsfev.cudu.domain.dto.MiembroEscuelaDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -11,13 +14,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Curso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer id;
+    private Integer id;
 
     @NotNull
     @Size(min = 3, max = 100)
@@ -47,6 +52,17 @@ public class Curso {
     @NotNull
     @Column(nullable = false)
     private boolean visible = false;
+
+    @Column(nullable = true)
+    private Integer coordinadorId;
+
+    @Transient
+    @JsonProperty
+    private List<MiembroCursoDto> formadores = new ArrayList<>();
+
+    @Transient
+    @JsonProperty
+    private List<MiembroCursoDto> participantes = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -118,5 +134,29 @@ public class Curso {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public Integer getCoordinadorId() {
+        return coordinadorId;
+    }
+
+    public void setCoordinadorId(Integer coordinadorId) {
+        this.coordinadorId = coordinadorId;
+    }
+
+    public List<MiembroCursoDto> getFormadores() {
+        return formadores;
+    }
+
+    public void setFormadores(List<MiembroCursoDto> formadores) {
+        this.formadores = formadores;
+    }
+
+    public List<MiembroCursoDto> getParticipantes() {
+        return participantes;
+    }
+
+    public void setParticipantes(List<MiembroCursoDto> participantes) {
+        this.participantes = participantes;
     }
 }

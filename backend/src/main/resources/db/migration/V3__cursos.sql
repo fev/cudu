@@ -8,7 +8,9 @@ create table curso (
   descripcion_fechas TEXT NOT NULL,
   descripcion_lugar TEXT NOT NULL,
   visible BOOLEAN NOT NULL DEFAULT false,
-  CONSTRAINT pk_curso PRIMARY KEY (id)
+  coordinador_id int NULL,
+  CONSTRAINT pk_curso PRIMARY KEY (id),
+  CONSTRAINT fk_curso_coordinadorId_asociado FOREIGN KEY (coordinador_id) REFERENCES asociado(id)
 );
 
 create table curso_participante (

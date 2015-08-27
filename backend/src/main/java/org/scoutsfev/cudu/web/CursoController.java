@@ -15,6 +15,7 @@ import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/lluerna/curso")
@@ -33,7 +34,7 @@ public class CursoController {
         return cursoService.listado(pageable);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{cursoId}", method = RequestMethod.GET)
     // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
     public ResponseEntity<Curso> obtener(@PathVariable("cursoId") Integer cursoId, @AuthenticationPrincipal Usuario usuario) {
         Curso curso = cursoService.obtener(cursoId);
@@ -49,22 +50,38 @@ public class CursoController {
         return cursoService.guardar(curso);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{cursoId}", method = RequestMethod.PUT)
     // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
-    public Curso editar(@RequestBody @Valid Curso editado, @PathVariable("id") Integer cursoId, @AuthenticationPrincipal Usuario usuario) {
+    public Curso editar(@RequestBody @Valid Curso editado, @PathVariable("cursoId") Integer cursoId, @AuthenticationPrincipal Usuario usuario) {
         editado.setId(cursoId);
         return cursoService.guardar(editado);
     }
 
-    @RequestMapping(value = "/{id}/publicar", method = RequestMethod.PUT)
+    // Eliminados, utilizar método 'editar', visible = true/false
+    // @RequestMapping(value = "/{id}/publicar", method = RequestMethod.PUT)
+    // @RequestMapping(value = "/{id}/ocultar", method = RequestMethod.PUT)
+
+    @RequestMapping(value = "/{cursoId}/formadores", method = RequestMethod.POST)
     // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
-    public void publicar(@PathVariable("id") Integer cursoId, @AuthenticationPrincipal Usuario usuario) {
+    public void añadirFormador(@PathVariable("cursoId") Integer cursoId, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
 
     }
 
-    @RequestMapping(value = "/{id}/ocultar", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{cursoId}/formadores/{asociadoId}", method = RequestMethod.DELETE)
     // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
-    public void ocultar(@PathVariable("id") Integer cursoId, @AuthenticationPrincipal Usuario usuario) {
+    public void quitarFormador(@PathVariable("cursoId") Integer cursoId, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+
+    }
+
+    @RequestMapping(value = "/{cursoId}/participantes", method = RequestMethod.POST)
+    // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
+    public void añadirParticipante(@PathVariable("cursoId") Integer cursoId, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+
+    }
+
+    @RequestMapping(value = "/{cursoId}/participantes/{asociadoId}", method = RequestMethod.DELETE)
+    // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
+    public void quitarParticipante(@PathVariable("cursoId") Integer cursoId, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
 
     }
 }
