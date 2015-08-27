@@ -1,7 +1,5 @@
 package org.scoutsfev.cudu.web;
 
-import org.scoutsfev.cudu.domain.AmbitoEdicion;
-import org.scoutsfev.cudu.domain.Curso;
 import org.scoutsfev.cudu.domain.Curso;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.services.CursoService;
@@ -10,8 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
