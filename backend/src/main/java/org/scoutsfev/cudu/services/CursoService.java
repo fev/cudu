@@ -54,4 +54,20 @@ public class CursoService {
         curso.setParticipantes(participantes);
         return curso;
     }
+
+    public void añadirFormador(Integer cursoId, Integer asociadoId) {
+        cursoRepository.añadirFormador(cursoId, asociadoId);
+    }
+
+    public void quitarFormador(Integer cursoId, Integer asociadoId) {
+        cursoRepository.quitarFormador(cursoId, asociadoId);
+    }
+
+    public void añadirParticipante(Integer cursoId, Integer asociadoId) {
+        cursoRepository.añadirParticipante(cursoId, asociadoId);
+    }
+
+    public void quitarParticipante(Integer cursoId, Integer asociadoId) {
+        cursoRepository.quitarParticipante(cursoId, asociadoId);
+    }
 }

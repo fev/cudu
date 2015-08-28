@@ -25,11 +25,12 @@ public class MiembroCursoDto implements Serializable {
     @Id
     private int id;
 
+    // TODO Crear enum en algún momento
     @Id // [F]ormador o [P]articipante
     protected String tipoMiembro;
 
+    protected Integer secuenciaInscripcion;
     protected TipoAsociado tipo;
-
     private String nombreCompleto;
     private String nombreGrupo;
     private String telefono;
@@ -56,20 +57,28 @@ public class MiembroCursoDto implements Serializable {
         this.id = id;
     }
 
-    public TipoAsociado getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(TipoAsociado tipo) {
-        this.tipo = tipo;
-    }
-
     public String getTipoMiembro() {
         return tipoMiembro;
     }
 
     public void setTipoMiembro(String tipoMiembro) {
         this.tipoMiembro = tipoMiembro;
+    }
+
+    public Integer getSecuenciaInscripcion() {
+        return secuenciaInscripcion;
+    }
+
+    public void setSecuenciaInscripcion(Integer secuenciaInscripcion) {
+        this.secuenciaInscripcion = secuenciaInscripcion;
+    }
+
+    public TipoAsociado getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoAsociado tipo) {
+        this.tipo = tipo;
     }
 
     public String getNombreCompleto() {

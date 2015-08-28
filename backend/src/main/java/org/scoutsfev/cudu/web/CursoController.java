@@ -61,24 +61,24 @@ public class CursoController {
     @RequestMapping(value = "/{cursoId}/formadores", method = RequestMethod.POST)
     // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
     public void añadirFormador(@PathVariable("cursoId") Integer cursoId, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
-
+        cursoService.añadirFormador(cursoId, asociadoId);
     }
 
     @RequestMapping(value = "/{cursoId}/formadores/{asociadoId}", method = RequestMethod.DELETE)
     // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
     public void quitarFormador(@PathVariable("cursoId") Integer cursoId, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
-
+        cursoService.quitarFormador(cursoId, asociadoId);
     }
 
     @RequestMapping(value = "/{cursoId}/participantes", method = RequestMethod.POST)
     // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
     public void añadirParticipante(@PathVariable("cursoId") Integer cursoId, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
-
+        cursoService.añadirParticipante(cursoId, asociadoId);
     }
 
     @RequestMapping(value = "/{cursoId}/participantes/{asociadoId}", method = RequestMethod.DELETE)
     // @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
     public void quitarParticipante(@PathVariable("cursoId") Integer cursoId, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
-
+        cursoService.quitarParticipante(cursoId, asociadoId);
     }
 }
