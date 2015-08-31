@@ -23,7 +23,6 @@ public class  MiembroEscuelaDto {
     private String nombreCompleto;
     private String nombreGrupo;
     private String etiqueta;
-    private int cargoId;
     private boolean mesaPedagogica;
     private String telefono;
     private String email;
@@ -50,16 +49,8 @@ public class  MiembroEscuelaDto {
         return id;
     }
 
-    public String getNombreCompleto() {
-        return nombreCompleto;
-    }
-
-    public String getNombreGrupo() {
-        return nombreGrupo;
-    }
-
-    public String getEtiqueta() {
-        return etiqueta;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getCargoId() {
@@ -74,17 +65,55 @@ public class  MiembroEscuelaDto {
         return mesaPedagogica;
     }
 
+    public void setMesaPedagogica(boolean mesaPedagogica) {
+        this.mesaPedagogica = mesaPedagogica;
+    }
+
     public String getTelefono() {
         return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public int getCargoId() { return this.cargoId; }
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public String getNombreGrupo() {
+        return nombreGrupo;
+    }
+
+    public void setNombreGrupo(String nombreGrupo) {
+        this.nombreGrupo = nombreGrupo;
+    }
+
+    public String getEtiqueta() {
+        return etiqueta;
+    }
+
+    public void setEtiqueta(String etiqueta) {
+        this.etiqueta = etiqueta;
+    }
 }
