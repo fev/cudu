@@ -7,15 +7,19 @@ public class AsociadoTypeaheadDto {
     private boolean activo;
     private String nombre;
     private String apellidos;
+    private String email;
+    private String telefono;
 
     protected AsociadoTypeaheadDto() { }
 
-    public AsociadoTypeaheadDto(int id, String grupoId, boolean activo, String nombre, String apellidos) {
+    public AsociadoTypeaheadDto(int id, String grupoId, boolean activo, String nombre, String apellidos, String email, String telefonoMovil, String telefonoCasa) {
         this.id = id;
         this.grupoId = grupoId;
         this.activo = activo;
         this.nombre = nombre;
         this.apellidos = apellidos;
+        this.telefono = telefonoMovil == null ? telefonoCasa : telefonoMovil ;
+        this.email = email;
     }
 
     public int getId() {
@@ -56,5 +60,21 @@ public class AsociadoTypeaheadDto {
 
     public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

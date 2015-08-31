@@ -90,7 +90,10 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'cargo.fev.direccion_escola_lluerna': 'Direcció Escola Lluerna',
     'cargo.fev.presidencia_fev': 'Presidència FEV',
     'cargo.fev.vicepresidencia_fev': 'Vicepresidència FEV',
-    'impresion.noseleccionados': 'No has seleccionat cap associat'
+    'impresion.noseleccionados': 'No has seleccionat cap associat',
+    'miembros.colaborador' : 'Col·laborador',
+    'miembros.formador' : 'Formador',
+    'miembros.tufo' : 'TUFO'
   };
   var es = {
     'asociacion.0': 'Scouts de Alicante (SdA)',
@@ -178,7 +181,10 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'cargo.fev.direccion_escola_lluerna': 'Dirección Escola Lluerna',
     'cargo.fev.presidencia_fev': 'Presidencia FEV',
     'cargo.fev.vicepresidencia_fev': 'Vicepresidencia FEV',
-    'impresion.noseleccionados': 'No has seleccionado ningún asociado'
+    'impresion.noseleccionados': 'No has seleccionado ningún asociado',
+    'miembros.colaborador' : 'Colaborador',
+    'miembros.formador' : 'Formador',
+    'miembros.tufo' : 'TUFO'
   };
 
   var lenguajePorDefecto = 'es';
