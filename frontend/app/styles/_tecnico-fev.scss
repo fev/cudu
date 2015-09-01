@@ -10,9 +10,9 @@
     .separador-dcho { border-right: 1px solid #ddd; }
     .panel-footer { text-align: center; }
     .btn {color: inherit; }
-    .btn:hover { background-color: $material-orange-A200; } 
+    .btn:hover { background-color: $material-orange-A200; }
     .btn.active {
-    	background-color: $material-orange-A100;
+      background-color: $material-orange-A100;
     }
   }
 }
