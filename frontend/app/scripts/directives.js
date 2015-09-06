@@ -1,3 +1,5 @@
+/* jshint jquery:true */
+/* global moment:false */
 'use strict';
 
 angular.module('cuduApp')
@@ -35,7 +37,7 @@ angular.module('cuduApp')
 
         var desempaquetar = function(lista) {
           return _.foldr(lista, function(t, q) {
-            return t + "/" + q;
+            return t + '/' + q;
           });
         };
 
@@ -51,7 +53,7 @@ angular.module('cuduApp')
         });
 
         element.bind('change', function() {
-          var fecha = moment(element.val(), ["DDMMYY", "DDMMYYYY", "DD-MM-YY", "DD-MM-YYYY"]);
+          var fecha = moment(element.val(), ['DDMMYY', 'DDMMYYYY', 'DD-MM-YY', 'DD-MM-YYYY']);
           var empaquetado = [];
           if (fecha.isValid) {
             empaquetado = [fecha.year(), fecha.month() + 1, fecha.date()];
@@ -63,5 +65,5 @@ angular.module('cuduApp')
           });
         });
       }
-    }
+    };
   });
