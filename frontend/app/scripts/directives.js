@@ -15,14 +15,6 @@ angular.module('cuduApp')
       }
     };
   })
-  .directive('cuduSubmenu', function() {
-    return {
-      restrict: 'A',
-      link: function(scope, element) {
-        $(element).submenupicker();
-      }
-    };
-  })
   .directive('cuduFecha', function () {
     return {
       restrict: 'A',
