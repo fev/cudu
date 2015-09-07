@@ -46,6 +46,7 @@ angular.module('cuduApp')
     Miembro.queryAll(function(data) { 
       $scope.miembros = _.map(data, function(a) { 
         a.tipoMiembro = getCargo(a.cargoId);
+        a.nuevo = false; // evita resaltar la lista
         return a;
        });
     }, function() { });
@@ -67,9 +68,10 @@ angular.module('cuduApp')
         tipoMiembro: 'F',
         mesaPedagogica: false,
         telefono: miembro.telefono,
-        email: miembro.email
-        };
-        
+        email: miembro.email,
+        nuevo: true
+      };
+
       $scope.miembros.unshift(nuevoMiembro);
     };
     

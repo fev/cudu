@@ -25,7 +25,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="miembro in miembros | orderBy:'nombreCompleto' track by miembro.id" class="flash">
+              <tr ng-repeat="miembro in miembros | orderBy:'nombreCompleto' track by miembro.id" ng-class="{ 'flash': miembro.nuevo }">
                 <td>{{miembro.nombreCompleto}}</td>
                 <th scope="row">
                   <div class="btn-group">
