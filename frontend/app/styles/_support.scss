@@ -84,3 +84,35 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
   }
 }
 
+// Ver actividades o cursos para ejemplo
+// Refactoring en progreso, quedan mover algunas cosas de cudu.scss
+// TODO @mixin layout-listado-detalle?
+@mixin layout-listado($color, $background, $hover-background) {
+  div.tabla { padding: 15px }
+  & > .row > .col-md-12 { padding: 0 } 
+  
+  #txtBusqueda {
+     font-weight: 300;
+     padding: 6px;
+     @include box-shadow(none);
+     @include border-radius(0px);
+     @include input-placeholder { color: $material-green-400; }
+     color: $material-green-900; background-color: transparent; border: 1px solid transparent;
+     &:hover, &:focus { border-bottom: 1px solid $material-green-300; }
+     &:focus {
+       border-bottom: 1px solid $material-green-500;
+       color: $material-grey-900;
+       outline: 0;
+       @include box-shadow(none);
+     }
+   }
+  
+  .mat-toolbar {
+    background: $background;
+    .btn {
+      color: $color;
+      &:hover { background-color: $hover-background; }
+    }
+  }
+}
+

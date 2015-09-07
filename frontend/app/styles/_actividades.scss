@@ -1,15 +1,8 @@
 
 .actividades {
-
+  
   .actividades-listado {
-    
-    .mat-toolbar {
-      background: $material-green-100;
-      .btn {
-        color: $material-green-900;
-        &:hover { background-color: $material-green-200; }
-      }
-    }
+    @include layout-listado($material-green-900, $material-green-100, $material-green-200);
   }
   
   .actividades-detalle {
