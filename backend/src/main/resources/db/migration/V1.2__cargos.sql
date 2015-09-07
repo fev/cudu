@@ -19,13 +19,6 @@ CREATE TABLE cargo_asociado (
   PRIMARY KEY (cargo_id, asociado_id)
 );
 
-insert into cargo_asociado (cargo_id, asociado_id) VALUES
-  (1, 86),
-  (12, 86),
-  (14, 86),
-  (34, 86),
-  (39, 86);
-
 CREATE VIEW dto_cargo_asociado AS
 select ca.asociado_id, c.* from cargo c
 inner join cargo_asociado ca on c.id = ca.cargo_id;
