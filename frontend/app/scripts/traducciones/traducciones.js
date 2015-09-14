@@ -89,7 +89,10 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'cargo.fev.miembro_de_la_mesa_pedagogica': 'Membre de la Taula Pedagògica',
     'cargo.fev.direccion_escola_lluerna': 'Direcció Escola Lluerna',
     'cargo.fev.presidencia_fev': 'Presidència FEV',
-    'cargo.fev.vicepresidencia_fev': 'Vicepresidència FEV'
+    'cargo.fev.vicepresidencia_fev': 'Vicepresidència FEV',
+    'multiple.baja.progreso': 'Donant de baixa els associats...',
+    'multiple.baja.completado': 'Baixa completada',
+    'multiple.baja.errorServidor': 'No es pot donar de baixa els associats.'
   };
   var es = {
     'asociacion.0': 'Scouts de Alicante (SdA)',
@@ -176,7 +179,10 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'cargo.fev.miembro_de_la_mesa_pedagogica': 'Miembro de la Mesa Pedagógica',
     'cargo.fev.direccion_escola_lluerna': 'Dirección Escola Lluerna',
     'cargo.fev.presidencia_fev': 'Presidencia FEV',
-    'cargo.fev.vicepresidencia_fev': 'Vicepresidencia FEV'
+    'cargo.fev.vicepresidencia_fev': 'Vicepresidencia FEV',
+    'multiple.baja.progreso': 'Dando de baja los asociados...',
+    'multiple.baja.completado': 'Baja completada',
+    'multiple.baja.errorServidor': 'Imposible dar de baja los asociados.'
   };
 
   var lenguajePorDefecto = 'es';

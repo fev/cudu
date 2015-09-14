@@ -14,6 +14,7 @@ var metodos = {
 var metodosAsociado = _.clone(metodos);
 metodosAsociado['activar'] = { url: '/api/asociado/:id/activar', method: 'PUT' };
 metodosAsociado['desactivar'] = { url: '/api/asociado/:id/desactivar', method: 'PUT' };
+metodosAsociado['desactivarSeleccionados'] = { url: '/api/asociado/desactivar', method: 'POST' };
 metodosAsociado['asignarCargo'] = { url: '/api/asociado/:id/cargo/:cargoId', method: 'PUT' };
 metodosAsociado['asignarCargoCustom'] = { url: '/api/asociado/:id/cargo', method: 'POST' };
 metodosAsociado['eliminarCargo'] = { url: '/api/asociado/:id/cargo/:cargoId', method: 'DELETE' };

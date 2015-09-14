@@ -65,8 +65,8 @@ angular.module('cuduApp')
         });
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones',
-      function ($scope, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones) {
+  .controller('AsociadoCtrl', ['$scope', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones',
+      function ($scope, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {
@@ -214,6 +214,15 @@ angular.module('cuduApp')
       }, function() {
         $scope.estado = EstadosFormulario.ERROR;
       });      
+    };    
+    
+    $scope.darDeBajaSeleccionados = function() {
+      var f = edicionMultiple(function(asociado) { asociado.activo = false; }, {
+        progreso: Traducciones.texto('multiple.baja.progreso'),
+        completado: Traducciones.texto('multiple.baja.completado'),
+        errorServidor: Traducciones.texto('multiple.baja.errorServidor')
+      });
+      Asociado.desactivarSeleccionados({}, f.marcados, f.completado, f.error);
     };
 
     $scope.marcar = function(asociado, e) {
@@ -387,5 +396,36 @@ angular.module('cuduApp')
         $scope.formAsociado.$setPristine();
       }
       $scope.estado = EstadosFormulario.LIMPIO;
+    };
+    
+    var edicionMultiple = function(modificador, mensajes) {
+      var marcados = $scope.marcados.slice();
+      if (marcados.length == 0) {
+        $scope.modal.debeSeleccionarAsociado = true;
+        return;
+      }
+      
+      var timeoutId = _.delay(function(msg) {
+        Notificaciones.progreso(msg);
+      }, 250, mensajes.progreso);
+      
+      return {
+        marcados: marcados,
+        error: function(error) {
+          window.clearTimeout(timeoutId);
+          Notificaciones.errorServidor(mensajes.errorServidor);
+        },
+        completado: function(data, status) {          
+          for (var i = 0; i < $scope.asociados.length; i++) {
+            var a = $scope.asociados[i];
+            if (_.includes(marcados, a.id)) {
+              modificador(a);
+              a.marcado = false;
+            }
+          }
+          window.clearTimeout(timeoutId);
+          Notificaciones.completado(mensajes.completado);
+        }
+      };
     };
   }]);

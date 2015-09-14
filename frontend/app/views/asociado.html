@@ -44,14 +44,30 @@
                 </ul>
               </div>
               <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm dropdown-toggle disabled" data-toggle="dropdown">
+                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                   <span class="glyphicon glyphicon-wrench"></span>
                 </button>
                 <ul class="dropdown-menu">
                   <li class="dropdown-header"><%= asociado.edicionMultiple %></li>
-                  <li><a href="javascript:"><%= asociado.cambiarRama %></a></li>
-                  <li><a href="javascript:"><%= asociado.cambiarTipo %></a></li>
-                  <li><a href="javascript:"><%= asociado.eliminar %></a></li>
+                  <li class="dropdown-submenu">
+                    <a data-toggle="dropdown" href="javascript:"><%= asociado.cambiarRama %></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="javascript:" ng-click="cambiarRama({ ramaColonia: true})"><%= rama.colonia %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama({ ramaManada: true })"><%= rama.manada %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama({ ramaExploradores: true })"><%= rama.exploradores %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama({ ramaExpedicion: true })"><%= rama.expedicion %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama({ ramaRuta: true })"><%= rama.ruta %></a></li>
+                    </ul>
+                  </li>
+                  <li class="dropdown-submenu">
+                    <a data-toggle="dropdown" href="javascript:"><%= asociado.cambiarTipo %></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="javascript:" ng-click="cambiarTipo('J')"><%= tipo.Joven %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarTipo('K')"><%= tipo.Kraal %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarTipo('C')"><%= tipo.Comite %></a></li>                      
+                    </ul>
+                  </li>
+                  <li><a href="javascript:" ng-click="darDeBajaSeleccionados()"><%= asociado.darDeBaja %></a></li>
                 </ul>
               </div>
               <button class="btn btn-default btn-sm" type="button" ng-click="nuevo()"><%= asociado.nuevo %></button>
@@ -114,21 +130,21 @@
 
   <div id="panelEdicion" class="col-sm-8">
     <div class="mat-toolbar text-right">
-      <button type="button" class="btn btn-default"
+      <button type="button" class="btn btn-default text-uppercase"
         ng-hide="asociado.id && !asociado.activo"
         ng-class="establecerEstiloGuardado()" ng-click="guardar(asociado.id)">
         <%= asociado.guardar %>
       </button>
-      <button type="button" class="btn btn-danger"
+      <button type="button" class="btn btn-danger text-uppercase"
         ng-show="!asociado.id || asociado.activo"
         ng-class="{disabled: !asociado.activo}" ng-click="activar(asociado.id, false)">
         <%= asociado.darDeBaja %>
       </button>
-      <button type="button" class="btn btn-default btn-danger"
+      <button type="button" class="btn btn-default btn-danger text-uppercase"
         ng-show="asociado.id && !asociado.activo" ng-click="modal.eliminar = true">
         <%= asociado.eliminarDefinitivamente %>
       </button>
-      <button type="button" class="btn btn-default btn-success"
+      <button type="button" class="btn btn-default btn-success text-uppercase"
         ng-show="asociado.id && !asociado.activo" ng-click="activar(asociado.id, true)">
         <%= asociado.recuperar %>
       </button>
@@ -585,6 +601,17 @@
   <div class="modal-body"><%= asociado.clausulaDeberSecreto %></div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.clausulaDeberSecreto = false"><%= asociado.clausulaDeberSecretoEntendido %></button>
+  </div>
+</div>
+</div>
+</div>
+
+<div cudu-modal="modal.debeSeleccionarAsociado" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-body">DEBE SELECCIONAR ASOCIADO</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.debeSeleccionarAsociado = false">ENTENDIDO!</button>
   </div>
 </div>
 </div>
