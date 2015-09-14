@@ -208,4 +208,29 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
   };
 }]);
 
+cuduServices.factory('Notificaciones', function() {
+  var callbackObj = function(nodo) {
+    return {
+      cerrar: function() { toastr.clear(nodo); }
+    };
+  };
+  return {
+    progreso: function(mensaje, timeOut) {
+      timeOut = timeOut || (10000);
+      var nodo = toastr.info(mensaje, null, { progressBar: true, iconClass: 'toast-en-curso', timeOut: timeOut });
+      return callbackObj(nodo);
+    },
+    errorServidor: function(mensaje, progreso) {
+      progreso = progreso || { cerrar: function() { toastr.clear(); } };
+      progreso.cerrar();
+      toastr.error(mensaje, "Error del servidor");
+    },
+    completado: function(mensaje, progreso) {      
+      progreso = progreso || { cerrar: function() { toastr.clear(); } };
+      progreso.cerrar();
+      toastr.info(mensaje);
+    }
+  };
+});
+
 }());

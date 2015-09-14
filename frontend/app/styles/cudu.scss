@@ -232,6 +232,33 @@ a, button {
   &.pull-left  > .dropdown-menu { left:-100%; margin-left:10px; }
 }
 
+#toast-container > div { 
+  @include opacity(1); 
+  @include border-radius(0); 
+  @include box-shadow($material-bottom-shadow-1);
+}
+#toast-container {
+  > .toast { background-image: none !important; }
+  > .toast:before {
+      position: fixed;
+      font-family: FontAwesome;
+      font-size: 20px;
+      line-height: 21px;
+      float: left;
+      color: #FFF;
+      padding-right: 0.5em;
+      margin: auto 0.5em auto -1.5em;
+  }
+  > .toast-error:before { content: "\f071"; margin: auto 0.5em auto -34px; line-height: 37px }
+  > .toast-info:before { content: "\f00c"; font-size: inherit; margin: auto -27px }
+  > .toast-en-curso:before { content: "\f021"; font-size: inherit; margin: auto -27px }  
+  > :hover { @include box-shadow($material-bottom-shadow-1); }
+}
+.toast-info, .toast-en-curso { 
+  background-color: $material-grey-800; 
+  .toast-progress { background-color: $material-grey-500; @include opacity(1); }  
+}
+
 @import 'secciones.scss';
 @import 'menu.scss';
 @import 'login.scss';
