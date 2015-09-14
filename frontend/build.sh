@@ -30,7 +30,10 @@ build() {
     hash_replace "$OUT/styles/cudu.css" "dist/index.html"
     hash_replace "$OUT/styles/vendor.css" "dist/index.html"
 
-    find dist/scripts/* ! -name cudu.min* ! -iname vendor.min* | xargs rm -rf
+    cp -R app/lib/font-awesome/fonts $OUT
+    cp -R app/lib/bootstrap/fonts/* $OUT/fonts/
+
+    find dist/scripts/* ! -name cudu.min* ! -iname vendor.* | xargs rm -rf
     rm $OUT/merge.list
     rm -rf $OUT/lib
 }
