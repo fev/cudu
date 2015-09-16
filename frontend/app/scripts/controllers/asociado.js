@@ -217,7 +217,7 @@ angular.module('cuduApp')
     };    
     
     $scope.darDeBajaSeleccionados = function() {
-      var f = edicionMultiple(function(asociado) { asociado.activo = false; }, {
+      var f = factoriaEdicionMultiple(function(asociado) { asociado.activo = false; }, {
         progreso: Traducciones.texto('multiple.baja.progreso'),
         completado: Traducciones.texto('multiple.baja.completado'),
         errorServidor: Traducciones.texto('multiple.baja.errorServidor')
@@ -398,7 +398,7 @@ angular.module('cuduApp')
       $scope.estado = EstadosFormulario.LIMPIO;
     };
     
-    var edicionMultiple = function(modificador, mensajes) {
+    var factoriaEdicionMultiple = function(modificador, mensajes) {
       var marcados = $scope.marcados.slice();
       if (marcados.length == 0) {
         $scope.modal.debeSeleccionarAsociado = true;
@@ -425,6 +425,7 @@ angular.module('cuduApp')
           }
           window.clearTimeout(timeoutId);
           Notificaciones.completado(mensajes.completado);
+          $scope.marcados = [];
         }
       };
     };
