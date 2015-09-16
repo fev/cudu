@@ -336,7 +336,7 @@ angular.module('cuduApp')
       Asociado.asignarCargoCustom({ id: $scope.asociado.id }, $scope.nuevoCargo, function(cargoGuardado) {
         $scope.asociado.cargos.unshift(cargoGuardado);
       });
-      nuevoCargo = '';
+      $scope.nuevoCargo = '';
     };
 
     $scope.eliminarCargo = function(cargoId) {
@@ -407,7 +407,7 @@ angular.module('cuduApp')
       if (edad > 13 && edad <= 16) { return 'Expedicion'; }
       if (edad > 16) { return 'Ruta'; }
       return null;
-    }
+    };
 
     var calcularPuntosCovol = function(asociado) {
       if (typeof asociado === 'undefined') {

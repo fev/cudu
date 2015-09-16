@@ -143,8 +143,9 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
 
   svc.calcularEdad = function(valor) {
     var fechaNacimiento = new Date(valor);
-    if (isNaN(fechaNacimiento.valueOf()))
+    if (isNaN(fechaNacimiento.valueOf())) {
       return '¿?';
+    }
     var hoy = new Date();
     return hoy.getYear() - fechaNacimiento.getYear();
   };

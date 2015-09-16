@@ -21,6 +21,7 @@
   "nomen": true,
   "globals": {
     "angular": false,
-    "_": true
+    "moment": false,
+    "_": false
   }
 }
