@@ -609,9 +609,12 @@
 <div cudu-modal="modal.debeSeleccionarAsociado" class="modal fade">
 <div class="modal-dialog">
 <div class="modal-content">
-  <div class="modal-body">DEBE SELECCIONAR ASOCIADO</div>
+  <div class="modal-body" style="min-height: 140px; padding-right: 20px;">
+    <p><img src="images/seleccion_multiple.gif" class="img-thumbnail pull-left" style="margin-right: 20px">
+      <%= asociado.ningunoSeleccionado %></p>    
+  </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.debeSeleccionarAsociado = false">ENTENDIDO!</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.debeSeleccionarAsociado = false"><%= asociado.ningunoSeleccionadoEntendido %></button>
   </div>
 </div>
 </div>
