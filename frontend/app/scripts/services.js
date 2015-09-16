@@ -18,6 +18,8 @@ metodosAsociado['desactivarSeleccionados'] = { url: '/api/asociado/desactivar', 
 metodosAsociado['asignarCargo'] = { url: '/api/asociado/:id/cargo/:cargoId', method: 'PUT' };
 metodosAsociado['asignarCargoCustom'] = { url: '/api/asociado/:id/cargo', method: 'POST' };
 metodosAsociado['eliminarCargo'] = { url: '/api/asociado/:id/cargo/:cargoId', method: 'DELETE' };
+metodosAsociado['cambiarTipo'] = { url: '/api/asociado/cambiarTipo', method: 'POST' };
+metodosAsociado['cambiarRama'] = { url: '/api/asociado/cambiarRama', method: 'POST' };
 
 cuduServices.factory('Asociado', ['$resource',
   function($resource) {

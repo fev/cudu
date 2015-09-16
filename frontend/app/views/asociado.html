@@ -52,11 +52,11 @@
                   <li class="dropdown-submenu">
                     <a data-toggle="dropdown" href="javascript:"><%= asociado.cambiarRama %></a>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-click="cambiarRama({ ramaColonia: true})"><%= rama.colonia %></a></li>
-                      <li><a href="javascript:" ng-click="cambiarRama({ ramaManada: true })"><%= rama.manada %></a></li>
-                      <li><a href="javascript:" ng-click="cambiarRama({ ramaExploradores: true })"><%= rama.exploradores %></a></li>
-                      <li><a href="javascript:" ng-click="cambiarRama({ ramaExpedicion: true })"><%= rama.expedicion %></a></li>
-                      <li><a href="javascript:" ng-click="cambiarRama({ ramaRuta: true })"><%= rama.ruta %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama('colonia')"><%= rama.colonia %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama('manada')"><%= rama.manada %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama('exploradores')"><%= rama.exploradores %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama('expedicion')"><%= rama.expedicion %></a></li>
+                      <li><a href="javascript:" ng-click="cambiarRama('ruta')"><%= rama.ruta %></a></li>
                     </ul>
                   </li>
                   <li class="dropdown-submenu">

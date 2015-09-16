@@ -100,6 +100,7 @@ public class AsociadoController {
         asociadoRepository.delete(id);
     }
 
+    // http -v POST http://localhost:8080/asociado/cambiarRama Cookie:JSESSIONID=... asociados:=[18158,18159,18485] rama:='{ "colonia": true }'
     @RequestMapping(value = "/asociado/cambiarRama", method = RequestMethod.POST)
     public void cambiarRama(@RequestBody @Valid CambiarRamaDto dto, @AuthenticationPrincipal Usuario usuario) {
         // Si el usuario tienen no_puede_editar_otras_ramas, no puede cambiar su rama
@@ -112,6 +113,7 @@ public class AsociadoController {
         descartarCacheGraficas(grupoId);
     }
 
+    // http -v POST http://localhost:8080/asociado/cambiarTipo Cookie:JSESSIONID=... asociados:=[18158,18159,18485] tipo=K
     @RequestMapping(value = "/asociado/cambiarTipo", method = RequestMethod.POST)
     public ResponseEntity<String> cambiarTipo(@RequestBody @Valid CambiarTipoDto dto, @AuthenticationPrincipal Usuario usuario) {
         if (dto.tipo != TipoAsociado.Joven && dto.tipo != TipoAsociado.Kraal && dto.tipo != TipoAsociado.Comite) {
