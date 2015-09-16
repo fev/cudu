@@ -222,7 +222,9 @@ angular.module('cuduApp')
         completado: Traducciones.texto('multiple.baja.completado'),
         errorServidor: Traducciones.texto('multiple.baja.errorServidor')
       });
-      Asociado.desactivarSeleccionados({}, f.marcados, f.completado, f.error);
+      if (f) {
+        Asociado.desactivarSeleccionados({}, f.marcados, f.completado, f.error);
+      }
     };
 
     $scope.marcar = function(asociado, e) {
@@ -382,10 +384,12 @@ angular.module('cuduApp')
         completado: Traducciones.texto('multiple.rama.completado'),
         errorServidor: Traducciones.texto('multiple.rama.errorServidor')
       });
-      // rama: { 'colonia': true }
-      var cuerpo = { asociados: f.marcados, rama: { } };
-      cuerpo.rama[rama] = true;
-      Asociado.cambiarRama({}, cuerpo, f.completado, f.error);
+      if (f) {
+        // rama: { 'colonia': true }
+        var cuerpo = { asociados: f.marcados, rama: { } };
+        cuerpo.rama[rama] = true;
+        Asociado.cambiarRama({}, cuerpo, f.completado, f.error);
+      }
     };
     
     $scope.cambiarTipo = function(tipo) {
@@ -396,7 +400,9 @@ angular.module('cuduApp')
         completado: Traducciones.texto('multiple.tipo.completado'),
         errorServidor: Traducciones.texto('multiple.tipo.errorServidor')
       });
-      Asociado.cambiarTipo({ }, { asociados: f.marcados, tipo: tipo }, f.completado, f.error);
+      if (f) {
+        Asociado.cambiarTipo({ }, { asociados: f.marcados, tipo: tipo }, f.completado, f.error);
+      }
     };
 
     var calcularRamaRecomendada = function(fechaNacimiento) {
