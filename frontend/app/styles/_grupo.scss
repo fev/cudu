@@ -4,15 +4,8 @@
 
   #panelEstadisticas {
     padding-left: 0;
-    .material-panel-level-2 {
-      min-height: 400px;
-      padding: 10px;
-    }
-    h2 {
-      font-weight: 300;
-      font-size: 21px;
-      margin: 20px 10px;
-    }
+    .material-panel-level-2 { padding: 10px; min-height: 400px }
+    h2 { font-weight: 300; font-size: 21px; margin: 20px 10px; }
   }
 
   #panelEdicion {
