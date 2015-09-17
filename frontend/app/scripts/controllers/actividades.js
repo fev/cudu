@@ -72,10 +72,10 @@ angular.module('cuduApp')
     };
 
     var resumir = function(listado, precio) {
-      if (typeof listado === "undefined") {
+      if (typeof listado === 'undefined') {
         return { asistentes: 0, pagados: 0, recaudacion: 0, esperado: 0 };
       }
-      var precio = normalizarPrecio(precio);
+      precio = normalizarPrecio(precio);
       var van = 0;
       var pagados = 0;
       for (var i = 0; i < listado.length; i++) {
@@ -168,7 +168,7 @@ angular.module('cuduApp')
 
     $scope.estiloAsistencia = function(asistente) {
       var estilo = 'estado-' + asistente.estadoAsistente;
-      if (asistente.nuevo) { estilo = estilo + ' flash' }
+      if (asistente.nuevo) { estilo = estilo + ' flash'; }
       return estilo;
     };
 
@@ -184,4 +184,4 @@ angular.module('cuduApp')
     $scope.recalcularPrecio = function() {
       $scope.resumen = resumir($scope.actividad.detalle, $scope.actividad.precio);
     };
-  }])
+  }]);
