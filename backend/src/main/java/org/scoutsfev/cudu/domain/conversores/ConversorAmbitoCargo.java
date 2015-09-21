@@ -10,6 +10,8 @@ public class ConversorAmbitoCargo implements AttributeConverter<AmbitoCargo, Cha
 
     @Override
     public Character convertToDatabaseColumn(AmbitoCargo ambitoCargo) {
+        if (ambitoCargo == null)
+            return null;
         return ambitoCargo.getAmbito();
     }
 

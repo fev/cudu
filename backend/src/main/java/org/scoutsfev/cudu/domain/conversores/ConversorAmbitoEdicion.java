@@ -10,6 +10,8 @@ public class ConversorAmbitoEdicion implements AttributeConverter<AmbitoEdicion,
 
     @Override
     public Character convertToDatabaseColumn(AmbitoEdicion ambitoEdicion) {
+        if (ambitoEdicion == null)
+            return null;
         return ambitoEdicion.getAmbito();
     }
 

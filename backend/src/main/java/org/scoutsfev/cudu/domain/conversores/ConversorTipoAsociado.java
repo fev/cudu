@@ -10,6 +10,8 @@ public class ConversorTipoAsociado implements AttributeConverter<TipoAsociado, C
 
     @Override
     public Character convertToDatabaseColumn(TipoAsociado tipoAsociado) {
+        if (tipoAsociado == null)
+            return null;
         return tipoAsociado.getTipo();
     }
 

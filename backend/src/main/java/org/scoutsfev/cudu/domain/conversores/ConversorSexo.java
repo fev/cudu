@@ -10,6 +10,8 @@ public class ConversorSexo implements AttributeConverter<Sexo, Character> {
 
     @Override
     public Character convertToDatabaseColumn(Sexo sexo) {
+        if (sexo == null)
+            return null;
         return sexo.getTipo();
     }
 

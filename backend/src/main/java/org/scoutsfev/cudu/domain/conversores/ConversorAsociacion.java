@@ -10,6 +10,8 @@ public class ConversorAsociacion implements AttributeConverter<Asociacion, Integ
 
     @Override
     public Integer convertToDatabaseColumn(Asociacion asociacion) {
+        if (asociacion == null)
+            return null;
         return asociacion.getId();
     }
 

@@ -10,6 +10,8 @@ public class ConversorEstadoAsistente implements AttributeConverter<EstadoAsiste
 
     @Override
     public Character convertToDatabaseColumn(EstadoAsistente estado) {
+        if (estado == null)
+            return null;
         return estado.getEstado();
     }
 
