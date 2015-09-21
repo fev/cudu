@@ -221,6 +221,7 @@ a, button {
 .pull-right { float: right; }
 .pull-left { float: left; }
 
+// TODO Revisar, ver _support.scss layout-listado()
 .miembros, .actividades {
    
    .actividades-listado {
@@ -282,4 +283,4 @@ a, button {
 @import 'tecnico-fev.scss';
 @import 'actividades.scss';
 @import 'permisos.scss';
-@import 'miembros.scss'
+@import 'miembros.scss';
