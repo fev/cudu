@@ -43,7 +43,14 @@ Recuerda que puedes generar archivos de proyecto para distintos IDEs:
 	$ ./gradlew idea
 	$ ./gradlew eclipse
 
-## Migraciones de la base de datos
+## Base de datos
+
+Puedes generar una base de datos desde cero usando dos scripts en groovy que hemos preparado:
+
+	$ groovy database.groovy -m cudu_playground
+	$ groovy populate.groovy -d cudu_playground
+
+### Migraciones de la base de datos
 
 Cudú utiliza [Flyway](http://flywaydb.org/) para mantener las actualizaciones de la base de datos. Es posible ejecutarlas directamente desde Gradle:
 
@@ -54,6 +61,13 @@ Los scripts de migración siguen las [convenciones de nombres](http://flywaydb.o
 
 Para comprobar el estado de una base de datos existente puedes utilizar la opción `flywayInfo` en lugar de `flywayMigrate`. Hay más información en la documentación de [Flyway para Gradle](http://flywaydb.org/documentation/gradle/).
 
+### jOOQ
+
+Para algunas operaciones utilizamos [jOOQ](http://www.jooq.org/). Si necesitas regenerar el metamodelo a partir de las migraciones de bases de datos, puedes ejecutar:
+
+	$ groovy database.groovy -j org.scoutsfev.cudu.dd
+
+Se creará una base de datos temporal sobre la que ejecutar las migraciones con Flyway. La base de datos se elimina una vez completa el proceso.
 
 ## Contacto
 
