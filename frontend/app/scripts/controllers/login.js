@@ -75,6 +75,9 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
       .success(function(usuario, status) {
         var lang = Traducciones.establecerLenguaje(usuario.lenguaje);
         Dom.loginCompleto(usuario, lang);
+        // TODO Refactorizar código para redirigir a un lugar u otro dependiendo
+        // del tipo de usuario. Vér código en app.js#145. El bloque completo de
+        // .success se puede extraer a un método aparte en este servicio.
         $location.path("/");
       })
       .error(function(data, status) {

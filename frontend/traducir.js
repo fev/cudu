@@ -14,10 +14,11 @@ var templates = [
   'app/views/login.html',
   'app/views/permisos.html',
   'app/views/tecnico_fev.html',
-  'app/views/tecnico_lluerna.html',
   'app/views/actividades/detalle.html',
   'app/views/actividades/listado.html',
-  'app/views/miembro.html'
+  'app/views/lluerna/miembro.html',
+  'app/views/lluerna/curso.html',
+  'app/views/curso.html'
 ];
 
 function leerTemplate(traducciones, template, lang) {

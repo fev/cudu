@@ -72,10 +72,18 @@ angular
         controller: 'ActividadesDetalleCtrl',
         seccion: 'actividades'
       })
-      .when('/miembros', {
-        templateUrl: 'i18n/views/miembro.html',
+      .when('/lluerna/miembros', {
+        templateUrl: 'i18n/views/lluerna/miembro.html',
         controller: 'MiembrosCtrl',
         seccion: 'miembros'
+      })
+      .when('/lluerna/cursos', { // gestión a cursos, técnico lluerna
+        templateUrl: 'i18n/views/lluerna/curso.html',
+        seccion: 'cursos'
+      })
+      .when('/cursos', { // apuntarse a cursos, asociado
+        templateUrl: 'i18n/views/cursos.html',
+        seccion: 'cursos'
       })
       .otherwise({
          redirectTo: '/'
@@ -147,4 +155,4 @@ angular
         Traducciones.establecerLenguaje();
         $location.path("/login");
       });
-  });
+  });  
