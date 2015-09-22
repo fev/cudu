@@ -79,7 +79,7 @@ class Database {
   String user
   String password
   String jdbc = "jdbc:postgresql://${server}:${port}/${name}"
-  String jdbcMaster = "jdbc:postgresql://${server}:${port}/"
+  String jdbcMaster = "jdbc:postgresql://${server}:${port}/postgres"
 
   @Memoized
   boolean exists() {
