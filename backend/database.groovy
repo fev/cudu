@@ -83,10 +83,12 @@ class Database {
 
   @Memoized
   boolean exists() {
+    boolean exists = false
     withMaster() { sql ->
       def row = sql.firstRow "select count(datname) from pg_catalog.pg_database where datname = ?", name
-      return row.count == 1
+      exists = row.count == 1
     }
+    return exists
   }
 
   void createIfNotExists() {
