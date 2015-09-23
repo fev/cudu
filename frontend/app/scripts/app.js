@@ -82,7 +82,7 @@ angular
         seccion: 'cursos'
       })
       .when('/cursos', { // apuntarse a cursos, asociado
-        templateUrl: 'i18n/views/cursos.html',
+        templateUrl: 'i18n/views/curso.html',
         seccion: 'cursos'
       })
       .otherwise({
