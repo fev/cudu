@@ -66,3 +66,15 @@ inner join (
 left join grupo g on a.grupo_id = g.id
 order by ac.curso_id, ac.secuencia_inscripcion;
 
+create or replace view dto_estado_inscripcion as
+select
+  curso_id,
+  plazas,
+  asociado_id,
+  row_number() over (partition by curso_id order by secuencia_inscripcion) as orden
+from (
+  select c.id as curso_id, c.plazas, p.asociado_id, p.secuencia_inscripcion
+  from curso c
+  inner join curso_participante p on c.id = p.curso_id) a0
+order by secuencia_inscripcion;
+
