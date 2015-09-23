@@ -12,8 +12,11 @@
         <p ng-show="!cursos"><%= cursos.noHayCursosParaMostrar %></p>
         
         <div class="row">
+          <% 
+          // TODO Deberiamos crear una directiva para esto
+          for(var i = 0; i < 3; i++) { %>
           <div class="col-md-4">
-            <div class="curso" ng-repeat="c in cursos.cursos">
+            <div class="curso" ng-repeat="c in cursos.cursos[<%=i%>]">
               <div class="contenido">
                 <h3>{{c.titulo}}</h3>
                 <div class="plazas">
@@ -28,84 +31,45 @@
                 <a id="btnCancelar" class="btn btn-default" href="#">CANCELAR INSCRIPCION</a>
                 <a id="btnListaEspera" class="btn btn-default" href="#">LISTA ESPERA</a>
               </div>
+            </div>      
+          </div>                 
+          <% } %>
+        </div>
+          
+        <!-- 
+          <div class="curso inscrito">
+            <div class="contenido">
+              <h3>{{cursos.cursos.length}}</h3>
+              <div class="plazas">
+                <span class="estado">Inscrito</span>
+                33 PLAZAS, 0 DISPONIBLES
+              </div>
+              <div>27 y 28 de mayo</div>
+              <div>Preventori d'Alcoi y Alborache</div>
             </div>
-            
-            <div class="curso inscrito">
-              <div class="contenido">
-                <h3>{{cursos.cursos.length}}</h3>
-                <div class="plazas">
-                  <span class="estado">Inscrito</span>
-                  33 PLAZAS, 0 DISPONIBLES
-                </div>
-                <div>27 y 28 de mayo</div>
-                <div>Preventori d'Alcoi y Alborache</div>
-              </div>
-              <div class="toolbar">
-                <a id="btnInscribir" class="btn btn-default" href="#">INSCRIBIR</a>
-                <a id="btnCancelar" class="btn btn-default" href="#">CANCELAR INSCRIPCION</a>
-                <a id="btnListaEspera" class="btn btn-default" href="#">LISTA ESPERA</a>
-              </div>
-            </div>
-            <div class="curso completo">
-              <div class="contenido">
-                <h3>Vida en la naturaleza</h3>
-                <div class="plazas">
-                  <span class="estado">Completo</span>
-                  33 PLAZAS, 0 DISPONIBLES
-                </div>
-                <div>27 y 28 de mayo</div>
-                <div>Preventori d'Alcoi y Alborache</div>
-              </div>
-              <div class="toolbar">
-                <a id="btnInscribir" class="btn btn-default" href="#">INSCRIBIR</a>
-                <a id="btnCancelar" class="btn btn-default" href="#">CANCELAR INSCRIPCION</a>
-                <a id="btnListaEspera" class="btn btn-default" href="#">LISTA ESPERA</a>
-              </div>
+            <div class="toolbar">
+              <a id="btnInscribir" class="btn btn-default" href="#">INSCRIBIR</a>
+              <a id="btnCancelar" class="btn btn-default" href="#">CANCELAR INSCRIPCION</a>
+              <a id="btnListaEspera" class="btn btn-default" href="#">LISTA ESPERA</a>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="curso">
-              <div class="contenido">
-                <h3>Específico de ramas: Pioneros</h3>
-                <div class="plazas">33 PLAZAS, 0 DISPONIBLES</div>
-                <!-- <div><a href="#">Borrar inscripción</a> - Plazas: 34, Disponibles: 12</div>               -->
-                <div>27 y 28 de mayo</div>
-                <div>Preventori d'Alcoi y Alborache</div>
+          <div class="curso completo">
+            <div class="contenido">
+              <h3>Vida en la naturaleza</h3>
+              <div class="plazas">
+                <span class="estado">Completo</span>
+                33 PLAZAS, 0 DISPONIBLES
               </div>
-              <div class="toolbar">
-                <a class="btn btn-default" href="#">INSCRIBIRSE</a>
-              </div>
+              <div>27 y 28 de mayo</div>
+              <div>Preventori d'Alcoi y Alborache</div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="curso">
-              <div class="contenido">
-                <h3>Contenidos Básicos</h3>
-                <div class="plazas">33 PLAZAS, 0 DISPONIBLES</div>
-                <!-- <div><a href="#">Borrar inscripción</a> - Plazas: 34, Disponibles: 12</div>               -->
-                <div>27 y 28 de mayo</div>
-                <div>Preventori d'Alcoi y Alborache</div>
-              </div>
-              <div class="toolbar">
-                <a class="btn btn-default" href="#">INSCRIBIRSE</a>
-              </div>
+            <div class="toolbar">
+              <a id="btnInscribir" class="btn btn-default" href="#">INSCRIBIR</a>
+              <a id="btnCancelar" class="btn btn-default" href="#">CANCELAR INSCRIPCION</a>
+              <a id="btnListaEspera" class="btn btn-default" href="#">LISTA ESPERA</a>
             </div>
-          </div>
-        </div>        
-        
-            <!-- <tr ng-repeat="a in actividades | filter:busqueda | orderBy:'-id' track by a.id" ng-click="detalle(a.id)">
-              <th scope="row">{{a.id}}</th>
-              <td>{{a.nombre}}</td>
-              <td>{{a.fechaInicio | fechaArray}}</td>
-              <td>{{a.fechaFin | fechaArray}}</td>
-              <td>{{a.lugar}}</td>
-              <td>{{a.rama | rama:'rama.cualquiera'}}</td>
-              <td>{{a.precio}}</td>
-              <td>{{a.responsable}}</td>
-              <td>{{a.creadaPor}}</td>
-            </tr>     -->
-
-        
+          </div> 
+        -->
       </div>
     </div>
   </div>

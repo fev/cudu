@@ -11,8 +11,11 @@ var Cudu;
         })(Estado || (Estado = {}));
         var CursoController = (function () {
             function CursoController($scope, service) {
+                var _this = this;
                 this.service = service;
-                this.cursos = service.listado_mock();
+                service.listado().success(function (pagina) {
+                    _this.cursos = _.chunk(pagina.content, pagina.content.length / 3);
+                });
             }
             CursoController.prototype.inscribir = function (id) {
                 this.service.inscribir(id).success(function (c) {
@@ -31,16 +34,7 @@ var Cudu;
                 this.usuarioId = usuarioId;
             }
             CursoService.prototype.listado = function () {
-                return this.http.get("/api/lluerna/cursos");
-            };
-            CursoService.prototype.listado_mock = function () {
-                return [{
-                        id: 1, titulo: 'Contenidos Básicos',
-                        estado: Estado.Normal,
-                        plazas: 21, inscritos: 8,
-                        descripcionFechas: 'Puente de octubre',
-                        descripcionLugar: 'Moraira'
-                    }];
+                return this.http.get("/api/lluerna/curso?sort=id&size=100");
             };
             CursoService.prototype.inscribir = function (id) {
                 return this.http.post('/api/lluerna/curso/' + id + '/inscribir/' + this.usuarioId, {});

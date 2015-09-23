@@ -43,6 +43,10 @@ public class Curso {
     @Min(1)
     private int plazas;
 
+    @Transient
+    @JsonProperty
+    private int inscritos;
+
     @Size(max = 255)
     private String descripcionFechas;
 
@@ -110,6 +114,14 @@ public class Curso {
 
     public void setPlazas(int plazas) {
         this.plazas = plazas;
+    }
+
+    public int getInscritos() {
+        return inscritos;
+    }
+
+    public void setInscritos(int inscritos) {
+        this.inscritos = inscritos;
     }
 
     public String getDescripcionFechas() {

@@ -3,14 +3,11 @@
     @include layout-listado($material-amber-900, $material-amber-100, $material-amber-200);
     
     .curso {
-      // border: 1px solid $material-grey-300;
-      border: 1px solid $material-grey-200;
-      @include box-shadow($material-bottom-shadow-1);
-      @include border-radius(1px);
+      border: 1px solid $material-grey-300;      
       padding: 0;
       margin-bottom: 20px; 
-      .contenido { padding: 24px 16px 6px 16px; }
-      h3 { margin: 0; margin-bottom: 8px; font-weight: 300; font-size: 16pt }
+      .contenido { padding: 24px 16px 6px 16px; min-height: 142px; }
+      h3 { margin: 0; margin-bottom: 8px; font-weight: 300; font-size: 16pt; }
       .plazas { color: $material-grey-500; font-size: 90%; font-weight: 100 }
       .estado { display: none; color: $material-grey-500; text-transform: uppercase; padding-right: 8px; font-weight: normal; }
       .toolbar { padding: 6px 8px; border-top: 1px solid $material-grey-200; margin-top: 6px;

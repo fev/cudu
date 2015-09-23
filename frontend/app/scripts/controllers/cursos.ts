@@ -4,6 +4,19 @@ module Cudu.Cursos {
   
   enum Estado { Normal, Inscrito, ListaEspera }
   
+  // TODO mover a Cudu.Page<T> para poder compartirlo
+  export interface Page<T> {
+    content: T[];
+    first: boolean;
+    last: boolean;
+    number: number;
+    numberOfElements: number;
+    size: number;
+    sort: string;
+    totalElements: number;
+    totalPages: number;
+  }
+  
   export interface Curso { 
     id: number;
     titulo: string;
@@ -28,13 +41,12 @@ module Cudu.Cursos {
   // end mover
   
   export class CursoController {
-    cursos: Curso[];
+    cursos: Curso[][];
     
     constructor($scope: ng.IScope, private service: CursoService) {
-      // service.listado().success(lista => {
-      //   this.cursos = lista;
-      // });      
-      this.cursos = service.listado_mock();
+      service.listado().success(pagina => {
+        this.cursos = _.chunk(pagina.content, pagina.content.length / 3);
+      });
     }
     
     inscribir(id: number) {
@@ -53,18 +65,8 @@ module Cudu.Cursos {
   class CursoService {
     constructor(private http: ng.IHttpService, private usuarioId: number) { }
     
-    listado(): ng.IHttpPromise<Curso[]> {
-      return this.http.get<Curso[]>("/api/lluerna/cursos");
-    }
-    
-    listado_mock(): Curso[] {      
-      return [{
-          id: 1, titulo: 'Contenidos Básicos',
-          estado: Estado.Normal,
-          plazas: 21, inscritos: 8,
-          descripcionFechas: 'Puente de octubre',
-          descripcionLugar: 'Moraira'
-      }];
+    listado(): ng.IHttpPromise<Page<Curso>> {
+      return this.http.get<Page<Curso>>("/api/lluerna/curso?sort=id&size=100");
     }
     
     inscribir(id: number): ng.IHttpPromise<Curso> {
@@ -83,4 +85,5 @@ module Cudu.Cursos {
 
 angular.module('cuduApp')
   .controller('CursoController', ['$scope', 'CursoService', Cudu.Cursos.CursoController])
+  // .directive('panelCurso', Cudu.Cursos.PanelCurso)
   .factory('CursoService', ['$http', 'Usuario', Cudu.Cursos.CursoServiceFactory]);

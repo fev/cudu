@@ -1,7 +1,9 @@
 package org.scoutsfev.cudu.web;
 
 import org.scoutsfev.cudu.domain.Curso;
+import org.scoutsfev.cudu.domain.EstadoInscripcionEnCurso;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,21 +17,41 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * Métodos relacionados con la gestión de cursos
+ *
+ * Todos los métodos requieren un perfil de técnico de la escuela,
+ * a excepción de estos tres métodos que los utiliza la pantalla
+ * para la inscripción de cursos disponible para cualquier asociado:
+ * - listado de cursos activos    /lluerna/curso
+ * - inscribirse en curso         POST /lluerna/curso/42/participantes  body es asociadoId
+ * - cancelar inscripción         DELETE /lluerna/curso/42/participantes/39
+ */
 @RestController
 @RequestMapping("/lluerna/curso")
 public class CursoController {
 
     private final CursoService cursoService;
+    private final AuthorizationService authorizationService;
 
     @Autowired
-    public CursoController(CursoService cursoService) {
+    public CursoController(CursoService cursoService, AuthorizationService authorizationService) {
         this.cursoService = cursoService;
+        this.authorizationService = authorizationService;
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
-    public Page<Curso> listado(@AuthenticationPrincipal Usuario usuario, Pageable pageable) {
+    public Page<Curso> listado(Pageable pageable) {
+        // En este listado no aplicamos permisos porque realmente nos interesa
+        // proporcionar la información de cursos disponibles de forma abierta,
+        // y estamos bajarando la posibilidad de sacar dicha información en la web.
         return cursoService.listado(pageable);
+    }
+
+    @RequestMapping(value = "/completo", method = RequestMethod.GET)
+    @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
+    public Page<Curso> listadoCompleto(@AuthenticationPrincipal Usuario usuario, Pageable pageable) {
+        return cursoService.listadoCompleto(pageable);
     }
 
     @RequestMapping(value = "/{cursoId}", method = RequestMethod.GET)
@@ -55,10 +77,6 @@ public class CursoController {
         return cursoService.guardar(editado);
     }
 
-    // Eliminados, utilizar método 'editar', visible = true/false
-    // @RequestMapping(value = "/{id}/publicar", method = RequestMethod.PUT)
-    // @RequestMapping(value = "/{id}/ocultar", method = RequestMethod.PUT)
-
     @RequestMapping(value = "/{cursoId}/formadores", method = RequestMethod.POST)
     @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
     public void añadirFormador(@PathVariable("cursoId") Integer cursoId, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
@@ -72,14 +90,19 @@ public class CursoController {
     }
 
     @RequestMapping(value = "/{cursoId}/participantes", method = RequestMethod.POST)
-    @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
-    public void añadirParticipante(@PathVariable("cursoId") Integer cursoId, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
-        cursoService.añadirParticipante(cursoId, asociadoId);
+    public EstadoInscripcionEnCurso añadirParticipante(@PathVariable("cursoId") Integer cursoId, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+        if (authorizationService.puedeAccederLluerna(usuario)) {
+            return cursoService.añadirParticipante(cursoId, asociadoId);
+        }
+        // Si el usuario no es un técnico de lluerna sólo podemos inscribir o desinscribir el usuario actual
+        return cursoService.añadirParticipante(cursoId, usuario.getId());
     }
 
     @RequestMapping(value = "/{cursoId}/participantes/{asociadoId}", method = RequestMethod.DELETE)
-    @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
-    public void quitarParticipante(@PathVariable("cursoId") Integer cursoId, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
-        cursoService.quitarParticipante(cursoId, asociadoId);
+    public EstadoInscripcionEnCurso quitarParticipante(@PathVariable("cursoId") Integer cursoId, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+        if (authorizationService.puedeAccederLluerna(usuario)) {
+            return cursoService.quitarParticipante(cursoId, asociadoId);
+        }
+        return cursoService.quitarParticipante(cursoId, usuario.getId());
     }
 }
