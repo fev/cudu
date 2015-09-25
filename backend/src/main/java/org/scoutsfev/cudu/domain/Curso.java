@@ -6,12 +6,12 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import org.scoutsfev.cudu.domain.dto.MiembroCursoDto;
-import org.scoutsfev.cudu.domain.dto.MiembroEscuelaDto;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,42 +22,49 @@ public class Curso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    protected Integer id;
 
     @NotNull
     @Size(min = 3, max = 100)
-    private String titulo;
+    @Column(name = "titulo", nullable = false, length = 128)
+    protected String titulo;
 
     @NotNull
+    @Column(name = "fecha_inicio_inscripcion", nullable = false)
     private Timestamp fechaInicioInscripcion;
 
     @NotNull
+    @Column(name = "fecha_fin_inscripcion", nullable = false)
     private Timestamp fechaFinInscripcion;
 
-    @Column(columnDefinition = "date NULL", nullable = true)
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
-    private LocalDate fechaNacimientoMinima;
+    @Column(name = "fecha_nacimiento_minima", columnDefinition = "date NULL", nullable = true)
+    private Date fechaNacimientoMinima;
 
     @NotNull
     @Min(1)
+    @Column(name = "plazas", nullable = false, precision = 32)
     private int plazas;
 
+    // Esta columna se rellena únicamente mediante algunas coonsultas que vienen de jOOQ
+    // hasta que quitemos completamente JPA.
     @Transient
     @JsonProperty
+    @Column(name = "inscritos")
     private int inscritos;
 
     @Size(max = 255)
+    @Column(name = "descripcion_fechas", nullable = false)
     private String descripcionFechas;
 
     @Size(max = 255)
+    @Column(name = "descripcion_lugar", nullable = false)
     private String descripcionLugar;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "visible", nullable = false)
     private boolean visible = false;
 
-    @Column(nullable = true)
+    @Column(name = "coordinador_id", precision = 32, nullable = true)
     private Integer coordinadorId;
 
     @Transient
@@ -100,12 +107,14 @@ public class Curso {
         this.fechaFinInscripcion = fechaFinInscripcion;
     }
 
+    @JsonSerialize(using = LocalDateSerializer.class)
     public LocalDate getFechaNacimientoMinima() {
-        return fechaNacimientoMinima;
+        return fechaNacimientoMinima.toLocalDate();
     }
 
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     public void setFechaNacimientoMinima(LocalDate fechaNacimientoMinima) {
-        this.fechaNacimientoMinima = fechaNacimientoMinima;
+        this.fechaNacimientoMinima = Date.valueOf(fechaNacimientoMinima);
     }
 
     public int getPlazas() {
