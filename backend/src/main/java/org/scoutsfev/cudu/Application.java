@@ -1,7 +1,11 @@
 package org.scoutsfev.cudu;
 
 import com.fasterxml.jackson.datatype.hibernate4.Hibernate4Module;
+import org.jooq.conf.RenderNameStyle;
+import org.jooq.conf.Settings;
 import org.scoutsfev.cudu.domain.CacheKeys;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -85,5 +89,18 @@ public class Application extends WebMvcConfigurerAdapter {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("hl");
         return localeChangeInterceptor;
+    }
+
+    @Bean
+    public Settings jooqSettings() {
+        Settings settings = new Settings();
+        Logger logger = LoggerFactory.getLogger("org.jooq");
+        if (logger.isDebugEnabled()) {
+            settings.setExecuteLogging(true);
+            settings.setRenderFormatted(true);
+            settings.setRenderNameStyle(RenderNameStyle.AS_IS);
+            settings.setRenderSchema(false);
+        }
+        return settings;
     }
 }
