@@ -1,10 +1,12 @@
 package org.scoutsfev.cudu.storage;
 
 import org.jooq.*;
+import org.scoutsfev.cudu.domain.CacheKeys;
 import org.scoutsfev.cudu.domain.Curso;
 import org.scoutsfev.cudu.db.tables.records.DtoEstadoInscripcionRecord;
 import org.scoutsfev.cudu.domain.EstadoInscripcionEnCurso;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,7 @@ public class CursoStorageImpl implements CursoStorage {
         this.context = context;
     }
 
+    @Override
     public List<Curso> listado(Pageable pageable, Optional<Boolean> visibles) {
         /*
          * select c.*, coalesce(ct.inscritos, 0) inscritos
@@ -56,6 +59,15 @@ public class CursoStorageImpl implements CursoStorage {
                 .offset(pageable.getPageNumber());
 
         return query.fetchInto(Curso.class);
+    }
+
+    @Override
+    @Cacheable(value = CacheKeys.NumeroDeCursosDisponibles, key = "#root.methodName")
+    public int numeroDeCursosDisponibles(Optional<Boolean> visibles) {
+        Condition clausulaVisibles = val(true).equal(true);
+        if (visibles.isPresent())
+            clausulaVisibles = clausulaVisibles.and(CURSO.VISIBLE.eq(val(visibles.get())));
+        return context.select(count()).from(CURSO).where(clausulaVisibles).fetchOne(0, Integer.class);
     }
 
     @Override

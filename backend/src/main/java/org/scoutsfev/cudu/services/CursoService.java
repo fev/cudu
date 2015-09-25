@@ -1,5 +1,6 @@
 package org.scoutsfev.cudu.services;
 
+import org.scoutsfev.cudu.domain.CacheKeys;
 import org.scoutsfev.cudu.domain.Curso;
 import org.scoutsfev.cudu.domain.EstadoInscripcionEnCurso;
 import org.scoutsfev.cudu.domain.dto.MiembroCursoDto;
@@ -8,7 +9,9 @@ import org.scoutsfev.cudu.storage.CursoStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CursoService {
@@ -24,15 +28,19 @@ public class CursoService {
 
     private final CursoRepository cursoRepository;
     private final CursoStorage cursoStorage;
+    private final CacheManager cacheManager;
 
     @Autowired
-    public CursoService(CursoRepository cursoRepository, CursoStorage cursoStorage) {
+    public CursoService(CursoRepository cursoRepository, CursoStorage cursoStorage, CacheManager cacheManager) {
         this.cursoRepository = cursoRepository;
         this.cursoStorage = cursoStorage;
+        this.cacheManager = cacheManager;
     }
 
     public Page<Curso> listado(Pageable pageable) {
-        return cursoRepository.findByVisibleTrue(pageable);
+        List<Curso> listado = cursoStorage.listado(pageable, Optional.of(true));
+        int cursosDisponibles = cursoStorage.numeroDeCursosDisponibles(Optional.of(true));
+        return new PageImpl<>(listado, pageable, cursosDisponibles);
     }
 
     public Page<Curso> listadoCompleto(Pageable pageable) {
@@ -40,7 +48,9 @@ public class CursoService {
     }
 
     public Curso guardar(Curso curso) {
-        return cursoRepository.save(curso);
+        Curso cursoGuardado = cursoRepository.save(curso);
+        cacheManager.getCache(CacheKeys.NumeroDeCursosDisponibles).clear();
+        return cursoGuardado;
     }
 
     public Curso obtener(Integer cursoId) {

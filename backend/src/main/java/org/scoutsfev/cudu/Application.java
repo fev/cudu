@@ -47,7 +47,8 @@ public class Application extends WebMvcConfigurerAdapter {
         cacheManager.setCaches(Arrays.asList(
                 new ConcurrentMapCache(CacheKeys.DatosGraficasGlobales),
                 new ConcurrentMapCache(CacheKeys.DatosGraficasPorGrupoRama),
-                new ConcurrentMapCache(CacheKeys.DatosGraficasPorGrupoTipo)));
+                new ConcurrentMapCache(CacheKeys.DatosGraficasPorGrupoTipo),
+                new ConcurrentMapCache(CacheKeys.NumeroDeCursosDisponibles)));
         return cacheManager;
     }
 

@@ -15,8 +15,6 @@ import java.util.List;
 
 public interface CursoRepository extends PagingAndSortingRepository<Curso, Integer> {
 
-    Page<Curso> findByVisibleTrue(Pageable pageable);
-
     @Query("select m from MiembroCursoDto m where cursoId = :cursoId")
     List<MiembroCursoDto> obtenerMiembros(@Param("cursoId") int cursoId);
 
