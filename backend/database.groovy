@@ -156,6 +156,14 @@ class Jooq {
             excludes('')
             inputSchema('public')
           }
+          generate() {
+            pojos(false)
+            immutablePojos(false)
+            interfaces(false)
+            jpaAnnotations(false)
+            validationAnnotations(false)
+            daos(false)
+          }
           target() {
             packageName(packageName)
             directory(outputFolder)
