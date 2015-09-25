@@ -1,4 +1,4 @@
-/// <reference path="../../../typing.tsd.d.ts"/>
+/// <reference path="../../../typings/tsd.d.ts"/>
 var Cudu;
 (function (Cudu) {
     var Cursos;

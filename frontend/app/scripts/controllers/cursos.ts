@@ -1,4 +1,4 @@
-/// <reference path="../../../typing.tsd.d.ts"/>
+/// <reference path="../../../typings/tsd.d.ts"/>
 
 module Cudu.Cursos {
   
