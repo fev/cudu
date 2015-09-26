@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CursoStorage {
-    List<Curso> listado(Pageable pageable, Optional<Boolean> visibles);
+    List<Curso> listado(Pageable pageable, Optional<Boolean> visibles, int usuarioId);
     int numeroDeCursosDisponibles(Optional<Boolean> visibles);
     EstadoInscripcionEnCurso estadoDeInscripcion(int cursoId, int asociadoId);
 }

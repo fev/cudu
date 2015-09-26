@@ -41,11 +41,8 @@ public class CursoController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public Page<Curso> listado(Pageable pageable) {
-        // En este listado no aplicamos permisos porque realmente nos interesa
-        // proporcionar la información de cursos disponibles de forma abierta,
-        // y estamos bajarando la posibilidad de sacar dicha información en la web.
-        return cursoService.listado(pageable);
+    public Page<Curso> listado(@AuthenticationPrincipal Usuario usuario, Pageable pageable) {
+        return cursoService.listado(pageable, usuario.getId());
     }
 
     @RequestMapping(value = "/completo", method = RequestMethod.GET)

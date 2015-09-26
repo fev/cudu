@@ -29,30 +29,48 @@ public class CursoStorageImpl implements CursoStorage {
     }
 
     @Override
-    public List<Curso> listado(Pageable pageable, Optional<Boolean> visibles) {
+    public List<Curso> listado(Pageable pageable, Optional<Boolean> visibles, int usuarioId) {
         /*
-         * select c.*, coalesce(ct.inscritos, 0) inscritos
+         * select c.*,
+         *  coalesce(ct.inscritos, 0) inscritos,
+         *  greatest(0, coalesce((c.plazas - ct.inscritos), c.plazas)) as disponibles,
+         *  case when ai.curso_id is not null then true else false end usuario_inscrito,
+         *  case when u.orden > plazas then true else false end usuario_lista_espera
          * from curso c
-         * left join (
-         *  select c.curso_id, count(c.asociado_id) inscritos from curso_participante c group by c.curso_id) ct
-         * on ct.curso_id = c.id;
+         * left join (select c.curso_id, count(c.asociado_id) inscritos from curso_participante c group by c.curso_id) ct on ct.curso_id = c.id
+         * left join (select *, row_number() over (partition by curso_id order by secuencia_inscripcion) as orden from curso_participante) u
+         *   on u.curso_id = c.id and u.asociado_id = ?
+         * where c.visible = ?
+         * order by c.id desc
+         * limit ? offset ?;
          */
         SelectHavingStep<Record2<Integer, Integer>> numeroParticipantes = context
                 .select(CURSO_PARTICIPANTE.CURSO_ID, count().as("inscritos"))
                 .from(CURSO_PARTICIPANTE)
                 .groupBy(CURSO_PARTICIPANTE.CURSO_ID);
 
+        SelectJoinStep<Record> usuarioActualInscrito = context
+                .select(CURSO_PARTICIPANTE.fields())
+                .select(rowNumber().over().partitionBy(CURSO_PARTICIPANTE.CURSO_ID).orderBy(CURSO_PARTICIPANTE.SECUENCIA_INSCRIPCION).as("orden"))
+                .from(CURSO_PARTICIPANTE);
+
         Condition clausulaVisibles = val(true).equal(true);
         if (visibles.isPresent())
             clausulaVisibles = clausulaVisibles.and(CURSO.VISIBLE.eq(val(visibles.get())));
 
+        final Field<Integer> INSCRITOS = numeroParticipantes.field("inscritos", Integer.class);
         final SelectForUpdateStep<Record> query = context
                 .select(CURSO.fields())
-                .select(coalesce(numeroParticipantes.field("inscritos", Integer.class), val(0)).as("inscritos"))
+                .select(coalesce(INSCRITOS, val(0)).as("inscritos"))
+                .select(greatest(0, coalesce(CURSO.PLAZAS.minus(INSCRITOS), CURSO.PLAZAS)).as("disponibles"))
+                .select(choose().when(usuarioActualInscrito.field(0).isNotNull(), true).otherwise(false).as("usuario_inscrito"))
+                .select(choose().when(usuarioActualInscrito.field("orden", Integer.class).gt(CURSO.PLAZAS), true).otherwise(false).as("usuario_lista_espera"))
                 .from(CURSO)
                 .leftOuterJoin(numeroParticipantes)
-                    .on(numeroParticipantes.field(CURSO_PARTICIPANTE.CURSO_ID.getName(), Integer.class)
-                            .eq(CURSO.ID))
+                    .on(numeroParticipantes.field(CURSO_PARTICIPANTE.CURSO_ID.getName(), Integer.class).eq(CURSO.ID))
+                .leftOuterJoin(usuarioActualInscrito)
+                    .on(usuarioActualInscrito.field(CURSO_PARTICIPANTE.CURSO_ID.getName(), Integer.class).eq(CURSO.ID)
+                            .and(usuarioActualInscrito.field(CURSO_PARTICIPANTE.ASOCIADO_ID.getName(), Integer.class).eq(usuarioId)))
                 .where(clausulaVisibles)
                 .orderBy(CURSO.ID.desc())
                 .limit(pageable.getPageSize())

@@ -37,8 +37,8 @@ public class CursoService {
         this.cacheManager = cacheManager;
     }
 
-    public Page<Curso> listado(Pageable pageable) {
-        List<Curso> listado = cursoStorage.listado(pageable, Optional.of(true));
+    public Page<Curso> listado(Pageable pageable, int usuarioId) {
+        List<Curso> listado = cursoStorage.listado(pageable, Optional.of(true), usuarioId);
         int cursosDisponibles = cursoStorage.numeroDeCursosDisponibles(Optional.of(true));
         return new PageImpl<>(listado, pageable, cursosDisponibles);
     }

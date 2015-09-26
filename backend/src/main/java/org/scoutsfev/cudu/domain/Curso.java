@@ -1,5 +1,6 @@
 package org.scoutsfev.cudu.domain;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -45,12 +46,22 @@ public class Curso {
     @Column(name = "plazas", nullable = false, precision = 32)
     private int plazas;
 
-    // Esta columna se rellena únicamente mediante algunas coonsultas que vienen de jOOQ
-    // hasta que quitemos completamente JPA.
+    // Las columnas "inscritos" y "disponibles" se rellenan únicamente mediante
+    // coonsultas que vienen de jOOQ hasta que quitemos completamente JPA.
     @Transient
     @JsonProperty
     @Column(name = "inscritos")
     private int inscritos;
+
+    @Transient
+    @JsonProperty
+    @Column(name = "disponibles")
+    private int disponibles;
+
+    @Transient
+    @JsonProperty
+    @Column(name = "usuario_inscrito")
+    private boolean usuarioInscrito;
 
     @Size(max = 255)
     @Column(name = "descripcion_fechas", nullable = false)
@@ -131,6 +142,22 @@ public class Curso {
 
     public void setInscritos(int inscritos) {
         this.inscritos = inscritos;
+    }
+
+    public int getDisponibles() {
+        return disponibles;
+    }
+
+    public void setDisponibles(int disponibles) {
+        this.disponibles = disponibles;
+    }
+
+    public boolean isUsuarioInscrito() {
+        return usuarioInscrito;
+    }
+
+    public void setUsuarioInscrito(boolean usuarioInscrito) {
+        this.usuarioInscrito = usuarioInscrito;
     }
 
     public String getDescripcionFechas() {
