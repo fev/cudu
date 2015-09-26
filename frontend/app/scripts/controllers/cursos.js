@@ -14,7 +14,23 @@ var Cudu;
                 var _this = this;
                 this.service = service;
                 service.listado().success(function (pagina) {
-                    _this.cursos = _.chunk(pagina.content, pagina.content.length / 3);
+                    var chunked = [[], [], []];
+                    var lista = pagina.content;
+                    for (var i = 0, j = 0; i < lista.length; i += 3, j++) {
+                        if (typeof (lista[i]) === 'undefined') {
+                            break;
+                        }
+                        chunked[0][j] = lista[i];
+                        if (typeof (lista[i + 1]) === 'undefined') {
+                            break;
+                        }
+                        chunked[1][j] = lista[i + 1];
+                        if (typeof (lista[i + 2]) === 'undefined') {
+                            break;
+                        }
+                        chunked[2][j] = lista[i + 2];
+                    }
+                    _this.cursos = chunked;
                 });
             }
             CursoController.prototype.inscribir = function (id) {

@@ -26,8 +26,10 @@ module Cudu.Cursos {
     // fechaNacimientoMinima: Date;
     plazas: number;
     inscritos: number;
+    disponibles: number;
     descripcionFechas: string;
     descripcionLugar: string;
+    usuarioInscrito: boolean;
     //constructor(public id: number) { }
   }
   
@@ -45,7 +47,20 @@ module Cudu.Cursos {
     
     constructor($scope: ng.IScope, private service: CursoService) {
       service.listado().success(pagina => {
-        this.cursos = _.chunk(pagina.content, pagina.content.length / 3);
+        // Divide el listado de cursos en tres columnas, repartidas
+        // por igual de izquierda a derecha (similar a _.chunk)
+        var chunked: Curso[][] = [[], [], []];
+        var lista: Curso[] = pagina.content;
+        for (let i = 0, j = 0; i < lista.length; i+=3, j++) {
+            // El bucle interno está desenrollado
+            if (typeof(lista[i]) === 'undefined') { break; }
+            chunked[0][j] = lista[i];
+            if (typeof(lista[i+1]) === 'undefined') { break; }
+            chunked[1][j] = lista[i+1];
+            if (typeof(lista[i+2]) === 'undefined') { break; }
+            chunked[2][j] = lista[i+2];
+        }        
+        this.cursos = chunked;
       });
     }
     

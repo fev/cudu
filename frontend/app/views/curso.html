@@ -16,7 +16,7 @@
           // TODO Deberiamos crear una directiva para esto
           for(var i = 0; i < 3; i++) { %>
           <div class="col-md-4">
-            <div class="curso" ng-repeat="c in cursos.cursos[<%=i%>]">
+            <div class="curso" ng-repeat="c in cursos.cursos[<%=i%>] track by c.id">
               <div class="contenido">
                 <h3>{{c.titulo}}</h3>
                 <div class="plazas">
