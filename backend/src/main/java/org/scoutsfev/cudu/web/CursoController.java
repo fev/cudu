@@ -1,10 +1,11 @@
 package org.scoutsfev.cudu.web;
 
 import org.scoutsfev.cudu.domain.Curso;
-import org.scoutsfev.cudu.domain.EstadoInscripcionEnCurso;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.domain.validadores.ValidadorInscripcionCurso;
 import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.CursoService;
+import org.scoutsfev.cudu.web.validacion.Error;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
 
 /**
  * Métodos relacionados con la gestión de cursos
@@ -33,11 +39,13 @@ public class CursoController {
 
     private final CursoService cursoService;
     private final AuthorizationService authorizationService;
+    private final ValidadorInscripcionCurso validadorInscripcionCurso;
 
     @Autowired
-    public CursoController(CursoService cursoService, AuthorizationService authorizationService) {
+    public CursoController(CursoService cursoService, AuthorizationService authorizationService, ValidadorInscripcionCurso validadorInscripcionCurso) {
         this.cursoService = cursoService;
         this.authorizationService = authorizationService;
+        this.validadorInscripcionCurso = validadorInscripcionCurso;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -87,19 +95,27 @@ public class CursoController {
     }
 
     @RequestMapping(value = "/{cursoId}/participantes", method = RequestMethod.POST)
-    public EstadoInscripcionEnCurso añadirParticipante(@PathVariable("cursoId") Integer cursoId, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity añadirParticipante(@PathVariable("cursoId") Curso curso, @RequestBody @Valid @NotNull Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
         if (authorizationService.puedeAccederLluerna(usuario)) {
-            return cursoService.añadirParticipante(cursoId, asociadoId);
+            return ok(cursoService.añadirParticipante(curso.getId(), asociadoId));
+        }
+        List<Error> erroresValidacion = validadorInscripcionCurso.validar(curso, LocalDateTime.now());
+        if (erroresValidacion.size() > 0) {
+            return badRequest().body(erroresValidacion);
         }
         // Si el usuario no es un técnico de lluerna sólo podemos inscribir o desinscribir el usuario actual
-        return cursoService.añadirParticipante(cursoId, usuario.getId());
+        return ok(cursoService.añadirParticipante(curso.getId(), usuario.getId()));
     }
 
     @RequestMapping(value = "/{cursoId}/participantes/{asociadoId}", method = RequestMethod.DELETE)
-    public EstadoInscripcionEnCurso quitarParticipante(@PathVariable("cursoId") Integer cursoId, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity quitarParticipante(@PathVariable("cursoId") Curso curso, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
         if (authorizationService.puedeAccederLluerna(usuario)) {
-            return cursoService.quitarParticipante(cursoId, asociadoId);
+            return ok(cursoService.quitarParticipante(curso.getId(), asociadoId));
         }
-        return cursoService.quitarParticipante(cursoId, usuario.getId());
+        List<Error> erroresValidacion = validadorInscripcionCurso.validar(curso, LocalDateTime.now());
+        if (erroresValidacion.size() > 0) {
+            return badRequest().body(erroresValidacion);
+        }
+        return ok(cursoService.quitarParticipante(curso.getId(), usuario.getId()));
     }
 }

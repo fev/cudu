@@ -28,28 +28,27 @@ var Cudu;
                     _this.cursos = chunked;
                 });
             }
-            CursoController.prototype.inscribir = function (id) {
+            CursoController.prototype.inscribir = function (curso) {
                 var _this = this;
-                this.service.inscribir(id).success(function (e) {
+                if (!this.elCursoEstaEnPlazo(curso)) {
+                    return;
+                }
+                this.service.inscribir(curso.id).success(function (e) {
                     _this.actualizarEstadoCurso(e, true);
                 }).error(function (e) {
                     console.log(e);
                 });
             };
-            CursoController.prototype.desinscribir = function (id) {
+            CursoController.prototype.desinscribir = function (curso) {
                 var _this = this;
-                this.service.desinscribir(id).success(function (e) {
+                if (!this.elCursoEstaEnPlazo(curso)) {
+                    return;
+                }
+                this.service.desinscribir(curso.id).success(function (e) {
                     _this.actualizarEstadoCurso(e, false);
                 }).error(function (e) {
                     console.log(e);
                 });
-            };
-            CursoController.prototype.actualizarEstadoCurso = function (e, inscrito) {
-                var actual = _.find(_.flatten(this.cursos), function (c) { return c.id == e.cursoId; });
-                actual.disponibles = e.disponibles;
-                e.inscritos = e.inscritos;
-                actual.usuarioInscrito = inscrito;
-                actual.usuarioListaEspera = e.listaDeEspera;
             };
             CursoController.prototype.establecerPlazos = function (curso) {
                 var m = moment(curso.fechaFinInscripcion);
@@ -63,6 +62,25 @@ var Cudu;
                     }
                 }
                 return curso;
+            };
+            CursoController.prototype.actualizarEstadoCurso = function (e, inscrito) {
+                var actual = _.find(_.flatten(this.cursos), function (c) { return c.id == e.cursoId; });
+                actual.disponibles = e.disponibles;
+                e.inscritos = e.inscritos;
+                actual.usuarioInscrito = inscrito;
+                actual.usuarioListaEspera = e.listaDeEspera;
+            };
+            CursoController.prototype.elCursoEstaEnPlazo = function (curso) {
+                var ahora = moment();
+                var fechaInicio = moment(curso.fechaInicioInscripcion);
+                var fechaFin = moment(curso.fechaFinInscripcion);
+                if (fechaInicio.isValid() && ahora.isAfter(fechaFin)) {
+                    return false;
+                }
+                if (fechaFin.isValid() && ahora.isBefore(fechaInicio)) {
+                    return false;
+                }
+                return true;
             };
             return CursoController;
         })();

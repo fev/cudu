@@ -32,9 +32,9 @@
                 <div contenteditable>Lugar: {{c.descripcionLugar}}</div>
               </div>
               <div class="toolbar" ng-class="{disabled: !c.plazoCerrado}">
-                <a ng-click="cursos.inscribir(c.id)" id="btnInscribir" class="btn btn-default" href="javascript:">INSCRIBIRSE</a>
-                <a ng-click="cursos.desinscribir(c.id)" id="btnCancelar" class="btn btn-default" href="javascript:">CANCELAR INSCRIPCION</a>
-                <a ng-click="cursos.inscribir(c.id)" id="btnListaEspera" class="btn btn-default" href="javascript:">LISTA ESPERA</a>                
+                <a ng-click="cursos.inscribir(c)" id="btnInscribir" class="btn btn-default" href="javascript:">INSCRIBIRSE</a>
+                <a ng-click="cursos.desinscribir(c)" id="btnCancelar" class="btn btn-default" href="javascript:">CANCELAR INSCRIPCION</a>
+                <a ng-click="cursos.inscribir(c)" id="btnListaEspera" class="btn btn-default" href="javascript:">LISTA ESPERA</a>                
               </div>
             </div>      
           </div>                 

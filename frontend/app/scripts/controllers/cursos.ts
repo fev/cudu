@@ -59,8 +59,9 @@ module Cudu.Cursos {
       });
     }
     
-    inscribir(id: number) {
-      this.service.inscribir(id).success((e: EstadoInscripcionEnCurso) => {
+    inscribir(curso: Curso) {
+      if (!this.elCursoEstaEnPlazo(curso)) { return; }
+      this.service.inscribir(curso.id).success((e: EstadoInscripcionEnCurso) => {
         this.actualizarEstadoCurso(e, true);
       }).error(e => { 
         /* TODO Toast! */ 
@@ -68,21 +69,14 @@ module Cudu.Cursos {
       });
     }
     
-    desinscribir(id: number) {
-      this.service.desinscribir(id).success((e: EstadoInscripcionEnCurso) => {
+    desinscribir(curso: Curso) {
+      if (!this.elCursoEstaEnPlazo(curso)) { return; }
+      this.service.desinscribir(curso.id).success((e: EstadoInscripcionEnCurso) => {
         this.actualizarEstadoCurso(e, false);
       }).error(e => { 
         /* TODO Toast! */
         console.log(e);
       });
-    }
-    
-    private actualizarEstadoCurso(e: EstadoInscripcionEnCurso, inscrito: boolean) {
-      var actual = _.find(_.flatten(this.cursos), c => c.id == e.cursoId);
-      actual.disponibles = e.disponibles;
-      e.inscritos = e.inscritos;
-      actual.usuarioInscrito = inscrito;
-      actual.usuarioListaEspera = e.listaDeEspera;
     }
     
     establecerPlazos(curso: Curso) {
@@ -96,6 +90,23 @@ module Cudu.Cursos {
           }
       }
       return curso;
+    }
+    
+    private actualizarEstadoCurso(e: EstadoInscripcionEnCurso, inscrito: boolean) {
+      var actual = _.find(_.flatten(this.cursos), c => c.id == e.cursoId);
+      actual.disponibles = e.disponibles;
+      e.inscritos = e.inscritos;
+      actual.usuarioInscrito = inscrito;
+      actual.usuarioListaEspera = e.listaDeEspera;
+    }
+    
+    private elCursoEstaEnPlazo(curso: Curso): boolean {
+      var ahora = moment();
+      var fechaInicio = moment(curso.fechaInicioInscripcion);
+      var fechaFin = moment(curso.fechaFinInscripcion);
+      if (fechaInicio.isValid() && ahora.isAfter(fechaFin)) { return false; }
+      if (fechaFin.isValid() && ahora.isBefore(fechaInicio)) { return false; }
+      return true;
     }
   }
   
