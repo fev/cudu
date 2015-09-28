@@ -1,6 +1,5 @@
 package org.scoutsfev.cudu.domain;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -62,6 +61,11 @@ public class Curso {
     @JsonProperty
     @Column(name = "usuario_inscrito")
     private boolean usuarioInscrito;
+
+    @Transient
+    @JsonProperty
+    @Column(name = "usuario_lista_espera")
+    private boolean usuarioListaEspera;
 
     @Size(max = 255)
     @Column(name = "descripcion_fechas", nullable = false)
@@ -158,6 +162,14 @@ public class Curso {
 
     public void setUsuarioInscrito(boolean usuarioInscrito) {
         this.usuarioInscrito = usuarioInscrito;
+    }
+
+    public boolean isUsuarioListaEspera() {
+        return usuarioListaEspera;
+    }
+
+    public void setUsuarioListaEspera(boolean usuarioListaEspera) {
+        this.usuarioListaEspera = usuarioListaEspera;
     }
 
     public String getDescripcionFechas() {
