@@ -35,6 +35,6 @@ public interface CursoRepository extends PagingAndSortingRepository<Curso, Integ
 
     @Modifying
     @Transactional
-    @Query(value = "delete from curso_participante where curso_id = :cursoId and asociado_id = :asociadoId;", nativeQuery = true)
+    @Query(value = "delete from curso_participante where curso_id = :cursoId and asociado_id = :asociadoId", nativeQuery = true)
     void quitarParticipante(@Param("cursoId") int cursoId, @Param("asociadoId") int asociadoId);
 }

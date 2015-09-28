@@ -16,20 +16,25 @@
           // TODO Deberiamos crear una directiva para esto
           for(var i = 0; i < 3; i++) { %>
           <div class="col-md-4">
-            <div class="curso" ng-repeat="c in cursos.cursos[<%=i%>] track by c.id">
+            <div class="curso" 
+              ng-repeat="c in cursos.cursos[<%=i%>] track by c.id"
+              ng-class="{inscrito: c.usuarioInscrito, completo: c.disponibles === 0}">
               <div class="contenido">
                 <h3>{{c.titulo}}</h3>
                 <div class="plazas">
-                  <span class="estado">Inscrito</span>
-                  {{c.plazas}} PLAZAS, {{c.inscritos}} DISPONIBLES
+                  <span class="estado" ng-show="c.usuarioInscrito && !c.usuarioListaEspera">Inscrito</span>
+                  <span class="estado" ng-show="c.usuarioInscrito && c.usuarioListaEspera">En lista de espera</span>
+                  <span class="estado" ng-show="!c.usuarioInscrito && c.disponibles == 0">Completo</span>
+                  {{c.disponibles}} PLAZAS DISPONIBLES<br/>
+                  {{c.plazoRestante}}
                 </div>
-                <div contenteditable>{{c.descripcionFechas}}</div>
-                <div contenteditable>{{c.descripcionLugar}}</div>
+                <div contenteditable>Fechas: {{c.descripcionFechas}}</div>
+                <div contenteditable>Lugar: {{c.descripcionLugar}}</div>
               </div>
-              <div class="toolbar">
-                <a id="btnInscribir" class="btn btn-default" href="#">INSCRIBIRSE</a>
-                <a id="btnCancelar" class="btn btn-default" href="#">CANCELAR INSCRIPCION</a>
-                <a id="btnListaEspera" class="btn btn-default" href="#">LISTA ESPERA</a>
+              <div class="toolbar" ng-class="{disabled: !c.plazoCerrado}">
+                <a ng-click="cursos.inscribir(c.id)" id="btnInscribir" class="btn btn-default" href="javascript:">INSCRIBIRSE</a>
+                <a ng-click="cursos.desinscribir(c.id)" id="btnCancelar" class="btn btn-default" href="javascript:">CANCELAR INSCRIPCION</a>
+                <a ng-click="cursos.inscribir(c.id)" id="btnListaEspera" class="btn btn-default" href="javascript:">LISTA ESPERA</a>                
               </div>
             </div>      
           </div>                 

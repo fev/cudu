@@ -20,9 +20,9 @@
         "!./node_modules/**/*"
     ],
     "files": [
-        "./app/scripts/cudu.ts",
         "./app/scripts/controllers/cursos.ts",
-        "./app/scripts/controllers/cursos_lluerna.ts",        
+        "./app/scripts/controllers/cursos_lluerna.ts",
+        "./app/scripts/cudu.ts",
         "./typings/angularjs/angular-resource.d.ts",
         "./typings/angularjs/angular.d.ts",
         "./typings/jquery/jquery.d.ts",

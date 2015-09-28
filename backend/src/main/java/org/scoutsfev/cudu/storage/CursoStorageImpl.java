@@ -95,12 +95,25 @@ public class CursoStorageImpl implements CursoStorage {
                 .where(DTO_ESTADO_INSCRIPCION.CURSO_ID.eq(val(cursoId)))
                 .fetch();
 
+        if (inscripciones.isEmpty()) {
+            int plazas = obtenerPlazas(cursoId);
+            return new EstadoInscripcionEnCurso(cursoId, plazas, 0, plazas, false);
+        }
+
         for (DtoEstadoInscripcionRecord inscripcion : inscripciones) {
             if (inscripcion.getAsociadoId() == asociadoId) {
                 boolean listaDeEspera = (inscripcion.getOrden() > inscripcion.getPlazas());
-                return new EstadoInscripcionEnCurso(cursoId, inscripcion.getPlazas(), inscripciones.size(), listaDeEspera);
+                return new EstadoInscripcionEnCurso(cursoId, inscripcion.getPlazas(), inscripcion.getInscritos(), inscripcion.getDisponibles(), listaDeEspera);
             }
         }
-        return null;
+
+        // Llegados a este punto existen inscripciones pero el usuario no está inscrito
+        int plazas = obtenerPlazas(cursoId);
+        int inscritos = context.fetchCount(CURSO_PARTICIPANTE, CURSO_PARTICIPANTE.CURSO_ID.eq(val(cursoId)));
+        return new EstadoInscripcionEnCurso(cursoId, plazas, inscritos, Math.max(plazas - inscritos, 0), false);
+    }
+
+    private int obtenerPlazas(int cursoId) {
+        return context.select(CURSO.PLAZAS).from(CURSO).where(CURSO.ID.eq(val(cursoId))).fetchOne(CURSO.PLAZAS);
     }
 }

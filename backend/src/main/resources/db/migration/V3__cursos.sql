@@ -66,15 +66,21 @@ inner join (
 left join grupo g on a.grupo_id = g.id
 order by ac.curso_id, ac.secuencia_inscripcion;
 
+-- Es importante señalar que la vista no puede ejecutarse con un filtro sobre la columna asociado_id, porque
+-- la columna orden no devolverá el estado de inscripción correcto.
 create or replace view dto_estado_inscripcion as
 select
-  curso_id,
-  plazas,
-  asociado_id,
-  row_number() over (partition by curso_id order by secuencia_inscripcion) as orden
+  a0.curso_id,
+  a0.asociado_id,
+  a0.plazas,
+  cp.inscritos :: INTEGER,
+  greatest(a0.plazas - cp.inscritos, 0) :: INTEGER as disponibles,
+  row_number() over (partition by a0.curso_id order by secuencia_inscripcion) as orden
 from (
   select c.id as curso_id, c.plazas, p.asociado_id, p.secuencia_inscripcion
   from curso c
   inner join curso_participante p on c.id = p.curso_id) a0
+inner join (select curso_id, count(1) as inscritos from curso_participante group by curso_id) cp
+    on cp.curso_id = a0.curso_id
 order by secuencia_inscripcion;
 

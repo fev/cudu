@@ -6,13 +6,17 @@
       border: 1px solid $material-grey-300;      
       padding: 0;
       margin-bottom: 20px; 
-      .contenido { padding: 24px 16px 6px 16px; min-height: 142px; }
+      .contenido { padding: 24px 16px 6px 16px; min-height: 160px; }
       h3 { margin: 0; margin-bottom: 8px; font-weight: 300; font-size: 16pt; }
       .plazas { color: $material-grey-500; font-size: 90%; font-weight: 100 }
       .estado { display: none; color: $material-grey-500; text-transform: uppercase; padding-right: 8px; font-weight: normal; }
-      .toolbar { padding: 6px 8px; border-top: 1px solid $material-grey-200; margin-top: 6px;
-        a { text-transform: uppercase; padding: 8px; background-color: #FFF; border: 0; color: $material-grey-700 }
+      .toolbar { padding: 6px 8px; margin-top: 6px;
+        border-top: 1px solid $material-grey-200; 
+        a { text-transform: uppercase; padding: 8px; background-color: #FFF; border: 0; color: $material-grey-800 }
         a:hover { color: $material-amber-800; background-color: $material-amber-100; }
+        &.disabled {
+          a, a:hover { color: #CCC; background: transparent; cursor: default }
+        }
       }
       
       #btnInscribir { display: inline-block; }
@@ -20,6 +24,7 @@
       #btnListaEspera { display: none; }
       
       &.completo {
+        color: $material-grey-300;
         #btnInscribir { display: none; }
         #btnCancelar { display: none; }
         #btnListaEspera { display: inline-block; }
@@ -28,10 +33,10 @@
       }
       &.inscrito {
         #btnInscribir { display: none; }
-        #btnCancelar { display: inline-block; }
+        #btnCancelar { display: inline-block; background-color: transparent }
         #btnListaEspera { display: none; }
         .estado { color: $material-green-500; display: inline; }
-        .toolbar a:hover { color: $material-brown-500; background-color: $material-brown-50; }
+        .toolbar a:hover { color: $material-brown-500; background-color: $material-brown-50 !important; }
       }
     }
   }

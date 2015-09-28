@@ -3,15 +3,10 @@ var Cudu;
 (function (Cudu) {
     var Cursos;
     (function (Cursos) {
-        var Estado;
-        (function (Estado) {
-            Estado[Estado["Normal"] = 0] = "Normal";
-            Estado[Estado["Inscrito"] = 1] = "Inscrito";
-            Estado[Estado["ListaEspera"] = 2] = "ListaEspera";
-        })(Estado || (Estado = {}));
         var CursoController = (function () {
             function CursoController($scope, service) {
                 var _this = this;
+                this.$scope = $scope;
                 this.service = service;
                 service.listado().success(function (pagina) {
                     var chunked = [[], [], []];
@@ -20,26 +15,54 @@ var Cudu;
                         if (typeof (lista[i]) === 'undefined') {
                             break;
                         }
-                        chunked[0][j] = lista[i];
+                        chunked[0][j] = _this.establecerPlazos(lista[i]);
                         if (typeof (lista[i + 1]) === 'undefined') {
                             break;
                         }
-                        chunked[1][j] = lista[i + 1];
+                        chunked[1][j] = _this.establecerPlazos(lista[i + 1]);
                         if (typeof (lista[i + 2]) === 'undefined') {
                             break;
                         }
-                        chunked[2][j] = lista[i + 2];
+                        chunked[2][j] = _this.establecerPlazos(lista[i + 2]);
                     }
                     _this.cursos = chunked;
                 });
             }
             CursoController.prototype.inscribir = function (id) {
-                this.service.inscribir(id).success(function (c) {
-                }).error(function (e) { });
+                var _this = this;
+                this.service.inscribir(id).success(function (e) {
+                    _this.actualizarEstadoCurso(e, true);
+                }).error(function (e) {
+                    console.log(e);
+                });
             };
             CursoController.prototype.desinscribir = function (id) {
-                this.service.desinscribir(id).success(function (c) {
-                }).error(function (e) { });
+                var _this = this;
+                this.service.desinscribir(id).success(function (e) {
+                    _this.actualizarEstadoCurso(e, false);
+                }).error(function (e) {
+                    console.log(e);
+                });
+            };
+            CursoController.prototype.actualizarEstadoCurso = function (e, inscrito) {
+                var actual = _.find(_.flatten(this.cursos), function (c) { return c.id == e.cursoId; });
+                actual.disponibles = e.disponibles;
+                e.inscritos = e.inscritos;
+                actual.usuarioInscrito = inscrito;
+                actual.usuarioListaEspera = e.listaDeEspera;
+            };
+            CursoController.prototype.establecerPlazos = function (curso) {
+                var m = moment(curso.fechaFinInscripcion);
+                if (m.isValid) {
+                    curso.plazoCerrado = m.isAfter();
+                    if (m.isAfter()) {
+                        curso.plazoRestante = "El plazo inscripción cierra en " + m.fromNow();
+                    }
+                    else {
+                        curso.plazoRestante = "Plazo de inscripición cerrado";
+                    }
+                }
+                return curso;
             };
             return CursoController;
         })();
@@ -53,10 +76,10 @@ var Cudu;
                 return this.http.get("/api/lluerna/curso?sort=id&size=100");
             };
             CursoService.prototype.inscribir = function (id) {
-                return this.http.post('/api/lluerna/curso/' + id + '/inscribir/' + this.usuarioId, {});
+                return this.http.post('/api/lluerna/curso/' + id + '/participantes', this.usuarioId);
             };
             CursoService.prototype.desinscribir = function (id) {
-                return this.http.post('/api/lluerna/curso/' + id + '/inscribir/' + this.usuarioId, {});
+                return this.http.delete('/api/lluerna/curso/' + id + '/participantes/' + this.usuarioId, {});
             };
             return CursoService;
         })();

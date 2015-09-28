@@ -27,7 +27,7 @@ import org.scoutsfev.cudu.db.tables.records.DtoEstadoInscripcionRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DtoEstadoInscripcion extends TableImpl<DtoEstadoInscripcionRecord> {
 
-	private static final long serialVersionUID = -1026447616;
+	private static final long serialVersionUID = 561126276;
 
 	/**
 	 * The reference instance of <code>public.dto_estado_inscripcion</code>
@@ -48,14 +48,24 @@ public class DtoEstadoInscripcion extends TableImpl<DtoEstadoInscripcionRecord> 
 	public final TableField<DtoEstadoInscripcionRecord, Integer> CURSO_ID = createField("curso_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
+	 * The column <code>public.dto_estado_inscripcion.asociado_id</code>.
+	 */
+	public final TableField<DtoEstadoInscripcionRecord, Integer> ASOCIADO_ID = createField("asociado_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
 	 * The column <code>public.dto_estado_inscripcion.plazas</code>.
 	 */
 	public final TableField<DtoEstadoInscripcionRecord, Integer> PLAZAS = createField("plazas", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
-	 * The column <code>public.dto_estado_inscripcion.asociado_id</code>.
+	 * The column <code>public.dto_estado_inscripcion.inscritos</code>.
 	 */
-	public final TableField<DtoEstadoInscripcionRecord, Integer> ASOCIADO_ID = createField("asociado_id", org.jooq.impl.SQLDataType.INTEGER, this, "");
+	public final TableField<DtoEstadoInscripcionRecord, Integer> INSCRITOS = createField("inscritos", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+	/**
+	 * The column <code>public.dto_estado_inscripcion.disponibles</code>.
+	 */
+	public final TableField<DtoEstadoInscripcionRecord, Integer> DISPONIBLES = createField("disponibles", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
 	/**
 	 * The column <code>public.dto_estado_inscripcion.orden</code>.

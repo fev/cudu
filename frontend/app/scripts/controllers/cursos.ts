@@ -2,35 +2,30 @@
 
 module Cudu.Cursos {
   
-  enum Estado { Normal, Inscrito, ListaEspera }
-  
-  // TODO mover a Cudu.Page<T> para poder compartirlo
-  export interface Page<T> {
-    content: T[];
-    first: boolean;
-    last: boolean;
-    number: number;
-    numberOfElements: number;
-    size: number;
-    sort: string;
-    totalElements: number;
-    totalPages: number;
-  }
-  
   export interface Curso { 
     id: number;
     titulo: string;
-    estado: Estado;
-    // fechaInicioInscripcion: Date;
-    // fechaFinInscripcion: Date;
-    // fechaNacimientoMinima: Date;
+    fechaInicioInscripcion: Date;
+    fechaFinInscripcion: Date;
+    fechaNacimientoMinima: Date;
     plazas: number;
     inscritos: number;
     disponibles: number;
     descripcionFechas: string;
     descripcionLugar: string;
     usuarioInscrito: boolean;
-    //constructor(public id: number) { }
+    usuarioListaEspera: boolean;
+    
+    plazoCerrado: boolean;
+    plazoRestante: string;
+  }
+  
+  interface EstadoInscripcionEnCurso {
+    cursoId: number;
+    plazas: number;
+    inscritos: number;
+    disponibles: number;
+    listaDeEspera: boolean;
   }
   
   // Mover a .tds?
@@ -45,7 +40,7 @@ module Cudu.Cursos {
   export class CursoController {
     cursos: Curso[][];
     
-    constructor($scope: ng.IScope, private service: CursoService) {
+    constructor(private $scope: ng.IScope, private service: CursoService) {
       service.listado().success(pagina => {
         // Divide el listado de cursos en tres columnas, repartidas
         // por igual de izquierda a derecha (similar a _.chunk)
@@ -54,26 +49,53 @@ module Cudu.Cursos {
         for (let i = 0, j = 0; i < lista.length; i+=3, j++) {
             // El bucle interno está desenrollado
             if (typeof(lista[i]) === 'undefined') { break; }
-            chunked[0][j] = lista[i];
+            chunked[0][j] = this.establecerPlazos(lista[i]);
             if (typeof(lista[i+1]) === 'undefined') { break; }
-            chunked[1][j] = lista[i+1];
+            chunked[1][j] = this.establecerPlazos(lista[i+1]);
             if (typeof(lista[i+2]) === 'undefined') { break; }
-            chunked[2][j] = lista[i+2];
+            chunked[2][j] = this.establecerPlazos(lista[i+2]);
         }        
         this.cursos = chunked;
       });
     }
     
     inscribir(id: number) {
-      this.service.inscribir(id).success((c: Curso) => {
-        // TODO Actualizar elemento de la lista, plazas e inscritos
-      }).error(e => { /* TODO Toast! */ });
+      this.service.inscribir(id).success((e: EstadoInscripcionEnCurso) => {
+        this.actualizarEstadoCurso(e, true);
+      }).error(e => { 
+        /* TODO Toast! */ 
+        console.log(e);
+      });
     }
     
     desinscribir(id: number) {
-      this.service.desinscribir(id).success((c: Curso) => {
-        // TODO Actualizar elemento de la lista, plazas e inscritos
-      }).error(e => { /* TODO Toast! */ });
+      this.service.desinscribir(id).success((e: EstadoInscripcionEnCurso) => {
+        this.actualizarEstadoCurso(e, false);
+      }).error(e => { 
+        /* TODO Toast! */
+        console.log(e);
+      });
+    }
+    
+    private actualizarEstadoCurso(e: EstadoInscripcionEnCurso, inscrito: boolean) {
+      var actual = _.find(_.flatten(this.cursos), c => c.id == e.cursoId);
+      actual.disponibles = e.disponibles;
+      e.inscritos = e.inscritos;
+      actual.usuarioInscrito = inscrito;
+      actual.usuarioListaEspera = e.listaDeEspera;
+    }
+    
+    establecerPlazos(curso: Curso) {
+      var m = moment(curso.fechaFinInscripcion);
+      if (m.isValid) {
+          curso.plazoCerrado = m.isAfter();
+          if (m.isAfter()) {            
+            curso.plazoRestante = "El plazo inscripción cierra en " + m.fromNow();
+          } else {
+            curso.plazoRestante = "Plazo de inscripición cerrado";
+          }
+      }
+      return curso;
     }
   }
   
@@ -84,12 +106,12 @@ module Cudu.Cursos {
       return this.http.get<Page<Curso>>("/api/lluerna/curso?sort=id&size=100");
     }
     
-    inscribir(id: number): ng.IHttpPromise<Curso> {
-      return this.http.post('/api/lluerna/curso/' + id + '/inscribir/' + this.usuarioId, { });
+    inscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso> {      
+      return this.http.post('/api/lluerna/curso/' + id + '/participantes', this.usuarioId);
     }
     
-    desinscribir(id: number): ng.IHttpPromise<Curso> {
-      return this.http.post('/api/lluerna/curso/' + id + '/inscribir/' + this.usuarioId, { });
+    desinscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso> {
+      return this.http.delete('/api/lluerna/curso/' + id + '/participantes/' + this.usuarioId, { });
     }
   }
   
