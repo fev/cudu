@@ -1,0 +1,103 @@
+<div class="container contenedor-central curso-detalle" ng-controller="CursosController as C">
+<div class="row">
+<div class="col-md-12">
+  <div class="row">
+    <div class="col-md-7">
+      <div id="listadoFormadores" class="listadoEntidades">
+        <form class="form-inline">
+          <div class="form-group">
+            <label><%= cursos.incluirFormador %></label>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control typeahead" id="txtApuntar" placeholder="Baden Powell"
+              sf-typeahead options="typeaheadAsociadoOpt" datasets="typeaheadAsociadoDts" ng-model="asistentPerAfegir">
+          </div>
+        </form>
+        <div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th><%= cursos.nombre %></th>
+                <th><%= cursos.telefono %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="formador in C.curso.formadores | orderBy:'nombreCompleto' track by formador.asociadoId">
+                <td>{{formador.nombreCompleto}}</td>
+                <td>{{formador.telefono}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div id="panelEdicion" class="col-md-5">
+      <div class="mat-toolbar text-right">
+        <a href="#/lluerna/cursos" class="btn btn-default"><%= cursos.volver %></a>
+        <button type="button" class="btn btn-default" ng-click="guardar(curso.id)"><%= cursos.guardar %></button>
+      </div>
+      <div class="mat-toolbar-expand"><h1>{{curso.titulo || '(nueva)'}}</h1></div>
+      <div id="panelEdicionCt">
+
+        <div class="alert alert-info" ng-show="estado == 2">
+          <%= cursos.guardadoOk %>
+        </div>
+
+        <div class="alert alert-danger" ng-show="estado == 3">
+          <%= cursos.errorServidor %>
+        </div>
+
+        <div class="alert alert-warning" ng-show="estado == 4">
+          <%= cursos.errorValidacion %>
+          <ul>
+            <li ng-repeat="error in erroresValidacion">{{error.mensaje}}</li>
+          </ul>
+        </div>
+
+        <form name="formCurso" class="form-horizontal form-cudu form-edicion">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="col-md-3 control-label"><%= cursos.titulo %></label>
+                <div class="col-md-9">
+                  <input ng-model="actividad.nombre" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label"><%= cursos.fecha %></label>
+                <div class="col-md-9">
+                  <input ng-model="curso.fecha" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label"><%= cursos.lugar %></label>
+                <div class="col-md-9">
+                  <input ng-model="curso.lugar" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group multi-2">
+                <label class="col-md-3 control-label"><%= cursos.fechaInicioInscripcion %></label>
+                <div class="col-md-9">
+                  <input ng-model="curso.fechaInicioInscripcion" cudu-fecha type="text" class="form-control">
+                  <label><%= cursos.fechaFinInscripcion %></label>
+                  <input ng-model="curso.fechaFinInscripcion" cudu-fecha type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group multi-2">
+                <label class="col-md-3 control-label"><%= cursos.plazas %></label>
+                <div class="col-md-9">
+                  <input ng-model="curso.plazas" type="text" class="form-control">
+                  <label><%= cursos.fechaNacimientoMinima %></label>
+                  <input ng-model="curso.fechaNacimientoMinima" cudu-fecha type="text" class="form-control">
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

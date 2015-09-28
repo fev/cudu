@@ -18,26 +18,27 @@ var templates = [
   'app/views/actividades/listado.html',
   'app/views/lluerna/miembro.html',
   'app/views/lluerna/curso.html',
+  'app/views/lluerna/cursos.html',
   'app/views/curso.html'
 ];
 
 function leerTemplate(traducciones, template, lang) {
   return function(err, data) {
-    if (err) { 
-      return console.log(err); 
+    if (err) {
+      return console.log(err);
     }
     var compiled = _.template(data);
     var traducido = compiled(traducciones);
     var destino = path.join(outputDir, lang, template.replace(baseDir, ''));
-    var carpetaDestino = path.dirname(destino);    
+    var carpetaDestino = path.dirname(destino);
     if (!fs.existsSync(carpetaDestino)) {
       console.log('MKDIR'.cyan, carpetaDestino);
       fs.mkdirSync(carpetaDestino);
     }
     fs.writeFile(destino, traducido, function(err) {
-      if (!err) { 
-        console.warn('OK'.green, destino); 
-        return;        
+      if (!err) {
+        console.warn('OK'.green, destino);
+        return;
       }
       console.log('ERROR'.red, destino);
       console.error(err);
@@ -47,7 +48,7 @@ function leerTemplate(traducciones, template, lang) {
 
 function leerPropiedades(lang) {
   return function(error, traducciones) {
-    if (error) { return console.error(error.red); }    
+    if (error) { return console.error(error.red); }
     for (var j = 0; j < templates.length; j++) {
       var tmpl = templates[j];
       fs.readFile(tmpl, 'utf-8', leerTemplate(traducciones, tmpl, lang));

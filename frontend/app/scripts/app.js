@@ -77,7 +77,11 @@ angular
         controller: 'MiembrosCtrl',
         seccion: 'miembros'
       })
-      .when('/lluerna/cursos', { // gestión a cursos, técnico lluerna
+      .when('/lluerna/curso', {
+        templateUrl: 'i18n/views/lluerna/curso.html',
+        seccion: 'cursos-lluerna'
+      })
+      .when('/lluerna/cursos', {
         templateUrl: 'i18n/views/lluerna/cursos.html',
         seccion: 'cursos-lluerna'
       })
