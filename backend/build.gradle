@@ -49,7 +49,7 @@ dependencies {
   compile("org.springframework.boot:spring-boot-starter-jooq")
 
   compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
-  compile("com.fasterxml.jackson.datatype:jackson-datatype-hibernate4:2.4.4")
+  compile("com.fasterxml.jackson.datatype:jackson-datatype-hibernate4")
 
   compile("com.google.guava:guava:18.0")
 
