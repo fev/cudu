@@ -24,7 +24,7 @@ module Cudu.Lluerna.Cursos {
     }
 
     listarCursos(): ng.IHttpPromise<any> {
-      var result: ng.IHttpPromise<any> = this.http.get("/api/lluerna/curso");
+      var result: ng.IHttpPromise<any> = this.http.get("/api/lluerna/curso/completo");
       return result;
     }
   }
@@ -35,19 +35,7 @@ module Cudu.Lluerna.Cursos {
     static $inject = ['$scope', 'CursosService'];
     constructor($scope: CursosControllerScope, private service: CursosService) {
       this.cursos = [];
-
-      service.listarCursos().success((r: Curso[]) => this.cursos = r);
-
-      for (let i = 0; i < 5; i++) {
-          this.cursos.push({
-            id: i, titulo: 'titulo' + i,
-            fechaFinInscripcion: ["03", "05", "15"],
-            fechaInicioInscripcion: ["03", "05", "15"],
-            plazas: i * 5,
-            fechaNacimientoMinima: ["03", "05", "15"]
-      });
-    }
-
+      service.listarCursos().success((r: any) => this.cursos = r.content);
       $scope.cursos = this.cursos;
     }
   }

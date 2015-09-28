@@ -25,6 +25,16 @@ filters.filter('fechaArray', function() {
   };
 });
 
+filters.filter('timeStamp', function() {
+  return function (n) {
+    var fecha = moment(n);
+    if(!fecha.isValid())
+      return Traducciones.text('fechaIncorrecta');
+
+    return fecha.format('DD/MM/YYYY, hh:mm:ss');
+  }
+});
+
 filters.filter('desdeHace', function(Traducciones) {
   return function(fecha) {
     var m = moment(fecha);
@@ -55,4 +65,3 @@ filters.filter('cargo', function(Traducciones) {
     return Traducciones.texto('cargo.' + cargo.etiqueta);
   };
 });
-

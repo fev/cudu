@@ -79,7 +79,7 @@ angular
       })
       .when('/lluerna/cursos', { // gestión a cursos, técnico lluerna
         templateUrl: 'i18n/views/lluerna/curso.html',
-        seccion: 'cursos'
+        seccion: 'cursos-lluerna'
       })
       .when('/cursos', { // apuntarse a cursos, asociado
         templateUrl: 'i18n/views/curso.html',
@@ -124,9 +124,9 @@ angular
     };
 
     $rootScope.cambiarIdioma = function(codigo) {
-      var recarga = function() {        
+      var recarga = function() {
         localStorage.setItem(CuduEtc.IDIOMA, codigo);
-        window.location = "/";         
+        window.location = "/";
       };
       Usuario.cambiarIdioma(codigo).success(recarga).error(recarga);
     };
@@ -155,4 +155,4 @@ angular
         Traducciones.establecerLenguaje();
         $location.path("/login");
       });
-  });  
+  });

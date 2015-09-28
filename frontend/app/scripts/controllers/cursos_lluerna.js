@@ -9,7 +9,7 @@ var Cudu;
                     this.http = $http;
                 }
                 CursosService.prototype.listarCursos = function () {
-                    var result = this.http.get("/api/lluerna/curso");
+                    var result = this.http.get("/api/lluerna/curso/completo");
                     return result;
                 };
                 CursosService.$inject = ['$http'];
@@ -21,16 +21,7 @@ var Cudu;
                     var _this = this;
                     this.service = service;
                     this.cursos = [];
-                    service.listarCursos().success(function (r) { return _this.cursos = r; });
-                    for (var i = 0; i < 5; i++) {
-                        this.cursos.push({
-                            id: i, titulo: 'titulo' + i,
-                            fechaFinInscripcion: ["03", "05", "15"],
-                            fechaInicioInscripcion: ["03", "05", "15"],
-                            plazas: i * 5,
-                            fechaNacimientoMinima: ["03", "05", "15"]
-                        });
-                    }
+                    service.listarCursos().success(function (r) { return _this.cursos = r.content; });
                     $scope.cursos = this.cursos;
                 }
                 CursosController.$inject = ['$scope', 'CursosService'];

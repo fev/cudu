@@ -25,8 +25,8 @@
             <tr ng-repeat="c in C.cursos | filter:busqueda | orderBy:'-id' track by c.id" ng-click="detalle(c.id)">
               <th scope="row">{{c.id}}</th>
               <td>{{c.titulo}}</td>
-              <td>{{c.fechaInicioInscripcion | fechaArray}}</td>
-              <td>{{c.fechaFinInscripcion | fechaArray}}</td>
+              <td>{{c.fechaInicioInscripcion | timeStamp}}</td>
+              <td>{{c.fechaFinInscripcion | timeStamp}}</td>
               <td>{{c.plazas}}</td>
               <td>{{c.fechaNacimientoMinima | fechaArray}}
             </tr>

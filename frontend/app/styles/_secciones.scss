@@ -30,4 +30,4 @@
 .tecnico-fev { @include color-seccion($material-teal-500, $material-orange-A200); }
 .actividades { @include color-seccion($material-green-500, $material-light-green-300); }
 .permisos { @include color-seccion($material-red-900, $material-red-A200); }
-.miembros, .cursos { @include color-seccion($material-amber-800, $material-amber-A400); }
+.miembros, .cursos, .cursos-lluerna { @include color-seccion($material-amber-800, $material-amber-A400); }
