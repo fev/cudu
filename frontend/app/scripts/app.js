@@ -78,7 +78,7 @@ angular
         seccion: 'miembros'
       })
       .when('/lluerna/cursos', { // gestión a cursos, técnico lluerna
-        templateUrl: 'i18n/views/lluerna/curso.html',
+        templateUrl: 'i18n/views/lluerna/cursos.html',
         seccion: 'cursos-lluerna'
       })
       .when('/cursos', { // apuntarse a cursos, asociado
