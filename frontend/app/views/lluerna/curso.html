@@ -1,4 +1,4 @@
-<div class="container contenedor-central cursos-listado">
+<div class="container contenedor-central cursos-listado" ng-controller="CursosController as C">
   <!-- TODO ng-controller="CursoController as cursos" -->
   <div class="row">
     <div class="col-md-12">
@@ -9,8 +9,32 @@
           </div>
         </form>
       </div>
-      <div class="tabla">        
-        <p><em>Gestión de cursos, sólo para el técnico de lluerna.</em></p>
+      <div class="tabla">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th><%= cursos.id %></th>
+              <th width="30%"><%= cursos.titulo %></th>
+              <th><%= cursos.fechaInicioInscripcion %></th>
+              <th><%= cursos.fechaFinInscripcion %></th>
+              <th><%= cursos.plazas %></th>
+              <th><%= cursos.fechaNacimientoMinima %></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="c in C.cursos | filter:busqueda | orderBy:'-id' track by c.id" ng-click="detalle(c.id)">
+              <th scope="row">{{c.id}}</th>
+              <td>{{c.titulo}}</td>
+              <td>{{c.fechaInicioInscripcion | fechaArray}}</td>
+              <td>{{c.fechaFinInscripcion | fechaArray}}</td>
+              <td>{{c.plazas}}</td>
+              <td>{{c.fechaNacimientoMinima | fechaArray}}
+            </tr>
+            <tr ng-show="!cursos">
+              <td colspan="7"><%= cursos.noHayCursosParaMostrar %></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
