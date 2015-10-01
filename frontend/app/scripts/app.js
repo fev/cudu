@@ -134,7 +134,7 @@ angular
     // Intentamos obtener el usuario actual. Si el servidor devuelve 403,
     // redirigimos a la página de login, en caso contrario las credenciales
     // son correctas (almacenadas en la cookie JSESSIONID).
-    Usuario.obtenerActual()
+    Usuario.obtenerActualDelServidor()
       .success(function(usuario) {
         // Cada vez que el usuario cambia de lenguaje se guarda en la columna
         // 'lenguaje' de la tabla asociado. Si nunca ha cambiado de lenguaje,

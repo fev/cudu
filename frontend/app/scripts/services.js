@@ -146,11 +146,19 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
   // los datos del usuario actual, por ello es necesario establecer un usuario
   // anónimo que evite problemas al navegar propiedades.
   var usuarioAnonimo = { grupo: null };
+  var usuarioDiferido = $q.defer();
   var svc = { usuario: usuarioAnonimo };
 
   svc.obtenerActual = function() {
+    return usuarioDiferido.promise;
+  };
+
+  svc.obtenerActualDelServidor = function() {
     var respuesta = $http.get('/api/usuario/actual');
-    respuesta.success(function(data, status) { svc.usuario = data; });
+    respuesta.success(function(data, status) { 
+      svc.usuario = data;
+      usuarioDiferido.resolve(data);      
+    }); // 403 redirige al login
     return respuesta;
   };
 
