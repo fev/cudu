@@ -22,6 +22,9 @@
     },
     "moment/moment.d.ts": {
       "commit": "54f064352a3615443f7bff4198078db15e28247b"
+    },
+    "q/Q.d.ts": {
+      "commit": "ebc69904eb78f94030d5d517b42db20867f679c0"
     }
   }
 }

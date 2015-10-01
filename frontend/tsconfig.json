@@ -29,6 +29,7 @@
         "./typings/lodash/lodash.d.ts",
         "./typings/moment/moment-node.d.ts",
         "./typings/moment/moment.d.ts",
+        "./typings/q/Q.d.ts",
         "./typings/tsd.d.ts"
     ]
 }
