@@ -86,9 +86,11 @@ var Cudu;
         })();
         Cursos.CursoController = CursoController;
         var CursoService = (function () {
-            function CursoService(http, usuarioId) {
+            function CursoService(http, usuarioService) {
+                var _this = this;
                 this.http = http;
-                this.usuarioId = usuarioId;
+                this.usuarioService = usuarioService;
+                usuarioService.obtenerActual().then(function (u) { _this.usuarioId = u.id; });
             }
             CursoService.prototype.listado = function () {
                 return this.http.get("/api/lluerna/curso?sort=id&size=100");
@@ -101,8 +103,8 @@ var Cudu;
             };
             return CursoService;
         })();
-        function CursoServiceFactory($http, usuario) {
-            return new CursoService($http, usuario.usuario.id);
+        function CursoServiceFactory($http, usuarioService) {
+            return new CursoService($http, usuarioService);
         }
         Cursos.CursoServiceFactory = CursoServiceFactory;
     })(Cursos = Cudu.Cursos || (Cudu.Cursos = {}));

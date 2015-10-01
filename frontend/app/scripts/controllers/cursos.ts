@@ -33,7 +33,7 @@ module Cudu.Cursos {
     id: number;
   }  
   export interface UsuarioService {
-    usuario: Usuario;
+    obtenerActual(): Q.Promise<Usuario>;
   }
   // end mover
   
@@ -111,9 +111,13 @@ module Cudu.Cursos {
   }
   
   class CursoService {
-    constructor(private http: ng.IHttpService, private usuarioId: number) { }
+    private usuarioId: number;
     
-    listado(): ng.IHttpPromise<Page<Curso>> {
+    constructor(private http: ng.IHttpService, private usuarioService: UsuarioService) {
+      usuarioService.obtenerActual().then(u => { this.usuarioId = u.id; });
+    }
+    
+    listado(): ng.IHttpPromise<Page<Curso>> {      
       return this.http.get<Page<Curso>>("/api/lluerna/curso?sort=id&size=100");
     }
     
@@ -126,8 +130,8 @@ module Cudu.Cursos {
     }
   }
   
-  export function CursoServiceFactory($http: ng.IHttpService, usuario: UsuarioService): CursoService {
-    return new CursoService($http, usuario.usuario.id);
+  export function CursoServiceFactory($http: ng.IHttpService, usuarioService: UsuarioService): CursoService {
+    return new CursoService($http, usuarioService);
   }
 }
 
