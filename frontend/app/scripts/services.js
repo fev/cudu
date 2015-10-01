@@ -142,12 +142,14 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
   };
 
   svc.calcularEdad = function(valor) {
-    var fechaNacimiento = new Date(valor);
-    if (isNaN(fechaNacimiento.valueOf())) {
-      return '¿?';
+    if (Object.prototype.toString.call(valor) === '[object Array]' && valor.length === 3) {
+      var fechaNacimiento = new Date(valor[0], valor[1], valor[2]);
+      if (!isNaN(fechaNacimiento.valueOf())) {
+        var hoy = new Date();
+        return hoy.getYear() - fechaNacimiento.getYear();
+      }
     }
-    var hoy = new Date();
-    return hoy.getYear() - fechaNacimiento.getYear();
+    return '¿?';
   };
 
   svc.cambiarIdioma = function(codigo) {
