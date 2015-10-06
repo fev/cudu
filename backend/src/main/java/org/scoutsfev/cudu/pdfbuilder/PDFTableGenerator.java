@@ -2,13 +2,14 @@ package org.scoutsfev.cudu.pdfbuilder;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.joda.time.DateTime;
 
 public class PDFTableGenerator {
 
@@ -92,7 +93,8 @@ public class PDFTableGenerator {
             nextTextX = table.getMargin() + table.getCellMargin();
         }
 
-        drawHeader(table, DateTime.now().toString("dd/MM/yyyy"), contentStream);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        drawHeader(table, LocalDate.now().format(formatter), contentStream);
         drawFooter(table, footer, contentStream);
 
         contentStream.close();

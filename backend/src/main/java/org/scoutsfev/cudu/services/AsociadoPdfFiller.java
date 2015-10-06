@@ -2,16 +2,13 @@ package org.scoutsfev.cudu.services;
 
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
-import org.joda.time.DateTime;
-import org.joda.time.Years;
+import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.pdfbuilder.PdfFiller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.scoutsfev.cudu.domain.Asociado;
-
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class AsociadoPdfFiller extends PdfFiller<Asociado> {
 
@@ -46,11 +43,7 @@ public class AsociadoPdfFiller extends PdfFiller<Asociado> {
             // Edad
             PDField edad = form.getField("Asociado#Edad");
             if (edad != null) {
-                Date nacimiento = Date.from(asociado.getFechaNacimiento().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                DateTime dtNacimiento = new DateTime(nacimiento.getTime());
-                DateTime dtAhora = DateTime.now();
-
-                Integer años = Years.yearsBetween(dtNacimiento, dtAhora).getYears();
+                Long años = asociado.getFechaNacimiento().until(LocalDate.now(), ChronoUnit.YEARS);
                 edad.setValue(años.toString());
             }
 

@@ -4,11 +4,13 @@ import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
-import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class CreadorPdf {
 
     private PDDocument pdDocument;
@@ -31,7 +33,8 @@ public class CreadorPdf {
 
         // Fecha Fichero
         PDField fecha = this.pdAcroForm.getField("#Fecha");
-        if(fecha != null) fecha.setValue(DateTime.now().toString("dd/MM/yyyy"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if(fecha != null) fecha.setValue(LocalDate.now().format(formatter));
     }
 
     public void Cerrar() throws IOException, COSVisitorException {

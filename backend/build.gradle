@@ -55,7 +55,6 @@ dependencies {
   compile("com.google.guava:guava:18.0")
   compile("org.apache.pdfbox:pdfbox:1.8.9")
   compile("org.zeroturnaround:zt-zip:1.8")
-  compile("joda-time:joda-time:2.8.1")
 
   compile("com.h2database:h2")
   compile("org.hibernate:hibernate-validator")

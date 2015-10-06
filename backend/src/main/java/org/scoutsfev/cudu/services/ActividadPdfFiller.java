@@ -2,15 +2,10 @@ package org.scoutsfev.cudu.services;
 
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
-import org.joda.time.DateTime;
-import org.joda.time.Years;
 import org.scoutsfev.cudu.domain.Actividad;
 import org.scoutsfev.cudu.pdfbuilder.PdfFiller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.ZoneId;
-import java.util.Date;
 
 public class ActividadPdfFiller extends PdfFiller<Actividad> {
 
