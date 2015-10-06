@@ -2,11 +2,16 @@ package org.scoutsfev.cudu.web;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.domain.dto.CambiarRamaDto;
+import org.scoutsfev.cudu.domain.dto.CambiarTipoDto;
 import org.scoutsfev.cudu.domain.validadores.ImpresionTabla;
 import org.scoutsfev.cudu.services.FichaService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.web.utils.ResponseEntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,6 +24,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 @RestController
 public class AsociadoController {
@@ -26,12 +32,14 @@ public class AsociadoController {
     private final AsociadoRepository asociadoRepository;
     private final CacheManager cacheManager;
     private final FichaService fichaService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public AsociadoController(AsociadoRepository asociadoRepository, FichaService fichaService, CacheManager cacheManager) {
+    public AsociadoController(AsociadoRepository asociadoRepository, FichaService fichaService, CacheManager cacheManager, ApplicationEventPublisher eventPublisher) {
         this.asociadoRepository = asociadoRepository;
-        this.cacheManager = cacheManager;
         this.fichaService = fichaService;
+        this.cacheManager = cacheManager;
+        this.eventPublisher = eventPublisher;
     }
 
     @RequestMapping(value = "/asociado/imprimir", method = RequestMethod.POST)
@@ -108,6 +116,39 @@ public class AsociadoController {
         // TODO No puedes eliminarte
         // TODO Integridad referencial (cargos OK, revisar actividades)
         asociadoRepository.delete(id);
+    }
+
+    // http -v POST http://localhost:8080/asociado/cambiarRama Cookie:JSESSIONID=... asociados:=[18158,18159,18485] rama:='{ "colonia": true }'
+    @RequestMapping(value = "/asociado/cambiarRama", method = RequestMethod.POST)
+    public void cambiarRama(@RequestBody @Valid CambiarRamaDto dto, @AuthenticationPrincipal Usuario usuario) {
+        // Si el usuario tienen no_puede_editar_otras_ramas, no puede cambiar su rama
+        // De forma normal al editar un usuario se hace dicha comprobación, y en este
+        // caso debemos hacer la de nuevo. Simplemente lo eliminados de la lista.
+        if (usuario.getRestricciones().isNoPuedeEditarOtrasRamas())
+            dto.asociados.removeIf(id -> id.equals(usuario.getId()));
+        String grupoId = usuario.getGrupo().getId();
+        asociadoRepository.cambiarRama(dto.asociados, dto.rama, grupoId);
+        descartarCacheGraficas(grupoId);
+    }
+
+    // http -v POST http://localhost:8080/asociado/cambiarTipo Cookie:JSESSIONID=... asociados:=[18158,18159,18485] tipo=K
+    @RequestMapping(value = "/asociado/cambiarTipo", method = RequestMethod.POST)
+    public ResponseEntity<String> cambiarTipo(@RequestBody @Valid CambiarTipoDto dto, @AuthenticationPrincipal Usuario usuario) {
+        if (dto.tipo != TipoAsociado.Joven && dto.tipo != TipoAsociado.Kraal && dto.tipo != TipoAsociado.Comite) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /asociado/cambiarTipo"));
+            return ResponseEntityFactory.forbidden("El tipo no es correcto. Permitidos para el usuario actual: [J, K, C].");
+        }
+        String grupoId = usuario.getGrupo().getId();
+        asociadoRepository.cambiarTipo(dto.asociados, dto.tipo, grupoId);
+        descartarCacheGraficas(grupoId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/asociado/desactivar", method = RequestMethod.POST)
+    public void desactivar(@RequestBody ArrayList<Integer> asociados, @AuthenticationPrincipal Usuario usuario) {
+        String grupoId = usuario.getGrupo().getId();
+        asociadoRepository.desactivar(asociados, grupoId);
+        descartarCacheGraficas(grupoId);
     }
 
     private void descartarCacheGraficas(String grupoId) {

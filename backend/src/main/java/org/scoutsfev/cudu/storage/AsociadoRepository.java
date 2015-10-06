@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
-public interface AsociadoRepository extends PagingAndSortingRepository<Asociado, Integer> {
+public interface AsociadoRepository extends PagingAndSortingRepository<Asociado, Integer>, AsociadoRepositoryCustom {
 
     Page<Asociado> findByGrupoId(@Param("id") String id, Pageable pageable);
 

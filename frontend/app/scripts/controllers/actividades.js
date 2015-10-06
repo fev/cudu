@@ -78,7 +78,7 @@ angular.module('cuduApp')
     };
 
     var resumir = function(listado, precio) {
-      if (typeof listado === "undefined") {
+      if (typeof listado === 'undefined') {
         return { asistentes: 0, pagados: 0, recaudacion: 0, esperado: 0 };
       }
       var precio = normalizarPrecio(precio);
@@ -174,7 +174,7 @@ angular.module('cuduApp')
 
     $scope.estiloAsistencia = function(asistente) {
       var estilo = 'estado-' + asistente.estadoAsistente;
-      if (asistente.nuevo) { estilo = estilo + ' flash' }
+      if (asistente.nuevo) { estilo = estilo + ' flash'; }
       return estilo;
     };
 

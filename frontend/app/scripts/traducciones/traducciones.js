@@ -94,7 +94,16 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'impresion.noseleccionados': 'No has seleccionat cap associat',
     'miembros.colaborador' : 'Col·laborador',
     'miembros.formador' : 'Formador',
-    'miembros.tufo' : 'TUFO'
+    'miembros.tufo' : 'TUFO',
+    'multiple.baja.progreso': 'Donant de baixa els associats...',
+    'multiple.baja.completado': 'Baixa completada',
+    'multiple.baja.errorServidor': 'No es pot donar de baixa els associats.',
+    'multiple.tipo.progreso': 'Canviant el tipus de associat...',
+    'multiple.tipo.completado': 'Canvi completat',
+    'multiple.tipo.errorServidor': 'No es pot canviar el tipus de l\'associat.',
+    'multiple.rama.progreso': 'Canviant als associats de branca...',
+    'multiple.rama.completado': 'Canvi completat',
+    'multiple.rama.errorServidor': 'No es pot canviar de branca als associats.'
   };
   var es = {
     'asociacion.0': 'Scouts de Alicante (SdA)',
@@ -186,7 +195,16 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'impresion.noseleccionados': 'No has seleccionado ningún asociado',
     'miembros.colaborador' : 'Colaborador',
     'miembros.formador' : 'Formador',
-    'miembros.tufo' : 'TUFO'
+    'miembros.tufo' : 'TUFO',
+    'multiple.baja.progreso': 'Dando de baja los asociados...',
+    'multiple.baja.completado': 'Baja completada',
+    'multiple.baja.errorServidor': 'Imposible dar de baja los asociados.',
+    'multiple.tipo.progreso': 'Cambiando el tipo de asociado...',
+    'multiple.tipo.completado': 'Cambio completado',
+    'multiple.tipo.errorServidor': 'No se puede cambiar el tipo del asociado.',
+    'multiple.rama.progreso': 'Cambiando a los asociados de rama...',
+    'multiple.rama.completado': 'Cambio completado',
+    'multiple.rama.errorServidor': 'No se puede cambiar de rama a los asociados.'
   };
 
   var lenguajePorDefecto = 'es';

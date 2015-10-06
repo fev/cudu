@@ -66,8 +66,8 @@ angular.module('cuduApp')
         });
     };
   }])
-  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Ficha', 'Ramas',
-      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Ficha, Ramas) {
+  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha', 'Ramas',
+      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha, Ramas) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {
@@ -222,6 +222,17 @@ angular.module('cuduApp')
       }, function() {
         $scope.estado = EstadosFormulario.ERROR;
       });      
+    };    
+    
+    $scope.darDeBajaSeleccionados = function() {
+      var f = factoriaEdicionMultiple(function(asociado) { asociado.activo = false; }, {
+        progreso: Traducciones.texto('multiple.baja.progreso'),
+        completado: Traducciones.texto('multiple.baja.completado'),
+        errorServidor: Traducciones.texto('multiple.baja.errorServidor')
+      });
+      if (f) {
+        Asociado.desactivarSeleccionados({}, f.marcados, f.completado, f.error);
+      }
     };
 
     $scope.marcar = function(asociado, e) {
@@ -335,14 +346,14 @@ angular.module('cuduApp')
       Asociado.asignarCargoCustom({ id: $scope.asociado.id }, $scope.nuevoCargo, function(cargoGuardado) {
         $scope.asociado.cargos.unshift(cargoGuardado);
       });
-      nuevoCargo = '';
+      $scope.nuevoCargo = '';
     };
 
     $scope.eliminarCargo = function(cargoId) {
       Asociado.eliminarCargo({ id: $scope.asociado.id, cargoId: cargoId }, function() {
         var pos = _.findIndex($scope.asociado.cargos, function(c) { return c.id === cargoId; });
         $scope.asociado.cargos.splice(pos, 1);
-      })
+      });
     };
 
     $scope.comprobarAlertaRama = function(a) {
@@ -411,6 +422,43 @@ angular.module('cuduApp')
       },
       function(data, status) { $scope.estado = EstadosFormulario.ERROR; });
     };
+    
+    $scope.cambiarRama = function(rama) {
+      // rama:='{ "colonia": true }
+      var f = factoriaEdicionMultiple(function(asociado) {
+        asociado.ramaColonia = false;
+        asociado.ramaManada = false;
+        asociado.ramaExpedicion = false;
+        asociado.ramaExploradores = false;
+        asociado.ramaRuta = false;
+        // colonia -> ramaColonia;
+        var ramaDestino = 'rama' + rama.charAt(0).toUpperCase() + rama.slice(1);
+        asociado[ramaDestino] = true;
+      }, {
+        progreso: Traducciones.texto('multiple.rama.progreso'),
+        completado: Traducciones.texto('multiple.rama.completado'),
+        errorServidor: Traducciones.texto('multiple.rama.errorServidor')
+      });
+      if (f) {
+        // rama: { 'colonia': true }
+        var cuerpo = { asociados: f.marcados, rama: { } };
+        cuerpo.rama[rama] = true;
+        Asociado.cambiarRama({}, cuerpo, f.completado, f.error);
+      }
+    };
+    
+    $scope.cambiarTipo = function(tipo) {
+      var f = factoriaEdicionMultiple(function(asociado) {
+        asociado.tipo = tipo;
+      }, {
+        progreso: Traducciones.texto('multiple.tipo.progreso'),
+        completado: Traducciones.texto('multiple.tipo.completado'),
+        errorServidor: Traducciones.texto('multiple.tipo.errorServidor')
+      });
+      if (f) {
+        Asociado.cambiarTipo({ }, { asociados: f.marcados, tipo: tipo }, f.completado, f.error);
+      }
+    };
 
     var calcularRamaRecomendada = function(fechaNacimiento) {
       var edad = Usuario.calcularEdad(fechaNacimiento);
@@ -442,5 +490,37 @@ angular.module('cuduApp')
         $scope.formAsociado.$setPristine();
       }
       $scope.estado = EstadosFormulario.LIMPIO;
+    };
+    
+    var factoriaEdicionMultiple = function(modificador, mensajes) {
+      var marcados = $scope.marcados.slice();
+      if (marcados.length === 0) {
+        $scope.modal.debeSeleccionarAsociado = true;
+        return;
+      }
+      
+      var timeoutId = _.delay(function(msg) {
+        Notificaciones.progreso(msg);
+      }, 250, mensajes.progreso);
+      
+      return {
+        marcados: marcados,
+        error: function() {
+          window.clearTimeout(timeoutId);
+          Notificaciones.errorServidor(mensajes.errorServidor);
+        },
+        completado: function() {          
+          for (var i = 0; i < $scope.asociados.length; i++) {
+            var a = $scope.asociados[i];
+            if (_.includes(marcados, a.id)) {
+              modificador(a);
+              a.marcado = false;
+            }
+          }
+          window.clearTimeout(timeoutId);
+          Notificaciones.completado(mensajes.completado);
+          $scope.marcados = [];
+        }
+      };
     };
   }]);

@@ -89,6 +89,7 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
 // TODO @mixin layout-listado-detalle?
 @mixin layout-listado($color, $background, $hover-background) {
   div.tabla { padding: 15px }
+  table.table tr:hover { cursor: pointer; }
   & > .row > .col-md-12 { padding: 0 } 
   
   #txtBusqueda {

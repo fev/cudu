@@ -1,10 +1,10 @@
 
 .actividades {
-  
+
   .actividades-listado {
     @include layout-listado($material-green-900, $material-green-100, $material-green-200);
   }
-  
+
   .actividades-detalle {
     & > .row > .col-md-12 { padding: 0 }
     textarea { border: 1px solid $input-border; }
@@ -33,7 +33,31 @@
       border-bottom: 1px solid $input-border;
       padding-bottom: 20px;
     }
-    
+    #listadoAsistentes {
+      margin: 15px;
+      .table {
+        margin-top: 8px;
+        &>tbody>tr>th {
+          padding: 1px 0 0 0;
+          .btn { padding-left: 6px; padding-right: 6px; background-color: transparent; }
+        }
+        &>caption {
+          padding-left: 10px;
+          background: #f2f2f2;
+          padding-right: 10px;
+        }
+      }
+      .estado-N { color: $material-grey-400 }
+      .estado-S { color: $material-green-600 }
+      .estado-P, .estado-B { color: $material-green-A700 }
+      label { font-weight: normal; margin-right: 10px }
+      form { padding-left: 5px }
+      #txtApuntar {
+        &:hover { border-color: $input-border }
+        @include box-shadow(none);
+        @include border-radius(0px);
+      }
+    }
     .tt-dropdown-menu { margin-top: -1px; }    
   }
 }

@@ -14,9 +14,12 @@ var metodos = {
 var metodosAsociado = _.clone(metodos);
 metodosAsociado['activar'] = { url: '/api/asociado/:id/activar', method: 'PUT' };
 metodosAsociado['desactivar'] = { url: '/api/asociado/:id/desactivar', method: 'PUT' };
+metodosAsociado['desactivarSeleccionados'] = { url: '/api/asociado/desactivar', method: 'POST' };
 metodosAsociado['asignarCargo'] = { url: '/api/asociado/:id/cargo/:cargoId', method: 'PUT' };
 metodosAsociado['asignarCargoCustom'] = { url: '/api/asociado/:id/cargo', method: 'POST' };
 metodosAsociado['eliminarCargo'] = { url: '/api/asociado/:id/cargo/:cargoId', method: 'DELETE' };
+metodosAsociado['cambiarTipo'] = { url: '/api/asociado/cambiarTipo', method: 'POST' };
+metodosAsociado['cambiarRama'] = { url: '/api/asociado/cambiarRama', method: 'POST' };
 
 var metodosMiembro = _.clone(metodos);
 metodosMiembro['añadir'] = { url: '/api/lluerna/miembro/:id', method: 'PUT' };
@@ -192,11 +195,14 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
   };
 
   svc.calcularEdad = function(valor) {
-    var fechaNacimiento = new Date(valor);
-    if (isNaN(fechaNacimiento.valueOf()))
-      return '¿?';
-    var hoy = new Date();
-    return hoy.getYear() - fechaNacimiento.getYear();
+    if (Object.prototype.toString.call(valor) === '[object Array]' && valor.length === 3) {
+      var fechaNacimiento = new Date(valor[0], valor[1], valor[2]);
+      if (!isNaN(fechaNacimiento.valueOf())) {
+        var hoy = new Date();
+        return hoy.getYear() - fechaNacimiento.getYear();
+      }
+    }
+    return '¿?';
   };
 
   svc.cambiarIdioma = function(codigo) {
@@ -260,5 +266,30 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
     }    
   };
 }]);
+
+cuduServices.factory('Notificaciones', function() {
+  var callbackObj = function(nodo) {
+    return {
+      cerrar: function() { toastr.clear(nodo); }
+    };
+  };
+  return {
+    progreso: function(mensaje, timeOut) {
+      timeOut = timeOut || (10000);
+      var nodo = toastr.info(mensaje, null, { progressBar: true, iconClass: 'toast-en-curso', timeOut: timeOut });
+      return callbackObj(nodo);
+    },
+    errorServidor: function(mensaje, progreso) {
+      progreso = progreso || { cerrar: function() { toastr.clear(); } };
+      progreso.cerrar();
+      toastr.error(mensaje, "Error del servidor");
+    },
+    completado: function(mensaje, progreso) {      
+      progreso = progreso || { cerrar: function() { toastr.clear(); } };
+      progreso.cerrar();
+      toastr.info(mensaje);
+    }
+  };
+});
 
 }());

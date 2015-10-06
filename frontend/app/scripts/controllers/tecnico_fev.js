@@ -6,9 +6,10 @@ angular.module('cuduApp')
   	$scope.grupoPorDefecto = $scope.grupos[0];
 
     $scope.asociados = { list : [] , total : []} ;
-  	if($scope.asociados.list.length == 0)
+  	if($scope.asociados.list.length === 0) {
       $scope.asociados.total = Asociado.query();
-
+    }
+    
   	$scope.asociado = {};
     $scope.inactivos = false;
     $q.when($scope.asociados.total.$promise).then(function () {
@@ -21,11 +22,11 @@ angular.module('cuduApp')
     var filtraAsociados = function (incluirInactivos) {
       var asociados = $scope.asociados.total;
       if(!incluirInactivos) {
-        asociados = $.grep(asociados, function (a) { return a.activo; });
+        asociados = _.filter(asociados, function (a) { return a.activo; });
       }
 
       $scope.asociados.list = asociados.slice(0, 10); 
-    }
+    };
 
     $scope.mostrarInactivos = function () {
       $scope.inactivos = !$scope.inactivos;
