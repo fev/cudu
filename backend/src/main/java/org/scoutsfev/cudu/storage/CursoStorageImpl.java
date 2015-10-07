@@ -72,7 +72,7 @@ public class CursoStorageImpl implements CursoStorage {
                     .on(usuarioActualInscrito.field(CURSO_PARTICIPANTE.CURSO_ID.getName(), Integer.class).eq(CURSO.ID)
                             .and(usuarioActualInscrito.field(CURSO_PARTICIPANTE.ASOCIADO_ID.getName(), Integer.class).eq(usuarioId)))
                 .where(clausulaVisibles)
-                .orderBy(CURSO.ID.desc())
+                .orderBy(CURSO.FECHA_FIN_INSCRIPCION.desc(), CURSO.ID.desc())
                 .limit(pageable.getPageSize())
                 .offset(pageable.getPageNumber());
 
