@@ -2,17 +2,36 @@
   .cursos-listado {
     @include layout-listado($material-amber-900, $material-amber-100, $material-amber-200);
     
+    .mensaje { 
+      margin: 14px 0 0 17px; clear: both;
+      a { 
+        text-decoration: underline; color: $material-amber-900;
+        &:hover { color: $material-amber-600 }
+      }
+    }
+    
+    @include keyframes(flash) {
+        0% { background-color: #FFFBCC; }
+        100% { background-color: #FFF; }
+    }
+    .flash {
+        @include animation-name(flash);
+        @include animation-duration(1s);
+        @include animation-iteration-count(1);
+        @include animation-timing-function(ease-in);
+    }
+    
     .curso {
       border: 1px solid $material-grey-300;      
       padding: 0;
-      margin-bottom: 20px; 
+      margin-bottom: 20px;
       .contenido { padding: 24px 16px 6px 16px; min-height: 160px; }
       h3 { margin: 0; margin-bottom: 8px; font-weight: 300; font-size: 16pt; }
-      .plazas { color: $material-grey-500; font-size: 90%; font-weight: 100 }
+      .plazas { color: $material-grey-500; font-size: 90%; font-weight: 100; }
       .estado { display: none; color: $material-grey-500; text-transform: uppercase; padding-right: 8px; font-weight: normal; }
       .toolbar { padding: 6px 8px; margin-top: 6px;
         border-top: 1px solid $material-grey-200; 
-        a { text-transform: uppercase; padding: 8px; background-color: #FFF; border: 0; color: $material-grey-800 }
+        a { text-transform: uppercase; padding: 8px; background-color: transparent; border: 0; color: $material-grey-800 }
         a:hover { color: $material-amber-800; background-color: $material-amber-100; }
         &.disabled {
           a, a:hover { color: #CCC; background: transparent; cursor: default }
