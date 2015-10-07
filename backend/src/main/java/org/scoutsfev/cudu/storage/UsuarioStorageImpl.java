@@ -17,17 +17,17 @@ import static org.jooq.impl.DSL.val;
 import static org.scoutsfev.cudu.db.tables.Asociado.ASOCIADO;
 
 @Repository
-public class PermisosStorageImpl implements PermisosStorage {
+public class UsuarioStorageImpl implements UsuarioStorage {
 
     private final DSLContext context;
 
     @Autowired
-    public PermisosStorageImpl(DSLContext context) {
+    public UsuarioStorageImpl(DSLContext context) {
         this.context = context;
     }
 
     @Override
-    public List<UsuarioPermisosDto> listado(String grupoId) {
+    public List<UsuarioPermisosDto> obtenerUsuariosDeUnGrupo(String grupoId) {
         List<AsociadoRecord> asociados = context
                 .select(ASOCIADO.ID, ASOCIADO.NOMBRE, ASOCIADO.APELLIDOS, ASOCIADO.EMAIL,
                         ASOCIADO.AMBITO_EDICION, ASOCIADO.NO_PUEDE_EDITAR_DATOS_DEL_GRUPO,
@@ -52,18 +52,3 @@ public class PermisosStorageImpl implements PermisosStorage {
         }).collect(Collectors.toList());
     }
 }
-
-
-/*
-select
-  id,
-  -- concat_ws(' ', nombre, apellidos) as nombre_completo,
-  email,
-  ambito_edicion,
-  no_puede_editar_datos_del_grupo,
-  no_puede_editar_otras_ramas,
-  solo_lectura,
-  fecha_usuario_visto
-from asociado
-where usuario_activo = true and grupo_id = 'UP';
- */
