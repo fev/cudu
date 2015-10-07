@@ -1,16 +1,19 @@
 .permisos {
-  @include paginaMultiPanel();
-
+  
   td.accionable { 
     padding: 0;
     .dropdown-toggle { padding: 4px 3px; }
-  }
-
-  .fa { color: #4E4E4E }
-  .panel-content { padding: 20px }
+  }  
 
   #panelPermisos {
     .mat-toolbar, .mat-toolbar-expand { background-color: #FAFAFA; }
+    .mat-toolbar {
+      .btn { 
+        text-transform: uppercase;
+        &:hover, &:hover .fa { background-color: $material-red-50; color: $material-red-500 }
+      }
+    }
+    table.table .btn { font-weight: 300 }
   }
 
   #panelRegistro {
@@ -18,4 +21,9 @@
     .panel-content { padding-top: 15px; padding-bottom: 15px; }
     .log-warn, .log-warn .fa { color: #B71C1C }
   }
+  
+  @include paginaMultiPanel();
+  
+  .fa { color: #4E4E4E }
+  .panel-content { padding: 20px }
 }
