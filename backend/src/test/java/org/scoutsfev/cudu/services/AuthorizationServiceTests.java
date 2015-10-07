@@ -6,6 +6,7 @@ import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.storage.GrupoRepository;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -14,13 +15,15 @@ import static org.mockito.Mockito.when;
 
 public class AuthorizationServiceTests {
 
-    private AsociadoRepository repository;
+    private AsociadoRepository asociadoRepository;
     private AuthorizationService service;
+    private GrupoRepository grupoRepository;
 
     @Before
     public void setUp() throws Exception {
-        repository = mock(AsociadoRepository.class);
-        service = new AuthorizationService(repository);
+        asociadoRepository = mock(AsociadoRepository.class);
+        grupoRepository = mock(GrupoRepository.class);
+        service = new AuthorizationService(asociadoRepository, grupoRepository);
     }
 
     @Test
@@ -32,7 +35,7 @@ public class AuthorizationServiceTests {
 
     @Test
     public void puedeEditarAsociado_cuando_el_asociado_pertenece_al_grupo_del_usuario() throws Exception {
-        when(repository.obtenerCodigoDeGrupoDelAsociado(42)).thenReturn("ANY");
+        when(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(42)).thenReturn("ANY");
         Grupo grupo = mock(Grupo.class);
         when(grupo.getId()).thenReturn("ANY");
         Usuario usuario = mock(Usuario.class);
@@ -42,7 +45,7 @@ public class AuthorizationServiceTests {
 
     @Test
     public void no_puedeEditarAsociado_cuando_el_asociado_no_pertenece_al_grupo_del_usuario() throws Exception {
-        when(repository.obtenerCodigoDeGrupoDelAsociado(42)).thenReturn("ANY");
+        when(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(42)).thenReturn("ANY");
         Grupo grupo = mock(Grupo.class);
         when(grupo.getId()).thenReturn("OTHER");
         Usuario usuario = mock(Usuario.class);
@@ -52,7 +55,7 @@ public class AuthorizationServiceTests {
 
     @Test
     public void cuando_el_grupo_del_usuario_es_nulo_no_puede_editar_asociados() throws Exception {
-        when(repository.obtenerCodigoDeGrupoDelAsociado(42)).thenReturn("ANY");
+        when(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(42)).thenReturn("ANY");
         Usuario usuario = mock(Usuario.class);
         when(usuario.getGrupo()).thenReturn(null);
         assertFalse(service.puedeEditarAsociado(42, usuario));

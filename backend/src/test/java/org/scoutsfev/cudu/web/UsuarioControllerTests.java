@@ -9,6 +9,8 @@ import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.storage.GrupoRepository;
+import org.scoutsfev.cudu.storage.UsuarioStorage;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,8 @@ public class UsuarioControllerTests {
     private Usuario usuario;
     private AuthorizationService authorizationService;
     private ApplicationEventPublisher eventPublisher;
+    private UsuarioStorage usuarioStorage;
+    private GrupoRepository grupoRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -46,8 +50,10 @@ public class UsuarioControllerTests {
         usuarioService = mock(UsuarioService.class);
         authenticationManager = mock(AuthenticationManager.class);
         eventPublisher = mock(ApplicationEventPublisher.class);
-        authorizationService = new AuthorizationService(asociadoRepository);
-        usuarioController = new UsuarioController(asociadoRepository, usuarioService, eventPublisher, authenticationManager, authorizationService);
+        grupoRepository = mock(GrupoRepository.class);
+        authorizationService = new AuthorizationService(asociadoRepository, grupoRepository);
+        usuarioStorage = mock(UsuarioStorage.class);
+        usuarioController = new UsuarioController(asociadoRepository, usuarioService, eventPublisher, authenticationManager, authorizationService, usuarioStorage);
     }
 
     @Test
@@ -96,4 +102,10 @@ public class UsuarioControllerTests {
     // TODO al_hacer_login_por_segunda_vez_sin_captcha_devuelve_403_y_InvalidCaptchaException
     // TODO al_hacer_login_por_segunda_vez_con_captcha_invalido_devuelve_403_y_InvalidCaptchaException
     // TODO al_hacer_login_por_segunda_vez_con_captcha_valido_y_credenciales_ok_devuelve_200_y_el_usuario
+
+    // TODO al_entrar_como_lluerna_no_puede_listar_los_usuarios_de_un_grupo
+    // TODO al_entrar_como_fev_puede_listar_los_usuarios_de_cualquier_grupo
+    // TODO al_entrar_como_usuario_con_permisos_solo_puede_listar_los_usuarios_de_su_grupo_y_no_devuelve_error
+    // TODO al_entrar_como_usuario_sin_permiso_para_editar_usuarios_no_puede_listar_los_usuarios_de_su_grupo
+    // TODO al_entrar_como_usuario_sin_permiso_para_editar_su_grupo_no_puede_listar_los_usuarios_de_su_grupo
 }
