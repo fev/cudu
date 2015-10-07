@@ -30,24 +30,30 @@ var Cudu;
             }
             CursoController.prototype.inscribir = function (curso) {
                 var _this = this;
-                if (!this.elCursoEstaEnPlazo(curso)) {
+                if (curso.operacionEnCurso || !this.elCursoEstaEnPlazo(curso)) {
                     return;
                 }
+                curso.operacionEnCurso = true;
                 this.service.inscribir(curso.id).success(function (e) {
                     _this.actualizarEstadoCurso(e, true);
                 }).error(function (e) {
                     console.log(e);
+                }).finally(function () {
+                    curso.operacionEnCurso = false;
                 });
             };
             CursoController.prototype.desinscribir = function (curso) {
                 var _this = this;
-                if (!this.elCursoEstaEnPlazo(curso)) {
+                if (curso.operacionEnCurso || !this.elCursoEstaEnPlazo(curso)) {
                     return;
                 }
+                curso.operacionEnCurso = true;
                 this.service.desinscribir(curso.id).success(function (e) {
                     _this.actualizarEstadoCurso(e, false);
                 }).error(function (e) {
                     console.log(e);
+                }).finally(function () {
+                    curso.operacionEnCurso = false;
                 });
             };
             CursoController.prototype.establecerPlazos = function (curso) {

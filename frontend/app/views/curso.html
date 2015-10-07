@@ -18,7 +18,7 @@
           <div class="col-md-4">
             <div class="curso" 
               ng-repeat="c in cursos.cursos[<%=i%>] track by c.id"
-              ng-class="{inscrito: c.usuarioInscrito, completo: c.disponibles === 0}">
+              ng-class="{inscrito: c.usuarioInscrito, completo: c.disponibles === 0, flash: c.operacionEnCurso === false}">
               <div class="contenido">
                 <h3>{{c.titulo}}</h3>
                 <div class="plazas">
@@ -27,37 +27,22 @@
                   <span class="estado" ng-show="!c.usuarioInscrito && c.disponibles == 0">Completo</span>
                   {{c.disponibles}} PLAZAS DISPONIBLES<br/>
                   {{c.plazoRestante}}
-                </div>
+                </div>                
                 <div contenteditable>Fechas: {{c.descripcionFechas}}</div>
                 <div contenteditable>Lugar: {{c.descripcionLugar}}</div>
               </div>
-              <div class="toolbar" ng-class="{disabled: !c.plazoCerrado}">
+              <div class="toolbar" ng-class="{disabled: !c.plazoCerrado || c.operacionEnCurso}">
                 <a ng-click="cursos.inscribir(c)" id="btnInscribir" class="btn btn-default" href="javascript:">INSCRIBIRSE</a>
                 <a ng-click="cursos.desinscribir(c)" id="btnCancelar" class="btn btn-default" href="javascript:">CANCELAR INSCRIPCION</a>
                 <a ng-click="cursos.inscribir(c)" id="btnListaEspera" class="btn btn-default" href="javascript:">LISTA ESPERA</a>                
               </div>
             </div>      
           </div>                 
-          <% } %>
+          <% } %>          
         </div>
-          
+        
         <!-- 
-          <div class="curso inscrito">
-            <div class="contenido">
-              <h3>{{cursos.cursos.length}}</h3>
-              <div class="plazas">
-                <span class="estado">Inscrito</span>
-                33 PLAZAS, 0 DISPONIBLES
-              </div>
-              <div>27 y 28 de mayo</div>
-              <div>Preventori d'Alcoi y Alborache</div>
-            </div>
-            <div class="toolbar">
-              <a id="btnInscribir" class="btn btn-default" href="#">INSCRIBIR</a>
-              <a id="btnCancelar" class="btn btn-default" href="#">CANCELAR INSCRIPCION</a>
-              <a id="btnListaEspera" class="btn btn-default" href="#">LISTA ESPERA</a>
-            </div>
-          </div>
+          
           <div class="curso completo">
             <div class="contenido">
               <h3>Vida en la naturaleza</h3>
@@ -75,7 +60,7 @@
             </div>
           </div> 
         -->
-      </div>
+      </div>      
     </div>
   </div>
 </div>

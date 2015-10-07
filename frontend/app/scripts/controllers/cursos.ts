@@ -14,10 +14,11 @@ module Cudu.Cursos {
     descripcionFechas: string;
     descripcionLugar: string;
     usuarioInscrito: boolean;
-    usuarioListaEspera: boolean;
-    
+    usuarioListaEspera: boolean;    
     plazoCerrado: boolean;
     plazoRestante: string;
+    
+    operacionEnCurso?: boolean;
   }
   
   interface EstadoInscripcionEnCurso {
@@ -60,22 +61,32 @@ module Cudu.Cursos {
     }
     
     inscribir(curso: Curso) {
-      if (!this.elCursoEstaEnPlazo(curso)) { return; }
+      if (curso.operacionEnCurso || !this.elCursoEstaEnPlazo(curso)) { 
+        return; 
+      }
+      curso.operacionEnCurso = true;
       this.service.inscribir(curso.id).success((e: EstadoInscripcionEnCurso) => {
         this.actualizarEstadoCurso(e, true);
       }).error(e => { 
         /* TODO Toast! */ 
         console.log(e);
+      }).finally(() => {
+        curso.operacionEnCurso = false;
       });
     }
     
     desinscribir(curso: Curso) {
-      if (!this.elCursoEstaEnPlazo(curso)) { return; }
+      if (curso.operacionEnCurso || !this.elCursoEstaEnPlazo(curso)) { 
+        return; 
+      }
+      curso.operacionEnCurso = true;
       this.service.desinscribir(curso.id).success((e: EstadoInscripcionEnCurso) => {
         this.actualizarEstadoCurso(e, false);
       }).error(e => { 
         /* TODO Toast! */
         console.log(e);
+      }).finally(() => {
+        curso.operacionEnCurso = false;
       });
     }
     
