@@ -8,7 +8,7 @@ import org.scoutsfev.cudu.domain.EstadoInscripcionEnCurso;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +18,7 @@ import static org.scoutsfev.cudu.db.tables.Curso.CURSO;
 import static org.scoutsfev.cudu.db.tables.CursoParticipante.CURSO_PARTICIPANTE;
 import static org.scoutsfev.cudu.db.tables.DtoEstadoInscripcion.DTO_ESTADO_INSCRIPCION;
 
-@Service
+@Repository
 public class CursoStorageImpl implements CursoStorage {
 
     private final DSLContext context;
