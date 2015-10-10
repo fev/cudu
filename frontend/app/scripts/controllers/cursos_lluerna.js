@@ -1,3 +1,4 @@
+/// <reference path="../../../typings/tsd.d.ts"/>
 var Cudu;
 (function (Cudu) {
     var Lluerna;

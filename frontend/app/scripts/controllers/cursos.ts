@@ -1,4 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts"/>
+/// <reference path="../services.d.ts"/>
 
 module Cudu.Cursos {
   
@@ -29,20 +30,11 @@ module Cudu.Cursos {
     listaDeEspera: boolean;
   }
   
-  // Mover a .tds?
-  export interface Usuario {
-    id: number;
-  }  
-  export interface UsuarioService {
-    obtenerActual(): Q.Promise<Usuario>;
-  }
-  // end mover
-  
   export class CursoController {
     cursos: Curso[][];
     
     constructor(private $scope: ng.IScope, private service: CursoService) {
-      service.listado().success(pagina => {
+      service.listado().then(pagina => {
         // Divide el listado de cursos en tres columnas, repartidas
         // por igual de izquierda a derecha (similar a _.chunk)
         var chunked: Curso[][] = [[], [], []];
@@ -121,15 +113,22 @@ module Cudu.Cursos {
     }
   }
   
-  class CursoService {
+  interface CursoService {
+    listado(): ng.IPromise<Page<Curso>>;
+    inscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso>;
+    desinscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso>;
+  }
+  
+  class CursoServiceImpl implements CursoService {
     private usuarioId: number;
     
-    constructor(private http: ng.IHttpService, private usuarioService: UsuarioService) {
-      usuarioService.obtenerActual().then(u => { this.usuarioId = u.id; });
-    }
+    constructor(private http: ng.IHttpService, private usuarioService: UsuarioService) { }
     
-    listado(): ng.IHttpPromise<Page<Curso>> {      
-      return this.http.get<Page<Curso>>("/api/lluerna/curso?sort=id&size=100");
+    listado(): ng.IPromise<Page<Curso>> { 
+      return this.usuarioService.obtenerActual().then(u => { 
+        this.usuarioId = u.id;
+        return this.http.get<Page<Curso>>("/api/lluerna/curso?sort=id&size=100")
+      });
     }
     
     inscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso> {      
@@ -142,11 +141,10 @@ module Cudu.Cursos {
   }
   
   export function CursoServiceFactory($http: ng.IHttpService, usuarioService: UsuarioService): CursoService {
-    return new CursoService($http, usuarioService);
+    return new CursoServiceImpl($http, usuarioService);
   }
 }
 
 angular.module('cuduApp')
   .controller('CursoController', ['$scope', 'CursoService', Cudu.Cursos.CursoController])
-  // .directive('panelCurso', Cudu.Cursos.PanelCurso)
   .factory('CursoService', ['$http', 'Usuario', Cudu.Cursos.CursoServiceFactory]);

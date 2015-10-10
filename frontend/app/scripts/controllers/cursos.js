@@ -1,4 +1,5 @@
 /// <reference path="../../../typings/tsd.d.ts"/>
+/// <reference path="../services.d.ts"/>
 var Cudu;
 (function (Cudu) {
     var Cursos;
@@ -8,7 +9,7 @@ var Cudu;
                 var _this = this;
                 this.$scope = $scope;
                 this.service = service;
-                service.listado().success(function (pagina) {
+                service.listado().then(function (pagina) {
                     var chunked = [[], [], []];
                     var lista = pagina.content;
                     for (var i = 0, j = 0; i < lista.length; i += 3, j++) {
@@ -91,26 +92,28 @@ var Cudu;
             return CursoController;
         })();
         Cursos.CursoController = CursoController;
-        var CursoService = (function () {
-            function CursoService(http, usuarioService) {
-                var _this = this;
+        var CursoServiceImpl = (function () {
+            function CursoServiceImpl(http, usuarioService) {
                 this.http = http;
                 this.usuarioService = usuarioService;
-                usuarioService.obtenerActual().then(function (u) { _this.usuarioId = u.id; });
             }
-            CursoService.prototype.listado = function () {
-                return this.http.get("/api/lluerna/curso?sort=id&size=100");
+            CursoServiceImpl.prototype.listado = function () {
+                var _this = this;
+                return this.usuarioService.obtenerActual().then(function (u) {
+                    _this.usuarioId = u.id;
+                    return _this.http.get("/api/lluerna/curso?sort=id&size=100");
+                });
             };
-            CursoService.prototype.inscribir = function (id) {
+            CursoServiceImpl.prototype.inscribir = function (id) {
                 return this.http.post('/api/lluerna/curso/' + id + '/participantes', this.usuarioId);
             };
-            CursoService.prototype.desinscribir = function (id) {
+            CursoServiceImpl.prototype.desinscribir = function (id) {
                 return this.http.delete('/api/lluerna/curso/' + id + '/participantes/' + this.usuarioId, {});
             };
-            return CursoService;
+            return CursoServiceImpl;
         })();
         function CursoServiceFactory($http, usuarioService) {
-            return new CursoService($http, usuarioService);
+            return new CursoServiceImpl($http, usuarioService);
         }
         Cursos.CursoServiceFactory = CursoServiceFactory;
     })(Cursos = Cudu.Cursos || (Cudu.Cursos = {}));
