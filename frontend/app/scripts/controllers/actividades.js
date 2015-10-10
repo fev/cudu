@@ -108,12 +108,14 @@ angular.module('cuduApp')
         fechaInicio = moment().endOf('isoWeek').subtract(1, 'days');
       }
 
-      $scope.actividad = {
-        'grupoId': Usuario.usuario.grupo.id,
-        'ramaCualquiera': true,
-        'fechaInicio': [fechaInicio.year(), fechaInicio.month() + 1, fechaInicio.date()],
-        'creadaPor': 'Z'
-      };
+      Usuario.obtenerActual().then(function(usuario) {
+        $scope.actividad = {
+          'grupoId': usuario.grupo.id,
+          'ramaCualquiera': true,
+          'fechaInicio': [fechaInicio.year(), fechaInicio.month() + 1, fechaInicio.date()],
+          'creadaPor': 'Z'
+        };
+      });      
     } else {
       Actividad.get({ 'id': id }, function(actividad) {
         $scope.actividad = actividad;
