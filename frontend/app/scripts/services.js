@@ -83,29 +83,25 @@ cuduServices.factory('Actividad', ['$resource',
   }]);
 
 cuduServices.factory('Typeahead', [function() {
-  var doit = function(url, func) {
+  var typeahead = function(entidad, displayKey) {
+    var dkFnc = displayKey || function(r) { return r.nombre + ' ' + r.apellidos; };
+    return function() {
       var source = new Bloodhound({
         datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.nombre); },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         remote: {
-          url: url,
+          url: '/api/typeahead/' + entidad + '/%QUERY',
+          wildcard: '%QUERY',
           filter: function(response) { return response.content; }
         }
       });
       source.initialize();
-      return { 
-        displayKey: function(r) { return func(r); }, 
-        source: source.ttAdapter() 
-      };
+      return { displayKey: dkFnc, source: source.ttAdapter() };
     };
-    
+  };
   return {
-    'asociado': function() {
-      return doit('/api/typeahead/asociado/%QUERY', function(r) { return r.nombre + ' ' + r.apellidos; });
-    },
-    'miembro' : function() {
-      return doit('/api/typeahead/miembro/%QUERY', function(r) { return r.nombre + ' ' + r.apellidos; });
-    }
+    'asociado': typeahead('asociado'),
+    'miembro': typeahead('miembro')
   };
 }]);
 

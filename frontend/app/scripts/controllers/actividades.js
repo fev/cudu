@@ -32,7 +32,7 @@ angular.module('cuduApp')
     
 
     // Afegir asistent
-    $scope.$on('typeahead:selected', function(e, asistente) {      
+    $scope.$on('typeahead:selected', function(e, asistente) {
       var guardarAsistencia = function(actividad, asistente) {
         var idx = _.findIndex(actividad.detalle, { 'asociadoId': asistente.id });
         if (idx != -1) {
