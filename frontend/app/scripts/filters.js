@@ -28,9 +28,9 @@ filters.filter('fechaArray', function() {
 filters.filter('timeStamp', function() {
   return function (n) {
     var fecha = moment(n);
-    if(!fecha.isValid())
+    if (!fecha.isValid()) {
       return Traducciones.text('fechaIncorrecta');
-
+    }
     return fecha.format('DD/MM/YYYY, hh:mm:ss');
   }
 });
