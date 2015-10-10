@@ -100,7 +100,7 @@ angular.module('cuduApp')
     $scope.tabActivo = 0;
     $scope.busqueda = '';
     $scope.filtro = { tipo: '', eliminados: false };
-    $scope.columnas = { rama: true, direccion: true, contacto: false };
+    $scope.columnas = { rama: true, direccion: false, contacto: false };
     $scope.orden = 'apellidos';
     $scope.info = { mensaje: ''};
 
