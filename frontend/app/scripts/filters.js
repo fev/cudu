@@ -37,6 +37,10 @@ filters.filter('timeStamp', function() {
 
 filters.filter('desdeHace', function(Traducciones) {
   return function(fecha) {
+    if (Object.prototype.toString.call(fecha) === '[object Array]') {
+      fecha = fecha.slice(0, 6);
+      fecha[1] = fecha[1] - 1;
+    }
     var m = moment(fecha);
     if (!m.isValid()) {
       return Traducciones.texto('nunca');
