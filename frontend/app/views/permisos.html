@@ -1,4 +1,4 @@
-<div class="container contenedor-central grupo">
+<div class="container contenedor-central permisos" ng-controller="PermisosController as ctrl">
   <div class="row">
     <div id="panelPermisos" class="col-md-12">
       <div class="material-panel-level-2">
@@ -20,11 +20,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr>                
-                <td>{{actual.nombreCompleto}}</td>
-                <td>jack.sparrow@hotmail.com</td>
+              <tr ng-repeat="u in usuarios">
+                <td>{{u.nombreCompleto}}</td>
+                <td>{{u.email}}</td>
                 <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
-                <td>{{actual.fechaUsuarioVistoTxt}}</td>                  
+                <td>{{u.ultimoUso | desdeHace}}</td>                  
                 <td class="accionable">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -47,8 +47,7 @@
                       <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Todos, sólo lectura</a></li>
                       <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo a su rama</a></li>
                       <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo a su rama, sólo lectura</a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sólo sus datos</a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sin acceso</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sólo sus datos</a></li>                      
                     </ul>
                   </div>
                 </td>

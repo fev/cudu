@@ -22,6 +22,7 @@
     "files": [
         "./app/scripts/controllers/cursos.ts",
         "./app/scripts/controllers/cursos_lluerna.ts",
+        "./app/scripts/controllers/permisos.ts",
         "./app/scripts/cudu.ts",
         "./app/scripts/services.d.ts",
         "./typings/angularjs/angular-resource.d.ts",

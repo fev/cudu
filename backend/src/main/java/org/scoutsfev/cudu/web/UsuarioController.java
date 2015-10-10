@@ -5,9 +5,11 @@ import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Credenciales;
 import org.scoutsfev.cudu.domain.EventosAuditoria;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.domain.dto.UsuarioPermisosDto;
 import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.storage.UsuarioStorage;
 import org.scoutsfev.cudu.web.validacion.CodigoError;
 import org.scoutsfev.cudu.web.validacion.ErrorUnico;
 import org.slf4j.Logger;
@@ -36,6 +38,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
 
 @Controller
 @RequestMapping("/usuario")
@@ -48,15 +54,18 @@ public class UsuarioController {
     private final ApplicationEventPublisher eventPublisher;
     private final AuthenticationManager authenticationManager;
     private final AuthorizationService authorizationService;
+    private final UsuarioStorage usuarioStorage;
 
     @Autowired
     public UsuarioController(AsociadoRepository asociadoRepository, UsuarioService usuarioService, ApplicationEventPublisher eventPublisher,
-                             @Qualifier("authenticationManager") AuthenticationManager authenticationManager, AuthorizationService authorizationService) {
+                             @Qualifier("authenticationManager") AuthenticationManager authenticationManager, AuthorizationService authorizationService,
+                             UsuarioStorage usuarioStorage) {
         this.asociadoRepository = asociadoRepository;
         this.usuarioService = usuarioService;
         this.eventPublisher = eventPublisher;
         this.authenticationManager = authenticationManager;
         this.authorizationService = authorizationService;
+        this.usuarioStorage = usuarioStorage;
     }
 
     @RequestMapping(value = "/autenticar", method = RequestMethod.POST)
@@ -151,5 +160,14 @@ public class UsuarioController {
         if (!codigoCorrecto)
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/grupo/{grupoId}", method = RequestMethod.GET)
+    public ResponseEntity<List<UsuarioPermisosDto>> obtenerUsuariosDeGrupo(@PathVariable("grupoId") String grupoId, @AuthenticationPrincipal Usuario usuario) {
+        if (!authorizationService.puedeEditarUsuariosDelGrupo(grupoId, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /usuario/grupo/" + grupoId));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        return ok(usuarioStorage.obtenerUsuariosDeUnGrupo(grupoId));
     }
 }

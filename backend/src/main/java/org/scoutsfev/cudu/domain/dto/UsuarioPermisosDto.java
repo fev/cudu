@@ -1,7 +1,7 @@
 package org.scoutsfev.cudu.domain.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Restricciones;
 
@@ -16,7 +16,7 @@ public class UsuarioPermisosDto {
     public final AmbitoEdicion ambitoEdicion;
     public final Restricciones restricciones;
 
-    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     public final LocalDateTime ultimoUso;
 
     public UsuarioPermisosDto(int id, String nombreCompleto, String email, int calidadPassword, AmbitoEdicion ambitoEdicion, Restricciones restricciones, LocalDateTime ultimoUso) {
