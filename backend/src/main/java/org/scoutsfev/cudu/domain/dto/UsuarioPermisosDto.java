@@ -12,14 +12,14 @@ public class UsuarioPermisosDto {
     public final int id;
     public final String nombreCompleto;
     public final String email;
-    public final int calidadPassword;
+    public final Short calidadPassword;
     public final AmbitoEdicion ambitoEdicion;
     public final Restricciones restricciones;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     public final LocalDateTime ultimoUso;
 
-    public UsuarioPermisosDto(int id, String nombreCompleto, String email, int calidadPassword, AmbitoEdicion ambitoEdicion, Restricciones restricciones, LocalDateTime ultimoUso) {
+    public UsuarioPermisosDto(int id, String nombreCompleto, String email, Short calidadPassword, AmbitoEdicion ambitoEdicion, Restricciones restricciones, LocalDateTime ultimoUso) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
         this.email = email;

@@ -23,7 +23,7 @@
               <tr ng-repeat="u in usuarios">
                 <td>{{u.nombreCompleto}}</td>
                 <td>{{u.email}}</td>
-                <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
+                <td><rating score="u.calidadPassword" /></td>
                 <td>{{u.ultimoUso | desdeHace}}</td>
                 <td class="accionable">
                   <div class="btn-group">

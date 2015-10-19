@@ -33,7 +33,7 @@ public class UsuarioStorageImpl implements UsuarioStorage {
                 .select(ASOCIADO.ID, ASOCIADO.NOMBRE, ASOCIADO.APELLIDOS, ASOCIADO.EMAIL,
                         ASOCIADO.AMBITO_EDICION, ASOCIADO.NO_PUEDE_EDITAR_DATOS_DEL_GRUPO,
                         ASOCIADO.NO_PUEDE_EDITAR_OTRAS_RAMAS, ASOCIADO.SOLO_LECTURA,
-                        ASOCIADO.FECHA_USUARIO_VISTO)
+                        ASOCIADO.FECHA_USUARIO_VISTO, ASOCIADO.CALIDAD_PASSWORD)
                 .from(ASOCIADO)
                 .where(ASOCIADO.USUARIO_ACTIVO.eq(val(true)))
                 .and(ASOCIADO.GRUPO_ID.eq(grupoId))
@@ -50,7 +50,7 @@ public class UsuarioStorageImpl implements UsuarioStorage {
             String nombreCompleto = a.getNombre();
             if (!Strings.isNullOrEmpty(a.getApellidos()))
                 nombreCompleto = nombreCompleto + ' ' + a.getApellidos();
-            return new UsuarioPermisosDto(a.getId(), nombreCompleto, a.getEmail(), 0, ambito, restricciones, fechaUsuarioVisto);
+            return new UsuarioPermisosDto(a.getId(), nombreCompleto, a.getEmail(), a.getCalidadPassword(), ambito, restricciones, fechaUsuarioVisto);
         }).collect(Collectors.toList());
     }
 

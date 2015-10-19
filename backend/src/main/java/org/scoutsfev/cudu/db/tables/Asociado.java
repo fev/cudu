@@ -36,7 +36,7 @@ import org.scoutsfev.cudu.db.tables.records.AsociadoRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Asociado extends TableImpl<AsociadoRecord> {
 
-	private static final long serialVersionUID = -963167914;
+	private static final long serialVersionUID = 718216091;
 
 	/**
 	 * The reference instance of <code>public.asociado</code>
@@ -305,6 +305,11 @@ public class Asociado extends TableImpl<AsociadoRecord> {
 	 * The column <code>public.asociado.email_contacto</code>.
 	 */
 	public final TableField<AsociadoRecord, String> EMAIL_CONTACTO = createField("email_contacto", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
+
+	/**
+	 * The column <code>public.asociado.calidad_password</code>.
+	 */
+	public final TableField<AsociadoRecord, Short> CALIDAD_PASSWORD = createField("calidad_password", org.jooq.impl.SQLDataType.SMALLINT, this, "");
 
 	/**
 	 * Create a <code>public.asociado</code> table reference

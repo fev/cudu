@@ -58,4 +58,25 @@ angular.module('cuduApp')
         });
       }
     };
+  })
+  .directive('rating', function() {
+    return {
+      restrict: 'E',
+      replace: 'true',
+      scope: {
+        score: "&score",
+      },
+      link: function(scope, elem, attrs) {
+        var score = scope.score();
+        if (score == null) {
+          // score = -1; para producir empty stars
+          return;
+        }
+        var result = '';
+        var relscore = Math.min(4, score);
+        for (var i = 0; i <= relscore; i++) { result += '<i class="fa fa-star"></i>'; }
+        for (var i = 0; i < 4 - relscore; i++) { result += '<i class="fa fa-star-o"></i>'; }
+        elem[0].innerHTML = result;
+      }
+    };
   });

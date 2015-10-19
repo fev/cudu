@@ -1,0 +1,1 @@
+alter table asociado add column calidad_password smallint NULL;
