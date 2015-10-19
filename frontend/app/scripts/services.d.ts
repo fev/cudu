@@ -17,3 +17,13 @@ declare interface TraduccionesService {
   texto(clave: string, lenguaje?: string) : string;
   establecerLenguaje(codigo: string): string;
 }
+
+declare interface CallbackNotificaciones {
+  cerrar();
+}
+
+declare interface NotificacionesService {
+  progreso(mensaje: string, timeOut: number): CallbackNotificaciones;
+  errorServidor(mensaje: string, progreso?: CallbackNotificaciones): CallbackNotificaciones;
+  completado(mensaje: string, progreso?: CallbackNotificaciones): CallbackNotificaciones;
+}

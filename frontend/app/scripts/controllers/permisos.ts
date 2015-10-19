@@ -28,9 +28,9 @@ module Cudu.Permisos {
     }
 
     export class PermisosController {
-      constructor(private $scope: PermisosScope, private service: PermisosService, private traducciones: TraduccionesService) {
+      constructor(private $scope: PermisosScope, private service: PermisosService,
+        private traducciones: TraduccionesService, private notificaciones: NotificacionesService) {
         service.listado().then(u => { $scope.usuarios = u; });
-        // TODO catch
       }
 
       obtenerPermisosGrupo(u: Usuario) {
@@ -54,8 +54,7 @@ module Cudu.Permisos {
           noPuedeEditarOtrasRamas: u.restricciones.noPuedeEditarOtrasRamas,
           soloLectura: u.restricciones.soloLectura
         };
-        console.log(command);
-        // console.log(u.restricciones);
+        this.editarPermisosUsuario(command);
       }
 
       obtenerPermisosAsociados(u: Usuario) {
@@ -85,13 +84,35 @@ module Cudu.Permisos {
           noPuedeEditarOtrasRamas: u.restricciones.noPuedeEditarOtrasRamas,
           soloLectura: u.restricciones.soloLectura
         };
-        console.log(u.restricciones);
-        // console.log(u.ambitoEdicion);
+        this.editarPermisosUsuario(command);
+      }
+
+      private editarPermisosUsuario(command) {
+        var progresoActivo = false;
+        var timeoutId = _.delay(function(e) {
+          e.marcarProgresoActivo();
+          e.notificaciones.progreso(e.mensaje);
+        }, 250, {
+          notificaciones: this.notificaciones,
+          mensaje: this.traducciones.texto('permisos.progreso'),
+          marcarProgresoActivo: () => { progresoActivo = true; }
+        });
+
+        this.service.editarPermisosUsuario(command).then(() => {
+          window.clearTimeout(timeoutId);
+          if (progresoActivo) {
+            this.notificaciones.completado(this.traducciones.texto('permisos.completado'));
+          }
+        }).catch(() => {
+          window.clearTimeout(timeoutId);
+          this.notificaciones.errorServidor(this.traducciones.texto('permisos.error'));
+        });
       }
     }
 
     interface PermisosService {
       listado(): ng.IPromise<Usuario[]>;
+      editarPermisosUsuario(command): ng.IPromise<{}>;
     }
 
     class PermisosServiceImpl implements PermisosService {
@@ -105,6 +126,10 @@ module Cudu.Permisos {
           return this.http.get<Usuario[]>("/api/usuario/grupo/" + this.grupoIdActual);
         }).then(d => d.data);
       }
+
+      editarPermisosUsuario(command) {
+        return this.http.put("/api/usuario/" + command.usuarioId + '/permisos', command);
+      }
     }
 
     export function PermisosServiceFactory($http: ng.IHttpService, usuarioService: UsuarioService): PermisosService {
@@ -113,5 +138,5 @@ module Cudu.Permisos {
 }
 
 angular.module('cuduApp')
-  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', Cudu.Permisos.PermisosController])
+  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', Cudu.Permisos.PermisosController])
   .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory]);

@@ -5,6 +5,7 @@ import org.jooq.DSLContext;
 import org.scoutsfev.cudu.db.tables.records.AsociadoRecord;
 import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Restricciones;
+import org.scoutsfev.cudu.domain.commands.EditarPermisosUsuario;
 import org.scoutsfev.cudu.domain.dto.UsuarioPermisosDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,6 +37,7 @@ public class UsuarioStorageImpl implements UsuarioStorage {
                 .from(ASOCIADO)
                 .where(ASOCIADO.USUARIO_ACTIVO.eq(val(true)))
                 .and(ASOCIADO.GRUPO_ID.eq(grupoId))
+                .orderBy(ASOCIADO.ID)
                 .fetchInto(AsociadoRecord.class);
 
         return asociados.stream().map(a -> {
@@ -50,5 +52,17 @@ public class UsuarioStorageImpl implements UsuarioStorage {
                 nombreCompleto = nombreCompleto + ' ' + a.getApellidos();
             return new UsuarioPermisosDto(a.getId(), nombreCompleto, a.getEmail(), 0, ambito, restricciones, fechaUsuarioVisto);
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void establecerPermisos(EditarPermisosUsuario command, AmbitoEdicion ambitoEdicion) {
+        String ambito = Character.toString(ambitoEdicion.getAmbito());
+        context.update(ASOCIADO)
+            .set(ASOCIADO.AMBITO_EDICION, ambito)
+            .set(ASOCIADO.NO_PUEDE_EDITAR_DATOS_DEL_GRUPO, command.isNoPuedeEditarDatosDelGrupo())
+            .set(ASOCIADO.NO_PUEDE_EDITAR_OTRAS_RAMAS, command.isNoPuedeEditarOtrasRamas())
+            .set(ASOCIADO.SOLO_LECTURA, command.isSoloLectura())
+            .where(ASOCIADO.ID.eq(command.getUsuarioId()))
+            .execute();
     }
 }

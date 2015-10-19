@@ -1,10 +1,8 @@
 package org.scoutsfev.cudu.web;
 
 import org.hibernate.validator.constraints.Email;
-import org.scoutsfev.cudu.domain.Asociado;
-import org.scoutsfev.cudu.domain.Credenciales;
-import org.scoutsfev.cudu.domain.EventosAuditoria;
-import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.domain.commands.EditarPermisosUsuario;
 import org.scoutsfev.cudu.domain.dto.UsuarioPermisosDto;
 import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.UsuarioService;
@@ -169,5 +167,18 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         return ok(usuarioStorage.obtenerUsuariosDeUnGrupo(grupoId));
+    }
+
+    @RequestMapping(value = "/{asociadoId}/permisos", method = RequestMethod.PUT)
+    public ResponseEntity editarPermisosUsuario(@RequestBody @Valid EditarPermisosUsuario command, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+        if (!authorizationService.puedeEditarAsociado(asociadoId, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /usuario/permisos/" + asociadoId));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        // De momento sólo permitimos ambitos de edición de grupo o personales, el command restringe el resto.
+        command.setUsuarioId(asociadoId);
+        AmbitoEdicion ambito = command.isAmbitoPersonal() ? AmbitoEdicion.Personal : AmbitoEdicion.Grupo;
+        usuarioStorage.establecerPermisos(command, ambito);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

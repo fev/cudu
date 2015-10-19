@@ -111,7 +111,10 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'permisos.soloLecturaGrupo': 'Només lectura',
     'permisos.todos': 'Tots',
     'permisos.edicion': 'Edició',
-    'permisos.sinAcceso': 'Sense access'
+    'permisos.sinAcceso': 'Sense access',
+    'permisos.progreso': 'Canviant permisos...',
+    'permisos.completado': 'Canvi completat',
+    'permisos.error': 'No es poden canviar els permisos, per favor intenta-ho mes tard'
   };
   var es = {
     'asociacion.0': 'Scouts de Alicante (SdA)',
@@ -220,7 +223,10 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'permisos.soloLecturaGrupo': 'Sólo lectura',
     'permisos.todos': 'Todos',
     'permisos.edicion': 'Edición',
-    'permisos.sinAcceso': 'Sin acceso'
+    'permisos.sinAcceso': 'Sin acceso',
+    'permisos.progreso': 'Cambiando permisos...',
+    'permisos.completado': 'Cambio completado',
+    'permisos.error': 'No se pueden cambiar los permisos, por favor intentalo mas tarde.'
   };
 
   var lenguajePorDefecto = 'es';

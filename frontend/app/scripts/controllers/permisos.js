@@ -3,10 +3,11 @@ var Cudu;
     var Permisos;
     (function (Permisos) {
         var PermisosController = (function () {
-            function PermisosController($scope, service, traducciones) {
+            function PermisosController($scope, service, traducciones, notificaciones) {
                 this.$scope = $scope;
                 this.service = service;
                 this.traducciones = traducciones;
+                this.notificaciones = notificaciones;
                 service.listado().then(function (u) { $scope.usuarios = u; });
             }
             PermisosController.prototype.obtenerPermisosGrupo = function (u) {
@@ -29,7 +30,7 @@ var Cudu;
                     noPuedeEditarOtrasRamas: u.restricciones.noPuedeEditarOtrasRamas,
                     soloLectura: u.restricciones.soloLectura
                 };
-                console.log(command);
+                this.editarPermisosUsuario(command);
             };
             PermisosController.prototype.obtenerPermisosAsociados = function (u) {
                 if (u.ambitoEdicion == "P") {
@@ -57,7 +58,28 @@ var Cudu;
                     noPuedeEditarOtrasRamas: u.restricciones.noPuedeEditarOtrasRamas,
                     soloLectura: u.restricciones.soloLectura
                 };
-                console.log(u.restricciones);
+                this.editarPermisosUsuario(command);
+            };
+            PermisosController.prototype.editarPermisosUsuario = function (command) {
+                var _this = this;
+                var progresoActivo = false;
+                var timeoutId = _.delay(function (e) {
+                    e.marcarProgresoActivo();
+                    e.notificaciones.progreso(e.mensaje);
+                }, 250, {
+                    notificaciones: this.notificaciones,
+                    mensaje: this.traducciones.texto('permisos.progreso'),
+                    marcarProgresoActivo: function () { progresoActivo = true; }
+                });
+                this.service.editarPermisosUsuario(command).then(function () {
+                    window.clearTimeout(timeoutId);
+                    if (progresoActivo) {
+                        _this.notificaciones.completado(_this.traducciones.texto('permisos.completado'));
+                    }
+                }).catch(function () {
+                    window.clearTimeout(timeoutId);
+                    _this.notificaciones.errorServidor(_this.traducciones.texto('permisos.error'));
+                });
             };
             return PermisosController;
         })();
@@ -74,6 +96,9 @@ var Cudu;
                     return _this.http.get("/api/usuario/grupo/" + _this.grupoIdActual);
                 }).then(function (d) { return d.data; });
             };
+            PermisosServiceImpl.prototype.editarPermisosUsuario = function (command) {
+                return this.http.put("/api/usuario/" + command.usuarioId + '/permisos', command);
+            };
             return PermisosServiceImpl;
         })();
         function PermisosServiceFactory($http, usuarioService) {
@@ -83,5 +108,5 @@ var Cudu;
     })(Permisos = Cudu.Permisos || (Cudu.Permisos = {}));
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
-    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', Cudu.Permisos.PermisosController])
+    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', Cudu.Permisos.PermisosController])
     .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory]);
