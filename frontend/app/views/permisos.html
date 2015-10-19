@@ -21,7 +21,7 @@
             </thead>
             <tbody>
               <tr ng-repeat="u in usuarios">
-                <td>{{u.id}} / {{u.nombreCompleto}}</td>
+                <td>{{u.nombreCompleto}}</td>
                 <td>{{u.email}}</td>
                 <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
                 <td>{{u.ultimoUso | desdeHace}}</td>
@@ -31,9 +31,9 @@
                       {{ctrl.obtenerPermisosGrupo(u)}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')"><%=permisos.edicion%></a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')"><%=permisos.soloLectura%></a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)"><%=permisos.sinAcceso%></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.establecerPermisosGrupo(u, false, false)"><%=permisos.edicion%></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.establecerPermisosGrupo(u, true, false)"><%=permisos.soloLecturaGrupo%></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.establecerPermisosGrupo(u, true, true)"><%=permisos.sinAcceso%></a></li>
                     </ul>
                   </div>
                 </td>
@@ -43,11 +43,11 @@
                       {{ctrl.obtenerPermisosAsociados(u)}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')"><%=permisos.todos%></a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')"><%=permisos.soloLectura%></a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')"><%=permisos.soloRama%></a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')"><%=permisos.soloRamaSoloLectura%></a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)"><%=permisos.soloSusDatos%></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.estalecerPermisosAsociado(u, false, false, false)"><%=permisos.todos%></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.estalecerPermisosAsociado(u, false, false, true)"><%=permisos.soloLectura%></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.estalecerPermisosAsociado(u, false, true,  false)"><%=permisos.soloRama%></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.estalecerPermisosAsociado(u, false, true,  true)"><%=permisos.soloRamaSoloLectura%></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.estalecerPermisosAsociado(u, true,  true,  true)"><%=permisos.soloSusDatos%></a></li>
                     </ul>
                   </div>
                 </td>

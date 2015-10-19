@@ -108,6 +108,7 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'permisos.soloRama': 'Només a la seva branca',
     'permisos.soloRamaSoloLectura': 'Només a la seva branca, només lectura',
     'permisos.soloLectura': 'Tots, només lectura',
+    'permisos.soloLecturaGrupo': 'Només lectura',
     'permisos.todos': 'Tots',
     'permisos.edicion': 'Edició',
     'permisos.sinAcceso': 'Sense access'
@@ -216,6 +217,7 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'permisos.soloRama': 'Sólo a su rama',
     'permisos.soloRamaSoloLectura': 'Sólo a su rama, sólo lectura',
     'permisos.soloLectura': 'Todos, sólo lectura',
+    'permisos.soloLecturaGrupo': 'Sólo lectura',
     'permisos.todos': 'Todos',
     'permisos.edicion': 'Edición',
     'permisos.sinAcceso': 'Sin acceso'
