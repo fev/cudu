@@ -3,69 +3,69 @@
     <div id="panelPermisos" class="col-md-12">
       <div class="material-panel-level-2">
         <div class="mat-toolbar text-right">
-          <button type="button" class="btn btn-default"><i class="fa fa-plus"></i> &nbsp;Nuevo Usuario</button>
+          <button type="button" class="btn btn-default"><i class="fa fa-plus"></i> &nbsp;<%=permisos.nuevoUsuario%></button>
         </div>
-        <div class="mat-toolbar-expand"><h1>Permisos y seguridad</h1></div>
+        <div class="mat-toolbar-expand"><h1><%=permisos.titulo%></h1></div>
         <div class="panel-content">
           <table class="table table-condensed table-hover">
             <thead>
-              <tr>                
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Calidad Contraseña</th>
-                <th>Último uso</th>                  
-                <th>Info. Grupo</th>
-                <th>Asociados</th>
-                <th>Cuenta</th>
+              <tr>
+                <th><%=permisos.nombre %></th>
+                <th><%=permisos.email %></th>
+                <th><%=permisos.calidadContraseña %></th>
+                <th><%=permisos.ultimoUso %></th>
+                <th><%=permisos.infoGrupo %></th>
+                <th><%=permisos.asociados %></th>
+                <th><%=permisos.cuenta %></th>
               </tr>
             </thead>
             <tbody>
               <tr ng-repeat="u in usuarios">
-                <td>{{u.nombreCompleto}}</td>
+                <td>{{u.id}} / {{u.nombreCompleto}}</td>
                 <td>{{u.email}}</td>
                 <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
-                <td>{{u.ultimoUso | desdeHace}}</td>                  
+                <td>{{u.ultimoUso | desdeHace}}</td>
                 <td class="accionable">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      Edición <span class="caret"></span>
+                      {{ctrl.obtenerPermisosGrupo(u)}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Edición</a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo lectura</a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sin Acceso</a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')"><%=permisos.edicion%></a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')"><%=permisos.soloLectura%></a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)"><%=permisos.sinAcceso%></a></li>
                     </ul>
                   </div>
                 </td>
                 <td class="accionable">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      Todos <span class="caret"></span>
+                      {{ctrl.obtenerPermisosAsociados(u)}} <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Todos</a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')">Todos, sólo lectura</a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo a su rama</a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')">Sólo a su rama, sólo lectura</a></li>
-                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)">Sólo sus datos</a></li>                      
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')"><%=permisos.todos%></a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'R')"><%=permisos.soloLectura%></a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')"><%=permisos.soloRama%></a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, 'W')"><%=permisos.soloRamaSoloLectura%></a></li>
+                      <li><a href="javascript:" ng-click="establecerPermisoGrupo(u, null)"><%=permisos.soloSusDatos%></a></li>
                     </ul>
                   </div>
                 </td>
                 <td class="accionable">
                   <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      Activa <span class="caret"></span>
+                      <%=permisos.activa %> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-click="">Cambiar email</a></li>
-                      <li><a href="javascript:" ng-click="">Recuperar contraseña</a></li>
+                      <li><a href="javascript:" ng-click=""><%=permisos.cambiarEmail %></a></li>
+                      <li><a href="javascript:" ng-click=""><%=permisos.recuperarContraseña %></a></li>
                       <li class="divider"></li>
-                      <li><a href="javascript:" ng-click="">Eliminar cuenta</a></li>
+                      <li><a href="javascript:" ng-click=""><%=permisos.eliminarCuenta %></a></li>
                     </ul>
                   </div>
                 </td>
               </tr>
-              <tr>                
+              <!-- <tr>
                 <td>Quincy Cunningham Parrish</td>
                 <td>Expedición</td>
                 <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></td>
@@ -91,7 +91,7 @@
                 <td>Sin acceso</td>
                 <td>Sólo sus datos</td>
                 <td>Activa</td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
         </div>
@@ -100,7 +100,7 @@
     <div id="panelRegistro" class="hidden">
       <div class="material-panel-level-2">
         <div class="mat-toolbar">
-          <strong>Registro de Actividad</strong>  
+          <strong>Registro de Actividad</strong>
           <p class="small">Se muestran eventos del último mes.</p>
         </div>
         <div class="panel-content">
@@ -111,7 +111,7 @@
           <p><span class="small">12/01/15 21:20:23</span><br/> Quincy Cunningham Parrish <br><i class="fa fa-unlock-alt"></i> Cambió su password.</p>
           <p><span class="small">12/01/15 21:00:32</span><br/> Quincy Cunningham Parrish <br><i class="fa fa-unlock-alt"></i> Solicitó cambiar su password.</p>
           <p class="log-warn"><span class="small">11/01/15 16:20:19</span><br/> Aline Acosta Ericksön <br><i class="fa fa-exclamation-circle"></i> Utilizó una contraseña incorrecta.</p>
-          <p class="hidden"><a href="">Cargar mas eventos</a></p>        
+          <p class="hidden"><a href="">Cargar mas eventos</a></p>
           <i class="hidden">No hay eventos disponibles.</i>
         </div>
       </div>

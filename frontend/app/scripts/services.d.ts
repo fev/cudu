@@ -1,4 +1,4 @@
-/// <reference path="../../../typings/tsd.d.ts"/>
+/// <reference path="../../typings/tsd.d.ts"/>
 
 declare interface Usuario {
   id: number;
@@ -11,4 +11,9 @@ declare interface Grupo {
 
 declare interface UsuarioService {
   obtenerActual(): Q.Promise<Usuario>;
+}
+
+declare interface TraduccionesService {
+  texto(clave: string, lenguaje?: string) : string;
+  establecerLenguaje(codigo: string): string;
 }

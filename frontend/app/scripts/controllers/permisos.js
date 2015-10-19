@@ -1,39 +1,37 @@
-/// <reference path="../../../typings/tsd.d.ts"/>
-/// <reference path="../services.d.ts"/>
 var Cudu;
 (function (Cudu) {
     var Permisos;
     (function (Permisos) {
         var PermisosController = (function () {
-            function PermisosController($scope, service) {
+            function PermisosController($scope, service, traducciones) {
                 this.$scope = $scope;
                 this.service = service;
-                service.listado().then(function (u) {
-                    $scope.usuarios = u;
-                });
+                this.traducciones = traducciones;
+                service.listado().then(function (u) { $scope.usuarios = u; });
             }
-            PermisosController.prototype.permisosGrupo = function (u) {
+            PermisosController.prototype.obtenerPermisosGrupo = function (u) {
                 if (u.ambitoEdicion == "P") {
-                    return "Sin acceso";
+                    return this.traducciones.texto('permisos.sinAcceso');
                 }
                 if (u.restricciones.noPuedeEditarDatosDelGrupo) {
-                    return "Solo lectura";
+                    return this.traducciones.texto('permisos.soloLectura');
                 }
+                return this.traducciones.texto('permisos.edicion');
             };
-            PermisosController.prototype.permisosAsociados = function (u) {
+            PermisosController.prototype.obtenerPermisosAsociados = function (u) {
                 if (u.ambitoEdicion == "P") {
-                    return "Sólo sus datos";
+                    return this.traducciones.texto('permisos.soloSusDatos');
                 }
                 if (u.restricciones.noPuedeEditarOtrasRamas && u.restricciones.soloLectura) {
-                    return "Sólo a su rama, sólo lectura";
+                    return this.traducciones.texto('permisos.soloRamaSoloLectura');
                 }
                 if (u.restricciones.noPuedeEditarOtrasRamas) {
-                    return "Sólo a su rama";
+                    return this.traducciones.texto('permisos.soloRama');
                 }
                 if (u.restricciones.soloLectura) {
-                    return "Todos, sólo lectura";
+                    return this.traducciones.texto('permisos.soloLectura');
                 }
-                return "Todos";
+                return this.traducciones.texto('permisos.todos');
             };
             return PermisosController;
         })();
@@ -59,5 +57,5 @@ var Cudu;
     })(Permisos = Cudu.Permisos || (Cudu.Permisos = {}));
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
-    .controller('PermisosController', ['$scope', 'PermisosService', Cudu.Permisos.PermisosController])
+    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', Cudu.Permisos.PermisosController])
     .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory]);

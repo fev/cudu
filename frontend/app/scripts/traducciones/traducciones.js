@@ -103,7 +103,14 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'multiple.tipo.errorServidor': 'No es pot canviar el tipus de l\'associat.',
     'multiple.rama.progreso': 'Canviant als associats de branca...',
     'multiple.rama.completado': 'Canvi completat',
-    'multiple.rama.errorServidor': 'No es pot canviar de branca als associats.'
+    'multiple.rama.errorServidor': 'No es pot canviar de branca als associats.',
+    'permisos.soloSusDatos': 'Només els seus dades',
+    'permisos.soloRama': 'Només a la seva branca',
+    'permisos.soloRamaSoloLectura': 'Només a la seva branca, només lectura',
+    'permisos.soloLectura': 'Tots, només lectura',
+    'permisos.todos': 'Tots',
+    'permisos.edicion': 'Edició',
+    'permisos.sinAcceso': 'Sense access'
   };
   var es = {
     'asociacion.0': 'Scouts de Alicante (SdA)',
@@ -204,7 +211,14 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'multiple.tipo.errorServidor': 'No se puede cambiar el tipo del asociado.',
     'multiple.rama.progreso': 'Cambiando a los asociados de rama...',
     'multiple.rama.completado': 'Cambio completado',
-    'multiple.rama.errorServidor': 'No se puede cambiar de rama a los asociados.'
+    'multiple.rama.errorServidor': 'No se puede cambiar de rama a los asociados.',
+    'permisos.soloSusDatos': 'Sólo sus datos',
+    'permisos.soloRama': 'Sólo a su rama',
+    'permisos.soloRamaSoloLectura': 'Sólo a su rama, sólo lectura',
+    'permisos.soloLectura': 'Todos, sólo lectura',
+    'permisos.todos': 'Todos',
+    'permisos.edicion': 'Edición',
+    'permisos.sinAcceso': 'Sin acceso'
   };
 
   var lenguajePorDefecto = 'es';
