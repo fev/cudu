@@ -20,6 +20,7 @@
         "!./node_modules/**/*"
     ],
     "files": [
+        "./app/scripts/controllers/curso_lluerna_detalle.ts",
         "./app/scripts/controllers/cursos.ts",
         "./app/scripts/controllers/cursos_lluerna.ts",
         "./app/scripts/controllers/permisos.ts",

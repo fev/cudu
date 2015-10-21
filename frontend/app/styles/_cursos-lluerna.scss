@@ -1,3 +1,35 @@
 .cursos-lluerna {
   .tabla tr:hover { cursor: pointer; }
+
+  .cursos-lluerna-detalle {
+    & > .row > .col-md-12 { padding: 0 }
+    textarea { border: 1px solid $input-border; }
+    .mat-toolbar, .mat-toolbar-expand {
+      background: $material-amber-200;
+      color: $material-amber-900;
+    }
+    #panelEdicion {
+      border-left: 1px solid $input-border;
+      @include box-shadow(-5px 0 8px -4px #CCC);
+      padding-left: 0;
+      margin-bottom: 30px;
+      .form-cudu { margin-bottom: 0 }
+      .multi-2 {
+        .col-md-9 {
+          label { width: 65px; margin-left: 10px }
+          input { display: inline-block; width: 125px }
+        }
+      }
+      .form-control:focus {
+        border-color: $material-amber-500;
+      }
+    }
+    #panelEdicionCt {
+      @include box-shadow(0px 3px 7px -2px #CCC);
+      border-bottom: 1px solid $input-border;
+      padding-bottom: 20px;
+    }
+
+    .tt-dropdown-menu { margin-top: -1px; }
+  }
 }

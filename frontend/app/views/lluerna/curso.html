@@ -1,33 +1,68 @@
-<div class="container contenedor-central curso-detalle" ng-controller="CursosController as C">
+<div class="container contenedor-central cursos-lluerna-detalle" ng-controller="CursoLluernaController">
 <div class="row">
 <div class="col-md-12">
   <div class="row">
     <div class="col-md-7">
-      <div id="listadoFormadores" class="listadoEntidades">
-        <form class="form-inline">
-          <div class="form-group">
-            <label><%= cursos.incluirFormador %></label>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="listadoFormadores" class="listadoEntidades">
+            <form class="form-inline">
+              <div class="form-group">
+                <label><%= cursos.incluirFormador %></label>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control typeahead" id="txtFormador" placeholder="Baden Powell"
+                  sf-typeahead options="typeaheadFormadorOpt" datasets="typeaheadFormadorDts" ng-model="formadorPorIncluir">
+              </div>
+            </form>
+            <div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th><%= cursos.nombre %></th>
+                    <th><%= cursos.telefono %></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="formador in curso.formadores | orderBy:'nombreCompleto' track by formador.id">
+                    <td>{{formador.nombreCompleto}}</td>
+                    <td>{{formador.telefono}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="form-group">
-            <input type="text" class="form-control typeahead" id="txtApuntar" placeholder="Baden Powell"
-              sf-typeahead options="typeaheadAsociadoOpt" datasets="typeaheadAsociadoDts" ng-model="asistentPerAfegir">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="listadoParticipantes" class="listadoEntidades">
+            <form class="form-inline">
+              <div class="form-group">
+                <label><%= cursos.incluirParticipante %></label>
+              </div>
+              <div class="form-group">
+                <!-- <input type="text" class="form-control typeahead" id="txtApuntar" placeholder="Baden Powell"
+                  sf-typeahead options="C.typeaheadFormadorOpt" datasets="C.typeaheadFormadorDts" ng-model="C.formadorPorIncluir"> -->
+              </div>
+            </form>
+            <div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th><%= cursos.nombre %></th>
+                    <th><%= cursos.telefono %></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="participante in curso.participantes | orderBy:'nombreCompleto' track by participante.id">
+                    <td>{{participante.nombreCompleto}}</td>
+                    <td>{{participante.telefono}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </form>
-        <div>
-          <table class="table">
-            <thead>
-              <tr>
-                <th><%= cursos.nombre %></th>
-                <th><%= cursos.telefono %></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="formador in C.curso.formadores | orderBy:'nombreCompleto' track by formador.asociadoId">
-                <td>{{formador.nombreCompleto}}</td>
-                <td>{{formador.telefono}}</td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
@@ -60,44 +95,47 @@
               <div class="form-group">
                 <label class="col-md-3 control-label"><%= cursos.titulo %></label>
                 <div class="col-md-9">
-                  <input ng-model="actividad.nombre" type="text" class="form-control">
+                  <input ng-model="curso.titulo" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-3 control-label"><%= cursos.fecha %></label>
                 <div class="col-md-9">
-                  <input ng-model="curso.fecha" type="text" class="form-control">
+                  <input ng-model="curso.descripcionFechas" type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-md-3 control-label"><%= cursos.lugar %></label>
                 <div class="col-md-9">
-                  <input ng-model="curso.lugar" type="text" class="form-control">
+                  <input ng-model="curso.descripcionLugar" type="text" class="form-control">
                 </div>
               </div>
-              <div class="form-group multi-2">
-                <label class="col-md-3 control-label"><%= cursos.fechaInicioInscripcion %></label>
-                <div class="col-md-9">
-                  <input ng-model="curso.fechaInicioInscripcion" cudu-fecha type="text" class="form-control">
-                  <label><%= cursos.fechaFinInscripcion %></label>
-                  <input ng-model="curso.fechaFinInscripcion" cudu-fecha type="text" class="form-control">
-                </div>
-              </div>
-              <div class="form-group multi-2">
+              <div class="form-group">
                 <label class="col-md-3 control-label"><%= cursos.plazas %></label>
                 <div class="col-md-9">
                   <input ng-model="curso.plazas" type="text" class="form-control">
-                  <label><%= cursos.fechaNacimientoMinima %></label>
-                  <input ng-model="curso.fechaNacimientoMinima" cudu-fecha type="text" class="form-control">
-                </div>
                 </div>
               </div>
+              <div class="form-group multi-2">
+                <label class="col-md-3 control-label"><%= cursos.fechaInicioInscripcion  %></label>
+                <div class="col-md-9">
+                  <input ng-model="curso.fechaInicioInscripcion" type="text" class="form-control">
+                  <label><%= cursos.fechaFinInscripcion %></label>
+                  <input ng-model="curso.fechaFinInscripcion" type="text" class="form-control">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-3 control-label"><%= cursos.fechaNacimientoMinima %></label>
+                <div class="col-md-9">
+                  <input ng-model="curso.fechaNacimientoMinima" cudu-fecha type="text" class="form-control">
+                </div>
+              </div>
+            </div>
             </div>
           </div>
         </form>
       </div>
     </div>
   </div>
-</div>
 </div>
 </div>

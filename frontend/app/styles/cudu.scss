@@ -231,6 +231,8 @@ a, button {
   &.pull-left { float: none; }
   &.pull-left  > .dropdown-menu { left:-100%; margin-left:10px; }
 }
+.pull-right { float: right; }
+.pull-left { float: left; }
 
 #toast-container > div { 
   @include opacity(1); 
@@ -258,6 +260,59 @@ a, button {
   background-color: $material-grey-800; 
   .toast-progress { background-color: $material-grey-500; @include opacity(1); }  
 }
+// TODO Revisar, ver _support.scss layout-listado()
+.miembros, .actividades, .cursos-lluerna {
+
+   .actividades-listado {
+
+    div.tabla { padding: 15px }
+    table.table tr:hover { cursor: pointer; }
+    & > .row > .col-md-12 { padding: 0 }
+
+   }
+
+   #txtBusqueda {
+      font-weight: 300;
+      padding: 6px;
+      @include box-shadow(none);
+      @include border-radius(0px);
+      @include input-placeholder { color: $material-green-400; }
+      color: $material-green-900; background-color: transparent; border: 1px solid transparent;
+      &:hover, &:focus { border-bottom: 1px solid $material-green-300; }
+      &:focus {
+        border-bottom: 1px solid $material-green-500;
+        color: $material-grey-900;
+        outline: 0;
+        @include box-shadow(none);
+      }
+    }
+
+    div.listadoEntidades {
+      margin: 15px;
+      .table {
+        margin-top: 8px;
+        &>tbody>tr>th {
+          padding: 1px 0 0 0;
+          .btn { padding-left: 6px; padding-right: 6px; background-color: transparent; }
+        }
+        &>caption {
+          padding-left: 10px;
+          background: #f2f2f2;
+          padding-right: 10px;
+        }
+      }
+      .estado-N { color: $material-grey-400 }
+      .estado-S { color: $material-green-600 }
+      .estado-P, .estado-B { color: $material-green-A700 }
+      label { font-weight: normal; margin-right: 10px }
+      form { padding-left: 5px }
+      #txtApuntar {
+        &:hover { border-color: $input-border }
+        @include box-shadow(none);
+        @include border-radius(0px);
+      }
+    }
+ }
 
 @import 'secciones.scss';
 @import 'menu.scss';

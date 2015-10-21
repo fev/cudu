@@ -13,19 +13,27 @@ var Cudu;
                     var result = this.http.get("/api/lluerna/curso/completo");
                     return result;
                 };
+                CursosService.prototype.getCurso = function (id) {
+                    var result = this.http.get("/api/lluerna/curso/" + id);
+                    return result;
+                };
                 CursosService.$inject = ['$http'];
                 return CursosService;
             })();
             Cursos.CursosService = CursosService;
             var CursosController = (function () {
-                function CursosController($scope, service) {
+                function CursosController($scope, $location, service) {
                     var _this = this;
                     this.service = service;
                     this.cursos = [];
+                    this.location = $location;
                     service.listarCursos().success(function (r) { return _this.cursos = r.content; });
                     $scope.cursos = this.cursos;
                 }
-                CursosController.$inject = ['$scope', 'CursosService'];
+                CursosController.prototype.detalle = function (id) {
+                    this.location.path('/lluerna/curso/' + id);
+                };
+                CursosController.$inject = ['$scope', '$location', 'CursosService'];
                 return CursosController;
             })();
             Cursos.CursosController = CursosController;

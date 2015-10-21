@@ -27,16 +27,27 @@ module Cudu.Lluerna.Cursos {
       var result: ng.IHttpPromise<any> = this.http.get("/api/lluerna/curso/completo");
       return result;
     }
+
+    getCurso(id: number) : ng.IHttpPromise<any> {
+      var result: ng.IHttpPromise<any> = this.http.get("/api/lluerna/curso/" + id);
+      return result;
+    }
   }
 
   export class CursosController {
     cursos: Curso[];
+    location: ng.ILocationService;
 
-    static $inject = ['$scope', 'CursosService'];
-    constructor($scope: CursosControllerScope, private service: CursosService) {
+    static $inject = ['$scope', '$location', 'CursosService'];
+    constructor($scope: CursosControllerScope, $location: ng.ILocationService, private service: CursosService) {
       this.cursos = [];
+      this.location = $location;
       service.listarCursos().success((r: any) => this.cursos = r.content);
       $scope.cursos = this.cursos;
+    }
+
+    detalle(id: number) {
+      this.location.path('/lluerna/curso/' + id);
     }
   }
 }
