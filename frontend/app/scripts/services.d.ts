@@ -27,3 +27,8 @@ declare interface NotificacionesService {
   errorServidor(mensaje: string, progreso?: CallbackNotificaciones): CallbackNotificaciones;
   completado(mensaje: string, progreso?: CallbackNotificaciones): CallbackNotificaciones;
 }
+
+declare interface ITypeAhead {
+  asociado();
+  miembro();
+}
