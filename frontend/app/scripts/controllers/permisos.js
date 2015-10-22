@@ -3,11 +3,12 @@ var Cudu;
     var Permisos;
     (function (Permisos) {
         var PermisosController = (function () {
-            function PermisosController($scope, service, traducciones, notificaciones) {
+            function PermisosController($scope, service, traducciones, notificaciones, modalCambioDni) {
                 this.$scope = $scope;
                 this.service = service;
                 this.traducciones = traducciones;
                 this.notificaciones = notificaciones;
+                this.modalCambioDni = modalCambioDni;
                 service.listado().then(function (u) { $scope.usuarios = u; });
             }
             PermisosController.prototype.obtenerPermisosGrupo = function (u) {
@@ -81,6 +82,32 @@ var Cudu;
                     _this.notificaciones.errorServidor(_this.traducciones.texto('permisos.error'));
                 });
             };
+            PermisosController.prototype.mostrarDialogoCambioEmail = function (u) {
+                u.nuevoEmail = u.email;
+                this.$scope.usuarioActual = u;
+                this.$scope.cambiandoEmail = false;
+                this.$scope.errorCambioEmail = null;
+                this.modalCambioDni.show();
+            };
+            PermisosController.prototype.cambiarEmail = function () {
+                var _this = this;
+                this.$scope.cambiandoEmail = true;
+                this.service.cambiarEmail(this.$scope.usuarioActual.id, this.$scope.usuarioActual.nuevoEmail).then(function () {
+                    _this.modalCambioDni.hide();
+                    _this.$scope.usuarioActual.email = _this.$scope.usuarioActual.nuevoEmail;
+                    _this.$scope.errorCambioEmail = null;
+                }).catch(function (e) {
+                    if (e.status == 400) {
+                        _this.$scope.errorCambioEmail = _this.traducciones.texto("permisos.error.email");
+                    }
+                    else if (e.status == 409) {
+                        _this.$scope.errorCambioEmail = _this.traducciones.texto("permisos.error.emailDuplicado");
+                    }
+                    else {
+                        _this.$scope.errorCambioEmail = _this.traducciones.texto("permisos.error.servidor");
+                    }
+                }).finally(function () { _this.$scope.cambiandoEmail = false; });
+            };
             return PermisosController;
         })();
         Permisos.PermisosController = PermisosController;
@@ -99,6 +126,9 @@ var Cudu;
             PermisosServiceImpl.prototype.editarPermisosUsuario = function (command) {
                 return this.http.put("/api/usuario/" + command.usuarioId + '/permisos', command);
             };
+            PermisosServiceImpl.prototype.cambiarEmail = function (usuarioId, email) {
+                return this.http.put("/api/usuario/" + usuarioId + "/email", email);
+            };
             return PermisosServiceImpl;
         })();
         function PermisosServiceFactory($http, usuarioService) {
@@ -108,5 +138,6 @@ var Cudu;
     })(Permisos = Cudu.Permisos || (Cudu.Permisos = {}));
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
-    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', Cudu.Permisos.PermisosController])
-    .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory]);
+    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', Cudu.Permisos.PermisosController])
+    .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
+    .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true));

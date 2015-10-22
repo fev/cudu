@@ -35,4 +35,29 @@
 
   .toast-error { background-color: $material-deep-orange-200; color: $material-deep-orange-900 !important; }
   .toast-error:before { color: $material-deep-orange-900 !important; }
+
+  .modal {
+    .btn {
+      color: $material-red-700;
+      text-transform: uppercase; border-color: transparent;
+      i.fa { margin-right: 10px; color: $material-red-700 }
+    }
+    .btn-primary {
+      font-weight: 400; color: $material-red-700; background-color: transparent; border-color: transparent;
+      &:hover {
+        background-color: $material-red-700; color: #FFFFFF;
+        i.fa { color: #FFFFFF }
+      }
+    }
+    .modal-footer {
+      border-top: 0; padding-top: 0px; padding-bottom: 15px;
+      .btn+.btn { margin-left: 0 }
+    }
+    .errores { color: $material-red-700; }
+  }
+
+  #dlgCambiarEmailInput {
+    @include border-radius(0);
+    &:focus { border-color: #CCC; outline: 0; @include box-shadow(none); }
+  }
 }

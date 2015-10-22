@@ -38,7 +38,7 @@
         <ul class="nav navbar-nav">
           <li class="rol-asociado" ng-class="{active: controlador === 'AsociadoCtrl'}"><a href="#/asociados">{{::menu.asociados}}</a></li>
           <li class="rol-tecnico"><a href="#/asociados">{{::menu.asociados}}</a></li>
-          <li class="rol-asociado" ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/{{::menu.codigoGrupo}}">{{::menu.migrupo}}</a></li>          
+          <li class="rol-asociado" ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/{{::menu.codigoGrupo}}">{{::menu.migrupo}}</a></li>
           <li class="rol-asociado"><a href="#/cursos">{{::menu.cursos}}</a></li>
           <li class="rol-lluerna"><a href="#/lluerna/miembros">{{::menu.miembros}}</a></li>
           <li class="rol-lluerna"><a href="#/lluerna/cursos">{{::menu.cursos}}</a></li>
@@ -88,6 +88,7 @@
   <!-- /build -->
   <!-- build:js scripts/cudu.min.js -->
   <script src="scripts/app.js"></script>
+  <script src="scripts/support.js"></script>
   <script src="scripts/traducciones/traducciones.js"></script>
   <script src="scripts/modules/rama.js"></script>
   <script src="scripts/services.js"></script>

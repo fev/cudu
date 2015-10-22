@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.storage.TokenRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
+import org.scoutsfev.cudu.storage.UsuarioStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,5 +194,10 @@ public class UsuarioService implements UserDetailsService {
         // por lo que no contiene los cambios realizados. Rellenamos la propiedad con el nuevo codigo.
         usuario.setLenguaje(codigo);
         return true;
+    }
+
+    public Boolean existeOtroUsuario(Integer asociadoId, String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        return usuario != null && !usuario.getId().equals(asociadoId);
     }
 }

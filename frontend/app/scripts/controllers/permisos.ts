@@ -1,5 +1,6 @@
 /// <reference path="../../../typings/tsd.d.ts"/>
 /// <reference path="../services.d.ts"/>
+/// <reference path="../support"/>
 
 module Cudu.Permisos {
 
@@ -7,6 +8,7 @@ module Cudu.Permisos {
       id: number;
       nombreCompleto: string;
       email: string;
+      nuevoEmail: string;
       calidadPassword: number;
       ambitoEdicion: string;
       restricciones: Restricciones;
@@ -25,11 +27,16 @@ module Cudu.Permisos {
 
     interface PermisosScope extends ng.IScope {
       usuarios: Usuario[];
+      usuarioActual: Usuario;
+      errorCambioEmail: string;
+      cambiandoEmail: boolean;
     }
 
     export class PermisosController {
+
       constructor(private $scope: PermisosScope, private service: PermisosService,
-        private traducciones: TraduccionesService, private notificaciones: NotificacionesService) {
+        private traducciones: TraduccionesService, private notificaciones: NotificacionesService,
+        private modalCambioDni : Cudu.Ux.Modal) {
         service.listado().then(u => { $scope.usuarios = u; });
       }
 
@@ -108,11 +115,37 @@ module Cudu.Permisos {
           this.notificaciones.errorServidor(this.traducciones.texto('permisos.error'));
         });
       }
+
+      mostrarDialogoCambioEmail(u: Usuario) {
+        u.nuevoEmail = u.email;
+        this.$scope.usuarioActual = u;
+        this.$scope.cambiandoEmail = false;
+        this.$scope.errorCambioEmail = null;
+        this.modalCambioDni.show();
+      }
+
+      cambiarEmail() {
+        this.$scope.cambiandoEmail = true;
+        this.service.cambiarEmail(this.$scope.usuarioActual.id, this.$scope.usuarioActual.nuevoEmail).then(() => {
+          this.modalCambioDni.hide();
+          this.$scope.usuarioActual.email = this.$scope.usuarioActual.nuevoEmail;
+          this.$scope.errorCambioEmail = null;
+        }).catch(e => {
+          if (e.status == 400) {
+            this.$scope.errorCambioEmail = this.traducciones.texto("permisos.error.email");
+          } else if (e.status == 409) {
+            this.$scope.errorCambioEmail = this.traducciones.texto("permisos.error.emailDuplicado");
+          } else {
+            this.$scope.errorCambioEmail = this.traducciones.texto("permisos.error.servidor");
+          }
+        }).finally(() => { this.$scope.cambiandoEmail = false });
+      }
     }
 
     interface PermisosService {
       listado(): ng.IPromise<Usuario[]>;
-      editarPermisosUsuario(command): ng.IPromise<{}>;
+      editarPermisosUsuario(command: EditarPermisosUsuario): ng.IPromise<{}>;
+      cambiarEmail(usuarioId: number, email: String): ng.IPromise<{}>;
     }
 
     class PermisosServiceImpl implements PermisosService {
@@ -130,6 +163,10 @@ module Cudu.Permisos {
       editarPermisosUsuario(command) {
         return this.http.put("/api/usuario/" + command.usuarioId + '/permisos', command);
       }
+
+      cambiarEmail(usuarioId, email) {
+        return this.http.put("/api/usuario/" + usuarioId + "/email", email);
+      }
     }
 
     export function PermisosServiceFactory($http: ng.IHttpService, usuarioService: UsuarioService): PermisosService {
@@ -138,5 +175,6 @@ module Cudu.Permisos {
 }
 
 angular.module('cuduApp')
-  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', Cudu.Permisos.PermisosController])
-  .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory]);
+  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', Cudu.Permisos.PermisosController])
+  .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
+  .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))

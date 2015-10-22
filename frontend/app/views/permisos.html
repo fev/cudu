@@ -57,7 +57,7 @@
                       <%=permisos.activa %> <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a href="javascript:" ng-click=""><%=permisos.cambiarEmail %></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.mostrarDialogoCambioEmail(u)"><%=permisos.cambiarEmail %></a></li>
                       <li><a href="javascript:" ng-click=""><%=permisos.recuperarContraseña %></a></li>
                       <li class="divider"></li>
                       <li><a href="javascript:" ng-click=""><%=permisos.eliminarCuenta %></a></li>
@@ -65,33 +65,6 @@
                   </div>
                 </td>
               </tr>
-              <!-- <tr>
-                <td>Quincy Cunningham Parrish</td>
-                <td>Expedición</td>
-                <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></td>
-                <td>hace media hora</td>
-                <td>Edición</td>
-                <td>Todos</td>
-                <td>Activa</td>
-              </tr>
-              <tr>
-                <td>Jack Sparrow</td>
-                <td>Ruta</td>
-                <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i></td>
-                <td>hace 3 meses</td>
-                <td>Sólo lectura</td>
-                <td>Sólo su rama</td>
-                <td>Activa</td>
-              </tr>
-              <tr>
-                <td>Aline Acosta Ericksön</td>
-                <td>Ruta</td>
-                <td><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i></td>
-                <td>hace 2 semanas</td>
-                <td>Sin acceso</td>
-                <td>Sólo sus datos</td>
-                <td>Activa</td>
-              </tr> -->
             </tbody>
           </table>
         </div>
@@ -116,5 +89,33 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div id="dlgCambiarEmail" class="modal fade permisos">
+  <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          Introduce la nueva dirección de email para el usuario:
+        </div>
+        <div class="form-group">
+          <input ng-model="usuarioActual.nuevoEmail" id="dlgCambiarEmailInput" type="email"
+          ng-keydown="$event.which === 13 && ctrl.cambiarEmail()" class="form-control"
+          placeholder="Email" spellcheck="false" autocomplete="off">
+        </div>
+        <div class="form-group errores" ng-show="errorCambioEmail != null">
+          * {{errorCambioEmail}}
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button ng-click="ctrl.cambiarEmail()" type="button" class="btn btn-primary">
+        <i class="fa fa-spinner fa-spin" ng-show="cambiandoEmail"></i><%= reset.cambiar %>
+      </button>
+      <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>
+    </div>
+  </div>
+  </div>
   </div>
 </div>

@@ -9,4 +9,5 @@ import java.util.List;
 public interface UsuarioStorage {
     List<UsuarioPermisosDto> obtenerUsuariosDeUnGrupo(String grupoId);
     void establecerPermisos(EditarPermisosUsuario command, AmbitoEdicion ambitoEdicion);
+    void cambiarEmail(Integer asociadoId, String email);
 }

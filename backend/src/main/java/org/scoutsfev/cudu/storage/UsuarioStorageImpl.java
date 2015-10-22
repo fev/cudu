@@ -65,4 +65,9 @@ public class UsuarioStorageImpl implements UsuarioStorage {
             .where(ASOCIADO.ID.eq(command.getUsuarioId()))
             .execute();
     }
+
+    @Override
+    public void cambiarEmail(Integer asociadoId, String email) {
+        context.update(ASOCIADO).set(ASOCIADO.EMAIL, email).where(ASOCIADO.ID.eq(asociadoId)).execute();
+    }
 }

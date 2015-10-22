@@ -172,13 +172,28 @@ public class UsuarioController {
     @RequestMapping(value = "/{asociadoId}/permisos", method = RequestMethod.PUT)
     public ResponseEntity editarPermisosUsuario(@RequestBody @Valid EditarPermisosUsuario command, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
         if (!authorizationService.puedeEditarAsociado(asociadoId, usuario)) {
-            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /usuario/permisos/" + asociadoId));
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "PUT /usuario/" + asociadoId + "/permisos"));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         // De momento sólo permitimos ambitos de edición de grupo o personales, el command restringe el resto.
         command.setUsuarioId(asociadoId);
         AmbitoEdicion ambito = command.isAmbitoPersonal() ? AmbitoEdicion.Personal : AmbitoEdicion.Grupo;
         usuarioStorage.establecerPermisos(command, ambito);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{asociadoId}/email", method = RequestMethod.PUT)
+    public ResponseEntity cambiarEmail(@RequestBody @Valid @Email String email, @PathVariable("asociadoId") Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
+        if (!authorizationService.puedeEditarAsociado(asociadoId, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "PUT /usuario/" + asociadoId + "/email"));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        if (usuarioService.existeOtroUsuario(asociadoId, email))
+            return new ResponseEntity(HttpStatus.CONFLICT);
+
+        usuarioStorage.cambiarEmail(asociadoId, email);
+        eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getPassword(), EventosAuditoria.CambioEmail, "PUT /usuario/" + asociadoId + "/email"));
         return new ResponseEntity(HttpStatus.OK);
     }
 }
