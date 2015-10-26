@@ -2,6 +2,7 @@ package org.scoutsfev.cudu.storage;
 
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto;
+import org.scoutsfev.cudu.domain.dto.FormadorDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
@@ -36,4 +37,7 @@ public interface AsociadoRepository extends PagingAndSortingRepository<Asociado,
     @Query("SELECT new org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto(A.id, A.grupoId, A.activo, A.nombre, A.apellidos, A.email, A.telefonoMovil, A.telefonoCasa) FROM Asociado A " +
             "WHERE (lower(A.nombre) LIKE :texto% OR lower(A.apellidos) LIKE :texto%) AND (EDAD(A.fechaNacimiento) >= 18)")
     Page<AsociadoTypeaheadDto> typeahead(@Param("texto") String texto, Pageable pageable);
+
+    @Query(value = "SELECT new org.scoutsfev.cudu.domain.dto.FormadorDto(F.id, F.nombreCompleto, F.telefono) FROM MiembroEscuelaDto F WHERE lower(F.nombreCompleto) LIKE :texto% AND F.cargoId = 34")
+    Page<FormadorDto> formadorTypeAhead(@Param("texto") String texto, Pageable pageable);
 }

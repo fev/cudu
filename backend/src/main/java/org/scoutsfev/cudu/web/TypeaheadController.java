@@ -2,8 +2,10 @@ package org.scoutsfev.cudu.web;
 
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto;
+import org.scoutsfev.cudu.domain.dto.FormadorDto;
 import org.scoutsfev.cudu.domain.dto.MiembroEscuelaDto;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.storage.dto.MiembroEscuelaDtoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,4 +34,9 @@ public class TypeaheadController {
     public Page<AsociadoTypeaheadDto> miembros(@PathVariable String query, @AuthenticationPrincipal Usuario usuario) {
         return asociadoRepository.typeahead(query.toLowerCase(), new PageRequest(0, 30));
     }
+
+    @RequestMapping(value = "/typeahead/formador/{query}", method = RequestMethod.GET)
+    public Page<FormadorDto> formadores(@PathVariable String query, @AuthenticationPrincipal Usuario usuario) {
+        return asociadoRepository.formadorTypeAhead(query.toLowerCase(), new PageRequest(0, 30));
+    }   
 }
