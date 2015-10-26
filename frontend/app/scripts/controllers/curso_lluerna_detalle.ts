@@ -29,11 +29,25 @@ module Cudu.Lluerna.Cursos.Detalle {
       static $inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead'];
       constructor($scope: CursoLluernaScope, $routeParams: CursoLluernaParams, cursoService: CursosService, TypeAhead: ITypeAhead) {
         $scope.typeaheadFormadorOpt = { highlight: true, editable: false };
-        $scope.typeaheadFormadorDts = TypeAhead.miembro();
+        $scope.typeaheadFormadorDts = TypeAhead.formador();
         $scope.miembroPorIncluir = null;
 
-        var id = +$routeParams.id;
-        var curso = cursoService.getCurso(id).success(c => $scope.curso = c);
+        $scope.$on('typeahead:selected', function(e, miembro) {
+          if(!_.isUndefined(_.findWhere($scope.curso.formadores, { 'id': miembro.id }))) {
+            return;
+          }
+          $scope.curso.formadores.unshift( { "id": miembro.id, "nombreCompleto": miembro.nombreCompleto, "nuevo": true })
+          $scope.$apply(); //TODO: remove
+        });
+
+        cursoService.getCurso(+$routeParams.id).success(c => {
+          var formadores = _.map(c.formadores, (f: any) => {
+            f.nuevo = false;
+            return f;
+          });
+          c.formadores = formadores;
+          $scope.curso = c;
+        });
       }
     }
 }

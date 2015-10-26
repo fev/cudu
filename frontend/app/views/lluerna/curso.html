@@ -16,7 +16,7 @@
               </div>
             </form>
             <div>
-              <table class="table">
+              <table class="table" >
                 <thead>
                   <tr>
                     <th><%= cursos.nombre %></th>
@@ -24,7 +24,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="formador in curso.formadores | orderBy:'nombreCompleto' track by formador.id">
+                  <tr ng-repeat="formador in curso.formadores | orderBy:'nombreCompleto' track by formador.id" ng-class="{ 'flash': formador.nuevo }">
                     <td>{{formador.nombreCompleto}}</td>
                     <td>{{formador.telefono}}</td>
                   </tr>

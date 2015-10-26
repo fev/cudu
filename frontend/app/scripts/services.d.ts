@@ -31,4 +31,5 @@ declare interface NotificacionesService {
 declare interface ITypeAhead {
   asociado();
   miembro();
+  formador();
 }

@@ -9,10 +9,23 @@ var Cudu;
                 var CursoLluernaController = (function () {
                     function CursoLluernaController($scope, $routeParams, cursoService, TypeAhead) {
                         $scope.typeaheadFormadorOpt = { highlight: true, editable: false };
-                        $scope.typeaheadFormadorDts = TypeAhead.miembro();
+                        $scope.typeaheadFormadorDts = TypeAhead.formador();
                         $scope.miembroPorIncluir = null;
-                        var id = +$routeParams.id;
-                        var curso = cursoService.getCurso(id).success(function (c) { return $scope.curso = c; });
+                        $scope.$on('typeahead:selected', function (e, miembro) {
+                            if (!_.isUndefined(_.findWhere($scope.curso.formadores, { 'id': miembro.id }))) {
+                                return;
+                            }
+                            $scope.curso.formadores.unshift({ "id": miembro.id, "nombreCompleto": miembro.nombreCompleto, "nuevo": true });
+                            $scope.$apply();
+                        });
+                        cursoService.getCurso(+$routeParams.id).success(function (c) {
+                            var formadores = _.map(c.formadores, function (f) {
+                                f.nuevo = false;
+                                return f;
+                            });
+                            c.formadores = formadores;
+                            $scope.curso = c;
+                        });
                     }
                     CursoLluernaController.$inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead'];
                     return CursoLluernaController;

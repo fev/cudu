@@ -9,6 +9,7 @@ module Cudu.Lluerna.Cursos {
     fechaFinInscripcion: string[];
     plazas: number;
     fechaNacimientoMinima: string[];
+    formadores: any[];
   }
 
   export interface CursosControllerScope extends ng.IScope {

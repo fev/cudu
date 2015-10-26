@@ -52,7 +52,7 @@ cuduServices.factory('Actividad', ['$resource',
       'canviarEstat'    : { url: '/api/actividad/:id/asociado/:asociadoId/estado', method: 'POST' }
     });
   }]);
-  
+
   cuduServices.factory('Ficha', ['$http',
   function($http) {
     return {
@@ -83,9 +83,8 @@ cuduServices.factory('Actividad', ['$resource',
   }]);
 
 cuduServices.factory('Typeahead', [function() {
-  // TODO Duplica CuduTypeaheadDataSetFactory en support.ts, reemplazar
-  var typeahead = function(entidad, displayKey) {
-    var dkFnc = displayKey || function(r) { return r.nombre + ' ' + r.apellidos; };
+  var typeahead = function(entidad, fn, displayKey) {
+    var dkFnc = displayKey || fn;
     return function() {
       var source = new Bloodhound({
         datumTokenizer: function(d) { return Bloodhound.tokenizers.whitespace(d.nombre); },
@@ -101,8 +100,9 @@ cuduServices.factory('Typeahead', [function() {
     };
   };
   return {
-    'asociado': typeahead('asociado'),
-    'miembro': typeahead('miembro')
+    'asociado': typeahead('asociado', function(e) { return e.nombre + ' ' + e.apellidos; }),
+    'miembro': typeahead('miembro',  function(e) { return e.nombre + ' ' + e.apellidos; }),
+    'formador': typeahead('formador', function(e) { return e.nombreCompleto; })
   };
 }]);
 
@@ -155,9 +155,9 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
 
   svc.obtenerActualDelServidor = function() {
     var respuesta = $http.get('/api/usuario/actual');
-    respuesta.success(function(data, status) { 
+    respuesta.success(function(data, status) {
       svc.usuario = data;
-      usuarioDiferido.resolve(data);      
+      usuarioDiferido.resolve(data);
     }); // 403 redirige al login
     return respuesta;
   };
@@ -260,7 +260,7 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
         rolMenu = RolesMenu.TECNICO;
       }
       $('body').addClass(rolMenu);
-    }    
+    }
   };
 }]);
 
@@ -281,7 +281,7 @@ cuduServices.factory('Notificaciones', function() {
       progreso.cerrar();
       toastr.error(mensaje, "Error del servidor");
     },
-    completado: function(mensaje, progreso) {      
+    completado: function(mensaje, progreso) {
       progreso = progreso || { cerrar: function() { toastr.clear(); } };
       progreso.cerrar();
       toastr.info(mensaje);
