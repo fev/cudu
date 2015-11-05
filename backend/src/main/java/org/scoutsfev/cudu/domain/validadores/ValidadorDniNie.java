@@ -52,11 +52,15 @@ public class ValidadorDniNie implements ConstraintValidator<ValidarDniNie, Asoci
         }
 
         if (CharMatcher.anyOf("KLMXYZ").matches(dni.charAt(0))) {
-            boolean correcto = CharMatcher.JAVA_DIGIT.matchesAllOf(dni.substring(1, dni.length()));
-            if (!correcto) {
-                context.buildConstraintViolationWithTemplate(MSG_FORMATO_INCORRECTO).addConstraintViolation();
-                return false;
-            }
+            // boolean correcto = CharMatcher.JAVA_DIGIT.matchesAllOf(dni.substring(1, dni.length()));
+            // Desactivamos la validación de NIEs por ahora, hay que sustituir X:0, Y:1, Z:2 y validar
+            // http://www.agenciatributaria.es/AEAT.desarrolladores/Desarrolladores/_menu_/Descarga_de_modulos/Descarga_de_modulos.html
+            // Abrir pull-request en la AEAT... ah no, que no tienen publicado el código
+
+            //if (!correcto) {
+            //    context.buildConstraintViolationWithTemplate(MSG_FORMATO_INCORRECTO).addConstraintViolation();
+            //    return false;
+            //}
             return true;
         }
 
