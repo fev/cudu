@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TypeaheadController {
@@ -35,8 +32,13 @@ public class TypeaheadController {
         return asociadoRepository.typeahead(query.toLowerCase(), new PageRequest(0, 30));
     }
 
+    @RequestMapping(value = "/typeahead/curso/{cursoId}/participante/{query}", method = RequestMethod.GET)
+    public Page<AsociadoTypeaheadDto> participantes(@PathVariable String query, @PathVariable int cursoId, @AuthenticationPrincipal Usuario usuario) {
+        return asociadoRepository.participanteTypeAhead(query.toLowerCase(), cursoId, new PageRequest(0, 30));
+    }
+
     @RequestMapping(value = "/typeahead/formador/{query}", method = RequestMethod.GET)
     public Page<FormadorDto> formadores(@PathVariable String query, @AuthenticationPrincipal Usuario usuario) {
         return asociadoRepository.formadorTypeAhead(query.toLowerCase(), new PageRequest(0, 30));
-    }   
+    }
 }

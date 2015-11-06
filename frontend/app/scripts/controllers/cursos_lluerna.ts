@@ -33,6 +33,14 @@ module Cudu.Lluerna.Cursos {
       var result: ng.IHttpPromise<any> = this.http.get("/api/lluerna/curso/" + id);
       return result;
     }
+
+    añadirFormador(cursoId: number, formadorId: number): ng.IHttpPromise<any> {
+      return this.http.post('/api/lluerna/curso/' + cursoId + '/formadores', formadorId);
+      }
+
+    eliminarFormador(cursoId: number, formadorId: number): ng.IHttpPromise<any> {
+      return this.http.delete('/api/lluerna/curso/' + cursoId + '/formadores/' + formadorId);
+    }
   }
 
   export class CursosController {

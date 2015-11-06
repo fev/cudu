@@ -32,4 +32,5 @@ declare interface ITypeAhead {
   asociado();
   miembro();
   formador();
+  participante(cursoId: number);
 }

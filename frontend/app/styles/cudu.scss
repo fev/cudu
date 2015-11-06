@@ -194,11 +194,11 @@ a, button {
 }
 
 // typeahead.js
-.tt-menu {
+.tt-dropdown-menu {
   background-color: #FFF;
   border: 1px solid $input-border;
   max-height: 200px; min-width: 250px;
-  overflow-y: auto; 
+  overflow-y: auto;
   /* solo si existe textbox encima: margin-top: -1px; */
 }
 .tt-suggestion { padding: 6px 8px; height: 32px; line-height: 20px; }
@@ -218,14 +218,14 @@ a, button {
 
 .modal .modal-dialog .modal-content { @include border-radius(0px); }
 
-.dropdown-submenu { 
-  position:relative; 
+.dropdown-submenu {
+  position:relative;
   > .dropdown-menu { top: 0; left: 100%; margin-top: -6px !important; margin-left: -1px; }
   &:hover > .dropdown-menu { display: block; }
-  > a:after { display:block; content:" "; float:right; width:0; height:0; 
+  > a:after { display:block; content:" "; float:right; width:0; height:0;
     border-style:solid; border-width:5px 0 5px 5px; border-left-color: #555;
     color: #FFF;
-    margin-top:5px;margin-right:-10px; 
+    margin-top:5px;margin-right:-10px;
   }
   &:hover > a:after{ border-left-color: #555; color: #FFF }
   &.pull-left { float: none; }
@@ -234,9 +234,9 @@ a, button {
 .pull-right { float: right; }
 .pull-left { float: left; }
 
-#toast-container > div { 
-  @include opacity(1); 
-  @include border-radius(0); 
+#toast-container > div {
+  @include opacity(1);
+  @include border-radius(0);
   @include box-shadow($material-bottom-shadow-1);
 }
 #toast-container {
@@ -253,15 +253,19 @@ a, button {
   }
   > .toast-error:before { content: "\f071"; margin: auto 0.5em auto -34px; line-height: 37px }
   > .toast-info:before { content: "\f00c"; font-size: inherit; margin: auto -27px }
-  > .toast-en-curso:before { content: "\f021"; font-size: inherit; margin: auto -27px }  
+  > .toast-en-curso:before { content: "\f021"; font-size: inherit; margin: auto -27px }
   > :hover { @include box-shadow($material-bottom-shadow-1); }
 }
-.toast-info, .toast-en-curso { 
-  background-color: $material-grey-800; 
-  .toast-progress { background-color: $material-grey-500; @include opacity(1); }  
+.toast-info, .toast-en-curso {
+  background-color: $material-grey-800;
+  .toast-progress { background-color: $material-grey-500; @include opacity(1); }
 }
 // TODO Revisar, ver _support.scss layout-listado()
-.miembros, .actividades, .cursos-lluerna {
+.miembros, .actividades, .cursos-lluerna, .cursos-lluerna-detalle {
+
+  .listadoEntidades {
+    table.table tr:hover { cursor: pointer; }
+  }
 
    .actividades-listado {
 

@@ -101,8 +101,9 @@ cuduServices.factory('Typeahead', [function() {
   };
   return {
     'asociado': typeahead('asociado', function(e) { return e.nombre + ' ' + e.apellidos; }),
-    'miembro': typeahead('miembro',  function(e) { return e.nombre + ' ' + e.apellidos; }),
-    'formador': typeahead('formador', function(e) { return e.nombreCompleto; })
+    'miembro': typeahead('miembro', function(e) { return e.nombre + ' ' + e.apellidos; }),
+    'formador': typeahead('formador', function(e) { return e.nombreCompleto; }),
+    'participante' : function(cursoId) { return typeahead('curso/' + cursoId + '/participante', function(e) { return e.nombre + ' ' + e.apellidos; })(cursoId); }
   };
 }]);
 

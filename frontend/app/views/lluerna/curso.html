@@ -1,4 +1,4 @@
-<div class="container contenedor-central cursos-lluerna-detalle" ng-controller="CursoLluernaController">
+<div class="container contenedor-central cursos-lluerna-detalle" ng-controller="CursoLluernaController as C">
 <div class="row">
 <div class="col-md-12">
   <div class="row">
@@ -16,7 +16,7 @@
               </div>
             </form>
             <div>
-              <table class="table" >
+              <table class="table table-hover">
                 <thead>
                   <tr>
                     <th><%= cursos.nombre %></th>
@@ -24,7 +24,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="formador in curso.formadores | orderBy:'nombreCompleto' track by formador.id" ng-class="{ 'flash': formador.nuevo }">
+                  <tr ng-repeat="formador in curso.formadores | orderBy:'nombreCompleto' track by formador.id" ng-class="{ 'flash': formador.nuevo }" ng-click="C.eliminarFormador(formador.id)">
                     <td>{{formador.nombreCompleto}}</td>
                     <td>{{formador.telefono}}</td>
                   </tr>
@@ -42,8 +42,8 @@
                 <label><%= cursos.incluirParticipante %></label>
               </div>
               <div class="form-group">
-                <!-- <input type="text" class="form-control typeahead" id="txtApuntar" placeholder="Baden Powell"
-                  sf-typeahead options="C.typeaheadFormadorOpt" datasets="C.typeaheadFormadorDts" ng-model="C.formadorPorIncluir"> -->
+                <input type="text" class="form-control typeahead" id="txtParticipante" placeholder="Baden Powell"
+                  sf-typeahead options="typeaheadParticipanteOpt" datasets="typeaheadParticipanteDts" ng-model="participantePorIncluir">
               </div>
             </form>
             <div>

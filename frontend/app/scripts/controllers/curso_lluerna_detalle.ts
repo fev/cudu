@@ -7,9 +7,8 @@ module Cudu.Lluerna.Cursos.Detalle {
       editable: boolean;
     }
 
-    export interface Miembro {
-
-    }
+    export interface Miembro { }
+    export interface Participante { }
 
     export interface CursoLluernaParams extends angular.route.IRouteParamsService {
         id: string;
@@ -18,8 +17,11 @@ module Cudu.Lluerna.Cursos.Detalle {
     export interface CursoLluernaScope extends ng.IScope {
       curso: Curso;
       typeaheadFormadorOpt: TypeAheadOptions;
+      typeaheadParticipanteOpt: TypeAheadOptions;
       miembroPorIncluir: Miembro;
+      participantePorIncluir: Participante;
       typeaheadFormadorDts: any[];
+      typeaheadParticipanteDts: any[];
     }
 
     export class CursoLluernaController {
@@ -27,17 +29,19 @@ module Cudu.Lluerna.Cursos.Detalle {
       scope: CursoLluernaScope;
 
       static $inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead'];
-      constructor($scope: CursoLluernaScope, $routeParams: CursoLluernaParams, cursoService: CursosService, TypeAhead: ITypeAhead) {
-        $scope.typeaheadFormadorOpt = { highlight: true, editable: false };
+      constructor(private $scope: CursoLluernaScope, $routeParams: CursoLluernaParams, private cursoService: CursosService, TypeAhead: ITypeAhead) {
+        $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
         $scope.typeaheadFormadorDts = TypeAhead.formador();
-        $scope.miembroPorIncluir = null;
+        $scope.typeaheadParticipanteDts = TypeAhead.participante(+$routeParams.id);
+        $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
 
         $scope.$on('typeahead:selected', function(e, miembro) {
           if(!_.isUndefined(_.findWhere($scope.curso.formadores, { 'id': miembro.id }))) {
             return;
           }
-          $scope.curso.formadores.unshift( { "id": miembro.id, "nombreCompleto": miembro.nombreCompleto, "nuevo": true })
-          $scope.$apply(); //TODO: remove
+          cursoService.añadirFormador($scope.curso.id, miembro.id).success(() => {
+            $scope.curso.formadores.unshift( { "id": miembro.id, "nombreCompleto": miembro.nombreCompleto, "nuevo": true })
+          }).error((e) => { alert(e) });
         });
 
         cursoService.getCurso(+$routeParams.id).success(c => {
@@ -48,6 +52,12 @@ module Cudu.Lluerna.Cursos.Detalle {
           c.formadores = formadores;
           $scope.curso = c;
         });
+      }
+
+      eliminarFormador(formadorId: number) {
+        this.cursoService.eliminarFormador(this.$scope.curso.id, formadorId).success(() => {
+          _.remove(this.$scope.curso.formadores, (f) => f.id == formadorId);
+        }).error((e) => { alert(e) });
       }
     }
 }

@@ -16,6 +16,12 @@ var Cudu;
                     var result = this.http.get("/api/lluerna/curso/" + id);
                     return result;
                 };
+                CursosService.prototype.añadirFormador = function (cursoId, formadorId) {
+                    return this.http.post('/api/lluerna/curso/' + cursoId + '/formadores', formadorId);
+                };
+                CursosService.prototype.eliminarFormador = function (cursoId, formadorId) {
+                    return this.http.delete('/api/lluerna/curso/' + cursoId + '/formadores/' + formadorId);
+                };
                 CursosService.$inject = ['$http'];
                 return CursosService;
             })();
