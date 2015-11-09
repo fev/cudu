@@ -36,11 +36,15 @@
   .toast-error { background-color: $material-deep-orange-200; color: $material-deep-orange-900 !important; }
   .toast-error:before { color: $material-deep-orange-900 !important; }
 
+  .solo-progreso { display: none }
+  .progreso .solo-progreso { display: initial }
+
   .modal {
     .btn {
       color: $material-red-700;
       text-transform: uppercase; border-color: transparent;
       i.fa { margin-right: 10px; color: $material-red-700 }
+      &:hover { background-color: $material-red-100 }
     }
     .btn-primary {
       font-weight: 400; color: $material-red-700; background-color: transparent; border-color: transparent;

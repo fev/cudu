@@ -91,7 +91,7 @@
     </div>
   </div>
 
-  <div id="dlgCambiarEmail" class="modal fade permisos">
+  <div id="dlgCambiarEmail" class="modal fade" ng-class="{'progreso': cambiandoEmail}">
   <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-body">
@@ -111,7 +111,7 @@
     </div>
     <div class="modal-footer">
       <button ng-click="ctrl.cambiarEmail()" type="button" class="btn btn-primary">
-        <i class="fa fa-spinner fa-spin" ng-show="cambiandoEmail"></i><%= reset.cambiar %>
+        <i class="fa fa-spinner fa-spin solo-progreso"></i><%= reset.cambiar %>
       </button>
       <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>
     </div>
