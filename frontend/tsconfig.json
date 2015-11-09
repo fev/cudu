@@ -20,19 +20,19 @@
         "!./node_modules/**/*"
     ],
     "files": [
-        "app/scripts/controllers/cursos_lluerna.ts",
-        "app/scripts/controllers/cursos.ts",
-        "app/scripts/controllers/permisos.ts",
-        "app/scripts/services.d.ts",
-        "app/scripts/support.ts",
-        "typings/angularjs/angular-resource.d.ts",
-        "typings/angularjs/angular.d.ts",
-        "typings/jquery/jquery.d.ts",
-        "typings/lodash/lodash.d.ts",
-        "typings/moment/moment-node.d.ts",
-        "typings/moment/moment.d.ts",
-        "typings/q/Q.d.ts",
-        "typings/tsd.d.ts"
+        "./app/scripts/controllers/cursos_lluerna.ts",
+        "./app/scripts/controllers/cursos.ts",
+        "./app/scripts/controllers/permisos.ts",
+        "./app/scripts/services.d.ts",
+        "./app/scripts/support.ts",
+        "./typings/angularjs/angular-resource.d.ts",
+        "./typings/angularjs/angular.d.ts",
+        "./typings/jquery/jquery.d.ts",
+        "./typings/lodash/lodash.d.ts",
+        "./typings/moment/moment-node.d.ts",
+        "./typings/moment/moment.d.ts",
+        "./typings/q/Q.d.ts",
+        "./typings/tsd.d.ts"
     ],
     "exclude": []
 }
