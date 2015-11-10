@@ -10,6 +10,7 @@ module Cudu.Lluerna.Cursos {
     plazas: number;
     fechaNacimientoMinima: string[];
     formadores: any[];
+    participantes: any[];
   }
 
   export interface CursosControllerScope extends ng.IScope {
@@ -36,10 +37,18 @@ module Cudu.Lluerna.Cursos {
 
     añadirFormador(cursoId: number, formadorId: number): ng.IHttpPromise<any> {
       return this.http.post('/api/lluerna/curso/' + cursoId + '/formadores', formadorId);
-      }
+    }
 
     eliminarFormador(cursoId: number, formadorId: number): ng.IHttpPromise<any> {
       return this.http.delete('/api/lluerna/curso/' + cursoId + '/formadores/' + formadorId);
+    }
+
+    añadirParticipante(cursoId: number, participanteId: number): ng.IHttpPromise<any> {
+      return this.http.post('/api/lluerna/curso/' + cursoId + '/participantes', participanteId);
+    }
+
+    eliminarParticipante(cursoId: number, participanteId: number): ng.IHttpPromise<any> {
+      return this.http.delete('/api/lluerna/curso/' + cursoId + '/participantes/' + participanteId);
     }
   }
 
