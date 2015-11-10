@@ -19,8 +19,8 @@
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th><%= cursos.nombre %></th>
-                    <th><%= cursos.telefono %></th>
+                    <th width="60%"><%= cursos.nombre %></th>
+                    <th width="40%"><%= cursos.telefono %></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -50,8 +50,8 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th><%= cursos.nombre %></th>
-                    <th><%= cursos.telefono %></th>
+                    <th width="60%"><%= cursos.nombre %></th>
+                    <th width="40%"><%= cursos.telefono %></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -119,9 +119,9 @@
               <div class="form-group multi-2">
                 <label class="col-md-3 control-label"><%= cursos.fechaInicioInscripcion  %></label>
                 <div class="col-md-9">
-                  <input ng-model="curso.fechaInicioInscripcion" type="text" class="form-control">
+                  <input ng-model="curso.fechaInicioInscripcion" cudu-fecha type="text" class="form-control">
                   <label><%= cursos.fechaFinInscripcion %></label>
-                  <input ng-model="curso.fechaFinInscripcion" type="text" class="form-control">
+                  <input ng-model="curso.fechaFinInscripcion" cudu-fecha type="text" class="form-control">
                 </div>
               </div>
               <div class="form-group">
