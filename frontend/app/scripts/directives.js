@@ -39,6 +39,9 @@ angular.module('cuduApp')
 
         ngModel.$formatters.push(function(value) {
           if (!value || value.constructor !== Array) {
+            if(value && value.constructor === Number) {
+              return moment(value).format('D/MM/YYYY');
+            }
             return '';
           }
           return desempaquetar(value);
