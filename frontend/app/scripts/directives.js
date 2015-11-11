@@ -39,9 +39,6 @@ angular.module('cuduApp')
 
         ngModel.$formatters.push(function(value) {
           if (!value || value.constructor !== Array) {
-            if(value && value.constructor === Number) {
-              return moment(value).format('D/MM/YYYY');
-            }
             return '';
           }
           return desempaquetar(value);
@@ -52,6 +49,46 @@ angular.module('cuduApp')
           var empaquetado = [];
           if (fecha.isValid) {
             empaquetado = [fecha.year(), fecha.month() + 1, fecha.date()];
+            element.val(desempaquetar(empaquetado));
+          }
+          // TODO Marcar erronea
+          scope.$apply(function() {
+            ngModel.$setViewValue(empaquetado);
+          });
+        });
+      }
+    };
+  })
+  .directive('cuduTimeStamp', function () {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      scope: { },
+      link: function (scope, element, attrs, ngModel) {
+        if (!ngModel) {
+          return;
+        }
+
+        var desempaquetar = function(timeStamp) {
+          return moment(timeStamp).format('D/M/YYYY');
+        };
+
+        ngModel.$render = function() {
+          element.val(ngModel.$viewValue);
+        };
+
+        ngModel.$formatters.push(function(value) {
+          if(!(value && value.constructor === Number)) {
+            return '';
+          }
+          return desempaquetar(value);
+        });
+
+        element.bind('change', function(e) {
+          var fecha = moment(element.val(), ['DDMMYY', 'DDMMYYYY', 'DD-MM-YY', 'DD-MM-YYYY']);
+          var empaquetado = 0;
+          if (fecha.isValid) {
+            empaquetado = fecha.unix()*1000;
             element.val(desempaquetar(empaquetado));
           }
           // TODO Marcar erronea
