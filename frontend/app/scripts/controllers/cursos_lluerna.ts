@@ -50,6 +50,10 @@ module Cudu.Lluerna.Cursos {
     eliminarParticipante(cursoId: number, participanteId: number): ng.IHttpPromise<any> {
       return this.http.delete('/api/lluerna/curso/' + cursoId + '/participantes/' + participanteId);
     }
+
+    guardarCurso(curso: Curso): ng.IHttpPromise<any> {
+      return this.http.put('/api/lluerna/curso/' + curso.id, curso);
+    }
   }
 
   export class CursosController {

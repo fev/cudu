@@ -34,3 +34,12 @@ declare interface ITypeAhead {
   formador();
   participante(cursoId: number);
 }
+
+declare interface IEstadosFormulario {
+  LIMPIO: number;
+  GUARDANDO: number;
+  OK: number;
+  ERROR: number;
+  VALIDACION: number;
+  CUSTOM: number;
+}

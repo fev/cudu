@@ -22,19 +22,26 @@ module Cudu.Lluerna.Cursos.Detalle {
       participantePorIncluir: Participante;
       typeaheadFormadorDts: any[];
       typeaheadParticipanteDts: any[];
+      estado: number;
+      erroresValidacion: Array<string>;
     }
 
     export class CursoLluernaController {
       routeParams: angular.route.IRouteParamsService;
       scope: CursoLluernaScope;
       cursoService: CursosService;
+      estados: IEstadosFormulario;
 
-      static $inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead'];
-      constructor(private $scope: CursoLluernaScope, $routeParams: CursoLluernaParams, cursoService: CursosService, TypeAhead: ITypeAhead) {
+      static $inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead', 'EstadosFormulario'];
+      constructor(private $scope: CursoLluernaScope, $routeParams: CursoLluernaParams, cursoService: CursosService, TypeAhead: ITypeAhead, EstadosFormulario: IEstadosFormulario) {
         $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
         $scope.typeaheadFormadorDts = TypeAhead.formador();
         $scope.typeaheadParticipanteDts = TypeAhead.participante(+$routeParams.id);
         $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
+        $scope.estado = EstadosFormulario.LIMPIO;
+        $scope.erroresValidacion = [];
+
+        this.estados = EstadosFormulario;
         this.cursoService = cursoService;
         this.scope = $scope;
 
@@ -90,6 +97,19 @@ module Cudu.Lluerna.Cursos.Detalle {
         this.cursoService.eliminarParticipante(this.$scope.curso.id, participanteId).success(() => {
           _.remove(this.$scope.curso.participantes, (p) => p.id == participanteId);
         }).error((e) => { alert(e) });
+      }
+
+      guardar() {
+        this.cursoService.guardarCurso(this.scope.curso)
+        .success(() => this.scope.estado = this.estados.OK)
+        .error((data, e) => {
+          if (e == 400) {
+            this.scope.estado = this.estados.VALIDACION;
+            this.scope.erroresValidacion = data || [];
+          } else {
+            this.scope.estado = this.estados.ERROR;
+          }
+        });
       }
     }
 }

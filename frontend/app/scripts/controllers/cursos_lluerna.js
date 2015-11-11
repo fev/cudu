@@ -28,6 +28,9 @@ var Cudu;
                 CursosService.prototype.eliminarParticipante = function (cursoId, participanteId) {
                     return this.http.delete('/api/lluerna/curso/' + cursoId + '/participantes/' + participanteId);
                 };
+                CursosService.prototype.guardarCurso = function (curso) {
+                    return this.http.put('/api/lluerna/curso/' + curso.id, curso);
+                };
                 CursosService.$inject = ['$http'];
                 return CursosService;
             })();

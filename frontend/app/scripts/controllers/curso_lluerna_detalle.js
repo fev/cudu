@@ -7,13 +7,16 @@ var Cudu;
             var Detalle;
             (function (Detalle) {
                 var CursoLluernaController = (function () {
-                    function CursoLluernaController($scope, $routeParams, cursoService, TypeAhead) {
+                    function CursoLluernaController($scope, $routeParams, cursoService, TypeAhead, EstadosFormulario) {
                         var _this = this;
                         this.$scope = $scope;
                         $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
                         $scope.typeaheadFormadorDts = TypeAhead.formador();
                         $scope.typeaheadParticipanteDts = TypeAhead.participante(+$routeParams.id);
                         $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
+                        $scope.estado = EstadosFormulario.LIMPIO;
+                        $scope.erroresValidacion = [];
+                        this.estados = EstadosFormulario;
                         this.cursoService = cursoService;
                         this.scope = $scope;
                         $scope.$on('typeahead:selected', function (e, asociado) { return _this.añadirAsociado(e, asociado); });
@@ -66,7 +69,21 @@ var Cudu;
                             _.remove(_this.$scope.curso.participantes, function (p) { return p.id == participanteId; });
                         }).error(function (e) { alert(e); });
                     };
-                    CursoLluernaController.$inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead'];
+                    CursoLluernaController.prototype.guardar = function () {
+                        var _this = this;
+                        this.cursoService.guardarCurso(this.scope.curso)
+                            .success(function () { return _this.scope.estado = _this.estados.OK; })
+                            .error(function (data, e) {
+                            if (e == 400) {
+                                _this.scope.estado = _this.estados.VALIDACION;
+                                _this.scope.erroresValidacion = data || [];
+                            }
+                            else {
+                                _this.scope.estado = _this.estados.ERROR;
+                            }
+                        });
+                    };
+                    CursoLluernaController.$inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead', 'EstadosFormulario'];
                     return CursoLluernaController;
                 })();
                 Detalle.CursoLluernaController = CursoLluernaController;
