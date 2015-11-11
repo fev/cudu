@@ -6,6 +6,7 @@ import org.scoutsfev.cudu.domain.dto.CambiarRamaDto;
 import org.scoutsfev.cudu.domain.dto.CambiarTipoDto;
 import org.scoutsfev.cudu.domain.validadores.ImpresionTabla;
 import org.scoutsfev.cudu.services.FichaService;
+import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.web.utils.ResponseEntityFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,7 +146,7 @@ public class AsociadoController {
     }
 
     @RequestMapping(value = "/asociado/desactivar", method = RequestMethod.POST)
-    public void desactivar(@RequestBody ArrayList<Integer> asociados, @AuthenticationPrincipal Usuario usuario) {
+    public void desactivarMultiples(@RequestBody ArrayList<Integer> asociados, @AuthenticationPrincipal Usuario usuario) {
         String grupoId = usuario.getGrupo().getId();
         asociadoRepository.desactivar(asociados, grupoId);
         descartarCacheGraficas(grupoId);

@@ -64,4 +64,6 @@
     @include border-radius(0);
     &:focus { border-color: #CCC; outline: 0; @include box-shadow(none); }
   }
+
+  #dlgEliminarUsuario .error { margin-top: 10px }
 }

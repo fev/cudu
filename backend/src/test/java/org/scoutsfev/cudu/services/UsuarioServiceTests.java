@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.scoutsfev.cudu.domain.Token;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.TokenRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,6 +19,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import static org.junit.Assert.*;
+import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
@@ -26,13 +28,15 @@ public class UsuarioServiceTests {
     private UsuarioRepository repository;
     private UsuarioService service;
     private TokenRepository tokenRepository;
+    private AsociadoRepository asociadoRepository;
 
     @Before
     public void setUp() throws Exception {
         repository = mock(UsuarioRepository.class);
         tokenRepository = mock(TokenRepository.class);
+        asociadoRepository = mock(AsociadoRepository.class);
         ApplicationEventPublisher eventPublisher = mock(ApplicationEventPublisher.class);
-        service = new UsuarioService(repository, tokenRepository, eventPublisher, new NullEmailServiceImpl(), new NullCaptchaServiceImpl());
+        service = new UsuarioService(repository, tokenRepository, asociadoRepository, new NullEmailServiceImpl(), new NullCaptchaServiceImpl(), eventPublisher);
     }
 
     @Test(expected = UsernameNotFoundException.class)
@@ -156,6 +160,27 @@ public class UsuarioServiceTests {
         String username = "jack.sparrow";
         when(repository.findByEmail(username)).thenReturn(null);
         service.resetPassword(username, false);
+    }
+
+    @Test
+    public void al_desactivar_un_usuario_sin_desactivar_el_asociado_el_asociado_no_se_desactiva() throws Exception {
+        int asociadoId = 42;
+        service.desactivarUsuario(asociadoId, false);
+        verify(repository, times(1)).desactivar(asociadoId);
+        verify(repository, times(1)).desactivar(anyInt());
+        verify(repository, never()).activar(anyInt(), anyString());
+        verify(asociadoRepository, never()).activar(anyInt(), anyBoolean());
+    }
+
+    @Test
+    public void al_desactivar_un_usuario_desactivando_el_asociado_se_desactivan_ambos() throws Exception {
+        int asociadoId = 33;
+        service.desactivarUsuario(asociadoId, true);
+        verify(repository, times(1)).desactivar(asociadoId);
+        verify(repository, times(1)).desactivar(anyInt());
+        verify(repository, never()).activar(anyInt(), anyString());
+        verify(asociadoRepository, times(1)).activar(eq(asociadoId), eq(false));
+        verify(asociadoRepository, never()).activar(not(eq(asociadoId)), eq(true));
     }
 
     // TODO si_el_usuario_esta_activo_y_tiene_password_puede_hacer_login

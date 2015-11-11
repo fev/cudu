@@ -3,12 +3,13 @@ var Cudu;
     var Permisos;
     (function (Permisos) {
         var PermisosController = (function () {
-            function PermisosController($scope, service, traducciones, notificaciones, modalCambioDni) {
+            function PermisosController($scope, service, traducciones, notificaciones, modalCambioDni, modalEliminar) {
                 this.$scope = $scope;
                 this.service = service;
                 this.traducciones = traducciones;
                 this.notificaciones = notificaciones;
                 this.modalCambioDni = modalCambioDni;
+                this.modalEliminar = modalEliminar;
                 service.listado().then(function (u) { $scope.usuarios = u; });
             }
             PermisosController.prototype.obtenerPermisosGrupo = function (u) {
@@ -108,6 +109,25 @@ var Cudu;
                     }
                 }).finally(function () { _this.$scope.cambiandoEmail = false; });
             };
+            PermisosController.prototype.mostrarDialogoEliminar = function (u) {
+                this.$scope.usuarioActual = u;
+                this.$scope.eliminandoUsuario = false;
+                this.$scope.eliminarTambienDatos = false;
+                this.modalEliminar.show();
+            };
+            PermisosController.prototype.eliminar = function () {
+                var _this = this;
+                this.$scope.eliminandoUsuario = true;
+                this.service.desactivar(this.$scope.usuarioActual.id, this.$scope.eliminarTambienDatos).then(function () {
+                    _this.modalEliminar.hide();
+                    _this.$scope.errorEliminar = null;
+                }).catch(function (e) {
+                    _this.$scope.errorCambioEmail = _this.traducciones.texto("permisos.error.servidor");
+                }).finally(function () {
+                    _this.$scope.eliminandoUsuario = false;
+                    _this.$scope.eliminarTambienDatos = false;
+                });
+            };
             return PermisosController;
         })();
         Permisos.PermisosController = PermisosController;
@@ -129,6 +149,13 @@ var Cudu;
             PermisosServiceImpl.prototype.cambiarEmail = function (usuarioId, email) {
                 return this.http.put("/api/usuario/" + usuarioId + "/email", email);
             };
+            PermisosServiceImpl.prototype.desactivar = function (usuarioId, eliminarDatos) {
+                var desactivarAsociado = "";
+                if (eliminarDatos) {
+                    desactivarAsociado += "?desactivarAsociado=true";
+                }
+                return this.http.post("/api/usuario/desactivar/" + usuarioId + desactivarAsociado, {});
+            };
             return PermisosServiceImpl;
         })();
         function PermisosServiceFactory($http, usuarioService) {
@@ -138,6 +165,7 @@ var Cudu;
     })(Permisos = Cudu.Permisos || (Cudu.Permisos = {}));
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
-    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', Cudu.Permisos.PermisosController])
+    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', 'ModalEliminarUsuario', Cudu.Permisos.PermisosController])
     .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
-    .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true));
+    .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))
+    .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"));

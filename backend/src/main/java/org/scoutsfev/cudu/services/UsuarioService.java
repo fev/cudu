@@ -2,6 +2,7 @@ package org.scoutsfev.cudu.services;
 
 import com.google.common.base.Strings;
 import org.scoutsfev.cudu.domain.*;
+import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.TokenRepository;
 import org.scoutsfev.cudu.storage.UsuarioRepository;
 import org.scoutsfev.cudu.storage.UsuarioStorage;
@@ -40,6 +41,7 @@ public class UsuarioService implements UserDetailsService {
     private final TokenRepository tokenRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final SecureRandom secureRandom;
+    private final AsociadoRepository asociadoRepository;
     private final EmailService emailService;
     private final CaptchaService captchaService;
 
@@ -50,11 +52,13 @@ public class UsuarioService implements UserDetailsService {
     private final int duracionTokenEnSegundos = 600;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, TokenRepository tokenRepository, ApplicationEventPublisher eventPublisher, EmailService emailService, CaptchaService captchaService)
+    public UsuarioService(UsuarioRepository usuarioRepository, TokenRepository tokenRepository, AsociadoRepository asociadoRepository,
+                          EmailService emailService, CaptchaService captchaService, ApplicationEventPublisher eventPublisher)
             throws NoSuchAlgorithmException {
         this.usuarioRepository = usuarioRepository;
         this.tokenRepository = tokenRepository;
         this.eventPublisher = eventPublisher;
+        this.asociadoRepository = asociadoRepository;
         this.emailService = emailService;
         this.captchaService = captchaService;
         this.secureRandom = SecureRandom.getInstanceStrong();
@@ -98,9 +102,11 @@ public class UsuarioService implements UserDetailsService {
         emailService.enviarMailCambioContraseña(usuario.getNombre(), usuario.getEmail(), token.getToken(), locale);
     }
 
-    public void desactivarUsuario(int asociadoId) {
+    public void desactivarUsuario(int asociadoId, boolean desactivarAsociado) {
         usuarioRepository.desactivar(asociadoId);
         tokenRepository.eliminarTodos(asociadoId);
+        if (desactivarAsociado)
+            asociadoRepository.activar(asociadoId, false);
     }
 
     public boolean existeActivacionEnCurso(String email) {

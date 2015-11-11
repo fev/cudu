@@ -26,10 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.servlet.ServletException;
@@ -141,14 +138,14 @@ public class UsuarioController {
     }
 
     @RequestMapping(value = "/desactivar/{id}", method = RequestMethod.POST)
-    public ResponseEntity<ErrorUnico> desactivarUsuario(@PathVariable("id") Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<ErrorUnico> desactivarUsuario(@PathVariable("id") Asociado asociado, @RequestParam(required = false, defaultValue = "false") boolean desactivarAsociado, @AuthenticationPrincipal Usuario usuario) {
         if (!authorizationService.puedeEditarAsociado(asociado, usuario)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /usuario/desactivar" + asociado.getId()));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
         if (usuario.getId().equals(asociado.getId()))
             return new ResponseEntity<>(CodigoError.DeshabilitarUsuarioActual.asError(), HttpStatus.BAD_REQUEST);
-        usuarioService.desactivarUsuario(asociado.getId());
+        usuarioService.desactivarUsuario(asociado.getId(), desactivarAsociado);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -30,13 +30,16 @@ module Cudu.Permisos {
       usuarioActual: Usuario;
       errorCambioEmail: string;
       cambiandoEmail: boolean;
+      eliminandoUsuario: boolean;
+      eliminarTambienDatos: boolean;
+      errorEliminar: string;
     }
 
     export class PermisosController {
 
       constructor(private $scope: PermisosScope, private service: PermisosService,
         private traducciones: TraduccionesService, private notificaciones: NotificacionesService,
-        private modalCambioDni : Cudu.Ux.Modal) {
+        private modalCambioDni: Cudu.Ux.Modal, private modalEliminar: Cudu.Ux.Modal) {
         service.listado().then(u => { $scope.usuarios = u; });
       }
 
@@ -138,7 +141,27 @@ module Cudu.Permisos {
           } else {
             this.$scope.errorCambioEmail = this.traducciones.texto("permisos.error.servidor");
           }
-        }).finally(() => { this.$scope.cambiandoEmail = false });
+        }).finally(() => { this.$scope.cambiandoEmail = false; });
+      }
+
+      mostrarDialogoEliminar(u: Usuario) {
+        this.$scope.usuarioActual = u;
+        this.$scope.eliminandoUsuario = false;
+        this.$scope.eliminarTambienDatos = false;
+        this.modalEliminar.show();
+      }
+
+      eliminar() {
+        this.$scope.eliminandoUsuario = true;
+        this.service.desactivar(this.$scope.usuarioActual.id, this.$scope.eliminarTambienDatos).then(() => {
+          this.modalEliminar.hide();
+          this.$scope.errorEliminar = null;
+        }).catch(e => {
+          this.$scope.errorCambioEmail = this.traducciones.texto("permisos.error.servidor")
+        }).finally(() => {
+          this.$scope.eliminandoUsuario = false;
+          this.$scope.eliminarTambienDatos = false;
+        });
       }
     }
 
@@ -146,6 +169,7 @@ module Cudu.Permisos {
       listado(): ng.IPromise<Usuario[]>;
       editarPermisosUsuario(command: EditarPermisosUsuario): ng.IPromise<{}>;
       cambiarEmail(usuarioId: number, email: String): ng.IPromise<{}>;
+      desactivar(usuarioId: number, eliminarDatos: boolean): ng.IPromise<{}>;
     }
 
     class PermisosServiceImpl implements PermisosService {
@@ -167,6 +191,14 @@ module Cudu.Permisos {
       cambiarEmail(usuarioId, email) {
         return this.http.put("/api/usuario/" + usuarioId + "/email", email);
       }
+
+      desactivar(usuarioId, eliminarDatos) {
+        var desactivarAsociado = "";
+        if (eliminarDatos) {
+          desactivarAsociado += "?desactivarAsociado=true"
+        }
+        return this.http.post("/api/usuario/desactivar/" + usuarioId + desactivarAsociado, {});
+      }
     }
 
     export function PermisosServiceFactory($http: ng.IHttpService, usuarioService: UsuarioService): PermisosService {
@@ -175,6 +207,7 @@ module Cudu.Permisos {
 }
 
 angular.module('cuduApp')
-  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', Cudu.Permisos.PermisosController])
+  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', 'ModalEliminarUsuario', Cudu.Permisos.PermisosController])
   .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
   .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))
+  .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"))
