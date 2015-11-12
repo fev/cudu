@@ -79,10 +79,9 @@ module Cudu.Ux {
     attach(scope) {
       var element = $(this.elementId);
       element.typeahead(this.options, this.dataset);
-      element.bind('typeahead:selected', (e, seleccion) => {
+      (<any> element).bind('typeahead:selected', (e, seleccion) => {
+        // TODO Callback here
         console.log(seleccion);
-        // updateScope(object, suggestion, dataset);
-        // scope.$emit('typeahead:selected', suggestion, dataset);
       });
       scope.$on("$destroy", () => this.dispose());
     }

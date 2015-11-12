@@ -3,7 +3,7 @@
     <div id="panelPermisos" class="col-md-12">
       <div class="material-panel-level-2">
         <div class="mat-toolbar text-right">
-          <button type="button" class="btn btn-default"><i class="fa fa-plus"></i> &nbsp;<%=permisos.nuevoUsuario%></button>
+          <button ng-click="ctrl.mostrarDialogoCrearUsuario()" type="button" class="btn btn-default"><i class="fa fa-plus"></i> &nbsp;<%=permisos.nuevoUsuario%></button>
         </div>
         <div class="mat-toolbar-expand"><h1><%=permisos.titulo%></h1></div>
         <div class="panel-content">
@@ -155,6 +155,38 @@
     <div class="modal-footer">
       <button ng-click="ctrl.recuperarPassword()" type="button" class="btn btn-primary">
         <i class="fa fa-spinner fa-spin solo-progreso"></i> <%= permisos.recuperar %>
+      </button>
+      <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <div id="dlgCrearUsuario" class="modal fade" ng-class="{'progreso': creandoUsuario}">
+  <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="form-group">
+        <h1><%= permisos.nuevoUsuario %></h1>
+        <%= permisos.crearUsuario %>
+      </div>
+      <div class="form-group">
+        <input id="dlgCrearUsuarioInput" class="form-control typeahead"
+          ng-model="nuevoUsuario" spellcheck="false" autocomplete="off"
+          placeholder="Empieza a escribir el nombre del asociado para seleccionarlo">
+      </div>
+      <div class="form-group">
+        <input ng-model="nuevoUsuario.email" type="email" class="form-control"
+          aaa-ng-keydown="$event.which === 13 && ctrl.seleccionarNuevoUsuario()"
+          placeholder="Email" spellcheck="false" autocomplete="off">
+      </div>
+      <div class="form-group errores" ng-show="errorCrearUsuario != null">
+        * {{errorCrearUsuario}}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button ng-click="ctrl.crearUsuario()" type="button" class="btn btn-primary">
+        <i class="fa fa-spinner fa-spin solo-progreso"></i> <%= permisos.crear %>
       </button>
       <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>
     </div>

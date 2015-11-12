@@ -39,6 +39,8 @@
   .solo-progreso { display: none }
   .progreso .solo-progreso { display: initial }
 
+  .form-group span.twitter-typeahead { width: 100% }
+
   .modal {
     .btn {
       color: $material-red-700;
@@ -58,11 +60,12 @@
       .btn+.btn { margin-left: 0 }
     }
     .errores { color: $material-red-700; }
-  }
-
-  #dlgCambiarEmailInput {
-    @include border-radius(0);
-    &:focus { border-color: #CCC; outline: 0; @include box-shadow(none); }
+    h1 { font-size: 20px; margin-top: 5px; margin-bottom: 15px; font-weight: normal }
+    .form-control {
+      @include border-radius(0);
+      @include box-shadow(none);
+      &:focus { border-color: #CCC; outline: 0; @include box-shadow(none); }
+    }
   }
 
   #dlgEliminarUsuario .error { margin-top: 10px }

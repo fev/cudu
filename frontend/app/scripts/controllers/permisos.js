@@ -3,7 +3,7 @@ var Cudu;
     var Permisos;
     (function (Permisos) {
         var PermisosController = (function () {
-            function PermisosController($scope, service, traducciones, notificaciones, modalCambioDni, modalEliminar, modalRecuperarPassword) {
+            function PermisosController($scope, service, traducciones, notificaciones, modalCambioDni, modalEliminar, modalRecuperarPassword, modalCrearUsuario, typeahead) {
                 this.$scope = $scope;
                 this.service = service;
                 this.traducciones = traducciones;
@@ -11,7 +11,10 @@ var Cudu;
                 this.modalCambioDni = modalCambioDni;
                 this.modalEliminar = modalEliminar;
                 this.modalRecuperarPassword = modalRecuperarPassword;
+                this.modalCrearUsuario = modalCrearUsuario;
+                this.typeahead = typeahead;
                 service.listado().then(function (u) { $scope.usuarios = u; });
+                typeahead.attach($scope);
             }
             PermisosController.prototype.obtenerPermisosGrupo = function (u) {
                 if (u.ambitoEdicion == "P") {
@@ -154,6 +157,12 @@ var Cudu;
                     _this.$scope.recuperandoPassword = false;
                 });
             };
+            PermisosController.prototype.mostrarDialogoCrearUsuario = function () {
+                this.$scope.nuevoUsuario = null;
+                this.$scope.creandoUsuario = false;
+                this.$scope.errorCrearUsuario = null;
+                this.modalCrearUsuario.show();
+            };
             return PermisosController;
         })();
         Permisos.PermisosController = PermisosController;
@@ -194,8 +203,12 @@ var Cudu;
     })(Permisos = Cudu.Permisos || (Cudu.Permisos = {}));
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
-    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', 'ModalEliminarUsuario', 'ModalRecuperarPassword', Cudu.Permisos.PermisosController])
+    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones',
+    'ModalCambioDni', 'ModalEliminarUsuario', 'ModalRecuperarPassword', 'ModalCrearUsuario',
+    'PermisosTypeahead', Cudu.Permisos.PermisosController])
     .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
     .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))
     .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"))
-    .factory('ModalRecuperarPassword', Cudu.Ux.ModalFactory("#dlgRecuperarPassword"));
+    .factory('ModalRecuperarPassword', Cudu.Ux.ModalFactory("#dlgRecuperarPassword"))
+    .factory('ModalCrearUsuario', Cudu.Ux.ModalFactory("#dlgCrearUsuario", "#dlgCrearUsuarioInput", true))
+    .factory('PermisosTypeahead', Cudu.Ux.TypeaheadFactory("#dlgCrearUsuarioInput", "asociado"));

@@ -35,6 +35,9 @@ module Cudu.Permisos {
       errorEliminar: string;
       recuperandoPassword: boolean;
       errorRecuperarPassword: string;
+      nuevoUsuario?: Usuario;
+      creandoUsuario: boolean;
+      errorCrearUsuario: string;
     }
 
     export class PermisosController {
@@ -42,8 +45,10 @@ module Cudu.Permisos {
       constructor(private $scope: PermisosScope, private service: PermisosService,
           private traducciones: TraduccionesService, private notificaciones: NotificacionesService,
           private modalCambioDni: Cudu.Ux.Modal, private modalEliminar: Cudu.Ux.Modal,
-          private modalRecuperarPassword: Cudu.Ux.Modal) {
+          private modalRecuperarPassword: Cudu.Ux.Modal, private modalCrearUsuario: Cudu.Ux.Modal,
+          private typeahead: Cudu.Ux.Typeahead) {
         service.listado().then(u => { $scope.usuarios = u; });
+        typeahead.attach($scope);
       }
 
       obtenerPermisosGrupo(u: Usuario) {
@@ -191,6 +196,13 @@ module Cudu.Permisos {
           this.$scope.recuperandoPassword = false;
         });
       }
+
+      mostrarDialogoCrearUsuario() {
+        this.$scope.nuevoUsuario = null;
+        this.$scope.creandoUsuario = false;
+        this.$scope.errorCrearUsuario = null;
+        this.modalCrearUsuario.show();
+      }
     }
 
     interface PermisosService {
@@ -240,8 +252,12 @@ module Cudu.Permisos {
 }
 
 angular.module('cuduApp')
-  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', 'ModalEliminarUsuario', 'ModalRecuperarPassword', Cudu.Permisos.PermisosController])
+  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones',
+    'ModalCambioDni', 'ModalEliminarUsuario', 'ModalRecuperarPassword', 'ModalCrearUsuario',
+    'PermisosTypeahead', Cudu.Permisos.PermisosController])
   .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
   .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))
   .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"))
   .factory('ModalRecuperarPassword', Cudu.Ux.ModalFactory("#dlgRecuperarPassword"))
+  .factory('ModalCrearUsuario', Cudu.Ux.ModalFactory("#dlgCrearUsuario", "#dlgCrearUsuarioInput", true))
+  .factory('PermisosTypeahead', Cudu.Ux.TypeaheadFactory("#dlgCrearUsuarioInput", "asociado"))
