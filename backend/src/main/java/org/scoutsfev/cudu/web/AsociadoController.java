@@ -88,7 +88,7 @@ public class AsociadoController {
     }
 
     @RequestMapping(value = "/asociado/{id}", method = RequestMethod.PUT)
-    @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
+    @PreAuthorize("@auth.puedeEditarAsociado(#original, #usuario)")
     public Asociado editar(@RequestBody @Valid Asociado editado, @PathVariable("id") Asociado original, @AuthenticationPrincipal Usuario usuario) {
         editado.setGrupoId(original.getGrupoId());
         editado.setUsuarioActivo(original.isUsuarioActivo());
