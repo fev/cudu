@@ -32,7 +32,8 @@
         "./typings/moment/moment-node.d.ts",
         "./typings/moment/moment.d.ts",
         "./typings/q/Q.d.ts",
-        "./typings/tsd.d.ts"
+        "./typings/tsd.d.ts",
+        "./typings/typeahead/typeahead.d.ts"
     ],
     "exclude": []
 }
