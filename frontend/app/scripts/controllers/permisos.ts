@@ -33,13 +33,16 @@ module Cudu.Permisos {
       eliminandoUsuario: boolean;
       eliminarTambienDatos: boolean;
       errorEliminar: string;
+      recuperandoPassword: boolean;
+      errorRecuperarPassword: string;
     }
 
     export class PermisosController {
 
       constructor(private $scope: PermisosScope, private service: PermisosService,
-        private traducciones: TraduccionesService, private notificaciones: NotificacionesService,
-        private modalCambioDni: Cudu.Ux.Modal, private modalEliminar: Cudu.Ux.Modal) {
+          private traducciones: TraduccionesService, private notificaciones: NotificacionesService,
+          private modalCambioDni: Cudu.Ux.Modal, private modalEliminar: Cudu.Ux.Modal,
+          private modalRecuperarPassword: Cudu.Ux.Modal) {
         service.listado().then(u => { $scope.usuarios = u; });
       }
 
@@ -148,6 +151,7 @@ module Cudu.Permisos {
         this.$scope.usuarioActual = u;
         this.$scope.eliminandoUsuario = false;
         this.$scope.eliminarTambienDatos = false;
+        this.$scope.errorEliminar = null;
         this.modalEliminar.show();
       }
 
@@ -163,6 +167,30 @@ module Cudu.Permisos {
           this.$scope.eliminarTambienDatos = false;
         });
       }
+
+      mostarDialogoRecuperarPassword(u: Usuario) {
+        this.$scope.usuarioActual = u;
+        this.$scope.recuperandoPassword = false;
+        this.$scope.errorRecuperarPassword = null;
+        this.modalRecuperarPassword.show();
+      }
+
+      recuperarPassword() {
+        this.$scope.recuperandoPassword = true;
+        var u = this.$scope.usuarioActual;
+        this.service.recuperarPassword(u.id, u.email).then(() => {
+          this.modalRecuperarPassword.hide();
+          this.$scope.errorRecuperarPassword = null;
+        }).catch(e => {
+          if (e.status == 409) {
+            this.$scope.errorRecuperarPassword = this.traducciones.texto("activar.activacionEnCurso");
+          } else {
+            this.$scope.errorRecuperarPassword = this.traducciones.texto("permisos.error.servidor");
+          }
+        }).finally(() => {
+          this.$scope.recuperandoPassword = false;
+        });
+      }
     }
 
     interface PermisosService {
@@ -170,6 +198,7 @@ module Cudu.Permisos {
       editarPermisosUsuario(command: EditarPermisosUsuario): ng.IPromise<{}>;
       cambiarEmail(usuarioId: number, email: String): ng.IPromise<{}>;
       desactivar(usuarioId: number, eliminarDatos: boolean): ng.IPromise<{}>;
+      recuperarPassword(usuarioId: number, email: string): ng.IPromise<{}>;
     }
 
     class PermisosServiceImpl implements PermisosService {
@@ -199,6 +228,10 @@ module Cudu.Permisos {
         }
         return this.http.post("/api/usuario/desactivar/" + usuarioId + desactivarAsociado, {});
       }
+
+      recuperarPassword(usuarioId, email) {
+        return this.http.post("/api/usuario/activar/" + usuarioId, email);
+      }
     }
 
     export function PermisosServiceFactory($http: ng.IHttpService, usuarioService: UsuarioService): PermisosService {
@@ -207,7 +240,8 @@ module Cudu.Permisos {
 }
 
 angular.module('cuduApp')
-  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', 'ModalEliminarUsuario', Cudu.Permisos.PermisosController])
+  .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', 'ModalEliminarUsuario', 'ModalRecuperarPassword', Cudu.Permisos.PermisosController])
   .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
   .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))
   .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"))
+  .factory('ModalRecuperarPassword', Cudu.Ux.ModalFactory("#dlgRecuperarPassword"))

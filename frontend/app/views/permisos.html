@@ -58,7 +58,7 @@
                     </button>
                     <ul class="dropdown-menu">
                       <li><a href="javascript:" ng-click="ctrl.mostrarDialogoCambioEmail(u)"><%=permisos.cambiarEmail %></a></li>
-                      <li><a href="javascript:" ng-click=""><%=permisos.recuperarContraseña %></a></li>
+                      <li><a href="javascript:" ng-click="ctrl.mostarDialogoRecuperarPassword(u)"><%=permisos.recuperarContraseña %></a></li>
                       <li class="divider"></li>
                       <li><a href="javascript:" ng-click="ctrl.mostrarDialogoEliminar(u)"><%=permisos.desactivarCuenta %></a></li>
                     </ul>
@@ -136,6 +136,25 @@
     <div class="modal-footer">
       <button ng-click="ctrl.eliminar()" type="button" class="btn btn-primary">
         <i class="fa fa-spinner fa-spin solo-progreso"></i> <%= permisos.desactivar %>
+      </button>
+      <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <div id="dlgRecuperarPassword" class="modal fade" ng-class="{'progreso': recuperandoPassword}">
+  <div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p><%=permisos.recuperarPassword %></p>
+      <form class="form-horizontal">
+        <div class="errores" ng-show="errorRecuperarPassword != null">{{errorRecuperarPassword}}</div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button ng-click="ctrl.recuperarPassword()" type="button" class="btn btn-primary">
+        <i class="fa fa-spinner fa-spin solo-progreso"></i> <%= permisos.recuperar %>
       </button>
       <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>
     </div>

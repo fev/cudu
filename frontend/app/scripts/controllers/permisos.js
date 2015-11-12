@@ -3,13 +3,14 @@ var Cudu;
     var Permisos;
     (function (Permisos) {
         var PermisosController = (function () {
-            function PermisosController($scope, service, traducciones, notificaciones, modalCambioDni, modalEliminar) {
+            function PermisosController($scope, service, traducciones, notificaciones, modalCambioDni, modalEliminar, modalRecuperarPassword) {
                 this.$scope = $scope;
                 this.service = service;
                 this.traducciones = traducciones;
                 this.notificaciones = notificaciones;
                 this.modalCambioDni = modalCambioDni;
                 this.modalEliminar = modalEliminar;
+                this.modalRecuperarPassword = modalRecuperarPassword;
                 service.listado().then(function (u) { $scope.usuarios = u; });
             }
             PermisosController.prototype.obtenerPermisosGrupo = function (u) {
@@ -113,6 +114,7 @@ var Cudu;
                 this.$scope.usuarioActual = u;
                 this.$scope.eliminandoUsuario = false;
                 this.$scope.eliminarTambienDatos = false;
+                this.$scope.errorEliminar = null;
                 this.modalEliminar.show();
             };
             PermisosController.prototype.eliminar = function () {
@@ -126,6 +128,30 @@ var Cudu;
                 }).finally(function () {
                     _this.$scope.eliminandoUsuario = false;
                     _this.$scope.eliminarTambienDatos = false;
+                });
+            };
+            PermisosController.prototype.mostarDialogoRecuperarPassword = function (u) {
+                this.$scope.usuarioActual = u;
+                this.$scope.recuperandoPassword = false;
+                this.$scope.errorRecuperarPassword = null;
+                this.modalRecuperarPassword.show();
+            };
+            PermisosController.prototype.recuperarPassword = function () {
+                var _this = this;
+                this.$scope.recuperandoPassword = true;
+                var u = this.$scope.usuarioActual;
+                this.service.recuperarPassword(u.id, u.email).then(function () {
+                    _this.modalRecuperarPassword.hide();
+                    _this.$scope.errorRecuperarPassword = null;
+                }).catch(function (e) {
+                    if (e.status == 409) {
+                        _this.$scope.errorRecuperarPassword = _this.traducciones.texto("activar.activacionEnCurso");
+                    }
+                    else {
+                        _this.$scope.errorRecuperarPassword = _this.traducciones.texto("permisos.error.servidor");
+                    }
+                }).finally(function () {
+                    _this.$scope.recuperandoPassword = false;
                 });
             };
             return PermisosController;
@@ -156,6 +182,9 @@ var Cudu;
                 }
                 return this.http.post("/api/usuario/desactivar/" + usuarioId + desactivarAsociado, {});
             };
+            PermisosServiceImpl.prototype.recuperarPassword = function (usuarioId, email) {
+                return this.http.post("/api/usuario/activar/" + usuarioId, email);
+            };
             return PermisosServiceImpl;
         })();
         function PermisosServiceFactory($http, usuarioService) {
@@ -165,7 +194,8 @@ var Cudu;
     })(Permisos = Cudu.Permisos || (Cudu.Permisos = {}));
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
-    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', 'ModalEliminarUsuario', Cudu.Permisos.PermisosController])
+    .controller('PermisosController', ['$scope', 'PermisosService', 'Traducciones', 'Notificaciones', 'ModalCambioDni', 'ModalEliminarUsuario', 'ModalRecuperarPassword', Cudu.Permisos.PermisosController])
     .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
     .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))
-    .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"));
+    .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"))
+    .factory('ModalRecuperarPassword', Cudu.Ux.ModalFactory("#dlgRecuperarPassword"));
