@@ -1,4 +1,6 @@
 
+
+
 module Cudu {
   export interface Page<T> {
     content: T[];
@@ -10,6 +12,10 @@ module Cudu {
     sort: string;
     totalElements: number;
     totalPages: number;
+  }
+
+  export interface Disposable {
+    dispose();
   }
 }
 
@@ -61,20 +67,36 @@ module Cudu.Ux {
     };
   }
 
-  export interface Typeahead { }
+  export interface Typeahead extends Disposable {
+    attach(scope: ng.IScope);
+    dispose();
+  }
 
-  export class CuduTypeaheadImpl implements Typeahead {
-    constructor(private elementId: string, dataset: Twitter.Typeahead.Dataset, options?: Twitter.Typeahead.Options) {
-      options = options || { highlight: true };
-      $(elementId).typeahead(options, dataset);
+  export class TypeaheadImpl implements Typeahead {
+    constructor(private elementId: string, private dataset: Twitter.Typeahead.Dataset,
+      private options: Twitter.Typeahead.Options = { highlight: true }) { }
+
+    attach(scope) {
+      var element = $(this.elementId);
+      element.typeahead(this.options, this.dataset);
+      element.bind('typeahead:selected', (e, seleccion) => {
+        console.log(seleccion);
+        // updateScope(object, suggestion, dataset);
+        // scope.$emit('typeahead:selected', suggestion, dataset);
+      });
+      scope.$on("$destroy", () => this.dispose());
+    }
+
+    dispose() {
+      $(this.elementId).typeahead('destroy');
     }
   }
 
-  export function CuduTypeaheadFactory(elementId: string, entidad: string, displayKeyFnc?: (e: any) => string) : () => Typeahead {
+  export function TypeaheadFactory(elementId: string, entidad: string, displayKeyFnc?: (e: any) => string) : () => Typeahead {
     return () => {
       displayKeyFnc = displayKeyFnc || ((r: any) => r.nombre + " " + r.apellidos);
       var dataset = CuduTypeaheadDataSetFactory(entidad, displayKeyFnc);
-      return new CuduTypeaheadImpl(elementId, dataset);
+      return new TypeaheadImpl(elementId, dataset);
     };
   }
 }

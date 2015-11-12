@@ -44,22 +44,35 @@ var Cudu;
             };
         }
         Ux.CuduTypeaheadDataSetFactory = CuduTypeaheadDataSetFactory;
-        var CuduTypeaheadImpl = (function () {
-            function CuduTypeaheadImpl(elementId, dataset, options) {
+        var TypeaheadImpl = (function () {
+            function TypeaheadImpl(elementId, dataset, options) {
+                if (options === void 0) { options = { highlight: true }; }
                 this.elementId = elementId;
-                options = options || { highlight: true };
-                $(elementId).typeahead(options, dataset);
+                this.dataset = dataset;
+                this.options = options;
             }
-            return CuduTypeaheadImpl;
+            TypeaheadImpl.prototype.attach = function (scope) {
+                var _this = this;
+                var element = $(this.elementId);
+                element.typeahead(this.options, this.dataset);
+                element.bind('typeahead:selected', function (e, seleccion) {
+                    console.log(seleccion);
+                });
+                scope.$on("$destroy", function () { return _this.dispose(); });
+            };
+            TypeaheadImpl.prototype.dispose = function () {
+                $(this.elementId).typeahead('destroy');
+            };
+            return TypeaheadImpl;
         })();
-        Ux.CuduTypeaheadImpl = CuduTypeaheadImpl;
-        function CuduTypeaheadFactory(elementId, entidad, displayKeyFnc) {
+        Ux.TypeaheadImpl = TypeaheadImpl;
+        function TypeaheadFactory(elementId, entidad, displayKeyFnc) {
             return function () {
                 displayKeyFnc = displayKeyFnc || (function (r) { return r.nombre + " " + r.apellidos; });
                 var dataset = CuduTypeaheadDataSetFactory(entidad, displayKeyFnc);
-                return new CuduTypeaheadImpl(elementId, dataset);
+                return new TypeaheadImpl(elementId, dataset);
             };
         }
-        Ux.CuduTypeaheadFactory = CuduTypeaheadFactory;
+        Ux.TypeaheadFactory = TypeaheadFactory;
     })(Ux = Cudu.Ux || (Cudu.Ux = {}));
 })(Cudu || (Cudu = {}));
