@@ -83,6 +83,7 @@ cuduServices.factory('Actividad', ['$resource',
   }]);
 
 cuduServices.factory('Typeahead', [function() {
+  // TODO Duplica CuduTypeaheadDataSetFactory en support.ts, reemplazar
   var typeahead = function(entidad, displayKey) {
     var dkFnc = displayKey || function(r) { return r.nombre + ' ' + r.apellidos; };
     return function() {
