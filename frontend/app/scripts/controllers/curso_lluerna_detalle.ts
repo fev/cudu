@@ -24,27 +24,20 @@ module Cudu.Lluerna.Cursos.Detalle {
       typeaheadParticipanteDts: any[];
       estado: number;
       erroresValidacion: Array<string>;
+      customError: string;
     }
 
     export class CursoLluernaController {
-      routeParams: angular.route.IRouteParamsService;
-      scope: CursoLluernaScope;
-      cursoService: CursosService;
-      estados: IEstadosFormulario;
-
-      static $inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead', 'EstadosFormulario'];
-      constructor(private $scope: CursoLluernaScope, $routeParams: CursoLluernaParams, cursoService: CursosService, TypeAhead: ITypeAhead, EstadosFormulario: IEstadosFormulario) {
+      static $inject = ['$scope', 'Traducciones', '$routeParams', 'CursosService', 'Typeahead', 'EstadosFormulario'];
+      constructor(private $scope: CursoLluernaScope, private traducciones: TraduccionesService,
+        private $routeParams: CursoLluernaParams, private cursoService: CursosService,
+        typeAhead: ITypeAhead, private estados: IEstadosFormulario) {
         $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
-        $scope.typeaheadFormadorDts = TypeAhead.formador();
-        $scope.typeaheadParticipanteDts = TypeAhead.participante(+$routeParams.id);
+        $scope.typeaheadFormadorDts = typeAhead.formador();
+        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
         $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
-        $scope.estado = EstadosFormulario.LIMPIO;
+        $scope.estado = estados.LIMPIO;
         $scope.erroresValidacion = [];
-
-        this.estados = EstadosFormulario;
-        this.cursoService = cursoService;
-        this.scope = $scope;
-
         $scope.$on('typeahead:selected', (e, asociado) => this.añadirAsociado(e, asociado));
 
         cursoService.getCurso(+$routeParams.id).success(c => {
@@ -70,12 +63,18 @@ module Cudu.Lluerna.Cursos.Detalle {
         if(!_.isUndefined(asociado.nombreCompleto)) {
            nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombreCompleto };
           fn = (cursoId: number, asociadoId: number) => this.cursoService.añadirFormador(cursoId, asociadoId);
-          lista = this.scope.curso.formadores;
+          lista = this.$scope.curso.formadores;
         }
         else {
           nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombre + " " + asociado.apellidos };
           fn = (cursoId: number, asociadoId: number) => this.cursoService.añadirParticipante(cursoId, asociadoId);
-          lista = this.scope.curso.participantes;
+          lista = this.$scope.curso.participantes;
+          if(lista.length == this.$scope.curso.plazas) {
+            this.$scope.estado = this.estados.CUSTOM;
+            this.$scope.customError = this.traducciones.texto('cursos.maxPlazas');
+            this.$scope.$apply();
+            return;
+          }
         }
 
         if(!_.isUndefined(_.findWhere(lista, { 'id': asociado.id }))) {
@@ -100,14 +99,14 @@ module Cudu.Lluerna.Cursos.Detalle {
       }
 
       guardar() {
-        this.cursoService.guardarCurso(this.scope.curso)
-        .success(() => this.scope.estado = this.estados.OK)
+        this.cursoService.guardarCurso(this.$scope.curso)
+        .success(() => this.$scope.estado = this.estados.OK)
         .error((data, e) => {
           if (e == 400) {
-            this.scope.estado = this.estados.VALIDACION;
-            this.scope.erroresValidacion = data || [];
+            this.$scope.estado = this.estados.VALIDACION;
+            this.$scope.erroresValidacion = data || [];
           } else {
-            this.scope.estado = this.estados.ERROR;
+            this.$scope.estado = this.estados.ERROR;
           }
         });
       }

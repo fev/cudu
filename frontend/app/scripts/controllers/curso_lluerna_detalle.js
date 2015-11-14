@@ -7,18 +7,19 @@ var Cudu;
             var Detalle;
             (function (Detalle) {
                 var CursoLluernaController = (function () {
-                    function CursoLluernaController($scope, $routeParams, cursoService, TypeAhead, EstadosFormulario) {
+                    function CursoLluernaController($scope, traducciones, $routeParams, cursoService, typeAhead, estados) {
                         var _this = this;
                         this.$scope = $scope;
-                        $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
-                        $scope.typeaheadFormadorDts = TypeAhead.formador();
-                        $scope.typeaheadParticipanteDts = TypeAhead.participante(+$routeParams.id);
-                        $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
-                        $scope.estado = EstadosFormulario.LIMPIO;
-                        $scope.erroresValidacion = [];
-                        this.estados = EstadosFormulario;
+                        this.traducciones = traducciones;
+                        this.$routeParams = $routeParams;
                         this.cursoService = cursoService;
-                        this.scope = $scope;
+                        this.estados = estados;
+                        $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
+                        $scope.typeaheadFormadorDts = typeAhead.formador();
+                        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
+                        $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
+                        $scope.estado = estados.LIMPIO;
+                        $scope.erroresValidacion = [];
                         $scope.$on('typeahead:selected', function (e, asociado) { return _this.añadirAsociado(e, asociado); });
                         cursoService.getCurso(+$routeParams.id).success(function (c) {
                             var formadores = _.map(c.formadores, function (f) {
@@ -42,12 +43,18 @@ var Cudu;
                         if (!_.isUndefined(asociado.nombreCompleto)) {
                             nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombreCompleto };
                             fn = function (cursoId, asociadoId) { return _this.cursoService.añadirFormador(cursoId, asociadoId); };
-                            lista = this.scope.curso.formadores;
+                            lista = this.$scope.curso.formadores;
                         }
                         else {
                             nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombre + " " + asociado.apellidos };
                             fn = function (cursoId, asociadoId) { return _this.cursoService.añadirParticipante(cursoId, asociadoId); };
-                            lista = this.scope.curso.participantes;
+                            lista = this.$scope.curso.participantes;
+                            if (lista.length == this.$scope.curso.plazas) {
+                                this.$scope.estado = this.estados.CUSTOM;
+                                this.$scope.customError = this.traducciones.texto('cursos.maxPlazas');
+                                this.$scope.$apply();
+                                return;
+                            }
                         }
                         if (!_.isUndefined(_.findWhere(lista, { 'id': asociado.id }))) {
                             return;
@@ -71,19 +78,19 @@ var Cudu;
                     };
                     CursoLluernaController.prototype.guardar = function () {
                         var _this = this;
-                        this.cursoService.guardarCurso(this.scope.curso)
-                            .success(function () { return _this.scope.estado = _this.estados.OK; })
+                        this.cursoService.guardarCurso(this.$scope.curso)
+                            .success(function () { return _this.$scope.estado = _this.estados.OK; })
                             .error(function (data, e) {
                             if (e == 400) {
-                                _this.scope.estado = _this.estados.VALIDACION;
-                                _this.scope.erroresValidacion = data || [];
+                                _this.$scope.estado = _this.estados.VALIDACION;
+                                _this.$scope.erroresValidacion = data || [];
                             }
                             else {
-                                _this.scope.estado = _this.estados.ERROR;
+                                _this.$scope.estado = _this.estados.ERROR;
                             }
                         });
                     };
-                    CursoLluernaController.$inject = ['$scope', '$routeParams', 'CursosService', 'Typeahead', 'EstadosFormulario'];
+                    CursoLluernaController.$inject = ['$scope', 'Traducciones', '$routeParams', 'CursosService', 'Typeahead', 'EstadosFormulario'];
                     return CursoLluernaController;
                 })();
                 Detalle.CursoLluernaController = CursoLluernaController;
