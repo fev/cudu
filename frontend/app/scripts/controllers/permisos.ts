@@ -49,7 +49,6 @@ module Cudu.Permisos {
           private typeahead: Cudu.Ux.Typeahead) {
         service.listado().then(u => { $scope.usuarios = u; });
         typeahead.attach($scope).observe<Usuario>(u => {
-          console.log(u.email);
           this.$scope.nuevoUsuario = u;
           this.$scope.$apply();
           $("#dlgCrearUsuarioEmail").focus();
@@ -208,12 +207,33 @@ module Cudu.Permisos {
         this.$scope.errorCrearUsuario = null;
         this.modalCrearUsuario.show();
       }
+
+      crearUsuario() {
+        this.$scope.creandoUsuario = true;
+        var u = this.$scope.nuevoUsuario;
+        this.service.activar(u.id, u.email).success(() => {
+          this.modalCrearUsuario.hide();
+          this.$scope.nuevoUsuario = null;
+          this.$scope.errorCrearUsuario = null;
+        }).error((error, status) => {
+          if (status === 400 && error.codigo === 'AsociadoInactivo') {
+            this.$scope.errorCrearUsuario = this.traducciones.texto('activar.asociadoInactivo');
+          } else if (status === 409 && error.codigo === 'ActivacionDeUsuarioEnCurso') {
+            this.$scope.errorCrearUsuario = this.traducciones.texto('activar.activacionEnCurso');
+          } else {
+            this.$scope.errorCrearUsuario = this.traducciones.texto('permisos.error.servidor');
+          }
+        }).finally(() => {
+          this.$scope.creandoUsuario = false;
+        });
+      }
     }
 
     interface PermisosService {
       listado(): ng.IPromise<Usuario[]>;
       editarPermisosUsuario(command: EditarPermisosUsuario): ng.IPromise<{}>;
       cambiarEmail(usuarioId: number, email: String): ng.IPromise<{}>;
+      activar(id: number, email: string): ng.IHttpPromise<{}>
       desactivar(usuarioId: number, eliminarDatos: boolean): ng.IPromise<{}>;
       recuperarPassword(usuarioId: number, email: string): ng.IPromise<{}>;
     }
@@ -236,6 +256,10 @@ module Cudu.Permisos {
 
       cambiarEmail(usuarioId, email) {
         return this.http.put("/api/usuario/" + usuarioId + "/email", email);
+      }
+
+      activar(id, email) {
+        return this.http.post('/api/usuario/activar/' + id, email);
       }
 
       desactivar(usuarioId, eliminarDatos) {

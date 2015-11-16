@@ -16,7 +16,6 @@ var Cudu;
                 this.typeahead = typeahead;
                 service.listado().then(function (u) { $scope.usuarios = u; });
                 typeahead.attach($scope).observe(function (u) {
-                    console.log(u.email);
                     _this.$scope.nuevoUsuario = u;
                     _this.$scope.$apply();
                     $("#dlgCrearUsuarioEmail").focus();
@@ -169,6 +168,28 @@ var Cudu;
                 this.$scope.errorCrearUsuario = null;
                 this.modalCrearUsuario.show();
             };
+            PermisosController.prototype.crearUsuario = function () {
+                var _this = this;
+                this.$scope.creandoUsuario = true;
+                var u = this.$scope.nuevoUsuario;
+                this.service.activar(u.id, u.email).success(function () {
+                    _this.modalCrearUsuario.hide();
+                    _this.$scope.nuevoUsuario = null;
+                    _this.$scope.errorCrearUsuario = null;
+                }).error(function (error, status) {
+                    if (status === 400 && error.codigo === 'AsociadoInactivo') {
+                        _this.$scope.errorCrearUsuario = _this.traducciones.texto('activar.asociadoInactivo');
+                    }
+                    else if (status === 409 && error.codigo === 'ActivacionDeUsuarioEnCurso') {
+                        _this.$scope.errorCrearUsuario = _this.traducciones.texto('activar.activacionEnCurso');
+                    }
+                    else {
+                        _this.$scope.errorCrearUsuario = _this.traducciones.texto('permisos.error.servidor');
+                    }
+                }).finally(function () {
+                    _this.$scope.creandoUsuario = false;
+                });
+            };
             return PermisosController;
         })();
         Permisos.PermisosController = PermisosController;
@@ -189,6 +210,9 @@ var Cudu;
             };
             PermisosServiceImpl.prototype.cambiarEmail = function (usuarioId, email) {
                 return this.http.put("/api/usuario/" + usuarioId + "/email", email);
+            };
+            PermisosServiceImpl.prototype.activar = function (id, email) {
+                return this.http.post('/api/usuario/activar/' + id, email);
             };
             PermisosServiceImpl.prototype.desactivar = function (usuarioId, eliminarDatos) {
                 var desactivarAsociado = "";
