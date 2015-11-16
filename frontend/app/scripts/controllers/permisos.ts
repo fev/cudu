@@ -167,8 +167,10 @@ module Cudu.Permisos {
       eliminar() {
         this.$scope.eliminandoUsuario = true;
         this.service.desactivar(this.$scope.usuarioActual.id, this.$scope.eliminarTambienDatos).then(() => {
-          this.modalEliminar.hide();
           this.$scope.errorEliminar = null;
+          _.remove(this.$scope.usuarios, function(a) { return a ? a.id === this.$scope.usuarioActual.id : false; }, this);
+          this.$scope.usuarioActual = null;
+          this.modalEliminar.hide();
         }).catch(e => {
           this.$scope.errorCambioEmail = this.traducciones.texto("permisos.error.servidor")
         }).finally(() => {

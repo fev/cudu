@@ -129,8 +129,10 @@ var Cudu;
                 var _this = this;
                 this.$scope.eliminandoUsuario = true;
                 this.service.desactivar(this.$scope.usuarioActual.id, this.$scope.eliminarTambienDatos).then(function () {
-                    _this.modalEliminar.hide();
                     _this.$scope.errorEliminar = null;
+                    _.remove(_this.$scope.usuarios, function (a) { return a ? a.id === this.$scope.usuarioActual.id : false; }, _this);
+                    _this.$scope.usuarioActual = null;
+                    _this.modalEliminar.hide();
                 }).catch(function (e) {
                     _this.$scope.errorCambioEmail = _this.traducciones.texto("permisos.error.servidor");
                 }).finally(function () {
