@@ -54,7 +54,6 @@ angular
       })
       .when('/permisos', {
         templateUrl: 'i18n/views/permisos.html',
-        controller: 'PermisosCtrl',
         seccion: 'permisos'
       })
       .when('/tecnico/fev/asociado', {
