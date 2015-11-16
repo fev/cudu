@@ -2,6 +2,40 @@
   .tabla tr:hover { cursor: pointer; }
 
   .cursos-lluerna-detalle {
+    .listadoEntidades {
+      table.table td.quitar span { display: none; }
+      table.table tr:hover td.quitar span { cursor: pointer; display: inline; color: $material-red-A700; float: right;}
+      margin: 15px;
+      .table {
+        margin-top: 8px;
+        &>tbody>tr>th {
+          padding: 1px 0 0 0;
+          .btn { padding-left: 6px; padding-right: 6px; background-color: transparent; }
+        }
+        &>caption {
+          padding-left: 10px;
+          background: #f2f2f2;
+          padding-right: 10px;
+        }
+      }
+      .estado-N { color: $material-grey-400 }
+      .estado-S { color: $material-green-600 }
+      .estado-P, .estado-B { color: $material-green-A700 }
+      label { font-weight: normal; margin-right: 10px }
+      form { padding-left: 5px }
+      #txtApuntar, #txtFormador, #txtParticipante {
+        &:hover { border-color: $input-border }
+        @include box-shadow(none);
+        @include border-radius(0px);
+      }
+    }
+
+    .actividades-listado {
+      div.tabla { padding: 15px }
+      table.table tr:hover { cursor: pointer; }
+      & > .row > .col-md-12 { padding: 0 }
+    }
+
     & > .row > .col-md-12 { padding: 0 }
     textarea { border: 1px solid $input-border; }
     .mat-toolbar, .mat-toolbar-expand {
