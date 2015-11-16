@@ -39,7 +39,12 @@
   .solo-progreso { display: none }
   .progreso .solo-progreso { display: initial }
 
-  .form-group span.twitter-typeahead { width: 100% }
+  .form-group span.twitter-typeahead {
+    width: 100%;
+    input.tt-selected {
+      background-color: #E0E0E0 !important; color: #333; border-color: #E0E0E0;
+    }
+  }
 
   .modal {
     .btn {

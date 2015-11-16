@@ -68,22 +68,35 @@ module Cudu.Ux {
   }
 
   export interface Typeahead extends Disposable {
-    attach(scope: ng.IScope);
+    attach(scope: ng.IScope): Typeahead;
+    observe<T>(callback: (seleccion: T) => void);
     dispose();
   }
 
   export class TypeaheadImpl implements Typeahead {
+    private onSelected: (seleccion: any) => void = () => { };
+
     constructor(private elementId: string, private dataset: Twitter.Typeahead.Dataset,
       private options: Twitter.Typeahead.Options = { highlight: true }) { }
 
     attach(scope) {
       var element = $(this.elementId);
       element.typeahead(this.options, this.dataset);
+      scope.$on("$destroy", () => { this.dispose() });
       (<any> element).bind('typeahead:selected', (e, seleccion) => {
-        // TODO Callback here
-        console.log(seleccion);
+        $(this.elementId).addClass("tt-selected");
+        if (this.onSelected != null) {
+          this.onSelected(seleccion);
+        }
       });
-      scope.$on("$destroy", () => this.dispose());
+      element.focus(() => {
+        $(this.elementId).removeClass("tt-selected");
+      });
+      return this;
+    }
+
+    observe<T>(onSelected: (seleccion: T) => void) {
+      this.onSelected = onSelected;
     }
 
     dispose() {

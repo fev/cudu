@@ -48,7 +48,12 @@ module Cudu.Permisos {
           private modalRecuperarPassword: Cudu.Ux.Modal, private modalCrearUsuario: Cudu.Ux.Modal,
           private typeahead: Cudu.Ux.Typeahead) {
         service.listado().then(u => { $scope.usuarios = u; });
-        typeahead.attach($scope);
+        typeahead.attach($scope).observe<Usuario>(u => {
+          console.log(u.email);
+          this.$scope.nuevoUsuario = u;
+          this.$scope.$apply();
+          $("#dlgCrearUsuarioEmail").focus();
+        });
       }
 
       obtenerPermisosGrupo(u: Usuario) {

@@ -50,15 +50,26 @@ var Cudu;
                 this.elementId = elementId;
                 this.dataset = dataset;
                 this.options = options;
+                this.onSelected = function () { };
             }
             TypeaheadImpl.prototype.attach = function (scope) {
                 var _this = this;
                 var element = $(this.elementId);
                 element.typeahead(this.options, this.dataset);
+                scope.$on("$destroy", function () { _this.dispose(); });
                 element.bind('typeahead:selected', function (e, seleccion) {
-                    console.log(seleccion);
+                    $(_this.elementId).addClass("tt-selected");
+                    if (_this.onSelected != null) {
+                        _this.onSelected(seleccion);
+                    }
                 });
-                scope.$on("$destroy", function () { return _this.dispose(); });
+                element.focus(function () {
+                    $(_this.elementId).removeClass("tt-selected");
+                });
+                return this;
+            };
+            TypeaheadImpl.prototype.observe = function (onSelected) {
+                this.onSelected = onSelected;
             };
             TypeaheadImpl.prototype.dispose = function () {
                 $(this.elementId).typeahead('destroy');

@@ -4,6 +4,7 @@ var Cudu;
     (function (Permisos) {
         var PermisosController = (function () {
             function PermisosController($scope, service, traducciones, notificaciones, modalCambioDni, modalEliminar, modalRecuperarPassword, modalCrearUsuario, typeahead) {
+                var _this = this;
                 this.$scope = $scope;
                 this.service = service;
                 this.traducciones = traducciones;
@@ -14,7 +15,12 @@ var Cudu;
                 this.modalCrearUsuario = modalCrearUsuario;
                 this.typeahead = typeahead;
                 service.listado().then(function (u) { $scope.usuarios = u; });
-                typeahead.attach($scope);
+                typeahead.attach($scope).observe(function (u) {
+                    console.log(u.email);
+                    _this.$scope.nuevoUsuario = u;
+                    _this.$scope.$apply();
+                    $("#dlgCrearUsuarioEmail").focus();
+                });
             }
             PermisosController.prototype.obtenerPermisosGrupo = function (u) {
                 if (u.ambitoEdicion == "P") {

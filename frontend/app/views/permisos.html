@@ -172,13 +172,15 @@
       </div>
       <div class="form-group">
         <input id="dlgCrearUsuarioInput" class="form-control typeahead"
-          ng-model="nuevoUsuario" spellcheck="false" autocomplete="off"
+          spellcheck="false" autocomplete="off"
           placeholder="Empieza a escribir el nombre del asociado para seleccionarlo">
       </div>
       <div class="form-group">
-        <input ng-model="nuevoUsuario.email" type="email" class="form-control"
-          aaa-ng-keydown="$event.which === 13 && ctrl.seleccionarNuevoUsuario()"
+        <input id="dlgCrearUsuarioEmail" ng-model="nuevoUsuario.email" type="email" class="form-control"
           placeholder="Email" spellcheck="false" autocomplete="off">
+      </div>
+      <div class="form-group hidden">
+        <strong>Selección</strong>: Adrian Castro
       </div>
       <div class="form-group errores" ng-show="errorCrearUsuario != null">
         * {{errorCrearUsuario}}
