@@ -166,8 +166,10 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
   svc.autenticar = function(email, password, captcha) {
     delete $cookies['JSESSIONID'];
     var respuesta = $http.post('/api/usuario/autenticar', { 'email': email, 'password': password, 'captcha': captcha });
-    respuesta.success(function(data, status) { svc.usuario = data; });
-    return respuesta;
+    return respuesta.success(function(data, status) {
+      svc.usuario = data;
+      usuarioDiferido.resolve(data);
+    });
   };
 
   svc.desautenticar = function() {
