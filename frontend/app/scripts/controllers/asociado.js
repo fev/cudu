@@ -11,61 +11,6 @@ var estados = {
 };
 
 angular.module('cuduApp')
-  .controller('SeguridadCtrl', ['$scope', '$rootScope', 'Traducciones', 'Usuario', function($scope, $rootScope, Traducciones, Usuario) {
-    $scope.mensajeError = null;
-    $scope.activando = false;
-    
-    $rootScope.$on('asociado.editar', function() {
-      $scope.mensajeError = null;
-      $scope.activando = false;
-    });
-
-    $scope.activar = function(asociado) {
-      var edad = Usuario.calcularEdad(asociado.fechaNacimiento);
-      if (!asociado.email || edad < 18) {
-        $scope.mensajeError = Traducciones.texto('activar.email18');
-        return;
-      }
-      Usuario.activar(asociado.id, asociado.email)
-        .success(function(data, status) {
-          $scope.activando = true;
-        })
-        .error(function(error, status) {
-          if (status === 400 && error.codigo === 'AsociadoInactivo') {
-            $scope.mensajeError = Traducciones.texto('activar.asociadoInactivo');
-          } else if (status === 409 && error.codigo === 'ActivacionDeUsuarioEnCurso') {
-            $scope.mensajeError = Traducciones.texto('activar.activacionEnCurso');
-          } else {
-            $scope.mensajeError = Traducciones.texto('activar.errorServidor');
-          }
-        });
-    };
-
-    $scope.reenviarEmail = function() {
-      $scope.mensajeError = null;
-      $scope.activando = false;
-    };
-
-    $scope.desactivar = function(asociado) {
-      if (asociado.id === Usuario.usuario.id) {
-        $scope.mensajeError = Traducciones.texto('activar.deshabilitarUsuarioActual');
-        return;
-      }
-      Usuario.desactivar(asociado.id)
-        .success(function(data, status) {
-          asociado.usuarioActivo = false;
-          $scope.activando = false;
-          $scope.mensajeError = null;
-        })
-        .error(function(error, status) {
-          if (status === 400 && error.codigo === 'DeshabilitarUsuarioActual') {
-            $scope.mensajeError = Traducciones.texto('activar.deshabilitarUsuarioActual');
-          } else {
-            $scope.mensajeError = Traducciones.texto('activar.errorServidor');
-          }
-        });
-    };
-  }])
   .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha', 'Ramas',
       function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha, Ramas) {
     $scope.grupo = Usuario.usuario.grupo;
@@ -73,18 +18,18 @@ angular.module('cuduApp')
     Asociado.query(function(asociados) {
       $scope.asociados = asociados.content;
     });
-    
+
     $scope.fichas = [];
-    Ficha.queryAll(0, function (data) { 
+    Ficha.queryAll(0, function (data) {
       $scope.fichas = _.filter(data, function (f) { return f.tipoFicha == 0 && f.tipoEntidad == 0; });
       $scope.autorizaciones = _.filter(data, function (f) { return f.tipoFicha == 1 && f.tipoEntidad == 0; });
     }, function () { });
-    
+
     var generarAsociadoVacio = function() {
       var grupo = $scope.grupo || { id: -1, municipio: '', codigoPostal: '' };
       return {
         'grupoId': grupo.id,
-        'ambitoEdicion': 'G', 
+        'ambitoEdicion': 'G',
         'puntosCovol': 0,
         'municipio': grupo.municipio,
         'codigoPostal': grupo.codigoPostal
@@ -186,7 +131,7 @@ angular.module('cuduApp')
         asociadoGuardado.puntosCovol = calcularPuntosCovol(asociadoGuardado);
         $scope.asociado = asociadoGuardado;
         if (!asociadoNuevo) {
-          var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });        
+          var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
           $scope.asociados[pos] = asociadoGuardado;
         } else {
           $scope.asociados.unshift(asociadoGuardado);
@@ -218,12 +163,12 @@ angular.module('cuduApp')
       $scope.modal.eliminar = false;
       Asociado.delete({ id: id }, function() {
         _.remove($scope.asociados, function(a) { return a ? a.id === id : false; });
-        $scope.asociado = {};              
+        $scope.asociado = {};
       }, function() {
         $scope.estado = EstadosFormulario.ERROR;
-      });      
-    };    
-    
+      });
+    };
+
     $scope.darDeBajaSeleccionados = function() {
       var f = factoriaEdicionMultiple(function(asociado) { asociado.activo = false; }, {
         progreso: Traducciones.texto('multiple.baja.progreso'),
@@ -315,7 +260,7 @@ angular.module('cuduApp')
       } else {
         columnas[nombre] = true;
       }
-    };    
+    };
 
     $scope.cssRadio = function(valor) {
       if (valor) {
@@ -366,8 +311,8 @@ angular.module('cuduApp')
         if (rama != null) {
           a['rama' + rama] = true;
         }
-        return; 
-      }      
+        return;
+      }
       if (rama == null) { return; }
       if (!a['rama' + rama]) {
         a.alertaRama = Traducciones.texto('rama.' + rama.toLowerCase());
@@ -375,37 +320,37 @@ angular.module('cuduApp')
         a.alertaRama = null;
       }
     };
-    
+
     $scope.generarFicha = function(id) {
      if ($scope.marcados.length == 0) {
        $scope.mensajeCustom(Traducciones.texto('impresion.noseleccionados'));
        return;
      }
-     Ficha.generar(id, $scope.marcados, null, 
+     Ficha.generar(id, $scope.marcados, null,
      function (data) {
       var url = _.template('/api/ficha/<%= nombre %>/descargar');
       $window.location.assign(url({ 'nombre' : data.nombre }));
-     }, 
+     },
      function (data, status) {
       $scope.estado = EstadosFormulario.ERROR;
      });
     };
-    
+
     $scope.mensajeCustom = function(msn) {
       $scope.estado = EstadosFormulario.CUSTOM;
       $scope.info.mensaje = msn;
     };
-    
+
     $scope.imprimirTodos = function() {
       $scope.imprimirListado($scope.asociados);
     };
-    
+
     $scope.imprimirVisibles = function() {
       var f = $filter('filter');
       var visibles = f(f($scope.asociados, $scope.busqueda), function(a) { return $scope.filtrar(a); });
       $scope.imprimirListado(visibles);
     };
-    
+
     $scope.imprimirListado = function(asociados) {
       var columnas = ["nombre"];
       if($scope.columnas.contacto) {
@@ -414,15 +359,15 @@ angular.module('cuduApp')
       }
       if($scope.columnas.direccion) columnas.push("direccion");
       if($scope.columnas.rama) columnas.push("rama");
-      
-      Ficha.listado(_.map(asociados, "id"), columnas, 
+
+      Ficha.listado(_.map(asociados, "id"), columnas,
       function(data) {
         var url = _.template('/api/ficha/<%= nombre %>/descargar');
         $window.location.assign(url({ 'nombre' : data.nombre }));
       },
       function(data, status) { $scope.estado = EstadosFormulario.ERROR; });
     };
-    
+
     $scope.cambiarRama = function(rama) {
       // rama:='{ "colonia": true }
       var f = factoriaEdicionMultiple(function(asociado) {
@@ -446,7 +391,7 @@ angular.module('cuduApp')
         Asociado.cambiarRama({}, cuerpo, f.completado, f.error);
       }
     };
-    
+
     $scope.cambiarTipo = function(tipo) {
       var f = factoriaEdicionMultiple(function(asociado) {
         asociado.tipo = tipo;
@@ -491,25 +436,25 @@ angular.module('cuduApp')
       }
       $scope.estado = EstadosFormulario.LIMPIO;
     };
-    
+
     var factoriaEdicionMultiple = function(modificador, mensajes) {
       var marcados = $scope.marcados.slice();
       if (marcados.length === 0) {
         $scope.modal.debeSeleccionarAsociado = true;
         return;
       }
-      
+
       var timeoutId = _.delay(function(msg) {
         Notificaciones.progreso(msg);
       }, 250, mensajes.progreso);
-      
+
       return {
         marcados: marcados,
         error: function() {
           window.clearTimeout(timeoutId);
           Notificaciones.errorServidor(mensajes.errorServidor);
         },
-        completado: function() {          
+        completado: function() {
           for (var i = 0; i < $scope.asociados.length; i++) {
             var a = $scope.asociados[i];
             if (_.includes(marcados, a.id)) {
