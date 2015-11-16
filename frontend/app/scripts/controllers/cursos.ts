@@ -2,8 +2,8 @@
 /// <reference path="../services.d.ts"/>
 
 module Cudu.Cursos {
-  
-  export interface Curso { 
+
+  export interface Curso {
     id: number;
     titulo: string;
     fechaInicioInscripcion: Date;
@@ -15,13 +15,13 @@ module Cudu.Cursos {
     descripcionFechas: string;
     descripcionLugar: string;
     usuarioInscrito: boolean;
-    usuarioListaEspera: boolean;    
+    usuarioListaEspera: boolean;
     plazoCerrado: boolean;
     plazoRestante: string;
-    
+
     operacionEnCurso?: boolean;
   }
-  
+
   interface EstadoInscripcionEnCurso {
     cursoId: number;
     plazas: number;
@@ -29,10 +29,10 @@ module Cudu.Cursos {
     disponibles: number;
     listaDeEspera: boolean;
   }
-  
+
   export class CursoController {
     cursos: Curso[][];
-    
+
     constructor(private $scope: ng.IScope, private service: CursoService) {
       service.listado().then(pagina => {
         // Divide el listado de cursos en tres columnas, repartidas
@@ -47,46 +47,46 @@ module Cudu.Cursos {
             chunked[1][j] = this.establecerPlazos(lista[i+1]);
             if (typeof(lista[i+2]) === 'undefined') { break; }
             chunked[2][j] = this.establecerPlazos(lista[i+2]);
-        }        
+        }
         this.cursos = chunked;
       });
     }
-    
+
     inscribir(curso: Curso) {
-      if (curso.operacionEnCurso || !this.elCursoEstaEnPlazo(curso)) { 
-        return; 
+      if (curso.operacionEnCurso || !this.elCursoEstaEnPlazo(curso)) {
+        return;
       }
       curso.operacionEnCurso = true;
       this.service.inscribir(curso.id).success((e: EstadoInscripcionEnCurso) => {
         this.actualizarEstadoCurso(e, true);
-      }).error(e => { 
+      }).error(e => {
         /* TODO Toast! */ 
         console.log(e);
       }).finally(() => {
         curso.operacionEnCurso = false;
       });
     }
-    
+
     desinscribir(curso: Curso) {
-      if (curso.operacionEnCurso || !this.elCursoEstaEnPlazo(curso)) { 
-        return; 
+      if (curso.operacionEnCurso || !this.elCursoEstaEnPlazo(curso)) {
+        return;
       }
       curso.operacionEnCurso = true;
       this.service.desinscribir(curso.id).success((e: EstadoInscripcionEnCurso) => {
         this.actualizarEstadoCurso(e, false);
-      }).error(e => { 
+      }).error(e => {
         /* TODO Toast! */
         console.log(e);
       }).finally(() => {
         curso.operacionEnCurso = false;
       });
     }
-    
+
     establecerPlazos(curso: Curso) {
       var m = moment(curso.fechaFinInscripcion);
       if (m.isValid) {
           curso.plazoCerrado = m.isAfter();
-          if (m.isAfter()) {            
+          if (m.isAfter()) {
             curso.plazoRestante = "El plazo inscripción cierra en " + m.fromNow();
           } else {
             curso.plazoRestante = "Plazo de inscripición cerrado";
@@ -94,7 +94,7 @@ module Cudu.Cursos {
       }
       return curso;
     }
-    
+
     private actualizarEstadoCurso(e: EstadoInscripcionEnCurso, inscrito: boolean) {
       var actual = _.find(_.flatten(this.cursos), c => c.id == e.cursoId);
       actual.disponibles = e.disponibles;
@@ -102,7 +102,7 @@ module Cudu.Cursos {
       actual.usuarioInscrito = inscrito;
       actual.usuarioListaEspera = e.listaDeEspera;
     }
-    
+
     private elCursoEstaEnPlazo(curso: Curso): boolean {
       var ahora = moment();
       var fechaInicio = moment(curso.fechaInicioInscripcion);
@@ -112,34 +112,34 @@ module Cudu.Cursos {
       return true;
     }
   }
-  
+
   interface CursoService {
     listado(): ng.IPromise<Page<Curso>>;
     inscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso>;
     desinscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso>;
   }
-  
+
   class CursoServiceImpl implements CursoService {
     private usuarioId: number;
-    
+
     constructor(private http: ng.IHttpService, private usuarioService: UsuarioService) { }
-    
-    listado(): ng.IPromise<Page<Curso>> { 
-      return this.usuarioService.obtenerActual().then(u => { 
+
+    listado(): ng.IPromise<Page<Curso>> {
+      return this.usuarioService.obtenerActual().then(u => {
         this.usuarioId = u.id;
         return this.http.get<Page<Curso>>("/api/lluerna/curso?sort=id&size=100")
       }).then(d => { return d.data; });
     }
-    
-    inscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso> {      
+
+    inscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso> {
       return this.http.post('/api/lluerna/curso/' + id + '/participantes', this.usuarioId);
     }
-    
+
     desinscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso> {
       return this.http.delete('/api/lluerna/curso/' + id + '/participantes/' + this.usuarioId, { });
     }
   }
-  
+
   export function CursoServiceFactory($http: ng.IHttpService, usuarioService: UsuarioService): CursoService {
     return new CursoServiceImpl($http, usuarioService);
   }
