@@ -128,7 +128,7 @@ module Cudu.Cursos {
       return this.usuarioService.obtenerActual().then(u => { 
         this.usuarioId = u.id;
         return this.http.get<Page<Curso>>("/api/lluerna/curso?sort=id&size=100")
-      });
+      }).then(d => { return d.data; });
     }
     
     inscribir(id: number): ng.IHttpPromise<EstadoInscripcionEnCurso> {      

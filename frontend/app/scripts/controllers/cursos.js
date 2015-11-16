@@ -1,5 +1,3 @@
-/// <reference path="../../../typings/tsd.d.ts"/>
-/// <reference path="../services.d.ts"/>
 var Cudu;
 (function (Cudu) {
     var Cursos;
@@ -102,7 +100,7 @@ var Cudu;
                 return this.usuarioService.obtenerActual().then(function (u) {
                     _this.usuarioId = u.id;
                     return _this.http.get("/api/lluerna/curso?sort=id&size=100");
-                });
+                }).then(function (d) { return d.data; });
             };
             CursoServiceImpl.prototype.inscribir = function (id) {
                 return this.http.post('/api/lluerna/curso/' + id + '/participantes', this.usuarioId);
