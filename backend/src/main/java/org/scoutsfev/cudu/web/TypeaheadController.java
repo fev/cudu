@@ -41,4 +41,9 @@ public class TypeaheadController {
     public Page<FormadorDto> formadores(@PathVariable String query, @AuthenticationPrincipal Usuario usuario) {
         return asociadoRepository.formadorTypeAhead(query.toLowerCase(), new PageRequest(0, 30));
     }
+
+    @RequestMapping(value = "/typeahead/usuario/{query}", method = RequestMethod.GET)
+    public Page<AsociadoTypeaheadDto> usuarios(@PathVariable String query, @AuthenticationPrincipal Usuario usuario) {
+        return asociadoRepository.usuariosTypeahead(usuario.getGrupo().getId(), query.toLowerCase(), new PageRequest(0, 30));
+    }
 }

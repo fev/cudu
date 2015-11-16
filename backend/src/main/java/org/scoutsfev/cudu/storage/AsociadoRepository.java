@@ -44,4 +44,8 @@ public interface AsociadoRepository extends PagingAndSortingRepository<Asociado,
 
     @Query(value = "SELECT new org.scoutsfev.cudu.domain.dto.FormadorDto(F.id, F.nombreCompleto, F.telefono) FROM MiembroEscuelaDto F WHERE lower(F.nombreCompleto) LIKE :texto% AND F.cargoId = 34")
     Page<FormadorDto> formadorTypeAhead(@Param("texto") String texto, Pageable pageable);
+
+    @Query("SELECT new org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto(a.id, a.grupoId, a.activo, a.nombre, a.apellidos, COALESCE(a.email, a.emailContacto), a.telefonoMovil, a.telefonoCasa) FROM Asociado a " +
+            "WHERE a.grupoId = :grupoId AND (lower(a.nombre) LIKE :texto% OR lower(a.apellidos) LIKE :texto%) AND a.activo = true AND a.usuarioActivo = false AND (EDAD(a.fechaNacimiento) >= 18)")
+    Page<AsociadoTypeaheadDto> usuariosTypeahead(@Param("grupoId") String grupoId, @Param("texto") String texto, Pageable pageable);
 }
