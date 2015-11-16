@@ -101,8 +101,6 @@
       .btn-danger:hover { color: #FFF; background-color: $material-red-300; }
       .btn-success:hover { color: #FFF; background-color: $material-green-300; }
     }
-    .btn-group .btn-default:focus { background-color: transparent; }
-    .btn-group .btn-default.active { background-color: $material-grey-300; }
     .form-control:focus {
       border-color: $material-cyan-500;
     }
@@ -126,7 +124,7 @@
       textarea { border: 1px solid $input-border; }
     }
   }
-  
+
   // Bootstrap 3.3 añade un z-index: 2 que hunde el popup de los menus
   .input-group-btn:last-child > .btn-group { z-index: inherit; }
 }

@@ -108,6 +108,10 @@ h1 { font-weight: 300; }
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus,
 .btn:active.focus, .btn.active.focus { outline: none }
 
+// Eliminar borde negro al pulsar y establecer el foco
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus,
+.btn-default:active:focus, .btn-default:active:hover { border-color: $material-grey-300; background-color: $material-grey-300 }
+
 // Eliminar sombra interna al pulsar
 .btn:active, .btn.active, .btn-group.open .dropdown-toggle {
   @include box-shadow(none);

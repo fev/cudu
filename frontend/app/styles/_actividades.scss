@@ -11,6 +11,7 @@
     .mat-toolbar, .mat-toolbar-expand {
       background: $material-green-50;
       color: $material-green-900;
+      .btn:hover { color: $material-green-900; background-color: $material-green-100; }
     }
     #panelEdicion {
       border-left: 1px solid $input-border;
@@ -58,6 +59,6 @@
         @include border-radius(0px);
       }
     }
-    .tt-menu { margin-top: -1px; }    
+    .tt-menu { margin-top: -1px; }
   }
 }
