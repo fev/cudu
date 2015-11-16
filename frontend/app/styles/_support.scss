@@ -90,8 +90,8 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
 @mixin layout-listado($color, $background, $hover-background) {
   div.tabla { padding: 15px }
   table.table tr:hover { cursor: pointer; }
-  & > .row > .col-md-12 { padding: 0 } 
-  
+  & > .row > .col-md-12 { padding: 0 }
+
   #txtBusqueda {
      font-weight: 300;
      padding: 6px;
@@ -107,7 +107,7 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
        @include box-shadow(none);
      }
    }
-  
+
   .mat-toolbar {
     background: $background;
     .btn {
@@ -116,4 +116,3 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
     }
   }
 }
-

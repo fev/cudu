@@ -74,7 +74,7 @@
                     <ul class="dropdown-menu">
                       <li><a href="javascript:" ng-click="cambiarTipo('J')"><%= tipo.Joven %></a></li>
                       <li><a href="javascript:" ng-click="cambiarTipo('K')"><%= tipo.Kraal %></a></li>
-                      <li><a href="javascript:" ng-click="cambiarTipo('C')"><%= tipo.Comite %></a></li>                      
+                      <li><a href="javascript:" ng-click="cambiarTipo('C')"><%= tipo.Comite %></a></li>
                     </ul>
                   </li>
                   <li><a href="javascript:" ng-click="darDeBajaSeleccionados()"><%= asociado.darDeBaja %></a></li>
@@ -178,7 +178,7 @@
         <li ng-repeat="error in erroresValidacion">{{error.mensaje}}</li>
       </ul>
     </div>
-    
+
     <div class="alert alert-warning" ng-show="estado == 5">
       {{info.mensaje}}
     </div>
@@ -254,7 +254,7 @@
           <div class="form-group">
             <label class="col-md-3 control-label"><%= asociado.fechaNac %></label>
             <div class="col-md-9">
-              <input ng-model="asociado.fechaNacimiento" cudu-fecha type="text" class="form-control" 
+              <input ng-model="asociado.fechaNacimiento" cudu-fecha type="text" class="form-control"
                 placeholder="<%=asociado.obligatorio%> (dd/mm/aaaa)" ng-blur="comprobarAlertaRama(asociado)">
             </div>
           </div>
@@ -274,7 +274,7 @@
             <label class="col-md-3 control-label"><i class="fa fa-check-square-o fa-lg"></i></label>
             <div class="col-md-9">
               <p class="form-control-static">
-                <%= asociado.aceptoClausulaDeberSecreto %>                
+                <%= asociado.aceptoClausulaDeberSecreto %>
               </p>
             </div>
           </div>
@@ -538,11 +538,11 @@
       </div>
 
       <div class="tab-content tab-cargos" ng-show="tabActivo == 6">
-        <div class="col-md-6">          
+        <div class="col-md-6">
           <div class="form-group">
             <label class="col-md-3 control-label" style="text-align: left; padding-left: 0"><%=asociado.puntosCovol%></label>
             <div class="col-md-9">
-              <p class="form-control-static">{{asociado.puntosCovol}}</p>              
+              <p class="form-control-static">{{asociado.puntosCovol}}</p>
             </div>
           </div>
           <div class="form-group">
@@ -599,7 +599,7 @@
         </div>
       </div>
 
-      <div class="tab-content tab-notas" ng-show="tabActivo == 5">        
+      <div class="tab-content tab-notas" ng-show="tabActivo == 5">
         <textarea ng-model="asociado.notas" class="form-control" rows="5"
           placeholder="<%=asociado.notasExplicacion%>"></textarea>
       </div>
@@ -625,7 +625,7 @@
 <div class="modal-content">
   <div class="modal-body" style="min-height: 140px; padding-right: 20px;">
     <p><img src="images/seleccion_multiple.gif" class="img-thumbnail pull-left" style="margin-right: 20px">
-      <%= asociado.ningunoSeleccionado %></p>    
+      <%= asociado.ningunoSeleccionado %></p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.debeSeleccionarAsociado = false"><%= asociado.ningunoSeleccionadoEntendido %></button>
