@@ -11,8 +11,8 @@ var estados = {
 };
 
 angular.module('cuduApp')
-  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha', 'Ramas',
-      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha, Ramas) {
+  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha',
+      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
     Asociado.query(function(asociados) {

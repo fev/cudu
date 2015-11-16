@@ -7,7 +7,6 @@ angular
     'ngCookies',
     'ngAnimate',
     'cuduTraducciones',
-    'cuduRamas',
     'cuduDom',
     'cuduServices',
     'cuduFilters',
