@@ -13,14 +13,23 @@ var Cudu;
                         this.traducciones = traducciones;
                         this.$routeParams = $routeParams;
                         this.cursoService = cursoService;
+                        this.typeAhead = typeAhead;
                         this.estados = estados;
-                        $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
-                        $scope.typeaheadFormadorDts = typeAhead.formador();
-                        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
-                        $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
                         $scope.estado = estados.LIMPIO;
                         $scope.erroresValidacion = [];
+                        $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
+                        $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
                         $scope.$on('typeahead:selected', function (e, asociado) { return _this.añadirAsociado(e, asociado); });
+                        var id = $routeParams.id;
+                        if (id == 'nuevo') {
+                            $scope.typeaheadParticipanteDts = $scope.typeaheadFormadorDts = [];
+                            $scope.curso = new Cursos.Curso();
+                            $scope.curso.descripcionLugar = "";
+                            $scope.curso.descripcionFechas = "";
+                            return;
+                        }
+                        $scope.typeaheadFormadorDts = typeAhead.formador();
+                        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
                         cursoService.getCurso(+$routeParams.id).success(function (c) {
                             var formadores = _.map(c.formadores, function (f) {
                                 f.nuevo = false;
@@ -78,6 +87,25 @@ var Cudu;
                     };
                     CursoLluernaController.prototype.guardar = function () {
                         var _this = this;
+                        if (_.isUndefined(this.$scope.curso.id)) {
+                            this.cursoService.crearCurso(this.$scope.curso)
+                                .success(function (data) {
+                                _this.$scope.curso = data;
+                                _this.$scope.estado = _this.estados.OK;
+                                _this.$scope.typeaheadFormadorDts = _this.typeAhead.formador();
+                                _this.$scope.typeaheadParticipanteDts = _this.typeAhead.participante(data.id);
+                            })
+                                .error(function (data, e) {
+                                if (e == 400) {
+                                    _this.$scope.estado = _this.estados.VALIDACION;
+                                    _this.$scope.erroresValidacion = data || [];
+                                }
+                                else {
+                                    _this.$scope.estado = _this.estados.ERROR;
+                                }
+                            });
+                            return;
+                        }
                         this.cursoService.guardarCurso(this.$scope.curso)
                             .success(function () { return _this.$scope.estado = _this.estados.OK; })
                             .error(function (data, e) {

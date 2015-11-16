@@ -15,6 +15,7 @@ module Cudu.Lluerna.Cursos.Detalle {
     }
 
     export interface CursoLluernaScope extends ng.IScope {
+      id: any;
       curso: Curso;
       typeaheadFormadorOpt: TypeAheadOptions;
       typeaheadParticipanteOpt: TypeAheadOptions;
@@ -31,14 +32,24 @@ module Cudu.Lluerna.Cursos.Detalle {
       static $inject = ['$scope', 'Traducciones', '$routeParams', 'CursosService', 'Typeahead', 'EstadosFormulario'];
       constructor(private $scope: CursoLluernaScope, private traducciones: TraduccionesService,
         private $routeParams: CursoLluernaParams, private cursoService: CursosService,
-        typeAhead: ITypeAhead, private estados: IEstadosFormulario) {
-        $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
-        $scope.typeaheadFormadorDts = typeAhead.formador();
-        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
-        $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
+        private typeAhead: ITypeAhead, private estados: IEstadosFormulario) {
         $scope.estado = estados.LIMPIO;
         $scope.erroresValidacion = [];
+        $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
+        $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
         $scope.$on('typeahead:selected', (e, asociado) => this.añadirAsociado(e, asociado));
+
+        var id = $routeParams.id;
+        if(id == 'nuevo') {
+          $scope.typeaheadParticipanteDts = $scope.typeaheadFormadorDts = [];
+          $scope.curso = new Curso();
+          $scope.curso.descripcionLugar = "";
+          $scope.curso.descripcionFechas = "";
+          return;
+        }
+
+        $scope.typeaheadFormadorDts = typeAhead.formador();
+        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
 
         cursoService.getCurso(+$routeParams.id).success(c => {
           var formadores = _.map(c.formadores, (f: any) => {
@@ -99,6 +110,25 @@ module Cudu.Lluerna.Cursos.Detalle {
       }
 
       guardar() {
+        if(_.isUndefined(this.$scope.curso.id)) {
+          this.cursoService.crearCurso(this.$scope.curso)
+          .success((data) => {
+            this.$scope.curso = data;
+            this.$scope.estado = this.estados.OK
+            this.$scope.typeaheadFormadorDts = this.typeAhead.formador();
+            this.$scope.typeaheadParticipanteDts = this.typeAhead.participante(data.id);
+          })
+          .error((data, e) => {
+            if (e == 400) {
+              this.$scope.estado = this.estados.VALIDACION;
+              this.$scope.erroresValidacion = data || [];
+            } else {
+              this.$scope.estado = this.estados.ERROR;
+            }
+          });
+          return;
+        }
+
         this.cursoService.guardarCurso(this.$scope.curso)
         .success(() => this.$scope.estado = this.estados.OK)
         .error((data, e) => {

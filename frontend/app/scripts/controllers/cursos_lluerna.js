@@ -4,6 +4,12 @@ var Cudu;
     (function (Lluerna) {
         var Cursos;
         (function (Cursos) {
+            var Curso = (function () {
+                function Curso() {
+                }
+                return Curso;
+            })();
+            Cursos.Curso = Curso;
             var CursosService = (function () {
                 function CursosService($http) {
                     this.http = $http;
@@ -30,6 +36,9 @@ var Cudu;
                 };
                 CursosService.prototype.guardarCurso = function (curso) {
                     return this.http.put('/api/lluerna/curso/' + curso.id, curso);
+                };
+                CursosService.prototype.crearCurso = function (curso) {
+                    return this.http.post('/api/lluerna/curso', curso);
                 };
                 CursosService.$inject = ['$http'];
                 return CursosService;

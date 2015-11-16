@@ -2,7 +2,7 @@
 
 module Cudu.Lluerna.Cursos {
 
-  export interface Curso {
+  export class Curso {
     id: number;
     titulo: string;
     fechaInicioInscripcion: string[];
@@ -11,6 +11,8 @@ module Cudu.Lluerna.Cursos {
     fechaNacimientoMinima: string[];
     formadores: any[];
     participantes: any[];
+    descripcionFechas: string;
+    descripcionLugar: string;
   }
 
   export interface CursosControllerScope extends ng.IScope {
@@ -53,6 +55,10 @@ module Cudu.Lluerna.Cursos {
 
     guardarCurso(curso: Curso): ng.IHttpPromise<any> {
       return this.http.put('/api/lluerna/curso/' + curso.id, curso);
+    }
+
+    crearCurso(curso: Curso): ng.IHttpPromise<any> {
+      return this.http.post('/api/lluerna/curso', curso);
     }
   }
 
