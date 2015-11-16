@@ -13,7 +13,7 @@
               sf-typeahead options="typeaheadAsociadoOpt" datasets="typeaheadAsociadoDts" ng-model="asistentPerAfegir">
           </div>
           <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
               <%= actividades.anadirRama %> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
@@ -132,24 +132,24 @@
                 <label class="col-md-3 control-label"><%= actividades.rama %></label>
                 <div class="col-md-9">
                   <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-default colonia" ng-class="{active: actividad.rama.colonia}" ng-click="establecerRama('colonia')">
+                    <a class="btn btn-default colonia" ng-class="{active: actividad.rama.colonia}" ng-click="establecerRama('colonia')">
                       <i class="fa fa-circle"></i>
-                    </button>
-                    <button type="button" class="btn btn-default manada" ng-class="{active: actividad.rama.manada}" ng-click="establecerRama('manada')">
+                    </a>
+                    <a class="btn btn-default manada" ng-class="{active: actividad.rama.manada}" ng-click="establecerRama('manada')">
                       <i class="fa fa-circle"></i>
-                    </button>
-                    <button type="button" class="btn btn-default exploradores" ng-class="{active: actividad.rama.exploradores}" ng-click="establecerRama('exploradores')">
+                    </a>
+                    <a class="btn btn-default exploradores" ng-class="{active: actividad.rama.exploradores}" ng-click="establecerRama('exploradores')">
                       <i class="fa fa-circle"></i>
-                    </button>
-                    <button type="button" class="btn btn-default expedicion" ng-class="{active: actividad.rama.expedicion}" ng-click="establecerRama('expedicion')">
+                    </a>
+                    <a class="btn btn-default expedicion" ng-class="{active: actividad.rama.expedicion}" ng-click="establecerRama('expedicion')">
                       <i class="fa fa-circle"></i>
-                    </button>
-                    <button type="button" class="btn btn-default ruta" ng-class="{active: actividad.rama.ruta}" ng-click="establecerRama('ruta')">
+                    </a>
+                    <a class="btn btn-default ruta" ng-class="{active: actividad.rama.ruta}" ng-click="establecerRama('ruta')">
                       <i class="fa fa-circle"></i>
-                    </button>
-                    <button type="button" class="btn btn-default" ng-class="{active: !actividad.rama.alguna}" ng-click="establecerRama('alguna')">
+                    </a>
+                    <a class="btn btn-default" ng-class="{active: !actividad.rama.alguna}" ng-click="establecerRama('alguna')">
                       Cualquiera
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>

@@ -69,9 +69,9 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
 
 @mixin btnRama($primario, $secundario) {
   color: $secundario;
-  &:hover { color: $primario; background-color: transparentize($secundario, 0.7); }
   &:focus { color: $secundario; background-color: transparent; }
-  &.active { color: $primario; background-color: $secundario !important; }
+  &:hover, &:active:hover { color: $primario; background-color: transparentize($secundario, 0.7); border-color: transparentize($secundario, 0.9); }
+  &.active, &.active:hover { color: $primario; background-color: $secundario !important; border-color: $secundario; }
 }
 
 @mixin paginaMultiPanel {
