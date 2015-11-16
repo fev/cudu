@@ -9,7 +9,7 @@
       "commit": "7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645"
     },
     "jquery/jquery.d.ts": {
-      "commit": "c2c22c3b953fe9730d4802022d5e0d18d083909e"
+      "commit": "c560ba6f0f55ce6f50e9d06e37b5bc0e2b9117b0"
     },
     "angularjs/angular-resource.d.ts": {
       "commit": "7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645"
@@ -30,7 +30,7 @@
       "commit": "ebc69904eb78f94030d5d517b42db20867f679c0"
     },
     "typeahead/typeahead.d.ts": {
-      "commit": "c2c22c3b953fe9730d4802022d5e0d18d083909e"
+      "commit": "c560ba6f0f55ce6f50e9d06e37b5bc0e2b9117b0"
     }
   }
 }

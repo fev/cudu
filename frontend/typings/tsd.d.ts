@@ -6,3 +6,4 @@
 /// <reference path="moment/moment.d.ts" />
 /// <reference path="q/Q.d.ts" />
 /// <reference path="angularjs/angular-route.d.ts" />
+/// <reference path="typeahead/typeahead.d.ts" />
