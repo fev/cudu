@@ -135,7 +135,7 @@ public class UsuarioService implements UserDetailsService {
         if (usuario == null)
             return logError("El token existe en base de datos, pero no existe ningún usuario con ese email.", token);
 
-        usuarioRepository.activar(usuario.getId(), token.getPassword());
+        usuarioRepository.activar(usuario.getId(), token.getPassword(), token.getScore());
         tokenRepository.delete(original);
 
         eventPublisher.publishEvent(new AuditApplicationEvent(token.getEmail(), EventosAuditoria.CambioPassword, token.getToken()));

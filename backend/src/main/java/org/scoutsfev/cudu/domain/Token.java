@@ -36,6 +36,9 @@ public class Token {
     @Min(0)
     private long duracionEnSegundos = 0;
 
+    @Transient
+    private Short score = 0;
+
     protected Token() { }
 
     public Token(String email, String token, Instant now, Duration duracion) {
@@ -89,5 +92,13 @@ public class Token {
 
     public void setDuracionEnSegundos(long duracionEnSegundos) {
         this.duracionEnSegundos = duracionEnSegundos;
+    }
+
+    public Short getScore() {
+        return score;
+    }
+
+    public void setScore(Short score) {
+        this.score = score;
     }
 }

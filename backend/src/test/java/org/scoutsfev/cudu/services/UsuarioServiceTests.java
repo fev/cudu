@@ -168,7 +168,7 @@ public class UsuarioServiceTests {
         service.desactivarUsuario(asociadoId, false);
         verify(repository, times(1)).desactivar(asociadoId);
         verify(repository, times(1)).desactivar(anyInt());
-        verify(repository, never()).activar(anyInt(), anyString());
+        verify(repository, never()).activar(anyInt(), anyString(), anyShort());
         verify(asociadoRepository, never()).activar(anyInt(), anyBoolean());
     }
 
@@ -178,7 +178,7 @@ public class UsuarioServiceTests {
         service.desactivarUsuario(asociadoId, true);
         verify(repository, times(1)).desactivar(asociadoId);
         verify(repository, times(1)).desactivar(anyInt());
-        verify(repository, never()).activar(anyInt(), anyString());
+        verify(repository, never()).activar(anyInt(), anyString(), anyShort());
         verify(asociadoRepository, times(1)).activar(eq(asociadoId), eq(false));
         verify(asociadoRepository, never()).activar(not(eq(asociadoId)), eq(true));
     }

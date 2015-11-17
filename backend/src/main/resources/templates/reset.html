@@ -34,6 +34,7 @@
           <div class="form-group">
             <label class="control-label" th:text="#{reset.calidad}">Calidad de la contraseña</label>
             <p id="calidad" class="form-control-static">&nbsp;</p>
+            <input type="hidden" id="score" name="score" th:value="${token.score}" />
           </div>
       </div>
       <div class="paper-actions">

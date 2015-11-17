@@ -106,7 +106,7 @@ public abstract class EndToEndTest {
         nuevo.setEmail(login);
         Asociado asociado = asociadoRepository.save(nuevo);
 
-        usuarioRepository.activar(asociado.getId(), password);
+        usuarioRepository.activar(asociado.getId(), password, (short)0);
         Usuario usuario = usuarioRepository.findByEmail(login);
         assertNotNull(usuario);
         assertThat(usuario.getEmail(), is(equalTo(asociado.getEmail())));

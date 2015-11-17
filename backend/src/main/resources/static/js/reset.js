@@ -7,6 +7,7 @@ var calcular = function(textos, medir) {
   var password = $("#password").val();
   var calidad = medir(password);
   $("#calidad").text(textos[calidad]).css("color", colores[calidad]);
+  $("#score").val(calidad);
 };
 
 var minimo = function () {
@@ -51,6 +52,7 @@ window.ResetCtrlFactory = function(textos, fncMedicion, dom) {
       e.preventDefault();
     }
   });
+  $("#password").focus();
 };
 
 }());

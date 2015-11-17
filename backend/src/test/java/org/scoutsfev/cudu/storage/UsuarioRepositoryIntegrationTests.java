@@ -41,7 +41,7 @@ public class UsuarioRepositoryIntegrationTests {
 
     @Test
     public void al_activar_un_usuario_se_establece_el_password_y_se_habilita_el_flag_de_usuarioActivo() throws Exception {
-        usuarioRepository.activar(asociado.getId(), "12345");
+        usuarioRepository.activar(asociado.getId(), "12345", (short)0);
         Usuario usuario = usuarioRepository.findByEmail(asociado.getEmail());
         assertEquals("12345", usuario.getPassword());
         assertTrue(usuario.isUsuarioActivo());

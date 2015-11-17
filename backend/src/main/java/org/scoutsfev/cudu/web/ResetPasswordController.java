@@ -31,6 +31,7 @@ public class ResetPasswordController {
         if (token == null || token.expirado(Instant.now()))
             return "forward:/404";
         model.addAttribute("token", token);
+        model.addAttribute("score", 0);
         return "reset";
     }
 

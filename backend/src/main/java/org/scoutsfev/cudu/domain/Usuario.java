@@ -33,6 +33,9 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
     @JoinColumn(name = "grupo_id", referencedColumnName = "id")
     protected Grupo grupo;
 
+    @Column(nullable = true, columnDefinition = "smallint default 0")
+    protected Short calidadPassword;
+
     protected Usuario() { }
 
     @Override
@@ -99,5 +102,13 @@ public class Usuario extends AsociadoAbstracto implements UserDetails {
 
     public Grupo getGrupo() {
         return grupo;
+    }
+
+    public Short getCalidadPassword() {
+        return calidadPassword;
+    }
+
+    public void setCalidadPassword(Short calidadPassword) {
+        this.calidadPassword = calidadPassword;
     }
 }

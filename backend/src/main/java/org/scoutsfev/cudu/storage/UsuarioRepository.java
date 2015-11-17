@@ -17,8 +17,8 @@ public interface UsuarioRepository extends Repository<Usuario, String> {
 
     @Modifying
     @Transactional
-    @Query("update Usuario u set u.password = :password, u.usuarioActivo = true, u.requiereCaptcha = false where u.id = :idAsociado")
-    public void activar(@Param("idAsociado") int idAsociado, @Param("password") String password);
+    @Query("update Usuario u set u.password = :password, u.usuarioActivo = true, u.requiereCaptcha = false, u.calidadPassword = :calidadPassword where u.id = :idAsociado")
+    public void activar(@Param("idAsociado") int idAsociado, @Param("password") String password, @Param("calidadPassword") short calidadPassword);
 
     @Modifying
     @Transactional
