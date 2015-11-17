@@ -19,17 +19,17 @@ var Cudu;
                         $scope.erroresValidacion = [];
                         $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
                         $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
+                        $scope.typeaheadFormadorDts = typeAhead.formador();
+                        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
                         $scope.$on('typeahead:selected', function (e, asociado) { return _this.añadirAsociado(e, asociado); });
-                        var id = $routeParams.id;
-                        if (id == 'nuevo') {
-                            $scope.typeaheadParticipanteDts = $scope.typeaheadFormadorDts = [];
+                        ;
+                        if ($routeParams.id == 'nuevo') {
                             $scope.curso = new Cursos.Curso();
                             $scope.curso.descripcionLugar = "";
                             $scope.curso.descripcionFechas = "";
+                            $scope.disableTypeAhead = true;
                             return;
                         }
-                        $scope.typeaheadFormadorDts = typeAhead.formador();
-                        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
                         cursoService.getCurso(+$routeParams.id).success(function (c) {
                             var formadores = _.map(c.formadores, function (f) {
                                 f.nuevo = false;
@@ -92,8 +92,9 @@ var Cudu;
                                 .success(function (data) {
                                 _this.$scope.curso = data;
                                 _this.$scope.estado = _this.estados.OK;
+                                _this.$scope.disableTypeAhead = false;
                                 _this.$scope.typeaheadFormadorDts = _this.typeAhead.formador();
-                                _this.$scope.typeaheadParticipanteDts = _this.typeAhead.participante(data.id);
+                                _this.$scope.typeaheadParticipanteDts = _this.typeAhead.participante(_this.$scope.curso.id);
                             })
                                 .error(function (data, e) {
                                 if (e == 400) {

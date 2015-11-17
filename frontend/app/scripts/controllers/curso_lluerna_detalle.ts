@@ -26,6 +26,7 @@ module Cudu.Lluerna.Cursos.Detalle {
       estado: number;
       erroresValidacion: Array<string>;
       customError: string;
+      disableTypeAhead: boolean;
     }
 
     export class CursoLluernaController {
@@ -37,19 +38,17 @@ module Cudu.Lluerna.Cursos.Detalle {
         $scope.erroresValidacion = [];
         $scope.typeaheadFormadorOpt = $scope.typeaheadParticipanteOpt = { highlight: true, editable: false };
         $scope.miembroPorIncluir = $scope.participantePorIncluir = null;
+        $scope.typeaheadFormadorDts = typeAhead.formador();
+        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
         $scope.$on('typeahead:selected', (e, asociado) => this.añadirAsociado(e, asociado));
-
-        var id = $routeParams.id;
-        if(id == 'nuevo') {
-          $scope.typeaheadParticipanteDts = $scope.typeaheadFormadorDts = [];
+;
+        if($routeParams.id == 'nuevo') {
           $scope.curso = new Curso();
           $scope.curso.descripcionLugar = "";
           $scope.curso.descripcionFechas = "";
+          $scope.disableTypeAhead = true;
           return;
         }
-
-        $scope.typeaheadFormadorDts = typeAhead.formador();
-        $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
 
         cursoService.getCurso(+$routeParams.id).success(c => {
           var formadores = _.map(c.formadores, (f: any) => {
@@ -57,7 +56,6 @@ module Cudu.Lluerna.Cursos.Detalle {
             return f;
           });
           c.formadores = formadores;
-
           var participates = _.map(c.formadores, (f: any) => {
             f.nuevo = false;
             return f;
@@ -114,9 +112,10 @@ module Cudu.Lluerna.Cursos.Detalle {
           this.cursoService.crearCurso(this.$scope.curso)
           .success((data) => {
             this.$scope.curso = data;
-            this.$scope.estado = this.estados.OK
+            this.$scope.estado = this.estados.OK;
+            this.$scope.disableTypeAhead = false;
             this.$scope.typeaheadFormadorDts = this.typeAhead.formador();
-            this.$scope.typeaheadParticipanteDts = this.typeAhead.participante(data.id);
+            this.$scope.typeaheadParticipanteDts = this.typeAhead.participante(this.$scope.curso.id);
           })
           .error((data, e) => {
             if (e == 400) {

@@ -1,6 +1,8 @@
 .cursos-lluerna {
   .tabla tr:hover { cursor: pointer; }
 
+  input.typeaheads.bloqueado { cursor: not-allowed; }
+
   .cursos-lluerna-detalle {
     .listadoEntidades {
       table.table td.quitar span { display: none; }
@@ -28,6 +30,7 @@
         @include box-shadow(none);
         @include border-radius(0px);
       }
+      .form-group.etiqueta { width: 130px; }
     }
 
     .actividades-listado {

@@ -7,11 +7,11 @@
         <div class="col-md-12">
           <div id="listadoFormadores" class="listadoEntidades">
             <form class="form-inline">
-              <div class="form-group">
+              <div class="form-group etiqueta">
                 <label><%= cursos.incluirFormador %></label>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control typeaheads" id="txtFormador" placeholder="Baden Powell"
+                <input ng-disabled="disableTypeAhead" ng-class="{bloqueado: disableTypeAhead}" type="text" class="form-control typeaheads" id="txtFormador" placeholder="Baden Powell"
                   sf-typeahead options="typeaheadFormadorOpt" datasets="typeaheadFormadorDts" ng-model="formadorPorIncluir">
               </div>
             </form>
@@ -40,11 +40,11 @@
         <div class="col-md-12">
           <div id="listadoParticipantes" class="listadoEntidades">
             <form class="form-inline">
-              <div class="form-group">
+              <div class="form-group etiqueta">
                 <label><%= cursos.incluirParticipante %></label>
               </div>
               <div class="form-group">
-                <input type="text" class="form-control typeahead" id="txtParticipante" placeholder="Baden Powell"
+                <input ng-disabled="disableTypeAhead" ng-class="{bloqueado: disableTypeAhead}" type="text" class="form-control typeahead" id="txtParticipante" placeholder="Baden Powell"
                   sf-typeahead options="typeaheadParticipanteOpt" datasets="typeaheadParticipanteDts" ng-model="participantePorIncluir">
               </div>
             </form>
