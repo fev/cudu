@@ -222,6 +222,8 @@ module Cudu.Permisos {
             this.$scope.errorCrearUsuario = this.traducciones.texto('activar.asociadoInactivo');
           } else if (status === 409 && error.codigo === 'ActivacionDeUsuarioEnCurso') {
             this.$scope.errorCrearUsuario = this.traducciones.texto('activar.activacionEnCurso');
+          } else if (status === 409 && error.codigo === 'YaExisteUsuarioConEseEmail') {
+            this.$scope.errorCrearUsuario = this.traducciones.texto('activar.emailDuplicado');
           } else {
             this.$scope.errorCrearUsuario = this.traducciones.texto('permisos.error.servidor');
           }

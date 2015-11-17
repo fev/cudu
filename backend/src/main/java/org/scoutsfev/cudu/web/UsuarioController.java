@@ -123,10 +123,15 @@ public class UsuarioController {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /usuario/activar" + asociado.getId()));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+        if (usuario.getId().equals(asociado.getId()))
+            return new ResponseEntity<>(CodigoError.HabilitarUsuarioActual.asError(), HttpStatus.BAD_REQUEST);
         if (!asociado.isActivo())
             return new ResponseEntity<>(CodigoError.AsociadoInactivo.asError(), HttpStatus.BAD_REQUEST);
         if (usuarioService.existeActivacionEnCurso(email))
             return new ResponseEntity<>(CodigoError.ActivacionDeUsuarioEnCurso.asError(), HttpStatus.CONFLICT);
+        if (asociadoRepository.existeOtroUsuarioConEseEmail(asociado.getId(), email))
+            return new ResponseEntity<>(CodigoError.YaExisteUsuarioConEseEmail.asError(), HttpStatus.CONFLICT);
+
         asociado.setEmail(email);
         if (asociado.getUsuarioCreadoPorId() == null) {
             asociado.setUsuarioCreadoPorId(usuario.getId());

@@ -185,6 +185,9 @@ var Cudu;
                     else if (status === 409 && error.codigo === 'ActivacionDeUsuarioEnCurso') {
                         _this.$scope.errorCrearUsuario = _this.traducciones.texto('activar.activacionEnCurso');
                     }
+                    else if (status === 409 && error.codigo === 'YaExisteUsuarioConEseEmail') {
+                        _this.$scope.errorCrearUsuario = _this.traducciones.texto('activar.emailDuplicado');
+                    }
                     else {
                         _this.$scope.errorCrearUsuario = _this.traducciones.texto('permisos.error.servidor');
                     }
