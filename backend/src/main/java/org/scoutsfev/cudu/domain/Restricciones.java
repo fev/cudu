@@ -2,6 +2,7 @@ package org.scoutsfev.cudu.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Transient;
 
 @Embeddable
 public class Restricciones {
@@ -48,5 +49,10 @@ public class Restricciones {
 
     public void setRestriccionAsociacion(Asociacion restriccionAsociacion) {
         this.restriccionAsociacion = restriccionAsociacion;
+    }
+
+    @Transient
+    public boolean tieneAlgunaRestriccion() {
+        return noPuedeEditarDatosDelGrupo || noPuedeEditarOtrasRamas || soloLectura || restriccionAsociacion != null;
     }
 }
