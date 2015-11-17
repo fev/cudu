@@ -49,6 +49,7 @@ public class AuthorizationService {
 
         return (usuario.getTipo() == TipoAsociado.Comite || usuario.getTipo() == TipoAsociado.Kraal)
             && (usuario.getGrupo() != null)
+            && !(usuario.getRestricciones() != null && usuario.getRestricciones().tieneAlgunaRestriccion())
             && (grupoId.equals(usuario.getGrupo().getId()));
     }
 

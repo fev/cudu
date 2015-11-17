@@ -149,6 +149,44 @@ public class AuthorizationServiceEdicionUsuariosGrupoTests {
         assertTrue(service.puedeEditarUsuariosDelGrupo(grupoId, fev));
     }
 
+    @Test
+    public void permite_si_las_restricciones_son_nulas() throws Exception {
+        Usuario usuario = usuarioDeGrupoConPermisos();
+        when(usuario.getRestricciones()).thenReturn(null);
+    }
+
+    @Test
+    public void permite_si_utiliza_el_set_por_defecto_de_restricciones() throws Exception {
+        // Dependiente de las asumpciones en RestriccionesTests
+        Usuario usuario = usuarioDeGrupoConPermisos();
+        when(usuario.getRestricciones()).thenReturn(new Restricciones());
+        assertTrue(service.puedeEditarUsuariosDelGrupo(grupoId, usuario));
+    }
+
+    @Test
+    public void no_permite_si_no_puede_editar_datos_relativos_al_grupo() throws Exception {
+        Usuario usuario = usuarioDeGrupoConPermisos();
+        Restricciones restricciones = new Restricciones();
+        restricciones.setNoPuedeEditarDatosDelGrupo(true);
+        when(usuario.getRestricciones()).thenReturn(restricciones);
+    }
+
+    @Test
+    public void no_permite_si_no_puede_editar_otras_ramas() throws Exception {
+        Usuario usuario = usuarioDeGrupoConPermisos();
+        Restricciones restricciones = new Restricciones();
+        restricciones.setNoPuedeEditarOtrasRamas(true);
+        when(usuario.getRestricciones()).thenReturn(restricciones);
+    }
+
+    @Test
+    public void no_permite_si_es_de_solo_lectura() throws Exception {
+        Usuario usuario = usuarioDeGrupoConPermisos();
+        Restricciones restricciones = new Restricciones();
+        restricciones.setSoloLectura(true);
+        when(usuario.getRestricciones()).thenReturn(restricciones);
+    }
+
     private Usuario usuarioDeGrupoConPermisos() {
         Usuario usuario = mock(Usuario.class);
         Grupo grupo = mock(Grupo.class);
