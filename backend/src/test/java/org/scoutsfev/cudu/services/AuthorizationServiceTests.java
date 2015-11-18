@@ -34,7 +34,7 @@ public class AuthorizationServiceTests {
     }
 
     @Test
-    public void puedeEditarAsociado_cuando_el_asociado_pertenece_al_grupo_del_usuario() throws Exception {
+    public void puedeEditarAsociado_cuando_el_asociado_pertenece_al_grupo_del_usuario_y_no_tiene_restricciones() throws Exception {
         when(asociadoRepository.obtenerCodigoDeGrupoDelAsociado(42)).thenReturn("ANY");
         Grupo grupo = mock(Grupo.class);
         when(grupo.getId()).thenReturn("ANY");

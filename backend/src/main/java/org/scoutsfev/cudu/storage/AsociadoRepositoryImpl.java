@@ -55,6 +55,8 @@ public class AsociadoRepositoryImpl implements AsociadoRepositoryCustom {
     }
 
     private void actualizarAsociados(List<Integer> asociados, String grupoId, Consumer<CriteriaUpdate<Asociado>> actualizacionColumnas) {
+        // TODO Reemplazar código del método con jOOQ, cambiar tambien la generación
+        // de metadata de JPA en el build, no se utiliza en ningún sitio mas.
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaUpdate<Asociado> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Asociado.class);
 

@@ -1,14 +1,17 @@
 package org.scoutsfev.cudu.web;
 
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.domain.dto.CambiarRamaDto;
 import org.scoutsfev.cudu.domain.dto.CambiarTipoDto;
 import org.scoutsfev.cudu.domain.validadores.ImpresionTabla;
+import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.FichaService;
-import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
-import org.scoutsfev.cudu.web.utils.ResponseEntityFactory;
+import org.scoutsfev.cudu.storage.AsociadoStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
 import org.springframework.cache.CacheManager;
@@ -26,20 +29,29 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+
+import static org.scoutsfev.cudu.web.utils.ResponseEntityFactory.forbidden;
 
 @RestController
 public class AsociadoController {
 
     private final AsociadoRepository asociadoRepository;
     private final CacheManager cacheManager;
+    private final AsociadoStorage asociadoStorage;
     private final FichaService fichaService;
+    private final AuthorizationService authorizationService;
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public AsociadoController(AsociadoRepository asociadoRepository, FichaService fichaService, CacheManager cacheManager, ApplicationEventPublisher eventPublisher) {
+    public AsociadoController(AsociadoRepository asociadoRepository, AsociadoStorage asociadoStorage,
+            FichaService fichaService, CacheManager cacheManager, AuthorizationService authorizationService,
+            ApplicationEventPublisher eventPublisher) {
         this.asociadoRepository = asociadoRepository;
+        this.asociadoStorage = asociadoStorage;
         this.fichaService = fichaService;
         this.cacheManager = cacheManager;
+        this.authorizationService = authorizationService;
         this.eventPublisher = eventPublisher;
     }
 
@@ -59,17 +71,41 @@ public class AsociadoController {
 
     @RequestMapping(value = "/asociado", method = RequestMethod.GET)
     public Page<Asociado> listado(@AuthenticationPrincipal Usuario usuario, Pageable pageable) {
-        // TODO Si el usuario es FEV o Lluerna, devuelve todos
-        // TODO Si el usuario es SdC, SdA o MEV, devuelve solo el subconjunto
-        // TODO Si el usuario es de grupo pero no tiene permiso, denegar (esta con anotación).
         String idGrupo = usuario.getGrupo().getId();
         return asociadoRepository.findByGrupoId(idGrupo, pageable);
+    }
+
+    @RequestMapping(value = "/tecnico/asociado", method = RequestMethod.GET)
+    public ResponseEntity listadoTecnico(
+            @RequestParam(required = false) Asociacion asociacion,
+            @RequestParam(required = false) String grupoId,
+            @RequestParam(required = false) TipoAsociado tipo,
+            @RequestParam(required = false) String ramasSeparadasPorComas,
+            @RequestParam(required = false) Boolean activo,
+            @AuthenticationPrincipal Usuario usuario,
+            Pageable pageable) {
+
+        if (!authorizationService.esTecnico(usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /tecnico/asociado"));
+            return forbidden("El usuario no es técnico federativo o asociativo.");
+        }
+
+        Asociacion restriccionAsociacion = usuario.getRestricciones().getRestriccionAsociacion();
+        if (restriccionAsociacion != null)
+            asociacion = restriccionAsociacion;
+
+        List<String> ramas = null;
+        if (!Strings.isNullOrEmpty(ramasSeparadasPorComas)) {
+            ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
+        }
+
+        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, activo, pageable);
+        return new ResponseEntity<>(listado, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/asociado/{id}", method = RequestMethod.GET)
     @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
     public ResponseEntity<Asociado> obtener(@PathVariable Integer id, @AuthenticationPrincipal Usuario usuario) {
-
         Asociado asociado = asociadoRepository.findByIdAndFetchCargosEagerly(id);
         if (asociado == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -137,7 +173,7 @@ public class AsociadoController {
     public ResponseEntity<String> cambiarTipo(@RequestBody @Valid CambiarTipoDto dto, @AuthenticationPrincipal Usuario usuario) {
         if (dto.tipo != TipoAsociado.Joven && dto.tipo != TipoAsociado.Kraal && dto.tipo != TipoAsociado.Comite) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /asociado/cambiarTipo"));
-            return ResponseEntityFactory.forbidden("El tipo no es correcto. Permitidos para el usuario actual: [J, K, C].");
+            return forbidden("El tipo no es correcto. Permitidos para el usuario actual: [J, K, C].");
         }
         String grupoId = usuario.getGrupo().getId();
         asociadoRepository.cambiarTipo(dto.asociados, dto.tipo, grupoId);

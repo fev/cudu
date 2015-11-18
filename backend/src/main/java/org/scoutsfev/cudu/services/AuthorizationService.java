@@ -62,6 +62,10 @@ public class AuthorizationService {
     public boolean puedeAccederLluerna(Usuario usuario) {
         return !(usuario == null || !usuario.isUsuarioActivo() || usuario.getAmbitoEdicion() == null || usuario.getTipo() == null || usuario.getTipo() != TipoAsociado.Tecnico)
             && ((usuario.getAmbitoEdicion() == AmbitoEdicion.Escuela) || (usuario.getAmbitoEdicion() == AmbitoEdicion.Federacion && usuario.getRestricciones() != null && usuario.getRestricciones().getRestriccionAsociacion() == null));
+    }
 
+    public boolean esTecnico(Usuario usuario) {
+        return !(usuario == null || !usuario.isUsuarioActivo() || usuario.getTipo() == null || usuario.getAmbitoEdicion() == null || usuario.getTipo() != TipoAsociado.Tecnico)
+             && (usuario.getAmbitoEdicion() == AmbitoEdicion.Asociacion || usuario.getAmbitoEdicion() == AmbitoEdicion.Federacion);
     }
 }
