@@ -35,12 +35,15 @@ public class AuthorizationServiceLluernaTests {
 
     @Test
     public void no_accede_cuando_el_usuario_no_esta_activo() throws Exception {
-        assertFalse(service.puedeAccederLluerna(null));
+        Usuario usuario = mock(Usuario.class);
+        when(usuario.isUsuarioActivo()).thenReturn(false);
+        assertFalse(service.puedeAccederLluerna(usuario));
     }
 
     @Test
     public void no_accede_cuando_el_usuario_no_tiene_tipo() throws Exception {
         Usuario usuario = mock(Usuario.class);
+        when(usuario.isUsuarioActivo()).thenReturn(true);
         when(usuario.getTipo()).thenReturn(null);
         when(usuario.getAmbitoEdicion()).thenReturn(AmbitoEdicion.Escuela);
         assertFalse(service.puedeAccederLluerna(usuario));
@@ -49,6 +52,7 @@ public class AuthorizationServiceLluernaTests {
     @Test
     public void no_accede_cuando_el_usuario_no_tiene_ambito() throws Exception {
         Usuario usuario = mock(Usuario.class);
+        when(usuario.isUsuarioActivo()).thenReturn(true);
         when(usuario.getTipo()).thenReturn(TipoAsociado.Tecnico);
         when(usuario.getAmbitoEdicion()).thenReturn(null);
         assertFalse(service.puedeAccederLluerna(usuario));
@@ -108,6 +112,10 @@ public class AuthorizationServiceLluernaTests {
 
     @Test
     public void no_accede_cuando_el_usuario_no_tiene_ni_tipo_ni_ambito() throws Exception {
-        assertFalse(service.puedeAccederLluerna(null));
+        Usuario usuario = mock(Usuario.class);
+        when(usuario.isUsuarioActivo()).thenReturn(true);
+        when(usuario.getTipo()).thenReturn(null);
+        when(usuario.getAmbitoEdicion()).thenReturn(null);
+        assertFalse(service.puedeAccederLluerna(usuario));
     }
 }
