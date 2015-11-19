@@ -1,5 +1,4 @@
-
-
+/// <reference path="../../typings/tsd.d.ts"/>
 
 module Cudu {
   export interface Page<T> {
