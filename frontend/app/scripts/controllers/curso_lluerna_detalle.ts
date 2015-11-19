@@ -41,7 +41,7 @@ module Cudu.Lluerna.Cursos.Detalle {
         $scope.typeaheadFormadorDts = typeAhead.formador();
         $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
         $scope.$on('typeahead:selected', (e, asociado) => this.añadirAsociado(e, asociado));
-;
+
         if($routeParams.id == 'nuevo') {
           $scope.curso = new Curso();
           $scope.curso.descripcionLugar = "";
@@ -70,7 +70,7 @@ module Cudu.Lluerna.Cursos.Detalle {
         var lista: any;
         var nuevoAsociado: any;
         if(!_.isUndefined(asociado.nombreCompleto)) {
-           nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombreCompleto };
+          nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombreCompleto };
           fn = (cursoId: number, asociadoId: number) => this.cursoService.añadirFormador(cursoId, asociadoId);
           lista = this.$scope.curso.formadores;
         }
@@ -78,12 +78,6 @@ module Cudu.Lluerna.Cursos.Detalle {
           nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombre + " " + asociado.apellidos };
           fn = (cursoId: number, asociadoId: number) => this.cursoService.añadirParticipante(cursoId, asociadoId);
           lista = this.$scope.curso.participantes;
-          if(lista.length == this.$scope.curso.plazas) {
-            this.$scope.estado = this.estados.CUSTOM;
-            this.$scope.customError = this.traducciones.texto('cursos.maxPlazas');
-            this.$scope.$apply();
-            return;
-          }
         }
 
         if(!_.isUndefined(_.findWhere(lista, { 'id': asociado.id }))) {

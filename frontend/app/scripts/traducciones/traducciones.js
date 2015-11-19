@@ -119,7 +119,6 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'permisos.error.email': 'El email del usuari no es correcte.',
     'permisos.error.servidor': 'Ha ocorregut un error inesperat, els canvis no s\'han salvat correctament. Per favor, intenta-ho més tard o contacta amb la seu FEV per a més informació.',
     'permisos.error.emailDuplicado': 'Ja existeix un usuari amb aquest e-mail.',
-    'cursos.maxPlazas': 'No hi ha places disponibles per a mes participants.',
     'cursos.creaCurso': 'El curs no ha estat creat, guarda les dades del nou curs abans d\'afegir participants o formadors.'
   };
   var es = {
@@ -237,7 +236,6 @@ traducciones.factory('Traducciones', ['$http', 'CuduEtc', function($http, CuduEt
     'permisos.error.email': 'El email del usuario no es correcto.',
     'permisos.error.servidor': 'Ha ocurrido un error inesperado, los cambios no se han salvado correctamente. Por favor, inténtalo más tarde o contacta con la sede FEV para más información.',
     'permisos.error.emailDuplicado': 'Ya existe un usuario con ese email.',
-    'cursos.maxPlazas': 'No hay plazas disponibles para mas participates.',
     'cursos.creaCurso': 'El curso no ha sido creado, guarda los datos del nuevo curso antes de añadir participantes o formadores.'
   };
 

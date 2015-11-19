@@ -22,7 +22,6 @@ var Cudu;
                         $scope.typeaheadFormadorDts = typeAhead.formador();
                         $scope.typeaheadParticipanteDts = typeAhead.participante(+$routeParams.id);
                         $scope.$on('typeahead:selected', function (e, asociado) { return _this.añadirAsociado(e, asociado); });
-                        ;
                         if ($routeParams.id == 'nuevo') {
                             $scope.curso = new Cursos.Curso();
                             $scope.curso.descripcionLugar = "";
@@ -58,12 +57,6 @@ var Cudu;
                             nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombre + " " + asociado.apellidos };
                             fn = function (cursoId, asociadoId) { return _this.cursoService.añadirParticipante(cursoId, asociadoId); };
                             lista = this.$scope.curso.participantes;
-                            if (lista.length == this.$scope.curso.plazas) {
-                                this.$scope.estado = this.estados.CUSTOM;
-                                this.$scope.customError = this.traducciones.texto('cursos.maxPlazas');
-                                this.$scope.$apply();
-                                return;
-                            }
                         }
                         if (!_.isUndefined(_.findWhere(lista, { 'id': asociado.id }))) {
                             return;
