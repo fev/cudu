@@ -55,7 +55,7 @@ angular
         templateUrl: 'i18n/views/permisos.html',
         seccion: 'permisos'
       })
-      .when('/tecnico/fev/asociado', {
+      .when('/tecnico/asociados', {
         templateUrl: 'i18n/views/tecnico_fev.html',
         controller: 'TecnicoFevCtrl',
         seccion: 'tecnico-fev'
