@@ -58,7 +58,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr ng-repeat="participante in curso.participantes | orderBy:'nombre' track by participante.id" ng-class="{ 'flash': participante.nuevo }">
+                  <tr ng-repeat="participante in curso.participantes | orderBy:'secuenciaInscripcion' track by participante.id" ng-class="{ 'flash': participante.nuevo }">
                     <td>{{participante.nombreCompleto}}</td>
                     <td>{{participante.telefono}}</td>
                     <td class="quitar"><span ng-click="C.eliminarParticipante(participante.id)">Quitar</span></td>
