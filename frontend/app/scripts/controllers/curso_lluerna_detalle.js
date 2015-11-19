@@ -49,7 +49,7 @@ var Cudu;
                         var lista;
                         var nuevoAsociado;
                         if (!_.isUndefined(asociado.nombreCompleto)) {
-                            nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombreCompleto };
+                            nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombreCompleto, "nombreGrupo": asociado.grupo, "email": asociado.email };
                             fn = function (cursoId, asociadoId) { return _this.cursoService.añadirFormador(cursoId, asociadoId); };
                             lista = this.$scope.curso.formadores;
                         }

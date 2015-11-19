@@ -19,15 +19,17 @@
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th width="60%"><%= cursos.nombre %></th>
-                    <th width="30%"><%= cursos.telefono %></th>
+                    <th width="50%"><%= cursos.nombre %></th>
+                    <th width="20%"><%= cursos.grupo %></th>
+                    <th width="20%"><%= cursos.email %></th>
                     <th width="10%"></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="formador in curso.formadores | orderBy:'nombreCompleto' track by formador.id" ng-class="{ 'flash': formador.nuevo }">
                     <td>{{formador.nombreCompleto}}</td>
-                    <td>{{formador.telefono}}</td>
+                    <td>{{formador.nombreGrupo}}</td>
+                    <td>{{formador.email}}</td>
                     <td class="quitar"><span ng-click="C.eliminarFormador(formador.id)">Quitar</span></td>
                   </tr>
                 </tbody>
@@ -52,15 +54,17 @@
               <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th width="60%"><%= cursos.nombre %></th>
-                    <th width="30%"><%= cursos.telefono %></th>
+                    <th width="50%"><%= cursos.nombre %></th>
+                    <th width="20%"><%= cursos.grupo %></th>
+                    <th width="20%"><%= cursos.email %></th>
                     <th width="10%"></th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="participante in curso.participantes | orderBy:'secuenciaInscripcion' track by participante.id" ng-class="{ 'flash': participante.nuevo }">
                     <td>{{participante.nombreCompleto}}</td>
-                    <td>{{participante.telefono}}</td>
+                    <td>{{participante.nombreGrupo}}</td>
+                    <td>{{participante.email}}</td>
                     <td class="quitar"><span ng-click="C.eliminarParticipante(participante.id)">Quitar</span></td>
                   </tr>
                 </tbody>

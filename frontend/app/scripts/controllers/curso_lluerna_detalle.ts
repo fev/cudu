@@ -70,7 +70,7 @@ module Cudu.Lluerna.Cursos.Detalle {
         var lista: any;
         var nuevoAsociado: any;
         if(!_.isUndefined(asociado.nombreCompleto)) {
-          nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombreCompleto };
+          nuevoAsociado = { "id": asociado.id, "nombreCompleto": asociado.nombreCompleto, "nombreGrupo": asociado.grupo, "email": asociado.email };
           fn = (cursoId: number, asociadoId: number) => this.cursoService.añadirFormador(cursoId, asociadoId);
           lista = this.$scope.curso.formadores;
         }
