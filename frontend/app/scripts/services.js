@@ -292,4 +292,18 @@ cuduServices.factory('Notificaciones', function() {
   };
 });
 
+cuduServices.factory('RutaInicial', function() { 
+  return {
+    resolver: function(usuario) {
+      if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'E')) {
+        return "/lluerna/cursos";
+      }
+      if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
+        return "/tecnico/asociados";
+      }
+      return "/asociados";
+    }
+  };
+});
+
 }());

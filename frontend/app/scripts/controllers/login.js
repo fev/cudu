@@ -1,7 +1,7 @@
 (function() {
 'use strict';
 
-function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focus) {
+function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focus, RutaInicial) {
   $scope.error = null;
   $scope.mayusculas = false;
   $scope.captchaVisible = false;
@@ -78,7 +78,8 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
         // TODO Refactorizar código para redirigir a un lugar u otro dependiendo
         // del tipo de usuario. Vér código en app.js#145. El bloque completo de
         // .success se puede extraer a un método aparte en este servicio.
-        $location.path("/");
+        var rutaInicial = RutaInicial.resolver(usuario);
+        $location.path(rutaInicial);
       })
       .error(function(data, status) {
         if (status == 403) {
@@ -139,6 +140,6 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
   };
 }
 
-angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$location', 'Usuario', 'Traducciones', 'Dom', 'Graficas', 'focus', LoginCtrl]);
+angular.module('cuduApp').controller('LoginCtrl', ['$scope', '$location', 'Usuario', 'Traducciones', 'Dom', 'Graficas', 'focus', 'RutaInicial', LoginCtrl]);
 
 }());

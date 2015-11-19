@@ -111,7 +111,7 @@ angular
     };
     $httpProvider.interceptors.push(interceptor);
   })
-  .run(function($rootScope, $location, RolesMenu, Dom, Usuario, Traducciones, CuduEtc) {
+  .run(function($rootScope, $location, RolesMenu, Dom, Usuario, Traducciones, CuduEtc, RutaInicial) {
     $rootScope.$on('$routeChangeSuccess', function(e, target) {
       if (target && target.$$route) {
         $rootScope.controlador = target.$$route.controller;
@@ -144,13 +144,8 @@ angular
         var lang = Traducciones.establecerLenguaje(usuario.lenguaje);
         Dom.loginCompleto(usuario, lang);
 
-        if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'E')) {
-          $location.path("/lluerna/cursos");
-        } else if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
-            $location.path("/tecnico/asociados");
-        } else  {
-          $location.path("/asociados");
-        }
+        var rutaInicial = RutaInicial.resolver(usuario);
+        $location.path(rutaInicial);
       })
       .error(function() {
         // TODO Último lenguaje conocido o el del navegador
