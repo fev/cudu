@@ -91,7 +91,7 @@ ideaProject.dependsOn generateJpaMetaModel
 compileJava.source sourceSets.generated.java, sourceSets.main.java
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.2.1'
+  gradleVersion = '2.7'
 }
 
 idea {
