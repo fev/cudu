@@ -1,7 +1,8 @@
 package org.scoutsfev.cudu.services;
 
 import org.scoutsfev.cudu.domain.*;
-import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.domain.AsociadoParaAutorizar;
+import org.scoutsfev.cudu.storage.AsociadoStorage;
 import org.scoutsfev.cudu.storage.GrupoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,28 +10,62 @@ import org.springframework.stereotype.Service;
 @Service("auth")
 public class AuthorizationService {
 
-    private final AsociadoRepository asociadoRepository;
     private final GrupoRepository grupoRepository;
+    private final AsociadoStorage asociadoStorage;
 
     @Autowired
-    public AuthorizationService(AsociadoRepository asociadoRepository, GrupoRepository grupoRepository) {
-        this.asociadoRepository = asociadoRepository;
+    public AuthorizationService(AsociadoStorage asociadoStorage, GrupoRepository grupoRepository) {
+        this.asociadoStorage = asociadoStorage;
         this.grupoRepository = grupoRepository;
     }
 
     public boolean puedeEditarAsociado(Integer idAsociado, Usuario usuario) {
-        if (idAsociado == null || usuario == null || usuario.getGrupo() == null)
+        if (idAsociado == null || usuario == null)
             return false;
-        String idGrupo = asociadoRepository.obtenerCodigoDeGrupoDelAsociado(idAsociado);
-        return idGrupo != null && idGrupo.equals(usuario.getGrupo().getId());
+        AsociadoParaAutorizar asociado = asociadoStorage.obtenerAsociadoParaEvaluarAutorizacion(idAsociado);
+        return puedeEditarAsociado(asociado, usuario);
     }
 
     public boolean puedeEditarAsociado(Asociado asociado, Usuario usuario) {
-        if (asociado == null || usuario == null || usuario.getGrupo() == null) {
+        if (asociado == null || usuario == null)
             return false;
+        AsociadoParaAutorizar asociadoParaAutorizar = new AsociadoParaAutorizar(asociado.getId(), asociado.getGrupoId(), null,
+                asociado.isRamaColonia(), asociado.isRamaManada(), asociado.isRamaExploradores(), asociado.isRamaExpedicion(), asociado.isRamaRuta());
+        return puedeEditarAsociado(asociadoParaAutorizar, usuario);
+    }
+
+    public boolean puedeEditarAsociado(AsociadoParaAutorizar asociado, Usuario usuario) {
+        if (asociado == null || usuario == null || usuario.getRestricciones() == null || !usuario.isUsuarioActivo())
+            return false;
+
+        if (usuario.getId().equals(asociado.getId()))
+            return true;
+
+        if (usuario.getRestricciones().isSoloLectura())
+            return false;
+
+        if (esTecnico(usuario)) {
+            //noinspection SimplifiableIfStatement
+            if (usuario.getAmbitoEdicion() == AmbitoEdicion.Federacion)
+                return true;
+            return usuario.getAmbitoEdicion() == AmbitoEdicion.Asociacion
+                && usuario.getRestricciones() != null && asociado.getAsociacionId() != null && usuario.getRestricciones().getRestriccionAsociacion() != null
+                && asociado.getAsociacionId().equals(usuario.getRestricciones().getRestriccionAsociacion().getId());
         }
-        String idGrupo = asociado.getGrupoId();
-        return idGrupo != null && idGrupo.equals(usuario.getGrupo().getId());
+
+        // Si no tiene restricciones de rama, comprobar que es del mismo grupo únicamente
+        boolean mismoGrupo = asociado.getGrupoId() != null && asociado.getGrupoId().equals(usuario.getGrupo().getId());
+        if (usuario.getRestricciones() == null || !usuario.getRestricciones().isNoPuedeEditarOtrasRamas())
+            return mismoGrupo;
+
+        // En caso contrario, comprobar que todas las ramas del usuario coinciden con las del asociado
+        boolean mismasRamas = usuario.isRamaColonia() == asociado.isRamaColonia()
+                && usuario.isRamaManada() == asociado.isRamaManada()
+                && usuario.isRamaExploradores() == asociado.isRamaExploradores()
+                && usuario.isRamaExpedicion() == asociado.isRamaExpedicion()
+                && usuario.isRamaRuta() == asociado.isRamaRuta();
+
+        return mismoGrupo && mismasRamas;
     }
 
     public boolean puedeEditarUsuariosDelGrupo(String grupoId, Usuario usuario) {

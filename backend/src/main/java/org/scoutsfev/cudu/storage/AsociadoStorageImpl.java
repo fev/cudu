@@ -5,6 +5,7 @@ import org.jooq.*;
 import org.scoutsfev.cudu.domain.Asociacion;
 import org.scoutsfev.cudu.domain.SparseTable;
 import org.scoutsfev.cudu.domain.TipoAsociado;
+import org.scoutsfev.cudu.domain.AsociadoParaAutorizar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -87,5 +88,15 @@ public class AsociadoStorageImpl implements AsociadoStorage {
 
         Condition rama = condicionesRama.stream().skip(1).reduce(condicionesRama.get(0), Condition::or);
         return query.and(rama);
+    }
+
+    public AsociadoParaAutorizar obtenerAsociadoParaEvaluarAutorizacion(Integer asociadoId) {
+        return context
+            .select(ASOCIADO.ID, ASOCIADO.GRUPO_ID, GRUPO.ASOCIACION,
+                    ASOCIADO.RAMA_COLONIA, ASOCIADO.RAMA_MANADA, ASOCIADO.RAMA_EXPLORADORES, ASOCIADO.RAMA_EXPEDICION, ASOCIADO.RAMA_RUTA)
+            .from(ASOCIADO)
+            .innerJoin(GRUPO).on(ASOCIADO.GRUPO_ID.eq(GRUPO.ID))
+            .where(ASOCIADO.ID.eq(asociadoId))
+            .fetchAnyInto(AsociadoParaAutorizar.class);
     }
 }

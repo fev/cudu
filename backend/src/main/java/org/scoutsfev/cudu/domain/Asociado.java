@@ -27,21 +27,6 @@ import java.util.*;
 @ValidarDniNie
 public class Asociado extends AsociadoAbstracto implements IPrintable {
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean ramaColonia = false;
-
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean ramaManada = false;
-
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean ramaExploradores = false;
-
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean ramaExpedicion = false;
-
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean ramaRuta = false;
-
     @Transient // Sólo para impresión en PDF
     private String rama;
 
@@ -152,46 +137,6 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
         this.activo = true;
-    }
-
-    public boolean isRamaColonia() {
-        return ramaColonia;
-    }
-
-    public void setRamaColonia(boolean ramaColonia) {
-        this.ramaColonia = ramaColonia;
-    }
-
-    public boolean isRamaManada() {
-        return ramaManada;
-    }
-
-    public void setRamaManada(boolean ramaManada) {
-        this.ramaManada = ramaManada;
-    }
-
-    public boolean isRamaExploradores() {
-        return ramaExploradores;
-    }
-
-    public void setRamaExploradores(boolean ramaExploradores) {
-        this.ramaExploradores = ramaExploradores;
-    }
-
-    public boolean isRamaExpedicion() {
-        return ramaExpedicion;
-    }
-
-    public void setRamaExpedicion(boolean ramaExpedicion) {
-        this.ramaExpedicion = ramaExpedicion;
-    }
-
-    public boolean isRamaRuta() {
-        return ramaRuta;
-    }
-
-    public void setRamaRuta(boolean ramaRuta) {
-        this.ramaRuta = ramaRuta;
     }
 
     public LocalDate getFechaNacimiento() {

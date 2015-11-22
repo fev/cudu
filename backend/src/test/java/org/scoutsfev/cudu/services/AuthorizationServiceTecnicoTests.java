@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.TipoAsociado;
 import org.scoutsfev.cudu.domain.Usuario;
-import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.storage.AsociadoStorage;
 import org.scoutsfev.cudu.storage.GrupoRepository;
 
 import static org.junit.Assert.assertFalse;
@@ -20,9 +20,9 @@ public class AuthorizationServiceTecnicoTests {
 
     @Before
     public void setUp() throws Exception {
-        AsociadoRepository asociadoRepository = mock(AsociadoRepository.class);
+        AsociadoStorage asociadoStorage = mock(AsociadoStorage.class);
         GrupoRepository grupoRepository = mock(GrupoRepository.class);
-        service = new AuthorizationService(asociadoRepository, grupoRepository);
+        service = new AuthorizationService(asociadoStorage, grupoRepository);
         usuarioConAcceso = mock(Usuario.class);
         when(usuarioConAcceso.isUsuarioActivo()).thenReturn(true);
         when(usuarioConAcceso.getTipo()).thenReturn(TipoAsociado.Tecnico);

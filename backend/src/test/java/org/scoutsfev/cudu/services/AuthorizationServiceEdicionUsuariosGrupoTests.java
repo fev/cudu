@@ -3,7 +3,7 @@ package org.scoutsfev.cudu.services;
 import org.junit.Before;
 import org.junit.Test;
 import org.scoutsfev.cudu.domain.*;
-import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.storage.AsociadoStorage;
 import org.scoutsfev.cudu.storage.GrupoRepository;
 
 import static org.hamcrest.core.Is.is;
@@ -21,15 +21,15 @@ public class AuthorizationServiceEdicionUsuariosGrupoTests {
 
     private static final String grupoId = "UP";
 
-    private AsociadoRepository asociadoRepository;
+    private AsociadoStorage asociadoStorage;
     private GrupoRepository grupoRepository;
     private AuthorizationService service;
 
     @Before
     public void setUp() throws Exception {
-        asociadoRepository = mock(AsociadoRepository.class);
+        asociadoStorage = mock(AsociadoStorage.class);
         grupoRepository = mock(GrupoRepository.class);
-        service = new AuthorizationService(asociadoRepository, grupoRepository);
+        service = new AuthorizationService(asociadoStorage, grupoRepository);
     }
 
     @Test

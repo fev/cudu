@@ -1,16 +1,16 @@
 package org.scoutsfev.cudu.web;
 
-import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Grupo;
+import org.scoutsfev.cudu.domain.Restricciones;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
+import org.scoutsfev.cudu.storage.AsociadoStorage;
 import org.scoutsfev.cudu.storage.GrupoRepository;
 import org.scoutsfev.cudu.storage.UsuarioStorage;
 import org.scoutsfev.cudu.web.validacion.CodigoError;
@@ -51,13 +51,16 @@ public class UsuarioControllerTests {
         asociado.setId(42);
         usuario = mock(Usuario.class);
         when(usuario.getGrupo()).thenReturn(grupo);
+        when(usuario.getRestricciones()).thenReturn(new Restricciones());
+        when(usuario.isUsuarioActivo()).thenReturn(true);
         asociado.setEmail(null);
         asociadoRepository = mock(AsociadoRepository.class);
         usuarioService = mock(UsuarioService.class);
         authenticationManager = mock(AuthenticationManager.class);
         eventPublisher = mock(ApplicationEventPublisher.class);
         grupoRepository = mock(GrupoRepository.class);
-        authorizationService = new AuthorizationService(asociadoRepository, grupoRepository);
+        AsociadoStorage asociadoStorage = mock(AsociadoStorage.class);
+        authorizationService = new AuthorizationService(asociadoStorage, grupoRepository);
         usuarioStorage = mock(UsuarioStorage.class);
         usuarioController = new UsuarioController(asociadoRepository, usuarioService, eventPublisher, authenticationManager, authorizationService, usuarioStorage);
     }

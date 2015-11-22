@@ -48,6 +48,21 @@ public abstract class AsociadoAbstracto {
     @Column(length = 130)
     protected String usuarioCreadoPorNombre = null;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaColonia = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaManada = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaExploradores = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaExpedicion = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean ramaRuta = false;
+
     public Integer getId() {
         return id;
     }
@@ -142,5 +157,45 @@ public abstract class AsociadoAbstracto {
 
     public void setUsuarioCreadoPorId(Integer usuarioCreadoPorId) {
         this.usuarioCreadoPorId = usuarioCreadoPorId;
+    }
+
+    public boolean isRamaColonia() {
+        return ramaColonia;
+    }
+
+    public void setRamaColonia(boolean ramaColonia) {
+        this.ramaColonia = ramaColonia;
+    }
+
+    public boolean isRamaManada() {
+        return ramaManada;
+    }
+
+    public void setRamaManada(boolean ramaManada) {
+        this.ramaManada = ramaManada;
+    }
+
+    public boolean isRamaExploradores() {
+        return ramaExploradores;
+    }
+
+    public void setRamaExploradores(boolean ramaExploradores) {
+        this.ramaExploradores = ramaExploradores;
+    }
+
+    public boolean isRamaExpedicion() {
+        return ramaExpedicion;
+    }
+
+    public void setRamaExpedicion(boolean ramaExpedicion) {
+        this.ramaExpedicion = ramaExpedicion;
+    }
+
+    public boolean isRamaRuta() {
+        return ramaRuta;
+    }
+
+    public void setRamaRuta(boolean ramaRuta) {
+        this.ramaRuta = ramaRuta;
     }
 }
