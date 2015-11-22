@@ -26,7 +26,7 @@ public class EspecificacionesAsociado {
             }
 
             // No debería darse salvo que hayamos cometido algún error en el backend, pero si el
-            // usuario tiene restricciones de rama pero no pertenece a ninguna, únicamente podemos
+            // usuario tiene restricciones de rama y no pertenece a ninguna, únicamente podemos
             // mostrarle sus datos. where a.id = ?
             return cb.equal(root.get(Asociado_.id), asociadoId);
         };
