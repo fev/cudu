@@ -133,3 +133,7 @@ body.solo-lectura.asociado {
   #btnGroupEdicionMultiple, #btnNuevoAsociado, .gestion-cargos { display: none; }
   #panelEdicion .mat-toolbar .btn { visibility: hidden; }
 }
+
+body.no-edita-grupo.grupo {
+  #panelEdicion .mat-toolbar .btn { visibility: hidden; }
+}

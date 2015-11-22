@@ -97,10 +97,21 @@ public class AuthorizationService {
             && (grupoId.equals(usuario.getGrupo().getId()));
     }
 
-    public boolean puedeEditarGrupo(Grupo grupo, Usuario usuario) {
-        return grupo != null && usuario != null
-            && usuario.getGrupo() != null && usuario.getGrupo().getId().equals(grupo.getId())
-            && !usuario.getRestricciones().isNoPuedeEditarDatosDelGrupo();
+    @SuppressWarnings("SimplifiableIfStatement")
+    public boolean comprobarAccesoGrupo(Grupo grupo, Usuario usuario, boolean accesoParaEdicion) {
+        if (usuario == null || grupo == null || usuario.getRestricciones() == null)
+            return false;
+
+        if (esTecnico(usuario)) {
+            return usuario.getAmbitoEdicion() == AmbitoEdicion.Federacion
+                || usuario.getAmbitoEdicion() == AmbitoEdicion.Asociacion && grupo.getAsociacion().equals(usuario.getRestricciones().getRestriccionAsociacion());
+
+        }
+
+        if (usuario.getGrupo() == null || !usuario.getGrupo().getId().equals(grupo.getId()))
+            return false;
+
+        return !(accesoParaEdicion && !usuario.getRestricciones().isNoPuedeEditarDatosDelGrupo());
     }
 
     public boolean puedeAccederLluerna(Usuario usuario) {

@@ -269,6 +269,10 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
       if (restricciones.soloLectura) {
         $body.addClass('solo-lectura');
       }
+
+      if (restricciones.noPuedeEditarDatosDelGrupo) {
+        $body.addClass('no-edita-grupo');
+      }
     }
   };
 }]);

@@ -32,12 +32,11 @@ public class GrupoController {
 
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.GET)
     public ResponseEntity<Grupo> obtener(@PathVariable("id") String grupoId, @AuthenticationPrincipal Usuario usuario) {
-        // TODO FEV y Asociación, mover a servicio de autorizaciones
-        if (usuario.getGrupo() == null || !usuario.getGrupo().getId().equals(grupoId)) {
+        Grupo grupo = grupoRepository.findOne(grupoId);
+        if (!authorizationService.comprobarAccesoGrupo(grupo, usuario, true)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /grupo/" + grupoId));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        Grupo grupo = grupoRepository.findOne(grupoId);
         if (grupo == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(grupo, HttpStatus.OK);
@@ -45,14 +44,10 @@ public class GrupoController {
 
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Grupo> editar(@RequestBody @Valid Grupo editado, @PathVariable("id") Grupo original, @AuthenticationPrincipal Usuario usuario) {
-        // Si el usuario no tiene grupo, o el grupo no es el del usuario, o el usuario no tiene permisos entonces no podemos editar
-        if (!authorizationService.puedeEditarGrupo(editado, usuario)) {
+        if (!authorizationService.comprobarAccesoGrupo(original, usuario, true)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "PUT /grupo/" + editado.getId()));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        // TODO Mover checks a servicio
-        // TODO Si el usuario es FEV permitir editar
-        // TODO Si el usuario es asociación, y el grupo es de la asociación, permitir editar
         BeanUtils.copyProperties(editado, original, "asociados");
         return new ResponseEntity<>(grupoRepository.save(original), HttpStatus.OK);
     }
