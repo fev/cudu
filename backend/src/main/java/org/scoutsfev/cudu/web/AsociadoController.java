@@ -104,7 +104,7 @@ public class AsociadoController {
     }
 
     @RequestMapping(value = "/asociado/{id}", method = RequestMethod.GET)
-    @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
+    @PreAuthorize("@auth.puedeVerAsociado(#id, #usuario)")
     public ResponseEntity<Asociado> obtener(@PathVariable Integer id, @AuthenticationPrincipal Usuario usuario) {
         Asociado asociado = asociadoRepository.findByIdAndFetchCargosEagerly(id);
         if (asociado == null)

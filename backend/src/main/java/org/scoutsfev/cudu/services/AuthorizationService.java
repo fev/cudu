@@ -19,11 +19,18 @@ public class AuthorizationService {
         this.grupoRepository = grupoRepository;
     }
 
+    public boolean puedeVerAsociado(Integer idAsociado, Usuario usuario) {
+        if (idAsociado == null || usuario == null)
+            return false;
+        AsociadoParaAutorizar asociado = asociadoStorage.obtenerAsociadoParaEvaluarAutorizacion(idAsociado);
+        return comprobarAccesoAsociado(asociado, usuario, false);
+    }
+
     public boolean puedeEditarAsociado(Integer idAsociado, Usuario usuario) {
         if (idAsociado == null || usuario == null)
             return false;
         AsociadoParaAutorizar asociado = asociadoStorage.obtenerAsociadoParaEvaluarAutorizacion(idAsociado);
-        return puedeEditarAsociado(asociado, usuario);
+        return comprobarAccesoAsociado(asociado, usuario, true);
     }
 
     public boolean puedeEditarAsociado(Asociado asociado, Usuario usuario) {
@@ -31,17 +38,17 @@ public class AuthorizationService {
             return false;
         AsociadoParaAutorizar asociadoParaAutorizar = new AsociadoParaAutorizar(asociado.getId(), asociado.getGrupoId(), null,
                 asociado.isRamaColonia(), asociado.isRamaManada(), asociado.isRamaExploradores(), asociado.isRamaExpedicion(), asociado.isRamaRuta());
-        return puedeEditarAsociado(asociadoParaAutorizar, usuario);
+        return comprobarAccesoAsociado(asociadoParaAutorizar, usuario, true);
     }
 
-    public boolean puedeEditarAsociado(AsociadoParaAutorizar asociado, Usuario usuario) {
+    public boolean comprobarAccesoAsociado(AsociadoParaAutorizar asociado, Usuario usuario, boolean accesoParaEdicion) {
         if (asociado == null || usuario == null || usuario.getRestricciones() == null || !usuario.isUsuarioActivo())
             return false;
 
         if (usuario.getId().equals(asociado.getId()))
             return true;
 
-        if (usuario.getRestricciones().isSoloLectura())
+        if (accesoParaEdicion && usuario.getRestricciones().isSoloLectura())
             return false;
 
         if (esTecnico(usuario)) {
