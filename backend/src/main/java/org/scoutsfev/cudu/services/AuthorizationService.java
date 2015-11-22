@@ -19,6 +19,7 @@ public class AuthorizationService {
         this.grupoRepository = grupoRepository;
     }
 
+    @SuppressWarnings("unused")
     public boolean puedeVerAsociado(Integer idAsociado, Usuario usuario) {
         if (idAsociado == null || usuario == null)
             return false;
@@ -66,11 +67,12 @@ public class AuthorizationService {
             return mismoGrupo;
 
         // En caso contrario, comprobar que todas las ramas del usuario coinciden con las del asociado
-        boolean mismasRamas = usuario.isRamaColonia() == asociado.isRamaColonia()
-                && usuario.isRamaManada() == asociado.isRamaManada()
-                && usuario.isRamaExploradores() == asociado.isRamaExploradores()
-                && usuario.isRamaExpedicion() == asociado.isRamaExpedicion()
-                && usuario.isRamaRuta() == asociado.isRamaRuta();
+        boolean mismasRamas =
+                (usuario.isRamaColonia() && asociado.isRamaColonia())
+             || (usuario.isRamaManada() && asociado.isRamaManada())
+             || (usuario.isRamaExploradores() && asociado.isRamaExploradores())
+             || (usuario.isRamaExpedicion() && asociado.isRamaExpedicion())
+             || (usuario.isRamaRuta() && asociado.isRamaRuta());
 
         return mismoGrupo && mismasRamas;
     }
