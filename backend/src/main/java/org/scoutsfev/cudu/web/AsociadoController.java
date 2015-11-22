@@ -18,6 +18,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,7 +32,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.scoutsfev.cudu.storage.especificaciones.EspecificacionesAsociado.*;
 import static org.scoutsfev.cudu.web.utils.ResponseEntityFactory.forbidden;
+import static org.springframework.data.jpa.domain.Specifications.where;
 
 @RestController
 public class AsociadoController {
@@ -69,10 +72,15 @@ public class AsociadoController {
         return respuesta;
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/asociado", method = RequestMethod.GET)
     public Page<Asociado> listado(@AuthenticationPrincipal Usuario usuario, Pageable pageable) {
-        String idGrupo = usuario.getGrupo().getId();
-        return asociadoRepository.findByGrupoId(idGrupo, pageable);
+        String grupoId = usuario.getGrupo().getId();
+        if (usuario.getRestricciones().isNoPuedeEditarOtrasRamas()) {
+            Specification<Asociado> porGrupoSegunRama = PorGrupoSegunRama(usuario.getId(), grupoId, usuario.isRamaColonia(), usuario.isRamaManada(), usuario.isRamaExploradores(), usuario.isRamaExpedicion(), usuario.isRamaRuta());
+            return asociadoRepository.findAll(porGrupoSegunRama, pageable);
+        }
+        return asociadoRepository.findByGrupoId(grupoId, pageable);
     }
 
     @RequestMapping(value = "/tecnico/asociado", method = RequestMethod.GET)

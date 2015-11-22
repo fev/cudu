@@ -1,10 +1,12 @@
 package org.scoutsfev.cudu.storage;
 
 import org.scoutsfev.cudu.domain.Asociado;
+import org.scoutsfev.cudu.domain.Rama;
 import org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto;
 import org.scoutsfev.cudu.domain.dto.FormadorDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -12,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 
-public interface AsociadoRepository extends PagingAndSortingRepository<Asociado, Integer>, AsociadoRepositoryCustom {
+public interface AsociadoRepository extends PagingAndSortingRepository<Asociado, Integer>, JpaSpecificationExecutor, AsociadoRepositoryCustom {
 
     Page<Asociado> findByGrupoId(@Param("id") String id, Pageable pageable);
 
