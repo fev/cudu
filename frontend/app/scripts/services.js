@@ -262,7 +262,13 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
       } else if  ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
         rolMenu = RolesMenu.TECNICO;
       }
-      $('body').addClass(rolMenu);
+      var $body = $('body');
+      $body.addClass(rolMenu);
+
+      var restricciones = usuario.restricciones || {};
+      if (restricciones.soloLectura) {
+        $body.addClass('solo-lectura');
+      }
     }
   };
 }]);

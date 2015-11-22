@@ -53,7 +53,7 @@
                   </li>
                 </ul>
               </div>
-              <div class="btn-group">
+              <div id="btnGroupEdicionMultiple" class="btn-group">
                 <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
                   <span class="fa fa-users"></span>
                 </button>
@@ -80,7 +80,7 @@
                   <li><a href="javascript:" ng-click="darDeBajaSeleccionados()"><%= asociado.darDeBaja %></a></li>
                 </ul>
               </div>
-              <button class="btn btn-default btn-sm" type="button" ng-click="nuevo()"><%= asociado.nuevo %></button>
+              <button id="btnNuevoAsociado" class="btn btn-default btn-sm" type="button" ng-click="nuevo()"><%= asociado.nuevo %></button>
             </span>
           </div>
         </div>
@@ -500,7 +500,7 @@
         </div>
         <div class="col-md-6">
           <div class="form-group">
-            <div class="input-group add-element">
+            <div class="input-group add-element gestion-cargos">
               <span class="input-group-addon"><%= asociado.anadirCargo %></span>
               <input type="text" class="form-control" ng-model="nuevoCargo" ng-keydown="asignarCargoCustom($event)">
               <div class="input-group-btn">
@@ -527,14 +527,14 @@
             <table class="table table-condensed table-hover table-bordered">
               <thead>
                 <tr>
-                  <th class="text-center">#</th>
+                  <th class="text-center gestion-cargos">#</th>
                   <th><%=asociado.cargo %></th>
                   <th><%=asociado.puntos%></th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="cargo in asociado.cargos" ng-class="{'editable': cargo.ambito !== 'F'}">
-                  <td class="text-center"><a href="javascript:" ng-click="eliminarCargo(cargo.id)"><span class="glyphicon glyphicon-remove"></span></a></td>
+                  <td class="text-center gestion-cargos"><a href="javascript:" ng-click="eliminarCargo(cargo.id)"><span class="glyphicon glyphicon-remove"></span></a></td>
                   <td>{{cargo | cargo}}</td>
                   <td class="text-right">{{cargo.puntos}}</td>
                 </tr>
