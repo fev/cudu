@@ -7,6 +7,7 @@ import org.scoutsfev.cudu.services.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,21 +33,21 @@ public class CargoController {
     }
 
     @RequestMapping(value = "/asociado/{id}/cargo/{cargoId}", method = RequestMethod.PUT)
-    //@PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
+    @PreAuthorize("@auth.puedeEditarAsociado(#asociado, #usuario)")
     public ResponseEntity<Cargo> asignar(@PathVariable("cargoId") Cargo cargo, @PathVariable("id") Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
         cargoService.asignar(cargo, asociado);
         return new ResponseEntity<>(cargo, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/asociado/{id}/cargo", method = RequestMethod.POST)
-    //@PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
+    @PreAuthorize("@auth.puedeEditarAsociado(#asociado, #usuario)")
     public ResponseEntity<Cargo> asignarNuevo(@RequestBody @NotNull @Size(max = 50) String nombreCargo, @PathVariable("id") Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
         Cargo cargo = cargoService.asignarNuevo(nombreCargo, asociado.getId());
         return new ResponseEntity<>(cargo, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/asociado/{id}/cargo/{cargoId}", method = RequestMethod.DELETE)
-    //@PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
+    @PreAuthorize("@auth.puedeEditarAsociado(#asociado, #usuario)")
     public void eliminar(@PathVariable("cargoId") Cargo cargo, @PathVariable("id") Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
         cargoService.eliminar(cargo, asociado);
     }
