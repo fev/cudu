@@ -146,8 +146,7 @@
         <%= asociado.guardar %>
       </button>
       <button type="button" class="btn btn-danger text-uppercase"
-        ng-show="!asociado.id || asociado.activo"
-        ng-class="{disabled: !asociado.activo}" ng-click="activar(asociado.id, false)">
+        ng-show="asociado.id && asociado.activo" ng-click="activar(asociado.id, false)">
         <%= asociado.darDeBaja %>
       </button>
       <button type="button" class="btn btn-default btn-danger text-uppercase"
