@@ -122,6 +122,17 @@ public abstract class AbstractAuthorizationServiceAsociadoTests {
         }
     }
 
+    @Test
+    public void no_permite_ver_o_editar_datos_de_su_grupo_con_ambitos_de_edicion_distintos_de_federacion_asociacion_o_grupo() throws Exception {
+        for (AmbitoEdicion ambito : AmbitoEdicion.values()) {
+            if (ambito == AmbitoEdicion.Federacion || ambito == AmbitoEdicion.Asociacion || ambito == AmbitoEdicion.Grupo)
+                continue;
+            prepararCasoMismoGrupoSinRestricciones();
+            when(usuario.getAmbitoEdicion()).thenReturn(ambito);
+            assertFalse("Ambito con acceso: " + ambito, service.comprobarAccesoAsociado(asociado, usuario, accesoParaEdicion));
+        }
+    }
+
     private void comprobarQuePuedeEditarSusDatos() {
         if (usuario.getRestricciones() == null)
             when(usuario.getRestricciones()).thenReturn(new Restricciones());
@@ -145,6 +156,7 @@ public abstract class AbstractAuthorizationServiceAsociadoTests {
         Grupo grupo = mock(Grupo.class);
         when(grupo.getId()).thenReturn("SOME");
         when(usuario.getGrupo()).thenReturn(grupo);
+        when(usuario.getAmbitoEdicion()).thenReturn(AmbitoEdicion.Grupo);
         Restricciones restricciones = new Restricciones();
         restricciones.setNoPuedeEditarOtrasRamas(true);
         when(usuario.getRestricciones()).thenReturn(restricciones);
@@ -162,6 +174,7 @@ public abstract class AbstractAuthorizationServiceAsociadoTests {
         Grupo grupo = mock(Grupo.class);
         when(grupo.getId()).thenReturn("SOME");
         when(usuario.getGrupo()).thenReturn(grupo);
+        when(usuario.getAmbitoEdicion()).thenReturn(AmbitoEdicion.Grupo);
         Restricciones restricciones = new Restricciones();
         restricciones.setNoPuedeEditarOtrasRamas(true);
         when(usuario.getRestricciones()).thenReturn(restricciones);
@@ -263,6 +276,7 @@ public abstract class AbstractAuthorizationServiceAsociadoTests {
         Grupo grupo = mock(Grupo.class);
         when(grupo.getId()).thenReturn("SOME");
         when(usuario.getGrupo()).thenReturn(grupo);
+        when(usuario.getAmbitoEdicion()).thenReturn(AmbitoEdicion.Grupo);
         Restricciones restricciones = new Restricciones();
         when(usuario.getRestricciones()).thenReturn(restricciones);
         return restricciones;

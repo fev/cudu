@@ -33,7 +33,7 @@ public class GrupoController {
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.GET)
     public ResponseEntity<Grupo> obtener(@PathVariable("id") String grupoId, @AuthenticationPrincipal Usuario usuario) {
         Grupo grupo = grupoRepository.findOne(grupoId);
-        if (!authorizationService.comprobarAccesoGrupo(grupo, usuario, true)) {
+        if (!authorizationService.comprobarAccesoGrupo(grupo, usuario, false)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /grupo/" + grupoId));
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

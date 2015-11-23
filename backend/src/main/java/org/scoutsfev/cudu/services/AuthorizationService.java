@@ -61,6 +61,9 @@ public class AuthorizationService {
                 && asociado.getAsociacionId().equals(usuario.getRestricciones().getRestriccionAsociacion().getId());
         }
 
+        if (usuario.getAmbitoEdicion() != AmbitoEdicion.Grupo)
+            return false;
+
         // Si no tiene restricciones de rama, comprobar que es del mismo grupo únicamente
         boolean mismoGrupo = asociado.getGrupoId() != null && asociado.getGrupoId().equals(usuario.getGrupo().getId());
         if (usuario.getRestricciones() == null || !usuario.getRestricciones().isNoPuedeEditarOtrasRamas())
@@ -105,10 +108,12 @@ public class AuthorizationService {
         if (esTecnico(usuario)) {
             return usuario.getAmbitoEdicion() == AmbitoEdicion.Federacion
                 || usuario.getAmbitoEdicion() == AmbitoEdicion.Asociacion && grupo.getAsociacion().equals(usuario.getRestricciones().getRestriccionAsociacion());
-
         }
 
         if (usuario.getGrupo() == null || !usuario.getGrupo().getId().equals(grupo.getId()))
+            return false;
+
+        if (usuario.getAmbitoEdicion() == null || usuario.getAmbitoEdicion() != AmbitoEdicion.Grupo)
             return false;
 
         return !(accesoParaEdicion && !usuario.getRestricciones().isNoPuedeEditarDatosDelGrupo());
