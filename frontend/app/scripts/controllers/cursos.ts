@@ -61,7 +61,6 @@ module Cudu.Cursos {
         this.actualizarEstadoCurso(e, true);
       }).error(e => {
         /* TODO Toast! */ 
-        console.log(e);
       }).finally(() => {
         curso.operacionEnCurso = false;
       });
@@ -76,7 +75,6 @@ module Cudu.Cursos {
         this.actualizarEstadoCurso(e, false);
       }).error(e => {
         /* TODO Toast! */
-        console.log(e);
       }).finally(() => {
         curso.operacionEnCurso = false;
       });

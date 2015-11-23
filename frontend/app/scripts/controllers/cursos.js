@@ -36,7 +36,6 @@ var Cudu;
                 this.service.inscribir(curso.id).success(function (e) {
                     _this.actualizarEstadoCurso(e, true);
                 }).error(function (e) {
-                    console.log(e);
                 }).finally(function () {
                     curso.operacionEnCurso = false;
                 });
@@ -50,7 +49,6 @@ var Cudu;
                 this.service.desinscribir(curso.id).success(function (e) {
                     _this.actualizarEstadoCurso(e, false);
                 }).error(function (e) {
-                    console.log(e);
                 }).finally(function () {
                     curso.operacionEnCurso = false;
                 });
