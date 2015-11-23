@@ -275,7 +275,7 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
       }
 
       var tieneAlgunaRestriccion = restricciones.noPuedeEditarDatosDelGrupo || restricciones.noPuedeEditarOtrasRamas || restricciones.soloLectura || restricciones.restriccionAsociacion != null;
-      if (!tieneAlgunaRestriccion) {
+      if (!tieneAlgunaRestriccion && (usuario.ambitoEdicion === 'G' || usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
         $body.addClass('rol-permisos');
       }
     }
@@ -314,7 +314,8 @@ cuduServices.factory('RutaInicial', function() { 
         return "/lluerna/cursos";
       }
       if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
-        return "/tecnico/asociados";
+        return "/permisos";
+        // return "/tecnico/asociados";
       }
       return "/asociados";
     }

@@ -206,8 +206,11 @@ var Cudu;
             PermisosServiceImpl.prototype.listado = function () {
                 var _this = this;
                 return this.usuarioService.obtenerActual().then(function (u) {
-                    _this.grupoIdActual = u.grupo.id;
-                    return _this.http.get("/api/usuario/grupo/" + _this.grupoIdActual);
+                    if (u.grupo) {
+                        _this.grupoIdActual = u.grupo.id;
+                        return _this.http.get("/api/usuario/grupo/" + _this.grupoIdActual);
+                    }
+                    return _this.http.get("/api/usuario/todos");
                 }).then(function (d) { return d.data; });
             };
             PermisosServiceImpl.prototype.editarPermisosUsuario = function (command) {

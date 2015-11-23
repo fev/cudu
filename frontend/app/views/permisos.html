@@ -10,6 +10,9 @@
           <table class="table table-condensed table-hover">
             <thead>
               <tr>
+                <th class="solo-tecnico"><%=permisos.grupo %></th>
+                <th class="solo-tecnico"><%=permisos.tipo %></th>
+                <th class="solo-tecnico"><%=permisos.ambito %></th>
                 <th><%=permisos.nombre %></th>
                 <th><%=permisos.email %></th>
                 <th><%=permisos.calidadContraseña %></th>
@@ -21,6 +24,9 @@
             </thead>
             <tbody>
               <tr ng-repeat="u in usuarios">
+                <td class="solo-tecnico">{{u.grupoId | coalesce:'-'}}</td>
+                <td class="solo-tecnico">{{u.tipoAsociado | i18n:'tipo'}}</td>
+                <td class="solo-tecnico">{{u.ambitoEdicion | i18n:'ambito'}}</td>
                 <td>{{u.nombreCompleto}}</td>
                 <td>{{u.email}}</td>
                 <td><rating score="u.calidadPassword" /></td>

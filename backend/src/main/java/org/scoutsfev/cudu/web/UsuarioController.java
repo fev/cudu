@@ -162,6 +162,18 @@ public class UsuarioController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/todos", method = RequestMethod.GET)
+    public ResponseEntity<List<UsuarioPermisosDto>> obtenerTodos(@AuthenticationPrincipal Usuario usuario) {
+        if (authorizationService.esTecnico(usuario)) {
+            if (usuario.getAmbitoEdicion() == AmbitoEdicion.Asociacion && usuario.getRestricciones() != null && usuario.getRestricciones().getRestriccionAsociacion() != null)
+                return ok(usuarioStorage.obtenerUsuariosDeUnaAsociacion(usuario.getRestricciones().getRestriccionAsociacion()));
+            if (usuario.getAmbitoEdicion() == AmbitoEdicion.Federacion)
+                return ok(usuarioStorage.obtenerUsuarios());
+        }
+        eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /usuario/todos"));
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    }
+
     @RequestMapping(value = "/grupo/{grupoId}", method = RequestMethod.GET)
     public ResponseEntity<List<UsuarioPermisosDto>> obtenerUsuariosDeGrupo(@PathVariable("grupoId") String grupoId, @AuthenticationPrincipal Usuario usuario) {
         if (!authorizationService.puedeEditarUsuariosDelGrupo(grupoId, usuario)) {

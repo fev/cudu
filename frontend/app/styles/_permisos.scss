@@ -1,3 +1,6 @@
+body .permisos .solo-tecnico { display: none; }
+body.rol-tecnico .permisos .solo-tecnico { display: table-cell; }
+
 .permisos {
 
   td.accionable {

@@ -80,3 +80,12 @@ filters.filter('cargo', function(Traducciones) {
     return Traducciones.texto('cargo.' + cargo.etiqueta);
   };
 });
+
+filters.filter('coalesce', function() {
+  return function(valor, textoCuandoEsNulo) {
+    if (_.isUndefined(valor) || _.isNull(valor)) {
+      return textoCuandoEsNulo;
+    }
+    return valor;
+  };
+});

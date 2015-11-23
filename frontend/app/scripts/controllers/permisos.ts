@@ -249,8 +249,11 @@ module Cudu.Permisos {
 
       listado(): ng.IPromise<Usuario[]> {
         return this.usuarioService.obtenerActual().then(u => {
-          this.grupoIdActual = u.grupo.id;
-          return this.http.get<Usuario[]>("/api/usuario/grupo/" + this.grupoIdActual);
+          if (u.grupo) {
+            this.grupoIdActual = u.grupo.id;
+            return this.http.get<Usuario[]>("/api/usuario/grupo/" + this.grupoIdActual);
+          }
+          return this.http.get<Usuario[]>("/api/usuario/todos");
         }).then(d => d.data);
       }
 
