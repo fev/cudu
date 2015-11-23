@@ -180,6 +180,7 @@ generador.asociados(60, g2, 'J')
 generador.asociados(10, g2, 'K')
 
 generador.asociado('UP', 'K', true, "baden@example.com", 'G')
+generador.asociado('UP', 'K', true, "jack@example.com", 'P')
 generador.asociado(null, 'T', true, "fev@example.com", 'F')
 generador.asociado(null, 'T', true, "lluerna@example.com", 'E')
 
