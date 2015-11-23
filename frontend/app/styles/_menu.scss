@@ -1,9 +1,10 @@
 // Estructura del menu superior
 
 body.rol-asociado {
-  li.rol-asociado { display: inherit !important }
+  li.rol-asociado { display: inherit !important; }
   li.rol-tecnico { display: none }
   li.rol-lluerna { display: none }
+  li.rol-asociado.rol-permisos { display: none !important; }
 }
 
 body.rol-tecnico {
@@ -16,4 +17,8 @@ body.rol-lluerna {
   li.rol-asociado { display : none }
   li.rol-tecnico { display : none }
   li.rol-lluerna { display : inherit !important }
+}
+
+body.rol-permisos {
+  li.rol-permisos, li.rol-asociado.rol-permisos { display : inherit !important }
 }

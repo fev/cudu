@@ -273,6 +273,12 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
       if (restricciones.noPuedeEditarDatosDelGrupo) {
         $body.addClass('no-edita-grupo');
       }
+
+      var tieneAlgunaRestriccion = restricciones.noPuedeEditarDatosDelGrupo || restricciones.noPuedeEditarOtrasRamas || restricciones.soloLectura || restricciones.restriccionAsociacion != null;
+      if (!tieneAlgunaRestriccion) {
+        console.log("tieneAlgunaRestriccion: " + tieneAlgunaRestriccion);
+        $body.addClass('rol-permisos');
+      }
     }
   };
 }]);
