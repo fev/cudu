@@ -125,6 +125,34 @@ angular.module('cuduApp')
         asociadoNuevo = true;
       }
 
+      // Validamos si el usuario actual puede acceder a la rama. Dicha validación ya se realiza en
+      // el lado del servidor, pero la respuesta estándar es devolver 403 sin detalles. Preferimos
+      // hacer el check aqui para evitar responder con demasiado detalle en respuestas de seguridad.
+      var restricciones = Usuario.usuario.restricciones || {};
+      if (restricciones.noPuedeEditarOtrasRamas) {
+          var u = Usuario.usuario;
+          var a = $scope.asociado;
+          var mismasRamas = (u.ramaColonia && a.ramaColonia) ||
+            (u.ramaManada && a.ramaManada) ||
+            (u.ramaExploradores && a.ramaExploradores) ||
+            (u.ramaExpedicion && a.ramaExpedicion) ||
+            (u.ramaRuta && a.ramaRuta);
+          if (!mismasRamas) {
+            $scope.estado = EstadosFormulario.VALIDACION;
+            var ramas = [];
+            if (u.ramaColonia) { ramas.push(Traducciones.texto('rama.colonia')); }
+            if (u.ramaManada) { ramas.push(Traducciones.texto('rama.manada')); }
+            if (u.ramaExploradores) { ramas.push(Traducciones.texto('rama.exploradores')); }
+            if (u.ramaExpedicion) { ramas.push(Traducciones.texto('rama.expedicion')); }
+            if (u.ramaRuta) { ramas.push(Traducciones.texto('rama.ruta')); }
+            $scope.erroresValidacion = [{
+              campo: Traducciones.texto('rama'),
+              mensaje: Traducciones.texto('asociado.sinPermisosRama') + ramas.join(', ') + "."
+            }];
+            return;
+          }
+      }
+
       guardar({ id: id }, $scope.asociado).$promise.then(function(asociadoGuardado) {
         $scope.estado = EstadosFormulario.OK;
         asociadoGuardado.guardado = true;
