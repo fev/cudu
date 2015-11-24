@@ -57,7 +57,6 @@ angular
       })
       .when('/tecnico/asociados', {
         templateUrl: 'i18n/views/tecnico_fev.html',
-        controller: 'TecnicoFevCtrl',
         seccion: 'tecnico-fev'
       })
       .when('/actividades', {

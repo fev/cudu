@@ -1,4 +1,4 @@
-<div class="container contenedor-central">
+<div class="container contenedor-central" ng-controller="AsociadosTecnicoController as C">
   <div class="row">
     <div id="listado-asociados">
       <div class="panel panel-default">
@@ -40,112 +40,133 @@
                     <div class="input-group">
                       <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda por DNI">
                       <span class="input-group-btn">
-                        <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button"
-                        tooltip="Limpiar búsqueda y mostrar todos">
-                        <span class="glyphicon glyphicon-remove"></span>
-                      </button>
-                    </span>
+                        <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button" tooltip="Limpiar búsqueda y mostrar todos">
+                          <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="row padded">
+                <div class="input-group">
+                  <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda por Nombre">
+                  <span class="input-group-btn">
+                    <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button" tooltip="Limpiar búsqueda y mostrar todos">
+                      <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
             </div>
-            <div class="row padded">
-              <div class="input-group">
-                <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda por Nombre">
-                <span class="input-group-btn">
-                  <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button"
-                  tooltip="Limpiar búsqueda y mostrar todos">
-                  <span class="glyphicon glyphicon-remove"></span>
-                </button>
-              </span>
+            <div class="col-md-6">
+              <div class="row padded">
+                <label>Asociación</label>
+                <div class="btn-group btn-group-sm">
+                  <a href="javascript:" ng-click="SdCActivo=!SdCActivo" ng-class="{'active': SdCActivo}" class="btn">SdC</a>
+                  <a href="javascript:" ng-click="SdAActivo=!SdAActivo" ng-class="{'active': SdAActivo}" class="btn">SdA</a>
+                  <a href="javascript:" ng-click="MEVActivo=!MEVActivo" ng-class="{'active': MEVActivo}" class="btn">MEV</a>
+                  <a href="javascript:" ng-click="VoluntariosActivo=!VoluntariosActivo" ng-class="{'active': VoluntariosActivo}" class="btn">Voluntarios</a>
+                </div>
+              </div>
+              <div class="row padded">
+                <label>Grupo</label>
+                <div class="btn-group btn-group-sm">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Selecciona grupo
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="grupo in grupos"><a href="#">{{grupo}}</a></li>
+                  </ul>
+                </div>
+
+                <div class="btn-group">
+                  <a href="javascript:" class="">
+                    <span class="glyphicon glyphicon-user"></span> Ver Grupo
+                  </a>
+                </div>
+              </div>
+              <div class="row padded has-warning">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" ng-click="mostrarInactivos()"> Mostrar Inactivos
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-6">
-          <div class="row padded">
-            <label>Asociación</label>
-            <div class="btn-group btn-group-sm">
-             <a href="javascript:" ng-click="SdCActivo=!SdCActivo" ng-class="{'active': SdCActivo}" class="btn">SdC</a>
-              <a href="javascript:" ng-click="SdAActivo=!SdAActivo" ng-class="{'active': SdAActivo}" class="btn">SdA</a>
-              <a href="javascript:" ng-click="MEVActivo=!MEVActivo" ng-class="{'active': MEVActivo}" class="btn">MEV</a>
-              <a href="javascript:" ng-click="VoluntariosActivo=!VoluntariosActivo" ng-class="{'active': VoluntariosActivo}" class="btn">Voluntarios</a>
-            </div>
-          </div>
-          <div class="row padded">
-            <label>Grupo</label>
-            <div class="btn-group btn-group-sm">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                Selecciona grupo <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="grupo in grupos"><a href="#">{{grupo}}</a></li>
-              </ul>
-            </div>
-
-            <div class="btn-group">
-              <a href="javascript:" class="">
-                <span class="glyphicon glyphicon-user"></span> Ver Grupo
-              </a>
-            </div>
-          </div>
-          <div class="row padded has-warning">
-            <div class="checkbox">
-              <label>
-                <input type="checkbox" ng-click="mostrarInactivos()"> Mostrar Inactivos
-              </label>
-            </div>
-          </div>
+        <table class="table table-hover ">
+          <thead>
+            <tr>
+              <th width="10%" ng-click="GrupoAsc=!GrupoAsc" ng-class="{'dropup': GrupoAsc}">
+                Grupo
+                <span class="caret"></span>
+              </th>
+              <th width="5%">Id</th>
+              <th width="10%">Nombre</th>
+              <th width="10%" ng-click="ApellidosAsc=!ApellidosAsc" ng-class="{'dropup': ApellidosAsc}">
+                Apellidos
+                <span class="caret"></span>
+              </th>
+              <th width="5%" ng-click="tipoAsc=!tipoAsc" ng-class="{'dropup': tipoAsc}">
+                Tipo
+                <span class="caret"></span>
+              </th>
+              <th width="5%" ng-click="RamaAsc=!RamaAsc" ng-class="{'dropup': RamaAsc}">
+                Rama
+                <span class="caret"></span>
+              </th>
+              <th width="10%">Email</th>
+              <th width="10%">Teléfono</th>
+              <th width="5%">Usuario</th>
+              <th width="10%">Creado</th>
+              <th width="10%">Actualizado</th>
+              <th width="10%">Baja</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="a in asociados" ng-class="{'bg-danger': !a.activo}">
+              <td>{{a.grupoId}}</td>
+              <td>{{a.id}}</td>
+              <td>{{a.nombre}}</td>
+              <td>{{a.apellidos}}</td>
+              <td>{{a.tipo}}</td>
+              <td>{{a.rama}}</td>
+              <td>{{a.email}}</td>
+              <td>{{a.telefono}}</td>
+              <td>{{a.usuario}}</td>
+              <td>{{a.creado}}</td>
+              <td>{{a.actualizado}}</td>
+              <td>{{a.baja}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="panel-footer">
+          <nav>
+            <ul class="pagination">
+              <li>
+                <a href="#">
+                  <span aria-hidden="true">&laquo;</span>
+                  <span class="sr-only">Anterior</span>
+                </a>
+              </li>
+              <li><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li>
+                <a href="#">
+                  <span aria-hidden="true">&raquo;</span>
+                  <span class="sr-only">Siguiente</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
-    <table class="table table-hover ">
-      <thead>
-        <tr>
-          <th width="15%">Nombre</th> 
-          <th width="15%" ng-click="ApellidosAsc=!ApellidosAsc" ng-class="{'dropup': ApellidosAsc}">
-            Apellidos <span class="caret"></span></th>
-            <th width="15%">DNI</th>
-            <th width="15%">Teléfono</th>
-            <th width="15%" ng-click="tipoAsc=!tipoAsc" ng-class="{'dropup': tipoAsc}">
-              Tipo <span class="caret"></span></th>
-              <th width="10%" ng-click="RamaAsc=!RamaAsc" ng-class="{'dropup': RamaAsc}">
-                Rama <span class="caret"></span></th>
-                <th width="10%" ng-click="GrupoAsc=!GrupoAsc" ng-class="{'dropup': GrupoAsc}">
-                  Grupo <span class="caret"></span></th>
-                  <th width="10%">Asociación</th>
-                  <th width="10%">Actualizado</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="a in asociados.list" ng-class="{'bg-danger': !a.activo}">
-                  <td>{{a.nombre}}</td>
-                  <td>{{a.apellidos}}</td>
-                  <td ng-if="a.dni !== undefined">{{a.dni}}</td>
-                  <td ng-if="a.dni === undefined">(sin DNI)</td>
-                  <td>3333333</td>
-                  <td>{{a.tipo | tipoAsociado}}</td>
-                  <td>{{a.rama | rama}}</td>
-                  <td>Grupo 1</td>
-                  <td>SdC</td>
-                  <td>{{a.actualizado}}</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="panel-footer">
-              <nav>
-                <ul class="pagination">
-                  <li><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Anterior</span></a></li>
-                  <li><a href="#">1</a></li>
-                  <li><a href="#">2</a></li>
-                  <li><a href="#">3</a></li>
-                  <li><a href="#">4</a></li>
-                  <li><a href="#">5</a></li>
-                  <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Siguiente</span></a></li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
+  </div>
+</div>
