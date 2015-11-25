@@ -9,65 +9,41 @@
         </form>
       </div>
       <div class="mensaje">
-        * Recuerda que la inscripción en un curso implica haber leido y aceptado 
-        <a href="https://drive.google.com/file/d/0BzN1VMFJyHd3RzV2WWluN19jZ00/view?pli=1" target="_blank">las normas de la Escola Lluerna</a>.
+        * <%= cursos.recuerdaInscripcionA %>
+        <a href="https://drive.google.com/file/d/0BzN1VMFJyHd3RzV2WWluN19jZ00/view?pli=1" target="_blank"><%= cursos.recuerdaInscripcionB %></a>.
       </div>
       <div class="tabla">
         <p ng-show="!cursos"><%= cursos.noHayCursosParaMostrar %></p>
-        
         <div class="row">
-          <% 
+          <%
           // TODO Deberiamos crear una directiva para esto
           for(var i = 0; i < 3; i++) { %>
           <div class="col-md-4">
-            <div class="curso" 
+            <div class="curso"
               ng-repeat="c in cursos.cursos[<%=i%>] track by c.id"
               ng-class="{inscrito: c.usuarioInscrito, completo: c.disponibles === 0, flash: c.operacionEnCurso === false}">
               <div class="contenido">
                 <h3>{{c.titulo}}</h3>
                 <div class="plazas">
-                  <span class="estado" ng-show="c.usuarioInscrito && !c.usuarioListaEspera">Inscrito</span>
-                  <span class="estado" ng-show="c.usuarioInscrito && c.usuarioListaEspera">En lista de espera</span>
-                  <span class="estado" ng-show="!c.usuarioInscrito && c.disponibles == 0">Completo</span>
-                  {{c.disponibles}} PLAZAS DISPONIBLES<br/>
+                  <span class="estado" ng-show="c.usuarioInscrito && !c.usuarioListaEspera"><%= cursos.inscrito %></span>
+                  <span class="estado" ng-show="c.usuarioInscrito && c.usuarioListaEspera"><%= cursos.enListaEspera %></span>
+                  <span class="estado" ng-show="!c.usuarioInscrito && c.disponibles == 0"><%= cursos.completo %></span>
+                  {{c.disponibles}} <%= cursos.plazasDisponibles %><br/>
                   {{c.plazoRestante}}
-                </div>                
-                <div contenteditable>Fechas: {{c.descripcionFechas}}</div>
-                <div contenteditable>Lugar: {{c.descripcionLugar}}</div>
+                </div>
+                <div contenteditable><%= cursos.fechas %>: {{c.descripcionFechas}}</div>
+                <div contenteditable><%= cursos.lugar %>: {{c.descripcionLugar}}</div>
               </div>
               <div class="toolbar" ng-class="{disabled: !c.plazoCerrado || c.operacionEnCurso}">
-                <a ng-click="cursos.inscribir(c)" id="btnInscribir" class="btn btn-default" href="javascript:">INSCRIBIRSE</a>
-                <a ng-click="cursos.desinscribir(c)" id="btnCancelar" class="btn btn-default" href="javascript:">CANCELAR INSCRIPCION</a>
-                <a ng-click="cursos.inscribir(c)" id="btnListaEspera" class="btn btn-default" href="javascript:">LISTA ESPERA</a>                
+                <a ng-click="cursos.inscribir(c)" id="btnInscribir" class="btn btn-default" href="javascript:"><%= cursos.inscribirse %></a>
+                <a ng-click="cursos.desinscribir(c)" id="btnCancelar" class="btn btn-default" href="javascript:"><%= cursos.cancelar %></a>
+                <a ng-click="cursos.inscribir(c)" id="btnListaEspera" class="btn btn-default" href="javascript:"><%= cursos.listaEspera %></a>
               </div>
-            </div>      
-          </div>                 
-          <% } %>          
+            </div>
+          </div>
+          <% } %>
         </div>
-        
-        <!-- 
-          
-          <div class="curso completo">
-            <div class="contenido">
-              <h3>Vida en la naturaleza</h3>
-              <div class="plazas">
-                <span class="estado">Completo</span>
-                33 PLAZAS, 0 DISPONIBLES
-              </div>
-              <div>27 y 28 de mayo</div>
-              <div>Preventori d'Alcoi y Alborache</div>
-            </div>
-            <div class="toolbar">
-              <a id="btnInscribir" class="btn btn-default" href="#">INSCRIBIR</a>
-              <a id="btnCancelar" class="btn btn-default" href="#">CANCELAR INSCRIPCION</a>
-              <a id="btnListaEspera" class="btn btn-default" href="#">LISTA ESPERA</a>
-            </div>
-          </div> 
-        -->
-      </div>      
+      </div>
     </div>
   </div>
 </div>
-
-
-
