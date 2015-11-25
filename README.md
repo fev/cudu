@@ -1,5 +1,7 @@
 # Cudú
 
+[![Build Status](https://travis-ci.org/fev/cudu.svg?branch=master)](https://travis-ci.org/fev/cudu)
+
 Cudú es una aplicación web que permite almacenar y gestionar de forma segura y centralizada datos de agrupaciones juveniles. Cudú ha sido desarrollado por la [Federació d'Escoltisme Valencià](http://www.scoutsfev.org) y legalmente se distribuye bajo [licencia AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html).
 
 ## Primeros pasos
