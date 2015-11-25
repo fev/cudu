@@ -16,7 +16,8 @@ angular
   .constant("RolesMenu", {
     "ASOCIADO": "rol-asociado",
     "TECNICO" : "rol-tecnico",
-    "LLUERNA" : "rol-lluerna"
+    "LLUERNA" : "rol-lluerna",
+    "PERMISOS": "rol-permisos"
   })
   .constant("EstadosFormulario", {
     'LIMPIO'     : 0,

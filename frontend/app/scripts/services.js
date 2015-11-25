@@ -256,14 +256,19 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
       var grupo = usuario.grupo || { id: 'up' };
       establecerTextosMenu(usuario.nombreCompleto, grupo.id.toLowerCase());
 
-      var rolMenu = RolesMenu.ASOCIADO;
-      if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'E')) {
-        rolMenu = RolesMenu.LLUERNA;
-      } else if  ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
-        rolMenu = RolesMenu.TECNICO;
-      }
       var $body = $('body');
-      $body.addClass(rolMenu);
+      if (usuario.tipo === 'T') {
+        if (usuario.ambitoEdicion === 'A') {
+          $body.addClass(RolesMenu.TECNICO);
+        } else if (usuario.ambitoEdicion === 'E') {
+          $body.addClass(RolesMenu.LLUERNA);
+        } else if (usuario.ambitoEdicion === 'F') {
+          $body.addClass(RolesMenu.TECNICO);
+          $body.addClass(RolesMenu.LLUERNA);
+        }
+      } else {
+        $body.addClass(RolesMenu.ASOCIADO);
+      }
 
       var restricciones = usuario.restricciones || {};
       if (restricciones.soloLectura) {
@@ -276,7 +281,7 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
 
       var tieneAlgunaRestriccion = restricciones.noPuedeEditarDatosDelGrupo || restricciones.noPuedeEditarOtrasRamas || restricciones.soloLectura || restricciones.restriccionAsociacion != null;
       if (!tieneAlgunaRestriccion && (usuario.ambitoEdicion === 'G' || usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
-        $body.addClass('rol-permisos');
+        $body.addClass(RolesMenu.PERMISOS);
       }
     }
   };
