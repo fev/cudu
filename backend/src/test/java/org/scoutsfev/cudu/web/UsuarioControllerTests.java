@@ -2,10 +2,7 @@ package org.scoutsfev.cudu.web;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.scoutsfev.cudu.domain.Asociado;
-import org.scoutsfev.cudu.domain.Grupo;
-import org.scoutsfev.cudu.domain.Restricciones;
-import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.domain.*;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.UsuarioService;
@@ -51,6 +48,8 @@ public class UsuarioControllerTests {
         asociado.setId(42);
         usuario = mock(Usuario.class);
         when(usuario.getGrupo()).thenReturn(grupo);
+        when(usuario.getTipo()).thenReturn(TipoAsociado.Kraal);
+        when(usuario.getAmbitoEdicion()).thenReturn(AmbitoEdicion.Grupo);
         when(usuario.getRestricciones()).thenReturn(new Restricciones());
         when(usuario.isUsuarioActivo()).thenReturn(true);
         asociado.setEmail(null);
