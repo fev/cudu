@@ -1,9 +1,12 @@
 package org.scoutsfev.cudu.web;
 
+import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.dto.MiembroEscuelaDto;
 import org.scoutsfev.cudu.domain.dto.MiembroEscuelaEdicionDto;
 import org.scoutsfev.cudu.services.LluernaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,17 +23,20 @@ public class MiembrosEscuelaController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<MiembroEscuelaDto> listado() {
+    @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
+    public List<MiembroEscuelaDto> listado(@AuthenticationPrincipal Usuario usuario) {
         return lluernaService.obtenerMiembros();
     }
 
     @RequestMapping(value = "/{asociadoId}", method = RequestMethod.PUT)
-    public void añadir(@PathVariable Integer asociadoId, @RequestBody MiembroEscuelaEdicionDto edicionMiembroDto) {
+    @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
+    public void añadir(@PathVariable Integer asociadoId, @RequestBody MiembroEscuelaEdicionDto edicionMiembroDto, @AuthenticationPrincipal Usuario usuario) {
         lluernaService.añadirMiembro(asociadoId, edicionMiembroDto.getCargo(), edicionMiembroDto.isMesaPedagogica());
     }
 
     @RequestMapping(value = "/{asociadoId}", method = RequestMethod.DELETE)
-    public void quitar(@PathVariable Integer asociadoId) {
+    @PreAuthorize("@auth.puedeAccederLluerna(#usuario)")
+    public void quitar(@PathVariable Integer asociadoId, @AuthenticationPrincipal Usuario usuario) {
         lluernaService.quitarMiembro(asociadoId);
     }
 }
