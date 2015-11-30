@@ -116,7 +116,7 @@ public class AuthorizationService {
         if (usuario.getAmbitoEdicion() == null || usuario.getAmbitoEdicion() != AmbitoEdicion.Grupo)
             return false;
 
-        return !(accesoParaEdicion && !usuario.getRestricciones().isNoPuedeEditarDatosDelGrupo());
+        return !(accesoParaEdicion && usuario.getRestricciones().isNoPuedeEditarDatosDelGrupo());
     }
 
     public boolean puedeAccederLluerna(Usuario usuario) {
