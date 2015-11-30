@@ -80,7 +80,7 @@ public class AsociadoController {
             Specification<Asociado> porGrupoSegunRama = PorGrupoSegunRama(usuario.getId(), grupoId, usuario.isRamaColonia(), usuario.isRamaManada(), usuario.isRamaExploradores(), usuario.isRamaExpedicion(), usuario.isRamaRuta());
             return asociadoRepository.findAll(porGrupoSegunRama, pageable);
         }
-        return asociadoRepository.findByGrupoId(grupoId, pageable);
+        return asociadoRepository.findByGrupoIdOrderByActivo(grupoId, pageable);
     }
 
     @RequestMapping(value = "/tecnico/asociado", method = RequestMethod.GET)
