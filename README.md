@@ -4,7 +4,7 @@
 
 Cudú es una aplicación web que permite almacenar y gestionar de forma segura y centralizada datos de agrupaciones juveniles. Cudú ha sido desarrollado por la [Federació d'Escoltisme Valencià](http://www.scoutsfev.org) y legalmente se distribuye bajo [licencia AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html).
 
-Puedes ver algunas capturas de pantalla [aquí](https://goo.gl/photos/Mzo3SL67T1Q3jcX98).
+[Capturas de pantalla / Screenshots](https://goo.gl/photos/Mzo3SL67T1Q3jcX98)
 
 ## Primeros pasos
 
