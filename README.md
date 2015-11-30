@@ -19,7 +19,7 @@ Una vez tengas todo disponible necesitas generar las traducciones de las vistas,
 	$ compass compile
 	$ node devserver.js
 
-Pasados unos segundos Cudú estará disponible con datos de prueba en `http://localhost:3000`. El `frontend` se ha desarrollado usando [AngularJS](https://angularjs.org) y [Bootstrap](http://getbootstrap.com) y [Sass](http://sass-lang.com/), entre otros. 
+Pasados unos segundos Cudú estará disponible con datos de prueba en `http://localhost:3000`. El `frontend` se ha desarrollado usando [AngularJS](https://angularjs.org), [TypeScript](http://typescriptlang.org) y [Sass](http://sass-lang.com/), entre otros. 
 
 El servidor de desarrollo es una aplicación [Node.js](http://nodejs.org/) con [Express](http://expressjs.com/) creada para emular la configuración del entorno de producción, pero no es estrictamente necesaria. Cualquier servidor como Nginx o Apache puede utilizarse para servir el `frontend`.
 
