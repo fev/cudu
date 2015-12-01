@@ -32,6 +32,10 @@ repositories {
   }
 }
 
+springBoot {
+  executable = true
+}
+
 configurations {
   providedRuntime
   jpaMetaModel
