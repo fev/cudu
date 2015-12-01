@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
@@ -32,6 +33,7 @@ import java.util.Arrays;
 @EnableAutoConfiguration
 @ComponentScan
 @EnableCaching
+@EnableAsync
 public class Application extends WebMvcConfigurerAdapter {
 
     @Autowired

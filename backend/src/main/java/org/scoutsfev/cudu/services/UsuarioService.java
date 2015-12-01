@@ -80,7 +80,7 @@ public class UsuarioService implements UserDetailsService {
         throw new UsernameNotFoundException("El usuario especificado no existe.");
     }
 
-    public void resetPassword(String email, boolean comprobarQueElUsuarioEstaActivo) throws MessagingException, UnsupportedEncodingException {
+    public void resetPassword(String email, boolean comprobarQueElUsuarioEstaActivo) {
         Usuario usuario = usuarioRepository.findByEmail(email);
         if (usuario == null)
             throw new UsernameNotFoundException("Imposible encontrar al usuario: " + email);
