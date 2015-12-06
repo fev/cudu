@@ -110,24 +110,22 @@
                 Apellidos
                 <span class="caret"></span>
               </th>
-              <th width="5%" ng-click="tipoAsc=!tipoAsc" ng-class="{'dropup': tipoAsc}">
+              <th width="10%" ng-click="tipoAsc=!tipoAsc" ng-class="{'dropup': tipoAsc}">
                 Tipo
                 <span class="caret"></span>
               </th>
-              <th width="5%" ng-click="RamaAsc=!RamaAsc" ng-class="{'dropup': RamaAsc}">
+              <th width="10%" ng-click="RamaAsc=!RamaAsc" ng-class="{'dropup': RamaAsc}">
                 Rama
                 <span class="caret"></span>
               </th>
               <th width="10%">Email</th>
-              <th width="10%">Teléfono</th>
-              <th width="5%">Usuario</th>
-              <th width="10%">Creado</th>
-              <th width="10%">Actualizado</th>
-              <th width="10%">Baja</th>
+              <th width="5%">Teléfono</th>
+              <th width="15%">Creado</th>
+              <th width="15%">Actualizado</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="a in asociados" ng-class="{'bg-danger': !a.activo}">
+            <tr ng-repeat="a in asociados">
               <td>{{a.grupoId}}</td>
               <td>{{a.id}}</td>
               <td>{{a.nombre}}</td>
@@ -136,10 +134,8 @@
               <td>{{a.rama}}</td>
               <td>{{a.email}}</td>
               <td>{{a.telefono}}</td>
-              <td>{{a.usuario}}</td>
-              <td>{{a.creado}}</td>
-              <td>{{a.actualizado}}</td>
-              <td>{{a.baja}}</td>
+              <td>{{a.creado | timeStamp}}</td>
+              <td>{{a.actualizado | timeStamp}}</td>
             </tr>
           </tbody>
         </table>
