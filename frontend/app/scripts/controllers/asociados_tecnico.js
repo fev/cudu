@@ -11,6 +11,11 @@ var Cudu;
                     }
                     return Asociado;
                 })();
+                var AsociadoFiltro = (function () {
+                    function AsociadoFiltro() {
+                    }
+                    return AsociadoFiltro;
+                })();
                 var AsociadosTecnicoController = (function () {
                     function AsociadosTecnicoController($scope, service) {
                         var _this = this;
@@ -22,6 +27,28 @@ var Cudu;
                             $scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
                         });
                     }
+                    AsociadosTecnicoController.prototype.activar = function (tipo) {
+                        var _this = this;
+                        switch (tipo) {
+                            case 'Joven':
+                                this.$scope.jovenActivo = true;
+                                this.$scope.kraalActivo = this.$scope.comiteActivo = false;
+                                break;
+                            case 'Kraal':
+                                this.$scope.kraalActivo = true;
+                                this.$scope.jovenActivo = this.$scope.comiteActivo = false;
+                                break;
+                            case 'Comite':
+                                this.$scope.comiteActivo = true;
+                                this.$scope.kraalActivo = this.$scope.jovenActivo = false;
+                                break;
+                        }
+                        this.$scope.filtro = new AsociadoFiltro();
+                        this.$scope.filtro.tipo = tipo;
+                        this.service.filtrado(this.$scope.filtro).success(function (data) {
+                            _this.$scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
+                        });
+                    };
                     AsociadosTecnicoController.prototype.bindAsociado = function (valores, indices) {
                         return {
                             grupoId: valores[indices.grupo_id],
@@ -48,6 +75,9 @@ var Cudu;
                     }
                     AsociadoService.prototype.listado = function () {
                         return this.$http.get('api/tecnico/asociado');
+                    };
+                    AsociadoService.prototype.filtrado = function (filtro) {
+                        return this.$http.get('api/tecnico/asociado', { params: filtro });
                     };
                     return AsociadoService;
                 })();
