@@ -28,38 +28,23 @@ module Cudu.Tecnicos.Asociados.Listado {
     grupos: Array<String>;
     grupoPorDefecto: String;
     asociados: Array<Asociado>;
-    jovenActivo: boolean;
-    kraalActivo: boolean;
-    comiteActivo: boolean;
     filtro: AsociadoFiltro;
+    filtroAsociadoTipo: FiltroAsociadoTipo;
   }
 
   export class AsociadosTecnicoController {
     static $inject = ['$scope', 'AsociadoService'];
     constructor(private $scope: AsociadosTecnicoScope, private service: IAsociadoService) {
-      $scope.grupos = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4'];
-      $scope.grupoPorDefecto = $scope.grupos[0];
+      $scope.grupos = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4']; // TODO
+      $scope.grupoPorDefecto = $scope.grupos[0]; // TODO
+      $scope.filtroAsociadoTipo = new FiltroAsociadoTipo();
       service.listado().success(data => {
         $scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
       });
     }
 
     public activar(tipo: string) {
-      switch(tipo) {
-        case 'Joven':
-          this.$scope.jovenActivo = true;
-          this.$scope.kraalActivo = this.$scope.comiteActivo = false;
-          break;
-        case 'Kraal':
-          this.$scope.kraalActivo = true;
-          this.$scope.jovenActivo = this.$scope.comiteActivo = false;
-          break;
-        case 'Comite':
-          this.$scope.comiteActivo = true;
-          this.$scope.kraalActivo = this.$scope.jovenActivo = false;
-          break;
-      }
-
+      this.$scope.filtroAsociadoTipo.activar(tipo);
       this.$scope.filtro = new AsociadoFiltro();
       this.$scope.filtro.tipo = tipo;
       this.service.filtrado(this.$scope.filtro).success(data => {

@@ -23,26 +23,14 @@ var Cudu;
                         this.service = service;
                         $scope.grupos = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4'];
                         $scope.grupoPorDefecto = $scope.grupos[0];
+                        $scope.filtroAsociadoTipo = new Asociados.FiltroAsociadoTipo();
                         service.listado().success(function (data) {
                             $scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
                         });
                     }
                     AsociadosTecnicoController.prototype.activar = function (tipo) {
                         var _this = this;
-                        switch (tipo) {
-                            case 'Joven':
-                                this.$scope.jovenActivo = true;
-                                this.$scope.kraalActivo = this.$scope.comiteActivo = false;
-                                break;
-                            case 'Kraal':
-                                this.$scope.kraalActivo = true;
-                                this.$scope.jovenActivo = this.$scope.comiteActivo = false;
-                                break;
-                            case 'Comite':
-                                this.$scope.comiteActivo = true;
-                                this.$scope.kraalActivo = this.$scope.jovenActivo = false;
-                                break;
-                        }
+                        this.$scope.filtroAsociadoTipo.activar(tipo);
                         this.$scope.filtro = new AsociadoFiltro();
                         this.$scope.filtro.tipo = tipo;
                         this.service.filtrado(this.$scope.filtro).success(function (data) {

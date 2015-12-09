@@ -12,9 +12,9 @@
                   <div class="row">
                     <label>Tipo</label>
                     <div class="btn-group btn-group-sm">
-                      <a href="javascript:" ng-click="C.activar('Joven')" ng-class="{'active': jovenActivo}" class="btn">Joven</a>
-                      <a href="javascript:" ng-click="C.activar('Kraal')" ng-class="{'active': kraalActivo}" class="btn">Kraal</a>
-                      <a href="javascript:" ng-click="C.activar('Comite')" ng-class="{'active': comiteActivo}" class="btn">Comité</a>
+                      <a href="javascript:" ng-click="C.activar('Joven')" ng-class="{'active': filtroAsociadoTipo.isActivo('Joven')}" class="btn">Joven</a>
+                      <a href="javascript:" ng-click="C.activar('Kraal')" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
+                      <a href="javascript:" ng-click="C.activar('Comite')" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
                     </div>
                   </div>
                   <div class="row">

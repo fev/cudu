@@ -20,12 +20,12 @@
         "!./node_modules/**/*"
     ],
     "files": [
+        "./app/scripts/AsociadoTipo.ts",
         "./app/scripts/controllers/asociados_tecnico.ts",
         "./app/scripts/controllers/curso_lluerna_detalle.ts",
-        "./app/scripts/controllers/cursos.ts",
         "./app/scripts/controllers/cursos_lluerna.ts",
+        "./app/scripts/controllers/cursos.ts",
         "./app/scripts/controllers/permisos.ts",
-        "./app/scripts/controllers/asociados_tecnico.ts",
         "./app/scripts/services.d.ts",
         "./app/scripts/support.ts",
         "./typings/angularjs/angular-resource.d.ts",
@@ -39,5 +39,8 @@
         "./typings/tsd.d.ts",
         "./typings/typeahead/typeahead.d.ts"
     ],
-    "exclude": []
+    "exclude": [],
+    "atom": {
+        "rewriteTsconfig": true
+    }
 }
