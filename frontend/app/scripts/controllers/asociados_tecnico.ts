@@ -44,9 +44,14 @@ module Cudu.Tecnicos.Asociados.Listado {
     }
 
     public activar(tipo: string) {
-      this.$scope.filtroAsociadoTipo.activar(tipo);
       this.$scope.filtro = new AsociadoFiltro();
-      this.$scope.filtro.tipo = tipo;
+      if(this.$scope.filtroAsociadoTipo.isActivo(tipo)) {
+        this.$scope.filtroAsociadoTipo.desactivar(tipo);
+      }
+      else {
+        this.$scope.filtroAsociadoTipo.activar(tipo);
+        this.$scope.filtro.tipo = tipo;
+      }
       this.service.filtrado(this.$scope.filtro).success(data => {
         this.$scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
       });

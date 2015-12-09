@@ -30,9 +30,14 @@ var Cudu;
                     }
                     AsociadosTecnicoController.prototype.activar = function (tipo) {
                         var _this = this;
-                        this.$scope.filtroAsociadoTipo.activar(tipo);
                         this.$scope.filtro = new AsociadoFiltro();
-                        this.$scope.filtro.tipo = tipo;
+                        if (this.$scope.filtroAsociadoTipo.isActivo(tipo)) {
+                            this.$scope.filtroAsociadoTipo.desactivar(tipo);
+                        }
+                        else {
+                            this.$scope.filtroAsociadoTipo.activar(tipo);
+                            this.$scope.filtro.tipo = tipo;
+                        }
                         this.service.filtrado(this.$scope.filtro).success(function (data) {
                             _this.$scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
                         });
@@ -55,7 +60,7 @@ var Cudu;
                     };
                     AsociadosTecnicoController.$inject = ['$scope', 'AsociadoService'];
                     return AsociadosTecnicoController;
-                }());
+                })();
                 Listado.AsociadosTecnicoController = AsociadosTecnicoController;
                 var AsociadoService = (function () {
                     function AsociadoService($http) {
@@ -68,7 +73,7 @@ var Cudu;
                         return this.$http.get('api/tecnico/asociado', { params: filtro });
                     };
                     return AsociadoService;
-                }());
+                })();
                 Listado.AsociadoService = AsociadoService;
             })(Listado = Asociados.Listado || (Asociados.Listado = {}));
         })(Asociados = Tecnicos.Asociados || (Tecnicos.Asociados = {}));
