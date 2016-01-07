@@ -14,6 +14,7 @@ module Cudu.Tecnicos.Asociados.Listado {
     creado: String;
     actualizado: String;
     baja: String;
+    sexo: String;
   }
 
   class AsociadoFiltro {
@@ -21,6 +22,7 @@ module Cudu.Tecnicos.Asociados.Listado {
     tipo: string;
     grupoId: string;
     ramas: string;
+    sexo: string;
     asociadoActivo;
   }
 
@@ -38,13 +40,13 @@ module Cudu.Tecnicos.Asociados.Listado {
       $scope.grupos = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4']; // TODO
       $scope.grupoPorDefecto = $scope.grupos[0]; // TODO
       $scope.filtroAsociadoTipo = new FiltroAsociadoTipo();
+      $scope.filtro = new AsociadoFiltro();
       service.listado().success(data => {
         $scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
       });
     }
 
     public activar(tipo: string) {
-      this.$scope.filtro = new AsociadoFiltro();
       if(this.$scope.filtroAsociadoTipo.isActivo(tipo)) {
         this.$scope.filtroAsociadoTipo.desactivar(tipo);
       }
@@ -55,6 +57,22 @@ module Cudu.Tecnicos.Asociados.Listado {
       this.service.filtrado(this.$scope.filtro).success(data => {
         this.$scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
       });
+    }
+
+    public filtraPorSexo(sexo: string) {
+      if(this.$scope.filtro.sexo === sexo) {
+        this.desactivarSexo();
+      }
+      else {
+        this.$scope.filtro.sexo = sexo;
+      }
+      this.service.filtrado(this.$scope.filtro).success(data => {
+        this.$scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
+      });
+    }
+
+    private desactivarSexo() {
+      this.$scope.filtro.sexo = null;
     }
 
     private bindAsociado(valores: Array<any>, indices: any): Asociado {
@@ -71,6 +89,7 @@ module Cudu.Tecnicos.Asociados.Listado {
         creado: valores[indices.fecha_alta],
         actualizado: valores[indices.fecha_actualizacion],
         baja: valores[indices.fecha_baja],
+        sexo: valores[indices.sexo]
       };
     }
   }

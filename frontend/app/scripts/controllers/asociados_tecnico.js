@@ -10,12 +10,12 @@ var Cudu;
                     function Asociado() {
                     }
                     return Asociado;
-                }());
+                })();
                 var AsociadoFiltro = (function () {
                     function AsociadoFiltro() {
                     }
                     return AsociadoFiltro;
-                }());
+                })();
                 var AsociadosTecnicoController = (function () {
                     function AsociadosTecnicoController($scope, service) {
                         var _this = this;
@@ -24,13 +24,13 @@ var Cudu;
                         $scope.grupos = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4'];
                         $scope.grupoPorDefecto = $scope.grupos[0];
                         $scope.filtroAsociadoTipo = new Asociados.FiltroAsociadoTipo();
+                        $scope.filtro = new AsociadoFiltro();
                         service.listado().success(function (data) {
                             $scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
                         });
                     }
                     AsociadosTecnicoController.prototype.activar = function (tipo) {
                         var _this = this;
-                        this.$scope.filtro = new AsociadoFiltro();
                         if (this.$scope.filtroAsociadoTipo.isActivo(tipo)) {
                             this.$scope.filtroAsociadoTipo.desactivar(tipo);
                         }
@@ -41,6 +41,21 @@ var Cudu;
                         this.service.filtrado(this.$scope.filtro).success(function (data) {
                             _this.$scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
                         });
+                    };
+                    AsociadosTecnicoController.prototype.filtraPorSexo = function (sexo) {
+                        var _this = this;
+                        if (this.$scope.filtro.sexo === sexo) {
+                            this.desactivarSexo();
+                        }
+                        else {
+                            this.$scope.filtro.sexo = sexo;
+                        }
+                        this.service.filtrado(this.$scope.filtro).success(function (data) {
+                            _this.$scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
+                        });
+                    };
+                    AsociadosTecnicoController.prototype.desactivarSexo = function () {
+                        this.$scope.filtro.sexo = null;
                     };
                     AsociadosTecnicoController.prototype.bindAsociado = function (valores, indices) {
                         return {
@@ -56,6 +71,7 @@ var Cudu;
                             creado: valores[indices.fecha_alta],
                             actualizado: valores[indices.fecha_actualizacion],
                             baja: valores[indices.fecha_baja],
+                            sexo: valores[indices.sexo]
                         };
                     };
                     AsociadosTecnicoController.$inject = ['$scope', 'AsociadoService'];

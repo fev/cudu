@@ -32,8 +32,8 @@
                   <div class="row">
                     <label>Sexo</label>
                     <div class="btn-group btn-group-sm">
-                      <a href="javascript:" ng-click="MasculinoActivo=!MasculinoActivo" ng-class="{'active': MasculinoActivo}" class="btn">Masculino</a>
-                      <a href="javascript:" ng-click="FemeninoActivo=!FemeninoActivo" ng-class="{'active': FemeninoActivo}" class="btn">Femenino</a>
+                      <a href="javascript:" ng-click="C.filtraPorSexo('M')" ng-class="{'active': filtro.sexo === 'M'}" class="btn">Masculino</a>
+                      <a href="javascript:" ng-click="C.filtraPorSexo('F')" ng-class="{'active': filtro.sexo === 'F'}" class="btn">Femenino</a>
                     </div>
                   </div>
                   <div class="row">
