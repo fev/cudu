@@ -21,9 +21,9 @@ module Cudu.Tecnicos.Asociados.Listado {
     asociacion: string;
     tipo: string;
     grupoId: string;
-    ramas: string;
     sexo: string;
     asociadoActivo;
+    ramasSeparadasPorComas: string;
   }
 
   export interface AsociadosTecnicoScope extends ng.IScope {
@@ -41,9 +41,26 @@ module Cudu.Tecnicos.Asociados.Listado {
       $scope.grupoPorDefecto = $scope.grupos[0]; // TODO
       $scope.filtroAsociadoTipo = new FiltroAsociadoTipo();
       $scope.filtro = new AsociadoFiltro();
+      $scope.filtro.ramasSeparadasPorComas = "";
       service.listado().success(data => {
         $scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
       });
+    }
+
+    public filtraRama(rama: string) {
+      var lista = _.words(this.$scope.filtro.ramasSeparadasPorComas);
+      if(this.esRama(rama)) {
+        _.remove(lista, r => r === rama);
+      }
+      else {
+        lista.push(rama);
+      }
+      this.$scope.filtro.ramasSeparadasPorComas = lista.join();
+      this.filtraAsociados();
+    }
+
+    public esRama(rama: string) : boolean {
+      return this.$scope.filtro.ramasSeparadasPorComas.indexOf(rama) > -1;
     }
 
     public activar(tipo: string) {
@@ -54,9 +71,7 @@ module Cudu.Tecnicos.Asociados.Listado {
         this.$scope.filtroAsociadoTipo.activar(tipo);
         this.$scope.filtro.tipo = tipo;
       }
-      this.service.filtrado(this.$scope.filtro).success(data => {
-        this.$scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
-      });
+      this.filtraAsociados();
     }
 
     public filtraPorSexo(sexo: string) {
@@ -66,13 +81,18 @@ module Cudu.Tecnicos.Asociados.Listado {
       else {
         this.$scope.filtro.sexo = sexo;
       }
-      this.service.filtrado(this.$scope.filtro).success(data => {
-        this.$scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
-      });
+      this.filtraAsociados();
     }
 
     private desactivarSexo() {
       this.$scope.filtro.sexo = null;
+    }
+
+    private filtraAsociados() {
+
+      this.service.filtrado(this.$scope.filtro).success(data => {
+        this.$scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
+      });
     }
 
     private bindAsociado(valores: Array<any>, indices: any): Asociado {

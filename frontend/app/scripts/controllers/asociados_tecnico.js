@@ -25,12 +25,26 @@ var Cudu;
                         $scope.grupoPorDefecto = $scope.grupos[0];
                         $scope.filtroAsociadoTipo = new Asociados.FiltroAsociadoTipo();
                         $scope.filtro = new AsociadoFiltro();
+                        $scope.filtro.ramasSeparadasPorComas = "";
                         service.listado().success(function (data) {
                             $scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
                         });
                     }
+                    AsociadosTecnicoController.prototype.filtraRama = function (rama) {
+                        var lista = _.words(this.$scope.filtro.ramasSeparadasPorComas);
+                        if (this.esRama(rama)) {
+                            _.remove(lista, function (r) { return r === rama; });
+                        }
+                        else {
+                            lista.push(rama);
+                        }
+                        this.$scope.filtro.ramasSeparadasPorComas = lista.join();
+                        this.filtraAsociados();
+                    };
+                    AsociadosTecnicoController.prototype.esRama = function (rama) {
+                        return this.$scope.filtro.ramasSeparadasPorComas.indexOf(rama) > -1;
+                    };
                     AsociadosTecnicoController.prototype.activar = function (tipo) {
-                        var _this = this;
                         if (this.$scope.filtroAsociadoTipo.isActivo(tipo)) {
                             this.$scope.filtroAsociadoTipo.desactivar(tipo);
                         }
@@ -38,24 +52,25 @@ var Cudu;
                             this.$scope.filtroAsociadoTipo.activar(tipo);
                             this.$scope.filtro.tipo = tipo;
                         }
-                        this.service.filtrado(this.$scope.filtro).success(function (data) {
-                            _this.$scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
-                        });
+                        this.filtraAsociados();
                     };
                     AsociadosTecnicoController.prototype.filtraPorSexo = function (sexo) {
-                        var _this = this;
                         if (this.$scope.filtro.sexo === sexo) {
                             this.desactivarSexo();
                         }
                         else {
                             this.$scope.filtro.sexo = sexo;
                         }
-                        this.service.filtrado(this.$scope.filtro).success(function (data) {
-                            _this.$scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
-                        });
+                        this.filtraAsociados();
                     };
                     AsociadosTecnicoController.prototype.desactivarSexo = function () {
                         this.$scope.filtro.sexo = null;
+                    };
+                    AsociadosTecnicoController.prototype.filtraAsociados = function () {
+                        var _this = this;
+                        this.service.filtrado(this.$scope.filtro).success(function (data) {
+                            _this.$scope.asociados = _.map(data.datos, function (a) { return _this.bindAsociado(a, data.campos); });
+                        });
                     };
                     AsociadosTecnicoController.prototype.bindAsociado = function (valores, indices) {
                         return {
