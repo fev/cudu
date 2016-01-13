@@ -7,7 +7,7 @@ var cuduServices = angular.module('cuduServices', ['ngResource']);
 var metodos = {
   'crear': { method: 'POST' },
   'actualizar': { method: 'PUT' },
-  'query': { method: 'GET', params: { size: 200 }, isArray: false },
+  'query': { method: 'GET', params: { size: 300 }, isArray: false },
   'queryAll': { method: 'GET', params: { }, isArray: true }
 };
 

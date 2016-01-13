@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
 
 public interface AsociadoRepository extends PagingAndSortingRepository<Asociado, Integer>, JpaSpecificationExecutor, AsociadoRepositoryCustom {
 
-    Page<Asociado> findByGrupoIdOrderByActivo(@Param("id") String id, Pageable pageable);
+    Page<Asociado> findByGrupoIdOrderByActivoDesc(@Param("id") String id, Pageable pageable);
 
     @Modifying
     @Transactional
