@@ -11,7 +11,8 @@ angular
     'cuduServices',
     'cuduFilters',
     'chart.js',
-    'siyfion.sfTypeahead'
+    'siyfion.sfTypeahead',
+    'infinite-scroll'
   ])
   .constant("RolesMenu", {
     "ASOCIADO": "rol-asociado",

@@ -65,13 +65,19 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         if (activo != null) base = base.and(ASOCIADO.ACTIVO.eq(activo));
         if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
 
+        int numeroPagina = pageable.getPageNumber();
+        int totalAsociados = 0;
+        if(numeroPagina == 0) {
+            totalAsociados = base.fetchArrays().length;
+        }
+
         Object[][] asociados = base
                 .orderBy(ASOCIADO.ID)
                 .limit(pageable.getPageSize())
-                .offset(pageable.getPageNumber())
+                .offset(numeroPagina * (pageable.getPageSize() - 1))
                 .fetchArrays();
 
-        return new SparseTable(nombresCamposListado, asociados);
+        return new SparseTable(nombresCamposListado, asociados, totalAsociados);
     }
 
     private SelectConditionStep<Record> añadirCondicionesDeRama(SelectConditionStep<Record> query, List<String> ramas) {

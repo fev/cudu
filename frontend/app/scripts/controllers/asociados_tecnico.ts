@@ -15,41 +15,88 @@ module Cudu.Tecnicos.Asociados.Listado {
     actualizado: String;
     baja: String;
     sexo: String;
-  }
+}
 
-  class AsociadoFiltro {
+class AsociadoFiltro {
     asociacion: string;
     tipo: string;
     grupoId: string;
     sexo: string;
     asociadoActivo;
     ramasSeparadasPorComas: string;
-  }
+}
 
-  export interface AsociadosTecnicoScope extends ng.IScope {
+class Scroll {
+    isBusy: boolean;
+    isEnabled: boolean;
+    pagina: number;
+    limite: number;
+    constructor() {
+        const me = this;
+        me.isBusy = false;
+        me.isEnabled = true;
+        me.pagina = 0;
+        me.limite = 0;
+    }
+    
+    disable() {
+        const me = this;
+        me.isEnabled = false;
+    } 
+}
+
+export interface AsociadosTecnicoScope extends ng.IScope {
     grupos: Array<String>;
     grupoPorDefecto: String;
     asociados: Array<Asociado>;
     filtro: AsociadoFiltro;
-    filtroAsociadoTipo: FiltroAsociadoTipo;
-  }
+    // filtroAsociadoTipo: FiltroAsociadoTipo;
+}
 
-  export class AsociadosTecnicoController {
+export class AsociadosTecnicoController {
     static $inject = ['$scope', 'AsociadoService'];
+    private scroll: Scroll;
     constructor(private $scope: AsociadosTecnicoScope, private service: IAsociadoService) {
-      $scope.grupos = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4']; // TODO
-      $scope.grupoPorDefecto = $scope.grupos[0]; // TODO
-      $scope.filtroAsociadoTipo = new FiltroAsociadoTipo();
-      $scope.filtro = new AsociadoFiltro();
-      $scope.filtro.ramasSeparadasPorComas = "";
-      service.listado().success(data => {
-        $scope.asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
-      });
+        const me = this;
+        me.$scope = $scope;
+        me.$scope.grupos = ['Grupo 1', 'Grupo 2', 'Grupo 3', 'Grupo 4']; // TODO
+        me.$scope.grupoPorDefecto = $scope.grupos[0]; // TODO
+        // me.$scope.filtroAsociadoTipo = new FiltroAsociadoTipo();
+        me.$scope.filtro = new AsociadoFiltro();
+        me.$scope.filtro.ramasSeparadasPorComas = "";
+        me.scroll = new Scroll();
+    }
+    
+    public obternerAsociados() {
+        const me = this;
+        if (me.scroll.isBusy || !me.scroll.isEnabled) {
+            return;
+        }
+        
+        me.scroll.isBusy = true;
+        me.service.listado(me.scroll.pagina).success(data => {
+            let asociados = _.map(data.datos, (a: Array<any>) => { return this.bindAsociado(a, data.campos); });
+            if(me.scroll.pagina === 0) {
+                me.scroll.limite = data.total;
+            }
+            if(_.isUndefined(me.$scope.asociados)) {
+                me.$scope.asociados = asociados;
+            } else {
+                me.$scope.asociados.push.apply(me.$scope.asociados, asociados);   
+            }
+            
+            if(me.$scope.asociados.length >= me.scroll.limite) {
+                me.scroll.disable();
+            }
+            
+            me.scroll.isBusy = false;
+            me.scroll.pagina = me.scroll.pagina + 1;
+        });
     }
 
     public filtraRama(rama: string) {
-      var lista = _.words(this.$scope.filtro.ramasSeparadasPorComas);
-      if(this.esRama(rama)) {
+      let lista = _.words(this.$scope.filtro.ramasSeparadasPorComas);
+      if (this.esRama(rama)) {
         _.remove(lista, r => r === rama);
       }
       else {
@@ -63,16 +110,16 @@ module Cudu.Tecnicos.Asociados.Listado {
       return this.$scope.filtro.ramasSeparadasPorComas.indexOf(rama) > -1;
     }
 
-    public activar(tipo: string) {
-      if(this.$scope.filtroAsociadoTipo.isActivo(tipo)) {
-        this.$scope.filtroAsociadoTipo.desactivar(tipo);
-      }
-      else {
-        this.$scope.filtroAsociadoTipo.activar(tipo);
-        this.$scope.filtro.tipo = tipo;
-      }
-      this.filtraAsociados();
-    }
+    // public activar(tipo: string) {
+    //   if (this.$scope.filtroAsociadoTipo.isActivo(tipo)) {
+    //     this.$scope.filtroAsociadoTipo.desactivar(tipo);
+    //   }
+    //   else {
+    //     this.$scope.filtroAsociadoTipo.activar(tipo);
+    //     this.$scope.filtro.tipo = tipo;
+    //   }
+    //   this.filtraAsociados();
+    // }
 
     public filtraPorSexo(sexo: string) {
       if(this.$scope.filtro.sexo === sexo) {
@@ -112,17 +159,17 @@ module Cudu.Tecnicos.Asociados.Listado {
         sexo: valores[indices.sexo]
       };
     }
-  }
+}
 
-  export interface IAsociadoService {
-    listado(): ng.IHttpPromise<any>;
+export interface IAsociadoService {
+    listado(pagina: number): ng.IHttpPromise<any>;
     filtrado(filtro: AsociadoFiltro): ng.IHttpPromise<any>;
-  }
+}
 
-  export class AsociadoService implements IAsociadoService {
+export class AsociadoService implements IAsociadoService {
     constructor(private $http: ng.IHttpService) { }
-    listado(): ng.IHttpPromise<any> {
-      return this.$http.get('api/tecnico/asociado');
+    listado(pagina: number): ng.IHttpPromise<any> {
+      return this.$http.get('api/tecnico/asociado/?page=' + pagina);
     }
     filtrado(filtro: AsociadoFiltro): ng.IHttpPromise<any> {
       return this.$http.get('api/tecnico/asociado', { params: filtro });

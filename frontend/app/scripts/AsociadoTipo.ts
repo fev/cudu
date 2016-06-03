@@ -1,7 +1,7 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
 module Cudu.Tecnicos.Asociados {
-  export class AsociadoTipo {
+   class AsociadoTipo {
     private tipo: string;
     private activo: boolean;
     constructor(tipo: string, activo: boolean) {
