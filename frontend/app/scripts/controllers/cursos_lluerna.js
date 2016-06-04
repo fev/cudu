@@ -8,7 +8,7 @@ var Cudu;
                 function Curso() {
                 }
                 return Curso;
-            })();
+            }());
             Cursos.Curso = Curso;
             var CursosService = (function () {
                 function CursosService($http) {
@@ -42,7 +42,7 @@ var Cudu;
                 };
                 CursosService.$inject = ['$http'];
                 return CursosService;
-            })();
+            }());
             Cursos.CursosService = CursosService;
             var CursosController = (function () {
                 function CursosController($scope, $location, service) {
@@ -58,7 +58,7 @@ var Cudu;
                 };
                 CursosController.$inject = ['$scope', '$location', 'CursosService'];
                 return CursosController;
-            })();
+            }());
             Cursos.CursosController = CursosController;
         })(Cursos = Lluerna.Cursos || (Lluerna.Cursos = {}));
     })(Lluerna = Cudu.Lluerna || (Cudu.Lluerna = {}));

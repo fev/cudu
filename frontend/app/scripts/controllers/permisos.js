@@ -196,7 +196,7 @@ var Cudu;
                 });
             };
             return PermisosController;
-        })();
+        }());
         Permisos.PermisosController = PermisosController;
         var PermisosServiceImpl = (function () {
             function PermisosServiceImpl(http, usuarioService) {
@@ -233,7 +233,7 @@ var Cudu;
                 return this.http.post("/api/usuario/activar/" + usuarioId, email);
             };
             return PermisosServiceImpl;
-        })();
+        }());
         function PermisosServiceFactory($http, usuarioService) {
             return new PermisosServiceImpl($http, usuarioService);
         }

@@ -22,7 +22,7 @@ var Cudu;
                 return $(this.elementId).modal(param);
             };
             return BootstrapModal;
-        })();
+        }());
         function ModalFactory(elementId, focusOnElementId, select) {
             return function () { return new BootstrapModal(elementId, focusOnElementId, select); };
         }
@@ -75,7 +75,7 @@ var Cudu;
                 $(this.elementId).typeahead('destroy');
             };
             return TypeaheadImpl;
-        })();
+        }());
         Ux.TypeaheadImpl = TypeaheadImpl;
         function TypeaheadFactory(elementId, entidad, displayKeyFnc) {
             return function () {

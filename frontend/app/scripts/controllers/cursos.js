@@ -86,7 +86,7 @@ var Cudu;
                 return true;
             };
             return CursoController;
-        })();
+        }());
         Cursos.CursoController = CursoController;
         var CursoServiceImpl = (function () {
             function CursoServiceImpl(http, usuarioService) {
@@ -107,7 +107,7 @@ var Cudu;
                 return this.http.delete('/api/lluerna/curso/' + id + '/participantes/' + this.usuarioId, {});
             };
             return CursoServiceImpl;
-        })();
+        }());
         function CursoServiceFactory($http, usuarioService) {
             return new CursoServiceImpl($http, usuarioService);
         }

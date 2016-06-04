@@ -10,12 +10,12 @@ var Cudu;
                     function Asociado() {
                     }
                     return Asociado;
-                })();
+                }());
                 var AsociadoFiltro = (function () {
                     function AsociadoFiltro() {
                     }
                     return AsociadoFiltro;
-                })();
+                }());
                 var AsociadosTecnicoController = (function () {
                     function AsociadosTecnicoController($scope, service) {
                         var _this = this;
@@ -55,7 +55,7 @@ var Cudu;
                     };
                     AsociadosTecnicoController.$inject = ['$scope', 'AsociadoService'];
                     return AsociadosTecnicoController;
-                })();
+                }());
                 Listado.AsociadosTecnicoController = AsociadosTecnicoController;
                 var AsociadoService = (function () {
                     function AsociadoService($http) {
@@ -68,7 +68,7 @@ var Cudu;
                         return this.$http.get('api/tecnico/asociado', { params: filtro });
                     };
                     return AsociadoService;
-                })();
+                }());
                 Listado.AsociadoService = AsociadoService;
             })(Listado = Asociados.Listado || (Asociados.Listado = {}));
         })(Asociados = Tecnicos.Asociados || (Tecnicos.Asociados = {}));
