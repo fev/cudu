@@ -8,9 +8,12 @@ import java.sql.Date;
 
 import javax.annotation.Generated;
 
+import org.jooq.AggregateFunction;
 import org.jooq.Configuration;
 import org.jooq.Field;
 import org.scoutsfev.cudu.db.routines.Edad;
+import org.scoutsfev.cudu.db.routines.Last;
+import org.scoutsfev.cudu.db.routines.LastAgg;
 
 
 /**
@@ -53,6 +56,60 @@ public class Routines {
 	public static Field<Double> edad(Field<Date> __1) {
 		Edad f = new Edad();
 		f.set__1(__1);
+
+		return f.asField();
+	}
+
+	/**
+	 * Get <code>public.last</code> as a field
+	 */
+	public static AggregateFunction<Object> last(Object __1) {
+		Last f = new Last();
+		f.set__1(__1);
+
+		return f.asAggregateFunction();
+	}
+
+	/**
+	 * Get <code>public.last</code> as a field
+	 */
+	public static AggregateFunction<Object> last(Field<Object> __1) {
+		Last f = new Last();
+		f.set__1(__1);
+
+		return f.asAggregateFunction();
+	}
+
+	/**
+	 * Call <code>public.last_agg</code>
+	 */
+	public static Object lastAgg(Configuration configuration, Object __1, Object __2) {
+		LastAgg f = new LastAgg();
+		f.set__1(__1);
+		f.set__2(__2);
+
+		f.execute(configuration);
+		return f.getReturnValue();
+	}
+
+	/**
+	 * Get <code>public.last_agg</code> as a field
+	 */
+	public static Field<Object> lastAgg(Object __1, Object __2) {
+		LastAgg f = new LastAgg();
+		f.set__1(__1);
+		f.set__2(__2);
+
+		return f.asField();
+	}
+
+	/**
+	 * Get <code>public.last_agg</code> as a field
+	 */
+	public static Field<Object> lastAgg(Field<Object> __1, Field<Object> __2) {
+		LastAgg f = new LastAgg();
+		f.set__1(__1);
+		f.set__2(__2);
 
 		return f.asField();
 	}

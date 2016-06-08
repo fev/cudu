@@ -21,6 +21,9 @@ import org.scoutsfev.cudu.db.tables.CursoParticipante;
 import org.scoutsfev.cudu.db.tables.Ficha;
 import org.scoutsfev.cudu.db.tables.Grupo;
 import org.scoutsfev.cudu.db.tables.Impresion;
+import org.scoutsfev.cudu.db.tables.Liquidacion;
+import org.scoutsfev.cudu.db.tables.LiquidacionAsociado;
+import org.scoutsfev.cudu.db.tables.Ronda;
 import org.scoutsfev.cudu.db.tables.SchemaVersion;
 import org.scoutsfev.cudu.db.tables.Token;
 import org.scoutsfev.cudu.db.tables.records.ActividadRecord;
@@ -34,6 +37,9 @@ import org.scoutsfev.cudu.db.tables.records.CursoRecord;
 import org.scoutsfev.cudu.db.tables.records.FichaRecord;
 import org.scoutsfev.cudu.db.tables.records.GrupoRecord;
 import org.scoutsfev.cudu.db.tables.records.ImpresionRecord;
+import org.scoutsfev.cudu.db.tables.records.LiquidacionAsociadoRecord;
+import org.scoutsfev.cudu.db.tables.records.LiquidacionRecord;
+import org.scoutsfev.cudu.db.tables.records.RondaRecord;
 import org.scoutsfev.cudu.db.tables.records.SchemaVersionRecord;
 import org.scoutsfev.cudu.db.tables.records.TokenRecord;
 
@@ -62,6 +68,7 @@ public class Keys {
 	public static final Identity<CursoRecord, Integer> IDENTITY_CURSO = Identities0.IDENTITY_CURSO;
 	public static final Identity<CursoParticipanteRecord, Integer> IDENTITY_CURSO_PARTICIPANTE = Identities0.IDENTITY_CURSO_PARTICIPANTE;
 	public static final Identity<FichaRecord, Integer> IDENTITY_FICHA = Identities0.IDENTITY_FICHA;
+	public static final Identity<LiquidacionRecord, Integer> IDENTITY_LIQUIDACION = Identities0.IDENTITY_LIQUIDACION;
 
 	// -------------------------------------------------------------------------
 	// UNIQUE and PRIMARY KEY definitions
@@ -78,6 +85,10 @@ public class Keys {
 	public static final UniqueKey<FichaRecord> FICHA_PKEY = UniqueKeys0.FICHA_PKEY;
 	public static final UniqueKey<GrupoRecord> PK_GRUPO = UniqueKeys0.PK_GRUPO;
 	public static final UniqueKey<ImpresionRecord> IMPRESION_PKEY = UniqueKeys0.IMPRESION_PKEY;
+	public static final UniqueKey<LiquidacionRecord> PK_LIQUIDACION = UniqueKeys0.PK_LIQUIDACION;
+	public static final UniqueKey<LiquidacionRecord> UQ_LIQUIDACION = UniqueKeys0.UQ_LIQUIDACION;
+	public static final UniqueKey<LiquidacionAsociadoRecord> PK_LIQUIDACION_ASOCIADO = UniqueKeys0.PK_LIQUIDACION_ASOCIADO;
+	public static final UniqueKey<RondaRecord> PK_RONDA = UniqueKeys0.PK_RONDA;
 	public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = UniqueKeys0.SCHEMA_VERSION_PK;
 	public static final UniqueKey<TokenRecord> TOKEN_PKEY = UniqueKeys0.TOKEN_PKEY;
 
@@ -94,6 +105,7 @@ public class Keys {
 	public static final ForeignKey<CursoFormadorRecord, AsociadoRecord> CURSO_FORMADOR__FK_CURSO_FORMADOR_FORMADOR = ForeignKeys0.CURSO_FORMADOR__FK_CURSO_FORMADOR_FORMADOR;
 	public static final ForeignKey<CursoParticipanteRecord, CursoRecord> CURSO_PARTICIPANTE__FK_CURSO_PARTICIPANTE_CURSO = ForeignKeys0.CURSO_PARTICIPANTE__FK_CURSO_PARTICIPANTE_CURSO;
 	public static final ForeignKey<CursoParticipanteRecord, AsociadoRecord> CURSO_PARTICIPANTE__FK_CURSO_PARTICIPANTE_PARTICIPANTE = ForeignKeys0.CURSO_PARTICIPANTE__FK_CURSO_PARTICIPANTE_PARTICIPANTE;
+	public static final ForeignKey<LiquidacionRecord, RondaRecord> LIQUIDACION__FK_LIQUIDACION_RONDA = ForeignKeys0.LIQUIDACION__FK_LIQUIDACION_RONDA;
 
 	// -------------------------------------------------------------------------
 	// [#1459] distribute members to avoid static initialisers > 64kb
@@ -106,6 +118,7 @@ public class Keys {
 		public static Identity<CursoRecord, Integer> IDENTITY_CURSO = createIdentity(Curso.CURSO, Curso.CURSO.ID);
 		public static Identity<CursoParticipanteRecord, Integer> IDENTITY_CURSO_PARTICIPANTE = createIdentity(CursoParticipante.CURSO_PARTICIPANTE, CursoParticipante.CURSO_PARTICIPANTE.SECUENCIA_INSCRIPCION);
 		public static Identity<FichaRecord, Integer> IDENTITY_FICHA = createIdentity(Ficha.FICHA, Ficha.FICHA.ID);
+		public static Identity<LiquidacionRecord, Integer> IDENTITY_LIQUIDACION = createIdentity(Liquidacion.LIQUIDACION, Liquidacion.LIQUIDACION.ID);
 	}
 
 	private static class UniqueKeys0 extends AbstractKeys {
@@ -120,6 +133,10 @@ public class Keys {
 		public static final UniqueKey<FichaRecord> FICHA_PKEY = createUniqueKey(Ficha.FICHA, Ficha.FICHA.ID, Ficha.FICHA.LENGUAJE);
 		public static final UniqueKey<GrupoRecord> PK_GRUPO = createUniqueKey(Grupo.GRUPO, Grupo.GRUPO.ID);
 		public static final UniqueKey<ImpresionRecord> IMPRESION_PKEY = createUniqueKey(Impresion.IMPRESION, Impresion.IMPRESION.FICHERO, Impresion.IMPRESION.USUARIO_ID);
+		public static final UniqueKey<LiquidacionRecord> PK_LIQUIDACION = createUniqueKey(Liquidacion.LIQUIDACION, Liquidacion.LIQUIDACION.ID);
+		public static final UniqueKey<LiquidacionRecord> UQ_LIQUIDACION = createUniqueKey(Liquidacion.LIQUIDACION, Liquidacion.LIQUIDACION.GRUPO_ID, Liquidacion.LIQUIDACION.FECHA);
+		public static final UniqueKey<LiquidacionAsociadoRecord> PK_LIQUIDACION_ASOCIADO = createUniqueKey(LiquidacionAsociado.LIQUIDACION_ASOCIADO, LiquidacionAsociado.LIQUIDACION_ASOCIADO.LIQUIDACION_ID, LiquidacionAsociado.LIQUIDACION_ASOCIADO.ASOCIADO_ID);
+		public static final UniqueKey<RondaRecord> PK_RONDA = createUniqueKey(Ronda.RONDA, Ronda.RONDA.ID);
 		public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = createUniqueKey(SchemaVersion.SCHEMA_VERSION, SchemaVersion.SCHEMA_VERSION.VERSION);
 		public static final UniqueKey<TokenRecord> TOKEN_PKEY = createUniqueKey(Token.TOKEN, Token.TOKEN.TOKEN_);
 	}
@@ -134,5 +151,6 @@ public class Keys {
 		public static final ForeignKey<CursoFormadorRecord, AsociadoRecord> CURSO_FORMADOR__FK_CURSO_FORMADOR_FORMADOR = createForeignKey(org.scoutsfev.cudu.db.Keys.PK_ASOCIADO, CursoFormador.CURSO_FORMADOR, CursoFormador.CURSO_FORMADOR.ASOCIADO_ID);
 		public static final ForeignKey<CursoParticipanteRecord, CursoRecord> CURSO_PARTICIPANTE__FK_CURSO_PARTICIPANTE_CURSO = createForeignKey(org.scoutsfev.cudu.db.Keys.PK_CURSO, CursoParticipante.CURSO_PARTICIPANTE, CursoParticipante.CURSO_PARTICIPANTE.CURSO_ID);
 		public static final ForeignKey<CursoParticipanteRecord, AsociadoRecord> CURSO_PARTICIPANTE__FK_CURSO_PARTICIPANTE_PARTICIPANTE = createForeignKey(org.scoutsfev.cudu.db.Keys.PK_ASOCIADO, CursoParticipante.CURSO_PARTICIPANTE, CursoParticipante.CURSO_PARTICIPANTE.ASOCIADO_ID);
+		public static final ForeignKey<LiquidacionRecord, RondaRecord> LIQUIDACION__FK_LIQUIDACION_RONDA = createForeignKey(org.scoutsfev.cudu.db.Keys.PK_RONDA, Liquidacion.LIQUIDACION, Liquidacion.LIQUIDACION.RONDA_ID);
 	}
 }

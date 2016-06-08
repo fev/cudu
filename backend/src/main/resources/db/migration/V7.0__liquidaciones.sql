@@ -1,8 +1,8 @@
-drop view liquidacion_balance cascade;
-drop view liquidacion_calculo cascade;
-drop table liquidacion_asociado cascade;
-drop table liquidacion cascade;
-drop table if exists ronda;
+/* drop view liquidacion_balance cascade; */
+/* drop view liquidacion_calculo cascade; */
+/* drop table liquidacion_asociado cascade; */
+/* drop table liquidacion cascade; */
+/* drop table if exists ronda; */
 
 create table ronda (
   id smallint NOT NULL,
@@ -16,7 +16,7 @@ insert into ronda (id, etiqueta, rango)
 select extract(isoyear from lower(rango))::smallint as id, to_char(lower(rango), 'YYYY') || '-' || to_char(upper(rango), 'YYYY') etiqueta, rango
 from (
   select daterange(ptr::date, ((ptr + interval '1' year) - interval '1' day)::date) as rango
-  from generate_series('2015-09-01'::DATE, '2030-09-01', '1 year') with ordinality as t(ptr, id)) rangos
+  from generate_series('2015-09-01'::DATE, '2030-09-01', '1 year') with ordinality as t(ptr, id)) rangos;
 
 create table liquidacion (
   id SERIAL NOT NULL,
@@ -83,7 +83,7 @@ returns anyelement language sql immutable strict as $$
   select $2;
 $$;
 
-create or replace aggregate public.last (
+create aggregate public.last (
   sfunc    = public.last_agg,
   basetype = anyelement,
   stype    = anyelement
