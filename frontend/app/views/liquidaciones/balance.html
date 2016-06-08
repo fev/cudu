@@ -1,4 +1,65 @@
 <div class="container contenedor-central liquidaciones" ng-controller="LiquidacionesBalanceController as ctrl">
-Balance {{hello}}<br>
-<a href="#/liquidaciones/desglose/34">Liquidacion 34</a>
+<!-- Balance {{hello}}<br>
+<a href="#/liquidaciones/desglose/34">Liquidacion 34</a> -->
+<div class="row">
+  <div id="panelLiquidaciones" class="col-md-12">
+      <div class="material-panel-level-2">
+        <div class="mat-toolbar text-right">
+          <a href="#/liquidaciones/grupos" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-list-ul"></i> &nbsp;<%=liquidaciones.desglosePorGrupos%></a>
+          <button ng-click="ctrl.mostrarDialogoCrearUsuario()" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-plus"></i> &nbsp;<%=liquidaciones.nueva%></button>
+          <button ng-click="" type="button" class="btn btn-default"><i class="fa fa-calendar"></i> &nbsp;<%=liquidaciones.ronda%> <b class="caret"></b></button>
+        </div>
+        <div class="mat-toolbar-expand"><h1>Liquidaciones Ain-Karen</h1></div>
+        <div class="panel-content">
+          <div class="row" style="margin-bottom: 25px">
+            <div class="col-md-7">
+              <h3 class="text-error">-549.00€</h3>
+              <!-- Balance positivo, no es necesario pago alguno.<br> -->
+              Balance negativo, es necesario ingresar 549.00€ <br>
+              Total Asociados: 110 <br>
+              <a href="#">¿Tienes dudas? Escribenos</a>
+            </div>
+            <div class="col-md-5">
+              <i class="fa fa-credit-card" aria-hidden="true"></i> <b>Ingreso en cuenta</b> <br>
+              Titular: Federació d'Escoltisme Valencià. <br>
+              Concepto: AK-2015-3 <br>
+              Cantidad a ingresar: 549.00€ <br>
+              Número de cuenta: TR33 0006 1005 1978 6457 8413 26
+            </div>
+          </div>
+          <table class="table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th><%=liquidaciones.ronda %></th>
+                <th><%=liquidaciones.id %></th>
+                <th class="text-right"><%=liquidaciones.activos %></th>
+                <th class="text-right"><%=liquidaciones.diferencia %></th>
+                <th class="text-right"><%=liquidaciones.precioUnitario %></th>
+                <th class="text-right"><%=liquidaciones.ajusteManual %></th>
+                <th class="text-right"><%=liquidaciones.pagado %></th>
+                <th class="text-right"><%=liquidaciones.balance %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="liquidacion in liquidaciones" ng-click="ctrl.verDesglose('AK')">
+                <td>2015-2016</td>
+                <td>{{liquidacion.grupoId}}-{{liquidacion.rondaId}}-{{liquidacion.liquidacionId}}</td>
+                <td class="text-right">{{liquidacion.activos}}</td>
+                <td class="text-right">{{liquidacion.diferencia}}</td>
+                <td class="text-right">{{liquidacion.precioUnitario}} €</td>
+                <td class="text-right editable">{{liquidacion.ajusteManual | coalesce:'&mdash;'}} €</td>
+                <td class="text-right editable">{{liquidacion.pagado}} €</td>
+                <td class="text-right">{{liquidacion.balance}} €</td>
+              </tr>
+              <tr ng-show="liquidaciones == null || liquidaciones.length === 0">
+                <td colspan="8">
+                  <%=liquidacion.noExisten %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+       </div>
+     </div>
+   </div>
+ </div>
 </div>

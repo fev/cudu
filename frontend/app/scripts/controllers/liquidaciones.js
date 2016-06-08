@@ -3,21 +3,29 @@ var Cudu;
     var Liquidaciones;
     (function (Liquidaciones) {
         var LiquidacionesGruposController = (function () {
-            function LiquidacionesGruposController($scope, service) {
+            function LiquidacionesGruposController($scope, $location, service) {
                 this.$scope = $scope;
+                this.$location = $location;
                 this.service = service;
-                $scope.hello = "hello world!";
+                service.resumenPorGrupos().then(function (g) { $scope.grupos = g; });
             }
+            LiquidacionesGruposController.prototype.verBalance = function (grupoId) {
+                this.$location.path('/liquidaciones/balance/' + grupoId);
+            };
             return LiquidacionesGruposController;
         }());
         Liquidaciones.LiquidacionesGruposController = LiquidacionesGruposController;
         var LiquidacionesBalanceController = (function () {
-            function LiquidacionesBalanceController($scope, $routeParams, service) {
+            function LiquidacionesBalanceController($scope, $location, $routeParams, service) {
                 this.$scope = $scope;
+                this.$location = $location;
                 this.$routeParams = $routeParams;
                 this.service = service;
-                $scope.hello = "hello world! " + $routeParams.grupoId;
+                service.balanceGrupo($routeParams.grupoId, 2015).then(function (l) { return $scope.liquidaciones = l; });
             }
+            LiquidacionesBalanceController.prototype.verDesglose = function (liquidacionId) {
+                this.$location.path('/liquidaciones/desglose/' + liquidacionId);
+            };
             return LiquidacionesBalanceController;
         }());
         Liquidaciones.LiquidacionesBalanceController = LiquidacionesBalanceController;
@@ -26,7 +34,6 @@ var Cudu;
                 this.$scope = $scope;
                 this.$routeParams = $routeParams;
                 this.service = service;
-                $scope.hello = "hello world! " + $routeParams.liquidacionId;
             }
             return LiquidacionesDesgloseController;
         }());
@@ -35,6 +42,12 @@ var Cudu;
             function LiquidacionesServiceImpl(http) {
                 this.http = http;
             }
+            LiquidacionesServiceImpl.prototype.resumenPorGrupos = function () {
+                return this.http.get("/api/liquidaciones/grupos").then(function (g) { return g.data; });
+            };
+            LiquidacionesServiceImpl.prototype.balanceGrupo = function (grupoId, rondaId) {
+                return this.http.get("/api/liquidaciones/balance/" + grupoId + '/' + rondaId).then(function (g) { return g.data; });
+            };
             return LiquidacionesServiceImpl;
         }());
         function LiquidacionesServiceFactory($http) {
@@ -45,6 +58,6 @@ var Cudu;
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
     .factory('LiquidacionesService', ['$http', Cudu.Liquidaciones.LiquidacionesServiceFactory])
-    .controller('LiquidacionesGruposController', ['$scope', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesGruposController])
-    .controller('LiquidacionesBalanceController', ['$scope', '$routeParams', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesBalanceController])
+    .controller('LiquidacionesGruposController', ['$scope', '$location', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesGruposController])
+    .controller('LiquidacionesBalanceController', ['$scope', '$location', '$routeParams', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesBalanceController])
     .controller('LiquidacionesDesgloseController', ['$scope', '$routeParams', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesDesgloseController]);

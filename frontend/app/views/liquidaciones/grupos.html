@@ -1,4 +1,36 @@
 <div class="container contenedor-central liquidaciones" ng-controller="LiquidacionesGruposController as ctrl">
- Grupos {{hello}}<br>
- <a href="#/liquidaciones/balance/ak">Ain-Karen</a>
+  <div class="row">
+    <div id="panelLiquidaciones" class="col-md-12">
+        <div class="material-panel-level-2">
+          <div class="mat-toolbar text-right">
+            <button ng-click="" type="button" class="btn btn-default"><i class="fa fa-calendar"></i> &nbsp;<%=liquidaciones.ronda%> <b class="caret"></b></button>
+          </div>
+          <div class="mat-toolbar-expand"><h1>Liquidaciones: Resumen por Grupo</h1></div>
+          <div class="panel-content">
+            <table class="table table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th><%=liquidaciones.ronda %></th>
+                  <th><%=liquidaciones.grupo %></th>
+                  <th class="text-right"><%=liquidaciones.numliquidaciones %></th>
+                  <th class="text-right"><%=liquidaciones.activos %></th>
+                  <th class="text-right"><%=liquidaciones.activosultima %></th>
+                  <th class="text-right"><%=liquidaciones.balance %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="grupo in grupos" ng-click="ctrl.verBalance(grupo.grupoId, grupo.rondaId)">
+                  <td>{{grupo.rondaEtiqueta}}</td>
+                  <td>{{grupo.nombre}}</td>
+                  <td class="text-right">{{grupo.numLiquidaciones}}</td>
+                  <td class="text-right">{{grupo.activos}}</td>
+                  <td class="text-right">{{grupo.activosUltima}}</td>
+                  <td class="text-right">{{grupo.balance}}</td>
+                </tr>
+              </tbody>
+            </table>
+         </div>
+       </div>
+     </div>
+   </div>
 </div>
