@@ -74,7 +74,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         Object[][] asociados = base
                 .orderBy(ASOCIADO.ID)
                 .limit(pageable.getPageSize())
-                .offset(numeroPagina * (pageable.getPageSize() - 1))
+                .offset(numeroPagina * (pageable.getPageSize()))
                 .fetchArrays();
 
         return new SparseTable(nombresCamposListado, asociados, totalAsociados);
