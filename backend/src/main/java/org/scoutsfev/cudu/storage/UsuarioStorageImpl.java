@@ -3,7 +3,6 @@ package org.scoutsfev.cudu.storage;
 import com.google.common.base.Strings;
 import org.jooq.DSLContext;
 import org.jooq.SelectField;
-import org.scoutsfev.cudu.db.tables.Grupo;
 import org.scoutsfev.cudu.db.tables.records.AsociadoRecord;
 import org.scoutsfev.cudu.domain.AmbitoEdicion;
 import org.scoutsfev.cudu.domain.Asociacion;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
