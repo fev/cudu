@@ -50,7 +50,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     }
 
     @Override
-    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean activo, String sexo, Pageable pageable) {
+    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean activo, String sexo, String nombreApellido, Pageable pageable) {
 
         SelectConditionStep<Record> base = context
                 .select(camposListado)
@@ -64,6 +64,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         if (ramas != null) base = añadirCondicionesDeRama(base, ramas);
         if (activo != null) base = base.and(ASOCIADO.ACTIVO.eq(activo));
         if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
+        if(!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
 
         int numeroPagina = pageable.getPageNumber();
         int totalAsociados = 0;
@@ -105,5 +106,17 @@ public class AsociadoStorageImpl implements AsociadoStorage {
             .innerJoin(GRUPO).on(ASOCIADO.GRUPO_ID.eq(GRUPO.ID))
             .where(ASOCIADO.ID.eq(asociadoId))
             .fetchAnyInto(AsociadoParaAutorizar.class);
+    }
+
+    private Condition construyeFiltroNombre(String nombreApellido) {
+        String[] palabras = nombreApellido.split("\\s+");
+        if(palabras.length == 1) {
+            return ASOCIADO.NOMBRE.contains(nombreApellido).or(ASOCIADO.APELLIDOS.contains(nombreApellido));
+        } else {
+            String nombre = palabras[0];
+            String apellidos = nombreApellido.substring(nombreApellido.indexOf(' ') + 1);
+            return (ASOCIADO.NOMBRE.contains(nombre).and(ASOCIADO.APELLIDOS.contains(apellidos))
+            .or(ASOCIADO.NOMBRE.contains(nombreApellido)).or(ASOCIADO.APELLIDOS.contains(nombreApellido)));
+        }
     }
 }

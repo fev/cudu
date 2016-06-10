@@ -15,7 +15,8 @@ angular.module('cuduApp')
             tipo: '',
             grupoId: '',
             sexo: '',
-            ramasSeparadasPorComas: ''
+            ramasSeparadasPorComas: '',
+            nombreApellido: ''
         };
     };
     
@@ -144,6 +145,20 @@ angular.module('cuduApp')
     me.$scope.desactivarSexo = function() {
         const me = this;
         me.filtro.sexo = null;
+    };
+    
+    me.$scope.filtraPorNombre = function() {
+        const me = this;
+        me.filtro.nombreApellido = me.busqueda;
+        
+        me.filtraAsociados();
+    };
+    
+    me.$scope.limpiarFiltro = function() {
+        const me = this;
+        me.filtro.nombreApellido = '';
+        
+        me.filtraAsociados();
     };
     
     me.$scope.filtraRama = function(rama) {

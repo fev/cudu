@@ -41,7 +41,7 @@
                     </div>
                     <div class="row padded">
                         <div class="input-group">
-                        <input ng-model="busqueda" type="text" class="form-control input-sm" placeholder="Búsqueda por Nombre">
+                        <input ng-model="busqueda" type="text" cudu-enter="filtraPorNombre()" class="form-control input-sm" placeholder="Búsqueda por Nombre">
                         <span class="input-group-btn">
                             <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button" tooltip="Limpiar búsqueda y mostrar todos">
                             <span class="glyphicon glyphicon-remove"></span>
