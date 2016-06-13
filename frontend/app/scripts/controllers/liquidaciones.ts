@@ -37,7 +37,8 @@ module Cudu.Liquidaciones {
 
   interface LiquidacionesBalanceScope extends ng.IScope {
     resumen: LiquidacionBalanceDto;
-    totalAjustado: string;
+    totalAjustado: number;
+    totalAjustadoAbs: number;
     balancePositivo: boolean;
   }
 
@@ -53,6 +54,7 @@ module Cudu.Liquidaciones {
       service.balanceGrupo($routeParams.grupoId, 2015).then(l => {
         $scope.resumen = l;
         $scope.totalAjustado = this.limitarTotal(l.total);
+        $scope.totalAjustadoAbs = Math.abs($scope.totalAjustado);
         $scope.balancePositivo = l.total > 0;
         // if (l && l.balance && l.balance.length > 0) {
         //   $scope.ultima = l[l.balance.length - 1] || <LiquidacionBalanceDto>{ };
@@ -71,12 +73,12 @@ module Cudu.Liquidaciones {
       return liquidacion.grupoId + "-" + liquidacion.rondaId + "-" + liquidacion.liquidacionId;
     }
 
-    limitarTotal(total: number): string {
+    limitarTotal(total: number): number {
       var minimo = Math.min(0, total);
       if (isNaN(minimo)) {
-        return "";
+        return 0;
       }
-      return minimo.toString();
+      return minimo;
     }
   }
 

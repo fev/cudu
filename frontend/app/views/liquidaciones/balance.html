@@ -15,7 +15,7 @@
             <div class="col-md-7">
               <h3 class="text-error">{{totalAjustado}}€</h3>
               <span ng-show="balancePositivo"><%=liquidaciones.balancePositivo %></span>
-              <span ng-show="!balancePositivo"><%=liquidaciones.balanceNegativo %> {{totalAjustado}}€</span>
+              <span ng-show="!balancePositivo"><%=liquidaciones.balanceNegativo %> {{totalAjustadoAbs}}€</span>
               <br>
               <%=liquidaciones.totalActivos%>: {{resumen.numeroActualAsociados}} <br>
               <a href="mailto:<%=liquidaciones.mailTo%>"><%=liquidaciones.dudas%></a>
@@ -24,7 +24,7 @@
               <i class="fa fa-credit-card" aria-hidden="true"></i> <b><%=liquidaciones.ingresoEnCuenta%></b> <br>
               <%=liquidaciones.titular%>: Federació d'Escoltisme Valencià. <br>
               <%=liquidaciones.concepto%>: {{ctrl.crearReferencia(ultima)}}<br>
-              <%=liquidaciones.cantidadAIngresar%>: {{totalAjustado}}€ <br>
+              <%=liquidaciones.cantidadAIngresar%>: {{totalAjustadoAbs}}€ <br>
               <%=liquidaciones.numeroCuenta%>: TR33 0006 1005 1978 6457 8413 26
             </div>
           </div>
@@ -52,7 +52,7 @@
                 <td class="text-right editable">{{liquidacion.pagado}} €</td>
                 <td class="text-right">{{liquidacion.balance}} €</td>
               </tr>
-              <tr ng-show="resumen == null || resumen.balance == null || resumen.balance.length === 0">
+              <tr ng-show="resumen == null">
                 <td colspan="8">
                   <%=liquidacion.noExisten %>
                 </td>

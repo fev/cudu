@@ -25,6 +25,7 @@ var Cudu;
                 service.balanceGrupo($routeParams.grupoId, 2015).then(function (l) {
                     $scope.resumen = l;
                     $scope.totalAjustado = _this.limitarTotal(l.total);
+                    $scope.totalAjustadoAbs = Math.abs($scope.totalAjustado);
                     $scope.balancePositivo = l.total > 0;
                 });
             }
@@ -40,9 +41,9 @@ var Cudu;
             LiquidacionesBalanceController.prototype.limitarTotal = function (total) {
                 var minimo = Math.min(0, total);
                 if (isNaN(minimo)) {
-                    return "";
+                    return 0;
                 }
-                return minimo.toString();
+                return minimo;
             };
             return LiquidacionesBalanceController;
         }());
