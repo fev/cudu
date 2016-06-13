@@ -74,7 +74,7 @@ create or replace view liquidacion_balance as
     l.pagado - coalesce(l.ajuste_manual, c.subtotal) as balance
   from liquidacion l
   left join liquidacion_calculo c on l.id = c.liquidacion_id
-  order by l.ronda_id, l.grupo_id, l.id;
+  order by ronda_id desc, grupo_id, liquidacion_id;
 
 -- last y last_agg son para obtener el último elemento de un agregado
 -- mantener el order by en liquidacion_balance para que funcione correctamente
@@ -92,7 +92,7 @@ create aggregate public.last (
 create or replace view liquidacion_grupos AS
   select r.etiqueta as ronda_etiqueta, q.* from (
     select
-      coalesce(bg.ronda_id, extract(year from current_date - INTERVAL '1' year)) as ronda_id,
+      coalesce(bg.ronda_id, extract(year from current_date - INTERVAL '1' year))::SMALLINT as ronda_id,
       gc.grupo_id, g.nombre, gc.activos, g.asociacion,
       bg.balance,
       coalesce(bg.num_liquidaciones, 0) as num_liquidaciones,

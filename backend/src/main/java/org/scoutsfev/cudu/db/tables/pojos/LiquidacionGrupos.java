@@ -23,10 +23,10 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionGrupos implements Serializable {
 
-	private static final long serialVersionUID = -2068963470;
+	private static final long serialVersionUID = -653846073;
 
 	private final String     rondaEtiqueta;
-	private final Double     rondaId;
+	private final Short      rondaId;
 	private final String     grupoId;
 	private final String     nombre;
 	private final Long       activos;
@@ -49,7 +49,7 @@ public class LiquidacionGrupos implements Serializable {
 
 	public LiquidacionGrupos(
 		String     rondaEtiqueta,
-		Double     rondaId,
+		Short      rondaId,
 		String     grupoId,
 		String     nombre,
 		Long       activos,
@@ -73,7 +73,7 @@ public class LiquidacionGrupos implements Serializable {
 		return this.rondaEtiqueta;
 	}
 
-	public Double getRondaId() {
+	public Short getRondaId() {
 		return this.rondaId;
 	}
 

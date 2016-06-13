@@ -22,10 +22,23 @@ module Cudu.Liquidaciones {
     }
   }
 
-  interface LiquidacionBalanceDto { }
+  interface LiquidacionBalanceDetalle {
+    grupoId: string;
+    rondaId: number;
+    liquidacionId: number;
+    balance: number;
+  }
+
+  interface LiquidacionBalanceDto {
+    numeroActualAsociados: number;
+    total: number;
+    balance: LiquidacionBalanceDetalle[];
+  }
 
   interface LiquidacionesBalanceScope extends ng.IScope {
-    liquidaciones: LiquidacionBalanceDto[];
+    resumen: LiquidacionBalanceDto;
+    totalAjustado: string;
+    balancePositivo: boolean;
   }
 
   interface LiquidacionesBalanceRouteParams extends angular.route.IRouteParamsService {
@@ -37,11 +50,33 @@ module Cudu.Liquidaciones {
         private $location: ng.ILocationService,
         private $routeParams: LiquidacionesBalanceRouteParams,
         private service: LiquidacionesService) {
-      service.balanceGrupo($routeParams.grupoId, 2015).then(l => $scope.liquidaciones = l);
+      service.balanceGrupo($routeParams.grupoId, 2015).then(l => {
+        $scope.resumen = l;
+        $scope.totalAjustado = this.limitarTotal(l.total);
+        $scope.balancePositivo = l.total > 0;
+        // if (l && l.balance && l.balance.length > 0) {
+        //   $scope.ultima = l[l.balance.length - 1] || <LiquidacionBalanceDto>{ };
+        // }
+      });
     }
 
     verDesglose(liquidacionId: string) {
       this.$location.path('/liquidaciones/desglose/' + liquidacionId);
+    }
+
+    crearReferencia(liquidacion: LiquidacionBalanceDetalle) {
+      if (!liquidacion) {
+        return "";
+      }
+      return liquidacion.grupoId + "-" + liquidacion.rondaId + "-" + liquidacion.liquidacionId;
+    }
+
+    limitarTotal(total: number): string {
+      var minimo = Math.min(0, total);
+      if (isNaN(minimo)) {
+        return "";
+      }
+      return minimo.toString();
     }
   }
 
@@ -62,7 +97,7 @@ module Cudu.Liquidaciones {
 
   interface LiquidacionesService { 
     resumenPorGrupos(): ng.IPromise<LiquidacionGrupoDto[]>;
-    balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto[]>;
+    balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto>;
   }
 
   class LiquidacionesServiceImpl implements LiquidacionesService {
@@ -72,8 +107,8 @@ module Cudu.Liquidaciones {
       return this.http.get<LiquidacionGrupoDto[]>("/api/liquidaciones/grupos").then(g => g.data);
     }
 
-    balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto[]> {
-      return this.http.get<LiquidacionBalanceDto[]>("/api/liquidaciones/balance/" + grupoId + '/' + rondaId).then(g => g.data);
+    balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto> {
+      return this.http.get<LiquidacionBalanceDto>("/api/liquidaciones/balance/" + grupoId + '/' + rondaId).then(g => g.data);
     }
   }
 

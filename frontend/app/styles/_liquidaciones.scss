@@ -20,6 +20,7 @@
     cursor: pointer;
     a { color: #333; text-decoration: none; text-transform: uppercase; }
     td.editable:hover { background-color: lightyellow }
+    tfoot td { font-weight: 400; }
   }
 
   #panelLiquidaciones { padding-left: 0; padding-right: 0; }

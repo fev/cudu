@@ -2,6 +2,7 @@ package org.scoutsfev.cudu.web;
 
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionBalance;
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionGrupos;
+import org.scoutsfev.cudu.domain.dto.LiquidacionBalanceDto;
 import org.scoutsfev.cudu.storage.LiquidacionesStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,9 @@ public class LiquidacionController {
     }
 
     @RequestMapping(value = "/balance/{grupoId}/{rondaId}", method = RequestMethod.GET)
-    public List<LiquidacionBalance> balanceGrupo(@PathVariable("grupoId") String grupoId, @PathVariable("rondaId") Short rondaId) {
-        return storage.balanceGrupo(grupoId, rondaId);
+    public LiquidacionBalanceDto balanceGrupo(@PathVariable("grupoId") String grupoId, @PathVariable("rondaId") Short rondaId) {
+        List<LiquidacionBalance> balances = storage.balanceGrupo(grupoId, rondaId);
+        LiquidacionGrupos resumen = storage.resumenPorGrupo(grupoId, rondaId);
+        return new LiquidacionBalanceDto(resumen.getActivos(), resumen.getBalance(), balances);
     }
 }

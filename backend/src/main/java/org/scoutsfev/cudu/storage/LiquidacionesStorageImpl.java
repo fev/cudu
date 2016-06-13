@@ -21,6 +21,13 @@ public class LiquidacionesStorageImpl implements LiquidacionesStorage {
         this.context = context;
     }
 
+    public LiquidacionGrupos resumenPorGrupo(String grupoId, Short rondaId) {
+        return context.selectFrom(LIQUIDACION_GRUPOS)
+                .where(LIQUIDACION_GRUPOS.GRUPO_ID.equal(grupoId)
+                    .and(LIQUIDACION_GRUPOS.RONDA_ID.equal(rondaId)))
+                .fetchAnyInto(LiquidacionGrupos.class);
+    }
+
     public List<LiquidacionGrupos> resumenPorGrupos() {
         return context.selectFrom(LIQUIDACION_GRUPOS).fetchInto(LiquidacionGrupos.class);
     }

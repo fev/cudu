@@ -17,14 +17,32 @@ var Cudu;
         Liquidaciones.LiquidacionesGruposController = LiquidacionesGruposController;
         var LiquidacionesBalanceController = (function () {
             function LiquidacionesBalanceController($scope, $location, $routeParams, service) {
+                var _this = this;
                 this.$scope = $scope;
                 this.$location = $location;
                 this.$routeParams = $routeParams;
                 this.service = service;
-                service.balanceGrupo($routeParams.grupoId, 2015).then(function (l) { return $scope.liquidaciones = l; });
+                service.balanceGrupo($routeParams.grupoId, 2015).then(function (l) {
+                    $scope.resumen = l;
+                    $scope.totalAjustado = _this.limitarTotal(l.total);
+                    $scope.balancePositivo = l.total > 0;
+                });
             }
             LiquidacionesBalanceController.prototype.verDesglose = function (liquidacionId) {
                 this.$location.path('/liquidaciones/desglose/' + liquidacionId);
+            };
+            LiquidacionesBalanceController.prototype.crearReferencia = function (liquidacion) {
+                if (!liquidacion) {
+                    return "";
+                }
+                return liquidacion.grupoId + "-" + liquidacion.rondaId + "-" + liquidacion.liquidacionId;
+            };
+            LiquidacionesBalanceController.prototype.limitarTotal = function (total) {
+                var minimo = Math.min(0, total);
+                if (isNaN(minimo)) {
+                    return "";
+                }
+                return minimo.toString();
             };
             return LiquidacionesBalanceController;
         }());
