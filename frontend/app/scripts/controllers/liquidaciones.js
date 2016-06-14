@@ -10,8 +10,8 @@ var Cudu;
                 this.$scope.rondaActual = service.rondaActual();
                 this.cargarDatosRonda(this.$scope.rondaActual);
             }
-            LiquidacionesGruposController.prototype.verBalance = function (grupoId) {
-                this.$location.path('/liquidaciones/balance/' + grupoId);
+            LiquidacionesGruposController.prototype.verBalance = function (grupoId, rondaId) {
+                this.$location.path('/liquidaciones/balance/' + grupoId + "/" + rondaId);
             };
             LiquidacionesGruposController.prototype.cargarDatosRonda = function (rondaId) {
                 var _this = this;
@@ -25,18 +25,27 @@ var Cudu;
         Liquidaciones.LiquidacionesGruposController = LiquidacionesGruposController;
         var LiquidacionesBalanceController = (function () {
             function LiquidacionesBalanceController($scope, $location, $routeParams, service) {
-                var _this = this;
                 this.$scope = $scope;
                 this.$location = $location;
                 this.$routeParams = $routeParams;
                 this.service = service;
-                service.balanceGrupo($routeParams.grupoId, 2015).then(function (l) {
-                    $scope.resumen = l;
-                    $scope.totalAjustado = _this.limitarTotal(l.total);
-                    $scope.totalAjustadoAbs = Math.abs($scope.totalAjustado);
-                    $scope.balancePositivo = l.total > 0;
-                });
+                this.$scope.grupoId = $routeParams.grupoId;
+                this.$scope.rondaId = $routeParams.rondaId || service.rondaActual();
+                this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId);
             }
+            LiquidacionesBalanceController.prototype.cargarBalanceGrupoActual = function (rondaId) {
+                this.cargarBalanceGrupo(this.$routeParams.grupoId, rondaId);
+            };
+            LiquidacionesBalanceController.prototype.cargarBalanceGrupo = function (grupoId, rondaId) {
+                var _this = this;
+                this.service.balanceGrupo(grupoId, rondaId).then(function (l) {
+                    _this.$scope.resumen = l;
+                    _this.$scope.totalAjustado = _this.limitarTotal(l.total);
+                    _this.$scope.totalAjustadoAbs = Math.abs(_this.$scope.totalAjustado);
+                    _this.$scope.balancePositivo = l.total > 0;
+                    _this.$scope.rondaId = rondaId;
+                });
+            };
             LiquidacionesBalanceController.prototype.verDesglose = function (liquidacionId) {
                 this.$location.path('/liquidaciones/desglose/' + liquidacionId);
             };

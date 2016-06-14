@@ -91,7 +91,7 @@ angular
         templateUrl: 'i18n/views/liquidaciones/grupos.html',
         seccion: 'liquidaciones'
       })
-      .when('/liquidaciones/balance/:grupoId?', {
+      .when('/liquidaciones/balance/:grupoId/:rondaId?', {
         templateUrl: 'i18n/views/liquidaciones/balance.html',
         seccion: 'liquidaciones'
       })

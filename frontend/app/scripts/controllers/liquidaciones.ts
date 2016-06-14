@@ -20,8 +20,8 @@ module Cudu.Liquidaciones {
       this.cargarDatosRonda(this.$scope.rondaActual);
     }
 
-    verBalance(grupoId: string) {
-      this.$location.path('/liquidaciones/balance/' + grupoId);
+    verBalance(grupoId: string, rondaId: string) {
+      this.$location.path('/liquidaciones/balance/' + grupoId + "/" + rondaId);
     }
 
     cargarDatosRonda(rondaId: number) {
@@ -50,10 +50,13 @@ module Cudu.Liquidaciones {
     totalAjustado: number;
     totalAjustadoAbs: number;
     balancePositivo: boolean;
+    grupoId: string;
+    rondaId: number;
   }
 
   interface LiquidacionesBalanceRouteParams extends angular.route.IRouteParamsService {
     grupoId: string;
+    rondaId: number;
   }
 
   export class LiquidacionesBalanceController {
@@ -61,14 +64,22 @@ module Cudu.Liquidaciones {
         private $location: ng.ILocationService,
         private $routeParams: LiquidacionesBalanceRouteParams,
         private service: LiquidacionesService) {
-      service.balanceGrupo($routeParams.grupoId, 2015).then(l => {
-        $scope.resumen = l;
-        $scope.totalAjustado = this.limitarTotal(l.total);
-        $scope.totalAjustadoAbs = Math.abs($scope.totalAjustado);
-        $scope.balancePositivo = l.total > 0;
-        // if (l && l.balance && l.balance.length > 0) {
-        //   $scope.ultima = l[l.balance.length - 1] || <LiquidacionBalanceDto>{ };
-        // }
+      this.$scope.grupoId = $routeParams.grupoId;
+      this.$scope.rondaId = $routeParams.rondaId || service.rondaActual();
+      this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId);
+    }
+
+    cargarBalanceGrupoActual(rondaId: number) {
+      this.cargarBalanceGrupo(this.$routeParams.grupoId, rondaId);
+    }
+
+    cargarBalanceGrupo(grupoId: string, rondaId: number) {
+      this.service.balanceGrupo(grupoId, rondaId).then(l => {
+        this.$scope.resumen = l;
+        this.$scope.totalAjustado = this.limitarTotal(l.total);
+        this.$scope.totalAjustadoAbs = Math.abs(this.$scope.totalAjustado);
+        this.$scope.balancePositivo = l.total > 0;
+        this.$scope.rondaId = rondaId;
       });
     }
 

@@ -1,4 +1,4 @@
-<div class="container contenedor-central liquidaciones" ng-controller="LiquidacionesBalanceController as ctrl">
+<div class="container contenedor-central liquidaciones liquidacionesBalance" ng-controller="LiquidacionesBalanceController as ctrl">
 <!-- Balance {{hello}}<br>
 <a href="#/liquidaciones/desglose/34">Liquidacion 34</a> -->
 <div class="row">
@@ -7,7 +7,18 @@
         <div class="mat-toolbar text-right no-print">
           <a href="#/liquidaciones/grupos" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-list-ul"></i> &nbsp;<%=liquidaciones.desglosePorGrupos%></a>
           <button ng-click="ctrl.mostrarDialogoCrearUsuario()" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-plus"></i> &nbsp;<%=liquidaciones.nueva%></button>
-          <button ng-click="" type="button" class="btn btn-default"><i class="fa fa-calendar"></i> &nbsp;<%=liquidaciones.ronda%> <b class="caret"></b></button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-calendar"></i> <%=liquidaciones.ronda%> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li ng-class="{active: rondaId == 2015}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2015)"><i class="fa fa-check fa-fw"></i> 2015-2016</a></li>
+              <li ng-class="{active: rondaId == 2016}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2016)"><i class="fa fa-check fa-fw"></i> 2016-2017</a></li>
+              <li ng-class="{active: rondaId == 2017}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2017)"><i class="fa fa-check fa-fw"></i> 2017-2018</a></li>
+              <li ng-class="{active: rondaId == 2018}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2018)"><i class="fa fa-check fa-fw"></i> 2018-2019</a></li>
+              <li ng-class="{active: rondaId == 2019}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2019)"><i class="fa fa-check fa-fw"></i> 2019-2020</a></li>
+            </ul>
+          </div>
         </div>
         <div class="mat-toolbar-expand"><h1>Liquidaciones Ain-Karen</h1></div>
         <div class="panel-content">
@@ -52,13 +63,13 @@
                 <td class="text-right editable">{{liquidacion.pagado}} €</td>
                 <td class="text-right">{{liquidacion.balance}} €</td>
               </tr>
-              <tr ng-show="!resumen.balance">
+              <tr ng-show="resumen.balance.length === 0">
                 <td colspan="8">
                   <%=liquidacion.noExisten %>
                 </td>
               </tr>
             </tbody>
-            <tfoot>
+            <tfoot ng-hide="resumen.balance.length === 0">
               <td colspan="6"></td>
               <td class="text-right">Total</td>
               <td class="text-right">{{totalAjustado}} €</td>

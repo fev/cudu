@@ -16,10 +16,15 @@
   //   .btn-group .btn:active:focus { border-color: transparent; }
   // }
 
-  .liquidacionesGrupos {
+  .liquidacionesGrupos, .liquidacionesBalance {
     ul.dropdown-menu-right li { text-align: right; }
-    ul li i.fa { display: none }
-    ul li.active i.fa { display: inline-block }
+    ul li {
+      i.fa { display: none; }
+      &.active {
+        i.fa { display: inline-block; }
+        a { background-color: $material-grey-300; color: $material-grey-900; }
+      }
+    }
   }
 
   table {
