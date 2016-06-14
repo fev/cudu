@@ -16,6 +16,12 @@
   //   .btn-group .btn:active:focus { border-color: transparent; }
   // }
 
+  .liquidacionesGrupos {
+    ul.dropdown-menu-right li { text-align: right; }
+    ul li i.fa { display: none }
+    ul li.active i.fa { display: inline-block }
+  }
+
   table {
     cursor: pointer;
     a { color: #333; text-decoration: none; text-transform: uppercase; }

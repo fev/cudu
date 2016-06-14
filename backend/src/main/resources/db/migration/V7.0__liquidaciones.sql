@@ -90,20 +90,25 @@ create aggregate public.last (
 );
 
 create or replace view liquidacion_grupos AS
-  select r.etiqueta as ronda_etiqueta, q.* from (
-    select
-      coalesce(bg.ronda_id, extract(year from current_date - INTERVAL '1' year))::SMALLINT as ronda_id,
-      gc.grupo_id, g.nombre, gc.activos, g.asociacion,
-      bg.balance,
-      coalesce(bg.num_liquidaciones, 0) as num_liquidaciones,
-      bg.activos_ultima
-    from (
-      select grupo_id, count(activo) as activos from asociado a where grupo_id is not null and a.activo = true group by grupo_id) gc
-    inner join grupo g on gc.grupo_id = g.id
-    left join (
+  select
+    gr.ronda_etiqueta,
+    gr.ronda_id,
+    gr.id as grupo_id,
+    gr.nombre,
+    gc.activos,
+    gr.asociacion,
+    bg.balance,
+    coalesce(bg.num_liquidaciones, 0) as num_liquidaciones,
+    bg.activos_ultima
+  from (
+    select r.id as ronda_id, r.etiqueta as ronda_etiqueta, g.*
+    from grupo g cross join (select * from ronda order by id limit 5) r
+  ) gr
+  inner join (
+    select grupo_id, count(activo) as activos from asociado a where grupo_id is not null and a.activo = true group by grupo_id
+  ) gc on gc.grupo_id = gr.id
+  left join (
       select grupo_id, ronda_id, sum(balance) as balance, count(c.liquidacion_id) as num_liquidaciones, last(c.activos) activos_ultima
       from liquidacion_balance c
-      group by grupo_id, ronda_id) bg
-    on bg.grupo_id = g.id) q
-  inner join ronda r on r.id = q.ronda_id
-  order by grupo_id;
+      group by grupo_id, ronda_id
+  ) bg on bg.grupo_id = gr.id and bg.ronda_id = gr.ronda_id

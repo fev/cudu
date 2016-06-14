@@ -1,9 +1,20 @@
-<div class="container contenedor-central liquidaciones" ng-controller="LiquidacionesGruposController as ctrl">
+<div class="container contenedor-central liquidaciones liquidacionesGrupos" ng-controller="LiquidacionesGruposController as ctrl">
   <div class="row">
-    <div id="panelLiquidaciones" class="col-md-12">
+    <div class="col-md-12 panelLiquidaciones">
         <div class="material-panel-level-2">
           <div class="mat-toolbar text-right">
-            <button ng-click="" type="button" class="btn btn-default"><i class="fa fa-calendar"></i> &nbsp;<%=liquidaciones.ronda%> <b class="caret"></b></button>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-calendar"></i> <%=liquidaciones.ronda%> <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li ng-class="{active: rondaId === 2015}"><a href="javascript:" ng-click="ctrl.cargarDatosRonda(2015)"><i class="fa fa-check fa-fw"></i> 2015-2016</a></li>
+                <li ng-class="{active: rondaId === 2016}"><a href="javascript:" ng-click="ctrl.cargarDatosRonda(2016)"><i class="fa fa-check fa-fw"></i> 2016-2017</a></li>
+                <li ng-class="{active: rondaId === 2017}"><a href="javascript:" ng-click="ctrl.cargarDatosRonda(2017)"><i class="fa fa-check fa-fw"></i> 2017-2018</a></li>
+                <li ng-class="{active: rondaId === 2018}"><a href="javascript:" ng-click="ctrl.cargarDatosRonda(2018)"><i class="fa fa-check fa-fw"></i> 2018-2019</a></li>
+                <li ng-class="{active: rondaId === 2019}"><a href="javascript:" ng-click="ctrl.cargarDatosRonda(2019)"><i class="fa fa-check fa-fw"></i> 2019-2020</a></li>
+              </ul>
+            </div>
           </div>
           <div class="mat-toolbar-expand"><h1>Liquidaciones: Resumen por Grupo</h1></div>
           <div class="panel-content">

@@ -7,6 +7,8 @@ module Cudu.Liquidaciones {
   interface LiquidacionGrupoDto { }
 
   interface LiquidacionesGruposScope extends ng.IScope {
+    rondaId: number;
+    rondaActual: number;
     grupos: LiquidacionGrupoDto[];
   }
 
@@ -14,11 +16,19 @@ module Cudu.Liquidaciones {
     constructor(private $scope: LiquidacionesGruposScope,
         private $location: ng.ILocationService,
         private service: LiquidacionesService) {
-      service.resumenPorGrupos().then(g => { $scope.grupos = g; });
+      this.$scope.rondaActual = service.rondaActual();
+      this.cargarDatosRonda(this.$scope.rondaActual);
     }
 
     verBalance(grupoId: string) {
       this.$location.path('/liquidaciones/balance/' + grupoId);
+    }
+
+    cargarDatosRonda(rondaId: number) {
+      this.service.resumenPorGrupos(rondaId).then(g => {
+        this.$scope.grupos = g;
+        this.$scope.rondaId = rondaId;
+      });
     }
   }
 
@@ -97,16 +107,25 @@ module Cudu.Liquidaciones {
     }
   }
 
-  interface LiquidacionesService { 
-    resumenPorGrupos(): ng.IPromise<LiquidacionGrupoDto[]>;
+  interface LiquidacionesService {
+    rondaActual(): number;
+    resumenPorGrupos(rondaId: number): ng.IPromise<LiquidacionGrupoDto[]>;
     balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto>;
   }
 
   class LiquidacionesServiceImpl implements LiquidacionesService {
     constructor(private http: ng.IHttpService) { }
 
-    resumenPorGrupos(): ng.IPromise<LiquidacionGrupoDto[]> {
-      return this.http.get<LiquidacionGrupoDto[]>("/api/liquidaciones/grupos").then(g => g.data);
+    rondaActual(): number {
+      var m = moment();
+      if (m.month() >= 8) {
+        return m.year();
+      }
+      return m.year() - 1;
+    }
+
+    resumenPorGrupos(rondaId: number): ng.IPromise<LiquidacionGrupoDto[]> {
+      return this.http.get<LiquidacionGrupoDto[]>("/api/liquidaciones/grupos/" + rondaId).then(g => g.data);
     }
 
     balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto> {

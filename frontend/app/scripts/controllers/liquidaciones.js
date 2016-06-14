@@ -7,10 +7,18 @@ var Cudu;
                 this.$scope = $scope;
                 this.$location = $location;
                 this.service = service;
-                service.resumenPorGrupos().then(function (g) { $scope.grupos = g; });
+                this.$scope.rondaActual = service.rondaActual();
+                this.cargarDatosRonda(this.$scope.rondaActual);
             }
             LiquidacionesGruposController.prototype.verBalance = function (grupoId) {
                 this.$location.path('/liquidaciones/balance/' + grupoId);
+            };
+            LiquidacionesGruposController.prototype.cargarDatosRonda = function (rondaId) {
+                var _this = this;
+                this.service.resumenPorGrupos(rondaId).then(function (g) {
+                    _this.$scope.grupos = g;
+                    _this.$scope.rondaId = rondaId;
+                });
             };
             return LiquidacionesGruposController;
         }());
@@ -61,8 +69,15 @@ var Cudu;
             function LiquidacionesServiceImpl(http) {
                 this.http = http;
             }
-            LiquidacionesServiceImpl.prototype.resumenPorGrupos = function () {
-                return this.http.get("/api/liquidaciones/grupos").then(function (g) { return g.data; });
+            LiquidacionesServiceImpl.prototype.rondaActual = function () {
+                var m = moment();
+                if (m.month() >= 8) {
+                    return m.year();
+                }
+                return m.year() - 1;
+            };
+            LiquidacionesServiceImpl.prototype.resumenPorGrupos = function (rondaId) {
+                return this.http.get("/api/liquidaciones/grupos/" + rondaId).then(function (g) { return g.data; });
             };
             LiquidacionesServiceImpl.prototype.balanceGrupo = function (grupoId, rondaId) {
                 return this.http.get("/api/liquidaciones/balance/" + grupoId + '/' + rondaId).then(function (g) { return g.data; });

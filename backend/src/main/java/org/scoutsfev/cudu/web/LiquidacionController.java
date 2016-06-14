@@ -23,9 +23,9 @@ public class LiquidacionController {
         this.storage = storage;
     }
 
-    @RequestMapping(value = "/grupos", method = RequestMethod.GET)
-    public List<LiquidacionGrupos> resumenPorGrupos() {
-        return storage.resumenPorGrupos();
+    @RequestMapping(value = "/grupos/{rondaId}", method = RequestMethod.GET)
+    public List<LiquidacionGrupos> resumenPorGrupos(@PathVariable("rondaId") Short rondaId) {
+        return storage.resumenPorGrupos(rondaId);
     }
 
     @RequestMapping(value = "/balance/{grupoId}/{rondaId}", method = RequestMethod.GET)

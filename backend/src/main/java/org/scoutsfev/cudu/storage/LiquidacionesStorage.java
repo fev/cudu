@@ -6,7 +6,7 @@ import org.scoutsfev.cudu.db.tables.pojos.LiquidacionGrupos;
 import java.util.List;
 
 public interface LiquidacionesStorage {
-    LiquidacionGrupos resumenPorGrupo(String grupoId, Short rondaId);
-    List<LiquidacionGrupos> resumenPorGrupos();
-    List<LiquidacionBalance> balanceGrupo(String grupoId, Short rondaId);
+    LiquidacionGrupos resumenPorGrupo(String grupoId, short rondaId);
+    List<LiquidacionGrupos> resumenPorGrupos(short rondaId);
+    List<LiquidacionBalance> balanceGrupo(String grupoId, short rondaId);
 }

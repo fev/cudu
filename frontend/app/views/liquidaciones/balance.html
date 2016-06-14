@@ -2,7 +2,7 @@
 <!-- Balance {{hello}}<br>
 <a href="#/liquidaciones/desglose/34">Liquidacion 34</a> -->
 <div class="row">
-  <div id="panelLiquidaciones" class="col-md-12">
+  <div class="col-md-12 panelLiquidaciones">
       <div class="material-panel-level-2">
         <div class="mat-toolbar text-right no-print">
           <a href="#/liquidaciones/grupos" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-list-ul"></i> &nbsp;<%=liquidaciones.desglosePorGrupos%></a>
@@ -52,7 +52,7 @@
                 <td class="text-right editable">{{liquidacion.pagado}} €</td>
                 <td class="text-right">{{liquidacion.balance}} €</td>
               </tr>
-              <tr ng-show="resumen == null">
+              <tr ng-show="!resumen.balance">
                 <td colspan="8">
                   <%=liquidacion.noExisten %>
                 </td>
