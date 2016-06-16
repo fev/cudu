@@ -36,13 +36,20 @@ module Cudu.Liquidaciones {
     grupoId: string;
     rondaId: number;
     liquidacionId: number;
+    pagado: number;
     balance: number;
+  }
+
+  interface InformacionPago {
+    concepto: string;
   }
 
   interface LiquidacionBalanceDto {
     numeroActualAsociados: number;
     total: number;
     balance: LiquidacionBalanceDetalle[];
+    informacionPago: InformacionPago;
+    nombreGrupo: string;
   }
 
   interface LiquidacionesBalanceScope extends ng.IScope {
@@ -52,6 +59,22 @@ module Cudu.Liquidaciones {
     balancePositivo: boolean;
     grupoId: string;
     rondaId: number;
+    informacionPago: InformacionPago;
+    rondaEtiqueta: string;
+    nombreGrupo: string;
+  }
+
+  interface EditarLiquidacion {
+    id: number;
+    fecha: string;
+    activos: number;
+    diferencia: number;
+    precioUnitario: number;
+    subtotal: number;
+    balance: number;
+    borrador: boolean;
+    ajusteManual?: number;
+    pagado?: number;
   }
 
   interface LiquidacionesBalanceRouteParams extends angular.route.IRouteParamsService {
@@ -63,9 +86,11 @@ module Cudu.Liquidaciones {
     constructor(private $scope: LiquidacionesBalanceScope,
         private $location: ng.ILocationService,
         private $routeParams: LiquidacionesBalanceRouteParams,
+        private modalEditarLiquidacion: Cudu.Ux.Modal,
         private service: LiquidacionesService) {
       this.$scope.grupoId = $routeParams.grupoId;
       this.$scope.rondaId = $routeParams.rondaId || service.rondaActual();
+      this.$scope.rondaEtiqueta = this.$scope.rondaId + '-' + (1 + parseInt(<any>this.$scope.rondaId));
       this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId);
     }
 
@@ -73,18 +98,12 @@ module Cudu.Liquidaciones {
       this.cargarBalanceGrupo(this.$routeParams.grupoId, rondaId);
     }
 
-    cargarBalanceGrupo(grupoId: string, rondaId: number) {
-      this.service.balanceGrupo(grupoId, rondaId).then(l => {
-        this.$scope.resumen = l;
-        this.$scope.totalAjustado = this.limitarTotal(l.total);
-        this.$scope.totalAjustadoAbs = Math.abs(this.$scope.totalAjustado);
-        this.$scope.balancePositivo = l.total > 0;
-        this.$scope.rondaId = rondaId;
-      });
-    }
-
     verDesglose(liquidacionId: string) {
       this.$location.path('/liquidaciones/desglose/' + liquidacionId);
+    }
+
+    mostrarDialogoEditarLiquidacion() {
+      this.modalEditarLiquidacion.show();
     }
 
     crearReferencia(liquidacion: LiquidacionBalanceDetalle) {
@@ -94,7 +113,25 @@ module Cudu.Liquidaciones {
       return liquidacion.grupoId + "-" + liquidacion.rondaId + "-" + liquidacion.liquidacionId;
     }
 
-    limitarTotal(total: number): number {
+    private cargarBalanceGrupo(grupoId: string, rondaId: number) {
+      this.service.balanceGrupo(grupoId, rondaId).then(l => {
+        this.$scope.resumen = l;
+        this.$scope.nombreGrupo = l.nombreGrupo;
+        this.$scope.totalAjustado = this.limitarTotal(l.total);
+        this.$scope.totalAjustadoAbs = Math.abs(this.$scope.totalAjustado);
+        this.$scope.balancePositivo = l.total > 0;
+        this.$scope.rondaId = rondaId;
+        this.$scope.informacionPago = l.informacionPago;
+        var ultimaSinPagar = _.findLast(l.balance, b => b.pagado === 0);
+        if (ultimaSinPagar) {
+          this.$scope.informacionPago.concepto = this.crearReferencia(ultimaSinPagar);
+        } else {
+          this.$scope.informacionPago.concepto = "—";
+        }
+      });
+    }
+
+    private limitarTotal(total: number): number {
       var minimo = Math.min(0, total);
       if (isNaN(minimo)) {
         return 0;
@@ -151,6 +188,7 @@ module Cudu.Liquidaciones {
 
 angular.module('cuduApp')
   .factory('LiquidacionesService', ['$http', Cudu.Liquidaciones.LiquidacionesServiceFactory])
+  .factory('ModalEditarLiquidacion', Cudu.Ux.ModalFactory("#dlgEditarLiquidacion"))
   .controller('LiquidacionesGruposController', ['$scope', '$location', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesGruposController])
-  .controller('LiquidacionesBalanceController', ['$scope', '$location', '$routeParams', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesBalanceController])
+  .controller('LiquidacionesBalanceController', ['$scope', '$location', '$routeParams', 'ModalEditarLiquidacion', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesBalanceController])
   .controller('LiquidacionesDesgloseController', ['$scope', '$routeParams', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesDesgloseController]);

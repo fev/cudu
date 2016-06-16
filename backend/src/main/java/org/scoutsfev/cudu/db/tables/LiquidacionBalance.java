@@ -5,6 +5,7 @@ package org.scoutsfev.cudu.db.tables;
 
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -29,7 +30,7 @@ import org.scoutsfev.cudu.db.tables.records.LiquidacionBalanceRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionBalance extends TableImpl<LiquidacionBalanceRecord> {
 
-	private static final long serialVersionUID = -855645659;
+	private static final long serialVersionUID = 1700195742;
 
 	/**
 	 * The reference instance of <code>public.liquidacion_balance</code>
@@ -93,6 +94,16 @@ public class LiquidacionBalance extends TableImpl<LiquidacionBalanceRecord> {
 	 * The column <code>public.liquidacion_balance.balance</code>.
 	 */
 	public final TableField<LiquidacionBalanceRecord, BigDecimal> BALANCE = createField("balance", org.jooq.impl.SQLDataType.NUMERIC, this, "");
+
+	/**
+	 * The column <code>public.liquidacion_balance.creado_en</code>.
+	 */
+	public final TableField<LiquidacionBalanceRecord, Timestamp> CREADO_EN = createField("creado_en", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+	/**
+	 * The column <code>public.liquidacion_balance.borrador</code>.
+	 */
+	public final TableField<LiquidacionBalanceRecord, Boolean> BORRADOR = createField("borrador", org.jooq.impl.SQLDataType.BOOLEAN, this, "");
 
 	/**
 	 * Create a <code>public.liquidacion_balance</code> table reference

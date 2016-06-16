@@ -5,7 +5,7 @@
           <div class="mat-toolbar text-right">
             <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-calendar"></i> <%=liquidaciones.ronda%> <span class="caret"></span>
+                <i class="fa fa-calendar"></i> &nbsp;<%=liquidaciones.ronda%> <span class="caret"></span>
               </button>
               <ul class="dropdown-menu dropdown-menu-right">
                 <li ng-class="{active: rondaId === 2015}"><a href="javascript:" ng-click="ctrl.cargarDatosRonda(2015)"><i class="fa fa-check fa-fw"></i> 2015-2016</a></li>
@@ -24,14 +24,14 @@
                   <th><%=liquidaciones.ronda %></th>
                   <th><%=liquidaciones.grupo %></th>
                   <th class="text-right"><%=liquidaciones.numliquidaciones %></th>
-                  <th class="text-right"><%=liquidaciones.activos %></th>
+                  <th class="text-right"><%=liquidaciones.activosAhora %></th>
                   <th class="text-right"><%=liquidaciones.activosultima %></th>
                   <th class="text-right"><%=liquidaciones.balance %></th>
                 </tr>
               </thead>
               <tbody>
                 <tr ng-repeat="grupo in grupos" ng-click="ctrl.verBalance(grupo.grupoId, grupo.rondaId)">
-                  <td>{{grupo.rondaEtiqueta}}</td>
+                  <td nowrap>{{grupo.rondaEtiqueta}}</td>
                   <td>{{grupo.nombre}}</td>
                   <td class="text-right">{{grupo.numLiquidaciones}}</td>
                   <td class="text-right">{{grupo.activos}}</td>

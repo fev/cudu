@@ -54,7 +54,7 @@ create or replace view liquidacion_calculo as
       sum(precio_unitario) as subtotal
     from liquidacion l
     inner join liquidacion_asociado a on a.liquidacion_id = l.id
-    where l.borrador = false
+    --where l.borrador = false
     group by grupo_id, ronda_id, liquidacion_id
     order by liquidacion_id
   ) t
@@ -71,7 +71,9 @@ create or replace view liquidacion_balance as
     c.subtotal,
     l.ajuste_manual,
     l.pagado,
-    l.pagado - coalesce(l.ajuste_manual, c.subtotal) as balance
+    l.pagado - coalesce(l.ajuste_manual, c.subtotal) as balance,
+    l.creado_en,
+    l.borrador
   from liquidacion l
   left join liquidacion_calculo c on l.id = c.liquidacion_id
   order by ronda_id desc, grupo_id, liquidacion_id;

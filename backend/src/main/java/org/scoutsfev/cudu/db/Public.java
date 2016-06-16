@@ -34,6 +34,7 @@ import org.scoutsfev.cudu.db.tables.DtoMiembrosEscuela;
 import org.scoutsfev.cudu.db.tables.Ficha;
 import org.scoutsfev.cudu.db.tables.Grupo;
 import org.scoutsfev.cudu.db.tables.Impresion;
+import org.scoutsfev.cudu.db.tables.InformacionPago;
 import org.scoutsfev.cudu.db.tables.Liquidacion;
 import org.scoutsfev.cudu.db.tables.LiquidacionAsociado;
 import org.scoutsfev.cudu.db.tables.LiquidacionBalance;
@@ -57,7 +58,7 @@ import org.scoutsfev.cudu.db.tables.Token;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-	private static final long serialVersionUID = -1337327191;
+	private static final long serialVersionUID = 1273216101;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -118,6 +119,7 @@ public class Public extends SchemaImpl {
 			Ficha.FICHA,
 			Grupo.GRUPO,
 			Impresion.IMPRESION,
+			InformacionPago.INFORMACION_PAGO,
 			Liquidacion.LIQUIDACION,
 			LiquidacionAsociado.LIQUIDACION_ASOCIADO,
 			LiquidacionBalance.LIQUIDACION_BALANCE,

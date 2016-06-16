@@ -26,6 +26,7 @@ import org.scoutsfev.cudu.db.tables.DtoMiembrosEscuela;
 import org.scoutsfev.cudu.db.tables.Ficha;
 import org.scoutsfev.cudu.db.tables.Grupo;
 import org.scoutsfev.cudu.db.tables.Impresion;
+import org.scoutsfev.cudu.db.tables.InformacionPago;
 import org.scoutsfev.cudu.db.tables.Liquidacion;
 import org.scoutsfev.cudu.db.tables.LiquidacionAsociado;
 import org.scoutsfev.cudu.db.tables.LiquidacionBalance;
@@ -148,6 +149,11 @@ public class Tables {
 	 * The table public.impresion
 	 */
 	public static final Impresion IMPRESION = org.scoutsfev.cudu.db.tables.Impresion.IMPRESION;
+
+	/**
+	 * The table public.informacion_pago
+	 */
+	public static final InformacionPago INFORMACION_PAGO = org.scoutsfev.cudu.db.tables.InformacionPago.INFORMACION_PAGO;
 
 	/**
 	 * The table public.liquidacion

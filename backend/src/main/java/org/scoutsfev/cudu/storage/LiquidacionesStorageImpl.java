@@ -1,6 +1,7 @@
 package org.scoutsfev.cudu.storage;
 
 import org.jooq.DSLContext;
+import org.scoutsfev.cudu.db.tables.pojos.InformacionPago;
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionBalance;
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionGrupos;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static org.scoutsfev.cudu.db.Tables.LIQUIDACION_BALANCE;
-import static org.scoutsfev.cudu.db.Tables.LIQUIDACION_GRUPOS;
+import static org.scoutsfev.cudu.db.Tables.*;
 
 @Repository
 public class LiquidacionesStorageImpl implements LiquidacionesStorage {
@@ -41,5 +41,13 @@ public class LiquidacionesStorageImpl implements LiquidacionesStorage {
                 .where(LIQUIDACION_BALANCE.GRUPO_ID.equal(grupoId))
                 .and(LIQUIDACION_BALANCE.RONDA_ID.equal(rondaId))
                 .fetchInto(LiquidacionBalance.class);
+    }
+
+    @SuppressWarnings("ConfusingArgumentToVarargsMethod")
+    public InformacionPago informacionPago(String grupoId) {
+        return context.select(INFORMACION_PAGO.fields()).from(INFORMACION_PAGO)
+            .innerJoin(GRUPO).on(GRUPO.ASOCIACION.equal(INFORMACION_PAGO.ASOCIACIONID))
+            .where(GRUPO.ID.equal(grupoId))
+            .fetchAnyInto(InformacionPago.class);
     }
 }

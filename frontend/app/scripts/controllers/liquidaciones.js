@@ -24,36 +24,50 @@ var Cudu;
         }());
         Liquidaciones.LiquidacionesGruposController = LiquidacionesGruposController;
         var LiquidacionesBalanceController = (function () {
-            function LiquidacionesBalanceController($scope, $location, $routeParams, service) {
+            function LiquidacionesBalanceController($scope, $location, $routeParams, modalEditarLiquidacion, service) {
                 this.$scope = $scope;
                 this.$location = $location;
                 this.$routeParams = $routeParams;
+                this.modalEditarLiquidacion = modalEditarLiquidacion;
                 this.service = service;
                 this.$scope.grupoId = $routeParams.grupoId;
                 this.$scope.rondaId = $routeParams.rondaId || service.rondaActual();
+                this.$scope.rondaEtiqueta = this.$scope.rondaId + '-' + (1 + parseInt(this.$scope.rondaId));
                 this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId);
             }
             LiquidacionesBalanceController.prototype.cargarBalanceGrupoActual = function (rondaId) {
                 this.cargarBalanceGrupo(this.$routeParams.grupoId, rondaId);
             };
-            LiquidacionesBalanceController.prototype.cargarBalanceGrupo = function (grupoId, rondaId) {
-                var _this = this;
-                this.service.balanceGrupo(grupoId, rondaId).then(function (l) {
-                    _this.$scope.resumen = l;
-                    _this.$scope.totalAjustado = _this.limitarTotal(l.total);
-                    _this.$scope.totalAjustadoAbs = Math.abs(_this.$scope.totalAjustado);
-                    _this.$scope.balancePositivo = l.total > 0;
-                    _this.$scope.rondaId = rondaId;
-                });
-            };
             LiquidacionesBalanceController.prototype.verDesglose = function (liquidacionId) {
                 this.$location.path('/liquidaciones/desglose/' + liquidacionId);
+            };
+            LiquidacionesBalanceController.prototype.mostrarDialogoEditarLiquidacion = function () {
+                this.modalEditarLiquidacion.show();
             };
             LiquidacionesBalanceController.prototype.crearReferencia = function (liquidacion) {
                 if (!liquidacion) {
                     return "";
                 }
                 return liquidacion.grupoId + "-" + liquidacion.rondaId + "-" + liquidacion.liquidacionId;
+            };
+            LiquidacionesBalanceController.prototype.cargarBalanceGrupo = function (grupoId, rondaId) {
+                var _this = this;
+                this.service.balanceGrupo(grupoId, rondaId).then(function (l) {
+                    _this.$scope.resumen = l;
+                    _this.$scope.nombreGrupo = l.nombreGrupo;
+                    _this.$scope.totalAjustado = _this.limitarTotal(l.total);
+                    _this.$scope.totalAjustadoAbs = Math.abs(_this.$scope.totalAjustado);
+                    _this.$scope.balancePositivo = l.total > 0;
+                    _this.$scope.rondaId = rondaId;
+                    _this.$scope.informacionPago = l.informacionPago;
+                    var ultimaSinPagar = _.findLast(l.balance, function (b) { return b.pagado === 0; });
+                    if (ultimaSinPagar) {
+                        _this.$scope.informacionPago.concepto = _this.crearReferencia(ultimaSinPagar);
+                    }
+                    else {
+                        _this.$scope.informacionPago.concepto = "—";
+                    }
+                });
             };
             LiquidacionesBalanceController.prototype.limitarTotal = function (total) {
                 var minimo = Math.min(0, total);
@@ -101,6 +115,7 @@ var Cudu;
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
     .factory('LiquidacionesService', ['$http', Cudu.Liquidaciones.LiquidacionesServiceFactory])
+    .factory('ModalEditarLiquidacion', Cudu.Ux.ModalFactory("#dlgEditarLiquidacion"))
     .controller('LiquidacionesGruposController', ['$scope', '$location', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesGruposController])
-    .controller('LiquidacionesBalanceController', ['$scope', '$location', '$routeParams', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesBalanceController])
+    .controller('LiquidacionesBalanceController', ['$scope', '$location', '$routeParams', 'ModalEditarLiquidacion', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesBalanceController])
     .controller('LiquidacionesDesgloseController', ['$scope', '$routeParams', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesDesgloseController]);

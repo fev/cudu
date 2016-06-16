@@ -1,5 +1,6 @@
 package org.scoutsfev.cudu.web;
 
+import org.scoutsfev.cudu.db.tables.pojos.InformacionPago;
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionBalance;
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionGrupos;
 import org.scoutsfev.cudu.domain.dto.LiquidacionBalanceDto;
@@ -32,6 +33,7 @@ public class LiquidacionController {
     public LiquidacionBalanceDto balanceGrupo(@PathVariable("grupoId") String grupoId, @PathVariable("rondaId") Short rondaId) {
         List<LiquidacionBalance> balances = storage.balanceGrupo(grupoId, rondaId);
         LiquidacionGrupos resumen = storage.resumenPorGrupo(grupoId, rondaId);
-        return new LiquidacionBalanceDto(resumen.getActivos(), resumen.getBalance(), balances);
+        InformacionPago informacionPago = storage.informacionPago(grupoId);
+        return new LiquidacionBalanceDto(resumen.getNombre(), resumen.getActivos(), resumen.getBalance(), balances, informacionPago);
     }
 }

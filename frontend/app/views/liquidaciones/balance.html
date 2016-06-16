@@ -6,10 +6,11 @@
       <div class="material-panel-level-2">
         <div class="mat-toolbar text-right no-print">
           <a href="#/liquidaciones/grupos" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-list-ul"></i> &nbsp;<%=liquidaciones.desglosePorGrupos%></a>
-          <button ng-click="ctrl.mostrarDialogoCrearUsuario()" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-plus"></i> &nbsp;<%=liquidaciones.nueva%></button>
+          <button ng-click="ctrl.mostrarDialogoEditarLiquidacion()" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-plus"></i> &nbsp;<%=liquidaciones.nueva%></button>
+          <a href="javascript:window.print()" type="button" class="btn btn-default"><i class="fa fa-print"></i> &nbsp;<%=liquidaciones.imprimir%></a>
           <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-              <i class="fa fa-calendar"></i> <%=liquidaciones.ronda%> <span class="caret"></span>
+              <i class="fa fa-calendar"></i> &nbsp;<%=liquidaciones.ronda%> <span class="caret"></span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
               <li ng-class="{active: rondaId == 2015}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2015)"><i class="fa fa-check fa-fw"></i> 2015-2016</a></li>
@@ -20,7 +21,19 @@
             </ul>
           </div>
         </div>
-        <div class="mat-toolbar-expand"><h1>Liquidaciones Ain-Karen</h1></div>
+        <div class="mat-toolbar-expand">
+          <div class="row">
+            <div class="col-md-10">
+              <h1>Liquidaciones {{nombreGrupo}} {{rondaEtiqueta}}</span></h1>
+            </div>
+            <div class="col-md-2 text-right hidden">
+              <h1 style="margin-right: 20px">
+                <a href="#/liquidaciones/balance/ABX/2015"><i class="fa fa-angle-left"></i></a>&nbsp;&nbsp;&nbsp;
+                <a href="#/liquidaciones/balance/BEL/2015"><i class="fa fa-angle-right"></i></a>
+              </h1>
+            </div>
+          </div>
+        </div>
         <div class="panel-content">
           <div class="row" style="margin-bottom: 25px">
             <div class="col-md-7">
@@ -29,21 +42,24 @@
               <span ng-show="!balancePositivo"><%=liquidaciones.balanceNegativo %> {{totalAjustadoAbs}}€</span>
               <br>
               <%=liquidaciones.totalActivos%>: {{resumen.numeroActualAsociados}} <br>
+              <span ng-show="balancePositivo">Puedes dar de alta {{resumen.total}} asociados adicionales sin pagar.<br></span>
               <a href="mailto:<%=liquidaciones.mailTo%>"><%=liquidaciones.dudas%></a>
             </div>
-            <div class="col-md-5">
+            <div id="informacionPago" class="col-md-5">
               <i class="fa fa-credit-card" aria-hidden="true"></i> <b><%=liquidaciones.ingresoEnCuenta%></b> <br>
-              <%=liquidaciones.titular%>: Federació d'Escoltisme Valencià. <br>
-              <%=liquidaciones.concepto%>: {{ctrl.crearReferencia(ultima)}}<br>
+              <%=liquidaciones.titular%>: {{informacionPago.titular}} <br>
+              <%=liquidaciones.concepto%>: {{informacionPago.concepto}}<br>
               <%=liquidaciones.cantidadAIngresar%>: {{totalAjustadoAbs}}€ <br>
-              <%=liquidaciones.numeroCuenta%>: TR33 0006 1005 1978 6457 8413 26
+              <%=liquidaciones.numeroCuenta%>: {{informacionPago.iban}}
             </div>
           </div>
           <table class="table table-condensed table-hover">
             <thead>
               <tr>
-                <th><%=liquidaciones.ronda %></th>
+                <th></th>
                 <th><%=liquidaciones.id %></th>
+                <th><%=liquidaciones.estado %></th>
+                <th><%=liquidaciones.fecha %></th>
                 <th class="text-right"><%=liquidaciones.activos %></th>
                 <th class="text-right"><%=liquidaciones.diferencia %></th>
                 <th class="text-right"><%=liquidaciones.precioUnitario %></th>
@@ -53,9 +69,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="liquidacion in resumen.balance" ng-click="ctrl.verDesglose('AK')">
-                <td>2015-2016</td>
+              <tr ng-repeat="liquidacion in resumen.balance" ng-click="ctrl.verDesglose('AK')" ng-class="{borrador: liquidacion.borrador}">
+                <td><i class="fa fa-pencil-square-o"></i></td>
                 <td>{{ctrl.crearReferencia(liquidacion)}}</td>
+                <td>
+                  <span class="emitida"><%=liquidaciones.emitida%></span>
+                  <span class="borrador"><%=liquidaciones.borrador%></span>
+                </td>
+                <td nowrap>{{liquidacion.creadoEn | date:'dd/MM/yy HH:mm'}}</td>
                 <td class="text-right">{{liquidacion.activos}}</td>
                 <td class="text-right">{{liquidacion.diferencia}}</td>
                 <td class="text-right">{{liquidacion.precioUnitario}} €</td>
@@ -64,17 +85,78 @@
                 <td class="text-right">{{liquidacion.balance}} €</td>
               </tr>
               <tr ng-show="resumen.balance.length === 0">
-                <td colspan="8">
+                <td colspan="9">
                   <%=liquidacion.noExisten %>
                 </td>
               </tr>
             </tbody>
             <tfoot ng-hide="resumen.balance.length === 0">
-              <td colspan="6"></td>
+              <td colspan="8"></td>
               <td class="text-right">Total</td>
               <td class="text-right">{{totalAjustado}} €</td>
             </tfoot>
           </table>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <div id="dlgEditarLiquidacion" class="modal fade" ng-class="{'progreso': blabla}">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-body">
+         <h1>Nueva Liquidación</h1>
+         <p>Para la liquidación se considerarán todos los asociados activos en el momento de la generación.
+         Recuerda que si el grupo añade o quita asociados una vez se ha emitido la liquidación, deberás generar
+         una nueva para considerarlos.</p>
+         <form class="form-cudu">
+           <div class="error" ng-show="error != null">{{error}}</div>
+           <div class="form-group">
+            <label for="exampleInputEmail1">Ajuste Manual</label>
+            <input type="email" class="form-control" id="exampleInputEmail1"
+              spellcheck="false" autocomplete="off"
+              placeholder="Opcional. Si lo deseas puedes ignorar el cálculo y establecer el importe a pagar.">
+           </div>
+           <div class="form-group">
+            <label for="exampleInputEmail1">Cantidad pagada por el grupo</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="0€" spellcheck="false" autocomplete="off">
+           </div>
+           <div class="checkbox">
+             <label>
+               <input type="checkbox" ng-model="borrador">Marcar como <b>borrador</b>.
+               La liquidación no será visible para el grupo y el importe no se verá reflejado en el total.
+               Utiliza esta opción para hacer pruebas antes de emitirla.
+             </label>
+           </div>
+         </form>
+         <table class="table table-condensed table-bordered">
+           <thead>
+             <tr>
+               <th>Fecha</th>
+               <th class="text-right">Activos</th>
+               <th class="text-right">Diferencia</th>
+               <th class="text-right">Precio</th>
+               <th class="text-right">Sub Total</th>
+               <th class="text-right">Balance</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr>
+               <td>03/04/16 19:34</td>
+               <td class="text-right">150</td>
+               <td class="text-right">-34</td>
+               <td class="text-right">1€</td>
+               <td class="text-right">240€</td>
+               <td class="text-right">-12€</td>
+             </tr>
+           </tbody>
+         </table>
+       </div>
+       <div class="modal-footer">
+         <button ng-click="" type="button" class="btn btn-primary">
+           <i class="fa fa-spinner fa-spin solo-progreso"></i>Guardar
+         </button>
+         <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>
        </div>
      </div>
    </div>

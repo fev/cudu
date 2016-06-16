@@ -6,6 +6,7 @@ package org.scoutsfev.cudu.db.tables.pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionBalance implements Serializable {
 
-	private static final long serialVersionUID = -697812588;
+	private static final long serialVersionUID = 984323860;
 
 	private final String     grupoId;
 	private final Short      rondaId;
@@ -35,6 +36,8 @@ public class LiquidacionBalance implements Serializable {
 	private final BigDecimal ajusteManual;
 	private final BigDecimal pagado;
 	private final BigDecimal balance;
+	private final Timestamp  creadoEn;
+	private final Boolean    borrador;
 
 	public LiquidacionBalance(LiquidacionBalance value) {
 		this.grupoId = value.grupoId;
@@ -47,6 +50,8 @@ public class LiquidacionBalance implements Serializable {
 		this.ajusteManual = value.ajusteManual;
 		this.pagado = value.pagado;
 		this.balance = value.balance;
+		this.creadoEn = value.creadoEn;
+		this.borrador = value.borrador;
 	}
 
 	public LiquidacionBalance(
@@ -59,7 +64,9 @@ public class LiquidacionBalance implements Serializable {
 		BigDecimal subtotal,
 		BigDecimal ajusteManual,
 		BigDecimal pagado,
-		BigDecimal balance
+		BigDecimal balance,
+		Timestamp  creadoEn,
+		Boolean    borrador
 	) {
 		this.grupoId = grupoId;
 		this.rondaId = rondaId;
@@ -71,6 +78,8 @@ public class LiquidacionBalance implements Serializable {
 		this.ajusteManual = ajusteManual;
 		this.pagado = pagado;
 		this.balance = balance;
+		this.creadoEn = creadoEn;
+		this.borrador = borrador;
 	}
 
 	public String getGrupoId() {
@@ -111,5 +120,13 @@ public class LiquidacionBalance implements Serializable {
 
 	public BigDecimal getBalance() {
 		return this.balance;
+	}
+
+	public Timestamp getCreadoEn() {
+		return this.creadoEn;
+	}
+
+	public Boolean getBorrador() {
+		return this.borrador;
 	}
 }
