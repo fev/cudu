@@ -9,6 +9,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,6 +30,11 @@ public class GrupoController {
         this.grupoRepository = grupoRepository;
         this.eventPublisher = eventPublisher;
         this.authorizationService = authorizationService;
+    }
+
+    @RequestMapping(value = "/grupo/all", method = RequestMethod.GET)
+    public Page<Grupo> listado(@AuthenticationPrincipal Usuario usuario, Pageable pageable) {
+        return grupoRepository.findAll(pageable);
     }
 
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.GET)
