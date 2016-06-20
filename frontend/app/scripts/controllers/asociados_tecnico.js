@@ -11,7 +11,8 @@ angular.module('cuduApp')
             grupoId: '',
             sexo: '',
             ramasSeparadasPorComas: '',
-            nombreApellido: ''
+            nombreApellido: '',
+            activo: true
         };
     };
     
@@ -197,6 +198,12 @@ angular.module('cuduApp')
     $scope.verGrupo = function() {
         const me = this;
         $location.path('/grupo/' + $scope.grupoSeleccionado.id);
+    };
+    
+    $scope.mostrarInactivos = function() {
+        const me = this;
+          me.filtro.activo = !me.filtro.activo;
+          me.filtraAsociados(); 
     };
 
     $scope.filtro = new $scope.AsociadoFiltro();

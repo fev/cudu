@@ -62,7 +62,10 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         if (!Strings.isNullOrEmpty(grupoId)) base = base.and(GRUPO.ID.equal(grupoId));
         if (tipo != null) base = base.and(ASOCIADO.TIPO.eq(String.valueOf(tipo.getTipo())));
         if (ramas != null) base = añadirCondicionesDeRama(base, ramas);
-        if (activo != null) base = base.and(ASOCIADO.ACTIVO.eq(activo));
+        if (activo == null) {
+            activo = true;
+        }
+        base = base.and(ASOCIADO.ACTIVO.eq(activo));
         if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
         if(!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
 
