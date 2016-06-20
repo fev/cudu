@@ -48,6 +48,11 @@ angular
         controller: 'AsociadoCtrl',
         seccion: 'asociado'
       })
+      .when('/asociado/:id', {
+        templateUrl: 'i18n/views/asociado.html',
+        controller: 'AsociadoCtrl',
+        seccion: 'asociado'
+      })
       .when('/grupo/:id', {
         templateUrl: 'i18n/views/grupo.html',
         controller: 'GrupoCtrl',

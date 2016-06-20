@@ -205,6 +205,11 @@ angular.module('cuduApp')
           me.filtro.activo = !me.filtro.activo;
           me.filtraAsociados(); 
     };
+    
+    $scope.verAsociado = function(id) {
+        const me = this;
+        $location.path('/asociado/' + id);
+    };
 
     $scope.filtro = new $scope.AsociadoFiltro();
     $scope.scroll = new $scope.Scroll();

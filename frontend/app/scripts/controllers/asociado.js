@@ -11,13 +11,10 @@ var estados = {
 };
 
 angular.module('cuduApp')
-  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha',
-      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha) {
+  .controller('AsociadoCtrl', ['$scope', '$routeParams', '$location', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha',
+      function ($scope, $routeParams, $location, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
-    Asociado.query(function(asociados) {
-      $scope.asociados = asociados.content;
-    });
 
     $scope.fichas = [];
     Ficha.queryAll(0, function (data) {
@@ -91,6 +88,19 @@ angular.module('cuduApp')
       marcarCambiosPendientes();
       $scope.asociado = generarAsociadoVacio();
     };
+    
+    $scope.obtenerAsociado = function(id) {
+      Asociado.get({ 'id': id }, function(asociado) {
+          asociado.marcado = original.marcado;
+          asociado.guardado = original.guardado;
+          asociado.puntosCovol = calcularPuntosCovol(asociado);
+          $scope.asociado = asociado;
+          $scope.asociados[pos] = asociado;
+          if(!$scope.esTecnico) {
+            emitirAsociadoEditandose(asociado);   
+          }
+        });  
+    };
 
     $scope.editar = function(id) {
       marcarCambiosPendientes();
@@ -104,14 +114,7 @@ angular.module('cuduApp')
         $scope.asociado = original;
         emitirAsociadoEditandose(original);
       } else {
-        Asociado.get({ 'id': id }, function(asociado) {
-          asociado.marcado = original.marcado;
-          asociado.guardado = original.guardado;
-          asociado.puntosCovol = calcularPuntosCovol(asociado);
-          $scope.asociado = asociado;
-          $scope.asociados[pos] = asociado;
-          emitirAsociadoEditandose(asociado);
-        });
+        $scope.obtenerAsociado(id);
       }
     };
 
@@ -432,6 +435,25 @@ angular.module('cuduApp')
         Asociado.cambiarTipo({ }, { asociados: f.marcados, tipo: tipo }, f.completado, f.error);
       }
     };
+    
+    $scope.volver = function() {
+        $location.path('/tecnico/asociados');
+    };
+    
+    $scope.editarAsociadoTecnico = function(id) {
+        Asociado.get({ 'id': id }, function(asociado) {
+          $scope.asociado = asociado;
+        });  
+    };
+    
+    if(Usuario.usuario.tipo === 'T' && $routeParams.id) {
+        $scope.esTecnico = true;
+        $scope.editarAsociadoTecnico($routeParams.id);
+    } else {
+        Asociado.query(function(asociados) {
+            $scope.asociados = asociados.content;
+        });
+    }
 
     var calcularRamaRecomendada = function(fechaNacimiento) {
       var edad = Usuario.calcularEdad(fechaNacimiento);
