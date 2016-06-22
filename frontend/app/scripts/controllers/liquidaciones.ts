@@ -33,11 +33,19 @@ module Cudu.Liquidaciones {
   }
 
   interface LiquidacionBalanceDetalle {
+    activos: number;
+    ajusteManual: number;
+    balance: number;
+    borrador: boolean;
+    creadoEn: string;
+    diferencia: number;
     grupoId: string;
-    rondaId: number;
     liquidacionId: number;
     pagado: number;
-    balance: number;
+    precioUnitario: number;
+    rondaId: number;
+    subtotal: number;
+    referencia: string;
   }
 
   interface InformacionPago {
@@ -62,19 +70,7 @@ module Cudu.Liquidaciones {
     informacionPago: InformacionPago;
     rondaEtiqueta: string;
     nombreGrupo: string;
-  }
-
-  interface EditarLiquidacion {
-    id: number;
-    fecha: string;
-    activos: number;
-    diferencia: number;
-    precioUnitario: number;
-    subtotal: number;
-    balance: number;
-    borrador: boolean;
-    ajusteManual?: number;
-    pagado?: number;
+    seleccionada?: LiquidacionBalanceDetalle;
   }
 
   interface LiquidacionesBalanceRouteParams extends angular.route.IRouteParamsService {
@@ -92,6 +88,8 @@ module Cudu.Liquidaciones {
       this.$scope.rondaId = $routeParams.rondaId || service.rondaActual();
       this.$scope.rondaEtiqueta = this.$scope.rondaId + '-' + (1 + parseInt(<any>this.$scope.rondaId));
       this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId);
+      this.modalEditarLiquidacion.subscribe(Cudu.Ux.ModalEvent.BeforeHide, () => this.despuesCerrarModalLiquidacion());
+      $scope.$on('$destroy', () => { this.modalEditarLiquidacion.unsubscribe(); });
     }
 
     cargarBalanceGrupoActual(rondaId: number) {
@@ -102,8 +100,35 @@ module Cudu.Liquidaciones {
       this.$location.path('/liquidaciones/desglose/' + liquidacionId);
     }
 
-    mostrarDialogoEditarLiquidacion() {
+    nuevaLiquidacion() {
+      this.service.crearLiquidacion(this.$scope.grupoId, this.$scope.rondaId).then(resumen => {
+        this.$scope.seleccionada = _.last(resumen.balance);
+        this.modalEditarLiquidacion.show();
+      });
+      // TODO Error
+      // .catch(e => { });
+    }
+
+    editarLiquidacion(l: LiquidacionBalanceDetalle) {
+      // this.$scope.seleccionada = _.clone(liquidacion);
+      this.$scope.seleccionada = l;
       this.modalEditarLiquidacion.show();
+    }
+
+    eliminarLiquidacion(l: LiquidacionBalanceDetalle) {
+      this.$scope.seleccionada = null;
+      this.service.eliminarLiquidacion(l.grupoId, l.rondaId, l.liquidacionId).then(() => {
+        this.modalEditarLiquidacion.hide();
+      });
+    }
+
+    guardarLiquidacion(l: LiquidacionBalanceDetalle) {
+      // TODO Si se abre como nueva, no guardar, solo recarga de resumen
+      var ajusteManual = <any>l.ajusteManual == "0" ? null : l.ajusteManual;
+      var pagado = <any>l.pagado == "0" ? null : l.pagado;
+      this.service.guardarLiquidacion(l.grupoId, l.rondaId, l.liquidacionId, l.ajusteManual, l.pagado, l.borrador).then(resumen => {
+        this.modalEditarLiquidacion.hide();
+      });
     }
 
     crearReferencia(liquidacion: LiquidacionBalanceDetalle) {
@@ -113,22 +138,30 @@ module Cudu.Liquidaciones {
       return liquidacion.grupoId + "-" + liquidacion.rondaId + "-" + liquidacion.liquidacionId;
     }
 
+    private despuesCerrarModalLiquidacion() {
+      this.cargarBalanceGrupo(this.$scope.grupoId, this.$scope.rondaId);
+    }
+
     private cargarBalanceGrupo(grupoId: string, rondaId: number) {
-      this.service.balanceGrupo(grupoId, rondaId).then(l => {
-        this.$scope.resumen = l;
-        this.$scope.nombreGrupo = l.nombreGrupo;
-        this.$scope.totalAjustado = this.limitarTotal(l.total);
-        this.$scope.totalAjustadoAbs = Math.abs(this.$scope.totalAjustado);
-        this.$scope.balancePositivo = l.total > 0;
-        this.$scope.rondaId = rondaId;
-        this.$scope.informacionPago = l.informacionPago;
-        var ultimaSinPagar = _.findLast(l.balance, b => b.pagado === 0);
-        if (ultimaSinPagar) {
-          this.$scope.informacionPago.concepto = this.crearReferencia(ultimaSinPagar);
-        } else {
-          this.$scope.informacionPago.concepto = "—";
-        }
+      this.service.balanceGrupo(grupoId, rondaId).then(resumen => {
+        this.procesarResumen(resumen, rondaId);
       });
+    }
+
+    private procesarResumen(resumen: LiquidacionBalanceDto, rondaId: number) {
+      this.$scope.resumen = resumen;
+      this.$scope.nombreGrupo = resumen.nombreGrupo;
+      this.$scope.totalAjustado = this.limitarTotal(resumen.total);
+      this.$scope.totalAjustadoAbs = Math.abs(this.$scope.totalAjustado);
+      this.$scope.balancePositivo = resumen.total > 0;
+      this.$scope.rondaId = rondaId;
+      this.$scope.informacionPago = resumen.informacionPago;
+      var ultimaSinPagar = _.findLast(resumen.balance, b => b.pagado === 0);
+      if (ultimaSinPagar) {
+        this.$scope.informacionPago.concepto = this.crearReferencia(ultimaSinPagar);
+      } else {
+        this.$scope.informacionPago.concepto = "—";
+      }
     }
 
     private limitarTotal(total: number): number {
@@ -159,6 +192,9 @@ module Cudu.Liquidaciones {
     rondaActual(): number;
     resumenPorGrupos(rondaId: number): ng.IPromise<LiquidacionGrupoDto[]>;
     balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto>;
+    crearLiquidacion(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto>;
+    eliminarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number): ng.IPromise<LiquidacionBalanceDto>;
+    guardarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number, ajusteManual: number, pagado: number, borrador: boolean): ng.IPromise<LiquidacionBalanceDto>
   }
 
   class LiquidacionesServiceImpl implements LiquidacionesService {
@@ -176,8 +212,21 @@ module Cudu.Liquidaciones {
       return this.http.get<LiquidacionGrupoDto[]>("/api/liquidaciones/grupos/" + rondaId).then(g => g.data);
     }
 
-    balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto> {
+    balanceGrupo(grupoId: string, rondaId: number) {
       return this.http.get<LiquidacionBalanceDto>("/api/liquidaciones/balance/" + grupoId + '/' + rondaId).then(g => g.data);
+    }
+
+    crearLiquidacion(grupoId: string, rondaId: number) {
+      return this.http.post("/api/liquidaciones/balance/" + grupoId + '/' + rondaId, {}).then(f => f.data);
+    }
+
+    eliminarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number) {
+      return this.http.delete("/api/liquidaciones/balance/" + grupoId + '/' + rondaId + "/" + liquidacionId);
+    }
+
+    guardarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number, ajusteManual: number, pagado: number, borrador: boolean) {
+      var payload = { id: liquidacionId, ajusteManual: ajusteManual, pagado: pagado, borrador: borrador };
+      return this.http.put("/api/liquidaciones/balance/" + grupoId + '/' + rondaId + "/" + liquidacionId, payload).then(f => f.data);
     }
   }
 

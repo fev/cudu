@@ -33,7 +33,7 @@ import org.scoutsfev.cudu.db.tables.records.LiquidacionAsociadoRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionAsociado extends TableImpl<LiquidacionAsociadoRecord> {
 
-	private static final long serialVersionUID = 201100995;
+	private static final long serialVersionUID = -558849773;
 
 	/**
 	 * The reference instance of <code>public.liquidacion_asociado</code>
@@ -59,14 +59,54 @@ public class LiquidacionAsociado extends TableImpl<LiquidacionAsociadoRecord> {
 	public final TableField<LiquidacionAsociadoRecord, Integer> ASOCIADO_ID = createField("asociado_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
-	 * The column <code>public.liquidacion_asociado.alta</code>.
+	 * The column <code>public.liquidacion_asociado.tipo</code>.
 	 */
-	public final TableField<LiquidacionAsociadoRecord, Boolean> ALTA = createField("alta", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+	public final TableField<LiquidacionAsociadoRecord, String> TIPO = createField("tipo", org.jooq.impl.SQLDataType.CHAR.length(1).nullable(false), this, "");
 
 	/**
-	 * The column <code>public.liquidacion_asociado.creado_en</code>.
+	 * The column <code>public.liquidacion_asociado.nombre</code>.
 	 */
-	public final TableField<LiquidacionAsociadoRecord, Timestamp> CREADO_EN = createField("creado_en", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+	public final TableField<LiquidacionAsociadoRecord, String> NOMBRE = createField("nombre", org.jooq.impl.SQLDataType.VARCHAR.length(30), this, "");
+
+	/**
+	 * The column <code>public.liquidacion_asociado.apellidos</code>.
+	 */
+	public final TableField<LiquidacionAsociadoRecord, String> APELLIDOS = createField("apellidos", org.jooq.impl.SQLDataType.VARCHAR.length(100), this, "");
+
+	/**
+	 * The column <code>public.liquidacion_asociado.fecha_alta</code>.
+	 */
+	public final TableField<LiquidacionAsociadoRecord, Timestamp> FECHA_ALTA = createField("fecha_alta", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+
+	/**
+	 * The column <code>public.liquidacion_asociado.fecha_actualizacion</code>.
+	 */
+	public final TableField<LiquidacionAsociadoRecord, Timestamp> FECHA_ACTUALIZACION = createField("fecha_actualizacion", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+
+	/**
+	 * The column <code>public.liquidacion_asociado.rama_colonia</code>.
+	 */
+	public final TableField<LiquidacionAsociadoRecord, Boolean> RAMA_COLONIA = createField("rama_colonia", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.liquidacion_asociado.rama_manada</code>.
+	 */
+	public final TableField<LiquidacionAsociadoRecord, Boolean> RAMA_MANADA = createField("rama_manada", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.liquidacion_asociado.rama_exploradores</code>.
+	 */
+	public final TableField<LiquidacionAsociadoRecord, Boolean> RAMA_EXPLORADORES = createField("rama_exploradores", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.liquidacion_asociado.rama_expedicion</code>.
+	 */
+	public final TableField<LiquidacionAsociadoRecord, Boolean> RAMA_EXPEDICION = createField("rama_expedicion", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.liquidacion_asociado.rama_ruta</code>.
+	 */
+	public final TableField<LiquidacionAsociadoRecord, Boolean> RAMA_RUTA = createField("rama_ruta", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.liquidacion_asociado</code> table reference

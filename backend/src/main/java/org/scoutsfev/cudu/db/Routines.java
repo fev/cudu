@@ -11,6 +11,7 @@ import javax.annotation.Generated;
 import org.jooq.AggregateFunction;
 import org.jooq.Configuration;
 import org.jooq.Field;
+import org.scoutsfev.cudu.db.routines.CrearLiquidacion;
 import org.scoutsfev.cudu.db.routines.Edad;
 import org.scoutsfev.cudu.db.routines.Last;
 import org.scoutsfev.cudu.db.routines.LastAgg;
@@ -28,6 +29,43 @@ import org.scoutsfev.cudu.db.routines.LastAgg;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Routines {
+
+	/**
+	 * Call <code>public.crear_liquidacion</code>
+	 */
+	public static Integer crearLiquidacion(Configuration configuration, String grupoId, Short rondaId, String creadoPor) {
+		CrearLiquidacion f = new CrearLiquidacion();
+		f.setGrupoId(grupoId);
+		f.setRondaId(rondaId);
+		f.setCreadoPor(creadoPor);
+
+		f.execute(configuration);
+		return f.getReturnValue();
+	}
+
+	/**
+	 * Get <code>public.crear_liquidacion</code> as a field
+	 */
+	public static Field<Integer> crearLiquidacion(String grupoId, Short rondaId, String creadoPor) {
+		CrearLiquidacion f = new CrearLiquidacion();
+		f.setGrupoId(grupoId);
+		f.setRondaId(rondaId);
+		f.setCreadoPor(creadoPor);
+
+		return f.asField();
+	}
+
+	/**
+	 * Get <code>public.crear_liquidacion</code> as a field
+	 */
+	public static Field<Integer> crearLiquidacion(Field<String> grupoId, Field<Short> rondaId, Field<String> creadoPor) {
+		CrearLiquidacion f = new CrearLiquidacion();
+		f.setGrupoId(grupoId);
+		f.setRondaId(rondaId);
+		f.setCreadoPor(creadoPor);
+
+		return f.asField();
+	}
 
 	/**
 	 * Call <code>public.edad</code>

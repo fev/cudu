@@ -62,10 +62,7 @@
         </div>
 
         <ul class="nav nav-tabs">
-          <li ng-class="{active: tabActivo == 0}"><a href="javascript:" ng-click="seleccionarTab(0)"><%= grupo.contacto %></a></li>
-          <li class="disabled"><a href="javascript:"><%= grupo.liquidaciones %></a></li>
-          <li class="disabled"><a href="javascript:"><%= grupo.cargos %></a></li>
-          <li class="disabled"><a href="javascript:"><%= grupo.historico %></a></li>
+          <li ng-class="{active: tabActivo == 0}"><a href="javascript:" ng-click="seleccionarTab(0)"><%= grupo.contacto %></a></li>          
         </ul>
 
         <div class="row tab-content" ng-show="tabActivo == 0">

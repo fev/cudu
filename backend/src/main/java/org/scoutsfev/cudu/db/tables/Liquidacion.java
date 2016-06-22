@@ -5,7 +5,6 @@ package org.scoutsfev.cudu.db.tables;
 
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +36,7 @@ import org.scoutsfev.cudu.db.tables.records.LiquidacionRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Liquidacion extends TableImpl<LiquidacionRecord> {
 
-	private static final long serialVersionUID = -355545901;
+	private static final long serialVersionUID = 1307604390;
 
 	/**
 	 * The reference instance of <code>public.liquidacion</code>
@@ -66,11 +65,6 @@ public class Liquidacion extends TableImpl<LiquidacionRecord> {
 	 * The column <code>public.liquidacion.ronda_id</code>.
 	 */
 	public final TableField<LiquidacionRecord, Short> RONDA_ID = createField("ronda_id", org.jooq.impl.SQLDataType.SMALLINT.nullable(false), this, "");
-
-	/**
-	 * The column <code>public.liquidacion.fecha</code>.
-	 */
-	public final TableField<LiquidacionRecord, Date> FECHA = createField("fecha", org.jooq.impl.SQLDataType.DATE.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>public.liquidacion.borrador</code>.
@@ -155,7 +149,7 @@ public class Liquidacion extends TableImpl<LiquidacionRecord> {
 	 */
 	@Override
 	public List<UniqueKey<LiquidacionRecord>> getKeys() {
-		return Arrays.<UniqueKey<LiquidacionRecord>>asList(Keys.PK_LIQUIDACION, Keys.UQ_LIQUIDACION);
+		return Arrays.<UniqueKey<LiquidacionRecord>>asList(Keys.PK_LIQUIDACION);
 	}
 
 	/**

@@ -6,7 +6,7 @@
       <div class="material-panel-level-2">
         <div class="mat-toolbar text-right no-print">
           <a href="#/liquidaciones/grupos" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-list-ul"></i> &nbsp;<%=liquidaciones.desglosePorGrupos%></a>
-          <button ng-click="ctrl.mostrarDialogoEditarLiquidacion()" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-plus"></i> &nbsp;<%=liquidaciones.nueva%></button>
+          <button ng-click="ctrl.nuevaLiquidacion()" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-plus"></i> &nbsp;<%=liquidaciones.nueva%></button>
           <a href="javascript:window.print()" type="button" class="btn btn-default"><i class="fa fa-print"></i> &nbsp;<%=liquidaciones.imprimir%></a>
           <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -70,7 +70,7 @@
             </thead>
             <tbody>
               <tr ng-repeat="liquidacion in resumen.balance" ng-click="ctrl.verDesglose('AK')" ng-class="{borrador: liquidacion.borrador}">
-                <td><i class="fa fa-pencil-square-o"></i></td>
+                <td ng-click="ctrl.editarLiquidacion(liquidacion); $event.stopPropagation()"><i class="fa fa-pencil-square-o"></i></td>
                 <td>{{ctrl.crearReferencia(liquidacion)}}</td>
                 <td>
                   <span class="emitida"><%=liquidaciones.emitida%></span>
@@ -80,8 +80,8 @@
                 <td class="text-right">{{liquidacion.activos}}</td>
                 <td class="text-right">{{liquidacion.diferencia}}</td>
                 <td class="text-right">{{liquidacion.precioUnitario}} €</td>
-                <td class="text-right editable">{{liquidacion.ajusteManual | coalesce:'&mdash;'}} €</td>
-                <td class="text-right editable">{{liquidacion.pagado}} €</td>
+                <td class="text-right">{{liquidacion.ajusteManual | coalesce:'&mdash;'}} €</td>
+                <td class="text-right">{{liquidacion.pagado}} €</td>
                 <td class="text-right">{{liquidacion.balance}} €</td>
               </tr>
               <tr ng-show="resumen.balance.length === 0">
@@ -105,25 +105,24 @@
    <div class="modal-dialog">
      <div class="modal-content">
        <div class="modal-body">
-         <h1>Nueva Liquidación</h1>
+         <h1>Liquidación {{ctrl.crearReferencia(seleccionada)}}</h1>
          <p>Para la liquidación se considerarán todos los asociados activos en el momento de la generación.
          Recuerda que si el grupo añade o quita asociados una vez se ha emitido la liquidación, deberás generar
          una nueva para considerarlos.</p>
          <form class="form-cudu">
            <div class="error" ng-show="error != null">{{error}}</div>
            <div class="form-group">
-            <label for="exampleInputEmail1">Ajuste Manual</label>
-            <input type="email" class="form-control" id="exampleInputEmail1"
-              spellcheck="false" autocomplete="off"
+            <label>Ajuste Manual {{hello}}</label>
+            <input ng-model="seleccionada.ajusteManual" class="form-control" spellcheck="false" autocomplete="off"
               placeholder="Opcional. Si lo deseas puedes ignorar el cálculo y establecer el importe a pagar.">
            </div>
            <div class="form-group">
-            <label for="exampleInputEmail1">Cantidad pagada por el grupo</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="0€" spellcheck="false" autocomplete="off">
+            <label>Cantidad pagada por el grupo</label>
+            <input ng-model="seleccionada.pagado" class="form-control" placeholder="0€" spellcheck="false" autocomplete="off">
            </div>
            <div class="checkbox">
              <label>
-               <input type="checkbox" ng-model="borrador">Marcar como <b>borrador</b>.
+               <input type="checkbox" ng-model="seleccionada.borrador">Marcar como <b>borrador</b>.
                La liquidación no será visible para el grupo y el importe no se verá reflejado en el total.
                Utiliza esta opción para hacer pruebas antes de emitirla.
              </label>
@@ -142,18 +141,19 @@
            </thead>
            <tbody>
              <tr>
-               <td>03/04/16 19:34</td>
-               <td class="text-right">150</td>
-               <td class="text-right">-34</td>
-               <td class="text-right">1€</td>
-               <td class="text-right">240€</td>
-               <td class="text-right">-12€</td>
+               <td nowrap>{{seleccionada.creadoEn | date:'dd/MM/yy HH:mm'}}</td>
+               <td class="text-right">{{seleccionada.activos}}</td>
+               <td class="text-right">{{seleccionada.diferencia}}</td>
+               <td class="text-right">{{seleccionada.precioUnitario}}€</td>
+               <td class="text-right">{{seleccionada.subtotal}}€</td>
+               <td class="text-right">{{seleccionada.balance}}€</td>
              </tr>
            </tbody>
          </table>
        </div>
        <div class="modal-footer">
-         <button ng-click="" type="button" class="btn btn-primary">
+         <button ng-click="ctrl.eliminarLiquidacion(seleccionada)" type="button" class="btn btn-default pull-left btn-danger" data-dismiss="modal">Eliminar</button>
+         <button ng-click="ctrl.guardarLiquidacion(seleccionada)" type="button" class="btn btn-primary">
            <i class="fa fa-spinner fa-spin solo-progreso"></i>Guardar
          </button>
          <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>

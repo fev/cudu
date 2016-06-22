@@ -23,30 +23,62 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionAsociado implements Serializable {
 
-	private static final long serialVersionUID = 211323733;
+	private static final long serialVersionUID = 2128788590;
 
 	private final Integer   liquidacionId;
 	private final Integer   asociadoId;
-	private final Boolean   alta;
-	private final Timestamp creadoEn;
+	private final String    tipo;
+	private final String    nombre;
+	private final String    apellidos;
+	private final Timestamp fechaAlta;
+	private final Timestamp fechaActualizacion;
+	private final Boolean   ramaColonia;
+	private final Boolean   ramaManada;
+	private final Boolean   ramaExploradores;
+	private final Boolean   ramaExpedicion;
+	private final Boolean   ramaRuta;
 
 	public LiquidacionAsociado(LiquidacionAsociado value) {
 		this.liquidacionId = value.liquidacionId;
 		this.asociadoId = value.asociadoId;
-		this.alta = value.alta;
-		this.creadoEn = value.creadoEn;
+		this.tipo = value.tipo;
+		this.nombre = value.nombre;
+		this.apellidos = value.apellidos;
+		this.fechaAlta = value.fechaAlta;
+		this.fechaActualizacion = value.fechaActualizacion;
+		this.ramaColonia = value.ramaColonia;
+		this.ramaManada = value.ramaManada;
+		this.ramaExploradores = value.ramaExploradores;
+		this.ramaExpedicion = value.ramaExpedicion;
+		this.ramaRuta = value.ramaRuta;
 	}
 
 	public LiquidacionAsociado(
 		Integer   liquidacionId,
 		Integer   asociadoId,
-		Boolean   alta,
-		Timestamp creadoEn
+		String    tipo,
+		String    nombre,
+		String    apellidos,
+		Timestamp fechaAlta,
+		Timestamp fechaActualizacion,
+		Boolean   ramaColonia,
+		Boolean   ramaManada,
+		Boolean   ramaExploradores,
+		Boolean   ramaExpedicion,
+		Boolean   ramaRuta
 	) {
 		this.liquidacionId = liquidacionId;
 		this.asociadoId = asociadoId;
-		this.alta = alta;
-		this.creadoEn = creadoEn;
+		this.tipo = tipo;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.fechaAlta = fechaAlta;
+		this.fechaActualizacion = fechaActualizacion;
+		this.ramaColonia = ramaColonia;
+		this.ramaManada = ramaManada;
+		this.ramaExploradores = ramaExploradores;
+		this.ramaExpedicion = ramaExpedicion;
+		this.ramaRuta = ramaRuta;
 	}
 
 	public Integer getLiquidacionId() {
@@ -57,11 +89,43 @@ public class LiquidacionAsociado implements Serializable {
 		return this.asociadoId;
 	}
 
-	public Boolean getAlta() {
-		return this.alta;
+	public String getTipo() {
+		return this.tipo;
 	}
 
-	public Timestamp getCreadoEn() {
-		return this.creadoEn;
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public String getApellidos() {
+		return this.apellidos;
+	}
+
+	public Timestamp getFechaAlta() {
+		return this.fechaAlta;
+	}
+
+	public Timestamp getFechaActualizacion() {
+		return this.fechaActualizacion;
+	}
+
+	public Boolean getRamaColonia() {
+		return this.ramaColonia;
+	}
+
+	public Boolean getRamaManada() {
+		return this.ramaManada;
+	}
+
+	public Boolean getRamaExploradores() {
+		return this.ramaExploradores;
+	}
+
+	public Boolean getRamaExpedicion() {
+		return this.ramaExpedicion;
+	}
+
+	public Boolean getRamaRuta() {
+		return this.ramaRuta;
 	}
 }

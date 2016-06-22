@@ -6,7 +6,6 @@ package org.scoutsfev.cudu.db.tables.pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import javax.annotation.Generated;
@@ -25,12 +24,11 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Liquidacion implements Serializable {
 
-	private static final long serialVersionUID = 1937354140;
+	private static final long serialVersionUID = 481033019;
 
 	private final Integer    id;
 	private final String     grupoId;
 	private final Short      rondaId;
-	private final Date       fecha;
 	private final Boolean    borrador;
 	private final BigDecimal ajusteManual;
 	private final BigDecimal pagado;
@@ -44,7 +42,6 @@ public class Liquidacion implements Serializable {
 		this.id = value.id;
 		this.grupoId = value.grupoId;
 		this.rondaId = value.rondaId;
-		this.fecha = value.fecha;
 		this.borrador = value.borrador;
 		this.ajusteManual = value.ajusteManual;
 		this.pagado = value.pagado;
@@ -59,7 +56,6 @@ public class Liquidacion implements Serializable {
 		Integer    id,
 		String     grupoId,
 		Short      rondaId,
-		Date       fecha,
 		Boolean    borrador,
 		BigDecimal ajusteManual,
 		BigDecimal pagado,
@@ -72,7 +68,6 @@ public class Liquidacion implements Serializable {
 		this.id = id;
 		this.grupoId = grupoId;
 		this.rondaId = rondaId;
-		this.fecha = fecha;
 		this.borrador = borrador;
 		this.ajusteManual = ajusteManual;
 		this.pagado = pagado;
@@ -93,10 +88,6 @@ public class Liquidacion implements Serializable {
 
 	public Short getRondaId() {
 		return this.rondaId;
-	}
-
-	public Date getFecha() {
-		return this.fecha;
 	}
 
 	public Boolean getBorrador() {

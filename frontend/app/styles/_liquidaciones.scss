@@ -35,7 +35,6 @@
     .solo-progreso { display: none; }
     .progreso .solo-progreso { display: initial; }
     h1 { font-size: 24px; margin-top: 10px; margin-bottom: 20px; font-weight: 300; }
-    .btn-primary { background-color: $material-teal-700; border-color: $material-teal-700; }
     .form-cudu .form-group { margin: 20px 0px; }
     table { margin-top: 20px; }
     .btn {
@@ -44,13 +43,15 @@
       i.fa { margin-right: 10px; color: $material-teal-700 }
       &:hover { background-color: $material-teal-100 }
     }
-    .btn-primary {
+    .btn-primary, .btn-danger {
       font-weight: 400; color: $material-teal-700; background-color: transparent; border-color: transparent;
       &:hover {
         background-color: $material-teal-700; color: #FFFFFF;
         i.fa { color: #FFFFFF }
       }
     }
+    // .btn-danger { color: $material-grey-800; }
+    .btn-danger:hover {  background-color: $material-red-100; color: $material-red-700; }
     .modal-footer {
       border-top: 0; padding-top: 0px; padding-bottom: 15px;
       .btn+.btn { margin-left: 0 }

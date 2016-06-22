@@ -1,14 +1,15 @@
 package org.scoutsfev.cudu.storage;
 
-import org.scoutsfev.cudu.db.tables.pojos.InformacionPago;
-import org.scoutsfev.cudu.db.tables.pojos.LiquidacionBalance;
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionGrupos;
+import org.scoutsfev.cudu.domain.dto.LiquidacionBalanceDto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface LiquidacionesStorage {
-    LiquidacionGrupos resumenPorGrupo(String grupoId, short rondaId);
     List<LiquidacionGrupos> resumenPorGrupos(short rondaId);
-    List<LiquidacionBalance> balanceGrupo(String grupoId, short rondaId);
-    InformacionPago informacionPago(String grupoId);
+    LiquidacionBalanceDto balanceGrupo(String grupoId, short rondaId);
+    int crear(String grupoId, short rondaId, String creadoPor);
+    void eliminar(int liquidacionId);
+    void editar(int liquidacionId, BigDecimal ajusteManual, BigDecimal pagado, boolean borrador);
 }

@@ -89,7 +89,6 @@ public class Keys {
 	public static final UniqueKey<ImpresionRecord> IMPRESION_PKEY = UniqueKeys0.IMPRESION_PKEY;
 	public static final UniqueKey<InformacionPagoRecord> PK_INFORMACION_PAGO = UniqueKeys0.PK_INFORMACION_PAGO;
 	public static final UniqueKey<LiquidacionRecord> PK_LIQUIDACION = UniqueKeys0.PK_LIQUIDACION;
-	public static final UniqueKey<LiquidacionRecord> UQ_LIQUIDACION = UniqueKeys0.UQ_LIQUIDACION;
 	public static final UniqueKey<LiquidacionAsociadoRecord> PK_LIQUIDACION_ASOCIADO = UniqueKeys0.PK_LIQUIDACION_ASOCIADO;
 	public static final UniqueKey<RondaRecord> PK_RONDA = UniqueKeys0.PK_RONDA;
 	public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = UniqueKeys0.SCHEMA_VERSION_PK;
@@ -138,7 +137,6 @@ public class Keys {
 		public static final UniqueKey<ImpresionRecord> IMPRESION_PKEY = createUniqueKey(Impresion.IMPRESION, Impresion.IMPRESION.FICHERO, Impresion.IMPRESION.USUARIO_ID);
 		public static final UniqueKey<InformacionPagoRecord> PK_INFORMACION_PAGO = createUniqueKey(InformacionPago.INFORMACION_PAGO, InformacionPago.INFORMACION_PAGO.ASOCIACIONID);
 		public static final UniqueKey<LiquidacionRecord> PK_LIQUIDACION = createUniqueKey(Liquidacion.LIQUIDACION, Liquidacion.LIQUIDACION.ID);
-		public static final UniqueKey<LiquidacionRecord> UQ_LIQUIDACION = createUniqueKey(Liquidacion.LIQUIDACION, Liquidacion.LIQUIDACION.GRUPO_ID, Liquidacion.LIQUIDACION.FECHA);
 		public static final UniqueKey<LiquidacionAsociadoRecord> PK_LIQUIDACION_ASOCIADO = createUniqueKey(LiquidacionAsociado.LIQUIDACION_ASOCIADO, LiquidacionAsociado.LIQUIDACION_ASOCIADO.LIQUIDACION_ID, LiquidacionAsociado.LIQUIDACION_ASOCIADO.ASOCIADO_ID);
 		public static final UniqueKey<RondaRecord> PK_RONDA = createUniqueKey(Ronda.RONDA, Ronda.RONDA.ID);
 		public static final UniqueKey<SchemaVersionRecord> SCHEMA_VERSION_PK = createUniqueKey(SchemaVersion.SCHEMA_VERSION, SchemaVersion.SCHEMA_VERSION.VERSION);
