@@ -2,10 +2,24 @@ var Cudu;
 (function (Cudu) {
     var Ux;
     (function (Ux) {
+        (function (ModalEvent) {
+            ModalEvent[ModalEvent["BeforeShow"] = 1] = "BeforeShow";
+            ModalEvent[ModalEvent["AfterShow"] = 2] = "AfterShow";
+            ModalEvent[ModalEvent["BeforeHide"] = 3] = "BeforeHide";
+            ModalEvent[ModalEvent["AfterHide"] = 4] = "AfterHide";
+        })(Ux.ModalEvent || (Ux.ModalEvent = {}));
+        var ModalEvent = Ux.ModalEvent;
+        var modalEvents = {
+            1: "show.bs.modal",
+            2: "shown.bs.modal",
+            3: "hide.bs.modal",
+            4: "hidden.bs.modal"
+        };
         var BootstrapModal = (function () {
             function BootstrapModal(elementId, focusOnElementId, select) {
                 this.elementId = elementId;
                 this.focusOnElementId = focusOnElementId;
+                this.events = {};
                 this.command({ show: false });
                 if (focusOnElementId) {
                     if (select === true) {
@@ -15,9 +29,25 @@ var Cudu;
                         $(elementId).on('shown.bs.modal', function () { $(focusOnElementId).focus(); });
                     }
                 }
+                this.events = this.initialEventTrackingHash();
             }
             BootstrapModal.prototype.show = function () { this.command('show'); };
             BootstrapModal.prototype.hide = function () { this.command('hide'); };
+            BootstrapModal.prototype.subscribe = function (event, handler) {
+                var eventStr = modalEvents[event];
+                if (this.events[eventStr] === false) {
+                    this.events[eventStr] = true;
+                    $(this.elementId).on(eventStr, handler);
+                }
+            };
+            BootstrapModal.prototype.unsubscribe = function () {
+                var _this = this;
+                _.forIn(this.events, function (v, k) { $(_this.elementId).off(k); });
+                this.events = this.initialEventTrackingHash();
+            };
+            BootstrapModal.prototype.initialEventTrackingHash = function () {
+                return _.reduce(_.values(modalEvents), function (a, n) { a[n] = false; return a; }, {});
+            };
             BootstrapModal.prototype.command = function (param) {
                 return $(this.elementId).modal(param);
             };
