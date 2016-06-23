@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('cuduApp')
-  .controller('GrupoCtrl', ['$scope', '$routeParams', 'Grupo', 'Usuario', 'Graficas', 'EstadosFormulario', 'Traducciones', function ($scope, $routeParams, Grupo, Usuario, Graficas, EstadosFormulario, Traducciones) {
+  .controller('GrupoCtrl', ['$scope', '$routeParams', '$location', 'Grupo', 'Usuario', 'Graficas', 'EstadosFormulario', 'Traducciones', function ($scope, $routeParams, $location, Grupo, Usuario, Graficas, EstadosFormulario, Traducciones) {
     $scope.estado = EstadosFormulario.LIMPIO;
     var grupo = Usuario.usuario.grupo || { id: -1 };
     if(Usuario.usuario.tipo === 'T' && $routeParams.id) {
@@ -34,6 +34,14 @@ angular.module('cuduApp')
         Traducciones.texto('tipo.C')
       ]
     };
+    
+    $scope.volver = function() {
+        $location.path('/tecnico/asociados');
+    };
+    
+    if(Usuario.usuario.tipo === 'T') {
+        $scope.esTecnico = true;
+    }
 
     Graficas.grupo(grupo.id).success(function(data) {
       $scope.graficas = data;

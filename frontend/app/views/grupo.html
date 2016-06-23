@@ -13,6 +13,7 @@
     <div id="panelEdicion" class="col-md-8">
       <div class="material-panel-level-2">
       <div class="mat-toolbar text-right">
+        <button type="button" ng-if="esTecnico" class="btn btn-default" ng-click="volver()"><%= asociado.volver %></button>
         <button type="button" class="btn btn-default" ng-click="guardar()"><%= grupo.guardar %></button>
       </div>
       <div class="mat-toolbar-expand"><h1>{{grupo.nombre}}</h1></div>
