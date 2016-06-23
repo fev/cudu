@@ -64,9 +64,11 @@ var Cudu;
             };
             LiquidacionesBalanceController.prototype.guardarLiquidacion = function (l) {
                 var _this = this;
-                var ajusteManual = l.ajusteManual == "0" ? null : l.ajusteManual;
-                var pagado = l.pagado == "0" ? null : l.pagado;
-                this.service.guardarLiquidacion(l.grupoId, l.rondaId, l.liquidacionId, l.ajusteManual, l.pagado, l.borrador).then(function (resumen) {
+                var pagado = _.trim(l.pagado);
+                var ajusteManual = _.trim(l.ajusteManual);
+                pagado = pagado === "" ? "0" : pagado;
+                ajusteManual = ajusteManual === "" ? null : ajusteManual;
+                this.service.guardarLiquidacion(l.grupoId, l.rondaId, l.liquidacionId, ajusteManual, pagado, l.borrador).then(function (resumen) {
                     _this.modalEditarLiquidacion.hide();
                 });
             };
@@ -90,10 +92,11 @@ var Cudu;
                 this.$scope.nombreGrupo = resumen.nombreGrupo;
                 this.$scope.totalAjustado = this.limitarTotal(resumen.total);
                 this.$scope.totalAjustadoAbs = Math.abs(this.$scope.totalAjustado);
-                this.$scope.balancePositivo = resumen.total > 0;
+                this.$scope.balancePositivo = resumen.total >= 0;
+                this.$scope.existenAltasCompensadas = resumen.total > 0;
                 this.$scope.rondaId = rondaId;
                 this.$scope.informacionPago = resumen.informacionPago;
-                var ultimaSinPagar = _.findLast(resumen.balance, function (b) { return b.pagado === 0; });
+                var ultimaSinPagar = _.findLast(resumen.balance, function (b) { return b.pagado == 0; });
                 if (ultimaSinPagar) {
                     this.$scope.informacionPago.concepto = this.crearReferencia(ultimaSinPagar);
                 }

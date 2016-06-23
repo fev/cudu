@@ -8,6 +8,7 @@
           <a href="#/liquidaciones/grupos" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-list-ul"></i> &nbsp;<%=liquidaciones.desglosePorGrupos%></a>
           <button ng-click="ctrl.nuevaLiquidacion()" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-plus"></i> &nbsp;<%=liquidaciones.nueva%></button>
           <a href="javascript:window.print()" type="button" class="btn btn-default"><i class="fa fa-print"></i> &nbsp;<%=liquidaciones.imprimir%></a>
+          <a href="mailto:<%=liquidaciones.mailTo%>" type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i>&nbsp; <%=liquidaciones.dudas%></a>
           <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
               <i class="fa fa-calendar"></i> &nbsp;<%=liquidaciones.ronda%> <span class="caret"></span>
@@ -38,12 +39,16 @@
           <div class="row" style="margin-bottom: 25px">
             <div class="col-md-7">
               <h3 class="text-error">{{totalAjustado}}€</h3>
-              <span ng-show="balancePositivo"><%=liquidaciones.balancePositivo %></span>
-              <span ng-show="!balancePositivo"><%=liquidaciones.balanceNegativo %> {{totalAjustadoAbs}}€</span>
-              <br>
-              <%=liquidaciones.totalActivos%>: {{resumen.numeroActualAsociados}} <br>
-              <span ng-show="balancePositivo">Puedes dar de alta {{resumen.total}} asociados adicionales sin pagar.<br></span>
-              <a href="mailto:<%=liquidaciones.mailTo%>"><%=liquidaciones.dudas%></a>
+              <span ng-show="existenAltasCompensadas"><%=liquidaciones.balancePositivoExp1%> {{resumen.total}} <%=liquidaciones.balancePositivoExp2%> {{resumen.total}} <%=liquidaciones.balancePositivoExp3%></span>
+              <span ng-show="balancePositivo && !existenAltasCompensadas"><%=liquidaciones.balancePositivo %></span>
+              <span ng-show="!balancePositivo"><%=liquidaciones.balanceNegativo %> {{totalAjustadoAbs}}€</span><br>
+              <%=liquidaciones.totalActivos%>: {{resumen.numeroActualAsociados}} <br/>
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="seleccionada.borrador">
+                  <%=liquidaciones.incluirBorradores %>
+                </label>
+              </div>
             </div>
             <div id="informacionPago" class="col-md-5">
               <i class="fa fa-credit-card" aria-hidden="true"></i> <b><%=liquidaciones.ingresoEnCuenta%></b> <br>

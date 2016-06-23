@@ -15,7 +15,7 @@ public class EditarLiquidacionDto {
     @Min(0)
     public final BigDecimal ajusteManual;
 
-    @Min(0)
+    @Min(0) @NotNull
     public final BigDecimal pagado;
 
     @NotNull

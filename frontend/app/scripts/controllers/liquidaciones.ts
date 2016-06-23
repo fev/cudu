@@ -65,6 +65,7 @@ module Cudu.Liquidaciones {
     totalAjustado: number;
     totalAjustadoAbs: number;
     balancePositivo: boolean;
+    existenAltasCompensadas: boolean;
     grupoId: string;
     rondaId: number;
     informacionPago: InformacionPago;
@@ -123,10 +124,11 @@ module Cudu.Liquidaciones {
     }
 
     guardarLiquidacion(l: LiquidacionBalanceDetalle) {
-      // TODO Si se abre como nueva, no guardar, solo recarga de resumen
-      var ajusteManual = <any>l.ajusteManual == "0" ? null : l.ajusteManual;
-      var pagado = <any>l.pagado == "0" ? null : l.pagado;
-      this.service.guardarLiquidacion(l.grupoId, l.rondaId, l.liquidacionId, l.ajusteManual, l.pagado, l.borrador).then(resumen => {
+      var pagado = _.trim(<any>l.pagado);
+      var ajusteManual = _.trim(<any>l.ajusteManual);
+      pagado = pagado === "" ? "0" : pagado;
+      ajusteManual = ajusteManual === "" ? null : ajusteManual;
+      this.service.guardarLiquidacion(l.grupoId, l.rondaId, l.liquidacionId, <any>ajusteManual, <any>pagado, l.borrador).then(resumen => {
         this.modalEditarLiquidacion.hide();
       });
     }
@@ -153,10 +155,11 @@ module Cudu.Liquidaciones {
       this.$scope.nombreGrupo = resumen.nombreGrupo;
       this.$scope.totalAjustado = this.limitarTotal(resumen.total);
       this.$scope.totalAjustadoAbs = Math.abs(this.$scope.totalAjustado);
-      this.$scope.balancePositivo = resumen.total > 0;
+      this.$scope.balancePositivo = resumen.total >= 0;
+      this.$scope.existenAltasCompensadas = resumen.total > 0;
       this.$scope.rondaId = rondaId;
       this.$scope.informacionPago = resumen.informacionPago;
-      var ultimaSinPagar = _.findLast(resumen.balance, b => b.pagado === 0);
+      var ultimaSinPagar = _.findLast(resumen.balance, b => b.pagado == 0);
       if (ultimaSinPagar) {
         this.$scope.informacionPago.concepto = this.crearReferencia(ultimaSinPagar);
       } else {
