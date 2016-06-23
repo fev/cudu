@@ -86,7 +86,7 @@
               </tr>
               <tr ng-show="resumen.balance.length === 0">
                 <td colspan="9">
-                  <%=liquidacion.noExisten %>
+                  <%=liquidaciones.noExisten %>
                 </td>
               </tr>
             </tbody>
@@ -105,38 +105,35 @@
    <div class="modal-dialog">
      <div class="modal-content">
        <div class="modal-body">
-         <h1>Liquidación {{ctrl.crearReferencia(seleccionada)}}</h1>
-         <p>Para la liquidación se considerarán todos los asociados activos en el momento de la generación.
-         Recuerda que si el grupo añade o quita asociados una vez se ha emitido la liquidación, deberás generar
-         una nueva para considerarlos.</p>
+         <h1><%=liquidaciones.dlg_liquidacion %> {{ctrl.crearReferencia(seleccionada)}}</h1>
+         <p><%=liquidaciones.dlg_explicacion%></p>
          <form class="form-cudu">
            <div class="error" ng-show="error != null">{{error}}</div>
            <div class="form-group">
-            <label>Ajuste Manual {{hello}}</label>
+            <label><%=liquidaciones.ajusteManual%></label>
             <input ng-model="seleccionada.ajusteManual" class="form-control" spellcheck="false" autocomplete="off"
-              placeholder="Opcional. Si lo deseas puedes ignorar el cálculo y establecer el importe a pagar.">
+              placeholder="<%=liquidaciones.dlg_ajusteManualPlaceholder%>">
            </div>
            <div class="form-group">
-            <label>Cantidad pagada por el grupo</label>
+            <label><%=liquidaciones.dlg_cantidadPagada%></label>
             <input ng-model="seleccionada.pagado" class="form-control" placeholder="0€" spellcheck="false" autocomplete="off">
            </div>
            <div class="checkbox">
              <label>
-               <input type="checkbox" ng-model="seleccionada.borrador">Marcar como <b>borrador</b>.
-               La liquidación no será visible para el grupo y el importe no se verá reflejado en el total.
-               Utiliza esta opción para hacer pruebas antes de emitirla.
+               <input type="checkbox" ng-model="seleccionada.borrador"><%=liquidaciones.dlg_marcarComo%> <b><%=liquidaciones.borradorMinusculas%></b>.
+               <%=liquidaciones.dlg_borradorExplicacion%>
              </label>
            </div>
          </form>
          <table class="table table-condensed table-bordered">
            <thead>
              <tr>
-               <th>Fecha</th>
-               <th class="text-right">Activos</th>
-               <th class="text-right">Diferencia</th>
-               <th class="text-right">Precio</th>
-               <th class="text-right">Sub Total</th>
-               <th class="text-right">Balance</th>
+               <th><%=liquidaciones.fecha%></th>
+               <th class="text-right"><%=liquidaciones.activos%></th>
+               <th class="text-right"><%=liquidaciones.diferencia%></th>
+               <th class="text-right"><%=liquidaciones.precioUnitario%></th>
+               <th class="text-right"><%=liquidaciones.subtotal%></th>
+               <th class="text-right"><%=liquidaciones.balance%></th>
              </tr>
            </thead>
            <tbody>
@@ -152,11 +149,11 @@
          </table>
        </div>
        <div class="modal-footer">
-         <button ng-click="ctrl.eliminarLiquidacion(seleccionada)" type="button" class="btn btn-default pull-left btn-danger" data-dismiss="modal">Eliminar</button>
+         <button ng-click="ctrl.eliminarLiquidacion(seleccionada)" type="button" class="btn btn-default pull-left btn-danger" data-dismiss="modal"><%=liquidaciones.dlg_eliminar%></button>
          <button ng-click="ctrl.guardarLiquidacion(seleccionada)" type="button" class="btn btn-primary">
-           <i class="fa fa-spinner fa-spin solo-progreso"></i>Guardar
+           <i class="fa fa-spinner fa-spin solo-progreso"></i><%=liquidaciones.dlg_guardar%>
          </button>
-         <button type="button" class="btn btn-default" data-dismiss="modal"><%= reset.volver %></button>
+         <button type="button" class="btn btn-default" data-dismiss="modal"><%=liquidaciones.dlg_volver%></button>
        </div>
      </div>
    </div>
