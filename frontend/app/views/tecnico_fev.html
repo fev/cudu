@@ -54,10 +54,10 @@
                     <div class="row padded">
                         <label>Asociación</label>
                         <div class="btn-group btn-group-sm">
-                        <a href="javascript:" ng-click="SdCActivo=!SdCActivo" ng-class="{'active': SdCActivo}" class="btn">SdC</a>
-                        <a href="javascript:" ng-click="SdAActivo=!SdAActivo" ng-class="{'active': SdAActivo}" class="btn">SdA</a>
-                        <a href="javascript:" ng-click="MEVActivo=!MEVActivo" ng-class="{'active': MEVActivo}" class="btn">MEV</a>
-                        <a href="javascript:" ng-click="VoluntariosActivo=!VoluntariosActivo" ng-class="{'active': VoluntariosActivo}" class="btn">Voluntarios</a>
+                        <a href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdC')" ng-class="{'active': filtro.asociacion === 'SdC'}" class="btn">SdC</a>
+                        <a href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdA')" ng-class="{'active': filtro.asociacion === 'SdA'}" class="btn">SdA</a>
+                        <a href="javascript:" ng-click="filtraPropiedad('asociacion', 'MEV')" ng-class="{'active': filtro.asociacion === 'MEV'}" class="btn">MEV</a>
+                        <a href="javascript:" ng-click="filtraPropiedad('tipo', 'Voluntario')" ng-class="{'active': filtro.tipo === 'Voluntario'}" class="btn">Voluntarios</a>
                         </div>
                     </div>
                     <div class="row padded">

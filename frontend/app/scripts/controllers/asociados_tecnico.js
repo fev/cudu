@@ -8,6 +8,7 @@ angular.module('cuduApp')
         return {
             asociacion: '',
             tipo: '',
+            asociacion: '',
             grupoId: '',
             sexo: '',
             ramasSeparadasPorComas: '',
@@ -192,6 +193,16 @@ angular.module('cuduApp')
         const me = this.$parent;
         me.grupoSeleccionado = _.find(me.grupos, { 'id': id});
         me.filtro.grupoId = id === -1 ? '' : id;
+        me.filtraAsociados();
+    };
+    
+    $scope.filtraPropiedad = function(clave, valor) {
+        const me = this;
+        if(me.filtro[clave] === valor) {
+            me.filtro[clave] = '';
+        } else {
+            me.filtro[clave] = valor;   
+        }
         me.filtraAsociados();
     };
     
