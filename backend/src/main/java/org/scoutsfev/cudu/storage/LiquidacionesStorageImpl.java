@@ -84,6 +84,9 @@ public class LiquidacionesStorageImpl implements LiquidacionesStorage {
         else
             totalBalance = resumen.getBalanceSinBorradores();
 
+        if (totalBalance == null)
+            totalBalance = BigDecimal.ZERO;
+
         BigDecimal precioPorAsociado = informacionPago.getPrecioporasociado();
         if (Objects.equals(precioPorAsociado, BigDecimal.ZERO))
             precioPorAsociado = BigDecimal.ONE;
