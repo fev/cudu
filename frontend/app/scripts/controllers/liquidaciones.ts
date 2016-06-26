@@ -72,6 +72,7 @@ module Cudu.Liquidaciones {
     rondaEtiqueta: string;
     nombreGrupo: string;
     seleccionada?: LiquidacionBalanceDetalle;
+    incluirBorradoresEnCalculo: boolean;
   }
 
   interface LiquidacionesBalanceRouteParams extends angular.route.IRouteParamsService {
@@ -87,14 +88,15 @@ module Cudu.Liquidaciones {
         private service: LiquidacionesService) {
       this.$scope.grupoId = $routeParams.grupoId;
       this.$scope.rondaId = $routeParams.rondaId || service.rondaActual();
+      this.$scope.incluirBorradoresEnCalculo = false;
       this.$scope.rondaEtiqueta = this.$scope.rondaId + '-' + (1 + parseInt(<any>this.$scope.rondaId));
-      this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId);
+      this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId, this.$scope.incluirBorradoresEnCalculo);
       this.modalEditarLiquidacion.subscribe(Cudu.Ux.ModalEvent.BeforeHide, () => this.despuesCerrarModalLiquidacion());
       $scope.$on('$destroy', () => { this.modalEditarLiquidacion.unsubscribe(); });
     }
 
     cargarBalanceGrupoActual(rondaId: number) {
-      this.cargarBalanceGrupo(this.$routeParams.grupoId, rondaId);
+      this.cargarBalanceGrupo(this.$routeParams.grupoId, rondaId, this.$scope.incluirBorradoresEnCalculo);
     }
 
     verDesglose(liquidacionId: string) {
@@ -140,12 +142,16 @@ module Cudu.Liquidaciones {
       return liquidacion.grupoId + "-" + liquidacion.rondaId + "-" + liquidacion.liquidacionId;
     }
 
-    private despuesCerrarModalLiquidacion() {
-      this.cargarBalanceGrupo(this.$scope.grupoId, this.$scope.rondaId);
+    cambioInclusionBorradores() {
+      this.cargarBalanceGrupo(this.$scope.grupoId, this.$scope.rondaId, this.$scope.incluirBorradoresEnCalculo);
     }
 
-    private cargarBalanceGrupo(grupoId: string, rondaId: number) {
-      this.service.balanceGrupo(grupoId, rondaId).then(resumen => {
+    private despuesCerrarModalLiquidacion() {
+      this.cargarBalanceGrupo(this.$scope.grupoId, this.$scope.rondaId, this.$scope.incluirBorradoresEnCalculo);
+    }
+
+    private cargarBalanceGrupo(grupoId: string, rondaId: number, incluirBorradores: boolean) {
+      this.service.balanceGrupo(grupoId, rondaId, incluirBorradores).then(resumen => {
         this.procesarResumen(resumen, rondaId);
       });
     }
@@ -194,7 +200,7 @@ module Cudu.Liquidaciones {
   interface LiquidacionesService {
     rondaActual(): number;
     resumenPorGrupos(rondaId: number): ng.IPromise<LiquidacionGrupoDto[]>;
-    balanceGrupo(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto>;
+    balanceGrupo(grupoId: string, rondaId: number, incluirBorradoresEnCalculo: boolean): ng.IPromise<LiquidacionBalanceDto>;
     crearLiquidacion(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto>;
     eliminarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number): ng.IPromise<LiquidacionBalanceDto>;
     guardarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number, ajusteManual: number, pagado: number, borrador: boolean): ng.IPromise<LiquidacionBalanceDto>
@@ -215,8 +221,11 @@ module Cudu.Liquidaciones {
       return this.http.get<LiquidacionGrupoDto[]>("/api/liquidaciones/grupos/" + rondaId).then(g => g.data);
     }
 
-    balanceGrupo(grupoId: string, rondaId: number) {
-      return this.http.get<LiquidacionBalanceDto>("/api/liquidaciones/balance/" + grupoId + '/' + rondaId).then(g => g.data);
+    balanceGrupo(grupoId: string, rondaId: number, incluirBorradoresEnCalculo: boolean) {
+      return this.http.get<LiquidacionBalanceDto>(
+        "/api/liquidaciones/balance/" + grupoId + '/' + rondaId,
+        { params: { 'incluirBorradoresEnCalculo': incluirBorradoresEnCalculo } }
+      ).then(g => g.data);
     }
 
     crearLiquidacion(grupoId: string, rondaId: number) {

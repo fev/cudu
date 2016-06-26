@@ -4,6 +4,7 @@ drop view if exists liquidacion_grupos cascade;
 drop table if exists liquidacion_asociado cascade;
 drop table if exists liquidacion cascade;
 drop table if exists ronda;
+drop table if exists informacion_pago cascade;
 
 create table ronda (
   id smallint NOT NULL,
@@ -67,20 +68,21 @@ create table liquidacion_asociado (
 );
 
 create or replace view liquidacion_calculo as
-  select grupo_id, ronda_id, liquidacion_id, activos,
-    activos - coalesce(lag(activos) over w, 0) as diferencia,
-    subtotal - coalesce(lag(subtotal) over w, 0) as subtotal
+  select t.grupo_id, t.ronda_id, t.liquidacion_id, t.activos,
+    t.activos - coalesce(lag(t.activos) over w, 0) as diferencia,
+    t.subtotal - coalesce(lag(t.subtotal) over w, 0) as subtotal,
+    l.borrador
   from (
     select grupo_id, ronda_id, liquidacion_id,
       count(*) activos,
       sum(precio_unitario) as subtotal
     from liquidacion l
     inner join liquidacion_asociado a on a.liquidacion_id = l.id
-    --where l.borrador = false
     group by grupo_id, ronda_id, liquidacion_id
     order by liquidacion_id
   ) t
-  window w as (partition by grupo_id, ronda_id order by liquidacion_id);
+  inner join liquidacion l on t.liquidacion_id = l.id
+  window w as (partition by t.grupo_id, t.ronda_id order by t.liquidacion_id);
 
 create or replace view liquidacion_balance as
   select
@@ -132,10 +134,38 @@ create or replace view liquidacion_grupos AS
     select grupo_id, count(activo) as activos from asociado a where grupo_id is not null and a.activo = true group by grupo_id
   ) gc on gc.grupo_id = gr.id
   left join (
-      select grupo_id, ronda_id, sum(balance) as balance, count(c.liquidacion_id) as num_liquidaciones, last(c.activos) activos_ultima
-      from liquidacion_balance c
-      group by grupo_id, ronda_id
+    select grupo_id, ronda_id, sum(balance) as balance, count(c.liquidacion_id) as num_liquidaciones, last(c.activos) activos_ultima, false as borrador
+    from liquidacion_balance c
+    where c.borrador = false
+    group by grupo_id, ronda_id
   ) bg on bg.grupo_id = gr.id and bg.ronda_id = gr.ronda_id;
+
+create or replace view liquidacion_balance_resumen as
+  select
+    g.ronda_id,
+    g.grupo_id,
+    g.grupo_nombre,
+    a.activos,
+    ba.balance as balance_sin_borradores,
+    bb.balance as balance_con_borradores
+  from (
+    select r.id as ronda_id, r.etiqueta as ronda_etiqueta, g.id as grupo_id, g.nombre as grupo_nombre
+    from grupo g cross join (select * from ronda order by id limit 5) r
+  ) g
+  inner join (
+    select grupo_id, count(activo) as activos from asociado a where grupo_id is not null and a.activo = true group by grupo_id
+  ) a on g.grupo_id = a.grupo_id
+  left join (
+    select grupo_id, ronda_id, sum(balance) as balance
+    from liquidacion_balance
+    where borrador = false
+    group by grupo_id, ronda_id
+  ) ba on ba.grupo_id = g.grupo_id and ba.ronda_id = g.ronda_id
+  left join (
+    select grupo_id, ronda_id, sum(balance) as balance
+    from liquidacion_balance
+    group by grupo_id, ronda_id
+  ) bb on bb.grupo_id = g.grupo_id and bb.ronda_id = g.ronda_id;
 
 create or replace function crear_liquidacion (
   grupo_id varchar(3),

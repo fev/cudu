@@ -30,6 +30,7 @@ import org.scoutsfev.cudu.db.tables.InformacionPago;
 import org.scoutsfev.cudu.db.tables.Liquidacion;
 import org.scoutsfev.cudu.db.tables.LiquidacionAsociado;
 import org.scoutsfev.cudu.db.tables.LiquidacionBalance;
+import org.scoutsfev.cudu.db.tables.LiquidacionBalanceResumen;
 import org.scoutsfev.cudu.db.tables.LiquidacionCalculo;
 import org.scoutsfev.cudu.db.tables.LiquidacionGrupos;
 import org.scoutsfev.cudu.db.tables.Ronda;
@@ -169,6 +170,11 @@ public class Tables {
 	 * The table public.liquidacion_balance
 	 */
 	public static final LiquidacionBalance LIQUIDACION_BALANCE = org.scoutsfev.cudu.db.tables.LiquidacionBalance.LIQUIDACION_BALANCE;
+
+	/**
+	 * The table public.liquidacion_balance_resumen
+	 */
+	public static final LiquidacionBalanceResumen LIQUIDACION_BALANCE_RESUMEN = org.scoutsfev.cudu.db.tables.LiquidacionBalanceResumen.LIQUIDACION_BALANCE_RESUMEN;
 
 	/**
 	 * The table public.liquidacion_calculo

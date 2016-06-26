@@ -45,13 +45,13 @@
               <%=liquidaciones.totalActivos%>: {{resumen.numeroActualAsociados}} <br/>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="seleccionada.borrador">
+                  <input type="checkbox" ng-model="incluirBorradoresEnCalculo" ng-click="ctrl.cambioInclusionBorradores()">
                   <%=liquidaciones.incluirBorradores %>
                 </label>
               </div>
             </div>
             <div id="informacionPago" class="col-md-5">
-              <i class="fa fa-credit-card" aria-hidden="true"></i> <b><%=liquidaciones.ingresoEnCuenta%></b> <br>
+              <i class="fa fa-credit-card"></i> <b><%=liquidaciones.ingresoEnCuenta%></b> <br>
               <%=liquidaciones.titular%>: {{informacionPago.titular}} <br>
               <%=liquidaciones.concepto%>: {{informacionPago.concepto}}<br>
               <%=liquidaciones.cantidadAIngresar%>: {{totalAjustadoAbs}}€ <br>

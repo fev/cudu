@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionCalculo implements Serializable {
 
-	private static final long serialVersionUID = 2089046120;
+	private static final long serialVersionUID = 576840909;
 
 	private final String     grupoId;
 	private final Short      rondaId;
@@ -31,6 +31,7 @@ public class LiquidacionCalculo implements Serializable {
 	private final Long       activos;
 	private final Long       diferencia;
 	private final BigDecimal subtotal;
+	private final Boolean    borrador;
 
 	public LiquidacionCalculo(LiquidacionCalculo value) {
 		this.grupoId = value.grupoId;
@@ -39,6 +40,7 @@ public class LiquidacionCalculo implements Serializable {
 		this.activos = value.activos;
 		this.diferencia = value.diferencia;
 		this.subtotal = value.subtotal;
+		this.borrador = value.borrador;
 	}
 
 	public LiquidacionCalculo(
@@ -47,7 +49,8 @@ public class LiquidacionCalculo implements Serializable {
 		Integer    liquidacionId,
 		Long       activos,
 		Long       diferencia,
-		BigDecimal subtotal
+		BigDecimal subtotal,
+		Boolean    borrador
 	) {
 		this.grupoId = grupoId;
 		this.rondaId = rondaId;
@@ -55,6 +58,7 @@ public class LiquidacionCalculo implements Serializable {
 		this.activos = activos;
 		this.diferencia = diferencia;
 		this.subtotal = subtotal;
+		this.borrador = borrador;
 	}
 
 	public String getGrupoId() {
@@ -79,5 +83,9 @@ public class LiquidacionCalculo implements Serializable {
 
 	public BigDecimal getSubtotal() {
 		return this.subtotal;
+	}
+
+	public Boolean getBorrador() {
+		return this.borrador;
 	}
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface LiquidacionesStorage {
     List<LiquidacionGrupos> resumenPorGrupos(short rondaId);
-    LiquidacionBalanceDto balanceGrupo(String grupoId, short rondaId);
+    LiquidacionBalanceDto balanceGrupo(String grupoId, short rondaId, Borradores borradores);
     int crear(String grupoId, short rondaId, String creadoPor);
     void eliminar(int liquidacionId);
     void editar(int liquidacionId, BigDecimal ajusteManual, BigDecimal pagado, boolean borrador);

@@ -33,13 +33,14 @@ var Cudu;
                 this.service = service;
                 this.$scope.grupoId = $routeParams.grupoId;
                 this.$scope.rondaId = $routeParams.rondaId || service.rondaActual();
+                this.$scope.incluirBorradoresEnCalculo = false;
                 this.$scope.rondaEtiqueta = this.$scope.rondaId + '-' + (1 + parseInt(this.$scope.rondaId));
-                this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId);
+                this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId, this.$scope.incluirBorradoresEnCalculo);
                 this.modalEditarLiquidacion.subscribe(Cudu.Ux.ModalEvent.BeforeHide, function () { return _this.despuesCerrarModalLiquidacion(); });
                 $scope.$on('$destroy', function () { _this.modalEditarLiquidacion.unsubscribe(); });
             }
             LiquidacionesBalanceController.prototype.cargarBalanceGrupoActual = function (rondaId) {
-                this.cargarBalanceGrupo(this.$routeParams.grupoId, rondaId);
+                this.cargarBalanceGrupo(this.$routeParams.grupoId, rondaId, this.$scope.incluirBorradoresEnCalculo);
             };
             LiquidacionesBalanceController.prototype.verDesglose = function (liquidacionId) {
                 this.$location.path('/liquidaciones/desglose/' + liquidacionId);
@@ -78,12 +79,15 @@ var Cudu;
                 }
                 return liquidacion.grupoId + "-" + liquidacion.rondaId + "-" + liquidacion.liquidacionId;
             };
-            LiquidacionesBalanceController.prototype.despuesCerrarModalLiquidacion = function () {
-                this.cargarBalanceGrupo(this.$scope.grupoId, this.$scope.rondaId);
+            LiquidacionesBalanceController.prototype.cambioInclusionBorradores = function () {
+                this.cargarBalanceGrupo(this.$scope.grupoId, this.$scope.rondaId, this.$scope.incluirBorradoresEnCalculo);
             };
-            LiquidacionesBalanceController.prototype.cargarBalanceGrupo = function (grupoId, rondaId) {
+            LiquidacionesBalanceController.prototype.despuesCerrarModalLiquidacion = function () {
+                this.cargarBalanceGrupo(this.$scope.grupoId, this.$scope.rondaId, this.$scope.incluirBorradoresEnCalculo);
+            };
+            LiquidacionesBalanceController.prototype.cargarBalanceGrupo = function (grupoId, rondaId, incluirBorradores) {
                 var _this = this;
-                this.service.balanceGrupo(grupoId, rondaId).then(function (resumen) {
+                this.service.balanceGrupo(grupoId, rondaId, incluirBorradores).then(function (resumen) {
                     _this.procesarResumen(resumen, rondaId);
                 });
             };
@@ -137,8 +141,8 @@ var Cudu;
             LiquidacionesServiceImpl.prototype.resumenPorGrupos = function (rondaId) {
                 return this.http.get("/api/liquidaciones/grupos/" + rondaId).then(function (g) { return g.data; });
             };
-            LiquidacionesServiceImpl.prototype.balanceGrupo = function (grupoId, rondaId) {
-                return this.http.get("/api/liquidaciones/balance/" + grupoId + '/' + rondaId).then(function (g) { return g.data; });
+            LiquidacionesServiceImpl.prototype.balanceGrupo = function (grupoId, rondaId, incluirBorradoresEnCalculo) {
+                return this.http.get("/api/liquidaciones/balance/" + grupoId + '/' + rondaId, { params: { 'incluirBorradoresEnCalculo': incluirBorradoresEnCalculo } }).then(function (g) { return g.data; });
             };
             LiquidacionesServiceImpl.prototype.crearLiquidacion = function (grupoId, rondaId) {
                 return this.http.post("/api/liquidaciones/balance/" + grupoId + '/' + rondaId, {}).then(function (f) { return f.data; });

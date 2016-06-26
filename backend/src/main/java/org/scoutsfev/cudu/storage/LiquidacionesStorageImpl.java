@@ -1,10 +1,13 @@
 package org.scoutsfev.cudu.storage;
 
 import org.jooq.DSLContext;
+import org.jooq.SelectConditionStep;
 import org.jooq.impl.DSL;
 import org.scoutsfev.cudu.db.tables.pojos.InformacionPago;
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionBalance;
+import org.scoutsfev.cudu.db.tables.pojos.LiquidacionBalanceResumen;
 import org.scoutsfev.cudu.db.tables.pojos.LiquidacionGrupos;
+import org.scoutsfev.cudu.db.tables.records.LiquidacionBalanceRecord;
 import org.scoutsfev.cudu.domain.dto.LiquidacionBalanceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,15 +36,27 @@ public class LiquidacionesStorageImpl implements LiquidacionesStorage {
     }
 
     @Override
-    public LiquidacionBalanceDto balanceGrupo(String grupoId, short rondaId) {
-        List<LiquidacionBalance> balances = context
+    public LiquidacionBalanceDto balanceGrupo(String grupoId, short rondaId, Borradores borradores) {
+        SelectConditionStep<LiquidacionBalanceRecord> query = context
                 .selectFrom(LIQUIDACION_BALANCE)
                 .where(LIQUIDACION_BALANCE.GRUPO_ID.equal(grupoId))
-                .and(LIQUIDACION_BALANCE.RONDA_ID.equal(rondaId))
-                .fetchInto(LiquidacionBalance.class);
-        LiquidacionGrupos resumen = resumenPorGrupo(grupoId, rondaId);
+                .and(LIQUIDACION_BALANCE.RONDA_ID.equal(rondaId));
+
+        if (borradores == Borradores.Ocultar) {
+            query = query.and(LIQUIDACION_BALANCE.BORRADOR.equal(false));
+        }
+
+        List<LiquidacionBalance> balances =  query.fetchInto(LiquidacionBalance.class);
+        LiquidacionBalanceResumen resumen = resumenPorGrupo(grupoId, rondaId);
         InformacionPago informacionPago = informacionPago(grupoId);
-        return new LiquidacionBalanceDto(resumen.getNombre(), resumen.getActivos(), resumen.getBalance(), balances, informacionPago);
+
+        BigDecimal totalBalance;
+        if (borradores == Borradores.MostrarCalculando)
+            totalBalance = resumen.getBalanceConBorradores();
+        else
+            totalBalance = resumen.getBalanceSinBorradores();
+
+        return new LiquidacionBalanceDto(resumen.getGrupoNombre(), resumen.getActivos(), totalBalance, balances, informacionPago);
     }
 
     public int crear(String grupoId, short rondaId, String creadoPor) {
@@ -79,10 +94,10 @@ public class LiquidacionesStorageImpl implements LiquidacionesStorage {
                 .fetchAnyInto(InformacionPago.class);
     }
 
-    private LiquidacionGrupos resumenPorGrupo(String grupoId, short rondaId) {
-        return context.selectFrom(LIQUIDACION_GRUPOS)
-                .where(LIQUIDACION_GRUPOS.GRUPO_ID.equal(grupoId)
-                        .and(LIQUIDACION_GRUPOS.RONDA_ID.equal(rondaId)))
-                .fetchAnyInto(LiquidacionGrupos.class);
+    private LiquidacionBalanceResumen resumenPorGrupo(String grupoId, short rondaId) {
+        return context.selectFrom(LIQUIDACION_BALANCE_RESUMEN)
+                .where(LIQUIDACION_BALANCE_RESUMEN.GRUPO_ID.equal(grupoId))
+                .and(LIQUIDACION_BALANCE_RESUMEN.RONDA_ID.equal(rondaId))
+                .fetchAnyInto(LiquidacionBalanceResumen.class);
     }
 }

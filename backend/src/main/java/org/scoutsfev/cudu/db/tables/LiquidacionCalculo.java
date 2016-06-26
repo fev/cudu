@@ -29,7 +29,7 @@ import org.scoutsfev.cudu.db.tables.records.LiquidacionCalculoRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionCalculo extends TableImpl<LiquidacionCalculoRecord> {
 
-	private static final long serialVersionUID = -950202007;
+	private static final long serialVersionUID = -2071274246;
 
 	/**
 	 * The reference instance of <code>public.liquidacion_calculo</code>
@@ -73,6 +73,11 @@ public class LiquidacionCalculo extends TableImpl<LiquidacionCalculoRecord> {
 	 * The column <code>public.liquidacion_calculo.subtotal</code>.
 	 */
 	public final TableField<LiquidacionCalculoRecord, BigDecimal> SUBTOTAL = createField("subtotal", org.jooq.impl.SQLDataType.NUMERIC, this, "");
+
+	/**
+	 * The column <code>public.liquidacion_calculo.borrador</code>.
+	 */
+	public final TableField<LiquidacionCalculoRecord, Boolean> BORRADOR = createField("borrador", org.jooq.impl.SQLDataType.BOOLEAN, this, "");
 
 	/**
 	 * Create a <code>public.liquidacion_calculo</code> table reference
