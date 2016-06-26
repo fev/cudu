@@ -254,7 +254,7 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
       $('#checkLenguaje' + lang.toUpperCase()).show();
 
       var grupo = usuario.grupo || { id: 'up' };
-      establecerTextosMenu(usuario.nombreCompleto, grupo.id.toLowerCase());
+      establecerTextosMenu(usuario.nombreCompleto, grupo.id);
 
       var $body = $('body');
       if (usuario.tipo === 'T') {
@@ -322,8 +322,7 @@ cuduServices.factory('RutaInicial', function() { 
         return "/permisos";
         // return "/tecnico/asociados";
       }
-      // return "/liquidaciones/balance/AK";
-      return "/liquidaciones/desglose/100";
+      return "/asociados"
     }
   };
 });

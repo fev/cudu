@@ -1,3 +1,7 @@
+body .liquidaciones .solo-tecnico { display: none; }
+body.rol-tecnico .liquidaciones .solo-tecnico { display: table-cell; }
+body.rol-tecnico .liquidaciones .mat-toolbar .solo-tecnico { display: inline-block; }
+
 .liquidaciones {
 
   .liquidacionesGrupos, .liquidacionesBalance {

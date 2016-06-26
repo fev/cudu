@@ -43,7 +43,7 @@
               <span ng-show="balancePositivo && !existenAltasCompensadas"><%=liquidaciones.balancePositivo %></span>
               <span ng-show="!balancePositivo"><%=liquidaciones.balanceNegativo %> {{totalAjustadoAbs}}€</span><br>
               <%=liquidaciones.totalActivos%>: {{resumen.numeroActualAsociados}} <br/>
-              <div class="checkbox">
+              <div class="checkbox solo-tecnico">
                 <label>
                   <input type="checkbox" ng-model="incluirBorradoresEnCalculo" ng-click="ctrl.cambioInclusionBorradores()">
                   <%=liquidaciones.incluirBorradores %>
@@ -61,9 +61,9 @@
           <table class="table table-condensed table-hover">
             <thead>
               <tr>
-                <th></th>
+                <th class="solo-tecnico">Editar</th>
                 <th><%=liquidaciones.id %></th>
-                <th><%=liquidaciones.estado %></th>
+                <th class="solo-tecnico"><%=liquidaciones.estado %></th>
                 <th><%=liquidaciones.fecha %></th>
                 <th class="text-right"><%=liquidaciones.activos %></th>
                 <th class="text-right"><%=liquidaciones.diferencia %></th>
@@ -75,9 +75,9 @@
             </thead>
             <tbody>
               <tr ng-repeat="liquidacion in resumen.balance" ng-click="ctrl.verDesglose(liquidacion.liquidacionId)" ng-class="{borrador: liquidacion.borrador}">
-                <td ng-click="ctrl.editarLiquidacion(liquidacion); $event.stopPropagation()"><i class="fa fa-pencil-square-o"></i></td>
+                <td class="solo-tecnico" ng-click="ctrl.editarLiquidacion(liquidacion); $event.stopPropagation()"><i class="fa fa-pencil-square-o"></i></td>
                 <td>{{ctrl.crearReferencia(liquidacion)}}</td>
-                <td>
+                <td class="solo-tecnico">
                   <span class="emitida"><%=liquidaciones.emitida%></span>
                   <span class="borrador"><%=liquidaciones.borrador%></span>
                 </td>
@@ -96,7 +96,8 @@
               </tr>
             </tbody>
             <tfoot ng-hide="resumen.balance.length === 0">
-              <td colspan="8"></td>
+              <td class="solo-tecnico"></td>
+              <td colspan="7"></td>
               <td class="text-right">Total</td>
               <td class="text-right">{{totalAjustado}} €</td>
             </tfoot>
@@ -109,7 +110,7 @@
  <div id="dlgEditarLiquidacion" class="modal fade" ng-class="{'progreso': blabla}">
    <div class="modal-dialog">
      <div class="modal-content">
-       <div class="modal-body">
+       <div class="modal-body solo-tecnico">
          <h1><%=liquidaciones.dlg_liquidacion %> {{ctrl.crearReferencia(seleccionada)}}</h1>
          <p><%=liquidaciones.dlg_explicacion%></p>
          <form class="form-cudu">
