@@ -74,7 +74,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="liquidacion in resumen.balance" ng-click="ctrl.verDesglose('AK')" ng-class="{borrador: liquidacion.borrador}">
+              <tr ng-repeat="liquidacion in resumen.balance" ng-click="ctrl.verDesglose(liquidacion.liquidacionId)" ng-class="{borrador: liquidacion.borrador}">
                 <td ng-click="ctrl.editarLiquidacion(liquidacion); $event.stopPropagation()"><i class="fa fa-pencil-square-o"></i></td>
                 <td>{{ctrl.crearReferencia(liquidacion)}}</td>
                 <td>

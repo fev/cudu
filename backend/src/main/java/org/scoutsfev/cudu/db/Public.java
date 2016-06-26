@@ -44,6 +44,9 @@ import org.scoutsfev.cudu.db.tables.LiquidacionGrupos;
 import org.scoutsfev.cudu.db.tables.Ronda;
 import org.scoutsfev.cudu.db.tables.SchemaVersion;
 import org.scoutsfev.cudu.db.tables.Token;
+import org.scoutsfev.cudu.db.tables.ValoresFederativos;
+import org.scoutsfev.cudu.db.tables.ValoresPorAsociacion;
+import org.scoutsfev.cudu.db.tables.ValoresPorLiquidacion;
 
 
 /**
@@ -59,7 +62,7 @@ import org.scoutsfev.cudu.db.tables.Token;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-	private static final long serialVersionUID = -49785029;
+	private static final long serialVersionUID = -736222858;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -129,6 +132,9 @@ public class Public extends SchemaImpl {
 			LiquidacionGrupos.LIQUIDACION_GRUPOS,
 			Ronda.RONDA,
 			SchemaVersion.SCHEMA_VERSION,
-			Token.TOKEN);
+			Token.TOKEN,
+			ValoresFederativos.VALORES_FEDERATIVOS,
+			ValoresPorAsociacion.VALORES_POR_ASOCIACION,
+			ValoresPorLiquidacion.VALORES_POR_LIQUIDACION);
 	}
 }

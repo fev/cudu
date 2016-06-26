@@ -4,6 +4,7 @@ import org.scoutsfev.cudu.db.tables.pojos.LiquidacionGrupos;
 import org.scoutsfev.cudu.domain.Usuario;
 import org.scoutsfev.cudu.domain.dto.EditarLiquidacionDto;
 import org.scoutsfev.cudu.domain.dto.LiquidacionBalanceDto;
+import org.scoutsfev.cudu.domain.dto.LiquidacionDesgloseDto;
 import org.scoutsfev.cudu.storage.Borradores;
 import org.scoutsfev.cudu.storage.LiquidacionesStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class LiquidacionController {
     @RequestMapping(value = "/grupos/{rondaId}", method = RequestMethod.GET)
     public List<LiquidacionGrupos> resumenPorGrupos(@PathVariable("rondaId") Short rondaId) {
         return storage.resumenPorGrupos(rondaId);
+    }
+
+    @RequestMapping(value = "/{liquidacionId}", method = RequestMethod.GET)
+    public LiquidacionDesgloseDto desglose(@PathVariable("liquidacionId") int liquidacionId) {
+        return storage.desglose(liquidacionId);
     }
 
     @RequestMapping(value = "/balance/{grupoId}/{rondaId}", method = RequestMethod.GET)

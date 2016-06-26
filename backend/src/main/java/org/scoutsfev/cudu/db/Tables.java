@@ -36,6 +36,9 @@ import org.scoutsfev.cudu.db.tables.LiquidacionGrupos;
 import org.scoutsfev.cudu.db.tables.Ronda;
 import org.scoutsfev.cudu.db.tables.SchemaVersion;
 import org.scoutsfev.cudu.db.tables.Token;
+import org.scoutsfev.cudu.db.tables.ValoresFederativos;
+import org.scoutsfev.cudu.db.tables.ValoresPorAsociacion;
+import org.scoutsfev.cudu.db.tables.ValoresPorLiquidacion;
 
 
 /**
@@ -200,4 +203,19 @@ public class Tables {
 	 * The table public.token
 	 */
 	public static final Token TOKEN = org.scoutsfev.cudu.db.tables.Token.TOKEN;
+
+	/**
+	 * The table public.valores_federativos
+	 */
+	public static final ValoresFederativos VALORES_FEDERATIVOS = org.scoutsfev.cudu.db.tables.ValoresFederativos.VALORES_FEDERATIVOS;
+
+	/**
+	 * The table public.valores_por_asociacion
+	 */
+	public static final ValoresPorAsociacion VALORES_POR_ASOCIACION = org.scoutsfev.cudu.db.tables.ValoresPorAsociacion.VALORES_POR_ASOCIACION;
+
+	/**
+	 * The table public.valores_por_liquidacion
+	 */
+	public static final ValoresPorLiquidacion VALORES_POR_LIQUIDACION = org.scoutsfev.cudu.db.tables.ValoresPorLiquidacion.VALORES_POR_LIQUIDACION;
 }

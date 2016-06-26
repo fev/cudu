@@ -120,9 +120,14 @@ var Cudu;
         Liquidaciones.LiquidacionesBalanceController = LiquidacionesBalanceController;
         var LiquidacionesDesgloseController = (function () {
             function LiquidacionesDesgloseController($scope, $routeParams, service) {
+                var _this = this;
                 this.$scope = $scope;
                 this.$routeParams = $routeParams;
                 this.service = service;
+                this.$scope.orden = "apellidos";
+                this.service.desglose($routeParams.liquidacionId).then(function (d) {
+                    _this.$scope.desglose = d;
+                });
             }
             return LiquidacionesDesgloseController;
         }());
@@ -153,6 +158,9 @@ var Cudu;
             LiquidacionesServiceImpl.prototype.guardarLiquidacion = function (grupoId, rondaId, liquidacionId, ajusteManual, pagado, borrador) {
                 var payload = { id: liquidacionId, ajusteManual: ajusteManual, pagado: pagado, borrador: borrador };
                 return this.http.put("/api/liquidaciones/balance/" + grupoId + '/' + rondaId + "/" + liquidacionId, payload).then(function (f) { return f.data; });
+            };
+            LiquidacionesServiceImpl.prototype.desglose = function (liquidacionId) {
+                return this.http.get("/api/liquidaciones/" + liquidacionId).then(function (d) { return d.data; });
             };
             return LiquidacionesServiceImpl;
         }());

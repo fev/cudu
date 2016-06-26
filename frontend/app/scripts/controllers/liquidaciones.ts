@@ -183,18 +183,32 @@ module Cudu.Liquidaciones {
     }
   }
 
+  interface LiquidacionDesglose {
+    referencia: string;
+    asociados: LiquidacionDesgloseAsociado[];
+  }
+
+  interface LiquidacionDesgloseAsociado {
+
+  }
+
   interface LiquidacionesDesgloseScope extends ng.IScope {
-    hello: string;
+    desglose: LiquidacionDesglose;
+    orden: string;
   }
 
   interface LiquidacionesDesgloseRouteParams extends angular.route.IRouteParamsService {
-    liquidacionId: string;
+    liquidacionId: number;
   }
 
   export class LiquidacionesDesgloseController { 
     constructor(private $scope: LiquidacionesDesgloseScope,
         private $routeParams: LiquidacionesDesgloseRouteParams,
         private service: LiquidacionesService) {
+      this.$scope.orden = "apellidos";
+      this.service.desglose($routeParams.liquidacionId).then(d => {
+          this.$scope.desglose = d;
+      });
     }
   }
 
@@ -205,6 +219,7 @@ module Cudu.Liquidaciones {
     crearLiquidacion(grupoId: string, rondaId: number): ng.IPromise<LiquidacionBalanceDto>;
     eliminarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number): ng.IPromise<LiquidacionBalanceDto>;
     guardarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number, ajusteManual: number, pagado: number, borrador: boolean): ng.IPromise<LiquidacionBalanceDto>
+    desglose(liquidacionId: number): ng.IPromise<LiquidacionDesglose>;
   }
 
   class LiquidacionesServiceImpl implements LiquidacionesService {
@@ -240,6 +255,10 @@ module Cudu.Liquidaciones {
     guardarLiquidacion(grupoId: string, rondaId: number, liquidacionId: number, ajusteManual: number, pagado: number, borrador: boolean) {
       var payload = { id: liquidacionId, ajusteManual: ajusteManual, pagado: pagado, borrador: borrador };
       return this.http.put("/api/liquidaciones/balance/" + grupoId + '/' + rondaId + "/" + liquidacionId, payload).then(f => f.data);
+    }
+
+    desglose(liquidacionId: number): ng.IPromise<LiquidacionDesglose> {
+      return this.http.get("/api/liquidaciones/" + liquidacionId).then(d => d.data);
     }
   }
 

@@ -322,7 +322,8 @@ cuduServices.factory('RutaInicial', function() { 
         return "/permisos";
         // return "/tecnico/asociados";
       }
-      return "/liquidaciones/balance/AK";
+      // return "/liquidaciones/balance/AK";
+      return "/liquidaciones/desglose/100";
     }
   };
 });

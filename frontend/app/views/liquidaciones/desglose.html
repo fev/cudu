@@ -1,3 +1,65 @@
-<div class="container contenedor-central liquidaciones" ng-controller="LiquidacionesDesgloseController as ctrl">
-Desglose {{hello}}
+<div class="container contenedor-central liquidaciones liquidacionesDesglose" ng-controller="LiquidacionesDesgloseController as ctrl">
+  <div class="row">
+    <div class="col-md-12 panelLiquidaciones">
+        <div class="material-panel-level-2">
+          <div class="mat-toolbar text-right">
+            <a href="javascript:window.history.back()" type="button" class="btn btn-default"><i class="fa fa-arrow-left"></i> &nbsp;<%=liquidaciones.dlg_volver%></a>
+            <a href="javascript:window.print()" type="button" class="btn btn-default"><i class="fa fa-print"></i> &nbsp;<%=liquidaciones.imprimir%></a>
+          </div>
+          <div class="mat-toolbar-expand"><h1>Desglose Liquidación {{desglose.referencia}}</h1></div>
+          <div class="panel-content">
+            <table class="table table-condensed table-bordered estadisticas">
+              <thead>
+                <th nowrap>&nbsp;</th>
+                <th class="text-right"><%=tipo.Joven%></th>
+                <th class="text-right"><%=tipo.Kraal%></th>
+                <th class="text-right"><%=tipo.Comite%></th>
+                <th class="text-right"><%=rama.colonia%></th>
+                <th class="text-right"><%=rama.manada%></th>
+                <th class="text-right"><%=rama.exploradores%></th>
+                <th class="text-right"><%=rama.expedicion%></th>
+                <th class="text-right"><%=rama.ruta%></th>
+                <th class="text-right">Total</th>
+              </thead>
+              <tbody>
+                <tr ng-repeat="e in desglose.estadisticas">
+                  <td>{{e.ambito}}</td>
+                  <td class="text-right">{{e.joven}}</td>
+                  <td class="text-right">{{e.kraal}}</td>
+                  <td class="text-right">{{e.comite}}</td>
+                  <td class="text-right">{{e.colonia}}</td>
+                  <td class="text-right">{{e.manada}}</td>
+                  <td class="text-right">{{e.exploradores}}</td>
+                  <td class="text-right">{{e.expedicion}}</td>
+                  <td class="text-right">{{e.ruta}}</td>
+                  <td class="text-right">{{e.total}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table table-condensed table-hover">
+              <thead>
+                <tr>
+                  <th ng-class="{activa: orden == 'asociadoId'}" ng-click="orden = 'asociadoId'"><%=liquidaciones.asociadoId %>&nbsp; <i class="fa fa-arrow-down"></i></th>
+                  <th ng-class="{activa: orden == 'tipo'}" ng-click="orden = 'tipo'"><%=liquidaciones.tipo %>&nbsp; <i class="fa fa-arrow-down"></i></th>
+                  <th class="sinOrden"><%=liquidaciones.rama %></th>
+                  <th ng-class="{activa: orden == 'nombre'}" ng-click="orden = 'nombre'"><%=liquidaciones.nombre %>&nbsp; <i class="fa fa-arrow-down"></i></th>
+                  <th ng-class="{activa: orden == 'apellidos'}" ng-click="orden = 'apellidos'"><%=liquidaciones.apellidos %>&nbsp; <i class="fa fa-arrow-down"></i></th>
+                  <th ng-class="{activa: orden == 'fechaAlta'}" ng-click="orden = 'fechaAlta'"><%=liquidaciones.fechaAlta %>&nbsp; <i class="fa fa-arrow-down"></i></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="a in desglose.asociados | orderBy:orden track by a.asociadoId">
+                  <td>{{a.asociadoId}}</td>
+                  <td>{{a.tipo | i18n:'tipo'}}</td>
+                  <td>{{a | rama}}</td>
+                  <td>{{a.nombre}}</td>
+                  <td>{{a.apellidos}}</td>
+                  <td>{{a.fechaAlta | timeStamp}}</td>
+                </tr>
+              </tbody>
+            </table>
+         </div>
+       </div>
+     </div>
+   </div>
 </div>

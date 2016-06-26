@@ -73,5 +73,24 @@
   .panel-content { padding: 20px 35px 20px 30px; }
   h3 { margin-top: 0; font-size: 24px }
 
+  .liquidacionesDesglose  {
+    table tbody tr { cursor: default; }
+    table thead tr {
+      cursor: pointer;
+      .fa { color: #999; visibility: hidden; }
+      th:hover .fa { color: #DDD; visibility: visible; }
+      th.activa .fa { visibility: visible; }
+      th.activa:hover .fa { color: #999; }
+      th.sinOrden { cursor: default; }
+    }
+    table.estadisticas thead tr { cursor: default; }
+    td.text-right, th.text-right { width: 95px; }
+    @media print {
+      .mat-toolbar { display: none; }
+      .mat-toolbar-expand { margin-top: 0; }
+      td.text-right, th.text-right { width: auto; }
+    }
+  }
+
   @include paginaMultiPanel();
 }
