@@ -39,7 +39,7 @@
           <div class="row" style="margin-bottom: 25px">
             <div class="col-md-7">
               <h3 class="text-error">{{totalAjustado}}€</h3>
-              <span ng-show="existenAltasCompensadas"><%=liquidaciones.balancePositivoExp1%> {{resumen.total}} <%=liquidaciones.balancePositivoExp2%> {{resumen.total}} <%=liquidaciones.balancePositivoExp3%></span>
+              <span ng-show="existenAltasCompensadas"><%=liquidaciones.balancePositivoExp1%> {{resumen.acumuladoAsociados}} <%=liquidaciones.balancePositivoExp2%> {{resumen.acumuladoAsociados}} <%=liquidaciones.balancePositivoExp3%></span>
               <span ng-show="balancePositivo && !existenAltasCompensadas"><%=liquidaciones.balancePositivo %></span>
               <span ng-show="!balancePositivo"><%=liquidaciones.balanceNegativo %> {{totalAjustadoAbs}}€</span><br>
               <%=liquidaciones.totalActivos%>: {{resumen.numeroActualAsociados}} <br/>

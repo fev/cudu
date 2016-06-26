@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import static org.scoutsfev.cudu.db.Routines.crearLiquidacion;
 import static org.scoutsfev.cudu.db.Tables.*;
@@ -56,7 +57,12 @@ public class LiquidacionesStorageImpl implements LiquidacionesStorage {
         else
             totalBalance = resumen.getBalanceSinBorradores();
 
-        return new LiquidacionBalanceDto(resumen.getGrupoNombre(), resumen.getActivos(), totalBalance, balances, informacionPago);
+        BigDecimal precioPorAsociado = informacionPago.getPrecioporasociado();
+        if (Objects.equals(precioPorAsociado, BigDecimal.ZERO))
+            precioPorAsociado = BigDecimal.ONE;
+        BigDecimal acumuladoAsociados = totalBalance.divide(precioPorAsociado, 0, BigDecimal.ROUND_FLOOR);
+
+        return new LiquidacionBalanceDto(resumen.getGrupoNombre(), resumen.getActivos(), totalBalance, acumuladoAsociados, balances, informacionPago);
     }
 
     public int crear(String grupoId, short rondaId, String creadoPor) {

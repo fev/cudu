@@ -97,7 +97,7 @@ var Cudu;
                 this.$scope.totalAjustado = this.limitarTotal(resumen.total);
                 this.$scope.totalAjustadoAbs = Math.abs(this.$scope.totalAjustado);
                 this.$scope.balancePositivo = resumen.total >= 0;
-                this.$scope.existenAltasCompensadas = resumen.total > 0;
+                this.$scope.existenAltasCompensadas = resumen.acumuladoAsociados > 0;
                 this.$scope.rondaId = rondaId;
                 this.$scope.informacionPago = resumen.informacionPago;
                 var ultimaSinPagar = _.findLast(resumen.balance, function (b) { return b.pagado == 0; });

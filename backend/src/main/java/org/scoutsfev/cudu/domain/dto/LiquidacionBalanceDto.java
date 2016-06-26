@@ -11,13 +11,15 @@ public class LiquidacionBalanceDto {
     public final String nombreGrupo;
     public final long numeroActualAsociados;
     public final BigDecimal total;
+    public final BigDecimal acumuladoAsociados;
     public final List<LiquidacionBalance> balance;
     public final InformacionPago informacionPago;
 
-    public LiquidacionBalanceDto(String nombreGrupo, Long numeroActualAsociados, BigDecimal total, List<LiquidacionBalance> balance, InformacionPago informacionPago) {
+    public LiquidacionBalanceDto(String nombreGrupo, Long numeroActualAsociados, BigDecimal total, BigDecimal acumuladoAsociados, List<LiquidacionBalance> balance, InformacionPago informacionPago) {
         this.nombreGrupo = nombreGrupo;
         this.numeroActualAsociados = numeroActualAsociados;
         this.total = total;
+        this.acumuladoAsociados = acumuladoAsociados;
         this.balance = balance;
         this.informacionPago = informacionPago;
     }
