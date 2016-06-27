@@ -4,6 +4,8 @@ import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.scoutsfev.cudu.db.tables.pojos.*;
 import org.scoutsfev.cudu.db.tables.records.LiquidacionBalanceRecord;
+import org.scoutsfev.cudu.db.tables.records.LiquidacionGruposRecord;
+import org.scoutsfev.cudu.domain.Asociacion;
 import org.scoutsfev.cudu.domain.dto.LiquidacionBalanceDto;
 import org.scoutsfev.cudu.domain.dto.LiquidacionDesgloseDto;
 import org.scoutsfev.cudu.domain.dto.ValoresEstadisticos;
@@ -18,6 +20,7 @@ import java.util.Objects;
 
 import static org.jooq.impl.DSL.field;
 import static org.jooq.impl.DSL.name;
+import static org.jooq.impl.DSL.val;
 import static org.scoutsfev.cudu.db.Routines.crearLiquidacion;
 import static org.scoutsfev.cudu.db.Tables.*;
 
@@ -38,11 +41,24 @@ public class LiquidacionesStorageImpl implements LiquidacionesStorage {
         this.context = context;
     }
 
-    public List<LiquidacionGrupos> resumenPorGrupos(short rondaId) {
-        return context.selectFrom(LIQUIDACION_GRUPOS)
-                .where(LIQUIDACION_GRUPOS.RONDA_ID.equal(rondaId))
-                .orderBy(LIQUIDACION_GRUPOS.NOMBRE)
-                .fetchInto(LiquidacionGrupos.class);
+    public String grupoDeLaLiquidacion(int liquidacionId) {
+        return context
+                .select(LIQUIDACION.GRUPO_ID)
+                .from(LIQUIDACION)
+                .where(LIQUIDACION.ID.equal(liquidacionId))
+                .fetchOne(LIQUIDACION.GRUPO_ID);
+    }
+
+    public List<LiquidacionGrupos> resumenPorGrupos(short rondaId, Asociacion restriccionAsociacion) {
+        SelectConditionStep<LiquidacionGruposRecord> resumenes = context
+                .selectFrom(LIQUIDACION_GRUPOS)
+                .where(LIQUIDACION_GRUPOS.RONDA_ID.equal(rondaId));
+
+        if (restriccionAsociacion != null) {
+            resumenes = resumenes.and(LIQUIDACION_GRUPOS.ASOCIACION.equal(restriccionAsociacion.getId()));
+        }
+
+        return resumenes.orderBy(LIQUIDACION_GRUPOS.NOMBRE).fetchInto(LiquidacionGrupos.class);
     }
 
     public LiquidacionDesgloseDto desglose(int liquidacionId) {

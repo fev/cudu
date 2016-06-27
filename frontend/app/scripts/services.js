@@ -279,7 +279,7 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
         $body.addClass('no-edita-grupo');
       }
 
-      var tieneAlgunaRestriccion = restricciones.noPuedeEditarDatosDelGrupo || restricciones.noPuedeEditarOtrasRamas || restricciones.soloLectura || restricciones.restriccionAsociacion != null;
+      var tieneAlgunaRestriccion = restricciones.noPuedeEditarDatosDelGrupo || restricciones.noPuedeEditarOtrasRamas || restricciones.soloLectura;
       if (!tieneAlgunaRestriccion && (usuario.ambitoEdicion === 'G' || usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
         $body.addClass(RolesMenu.PERMISOS);
       }
