@@ -26,8 +26,19 @@ import org.scoutsfev.cudu.db.tables.DtoMiembrosEscuela;
 import org.scoutsfev.cudu.db.tables.Ficha;
 import org.scoutsfev.cudu.db.tables.Grupo;
 import org.scoutsfev.cudu.db.tables.Impresion;
+import org.scoutsfev.cudu.db.tables.InformacionPago;
+import org.scoutsfev.cudu.db.tables.Liquidacion;
+import org.scoutsfev.cudu.db.tables.LiquidacionAsociado;
+import org.scoutsfev.cudu.db.tables.LiquidacionBalance;
+import org.scoutsfev.cudu.db.tables.LiquidacionBalanceResumen;
+import org.scoutsfev.cudu.db.tables.LiquidacionCalculo;
+import org.scoutsfev.cudu.db.tables.LiquidacionGrupos;
+import org.scoutsfev.cudu.db.tables.Ronda;
 import org.scoutsfev.cudu.db.tables.SchemaVersion;
 import org.scoutsfev.cudu.db.tables.Token;
+import org.scoutsfev.cudu.db.tables.ValoresFederativos;
+import org.scoutsfev.cudu.db.tables.ValoresPorAsociacion;
+import org.scoutsfev.cudu.db.tables.ValoresPorLiquidacion;
 
 
 /**
@@ -144,6 +155,46 @@ public class Tables {
 	public static final Impresion IMPRESION = org.scoutsfev.cudu.db.tables.Impresion.IMPRESION;
 
 	/**
+	 * The table public.informacion_pago
+	 */
+	public static final InformacionPago INFORMACION_PAGO = org.scoutsfev.cudu.db.tables.InformacionPago.INFORMACION_PAGO;
+
+	/**
+	 * The table public.liquidacion
+	 */
+	public static final Liquidacion LIQUIDACION = org.scoutsfev.cudu.db.tables.Liquidacion.LIQUIDACION;
+
+	/**
+	 * The table public.liquidacion_asociado
+	 */
+	public static final LiquidacionAsociado LIQUIDACION_ASOCIADO = org.scoutsfev.cudu.db.tables.LiquidacionAsociado.LIQUIDACION_ASOCIADO;
+
+	/**
+	 * The table public.liquidacion_balance
+	 */
+	public static final LiquidacionBalance LIQUIDACION_BALANCE = org.scoutsfev.cudu.db.tables.LiquidacionBalance.LIQUIDACION_BALANCE;
+
+	/**
+	 * The table public.liquidacion_balance_resumen
+	 */
+	public static final LiquidacionBalanceResumen LIQUIDACION_BALANCE_RESUMEN = org.scoutsfev.cudu.db.tables.LiquidacionBalanceResumen.LIQUIDACION_BALANCE_RESUMEN;
+
+	/**
+	 * The table public.liquidacion_calculo
+	 */
+	public static final LiquidacionCalculo LIQUIDACION_CALCULO = org.scoutsfev.cudu.db.tables.LiquidacionCalculo.LIQUIDACION_CALCULO;
+
+	/**
+	 * The table public.liquidacion_grupos
+	 */
+	public static final LiquidacionGrupos LIQUIDACION_GRUPOS = org.scoutsfev.cudu.db.tables.LiquidacionGrupos.LIQUIDACION_GRUPOS;
+
+	/**
+	 * The table public.ronda
+	 */
+	public static final Ronda RONDA = org.scoutsfev.cudu.db.tables.Ronda.RONDA;
+
+	/**
 	 * The table public.schema_version
 	 */
 	public static final SchemaVersion SCHEMA_VERSION = org.scoutsfev.cudu.db.tables.SchemaVersion.SCHEMA_VERSION;
@@ -152,4 +203,19 @@ public class Tables {
 	 * The table public.token
 	 */
 	public static final Token TOKEN = org.scoutsfev.cudu.db.tables.Token.TOKEN;
+
+	/**
+	 * The table public.valores_federativos
+	 */
+	public static final ValoresFederativos VALORES_FEDERATIVOS = org.scoutsfev.cudu.db.tables.ValoresFederativos.VALORES_FEDERATIVOS;
+
+	/**
+	 * The table public.valores_por_asociacion
+	 */
+	public static final ValoresPorAsociacion VALORES_POR_ASOCIACION = org.scoutsfev.cudu.db.tables.ValoresPorAsociacion.VALORES_POR_ASOCIACION;
+
+	/**
+	 * The table public.valores_por_liquidacion
+	 */
+	public static final ValoresPorLiquidacion VALORES_POR_LIQUIDACION = org.scoutsfev.cudu.db.tables.ValoresPorLiquidacion.VALORES_POR_LIQUIDACION;
 }

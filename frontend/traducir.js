@@ -19,6 +19,9 @@ var templates = [
   'app/views/lluerna/miembro.html',
   'app/views/lluerna/curso.html',
   'app/views/lluerna/cursos.html',
+  'app/views/liquidaciones/grupos.html',
+  'app/views/liquidaciones/balance.html',
+  'app/views/liquidaciones/desglose.html',
   'app/views/curso.html'
 ];
 

@@ -34,7 +34,7 @@ angular
     $routeProvider
       .when('/', {
         redirectTo: function() {
-          return '/asociados';
+          return '/liquidaciones/grupos';
         }
       })
       .when('/login', {
@@ -86,6 +86,18 @@ angular
       .when('/cursos', { // apuntarse a cursos, asociado
         templateUrl: 'i18n/views/curso.html',
         seccion: 'cursos'
+      })
+      .when('/liquidaciones/grupos', {
+        templateUrl: 'i18n/views/liquidaciones/grupos.html',
+        seccion: 'liquidaciones'
+      })
+      .when('/liquidaciones/balance/:grupoId/:rondaId?', {
+        templateUrl: 'i18n/views/liquidaciones/balance.html',
+        seccion: 'liquidaciones'
+      })
+      .when('/liquidaciones/desglose/:liquidacionId', {
+        templateUrl: 'i18n/views/liquidaciones/desglose.html',
+        seccion: 'liquidaciones'
       })
       .otherwise({
          redirectTo: '/'

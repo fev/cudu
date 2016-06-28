@@ -116,3 +116,7 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
     }
   }
 }
+
+@media print {
+  .no-print, .no-print * { display: none !important; }
+}

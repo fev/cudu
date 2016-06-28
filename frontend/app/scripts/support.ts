@@ -23,22 +23,60 @@ module Cudu.Ux {
   export interface Modal {
     show();
     hide();
+    subscribe(event: ModalEvent, handler: () => any);
+    unsubscribe();
   }
 
+  export enum ModalEvent {
+    BeforeShow = 1,
+    AfterShow = 2,
+    BeforeHide = 3,
+    AfterHide = 4
+  }
+
+  var modalEvents = {
+    1: "show.bs.modal",
+    2: "shown.bs.modal",
+    3: "hide.bs.modal",
+    4: "hidden.bs.modal"
+  };
+
   class BootstrapModal implements Modal {
+    private events: { [id: string]: boolean } = { };
+
     constructor(private elementId: string, private focusOnElementId?: string, select?: boolean) {
       this.command({ show: false });
       if (focusOnElementId) {
         if (select === true) {
-          $(elementId).on('shown.bs.modal', () => { $(focusOnElementId).select() });
+          $(elementId).on('shown.bs.modal', () => { $(focusOnElementId).select(); });
         } else {
-          $(elementId).on('shown.bs.modal', () => { $(focusOnElementId).focus() });
+          $(elementId).on('shown.bs.modal', () => { $(focusOnElementId).focus(); });
         }
       }
+      this.events = this.initialEventTrackingHash();
     }
 
     show() { this.command('show'); }
     hide() { this.command('hide'); }
+
+    subscribe(event, handler) {
+      var eventStr = modalEvents[event];
+      if (this.events[eventStr] === false) {
+        this.events[eventStr] = true;
+        $(this.elementId).on(eventStr, handler);
+      }
+    }
+
+    unsubscribe() {
+      // From angular controller do
+      // $scope.$on('$destroy', () => { this.modal.unsubscribe(); });
+      _.forIn(this.events, (v,k) => { $(this.elementId).off(k) });
+      this.events = this.initialEventTrackingHash();
+    }
+
+    private initialEventTrackingHash() {
+      return _.reduce(_.values(modalEvents), (a,n:string) => { a[n] = false; return a; }, {});
+    }
 
     private command(param: any) {
       return (<any> $(this.elementId)).modal(param);

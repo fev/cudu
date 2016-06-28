@@ -34,8 +34,19 @@ import org.scoutsfev.cudu.db.tables.DtoMiembrosEscuela;
 import org.scoutsfev.cudu.db.tables.Ficha;
 import org.scoutsfev.cudu.db.tables.Grupo;
 import org.scoutsfev.cudu.db.tables.Impresion;
+import org.scoutsfev.cudu.db.tables.InformacionPago;
+import org.scoutsfev.cudu.db.tables.Liquidacion;
+import org.scoutsfev.cudu.db.tables.LiquidacionAsociado;
+import org.scoutsfev.cudu.db.tables.LiquidacionBalance;
+import org.scoutsfev.cudu.db.tables.LiquidacionBalanceResumen;
+import org.scoutsfev.cudu.db.tables.LiquidacionCalculo;
+import org.scoutsfev.cudu.db.tables.LiquidacionGrupos;
+import org.scoutsfev.cudu.db.tables.Ronda;
 import org.scoutsfev.cudu.db.tables.SchemaVersion;
 import org.scoutsfev.cudu.db.tables.Token;
+import org.scoutsfev.cudu.db.tables.ValoresFederativos;
+import org.scoutsfev.cudu.db.tables.ValoresPorAsociacion;
+import org.scoutsfev.cudu.db.tables.ValoresPorLiquidacion;
 
 
 /**
@@ -51,7 +62,7 @@ import org.scoutsfev.cudu.db.tables.Token;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Public extends SchemaImpl {
 
-	private static final long serialVersionUID = -1807228256;
+	private static final long serialVersionUID = -736222858;
 
 	/**
 	 * The reference instance of <code>public</code>
@@ -79,7 +90,8 @@ public class Public extends SchemaImpl {
 			Sequences.CARGO_ID_SEQ,
 			Sequences.CURSO_ID_SEQ,
 			Sequences.CURSO_PARTICIPANTE_SECUENCIA_INSCRIPCION_SEQ,
-			Sequences.FICHA_ID_SEQ);
+			Sequences.FICHA_ID_SEQ,
+			Sequences.LIQUIDACION_ID_SEQ);
 	}
 
 	@Override
@@ -111,7 +123,18 @@ public class Public extends SchemaImpl {
 			Ficha.FICHA,
 			Grupo.GRUPO,
 			Impresion.IMPRESION,
+			InformacionPago.INFORMACION_PAGO,
+			Liquidacion.LIQUIDACION,
+			LiquidacionAsociado.LIQUIDACION_ASOCIADO,
+			LiquidacionBalance.LIQUIDACION_BALANCE,
+			LiquidacionBalanceResumen.LIQUIDACION_BALANCE_RESUMEN,
+			LiquidacionCalculo.LIQUIDACION_CALCULO,
+			LiquidacionGrupos.LIQUIDACION_GRUPOS,
+			Ronda.RONDA,
 			SchemaVersion.SCHEMA_VERSION,
-			Token.TOKEN);
+			Token.TOKEN,
+			ValoresFederativos.VALORES_FEDERATIVOS,
+			ValoresPorAsociacion.VALORES_POR_ASOCIACION,
+			ValoresPorLiquidacion.VALORES_POR_LIQUIDACION);
 	}
 }

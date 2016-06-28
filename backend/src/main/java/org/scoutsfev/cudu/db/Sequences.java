@@ -53,4 +53,9 @@ public class Sequences {
 	 * The sequence <code>public.ficha_id_seq</code>
 	 */
 	public static final Sequence<Long> FICHA_ID_SEQ = new SequenceImpl<Long>("ficha_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
+
+	/**
+	 * The sequence <code>public.liquidacion_id_seq</code>
+	 */
+	public static final Sequence<Long> LIQUIDACION_ID_SEQ = new SequenceImpl<Long>("liquidacion_id_seq", Public.PUBLIC, org.jooq.impl.SQLDataType.BIGINT.nullable(false));
 }

@@ -158,7 +158,7 @@ class Jooq {
           }
           generate() {
             pojos(false)
-            immutablePojos(false)
+            immutablePojos(true)
             interfaces(false)
             jpaAnnotations(false)
             validationAnnotations(false)

@@ -14,7 +14,7 @@ var Cudu;
                 AsociadoTipo.prototype.desactivar = function () { this.activo = false; };
                 AsociadoTipo.prototype.isActivo = function () { return this.activo; };
                 return AsociadoTipo;
-            })();
+            }());
             Asociados.AsociadoTipo = AsociadoTipo;
             var FiltroAsociadoTipo = (function () {
                 function FiltroAsociadoTipo() {
@@ -39,7 +39,7 @@ var Cudu;
                     return this.getAsociadoTipo(tipo).isActivo();
                 };
                 return FiltroAsociadoTipo;
-            })();
+            }());
             Asociados.FiltroAsociadoTipo = FiltroAsociadoTipo;
         })(Asociados = Tecnicos.Asociados || (Tecnicos.Asociados = {}));
     })(Tecnicos = Cudu.Tecnicos || (Cudu.Tecnicos = {}));

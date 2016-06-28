@@ -1,0 +1,166 @@
+<div class="container contenedor-central liquidaciones liquidacionesBalance" ng-controller="LiquidacionesBalanceController as ctrl">
+<div class="row">
+  <div class="col-md-12 panelLiquidaciones">
+      <div class="material-panel-level-2">
+        <div class="mat-toolbar text-right no-print">
+          <a href="#/liquidaciones/grupos" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-list-ul"></i> &nbsp;<%=liquidaciones.desglosePorGrupos%></a>
+          <button ng-click="ctrl.nuevaLiquidacion()" type="button" class="btn btn-default solo-tecnico"><i class="fa fa-plus"></i> &nbsp;<%=liquidaciones.nueva%></button>
+          <a href="javascript:window.print()" type="button" class="btn btn-default"><i class="fa fa-print"></i> &nbsp;<%=liquidaciones.imprimir%></a>
+          <a href="mailto:<%=liquidaciones.mailTo%>" type="button" class="btn btn-default"><i class="fa fa-envelope-o"></i>&nbsp; <%=liquidaciones.dudas%></a>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-calendar"></i> &nbsp;<%=liquidaciones.ronda%> <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li ng-class="{active: rondaId == 2015}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2015)"><i class="fa fa-check fa-fw"></i> 2015-2016</a></li>
+              <li ng-class="{active: rondaId == 2016}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2016)"><i class="fa fa-check fa-fw"></i> 2016-2017</a></li>
+              <li ng-class="{active: rondaId == 2017}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2017)"><i class="fa fa-check fa-fw"></i> 2017-2018</a></li>
+              <li ng-class="{active: rondaId == 2018}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2018)"><i class="fa fa-check fa-fw"></i> 2018-2019</a></li>
+              <li ng-class="{active: rondaId == 2019}"><a href="javascript:" ng-click="ctrl.cargarBalanceGrupoActual(2019)"><i class="fa fa-check fa-fw"></i> 2019-2020</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="mat-toolbar-expand">
+          <div class="row">
+            <div class="col-md-10">
+              <h1>Liquidaciones {{nombreGrupo}} {{rondaEtiqueta}}</span></h1>
+            </div>
+            <div class="col-md-2 text-right hidden">
+              <h1 style="margin-right: 20px">
+                <a href="#/liquidaciones/balance/ABX/2015"><i class="fa fa-angle-left"></i></a>&nbsp;&nbsp;&nbsp;
+                <a href="#/liquidaciones/balance/BEL/2015"><i class="fa fa-angle-right"></i></a>
+              </h1>
+            </div>
+          </div>
+        </div>
+        <div class="panel-content">
+          <div class="row" style="margin-bottom: 25px">
+            <div class="col-md-7">
+              <h3 class="text-error">{{totalAjustado}}€</h3>
+              <span ng-show="existenAltasCompensadas"><%=liquidaciones.balancePositivoExp1%> {{resumen.acumuladoAsociados}} <%=liquidaciones.balancePositivoExp2%> {{resumen.acumuladoAsociados}} <%=liquidaciones.balancePositivoExp3%></span>
+              <span ng-show="balancePositivo && !existenAltasCompensadas"><%=liquidaciones.balancePositivo %></span>
+              <span ng-show="!balancePositivo"><%=liquidaciones.balanceNegativo %> {{totalAjustadoAbs}}€</span><br>
+              <%=liquidaciones.totalActivos%>: {{resumen.numeroActualAsociados}} <br/>
+              <div class="checkbox solo-tecnico">
+                <label>
+                  <input type="checkbox" ng-model="incluirBorradoresEnCalculo" ng-click="ctrl.cambioInclusionBorradores()">
+                  <%=liquidaciones.incluirBorradores %>
+                </label>
+              </div>
+            </div>
+            <div id="informacionPago" class="col-md-5">
+              <i class="fa fa-credit-card"></i> <b><%=liquidaciones.ingresoEnCuenta%></b> <br>
+              <%=liquidaciones.titular%>: {{informacionPago.titular}} <br>
+              <%=liquidaciones.concepto%>: {{informacionPago.concepto}}<br>
+              <%=liquidaciones.cantidadAIngresar%>: {{totalAjustadoAbs}}€ <br>
+              <%=liquidaciones.numeroCuenta%>: {{informacionPago.iban}}
+            </div>
+          </div>
+          <table class="table table-condensed table-hover">
+            <thead>
+              <tr>
+                <th class="no-print solo-tecnico">Editar</th>
+                <th><%=liquidaciones.id %></th>
+                <th class="solo-tecnico"><%=liquidaciones.estado %></th>
+                <th><%=liquidaciones.fecha %></th>
+                <th class="text-right"><%=liquidaciones.activos %></th>
+                <th class="text-right"><%=liquidaciones.diferencia %></th>
+                <th class="text-right"><%=liquidaciones.precioUnitario %></th>
+                <th class="text-right"><%=liquidaciones.ajusteManual %></th>
+                <th class="text-right"><%=liquidaciones.pagado %></th>
+                <th class="text-right"><%=liquidaciones.balance %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="liquidacion in resumen.balance" ng-click="ctrl.verDesglose(liquidacion.liquidacionId)" ng-class="{borrador: liquidacion.borrador}">
+                <td class="no-print solo-tecnico" ng-click="ctrl.editarLiquidacion(liquidacion); $event.stopPropagation()"><i class="fa fa-pencil-square-o"></i></td>
+                <td>{{ctrl.crearReferencia(liquidacion)}}</td>
+                <td class="solo-tecnico">
+                  <span class="emitida"><%=liquidaciones.emitida%></span>
+                  <span class="borrador"><%=liquidaciones.borrador%></span>
+                </td>
+                <td nowrap>{{liquidacion.creadoEn | date:'dd/MM/yy HH:mm'}}</td>
+                <td class="text-right">{{liquidacion.activos}}</td>
+                <td class="text-right">{{liquidacion.diferencia}}</td>
+                <td class="text-right">{{liquidacion.precioUnitario}} €</td>
+                <td class="text-right">{{liquidacion.ajusteManual | coalesce:'&mdash;'}} €</td>
+                <td class="text-right">{{liquidacion.pagado}} €</td>
+                <td class="text-right">{{liquidacion.balance}} €</td>
+              </tr>
+              <tr ng-show="resumen.balance.length === 0">
+                <td colspan="9">
+                  <%=liquidaciones.noExisten %>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot ng-hide="resumen.balance.length === 0">
+              <td class="no-print solo-tecnico"></td>
+              <td class="solo-tecnico"></td>
+              <td colspan="6"></td>
+              <td class="text-right">Total</td>
+              <td class="text-right">{{totalAjustado}} €</td>
+            </tfoot>
+          </table>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <div id="dlgEditarLiquidacion" class="modal fade" ng-class="{'progreso': blabla}">
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-body solo-tecnico">
+         <h1><%=liquidaciones.dlg_liquidacion %> {{ctrl.crearReferencia(seleccionada)}}</h1>
+         <p><%=liquidaciones.dlg_explicacion%></p>
+         <form class="form-cudu">
+           <div class="error" ng-show="error != null">{{error}}</div>
+           <div class="form-group">
+            <label><%=liquidaciones.ajusteManual%></label>
+            <input ng-model="seleccionada.ajusteManual" class="form-control" spellcheck="false" autocomplete="off"
+              placeholder="<%=liquidaciones.dlg_ajusteManualPlaceholder%>">
+           </div>
+           <div class="form-group">
+            <label><%=liquidaciones.dlg_cantidadPagada%></label>
+            <input ng-model="seleccionada.pagado" class="form-control" placeholder="0€" spellcheck="false" autocomplete="off">
+           </div>
+           <div class="checkbox">
+             <label>
+               <input type="checkbox" ng-model="seleccionada.borrador"><%=liquidaciones.dlg_marcarComo%> <b><%=liquidaciones.borradorMinusculas%></b>.
+               <%=liquidaciones.dlg_borradorExplicacion%>
+             </label>
+           </div>
+         </form>
+         <table class="table table-condensed table-bordered">
+           <thead>
+             <tr>
+               <th><%=liquidaciones.fecha%></th>
+               <th class="text-right"><%=liquidaciones.activos%></th>
+               <th class="text-right"><%=liquidaciones.diferencia%></th>
+               <th class="text-right"><%=liquidaciones.precioUnitario%></th>
+               <th class="text-right"><%=liquidaciones.subtotal%></th>
+               <th class="text-right"><%=liquidaciones.balance%></th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr>
+               <td nowrap>{{seleccionada.creadoEn | date:'dd/MM/yy HH:mm'}}</td>
+               <td class="text-right">{{seleccionada.activos}}</td>
+               <td class="text-right">{{seleccionada.diferencia}}</td>
+               <td class="text-right">{{seleccionada.precioUnitario}}€</td>
+               <td class="text-right">{{seleccionada.subtotal}}€</td>
+               <td class="text-right">{{seleccionada.balance}}€</td>
+             </tr>
+           </tbody>
+         </table>
+       </div>
+       <div class="modal-footer">
+         <button ng-click="ctrl.eliminarLiquidacion(seleccionada)" type="button" class="btn btn-default pull-left btn-danger" data-dismiss="modal"><%=liquidaciones.dlg_eliminar%></button>
+         <button ng-click="ctrl.guardarLiquidacion(seleccionada)" type="button" class="btn btn-primary">
+           <i class="fa fa-spinner fa-spin solo-progreso"></i><%=liquidaciones.dlg_guardar%>
+         </button>
+         <button type="button" class="btn btn-default" data-dismiss="modal"><%=liquidaciones.dlg_volver%></button>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>

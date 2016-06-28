@@ -296,4 +296,4 @@ angular.module('cuduApp')
   .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"))
   .factory('ModalRecuperarPassword', Cudu.Ux.ModalFactory("#dlgRecuperarPassword"))
   .factory('ModalCrearUsuario', Cudu.Ux.ModalFactory("#dlgCrearUsuario", "#dlgCrearUsuarioInput", true))
-  .factory('PermisosTypeahead', Cudu.Ux.TypeaheadFactory("#dlgCrearUsuarioInput", "usuario"))
+  .factory('PermisosTypeahead', Cudu.Ux.TypeaheadFactory("#dlgCrearUsuarioInput", "usuario"));

@@ -44,9 +44,10 @@
           <li class="rol-lluerna"><a href="#/lluerna/cursos">{{::menu.cursos}}</a></li>
           <li class="rol-asociado" ng-class="{active: controlador === 'ActividadesListadoCtrl' || controlador === 'ActividadesDetalleCtrl'}">
             <a href="#/actividades">{{::menu.actividades}}</a>
-            </li>
-          <li class="rol-tecnico"><a href="javascript:">{{::menu.liquidaciones}}</a></li>
+          </li>
           <li class="rol-asociado rol-permisos" ng-class="{active: seccion === 'permisos'}"><a href="#/permisos">{{::menu.permisos}}</a></li>
+          <li class="rol-asociado" ng-class="{active: seccion === 'liquidaciones'}"><a href="#/liquidaciones/balance/{{::menu.codigoGrupo}}">{{::menu.liquidaciones}}</a></li>
+          <li class="rol-tecnico" ng-class="{active: seccion === 'liquidaciones'}"><a href="#/liquidaciones/grupos">{{::menu.liquidaciones}}</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
@@ -103,6 +104,7 @@
   <script src="scripts/controllers/cursos.js"></script>
   <script src="scripts/controllers/cursos_lluerna.js"></script>
   <script src="scripts/controllers/curso_lluerna_detalle.js"></script>
+  <script src="scripts/controllers/liquidaciones.js"></script>
   <!-- /build -->
 </body>
 </html>

@@ -114,7 +114,7 @@ var Cudu;
                     };
                     CursoLluernaController.$inject = ['$scope', 'Traducciones', '$routeParams', 'CursosService', 'Typeahead', 'EstadosFormulario'];
                     return CursoLluernaController;
-                })();
+                }());
                 Detalle.CursoLluernaController = CursoLluernaController;
             })(Detalle = Cursos.Detalle || (Cursos.Detalle = {}));
         })(Cursos = Lluerna.Cursos || (Lluerna.Cursos = {}));

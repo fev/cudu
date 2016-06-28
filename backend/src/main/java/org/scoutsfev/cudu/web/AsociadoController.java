@@ -32,9 +32,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.scoutsfev.cudu.storage.especificaciones.EspecificacionesAsociado.*;
+import static org.scoutsfev.cudu.storage.especificaciones.EspecificacionesAsociado.PorGrupoSegunRama;
 import static org.scoutsfev.cudu.web.utils.ResponseEntityFactory.forbidden;
-import static org.springframework.data.jpa.domain.Specifications.where;
 
 @RestController
 public class AsociadoController {
