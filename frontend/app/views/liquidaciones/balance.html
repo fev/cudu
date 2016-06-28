@@ -1,6 +1,4 @@
 <div class="container contenedor-central liquidaciones liquidacionesBalance" ng-controller="LiquidacionesBalanceController as ctrl">
-<!-- Balance {{hello}}<br>
-<a href="#/liquidaciones/desglose/34">Liquidacion 34</a> -->
 <div class="row">
   <div class="col-md-12 panelLiquidaciones">
       <div class="material-panel-level-2">
@@ -61,7 +59,7 @@
           <table class="table table-condensed table-hover">
             <thead>
               <tr>
-                <th class="solo-tecnico">Editar</th>
+                <th class="no-print solo-tecnico">Editar</th>
                 <th><%=liquidaciones.id %></th>
                 <th class="solo-tecnico"><%=liquidaciones.estado %></th>
                 <th><%=liquidaciones.fecha %></th>
@@ -75,7 +73,7 @@
             </thead>
             <tbody>
               <tr ng-repeat="liquidacion in resumen.balance" ng-click="ctrl.verDesglose(liquidacion.liquidacionId)" ng-class="{borrador: liquidacion.borrador}">
-                <td class="solo-tecnico" ng-click="ctrl.editarLiquidacion(liquidacion); $event.stopPropagation()"><i class="fa fa-pencil-square-o"></i></td>
+                <td class="no-print solo-tecnico" ng-click="ctrl.editarLiquidacion(liquidacion); $event.stopPropagation()"><i class="fa fa-pencil-square-o"></i></td>
                 <td>{{ctrl.crearReferencia(liquidacion)}}</td>
                 <td class="solo-tecnico">
                   <span class="emitida"><%=liquidaciones.emitida%></span>
@@ -96,7 +94,8 @@
               </tr>
             </tbody>
             <tfoot ng-hide="resumen.balance.length === 0">
-              <td class="solo-tecnico" colspan="2"></td>
+              <td class="no-print solo-tecnico"></td>
+              <td class="solo-tecnico"></td>
               <td colspan="6"></td>
               <td class="text-right">Total</td>
               <td class="text-right">{{totalAjustado}} €</td>

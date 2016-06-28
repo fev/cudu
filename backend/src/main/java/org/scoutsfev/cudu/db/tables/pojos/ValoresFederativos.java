@@ -22,9 +22,9 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ValoresFederativos implements Serializable {
 
-	private static final long serialVersionUID = -525346615;
+	private static final long serialVersionUID = 2118302327;
 
-	private final Object  ambito;
+	private final String  ambito;
 	private final Integer especificidad;
 	private final Long    joven;
 	private final Long    kraal;
@@ -51,7 +51,7 @@ public class ValoresFederativos implements Serializable {
 	}
 
 	public ValoresFederativos(
-		Object  ambito,
+		String  ambito,
 		Integer especificidad,
 		Long    joven,
 		Long    kraal,
@@ -76,7 +76,7 @@ public class ValoresFederativos implements Serializable {
 		this.total = total;
 	}
 
-	public Object getAmbito() {
+	public String getAmbito() {
 		return this.ambito;
 	}
 

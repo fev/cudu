@@ -4,7 +4,13 @@
 
 module Cudu.Liquidaciones {
 
-  interface LiquidacionGrupoDto { }
+  interface LiquidacionGrupoDto {
+    balance?: number;
+    activos: number;
+    activosUltima?: number;
+    requiereNueva: boolean;
+    balanceNegativo: boolean;
+  }
 
   interface LiquidacionesGruposScope extends ng.IScope {
     rondaId: number;
@@ -25,8 +31,12 @@ module Cudu.Liquidaciones {
     }
 
     cargarDatosRonda(rondaId: number) {
-      this.service.resumenPorGrupos(rondaId).then(g => {
-        this.$scope.grupos = g;
+      this.service.resumenPorGrupos(rondaId).then(grupos => {
+        this.$scope.grupos = _.map(grupos, g => {
+          g.requiereNueva = g.activosUltima && (g.activosUltima !== g.activos);
+          g.balanceNegativo = g.balance && (g.balance < 0);
+          return g;
+        });
         this.$scope.rondaId = rondaId;
       });
     }

@@ -5,6 +5,7 @@ package org.scoutsfev.cudu.db.tables;
 
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -29,7 +30,7 @@ import org.scoutsfev.cudu.db.tables.records.LiquidacionGruposRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionGrupos extends TableImpl<LiquidacionGruposRecord> {
 
-	private static final long serialVersionUID = 685368206;
+	private static final long serialVersionUID = -1377329356;
 
 	/**
 	 * The reference instance of <code>public.liquidacion_grupos</code>
@@ -88,6 +89,11 @@ public class LiquidacionGrupos extends TableImpl<LiquidacionGruposRecord> {
 	 * The column <code>public.liquidacion_grupos.activos_ultima</code>.
 	 */
 	public final TableField<LiquidacionGruposRecord, Long> ACTIVOS_ULTIMA = createField("activos_ultima", org.jooq.impl.SQLDataType.BIGINT, this, "");
+
+	/**
+	 * The column <code>public.liquidacion_grupos.creado_en</code>.
+	 */
+	public final TableField<LiquidacionGruposRecord, Timestamp> CREADO_EN = createField("creado_en", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
 	/**
 	 * Create a <code>public.liquidacion_grupos</code> table reference

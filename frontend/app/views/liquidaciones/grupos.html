@@ -18,11 +18,12 @@
           </div>
           <div class="mat-toolbar-expand"><h1>Liquidaciones: Resumen por Grupo</h1></div>
           <div class="panel-content">
-            <table class="table table-condensed table-hover">
+            <table class="table table-condensed table-hover table-striped">
               <thead>
                 <tr>
                   <th><%=liquidaciones.ronda %></th>
                   <th><%=liquidaciones.grupo %></th>
+                  <th><%=liquidaciones.fechaUltima %></th>
                   <th class="text-right"><%=liquidaciones.numliquidaciones %></th>
                   <th class="text-right"><%=liquidaciones.activosAhora %></th>
                   <th class="text-right"><%=liquidaciones.activosultima %></th>
@@ -30,13 +31,16 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="grupo in grupos" ng-click="ctrl.verBalance(grupo.grupoId, grupo.rondaId)">
+                <tr ng-repeat="grupo in grupos"
+                  ng-click="ctrl.verBalance(grupo.grupoId, grupo.rondaId)"
+                  ng-class="{requiereNueva: grupo.requiereNueva, balanceNegativo: grupo.balanceNegativo}">
                   <td nowrap>{{grupo.rondaEtiqueta}}</td>
                   <td>{{grupo.nombre}}</td>
+                  <td>{{grupo.creadoEn | date:'dd/MM/yy HH:mm'}}</td>
                   <td class="text-right">{{grupo.numLiquidaciones}}</td>
-                  <td class="text-right">{{grupo.activos}}</td>
+                  <td class="text-right marcarRequiereNueva">{{grupo.activos}}</td>
                   <td class="text-right">{{grupo.activosUltima}}</td>
-                  <td class="text-right">{{grupo.balance}}</td>
+                  <td class="text-right marcarBalanceNegativo">{{grupo.balance}}</td>
                 </tr>
               </tbody>
             </table>

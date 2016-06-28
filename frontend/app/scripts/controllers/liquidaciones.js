@@ -15,8 +15,12 @@ var Cudu;
             };
             LiquidacionesGruposController.prototype.cargarDatosRonda = function (rondaId) {
                 var _this = this;
-                this.service.resumenPorGrupos(rondaId).then(function (g) {
-                    _this.$scope.grupos = g;
+                this.service.resumenPorGrupos(rondaId).then(function (grupos) {
+                    _this.$scope.grupos = _.map(grupos, function (g) {
+                        g.requiereNueva = g.activosUltima && (g.activosUltima !== g.activos);
+                        g.balanceNegativo = g.balance && (g.balance < 0);
+                        return g;
+                    });
                     _this.$scope.rondaId = rondaId;
                 });
             };

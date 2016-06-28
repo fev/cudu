@@ -6,6 +6,7 @@ package org.scoutsfev.cudu.db.tables.pojos;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 
@@ -23,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionGrupos implements Serializable {
 
-	private static final long serialVersionUID = -653846073;
+	private static final long serialVersionUID = 1719531692;
 
 	private final String     rondaEtiqueta;
 	private final Short      rondaId;
@@ -34,6 +35,7 @@ public class LiquidacionGrupos implements Serializable {
 	private final BigDecimal balance;
 	private final Long       numLiquidaciones;
 	private final Long       activosUltima;
+	private final Timestamp  creadoEn;
 
 	public LiquidacionGrupos(LiquidacionGrupos value) {
 		this.rondaEtiqueta = value.rondaEtiqueta;
@@ -45,6 +47,7 @@ public class LiquidacionGrupos implements Serializable {
 		this.balance = value.balance;
 		this.numLiquidaciones = value.numLiquidaciones;
 		this.activosUltima = value.activosUltima;
+		this.creadoEn = value.creadoEn;
 	}
 
 	public LiquidacionGrupos(
@@ -56,7 +59,8 @@ public class LiquidacionGrupos implements Serializable {
 		Integer    asociacion,
 		BigDecimal balance,
 		Long       numLiquidaciones,
-		Long       activosUltima
+		Long       activosUltima,
+		Timestamp  creadoEn
 	) {
 		this.rondaEtiqueta = rondaEtiqueta;
 		this.rondaId = rondaId;
@@ -67,6 +71,7 @@ public class LiquidacionGrupos implements Serializable {
 		this.balance = balance;
 		this.numLiquidaciones = numLiquidaciones;
 		this.activosUltima = activosUltima;
+		this.creadoEn = creadoEn;
 	}
 
 	public String getRondaEtiqueta() {
@@ -103,5 +108,9 @@ public class LiquidacionGrupos implements Serializable {
 
 	public Long getActivosUltima() {
 		return this.activosUltima;
+	}
+
+	public Timestamp getCreadoEn() {
+		return this.creadoEn;
 	}
 }

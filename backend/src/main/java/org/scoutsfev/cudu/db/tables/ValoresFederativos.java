@@ -27,7 +27,7 @@ import org.scoutsfev.cudu.db.tables.records.ValoresFederativosRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ValoresFederativos extends TableImpl<ValoresFederativosRecord> {
 
-	private static final long serialVersionUID = 147030720;
+	private static final long serialVersionUID = 891237463;
 
 	/**
 	 * The reference instance of <code>public.valores_federativos</code>
@@ -45,7 +45,7 @@ public class ValoresFederativos extends TableImpl<ValoresFederativosRecord> {
 	/**
 	 * The column <code>public.valores_federativos.ambito</code>.
 	 */
-	public final TableField<ValoresFederativosRecord, Object> AMBITO = createField("ambito", org.jooq.impl.DefaultDataType.getDefaultDataType("unknown"), this, "");
+	public final TableField<ValoresFederativosRecord, String> AMBITO = createField("ambito", org.jooq.impl.SQLDataType.CLOB, this, "");
 
 	/**
 	 * The column <code>public.valores_federativos.especificidad</code>.

@@ -125,7 +125,8 @@ create or replace view liquidacion_grupos AS
     gr.asociacion,
     bg.balance,
     coalesce(bg.num_liquidaciones, 0) as num_liquidaciones,
-    bg.activos_ultima
+    bg.activos_ultima,
+    bg.creado_en
   from (
     select r.id as ronda_id, r.etiqueta as ronda_etiqueta, g.*
     from grupo g cross join (select * from ronda order by id limit 5) r
@@ -134,7 +135,7 @@ create or replace view liquidacion_grupos AS
     select grupo_id, count(activo) as activos from asociado a where grupo_id is not null and a.activo = true group by grupo_id
   ) gc on gc.grupo_id = gr.id
   left join (
-    select grupo_id, ronda_id, sum(balance) as balance, count(c.liquidacion_id) as num_liquidaciones, last(c.activos) activos_ultima, false as borrador
+    select grupo_id, ronda_id, sum(balance) as balance, count(c.liquidacion_id) as num_liquidaciones, last(c.activos) activos_ultima, last(c.creado_en) creado_en, false as borrador
     from liquidacion_balance c
     where c.borrador = false
     group by grupo_id, ronda_id

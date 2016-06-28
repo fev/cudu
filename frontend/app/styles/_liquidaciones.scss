@@ -15,6 +15,11 @@ body.rol-tecnico .liquidaciones .mat-toolbar .solo-tecnico { display: inline-blo
     }
   }
 
+  .liquidacionesGrupos {
+    .requiereNueva .marcarRequiereNueva { color: $material-cyan-600; font-weight: bold; }
+    .balanceNegativo .marcarBalanceNegativo { color: $material-red-600; font-weight: bold; }
+  }
+
   .liquidacionesBalance {
     span.emitida { display: inline; }
     span.borrador { display: none; }
@@ -28,6 +33,7 @@ body.rol-tecnico .liquidaciones .mat-toolbar .solo-tecnico { display: inline-blo
     @media print {
       #dlgEditarLiquidacion { display: none !important; }
       #informacionPago { margin-top: 20px }
+      .no-print { display: none !important; }
     }
   }
 
