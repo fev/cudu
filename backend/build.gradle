@@ -19,7 +19,7 @@ apply plugin: 'org.flywaydb.flyway'
 
 jar {
   baseName = 'cudu'
-  version =  '2.2.0'
+  version =  '2.3.0'
 }
 
 sourceCompatibility = 1.8
