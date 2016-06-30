@@ -8,12 +8,13 @@ angular.module('cuduApp')
         return {
             asociacion: '',
             tipo: '',
-            asociacion: '',
             grupoId: '',
             sexo: '',
             ramasSeparadasPorComas: '',
             nombreApellido: '',
-            activo: true
+            activo: true,
+            orden: '',
+            ordenAsc: false
         };
     };
     
@@ -221,6 +222,25 @@ angular.module('cuduApp')
         const me = this;
         $location.path('/asociado/' + id);
     };
+    
+    $scope.ordenColumnas = [
+        { key: 'grupo', value: 'grupoAsc'},
+        { key: 'nombre', value: 'nombreAsc'},
+        { key: 'apellidos', value: 'apellidosAsc'},
+        { key: 'tipo', value: 'tipoAsc'}
+    ];
+    
+    $scope.ordenar = function(columna) {
+        const me = this;
+        let ordenColumna = _.find(me.ordenColumnas, function(c) { return c.key === columna}); 
+        if(ordenColumna) {
+            me[ordenColumna.value] = !me[ordenColumna.value];
+            me.filtro.orden = columna;
+            me.filtro.ordenAsc = me[ordenColumna.value];
+        }
+        
+        me.filtraAsociados();
+    } 
 
     $scope.filtro = new $scope.AsociadoFiltro();
     $scope.scroll = new $scope.Scroll();

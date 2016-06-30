@@ -50,7 +50,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     }
 
     @Override
-    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean activo, String sexo, String nombreApellido, Pageable pageable) {
+    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean activo, String sexo, String nombreApellido, String orden, Boolean ordenAsc, Pageable pageable) {
 
         SelectConditionStep<Record> base = context
                 .select(camposListado)
@@ -68,6 +68,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         base = base.and(ASOCIADO.ACTIVO.eq(activo));
         if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
         if(!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
+        if (!Strings.isNullOrEmpty(orden)) base = añadirOrden(base, orden, ordenAsc);
 
         int numeroPagina = pageable.getPageNumber();
         int totalAsociados = 0;
@@ -99,6 +100,37 @@ public class AsociadoStorageImpl implements AsociadoStorage {
 
         Condition rama = condicionesRama.stream().skip(1).reduce(condicionesRama.get(0), Condition::or);
         return query.and(rama);
+    }
+
+    private SelectConditionStep<Record> añadirOrden(SelectConditionStep<Record> query, String orden, Boolean ordenAsc) {
+        switch (orden) {
+            case "tipo":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.TIPO.asc());
+                else
+                    query.orderBy(ASOCIADO.TIPO.desc());
+                break;
+            case "nombre":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.NOMBRE.asc());
+                else
+                    query.orderBy(ASOCIADO.NOMBRE.desc());
+                break;
+            case "apellidos":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.APELLIDOS.asc());
+                else
+                    query.orderBy(ASOCIADO.APELLIDOS.desc());
+                break;
+            case "grupo":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.GRUPO_ID.asc());
+                else
+                    query.orderBy(ASOCIADO.GRUPO_ID.desc());
+                break;
+        }
+
+        return query;
     }
 
     public AsociadoParaAutorizar obtenerAsociadoParaEvaluarAutorizacion(Integer asociadoId) {
