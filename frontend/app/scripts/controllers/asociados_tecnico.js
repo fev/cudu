@@ -237,7 +237,7 @@ angular.module('cuduApp')
             return $http.get('api/tecnico/asociado/?page=' + pagina, { params: filtro });
           },
           grupos: function() {
-              return $http.get('api/grupo/all');
+              return $http.get('api/grupo/all?size=200');
           }
       }
   });
