@@ -201,10 +201,33 @@ angular.module('cuduApp')
         const me = this;
         if(me.filtro[clave] === valor) {
             me.filtro[clave] = '';
+            valor = '';
         } else {
             me.filtro[clave] = valor;   
         }
+        
+        me.obtenerGruposAsociacion(clave, valor);
         me.filtraAsociados();
+    };
+    
+    $scope.obtenerGruposAsociacion = function(clave, valor) {
+        const me = this;
+        if(clave === 'asociacion') {
+            me.deseleccionaGrupo();
+            me.grupos = [me.grupoSeleccionado];
+            AsociadoTecnico.grupos(valor).success(data => {
+                me.grupos = me.grupos.concat(data);
+            });
+        }
+    };
+    
+    $scope.deseleccionaGrupo = function() {
+        const me = this;
+        me.filtro.grupoId = '';
+        let todos = _.find(me.grupos, (g) => {
+            return g.id === -1;
+        })
+        me.grupoSeleccionado = todos; 
     };
     
     $scope.verGrupo = function() {
@@ -240,7 +263,7 @@ angular.module('cuduApp')
         }
         
         me.filtraAsociados();
-    } 
+    };
 
     $scope.filtro = new $scope.AsociadoFiltro();
     $scope.scroll = new $scope.Scroll();
@@ -248,7 +271,7 @@ angular.module('cuduApp')
     $scope.grupoSeleccionado = { id: -1, nombre: 'Todos' };
     $scope.grupos = [$scope.grupoSeleccionado];
     AsociadoTecnico.grupos().success(data => {
-        $scope.grupos = $scope.grupos.concat(data.content);
+        $scope.grupos = $scope.grupos.concat(data);
     });
   }])
   .factory('AsociadoTecnico', function($http) {
@@ -256,8 +279,13 @@ angular.module('cuduApp')
           listado: function(pagina, filtro) {
             return $http.get('api/tecnico/asociado/?page=' + pagina, { params: filtro });
           },
-          grupos: function() {
-              return $http.get('api/grupo/all?size=200');
+          grupos: function(asociacion) {
+              if(_.isUndefined(asociacion)) {
+                asociacion = '';
+              }
+              
+              let url = 'api/grupo/all?size=200&asociacion=' + asociacion;
+              return $http.get(url);
           }
       }
   });
