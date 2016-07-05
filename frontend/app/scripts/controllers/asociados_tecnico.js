@@ -78,7 +78,7 @@ angular.module('cuduApp')
       
     $scope.bindAsociado = function(valores, indices) {
         return {
-            grupoId: valores[indices.grupo_id],
+            grupoNombre: valores[indices.grupo_nombre],
             id: valores[indices.id],
             nombre: valores[indices.nombre],
             apellidos: valores[indices.apellidos],
