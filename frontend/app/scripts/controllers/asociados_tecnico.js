@@ -12,7 +12,7 @@ angular.module('cuduApp')
             sexo: '',
             ramasSeparadasPorComas: '',
             nombreApellido: '',
-            activo: true,
+            inactivo: false,
             orden: '',
             ordenAsc: false
         };
@@ -87,6 +87,7 @@ angular.module('cuduApp')
             email: valores[indices.email],
             telefono: valores[indices.telefono],
             usuario: valores[indices.usuario_activo],
+            activo: valores[indices.activo],
             creado: valores[indices.fecha_alta],
             actualizado: valores[indices.fecha_actualizacion],
             baja: valores[indices.fecha_baja],
@@ -237,7 +238,7 @@ angular.module('cuduApp')
     
     $scope.mostrarInactivos = function() {
         const me = this;
-          me.filtro.activo = !me.filtro.activo;
+          me.filtro.inactivo = !me.filtro.inactivo;
           me.filtraAsociados(); 
     };
     

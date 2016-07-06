@@ -50,7 +50,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     }
 
     @Override
-    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean activo, String sexo, String nombreApellido, String orden, Boolean ordenAsc, Pageable pageable) {
+    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String sexo, String nombreApellido, String orden, Boolean ordenAsc, Pageable pageable) {
 
         SelectConditionStep<Record> base = context
                 .select(camposListado)
@@ -62,10 +62,9 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         if (!Strings.isNullOrEmpty(grupoId)) base = base.and(GRUPO.ID.equal(grupoId));
         if (tipo != null) base = base.and(ASOCIADO.TIPO.eq(String.valueOf(tipo.getTipo())));
         if (ramas != null) base = añadirCondicionesDeRama(base, ramas);
-        if (activo == null) {
-            activo = true;
+        if (inactivos == null || !inactivos) {
+            base = base.and(ASOCIADO.ACTIVO.eq(true));
         }
-        base = base.and(ASOCIADO.ACTIVO.eq(activo));
         if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
         if(!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
         if (!Strings.isNullOrEmpty(orden)) base = añadirOrden(base, orden, ordenAsc);
