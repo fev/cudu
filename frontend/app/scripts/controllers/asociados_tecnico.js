@@ -19,7 +19,7 @@ angular.module('cuduApp')
     };
     
     $scope.AsociadoTipo = function(tipo, activo) {
-        const me = this;
+        var me = this;
         me.tipo = tipo;
         me.activo = activo;
         
@@ -32,24 +32,24 @@ angular.module('cuduApp')
     };
     
     $scope.asociadoTipos = [
-        new $scope.AsociadoTipo("Kraal", false),
-        new $scope.AsociadoTipo("Joven", false),
-        new $scope.AsociadoTipo("Comite", false)
+        new $scope.AsociadoTipo('Kraal', false),
+        new $scope.AsociadoTipo('Joven', false),
+        new $scope.AsociadoTipo('Comite', false)
     ];
     
     $scope.FiltroAsociadoTipo = function(asociadoTipos) {
-        const me = this;
+        var me = this;
         me.asociadoTipos = asociadoTipos;
         
         me.getAsociadoTipo = function(tipo) {
-            return _.find(me.asociadoTipos, (a) => { return tipo === a.getTipo() });
+            return _.find(me.asociadoTipos, function(a) { return tipo === a.getTipo(); });
         };
         
         me.activar = function(tipo) {
             var asociadoTipo = me.getAsociadoTipo(tipo);
             asociadoTipo.activar();
             var restoTipos = _.without(me.asociadoTipos, asociadoTipo);
-            _.forEach(restoTipos, (t) => t.desactivar());
+            _.forEach(restoTipos, function (t) { t.desactivar(); });
         };
         
         me.desactivar = function(tipo) {
@@ -70,8 +70,7 @@ angular.module('cuduApp')
             pagina: 0,
             limite: 0,    
             disable: function() {
-                const me = this;
-                me.isEnabled = false;
+                this.isEnabled = false;
             }    
         };
     };
@@ -96,14 +95,13 @@ angular.module('cuduApp')
     };
       
     $scope.obternerAsociados = function() {
-        const me = this;
+        var me = this;
         if (me.scroll.isBusy || !me.scroll.isEnabled) {
             return;
         }
         
         me.scroll.isBusy = true;
-        AsociadoTecnico.listado(me.scroll.pagina, me.filtro).success(data => {
-            const me = this;
+        AsociadoTecnico.listado(me.scroll.pagina, me.filtro).success(function(data) {
             var asociados = _.map(data.datos, function(a) { return me.bindAsociado(a, data.campos); });
             if(me.scroll.pagina === 0) {
                 me.scroll.limite = data.total;
@@ -124,14 +122,14 @@ angular.module('cuduApp')
     };
     
     $scope.filtraAsociados = function() {
-        const me = this;
+        var me = this;
         me.scroll = new me.Scroll();
         me.asociados = [];
         me.obternerAsociados();  
     };
     
     $scope.filtraPorSexo = function(sexo) {
-        const me = this;
+        var me = this;
         if(me.filtro.sexo === sexo) {
             me.desactivarSexo();
         }
@@ -143,29 +141,29 @@ angular.module('cuduApp')
     };
 
     $scope.desactivarSexo = function() {
-        const me = this;
+        var me = this;
         me.filtro.sexo = null;
     };
     
     $scope.filtraPorNombre = function() {
-        const me = this;
+        var me = this;
         me.filtro.nombreApellido = me.busqueda;
         
         me.filtraAsociados();
     };
     
     $scope.limpiarFiltro = function() {
-        const me = this;
+        var me = this;
         me.filtro.nombreApellido = '';
         
         me.filtraAsociados();
     };
     
     $scope.filtraRama = function(rama) {
-        const me = this;
-        let lista = _.words(me.filtro.ramasSeparadasPorComas);
+        var me = this;
+        var lista = _.words(me.filtro.ramasSeparadasPorComas);
         if (me.esRama(rama)) {
-        _.remove(lista, r => r === rama);
+            _.remove(lista, function(r) { return r === rama; });
         }
         else {
         lista.push(rama);
@@ -175,12 +173,12 @@ angular.module('cuduApp')
     };
 
     $scope.esRama = function(rama) {
-        const me = this;
+        var me = this;
         return me.filtro.ramasSeparadasPorComas.indexOf(rama) > -1;
     };
     
     $scope.activar = function(tipo) {
-        const me = this;
+        var me = this;
         if (me.filtroAsociadoTipo.isActivo(tipo)) {
             me.filtroAsociadoTipo.desactivar(tipo);
         }
@@ -192,14 +190,14 @@ angular.module('cuduApp')
     };
     
     $scope.filtraGrupo = function(id) {
-        const me = this.$parent;
+        var me = this.$parent;
         me.grupoSeleccionado = _.find(me.grupos, { 'id': id});
         me.filtro.grupoId = id === -1 ? '' : id;
         me.filtraAsociados();
     };
     
     $scope.filtraPropiedad = function(clave, valor) {
-        const me = this;
+        var me = this;
         if(me.filtro[clave] === valor) {
             me.filtro[clave] = '';
             valor = '';
@@ -212,38 +210,36 @@ angular.module('cuduApp')
     };
     
     $scope.obtenerGruposAsociacion = function(clave, valor) {
-        const me = this;
+        var me = this;
         if(clave === 'asociacion') {
             me.deseleccionaGrupo();
             me.grupos = [me.grupoSeleccionado];
-            AsociadoTecnico.grupos(valor).success(data => {
+            AsociadoTecnico.grupos(valor).success(function(data) {
                 me.grupos = me.grupos.concat(data);
             });
         }
     };
     
     $scope.deseleccionaGrupo = function() {
-        const me = this;
+        var me = this;
         me.filtro.grupoId = '';
-        let todos = _.find(me.grupos, (g) => {
+        var todos = _.find(me.grupos, function(g) {
             return g.id === -1;
-        })
+        });
         me.grupoSeleccionado = todos; 
     };
     
     $scope.verGrupo = function() {
-        const me = this;
         $location.path('/grupo/' + $scope.grupoSeleccionado.id);
     };
     
     $scope.mostrarInactivos = function() {
-        const me = this;
+        var me = this;
           me.filtro.inactivo = !me.filtro.inactivo;
           me.filtraAsociados(); 
     };
     
     $scope.verAsociado = function(id) {
-        const me = this;
         $location.path('/asociado/' + id);
     };
     
@@ -255,8 +251,8 @@ angular.module('cuduApp')
     ];
     
     $scope.ordenar = function(columna) {
-        const me = this;
-        let ordenColumna = _.find(me.ordenColumnas, function(c) { return c.key === columna}); 
+        var me = this;
+        var ordenColumna = _.find(me.ordenColumnas, function(c) { return c.key === columna;}); 
         if(ordenColumna) {
             me[ordenColumna.value] = !me[ordenColumna.value];
             me.filtro.orden = columna;
@@ -271,7 +267,7 @@ angular.module('cuduApp')
     $scope.filtroAsociadoTipo = new $scope.FiltroAsociadoTipo($scope.asociadoTipos);
     $scope.grupoSeleccionado = { id: -1, nombre: 'Todos' };
     $scope.grupos = [$scope.grupoSeleccionado];
-    AsociadoTecnico.grupos().success(data => {
+    AsociadoTecnico.grupos().success(function(data) {
         $scope.grupos = $scope.grupos.concat(data);
     });
   }])
@@ -285,8 +281,8 @@ angular.module('cuduApp')
                 asociacion = '';
               }
               
-              let url = 'api/grupo/all?size=200&asociacion=' + asociacion;
+              var url = 'api/grupo/all?size=200&asociacion=' + asociacion;
               return $http.get(url);
           }
-      }
+      };
   });
