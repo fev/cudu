@@ -88,34 +88,34 @@ angular.module('cuduApp')
       marcarCambiosPendientes();
       $scope.asociado = generarAsociadoVacio();
     };
-    
-    $scope.obtenerAsociado = function(id) {
-      Asociado.get({ 'id': id }, function(asociado) {
-          asociado.marcado = original.marcado;
-          asociado.guardado = original.guardado;
-          asociado.puntosCovol = calcularPuntosCovol(asociado);
-          $scope.asociado = asociado;
-          $scope.asociados[pos] = asociado;
-          if(!$scope.esTecnico) {
-            emitirAsociadoEditandose(asociado);   
-          }
-        });  
-    };
 
     $scope.editar = function(id) {
       marcarCambiosPendientes();
 
-      var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
-      var original = $scope.asociados[pos];
-      if (original.cambiosPendientes)
+      $scope.posAsociado = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
+      $scope.original = $scope.asociados[$scope.posAsociado];
+      if ($scope.original.cambiosPendientes)
       {
         // Si previamente no se han guardado los cambios, evitamos recargar desde
         // el servidor y dejamos el asociado original con cambios pendientes.
-        $scope.asociado = original;
-        emitirAsociadoEditandose(original);
+        $scope.asociado = $scope.original;
+        emitirAsociadoEditandose($scope.original);
       } else {
         $scope.obtenerAsociado(id);
       }
+    };
+    
+    $scope.obtenerAsociado = function(id) {
+      Asociado.get({ 'id': id }, function(asociado) {
+          asociado.marcado = $scope.original.marcado;
+          asociado.guardado = $scope.original.guardado;
+          asociado.puntosCovol = calcularPuntosCovol(asociado);
+          $scope.asociado = asociado;
+          $scope.asociados[$scope.posAsociado] = asociado;
+          if(!$scope.esTecnico) {
+            emitirAsociadoEditandose(asociado);   
+          }
+        });  
     };
 
     $scope.guardar = function(id) {
