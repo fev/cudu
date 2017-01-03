@@ -8,18 +8,11 @@ Cudú es una aplicación web que permite almacenar y gestionar de forma segura y
 
 ## Primeros pasos
 
-Para generar el `frontend` necesitas tener instalado [Compass](http://compass-style.org/) y [Bower](http://bower.io/). Hemos incluido los archivos necesarios para que puedas obtener las dependencias con [npm](https://www.npmjs.org) y [bundler](http://bundler.io):
+Para generar el `frontend` necesitas tener instalado [Node.js](https://nodejs.org). Puedes obtener todas las dependencias y levantar un servidor de desarrollo fácilmente mediante:
 
 	$ cd frontend
-	$ npm install
-	$ bundler install
-	$ bower install
-
-Una vez tengas todo disponible necesitas generar las traducciones de las vistas, el CSS resultante de Sass/Compass y una vez completado puedes arrancar el `frontend`:
-
-	$ node traducir.js
-	$ compass compile
-	$ node devserver.js
+	$ yarn install
+	$ yarn start
 
 Pasados unos segundos Cudú estará disponible con datos de prueba en `http://localhost:3000`. El `frontend` se ha desarrollado usando [AngularJS](https://angularjs.org), [TypeScript](http://typescriptlang.org) y [Sass](http://sass-lang.com/), entre otros. 
 
