@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -o errexit
+set -o pipefail
+set -o nounset
+
 readonly OUT=./dist
 readonly JS=$OUT/scripts
 readonly BIN=./node_modules/.bin
