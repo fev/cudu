@@ -14,13 +14,13 @@
   .navbar-material { @include navbar-material($primario, #FFF); }
   .navbar-material .navbar-nav > .active > a {
     // Indicador sección activa
-    @include box-shadow(inset 0 3px 0 0 $complementario);
+    box-shadow: inset 0 3px 0 0 $complementario;
   }
   .nav-tabs > li.active > a,
   .nav-tabs > li.active > a:focus {
     // Tabs internos
     color: $primario; border-bottom-color: $primario;
-    @include box-shadow(inset 0 -2px 0 0 $primario);
+    box-shadow: inset 0 -2px 0 0 $primario;
   }
   .dropdown-header { color: $primario; }
 }

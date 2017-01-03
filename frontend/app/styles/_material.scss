@@ -4,11 +4,11 @@ $material-bottom-shadow-3 : 0 10px 20px rgba(0,0,0,0.19), 0  6px  6px rgba(0,0,0
 $material-bottom-shadow-4 : 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 $material-bottom-shadow-5 : 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 
-.material-panel-level-1 { background-color: #FFF; @include box-shadow($material-bottom-shadow-1); }
-.material-panel-level-2 { background-color: #FFF; @include box-shadow($material-bottom-shadow-2); }
-.material-panel-level-3 { background-color: #FFF; @include box-shadow($material-bottom-shadow-3); }
-.material-panel-level-4 { background-color: #FFF; @include box-shadow($material-bottom-shadow-4); }
-.material-panel-level-5 { background-color: #FFF; @include box-shadow($material-bottom-shadow-5); }
+.material-panel-level-1 { background-color: #FFF; box-shadow: $material-bottom-shadow-1; }
+.material-panel-level-2 { background-color: #FFF; box-shadow: $material-bottom-shadow-2; }
+.material-panel-level-3 { background-color: #FFF; box-shadow: $material-bottom-shadow-3; }
+.material-panel-level-4 { background-color: #FFF; box-shadow: $material-bottom-shadow-4; }
+.material-panel-level-5 { background-color: #FFF; box-shadow: $material-bottom-shadow-5; }
 
 $material-red-50   : #ffebee;
 $material-red-100  : #ffcdd2;

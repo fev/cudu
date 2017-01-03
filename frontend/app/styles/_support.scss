@@ -78,10 +78,17 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
   .contenedor-central {
     background-color: transparent;
     &>div {
-      @include box-shadow(none);
+      box-shadow: none;
       background-color: transparent;
     }
   }
+}
+
+@mixin input-placeholder {
+  &::-webkit-input-placeholder { @content; }
+  &:-moz-placeholder { @content; }
+  &::-moz-placeholder { @content; }
+  &:-ms-input-placeholder { @content; }
 }
 
 // Ver actividades o cursos para ejemplo
@@ -95,8 +102,8 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
   #txtBusqueda {
      font-weight: 300;
      padding: 6px;
-     @include box-shadow(none);
-     @include border-radius(0px);
+     box-shadow: none;
+     border-radius: 0px;
      @include input-placeholder { color: $material-green-400; }
      color: $material-green-900; background-color: transparent; border: 1px solid transparent;
      &:hover, &:focus { border-bottom: 1px solid $material-green-300; }
@@ -104,7 +111,7 @@ $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
        border-bottom: 1px solid $material-green-500;
        color: $material-grey-900;
        outline: 0;
-       @include box-shadow(none);
+       box-shadow: none;
      }
    }
 

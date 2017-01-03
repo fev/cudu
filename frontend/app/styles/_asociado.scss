@@ -3,15 +3,15 @@
   #txtBusqueda {
     font-weight: 300;
     padding: 6px;
-    @include box-shadow(none);
-    @include border-radius(0px);
+    box-shadow: none;
+    border-radius: 0px;
     background-color: transparent; border: 1px solid transparent;
     &:hover, &:focus { border-bottom: 1px solid $input-border; }
     &:focus {
       border-bottom: 1px solid $material-cyan-500;
       color: $material-grey-900;
       outline: 0;
-      @include box-shadow(none);
+      box-shadow: none;
     }
   }
 

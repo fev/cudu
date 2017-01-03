@@ -27,8 +27,8 @@
       form { padding-left: 5px }
       #txtApuntar, #txtFormador, #txtParticipante {
         &:hover { border-color: $input-border }
-        @include box-shadow(none);
-        @include border-radius(0px);
+        box-shadow: none;
+        border-radius: 0px;
       }
       .form-group.etiqueta { width: 130px; }
     }
@@ -47,7 +47,7 @@
     }
     #panelEdicion {
       border-left: 1px solid $input-border;
-      @include box-shadow(-5px 0 8px -4px #CCC);
+      box-shadow: -5px 0 8px -4px #CCC;
       padding-left: 0;
       margin-bottom: 30px;
       .form-cudu { margin-bottom: 0 }
@@ -62,7 +62,7 @@
       }
     }
     #panelEdicionCt {
-      @include box-shadow(0px 3px 7px -2px #CCC);
+      box-shadow: 0px 3px 7px -2px #CCC;
       border-bottom: 1px solid $input-border;
       padding-bottom: 20px;
     }

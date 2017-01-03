@@ -10,15 +10,15 @@
       }
     }
     
-    @include keyframes(flash) {
+    @keyframes flash {
         0% { background-color: #FFFBCC; }
         100% { background-color: #FFF; }
     }
     .flash {
-        @include animation-name(flash);
-        @include animation-duration(1s);
-        @include animation-iteration-count(1);
-        @include animation-timing-function(ease-in);
+        animation-name: flash;
+        animation-duration: 1s;
+        animation-iteration-count: 1;
+        animation-timing-function: ease-in;
     }
     
     .curso {

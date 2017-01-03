@@ -4,17 +4,14 @@ readonly OUT=./dist
 readonly JS=$OUT/scripts
 readonly BIN=./node_modules/.bin
 
-# TODO compass build, watchers en devenv
-# TODO Quitar dependencias con Compass, usar libsass
 # TODO Bump version number, .semver
-# TODO bundle install
 
 build() {
     mkdir $OUT
     cp -R app/* $OUT
     rm $OUT/styles/*scss
 
-    compass compile
+    npm run sass
 
     $BIN/htmlprocessor $OUT/index.html -o $OUT/index.html --list $OUT/merge.list
     concat ':lib.*js$' $JS/vendor.js
@@ -77,13 +74,6 @@ prepare() {
     if [ $(instalado npm) == 0 ]; then
         printf '\e[0;31m%s\e[0m\n' 'Necesitas instalar node.js para poder continuar.'
         exit 1
-    fi
-    if [ $(instalado bundler) == 0 ]; then
-        printf '\e[0;31m%s\e[0m\n' 'Necesitas instalar bundler para poder continuar.'
-        exit 1
-    fi
-    if [ $(instalado compass) == 0 ]; then
-        bundler install
     fi
     if [ ! -d node_modules ]; then 
         npm install

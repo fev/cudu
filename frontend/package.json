@@ -21,6 +21,7 @@
     "jshint": "^2.8.0",
     "lodash": "^3.1.0",
     "morgan": "^1.5.1",
+    "node-sass": "^4.1.1",
     "properties": "^1.2.1",
     "proxy-middleware": "^0.8.0",
     "tsd": "^0.6.4",
@@ -29,7 +30,9 @@
     "uglify-js": "^2.4.16"
   },
   "scripts": {
-    "traducir-watch": "fswatch -0 -or app/views | xargs -0 -n 1 node traducir.js"
+    "traducir-watch": "fswatch -0 -or app/views | xargs -0 -n 1 node traducir.js",
+    "sass": "node-sass app/styles/cudu.scss --output-style compressed --source-map app/styles -o app/styles",
+    "sass-watch": "node-sass app/styles/cudu.scss --watch app/styles --output-style expanded --source-map app/styles -o app/styles"
   },
   "engines": {
     "node": ">=0.10.0"

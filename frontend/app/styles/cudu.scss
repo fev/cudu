@@ -1,4 +1,4 @@
-@import "compass/css3";
+// @import "compass/css3";
 @import "support.scss";
 @import "material.scss";
 
@@ -33,7 +33,7 @@ body { font-family: $stdfontpath; color: #333; background-color: #EEE }
 
 .mat-header {
   position: absolute; width: 100%; height: 106px; z-index: -200; top: 0;
-  @include box-shadow($material-bottom-shadow-1);
+  box-shadow: $material-bottom-shadow-1;
 }
 
 .mat-toolbar {
@@ -56,7 +56,7 @@ body { font-family: $stdfontpath; color: #333; background-color: #EEE }
   background-color: #FFF;
   > div {
     margin-top: 0px; margin-bottom: 0px;
-    @include box-shadow($material-bottom-shadow-2)
+    box-shadow: $material-bottom-shadow-2
   }
 }
 
@@ -73,8 +73,8 @@ h1 { font-weight: 300; }
   .form-control {
     height: $input-height-base - 4;
     padding: $cudu-padding-base-vertical $cudu-padding-base-horizontal;
-    @include box-shadow(none);
-    @include border-radius(0px);
+    box-shadow: none;
+    border-radius: 0px;
     border-width: 0px 0px 1px 0px;
     color: #333;
   }
@@ -91,17 +91,17 @@ h1 { font-weight: 300; }
   .checkbox-inline, .radio-inline, .checkbox {
     padding-top: $cudu-padding-base-vertical;
   }
-  .btn-group-sm > .btn { @include border-radius(0px); }
-  .btn.active { @include box-shadow(none); }
+  .btn-group-sm > .btn { border-radius: 0px; }
+  .btn.active { box-shadow: none; }
   .input-group-btn:last-child > .btn {
     border-width: 0 0 1px 0; border-top: 1px solid transparent;
-    @include border-radius(0px);
+    border-radius: 0px;
   }
   > .nav, > .tab-content { margin-top: $line-height-computed + $padding-base-vertical }
 }
 
 .btn, .btn-xs, .btn-group-xs > .btn {
-  @include border-radius(0px);
+  border-radius: 0px;
 }
 
 // Eliminar borde difuminado al pulsar
@@ -114,7 +114,7 @@ h1 { font-weight: 300; }
 
 // Eliminar sombra interna al pulsar
 .btn:active, .btn.active, .btn-group.open .dropdown-toggle {
-  @include box-shadow(none);
+  box-shadow: none;
   background-color: $material-grey-200;
 }
 
@@ -123,18 +123,18 @@ h1 { font-weight: 300; }
 
 .btn-progress, .btn-progress:focus {
   color: #FFF;
-  -webkit-animation: progress 0.7s ease infinite;
+  animation: progress 0.7s ease infinite;
   &:hover { border-color: #CCC; }
 }
 
 .dropdown-menu {
-  @include border-radius(0px);
-  font-weigth: 300; margin-top: 0; // antes 2px
+  border-radius: 0px;
+  font-weight: 300; margin-top: 0; // antes 2px
   .dropdown-header { font-size: inherit; text-transform: uppercase; }
   .fa, .glyphicon { margin-right: 10px }
 }
 
-@-webkit-keyframes progress {
+@keyframes progress {
   0%  {background-color: #5CB85C; }
   50% {background-color: #BAE8BA; }
   100% {background-color: #5CB85C; }
@@ -148,12 +148,12 @@ h1 { font-weight: 300; }
   border-color: transparent;
   // 3px, para no desplazar usamos box-shadow
   border-bottom: 1px solid $material-grey-900;
-  @include box-shadow(inset 0 -2px 0 0 $material-grey-900);
+  box-shadow: inset 0 -2px 0 0 $material-grey-900;
 }
 
 .nav-tabs > li > a {
   color: #333;
-  @include border-radius(0px);
+  border-radius: 0px;
 }
 
 .table {
@@ -167,7 +167,7 @@ h1 { font-weight: 300; }
 }
 
 .alert {
-  @include border-radius(0px);
+  border-radius: 0px;
   ul { margin-top: 10px; }
   font-weight: 300;
   strong { font-weight: 500 }
@@ -209,18 +209,18 @@ a, button {
 .tt-suggestion.tt-cursor { background-color: $material-grey-300; }
 .tt-hint { color: $material-grey-300; }
 
-@include keyframes(flash) {
+@keyframes flash {
     0% { background-color: #FFFBCC; }
     100% { background-color: #FFF; }
 }
 .flash.ng-enter {
-    @include animation-name(flash);
-    @include animation-duration(2s);
-    @include animation-iteration-count(1);
-    @include animation-timing-function(ease-in);
+  animation-name: flash;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
 }
 
-.modal .modal-dialog .modal-content { @include border-radius(0px); }
+.modal .modal-dialog .modal-content { border-radius: 0px; }
 
 .dropdown-submenu {
   position:relative;
@@ -239,9 +239,9 @@ a, button {
 .pull-left { float: left; }
 
 #toast-container > div {
-  @include opacity(1);
-  @include border-radius(0);
-  @include box-shadow($material-bottom-shadow-1);
+  opacity: 1;
+  border-radius: 0;
+  box-shadow: $material-bottom-shadow-1;
 }
 #toast-container {
   > .toast { background-image: none !important; }
@@ -258,11 +258,11 @@ a, button {
   > .toast-error:before { content: "\f071"; margin: auto 0.5em auto -34px; line-height: 37px }
   > .toast-info:before { content: "\f00c"; font-size: inherit; margin: auto -27px }
   > .toast-en-curso:before { content: "\f021"; font-size: inherit; margin: auto -27px }
-  > :hover { @include box-shadow($material-bottom-shadow-1); }
+  > :hover { box-shadow: $material-bottom-shadow-1; }
 }
 .toast-info, .toast-en-curso {
   background-color: $material-grey-800;
-  .toast-progress { background-color: $material-grey-500; @include opacity(1); }
+  .toast-progress { background-color: $material-grey-500; opacity: 1; }
 }
 
 @import 'secciones.scss';
