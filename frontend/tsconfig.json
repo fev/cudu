@@ -1,47 +1,9 @@
 {
-    "version": "1.5.3",
     "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "isolatedModules": false,
-        "jsx": "react",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "declaration": false,
         "noImplicitAny": false,
         "removeComments": true,
-        "noLib": false,
-        "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true
-    },
-    "filesGlob": [
-        "./**/*.ts",
-        "./**/*.tsx",
-        "!./node_modules/**/*"
-    ],
-    "files": [
-        "./app/scripts/AsociadoTipo.ts",
-        "./app/scripts/controllers/asociados_tecnico.ts",
-        "./app/scripts/controllers/curso_lluerna_detalle.ts",
-        "./app/scripts/controllers/cursos_lluerna.ts",
-        "./app/scripts/controllers/cursos.ts",
-        "./app/scripts/controllers/liquidaciones.ts",
-        "./app/scripts/controllers/permisos.ts",
-        "./app/scripts/services.d.ts",
-        "./app/scripts/support.ts",
-        "./typings/angularjs/angular-resource.d.ts",
-        "./typings/angularjs/angular-route.d.ts",
-        "./typings/angularjs/angular.d.ts",
-        "./typings/jquery/jquery.d.ts",
-        "./typings/lodash/lodash.d.ts",
-        "./typings/moment/moment-node.d.ts",
-        "./typings/moment/moment.d.ts",
-        "./typings/q/Q.d.ts",
-        "./typings/tsd.d.ts",
-        "./typings/typeahead/typeahead.d.ts"
-    ],
-    "exclude": [],
-    "atom": {
-        "rewriteTsconfig": true
     }
 }

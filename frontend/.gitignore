@@ -7,3 +7,6 @@ app/styles/cudu.css
 app/styles/cudu.css.map
 app/views_i18n
 .sass-cache
+app/index.html
+app/bundle*
+*.map

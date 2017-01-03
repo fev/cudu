@@ -1,6 +1,8 @@
 /// <reference path="../../../typings/tsd.d.ts"/>
 /// <reference path="../services.d.ts"/>
 
+import { Page } from "../support";
+
 module Cudu.Cursos {
 
   export interface Curso {

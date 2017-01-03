@@ -1,6 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts"/>
 
-module Cudu {
   export interface Page<T> {
     content: T[];
     first: boolean;
@@ -16,9 +15,6 @@ module Cudu {
   export interface Disposable {
     dispose();
   }
-}
-
-module Cudu.Ux {
 
   export interface Modal {
     show();
@@ -148,4 +144,3 @@ module Cudu.Ux {
       return new TypeaheadImpl(elementId, dataset);
     };
   }
-}

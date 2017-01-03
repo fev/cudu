@@ -1,6 +1,7 @@
 /// <reference path="../../../typings/tsd.d.ts"/>
 /// <reference path="../services.d.ts"/>
-/// <reference path="../support"/>
+
+import { Modal, Typeahead, ModalFactory, TypeaheadFactory } from  "../support";
 
 module Cudu.Permisos {
 
@@ -44,9 +45,9 @@ module Cudu.Permisos {
 
       constructor(private $scope: PermisosScope, private service: PermisosService,
           private traducciones: TraduccionesService, private notificaciones: NotificacionesService,
-          private modalCambioDni: Cudu.Ux.Modal, private modalEliminar: Cudu.Ux.Modal,
-          private modalRecuperarPassword: Cudu.Ux.Modal, private modalCrearUsuario: Cudu.Ux.Modal,
-          private typeahead: Cudu.Ux.Typeahead) {
+          private modalCambioDni: Modal, private modalEliminar: Modal,
+          private modalRecuperarPassword: Modal, private modalCrearUsuario: Modal,
+          private typeahead: Typeahead) {
         service.listado().then(u => { $scope.usuarios = u; });
         typeahead.attach($scope).observe<Usuario>(u => {
           this.$scope.nuevoUsuario = u;
@@ -292,8 +293,8 @@ angular.module('cuduApp')
     'ModalCambioDni', 'ModalEliminarUsuario', 'ModalRecuperarPassword', 'ModalCrearUsuario',
     'PermisosTypeahead', Cudu.Permisos.PermisosController])
   .factory('PermisosService', ['$http', 'Usuario', Cudu.Permisos.PermisosServiceFactory])
-  .factory('ModalCambioDni', Cudu.Ux.ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))
-  .factory('ModalEliminarUsuario', Cudu.Ux.ModalFactory("#dlgEliminarUsuario"))
-  .factory('ModalRecuperarPassword', Cudu.Ux.ModalFactory("#dlgRecuperarPassword"))
-  .factory('ModalCrearUsuario', Cudu.Ux.ModalFactory("#dlgCrearUsuario", "#dlgCrearUsuarioInput", true))
-  .factory('PermisosTypeahead', Cudu.Ux.TypeaheadFactory("#dlgCrearUsuarioInput", "usuario"));
+  .factory('ModalCambioDni', ModalFactory("#dlgCambiarEmail", "#dlgCambiarEmailInput", true))
+  .factory('ModalEliminarUsuario', ModalFactory("#dlgEliminarUsuario"))
+  .factory('ModalRecuperarPassword', ModalFactory("#dlgRecuperarPassword"))
+  .factory('ModalCrearUsuario', ModalFactory("#dlgCrearUsuario", "#dlgCrearUsuarioInput", true))
+  .factory('PermisosTypeahead', TypeaheadFactory("#dlgCrearUsuarioInput", "usuario"));

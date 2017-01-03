@@ -14,8 +14,10 @@
     "bower": "^1.3.12",
     "chance": "^0.6.1",
     "colors": "^1.0.3",
+    "concurrently": "^3.1.0",
     "express": "^4.11.2",
     "express-http-proxy": "^0.3.1",
+    "html-webpack-plugin": "^2.25.0",
     "htmlprocessor": "^0.2.4",
     "jscs": "^2.1.0",
     "jshint": "^2.8.0",
@@ -24,15 +26,21 @@
     "node-sass": "^4.1.1",
     "properties": "^1.2.1",
     "proxy-middleware": "^0.8.0",
-    "tsd": "^0.6.4",
-    "typescript": "^1.6.2",
-    "yargs": "^1.3.2",
-    "uglify-js": "^2.4.16"
+    "source-map-loader": "^0.1.5",
+    "ts-loader": "^1.3.3",
+    "typescript": "^2.1.4",
+    "uglify-js": "^2.4.16",
+    "webpack": "^1.14.0",
+    "yargs": "^1.3.2"
   },
   "scripts": {
     "traducir-watch": "fswatch -0 -or app/views | xargs -0 -n 1 node traducir.js",
     "sass": "node-sass app/styles/cudu.scss --output-style compressed --source-map app/styles -o app/styles",
-    "sass-watch": "node-sass app/styles/cudu.scss --watch app/styles --output-style expanded --source-map app/styles -o app/styles"
+    "sass-watch": "node-sass app/styles/cudu.scss --watch app/styles --output-style expanded --source-map app/styles -o app/styles",
+    "webpack": "webpack",
+    "webpack-watch": "webpack --watch",
+    "server": "node devserver.js",
+    "start": "concurrently -p name -n \"sass,http,pack,i18n\" -c \"magenta.bold,gray.dim,cyan.bold,yellow\" \"npm run sass-watch\" \"npm run server\" \"npm run webpack-watch\" \"npm run traducir-watch\""
   },
   "engines": {
     "node": ">=0.10.0"

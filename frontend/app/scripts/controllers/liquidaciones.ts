@@ -1,6 +1,7 @@
 /// <reference path="../../../typings/tsd.d.ts"/>
 /// <reference path="../services.d.ts"/>
-/// <reference path="../support"/>
+
+import { Modal, ModalEvent, ModalFactory } from  "../support";
 
 module Cudu.Liquidaciones {
 
@@ -95,14 +96,14 @@ module Cudu.Liquidaciones {
     constructor(private $scope: LiquidacionesBalanceScope,
         private $location: ng.ILocationService,
         private $routeParams: LiquidacionesBalanceRouteParams,
-        private modalEditarLiquidacion: Cudu.Ux.Modal,
+        private modalEditarLiquidacion: Modal,
         private service: LiquidacionesService) {
       this.$scope.grupoId = $routeParams.grupoId;
       this.$scope.rondaId = $routeParams.rondaId || service.rondaActual();
       this.$scope.incluirBorradoresEnCalculo = false;
       this.$scope.rondaEtiqueta = this.$scope.rondaId + '-' + (1 + parseInt(<any>this.$scope.rondaId));
       this.cargarBalanceGrupo($routeParams.grupoId, this.$scope.rondaId, this.$scope.incluirBorradoresEnCalculo);
-      this.modalEditarLiquidacion.subscribe(Cudu.Ux.ModalEvent.BeforeHide, () => this.despuesCerrarModalLiquidacion());
+      this.modalEditarLiquidacion.subscribe(ModalEvent.BeforeHide, () => this.despuesCerrarModalLiquidacion());
       $scope.$on('$destroy', () => { this.modalEditarLiquidacion.unsubscribe(); });
     }
 
@@ -279,7 +280,7 @@ module Cudu.Liquidaciones {
 
 angular.module('cuduApp')
   .factory('LiquidacionesService', ['$http', Cudu.Liquidaciones.LiquidacionesServiceFactory])
-  .factory('ModalEditarLiquidacion', Cudu.Ux.ModalFactory("#dlgEditarLiquidacion"))
+  .factory('ModalEditarLiquidacion', ModalFactory("#dlgEditarLiquidacion"))
   .controller('LiquidacionesGruposController', ['$scope', '$location', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesGruposController])
   .controller('LiquidacionesBalanceController', ['$scope', '$location', '$routeParams', 'ModalEditarLiquidacion', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesBalanceController])
   .controller('LiquidacionesDesgloseController', ['$scope', '$routeParams', 'LiquidacionesService', Cudu.Liquidaciones.LiquidacionesDesgloseController]);
