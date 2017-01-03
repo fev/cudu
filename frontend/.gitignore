@@ -10,3 +10,5 @@ app/views_i18n
 app/index.html
 app/bundle*
 *.map
+*.tgz
+*.sha

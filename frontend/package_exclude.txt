@@ -1,0 +1,6 @@
+scripts
+views
+*.scss
+.DS_Store
+*.tgz
+index.ejs
