@@ -16,7 +16,7 @@
     "colors": "^1.0.3",
     "express": "^4.11.2",
     "express-http-proxy": "^0.3.1",
-    "htmlprocessor": "^0.1.10",
+    "htmlprocessor": "^0.2.4",
     "jscs": "^2.1.0",
     "jshint": "^2.8.0",
     "lodash": "^3.1.0",
