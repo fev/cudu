@@ -52,7 +52,9 @@ public class ValidadorDniNie implements ConstraintValidator<ValidarDniNie, Asoci
         }
 
         if (CharMatcher.anyOf("KLMXYZ").matches(dni.charAt(0))) {
-            boolean correcto = CharMatcher.JAVA_DIGIT.matchesAllOf(dni.substring(1, dni.length()));
+            char ultimo = dni.charAt(dni.length() - 1);
+            int max = Character.isLetter(ultimo) ? 1 : 0;
+            boolean correcto = CharMatcher.JAVA_DIGIT.matchesAllOf(dni.substring(1, dni.length() - max));
             if (!correcto) {
                 context.buildConstraintViolationWithTemplate(MSG_FORMATO_INCORRECTO).addConstraintViolation();
                 return false;

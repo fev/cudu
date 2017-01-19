@@ -82,6 +82,7 @@ public class ValidadorDniNieTest {
         valida("X12345678");
         valida("Y12345678");
         valida("Z12345678");
+        valida("Z12345678B");
     }
 
     @Test
@@ -94,7 +95,7 @@ public class ValidadorDniNieTest {
 
     @Test
     public void no_valida_cuando_el_nif_es_extrangero_el_digito_inicial_es_correcto_pero_el_resto_de_caracteres_no_son_numeros() throws Exception {
-        noValida("K1234567H");
+        noValida("K12X4567H");
         noValida("K123Y4567");
     }
 
