@@ -130,7 +130,7 @@
         </div>
         <div class="datos">
           <strong>{{a.nombre}} {{a.apellidos}}</strong>
-          <div class="rama">{{a.tipo | i18n:'tipo'}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
+          <div class="rama">{{a.tipo | i18n:'tipo'}}, {{a | rama}}, {{a.fechaNacimiento | edad}} años <span class="pull-right" title="{{a.fechaActualizacion | date:'dd/MM/yyyy HH:mm:ss'}}">Act: {{a.fechaActualizacion | date:'dd/MM/yy'}}</span></div>
           <div class="direccion">{{a.direccion}} <span class="pull-right">{{a.codigoPostal}} {{a.municipio}}</span></div>
           <div class="contacto">{{a.emailContacto}}&nbsp;<span class="pull-right">{{a.telefonoMovil}}</span></div>
         </div>
