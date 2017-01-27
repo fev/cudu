@@ -13,8 +13,21 @@ var estados = {
 angular.module('cuduApp')
   .controller('AsociadoCtrl', ['$scope', '$routeParams', '$location', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha',
       function ($scope, $routeParams, $location, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha) {
-    $scope.grupo = Usuario.usuario.grupo;
+    
+    $scope.grupo = {};
     $scope.asociados = [];
+
+    Usuario.obtenerActual().then(function(u) {
+      $scope.grupo = u.grupo;
+      if (u.tipo === 'T' && $routeParams.id) {
+        $scope.esTecnico = true;
+        $scope.editarAsociadoTecnico($routeParams.id);
+      } else {
+        Asociado.query(function(asociados) {
+          $scope.asociados = asociados.content;
+        });
+      }
+    });
 
     $scope.fichas = [];
     Ficha.queryAll(0, function (data) {
@@ -448,15 +461,6 @@ angular.module('cuduApp')
           });
         });        
     };
-    
-    if(Usuario.usuario.tipo === 'T' && $routeParams.id) {
-        $scope.esTecnico = true;
-        $scope.editarAsociadoTecnico($routeParams.id);
-    } else {
-        Asociado.query(function(asociados) {
-            $scope.asociados = asociados.content;
-        });
-    }
 
     var calcularRamaRecomendada = function(fechaNacimiento) {
       var edad = Usuario.calcularEdad(fechaNacimiento);
