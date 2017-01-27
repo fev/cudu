@@ -324,6 +324,7 @@ angular.module('cuduApp')
 
     $scope.asignarCargo = function(cargoId) {
       Asociado.asignarCargo({ id: $scope.asociado.id, cargoId: cargoId }, {}, function(cargoGuardado) {
+        $scope.asociado.cargos = $scope.asociado.cargos || [];
         $scope.asociado.cargos.unshift(cargoGuardado);
       });
     };
@@ -333,6 +334,7 @@ angular.module('cuduApp')
         return;
       }
       Asociado.asignarCargoCustom({ id: $scope.asociado.id }, $scope.nuevoCargo, function(cargoGuardado) {
+        $scope.asociado.cargos = $scope.asociado.cargos || [];
         $scope.asociado.cargos.unshift(cargoGuardado);
       });
       $scope.nuevoCargo = '';
