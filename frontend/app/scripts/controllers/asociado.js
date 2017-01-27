@@ -11,13 +11,10 @@ var estados = {
 };
 
 angular.module('cuduApp')
-  .controller('AsociadoCtrl', ['$scope', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha',
-      function ($scope, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha) {
+  .controller('AsociadoCtrl', ['$scope', '$routeParams', '$location', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha',
+      function ($scope, $routeParams, $location, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha) {
     $scope.grupo = Usuario.usuario.grupo;
     $scope.asociados = [];
-    Asociado.query(function(asociados) {
-      $scope.asociados = asociados.content;
-    });
 
     $scope.fichas = [];
     Ficha.queryAll(0, function (data) {
@@ -95,24 +92,30 @@ angular.module('cuduApp')
     $scope.editar = function(id) {
       marcarCambiosPendientes();
 
-      var pos = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
-      var original = $scope.asociados[pos];
-      if (original.cambiosPendientes)
+      $scope.posAsociado = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
+      $scope.original = $scope.asociados[$scope.posAsociado];
+      if ($scope.original.cambiosPendientes)
       {
         // Si previamente no se han guardado los cambios, evitamos recargar desde
         // el servidor y dejamos el asociado original con cambios pendientes.
-        $scope.asociado = original;
-        emitirAsociadoEditandose(original);
+        $scope.asociado = $scope.original;
+        emitirAsociadoEditandose($scope.original);
       } else {
-        Asociado.get({ 'id': id }, function(asociado) {
-          asociado.marcado = original.marcado;
-          asociado.guardado = original.guardado;
+        $scope.obtenerAsociado(id);
+      }
+    };
+    
+    $scope.obtenerAsociado = function(id) {
+      Asociado.get({ 'id': id }, function(asociado) {
+          asociado.marcado = $scope.original.marcado;
+          asociado.guardado = $scope.original.guardado;
           asociado.puntosCovol = calcularPuntosCovol(asociado);
           $scope.asociado = asociado;
-          $scope.asociados[pos] = asociado;
-          emitirAsociadoEditandose(asociado);
-        });
-      }
+          $scope.asociados[$scope.posAsociado] = asociado;
+          if(!$scope.esTecnico) {
+            emitirAsociadoEditandose(asociado);   
+          }
+        });  
     };
 
     $scope.guardar = function(id) {
@@ -432,6 +435,25 @@ angular.module('cuduApp')
         Asociado.cambiarTipo({ }, { asociados: f.marcados, tipo: tipo }, f.completado, f.error);
       }
     };
+    
+    $scope.volver = function() {
+        $location.path('/tecnico/asociados');
+    };
+    
+    $scope.editarAsociadoTecnico = function(id) {
+        Asociado.get({ 'id': id }, function(asociado) {
+          $scope.asociado = asociado;
+        });  
+    };
+    
+    if(Usuario.usuario.tipo === 'T' && $routeParams.id) {
+        $scope.esTecnico = true;
+        $scope.editarAsociadoTecnico($routeParams.id);
+    } else {
+        Asociado.query(function(asociados) {
+            $scope.asociados = asociados.content;
+        });
+    }
 
     var calcularRamaRecomendada = function(fechaNacimiento) {
       var edad = Usuario.calcularEdad(fechaNacimiento);

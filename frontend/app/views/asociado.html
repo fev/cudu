@@ -1,6 +1,6 @@
 <div class="container contenedor-central">
 <div class="row">
-  <div id="panelLista" class="col-md-4">
+  <div id="panelLista" class="col-md-4" ng-if="!esTecnico">
     <div class="mat-toolbar">
       <form class="form" autocomplete="off">
         <div class="form-group">
@@ -138,8 +138,13 @@
     </div>
   </div>
 
-  <div id="panelEdicion" class="col-sm-8">
+  <div id="panelEdicion" ng-class="{'col-sm-12': esTecnico, 'col-sm-8': !esTecnico,}">
     <div class="mat-toolbar text-right">
+      <button type="button" class="btn btn-default text-uppercase"
+        ng-if="esTecnico"
+        ng-class="establecerEstiloGuardado()" ng-click="volver()">
+        <%= asociado.volver %>
+      </button>
       <button type="button" class="btn btn-default text-uppercase"
         ng-hide="asociado.id && !asociado.activo"
         ng-class="establecerEstiloGuardado()" ng-click="guardar(asociado.id)">

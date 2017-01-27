@@ -119,4 +119,17 @@ angular.module('cuduApp')
         elem[0].innerHTML = result;
       }
     };
-  });
+  })
+  .directive('cuduEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.cuduEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});;

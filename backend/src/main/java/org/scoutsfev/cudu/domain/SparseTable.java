@@ -9,11 +9,13 @@ public class SparseTable {
 
     public Map<String, Integer> campos;
     public Object[][] datos;
+    public int total;
 
-    public SparseTable(List<String> campos, Object[][] datos) {
+    public SparseTable(List<String> campos, Object[][] datos, int total) {
         this.campos = IntStream
                 .range(0, campos.size()).boxed()
                 .collect(Collectors.toMap(campos::get, z -> z));
         this.datos = datos;
+        this.total = total;
     }
 }

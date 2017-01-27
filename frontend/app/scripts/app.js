@@ -11,7 +11,8 @@ angular
     'cuduServices',
     'cuduFilters',
     'chart.js',
-    'siyfion.sfTypeahead'
+    'siyfion.sfTypeahead',
+    'infinite-scroll'
   ])
   .constant("RolesMenu", {
     "ASOCIADO": "rol-asociado",
@@ -47,6 +48,11 @@ angular
         controller: 'AsociadoCtrl',
         seccion: 'asociado'
       })
+      .when('/asociado/:id', {
+        templateUrl: 'i18n/views/asociado.html',
+        controller: 'AsociadoCtrl',
+        seccion: 'asociado'
+      })
       .when('/grupo/:id', {
         templateUrl: 'i18n/views/grupo.html',
         controller: 'GrupoCtrl',
@@ -58,7 +64,8 @@ angular
       })
       .when('/tecnico/asociados', {
         templateUrl: 'i18n/views/tecnico_fev.html',
-        seccion: 'tecnico-fev'
+        seccion: 'tecnico-fev',
+        controller: 'AsociadosTecnicoController'
       })
       .when('/actividades', {
         templateUrl: 'i18n/views/actividades/listado.html',

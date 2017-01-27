@@ -38,7 +38,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     private final static Field[] camposListado = {
         ASOCIADO.ID, ASOCIADO.GRUPO_ID.as("grupo_id"), GRUPO.NOMBRE.as("grupo_nombre"), ASOCIADO.NOMBRE, ASOCIADO.APELLIDOS, ASOCIADO.TIPO, RAMA,
         coalesce(ASOCIADO.EMAIL, ASOCIADO.EMAIL_CONTACTO).as("email"), coalesce(ASOCIADO.TELEFONO_MOVIL, ASOCIADO.TELEFONO_CASA).as("telefono"),
-        ASOCIADO.ACTIVO, ASOCIADO.USUARIO_ACTIVO, ASOCIADO.FECHA_ALTA, ASOCIADO.FECHA_BAJA, ASOCIADO.FECHA_ACTUALIZACION
+        ASOCIADO.ACTIVO, ASOCIADO.USUARIO_ACTIVO, ASOCIADO.FECHA_ALTA, ASOCIADO.FECHA_BAJA, ASOCIADO.FECHA_ACTUALIZACION, ASOCIADO.SEXO
     };
 
     private final static List<String> nombresCamposListado = Arrays.asList(camposListado)
@@ -50,7 +50,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     }
 
     @Override
-    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean activo, Pageable pageable) {
+    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String sexo, String nombreApellido, String orden, Boolean ordenAsc, Pageable pageable) {
 
         SelectConditionStep<Record> base = context
                 .select(camposListado)
@@ -62,15 +62,26 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         if (!Strings.isNullOrEmpty(grupoId)) base = base.and(GRUPO.ID.equal(grupoId));
         if (tipo != null) base = base.and(ASOCIADO.TIPO.eq(String.valueOf(tipo.getTipo())));
         if (ramas != null) base = añadirCondicionesDeRama(base, ramas);
-        if (activo != null) base = base.and(ASOCIADO.ACTIVO.eq(activo));
+        if (inactivos == null || !inactivos) {
+            base = base.and(ASOCIADO.ACTIVO.eq(true));
+        }
+        if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
+        if(!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
+        if (!Strings.isNullOrEmpty(orden)) base = añadirOrden(base, orden, ordenAsc);
+
+        int numeroPagina = pageable.getPageNumber();
+        int totalAsociados = 0;
+        if(numeroPagina == 0) {
+            totalAsociados = base.fetchArrays().length;
+        }
 
         Object[][] asociados = base
                 .orderBy(ASOCIADO.ID)
                 .limit(pageable.getPageSize())
-                .offset(pageable.getPageNumber())
+                .offset(numeroPagina * (pageable.getPageSize()))
                 .fetchArrays();
 
-        return new SparseTable(nombresCamposListado, asociados);
+        return new SparseTable(nombresCamposListado, asociados, totalAsociados);
     }
 
     private SelectConditionStep<Record> añadirCondicionesDeRama(SelectConditionStep<Record> query, List<String> ramas) {
@@ -90,6 +101,37 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         return query.and(rama);
     }
 
+    private SelectConditionStep<Record> añadirOrden(SelectConditionStep<Record> query, String orden, Boolean ordenAsc) {
+        switch (orden) {
+            case "tipo":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.TIPO.asc());
+                else
+                    query.orderBy(ASOCIADO.TIPO.desc());
+                break;
+            case "nombre":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.NOMBRE.asc());
+                else
+                    query.orderBy(ASOCIADO.NOMBRE.desc());
+                break;
+            case "apellidos":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.APELLIDOS.asc());
+                else
+                    query.orderBy(ASOCIADO.APELLIDOS.desc());
+                break;
+            case "grupo":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.GRUPO_ID.asc());
+                else
+                    query.orderBy(ASOCIADO.GRUPO_ID.desc());
+                break;
+        }
+
+        return query;
+    }
+
     public AsociadoParaAutorizar obtenerAsociadoParaEvaluarAutorizacion(Integer asociadoId) {
         return context
             .select(ASOCIADO.ID, ASOCIADO.GRUPO_ID, GRUPO.ASOCIACION,
@@ -98,5 +140,17 @@ public class AsociadoStorageImpl implements AsociadoStorage {
             .innerJoin(GRUPO).on(ASOCIADO.GRUPO_ID.eq(GRUPO.ID))
             .where(ASOCIADO.ID.eq(asociadoId))
             .fetchAnyInto(AsociadoParaAutorizar.class);
+    }
+
+    private Condition construyeFiltroNombre(String nombreApellido) {
+        String[] palabras = nombreApellido.split("\\s+");
+        if(palabras.length == 1) {
+            return ASOCIADO.NOMBRE.contains(nombreApellido).or(ASOCIADO.APELLIDOS.contains(nombreApellido));
+        } else {
+            String nombre = palabras[0];
+            String apellidos = nombreApellido.substring(nombreApellido.indexOf(' ') + 1);
+            return (ASOCIADO.NOMBRE.contains(nombre).and(ASOCIADO.APELLIDOS.contains(apellidos))
+            .or(ASOCIADO.NOMBRE.contains(nombreApellido)).or(ASOCIADO.APELLIDOS.contains(nombreApellido)));
+        }
     }
 }

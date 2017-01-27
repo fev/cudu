@@ -1,5 +1,6 @@
 package org.scoutsfev.cudu.web;
 
+import org.scoutsfev.cudu.domain.Asociacion;
 import org.scoutsfev.cudu.domain.EventosAuditoria;
 import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.Usuario;
@@ -9,12 +10,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 public class GrupoController {
@@ -28,6 +32,18 @@ public class GrupoController {
         this.grupoRepository = grupoRepository;
         this.eventPublisher = eventPublisher;
         this.authorizationService = authorizationService;
+    }
+
+    @RequestMapping(value = "/grupo/all", method = RequestMethod.GET)
+    public List<Grupo> listado(
+            @RequestParam(required = false) Asociacion asociacion,
+            @AuthenticationPrincipal Usuario usuario,
+            Pageable pageable) {
+        if(asociacion != null) {
+            return grupoRepository.findByAsociacionOrderByNombre(asociacion);
+        }
+
+        return grupoRepository.findAllByOrderByNombreAsc();
     }
 
     @RequestMapping(value = "/grupo/{id}", method = RequestMethod.GET)
