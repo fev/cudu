@@ -443,7 +443,10 @@ angular.module('cuduApp')
     $scope.editarAsociadoTecnico = function(id) {
         Asociado.get({ 'id': id }, function(asociado) {
           $scope.asociado = asociado;
-        });  
+          Grupo.get({ 'id': asociado.grupoId }, function(grupo) {
+            $scope.grupo = grupo;
+          });
+        });        
     };
     
     if(Usuario.usuario.tipo === 'T' && $routeParams.id) {
