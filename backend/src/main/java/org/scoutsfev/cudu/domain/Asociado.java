@@ -126,6 +126,9 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Size(max = 128)
     private String estudios;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean tieneCertificadoDelitos = false;
+
     protected Asociado() {
     }
 
@@ -386,5 +389,13 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
         diccionario.put("telefono", this.telefonoMovil);
 
         return diccionario;
+    }
+
+    public Boolean getTieneCertificadoDelitos() {
+        return tieneCertificadoDelitos;
+    }
+
+    public void setTieneCertificadoDelitos(Boolean tieneCertificadoDelitos) {
+        this.tieneCertificadoDelitos = tieneCertificadoDelitos;
     }
 }

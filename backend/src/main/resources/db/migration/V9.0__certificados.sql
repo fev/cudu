@@ -1,0 +1,1 @@
+alter TABLE asociado add tiene_certificado_delitos boolean default false not null;

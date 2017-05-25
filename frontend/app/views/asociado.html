@@ -243,9 +243,17 @@
               </div>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-show="asociado.alertaRama">
             <label class="col-md-3 control-label">&nbsp;</label>
-            <p id="txtRecRama" class="col-md-9 form-control-static small" ng-show="asociado.alertaRama"><%= asociado.ramaRecomendada %> <strong>{{asociado.alertaRama}}</strong>.</p>
+            <p id="txtRecRama" class="col-md-9 form-control-static small"><%= asociado.ramaRecomendada %> <strong>{{asociado.alertaRama}}</strong>.</p>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"><i ng-class="{'fa fa-check-square-o fa-lg' : a.tieneCertificadoDelitos, 'fa fa-square-o fa-lg' : !a.tieneCertificadoDelitos}"></i></label>
+            <div class="col-md-9">
+              <p class="form-control-static">
+                <%= asociado.certificadoDelitos %>
+              </p>
+            </div>
           </div>
         </div>
         <div class="col-md-6">
