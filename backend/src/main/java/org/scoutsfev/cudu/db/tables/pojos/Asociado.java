@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Asociado implements Serializable {
 
-	private static final long serialVersionUID = -561213489;
+	private static final long serialVersionUID = -1881416312;
 
 	private final Integer   id;
 	private final String    tipo;
@@ -78,6 +78,7 @@ public class Asociado implements Serializable {
 	private final String    notas;
 	private final String    emailContacto;
 	private final Short     calidadPassword;
+	private final Boolean   tieneCertificadoDelitos;
 
 	public Asociado(Asociado value) {
 		this.id = value.id;
@@ -132,6 +133,7 @@ public class Asociado implements Serializable {
 		this.notas = value.notas;
 		this.emailContacto = value.emailContacto;
 		this.calidadPassword = value.calidadPassword;
+		this.tieneCertificadoDelitos = value.tieneCertificadoDelitos;
 	}
 
 	public Asociado(
@@ -186,7 +188,8 @@ public class Asociado implements Serializable {
 		String    usuarioCreadoPorNombre,
 		String    notas,
 		String    emailContacto,
-		Short     calidadPassword
+		Short     calidadPassword,
+		Boolean   tieneCertificadoDelitos
 	) {
 		this.id = id;
 		this.tipo = tipo;
@@ -240,6 +243,7 @@ public class Asociado implements Serializable {
 		this.notas = notas;
 		this.emailContacto = emailContacto;
 		this.calidadPassword = calidadPassword;
+		this.tieneCertificadoDelitos = tieneCertificadoDelitos;
 	}
 
 	public Integer getId() {
@@ -448,5 +452,9 @@ public class Asociado implements Serializable {
 
 	public Short getCalidadPassword() {
 		return this.calidadPassword;
+	}
+
+	public Boolean getTieneCertificadoDelitos() {
+		return this.tieneCertificadoDelitos;
 	}
 }

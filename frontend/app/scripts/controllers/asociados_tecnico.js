@@ -90,7 +90,8 @@ angular.module('cuduApp')
             creado: valores[indices.fecha_alta],
             actualizado: valores[indices.fecha_actualizacion],
             baja: valores[indices.fecha_baja],
-            sexo: valores[indices.sexo]
+            sexo: valores[indices.sexo],
+            tieneCertificadoDelitos: valores[indices.tiene_certificado_delitos]
         };
     };
       

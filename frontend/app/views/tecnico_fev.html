@@ -92,30 +92,33 @@
                 <table class="table table-hover ">
                 <thead>
                     <tr>
-                    <th width="10%" ng-click="ordenar('grupo')" ng-class="{'dropup': grupoAsc}">
+                    <th ng-click="ordenar('grupo')" ng-class="{'dropup': grupoAsc}">
                         Grupo
                         <span class="caret"></span>
                     </th>
-                    <th width="5%">Id</th>
-                    <th width="10%" ng-click="ordenar('nombre')" ng-class="{'dropup': nombreAsc}">
+                    <th>Id</th>
+                    <th ng-click="ordenar('nombre')" ng-class="{'dropup': nombreAsc}">
                         Nombre
                         <span class="caret"></span>
                     </th>
-                    <th width="10%" ng-click="ordenar('apellidos')" ng-class="{'dropup': apellidosAsc}">
+                    <th ng-click="ordenar('apellidos')" ng-class="{'dropup': apellidosAsc}">
                         Apellidos
                         <span class="caret"></span>
                     </th>
-                    <th width="10%" ng-click="ordenar('tipo')" ng-class="{'dropup': tipoAsc}">
+                    <th ng-click="ordenar('tipo')" ng-class="{'dropup': tipoAsc}">
                         Tipo
                         <span class="caret"></span>
                     </th>
-                    <th width="10%">
+                    <th>
+                        Certificado DS
+                    </th>
+                    <th>
                         Rama
                     </th>
-                    <th width="10%">Email</th>
-                    <th width="5%">Teléfono</th>
-                    <th width="15%">Creado</th>
-                    <th width="15%">Actualizado</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Creado</th>
+                    <th>Actualizado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -125,6 +128,9 @@
                     <td>{{a.nombre}}</td>
                     <td>{{a.apellidos}}</td>
                     <td>{{a.tipo}}</td>
+                    <td>
+                        <i class="fa" ng-class="{'fa-check-square-o': a.tieneCertificadoDelitos, 'fa-square-o': a.tieneCertificadoDelitos === false}"></i>
+                    </td>
                     <td>{{a.rama}}</td>
                     <td>{{a.email}}</td>
                     <td>{{a.telefono}}</td>

@@ -27,7 +27,7 @@ import org.scoutsfev.cudu.db.tables.Asociado;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AsociadoRecord extends UpdatableRecordImpl<AsociadoRecord> {
 
-	private static final long serialVersionUID = -420576352;
+	private static final long serialVersionUID = 1097158065;
 
 	/**
 	 * Setter for <code>public.asociado.id</code>.
@@ -757,6 +757,20 @@ public class AsociadoRecord extends UpdatableRecordImpl<AsociadoRecord> {
 		return (Short) getValue(51);
 	}
 
+	/**
+	 * Setter for <code>public.asociado.tiene_certificado_delitos</code>.
+	 */
+	public void setTieneCertificadoDelitos(Boolean value) {
+		setValue(52, value);
+	}
+
+	/**
+	 * Getter for <code>public.asociado.tiene_certificado_delitos</code>.
+	 */
+	public Boolean getTieneCertificadoDelitos() {
+		return (Boolean) getValue(52);
+	}
+
 	// -------------------------------------------------------------------------
 	// Primary key information
 	// -------------------------------------------------------------------------
@@ -783,7 +797,7 @@ public class AsociadoRecord extends UpdatableRecordImpl<AsociadoRecord> {
 	/**
 	 * Create a detached, initialised AsociadoRecord
 	 */
-	public AsociadoRecord(Integer id, String tipo, String grupoId, String nombre, String apellidos, String sexo, Date fechaNacimiento, String dni, String seguridadSocial, Boolean tieneSeguroPrivado, String direccion, Integer codigoPostal, String telefonoCasa, String telefonoMovil, String email, String municipio, Boolean tieneTutorLegal, Boolean padresDivorciados, String padreNombre, String padreTelefono, String padreEmail, String madreNombre, String madreTelefono, String madreEmail, Timestamp fechaAlta, Timestamp fechaBaja, Timestamp fechaActualizacion, Boolean ramaColonia, Boolean ramaManada, Boolean ramaExploradores, Boolean ramaExpedicion, Boolean ramaRuta, Boolean activo, Boolean usuarioActivo, String password, Boolean requiereCaptcha, String lenguaje, String ambitoEdicion, Integer restriccionAsociacion, Boolean noPuedeEditarDatosDelGrupo, Boolean noPuedeEditarOtrasRamas, Boolean soloLectura, String estudios, String profesion, Boolean hermanosEnElGrupo, Timestamp fechaUsuarioCreado, Timestamp fechaUsuarioVisto, Integer usuarioCreadoPorId, String usuarioCreadoPorNombre, String notas, String emailContacto, Short calidadPassword) {
+	public AsociadoRecord(Integer id, String tipo, String grupoId, String nombre, String apellidos, String sexo, Date fechaNacimiento, String dni, String seguridadSocial, Boolean tieneSeguroPrivado, String direccion, Integer codigoPostal, String telefonoCasa, String telefonoMovil, String email, String municipio, Boolean tieneTutorLegal, Boolean padresDivorciados, String padreNombre, String padreTelefono, String padreEmail, String madreNombre, String madreTelefono, String madreEmail, Timestamp fechaAlta, Timestamp fechaBaja, Timestamp fechaActualizacion, Boolean ramaColonia, Boolean ramaManada, Boolean ramaExploradores, Boolean ramaExpedicion, Boolean ramaRuta, Boolean activo, Boolean usuarioActivo, String password, Boolean requiereCaptcha, String lenguaje, String ambitoEdicion, Integer restriccionAsociacion, Boolean noPuedeEditarDatosDelGrupo, Boolean noPuedeEditarOtrasRamas, Boolean soloLectura, String estudios, String profesion, Boolean hermanosEnElGrupo, Timestamp fechaUsuarioCreado, Timestamp fechaUsuarioVisto, Integer usuarioCreadoPorId, String usuarioCreadoPorNombre, String notas, String emailContacto, Short calidadPassword, Boolean tieneCertificadoDelitos) {
 		super(Asociado.ASOCIADO);
 
 		setValue(0, id);
@@ -838,5 +852,6 @@ public class AsociadoRecord extends UpdatableRecordImpl<AsociadoRecord> {
 		setValue(49, notas);
 		setValue(50, emailContacto);
 		setValue(51, calidadPassword);
+		setValue(52, tieneCertificadoDelitos);
 	}
 }
