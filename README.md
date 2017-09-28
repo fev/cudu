@@ -21,7 +21,7 @@ Una vez tengas todo disponible necesitas generar las traducciones de las vistas,
 	$ compass compile
 	$ node devserver.js
 
-Pasados unos segundos Cudú estará disponible con datos de prueba en `http://localhost:3000`. El `frontend` se ha desarrollado usando [AngularJS](https://angularjs.org), [TypeScript](http://typescriptlang.org) y [Sass](http://sass-lang.com/), entre otros. 
+Pasados unos segundos Cudú estará disponible con datos de prueba en `http://localhost:3000`. El `frontend` se ha desarrollado usando [AngularJS](https://angularjs.org), [TypeScript](http://typescriptlang.org) y [Sass](http://sass-lang.com/), entre otros.
 
 El servidor de desarrollo es una aplicación [Node.js](http://nodejs.org/) con [Express](http://expressjs.com/) creada para emular la configuración del entorno de producción, pero no es estrictamente necesaria. Cualquier servidor como Nginx o Apache puede utilizarse para servir el `frontend`.
 
@@ -30,14 +30,15 @@ Para arrancar el `backend` únicamente necesitas tener instalado [JDK 8](http://
 	$ cd backend
 	$ ./gradlew build
 	$ java -jar ./build/libs/cudu-2.0.7.war
+	$ java -jar ./build/libs/cudu-2.3.0.jar
 
-Recuerda que los resultados de las pruebas se generar en `build/reports/tests`.
+Recuerda que los resultados de las pruebas se generan en `build/reports/tests`.
 
 Una vez arrancado el API REST escucha peticiones en `http://localhost:8080`. El pequeño servidor de [Node.js](http://nodejs.org/) que hemos utilizado antes enrutará las peticiones realizadas a `http://localhost:3000/api` a los servicios del backend en el puerto `8080`. Puedes comprobar que ambos funcionan mediate:
 
 	$ curl localhost:8080/health		
 	$ curl localhost:3000/api/health
-	
+
 Ambas peticiones deberían devolver `{"status":"UP"}`.
 
 El servicio REST está desarrollado utilizando [Spring](http://projects.spring.io/spring-framework) y [JPA](http://projects.spring.io/spring-data-jpa). Aunque se soportan múltiples bases de datos, recomendamos utilizar [PostgreSQL](http://www.postgresql.org). Por defecto viene configurado para usar [HSQLDB](http://hsqldb.org) en memoria y crear todas las tablas necesarias al inicio.
@@ -60,7 +61,7 @@ Cudú utiliza [Flyway](http://flywaydb.org/) para mantener las actualizaciones d
 
 	$ createdb cudu_dev
 	$ ./gradlew flywayMigrate -Dflyway.url=jdbc:postgresql://localhost:5432/cudu_dev
-	
+
 Los scripts de migración siguen las [convenciones de nombres](http://flywaydb.org/documentation/migration/sql.html) de Flyway y residen en la carpeta `backend/src/main/resources/db/migration`.
 
 Para comprobar el estado de una base de datos existente puedes utilizar la opción `flywayInfo` en lugar de `flywayMigrate`. Hay más información en la documentación de [Flyway para Gradle](http://flywaydb.org/documentation/gradle/).

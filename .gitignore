@@ -4,7 +4,8 @@ Icon*
 *.log
 *.swp
 tmp/
-.classpath/
+*/.classpath
 .settings/
-.project/
+*/.project
 .idea/
+*/bin/
