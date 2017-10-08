@@ -46,10 +46,12 @@ public class DatosGraficasController {
 
     private Map<String, List<Long>> generarDatosPorRamaTipo(List<DatosPorRamaTipoDto> datosPorRamaTipo) {
         HashMap<String, List<Long>> map = new HashMap<>();
-        DatosPorRamaTipoDto set1 = datosPorRamaTipo.get(0);
-        map.put(set1.isEsJoven() ? "joven" : "voluntario", Arrays.asList(set1.getColonia(), set1.getManada(), set1.getExploradores(), set1.getExpedicion(), set1.getRuta()));
-        DatosPorRamaTipoDto set2 = datosPorRamaTipo.get(1);
-        map.put(set2.isEsJoven() ? "joven" : "voluntario", Arrays.asList(set2.getColonia(), set2.getManada(), set2.getExploradores(), set2.getExpedicion(), set2.getRuta()));
+        if(!datosPorRamaTipo.isEmpty()){ 
+        	DatosPorRamaTipoDto set1 = datosPorRamaTipo.get(0);
+	        map.put(set1.isEsJoven() ? "joven" : "voluntario", Arrays.asList(set1.getColonia(), set1.getManada(), set1.getExploradores(), set1.getExpedicion(), set1.getRuta()));
+	        DatosPorRamaTipoDto set2 = datosPorRamaTipo.get(1);
+	        map.put(set2.isEsJoven() ? "joven" : "voluntario", Arrays.asList(set2.getColonia(), set2.getManada(), set2.getExploradores(), set2.getExpedicion(), set2.getRuta()));
+        }
         return map;
     }
 

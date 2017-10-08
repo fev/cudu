@@ -30,7 +30,7 @@ Fairy fairy = Fairy.create();
 
 String jdbcUrl = "jdbc:postgresql://localhost:5432/${options.d}"
 username = options.u ?: username
-String password = options.p ?: ""
+String password = options.p ?: "wackamole3"
 
 println "Base de datos: ${options.d}"
 
@@ -196,5 +196,3 @@ println "\nUSUARIOS ACTIVOS\nPassword: ${generador.passwordPorDefecto}"
 sql.eachRow("SELECT id, tipo, ambito_edicion, grupo_id, email, nombre, apellidos FROM asociado WHERE usuario_activo = true order by id") {
     println it
 }
-
-

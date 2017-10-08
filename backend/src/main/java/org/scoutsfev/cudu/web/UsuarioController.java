@@ -67,7 +67,6 @@ public class UsuarioController {
     public ResponseEntity<Usuario> login(@RequestBody @Valid Credenciales credenciales, HttpServletRequest request) {
         // TODO Limpiar campos, sql, xss etc
         // TODO @RequestBody null?
-
         try {
             usuarioService.comprobarCaptcha(credenciales, request);
             Usuario usuario = autenticar(credenciales, request);
