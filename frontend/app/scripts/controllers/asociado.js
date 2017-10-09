@@ -13,7 +13,7 @@ var estados = {
 angular.module('cuduApp')
   .controller('AsociadoCtrl', ['$scope', '$routeParams', '$location', '$window', '$filter', 'Asociado', 'Grupo', 'Usuario', 'EstadosFormulario', 'Traducciones', 'Notificaciones', 'Ficha',
       function ($scope, $routeParams, $location, $window, $filter, Asociado, Grupo, Usuario, EstadosFormulario, Traducciones, Notificaciones, Ficha) {
-    
+
     $scope.grupo = {};
     $scope.asociados = [];
 
@@ -61,6 +61,8 @@ angular.module('cuduApp')
 
     $scope.modal = { eliminar: false };
 
+    document.getElementById("logo-bienvenida").hidden=false;
+
     var emitirAsociadoEditandose = function(asociado) {
       $scope.$emit('asociado.editar', asociado);
     };
@@ -98,13 +100,18 @@ angular.module('cuduApp')
     };
 
     $scope.nuevo = function() {
+
       marcarCambiosPendientes();
+      document.getElementById("panelEdicion").hidden=false;
+      document.getElementById("logo-bienvenida").hidden=true;
       $scope.asociado = generarAsociadoVacio();
     };
 
     $scope.editar = function(id) {
-      marcarCambiosPendientes();
 
+      marcarCambiosPendientes();
+      document.getElementById("panelEdicion").hidden=false;
+      document.getElementById("logo-bienvenida").hidden=true;
       $scope.posAsociado = _.findIndex($scope.asociados, function(a) { return a ? a.id === id : false; });
       $scope.original = $scope.asociados[$scope.posAsociado];
       if ($scope.original.cambiosPendientes)
@@ -117,7 +124,7 @@ angular.module('cuduApp')
         $scope.obtenerAsociado(id);
       }
     };
-    
+
     $scope.obtenerAsociado = function(id) {
       Asociado.get({ 'id': id }, function(asociado) {
           asociado.marcado = $scope.original.marcado;
@@ -126,9 +133,9 @@ angular.module('cuduApp')
           $scope.asociado = asociado;
           $scope.asociados[$scope.posAsociado] = asociado;
           if(!$scope.esTecnico) {
-            emitirAsociadoEditandose(asociado);   
+            emitirAsociadoEditandose(asociado);
           }
-        });  
+        });
     };
 
     $scope.guardar = function(id) {
@@ -450,18 +457,18 @@ angular.module('cuduApp')
         Asociado.cambiarTipo({ }, { asociados: f.marcados, tipo: tipo }, f.completado, f.error);
       }
     };
-    
+
     $scope.volver = function() {
         $location.path('/tecnico/asociados');
     };
-    
+
     $scope.editarAsociadoTecnico = function(id) {
         Asociado.get({ 'id': id }, function(asociado) {
           $scope.asociado = asociado;
           Grupo.get({ 'id': asociado.grupoId }, function(grupo) {
             $scope.grupo = grupo;
           });
-        });        
+        });
     };
 
     var calcularRamaRecomendada = function(fechaNacimiento) {
