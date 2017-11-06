@@ -105,7 +105,14 @@ public class FichaServiceImpl implements FichaService {
         Iterable<Asociado> objectosAsociado = _asociadoRepository.findAll(Arrays.asList(asociados));
 
         // Obtener datos de la rama por cada asociado
-        Locale locale = Locale.forLanguageTag(usuario.getLenguaje());
+        //Locale locale = Locale.forLanguageTag(usuario.getLenguaje());
+        //--- si el tag lenguage es null...
+        Locale locale;
+        if (usuario.getLenguaje() == null)
+            locale = Locale.forLanguageTag("es");
+        else
+            locale = Locale.forLanguageTag(usuario.getLenguaje());
+        
         if (Arrays.asList(columnas).contains("rama")) {
             for (Asociado a : objectosAsociado) {
                 List<String> ramas = new ArrayList();
