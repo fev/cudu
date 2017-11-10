@@ -418,7 +418,7 @@ angular.module('cuduApp')
 
     $scope.imprimirListado = function(asociados,titulo) {
       if(asociados.length==0){
-         alert(Traducciones.texto('impresion.noseleccionados'));
+         alert(Traducciones.texto('impresion.novisibles'));
          return;
       }
       var columnas = ["nombre"];
