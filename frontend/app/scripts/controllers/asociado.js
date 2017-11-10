@@ -395,16 +395,32 @@ angular.module('cuduApp')
     };
 
     $scope.imprimirTodos = function() {
-      $scope.imprimirListado($scope.asociados);
+      $scope.imprimirListado($scope.asociados, Traducciones.texto('impresion.titulo.listadoCompleto') );
     };
 
     $scope.imprimirVisibles = function() {
       var f = $filter('filter');
-      var visibles = f(f($scope.asociados, $scope.busqueda), function(a) { return $scope.filtrar(a); });
-      $scope.imprimirListado(visibles);
+      var visibles = f(f($scope.asociados, $scope.busqueda), function(a) {return $scope.filtrar(a); });
+      switch($scope.filtro.tipo) {
+          case 'J':
+              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesJoves'));
+              break;
+          case 'K':
+              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesKraal'));
+              break;
+          case 'C':
+              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesComite'));
+              break;
+          default:
+              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesOtro'));
+      }
     };
 
-    $scope.imprimirListado = function(asociados) {
+    $scope.imprimirListado = function(asociados,titulo) {
+      if(asociados.length==0){
+         alert(Traducciones.texto('impresion.noseleccionados'));
+         return;
+      }
       var columnas = ["nombre"];
       if($scope.columnas.contacto) {
         columnas.push("telefono");
@@ -413,7 +429,7 @@ angular.module('cuduApp')
       if($scope.columnas.direccion) columnas.push("direccion");
       if($scope.columnas.rama) columnas.push("rama");
 
-      Ficha.listado(_.map(asociados, "id"), columnas,
+      Ficha.listado(_.map(asociados, "id"), columnas, titulo,
       function(data) {
         var url = _.template('/api/ficha/<%= nombre %>/descargar');
         $window.location.assign(url({ 'nombre' : data.nombre }));

@@ -18,7 +18,7 @@ public class PdfTable<T extends IPrintable> extends BaseTable {
         this.list = list;
     }
 
-    public String CreatePdfTable(Columna[] columns) throws IOException, COSVisitorException {
+    public String CreatePdfTable(Columna[] columns, String title) throws IOException, COSVisitorException {
         if (list.size() == 0) {
             logger.warn("Impossible to create a PDF file from an empty list");
             return EMPTY;
@@ -26,7 +26,7 @@ public class PdfTable<T extends IPrintable> extends BaseTable {
 
         Table table = super.CreateTable(Arrays.asList(columns), GetContent(columns));
         String archivo = Paths.get("temp", UUID.randomUUID().toString() + ".pdf").toString();
-        new PDFTableGenerator().generatePDF(table, archivo);
+        new PDFTableGenerator().generatePDF(table, archivo, title);
 
         return archivo;
     }

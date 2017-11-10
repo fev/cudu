@@ -101,7 +101,7 @@ public class FichaServiceImpl implements FichaService {
     }
 
     @Override
-    public String GenerarListado(Integer[] asociados, String[] columnas, Usuario usuario) throws IOException, COSVisitorException {
+    public String GenerarListado(Integer[] asociados, String[] columnas, String titulo, Usuario usuario) throws IOException, COSVisitorException {
         Iterable<Asociado> objectosAsociado = _asociadoRepository.findAll(Arrays.asList(asociados));
 
         // Obtener datos de la rama por cada asociado
@@ -112,7 +112,7 @@ public class FichaServiceImpl implements FichaService {
             locale = Locale.forLanguageTag("es");
         else
             locale = Locale.forLanguageTag(usuario.getLenguaje());
-        
+
         if (Arrays.asList(columnas).contains("rama")) {
             for (Asociado a : objectosAsociado) {
                 List<String> ramas = new ArrayList();
@@ -151,7 +151,7 @@ public class FichaServiceImpl implements FichaService {
             cols.add(new Columna(traduccionValor, col, Float.valueOf(anchoValor)));
         }
         Columna[] array = new Columna[cols.size()];
-        String archivo = tabla.CreatePdfTable(cols.toArray(array));
+        String archivo = tabla.CreatePdfTable(cols.toArray(array),titulo);
 
         return archivo;
     }

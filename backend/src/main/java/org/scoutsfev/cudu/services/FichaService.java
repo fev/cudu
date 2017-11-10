@@ -10,7 +10,7 @@ import java.util.List;
 public interface FichaService {
     String GenerarFicha(List<Integer> asociados, Integer actividad, String[] datos, int fichaId, Usuario usuario) throws IOException, COSVisitorException;
 
-    String GenerarListado(Integer[] asociados, String[] columnas, Usuario usuario) throws IOException, COSVisitorException;
+    String GenerarListado(Integer[] asociados, String[] columnas, String titulo, Usuario usuario) throws IOException, COSVisitorException;
 
     List<Ficha> ObtenerFichas(String lenguaje);
 }

@@ -4,13 +4,15 @@ public class ImpresionTabla {
 
     private Integer[] identificadores;
     private String[] columnas;
+    private String titulo;
 
     public ImpresionTabla() {
     }
 
-    public ImpresionTabla(Integer[] identificadores, String[] columnas) {
+    public ImpresionTabla(Integer[] identificadores, String[] columnas, String titulo) {
         this.identificadores = identificadores;
         this.columnas = columnas;
+        this.titulo=titulo;
     }
 
     public Integer[] getIdentificadores() {
@@ -21,11 +23,20 @@ public class ImpresionTabla {
         this.identificadores = identificadores;
     }
 
+
     public String[] getColumnas() {
         return this.columnas;
     }
 
     public void setColumnas(String[] columnas) {
         this.columnas = columnas;
+    }
+
+    public String getTitulo(){
+      return this.titulo;
+    }
+
+    public void setTitulo(String titulo){
+      this.titulo=titulo;
     }
 }

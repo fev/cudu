@@ -73,9 +73,9 @@ cuduServices.factory('Actividad', ['$resource',
         .success(onSuccess)
         .error(onError);
       },
-      listado : function(asociados, columnas, onSuccess, onError) {
+      listado : function(asociados, columnas, titulo, onSuccess, onError) {
         var url = '/api/asociado/imprimir';
-        return $http.post(url, { identificadores: asociados, columnas: columnas })
+        return $http.post(url, { identificadores: asociados, columnas: columnas, titulo: titulo })
         .success(onSuccess)
         .error(onError);
       }

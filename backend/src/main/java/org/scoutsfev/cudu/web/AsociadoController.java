@@ -62,7 +62,7 @@ public class AsociadoController {
             @RequestBody ImpresionTabla impresionTabla,
             @AuthenticationPrincipal Usuario usuario) throws IOException, COSVisitorException {
 
-        String archivo = fichaService.GenerarListado(impresionTabla.getIdentificadores(), impresionTabla.getColumnas(), usuario);
+        String archivo = fichaService.GenerarListado(impresionTabla.getIdentificadores(), impresionTabla.getColumnas(), impresionTabla.getTitulo(), usuario);
 
         Path path = Paths.get(archivo);
         RespuestaFichero respuesta = new RespuestaFichero();

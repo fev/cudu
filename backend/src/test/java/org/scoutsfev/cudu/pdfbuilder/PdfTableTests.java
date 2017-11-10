@@ -89,7 +89,7 @@ public class PdfTableTests {
         asociados.add(a2);
 
         PdfTable<Asociado> tabla = new PdfTable<>(asociados);
-        String archivo = tabla.CreatePdfTable(new Columna[]{new Columna("nombre", "nombre", 0), new Columna("direccion", "direccion", 0)});
+        String archivo = tabla.CreatePdfTable(new Columna[]{new Columna("nombre", "nombre", 0), new Columna("direccion", "direccion", 0)},"");
 
         assertTrue(new File(archivo).exists());
     }

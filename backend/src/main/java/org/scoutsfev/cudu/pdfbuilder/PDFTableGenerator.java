@@ -14,10 +14,12 @@ import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 public class PDFTableGenerator {
 
     private String fileName = "";
+    private String title="";
 
     // Generates document from Table object
-    public void generatePDF(Table table, String fileName) throws IOException, COSVisitorException {
+    public void generatePDF(Table table, String fileName, String title) throws IOException, COSVisitorException {
         PDDocument doc = null;
+        if (title!=null)this.title=title;
         if(fileName != null)
             this.fileName = Paths.get(fileName).getFileName().toString();
         try {
@@ -94,7 +96,7 @@ public class PDFTableGenerator {
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        drawHeader(table, LocalDate.now().format(formatter), contentStream);
+        drawHeader(table, LocalDate.now().format(formatter) + "\t-\t"+ this.title, contentStream);
         drawFooter(table, footer, contentStream);
 
         contentStream.close();
