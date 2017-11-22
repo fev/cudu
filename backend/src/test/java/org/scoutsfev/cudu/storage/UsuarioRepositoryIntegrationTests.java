@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.scoutsfev.cudu.Application;
 import org.scoutsfev.cudu.domain.Asociado;
 import org.scoutsfev.cudu.domain.Usuario;
+import org.scoutsfev.cudu.domain.Grupo;
 import org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba;
 import org.scoutsfev.cudu.support.TestIntegracion;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+
 import static org.junit.Assert.*;
+import java.util.Optional;
+import static org.scoutsfev.cudu.domain.generadores.GeneradorDatosDePrueba.ID_GRUPO;
+
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
@@ -30,10 +36,15 @@ public class UsuarioRepositoryIntegrationTests {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private GrupoRepository grupoRepository;
+
     private Asociado asociado;
+    private Grupo grupo;
 
     @Before
     public void setUp() throws Exception {
+        grupo = grupoRepository.save(GeneradorDatosDePrueba.generarGrupo(Optional.of(ID_GRUPO)));
         Asociado nuevoAsociado = GeneradorDatosDePrueba.generarAsociado();
         nuevoAsociado.setEmail("jack.sparrow." + secuencia.getAndIncrement() + "@example.com");
         asociado = asociadoRepository.save(nuevoAsociado);
