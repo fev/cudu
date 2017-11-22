@@ -1,5 +1,5 @@
 CREATE TABLE grupo (
-    id varchar(20) NOT NULL,
+    id varchar(3) NOT NULL,
     nombre varchar(50) NOT NULL,
     codigo_postal integer NOT NULL,
     municipio varchar(100) NOT NULL,
@@ -94,4 +94,3 @@ CREATE TABLE token (
 );
 
 CREATE UNIQUE INDEX uk_token_email ON token USING btree (email);
-
