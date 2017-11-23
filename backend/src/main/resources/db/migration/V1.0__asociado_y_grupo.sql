@@ -24,6 +24,7 @@ CREATE TABLE asociado (
     fecha_nacimiento date NOT NULL,
     dni varchar(10),
     seguridad_social varchar(12),
+    certificado_delitos_sexuales boolean DEFAULT false NOT NULL,
     tiene_seguro_privado boolean DEFAULT false NOT NULL,
     direccion varchar(100),
     codigo_postal integer,

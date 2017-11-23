@@ -59,6 +59,9 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Size(max = 12)
     private String seguridadSocial;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean certificadoDelitosSexuales = false;
+
     private Sexo sexo;
 
     @Email
@@ -198,6 +201,14 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
 
     public void setSeguridadSocial(String seguridadSocial) {
         this.seguridadSocial = seguridadSocial;
+    }
+
+    public Boolean getCertificadoDelitosSexuales() {
+        return certificadoDelitosSexuales;
+    }
+
+    public void setCertificadoDelitosSexuales(Boolean certificadoDelitosSexuales) {
+        this.certificadoDelitosSexuales = certificadoDelitosSexuales;
     }
 
     public Sexo getSexo() {
