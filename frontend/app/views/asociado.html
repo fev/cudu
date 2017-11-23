@@ -282,7 +282,7 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" ng-class="{'invisible': asociado.tipo === 'J'}">
             <p class="col-md-3 control-label"><input type="checkbox" ng-model="asociado.certificadoDelitosSexuales"></input></p>
             <div class="col-md-9">
               <label class="form-control-static font-weight-bold">
