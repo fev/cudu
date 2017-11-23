@@ -54,7 +54,7 @@ angular.module('cuduApp')
 
     $scope.tabActivo = 0;
     $scope.busqueda = '';
-    $scope.filtro = { tipo: '', eliminados: false };
+    $scope.filtro = { tipo: '', eliminados: false, certificadoDelitosSexuales: 'nada' };
     $scope.columnas = { rama: true, direccion: false, contacto: false };
     $scope.orden = 'apellidos';
     $scope.info = { mensaje: ''};
@@ -73,7 +73,7 @@ angular.module('cuduApp')
 
     $scope.limpiarFiltro = function() {
       $scope.busqueda = '';
-      $scope.filtro = { tipo: '', eliminados: false };
+      $scope.filtro = { tipo: '', eliminados: false, certificadoDelitosSexuales: 'nada' };
     };
 
     $scope.filtrar = function(asociado) {
@@ -87,7 +87,9 @@ angular.module('cuduApp')
                   (f.ramaExploradores && asociado.ramaExploradores) ||
                   (f.ramaExpedicion && asociado.ramaExpedicion) || 
                   (f.ramaRuta && asociado.ramaRuta)) &&
-              (f.eliminados || asociado.activo));
+              (f.eliminados || asociado.activo) &&
+              (f.certificadoDelitosSexuales=== 'nada' || (String(asociado.certificadoDelitosSexuales)===f.certificadoDelitosSexuales && (asociado.tipo==='K' || asociado.tipo==='C')))
+            );
     };
 
     $scope.activarFiltro = function(filtro, valor, porDefecto) {

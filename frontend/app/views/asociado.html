@@ -111,11 +111,26 @@
               <i class="fa fa-circle"></i>
             </a>
           </div>
+
           <div class="btn-group btn-group-xs pull-right">
             <a href="javascript:" class="btn btn-default" ng-class="{active: filtro.eliminados === true}" ng-click="activarFiltro('eliminados', true, false)">
               <span class="glyphicon glyphicon-trash"></span>
             </a>
           </div>
+
+          <div class="btn-group btn-group-xs">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" ng-class="{active: filtro.certificadoDelitosSexuales != 'nada'}">
+              <span class="glyphicon glyphicon-filter"></span>
+            </button>
+            <ul class="dropdown-menu">
+              <li class="dropdown-header"><%= asociado.otrosFiltros %></li>
+              <li class="divider"></li>
+              <li><a> <%= asociado.certificadoDelitosSexuales %></a></li>
+              <li><a href="javascript:" ng-click="activarFiltro('certificadoDelitosSexuales', 'true', 'nada')"><i class="fa" ng-class="cssRadio(filtro.certificadoDelitosSexuales === 'true')"></i> Sí</a>
+              <li><a href="javascript:" ng-click="activarFiltro('certificadoDelitosSexuales', 'false', 'nada')"><i class="fa" ng-class="cssRadio(filtro.certificadoDelitosSexuales === 'false')"></i> No</a></li>
+            </ul>
+          </div>
+
         </div>
       </div>
     </div>
