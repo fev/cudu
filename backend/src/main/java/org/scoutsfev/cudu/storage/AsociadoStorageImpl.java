@@ -38,7 +38,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     private final static Field[] camposListado = {
         ASOCIADO.ID, ASOCIADO.GRUPO_ID.as("grupo_id"), GRUPO.NOMBRE.as("grupo_nombre"), ASOCIADO.NOMBRE, ASOCIADO.APELLIDOS, ASOCIADO.TIPO, RAMA,
         coalesce(ASOCIADO.EMAIL, ASOCIADO.EMAIL_CONTACTO).as("email"), coalesce(ASOCIADO.TELEFONO_MOVIL, ASOCIADO.TELEFONO_CASA).as("telefono"),
-        ASOCIADO.ACTIVO, ASOCIADO.USUARIO_ACTIVO, ASOCIADO.FECHA_ALTA, ASOCIADO.FECHA_BAJA, ASOCIADO.FECHA_ACTUALIZACION, ASOCIADO.SEXO
+        ASOCIADO.ACTIVO, ASOCIADO.USUARIO_ACTIVO, ASOCIADO.FECHA_ALTA, ASOCIADO.FECHA_BAJA, ASOCIADO.FECHA_ACTUALIZACION, ASOCIADO.SEXO, ASOCIADO.CERTIFICADO_DELITOS_SEXUALES
     };
 
     private final static List<String> nombresCamposListado = Arrays.asList(camposListado)
@@ -50,7 +50,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     }
 
     @Override
-    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String sexo, String nombreApellido, String orden, Boolean ordenAsc, Pageable pageable) {
+    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String sexo, String nombreApellido, String orden, Boolean ordenAsc, Boolean certificadoDelitosSexuales, Pageable pageable) {
 
         SelectConditionStep<Record> base = context
                 .select(camposListado)
@@ -65,8 +65,10 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         if (inactivos == null || !inactivos) {
             base = base.and(ASOCIADO.ACTIVO.eq(true));
         }
+        if (certificadoDelitosSexuales != null) base = base.and(ASOCIADO.CERTIFICADO_DELITOS_SEXUALES.eq(certificadoDelitosSexuales));
+
         if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
-        if(!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
+        if (!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
         if (!Strings.isNullOrEmpty(orden)) base = añadirOrden(base, orden, ordenAsc);
 
         int numeroPagina = pageable.getPageNumber();

@@ -20,13 +20,13 @@
                         </div>
                         </div>
                         <div class="col-md-6">
-                        <div class="row">
-                            <label>Sexo</label>
-                            <div class="btn-group btn-group-sm">
-                            <a href="javascript:" ng-click="filtraPorSexo('M')" ng-class="{'active': filtro.sexo === 'M'}" class="btn">Masculino</a>
-                            <a href="javascript:" ng-click="filtraPorSexo('F')" ng-class="{'active': filtro.sexo === 'F'}" class="btn">Femenino</a>
-                            </div>
-                        </div>
+                          <div class="row">
+                              <label>Sexo</label>
+                              <div class="btn-group btn-group-sm">
+                              <a href="javascript:" ng-click="filtraPorSexo('M')" ng-class="{'active': filtro.sexo === 'M'}" class="btn">Masculino</a>
+                              <a href="javascript:" ng-click="filtraPorSexo('F')" ng-class="{'active': filtro.sexo === 'F'}" class="btn">Femenino</a>
+                              </div>
+                          </div>
                         </div>
                     </div>
                     <div class="row padded">
@@ -39,6 +39,14 @@
                         <a href="javascript:" ng-click="filtraRama('ruta')" ng-class="{'active': esRama('ruta')}" class="btn">Ruta</a>
                         </div>
                     </div>
+                    <div class="row padded">
+                      <label><%=asociado.certificadoDelitosSexuales2%></label>
+                      <div class="btn-group btn-group-sm">
+                        <a href="javascript:" ng-click="filtraPorCertificado('true')" ng-class="{active: filtro.certificadoDelitosSexuales === true}" class="btn">Sí</a>
+                        <a href="javascript:" ng-click="filtraPorCertificado('false')" ng-class="{active: filtro.certificadoDelitosSexuales === false}" class="btn">No</a>
+                      </div>
+                    </div>
+
                     <div class="row padded">
                         <div class="input-group">
                         <input ng-model="busqueda" type="text" cudu-enter="filtraPorNombre()" class="form-control input-sm" placeholder="Búsqueda por Nombre">
@@ -79,6 +87,7 @@
                         </a>
                         </div>
                     </div>
+
                     <div class="row padded has-warning">
                         <div class="checkbox">
                         <label>

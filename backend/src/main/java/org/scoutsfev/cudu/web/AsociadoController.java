@@ -93,6 +93,7 @@ public class AsociadoController {
             @RequestParam(required = false) String nombreApellido,
             @RequestParam(required = false) String orden,
             @RequestParam(required = false) Boolean ordenAsc,
+            @RequestParam(required = false) Boolean certificadoDelitosSexuales,
             @AuthenticationPrincipal Usuario usuario,
             Pageable pageable) {
 
@@ -110,7 +111,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, orden, ordenAsc, pageable);
+        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, pageable);
         return new ResponseEntity<>(listado, HttpStatus.OK);
     }
 

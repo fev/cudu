@@ -33,7 +33,7 @@ import org.scoutsfev.cudu.db.tables.records.GrupoRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Grupo extends TableImpl<GrupoRecord> {
 
-	private static final long serialVersionUID = -917668728;
+	private static final long serialVersionUID = 1176461915;
 
 	/**
 	 * The reference instance of <code>public.grupo</code>
@@ -51,7 +51,7 @@ public class Grupo extends TableImpl<GrupoRecord> {
 	/**
 	 * The column <code>public.grupo.id</code>.
 	 */
-	public final TableField<GrupoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR.length(20).nullable(false), this, "");
+	public final TableField<GrupoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR.length(3).nullable(false), this, "");
 
 	/**
 	 * The column <code>public.grupo.nombre</code>.

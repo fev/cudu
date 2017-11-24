@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Asociado implements Serializable {
 
-	private static final long serialVersionUID = -1089740975;
+	private static final long serialVersionUID = 1991639254;
 
 	private final Integer   id;
 	private final String    tipo;
@@ -35,6 +35,7 @@ public class Asociado implements Serializable {
 	private final Date      fechaNacimiento;
 	private final String    dni;
 	private final String    seguridadSocial;
+	private final Boolean   certificadoDelitosSexuales;
 	private final Boolean   tieneSeguroPrivado;
 	private final String    direccion;
 	private final Integer   codigoPostal;
@@ -89,6 +90,7 @@ public class Asociado implements Serializable {
 		this.fechaNacimiento = value.fechaNacimiento;
 		this.dni = value.dni;
 		this.seguridadSocial = value.seguridadSocial;
+		this.certificadoDelitosSexuales = value.certificadoDelitosSexuales;
 		this.tieneSeguroPrivado = value.tieneSeguroPrivado;
 		this.direccion = value.direccion;
 		this.codigoPostal = value.codigoPostal;
@@ -144,6 +146,7 @@ public class Asociado implements Serializable {
 		Date      fechaNacimiento,
 		String    dni,
 		String    seguridadSocial,
+		Boolean   certificadoDelitosSexuales,
 		Boolean   tieneSeguroPrivado,
 		String    direccion,
 		Integer   codigoPostal,
@@ -197,6 +200,7 @@ public class Asociado implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 		this.dni = dni;
 		this.seguridadSocial = seguridadSocial;
+		this.certificadoDelitosSexuales = certificadoDelitosSexuales;
 		this.tieneSeguroPrivado = tieneSeguroPrivado;
 		this.direccion = direccion;
 		this.codigoPostal = codigoPostal;
@@ -276,6 +280,10 @@ public class Asociado implements Serializable {
 
 	public String getSeguridadSocial() {
 		return this.seguridadSocial;
+	}
+
+	public Boolean getCertificadoDelitosSexuales() {
+		return this.certificadoDelitosSexuales;
 	}
 
 	public Boolean getTieneSeguroPrivado() {
