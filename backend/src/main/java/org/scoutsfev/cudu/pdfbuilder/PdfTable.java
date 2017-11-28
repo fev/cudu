@@ -7,12 +7,19 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.*;
+//import org.scoutsfev.cudu.web.properties.FichaProperties;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+//@EnableConfigurationProperties
 public class PdfTable<T extends IPrintable> extends BaseTable {
 
     private static final Logger logger = LoggerFactory.getLogger(PdfTable.class);
 
     private List<T> list;
+
+//    @Autowired
+//    private FichaProperties _fichaProperties;
 
     public PdfTable(List<T> list) {
         this.list = list;
@@ -26,6 +33,7 @@ public class PdfTable<T extends IPrintable> extends BaseTable {
 
         Table table = super.CreateTable(Arrays.asList(columns), GetContent(columns));
         String archivo = Paths.get("temp", UUID.randomUUID().toString() + ".pdf").toString();
+//        String archivo = Paths.get(_fichaProperties.getCarpetaFichas(), UUID.randomUUID().toString() + ".pdf").toString();
         new PDFTableGenerator().generatePDF(table, archivo, title);
 
         return archivo;

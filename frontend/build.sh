@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# Para hacer debug
+# set -x
 readonly OUT=./dist
 readonly JS=$OUT/scripts
 readonly BIN=./node_modules/.bin
@@ -22,7 +23,7 @@ build() {
     concat ':scripts.*js$' $JS/cudu.js
 
     $BIN/uglifyjs --compress --source-map-url=scripts/cudu.min.js.map --source-map $JS/cudu.min.js.map -o $JS/cudu.min.js $JS/cudu.js
-    
+
     cat header.txt $JS/cudu.min.js > $JS/tmp.js && mv $JS/tmp.js $JS/cudu.min.js
 
     hash_replace "$JS/cudu.min.js" "dist/index.html"
@@ -41,7 +42,7 @@ build() {
 concat() {
     local pattern=$1; shift
     local output=$1; shift
-    for f in `cat $OUT/merge.list | grep $pattern | cut -d: -f2 | sed 's/^/dist\//'`; do 
+    for f in `cat $OUT/merge.list | grep $pattern | cut -d: -f2 | sed 's/^/dist\//'`; do
         (cat "${f}"; echo) >> $output;
     done
 }
@@ -58,7 +59,9 @@ hash_replace() {
     local newName=${nameWithoutExt}.${hash}.${ext}
 
     cp $fpath $dname/$newName
-    sed -i .bak "s|$fname|${newName}|g" $fToReplace
+    # En mac: "-i.bak" -> "-i .bak"
+    # sed -i. bak "s|$fname|${newName}|g" $fToReplace
+    sed -i.bak "s|$fname|${newName}|g" $fToReplace
     rm $fpath
 }
 
@@ -85,10 +88,10 @@ prepare() {
     if [ $(instalado compass) == 0 ]; then
         bundler install
     fi
-    if [ ! -d node_modules ]; then 
+    if [ ! -d node_modules ]; then
         npm install
     fi
-    if [ ! -d app/lib ]; then 
+    if [ ! -d app/lib ]; then
         $BIN/bower install
     fi
 }
@@ -104,4 +107,3 @@ main() {
     build
 }
 main
-
