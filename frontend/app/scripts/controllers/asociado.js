@@ -20,6 +20,8 @@ angular.module('cuduApp')
     Usuario.obtenerActual().then(function(u) {
       $scope.grupo = u.grupo;
       if (u.tipo === 'T' && $routeParams.id) {
+        document.getElementById("panelEdicion").hidden=false;
+        document.getElementById("logo-bienvenida").hidden=true;
         $scope.esTecnico = true;
         $scope.editarAsociadoTecnico($routeParams.id);
       } else {
