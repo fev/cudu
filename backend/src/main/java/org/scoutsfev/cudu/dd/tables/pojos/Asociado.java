@@ -24,7 +24,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Asociado implements Serializable {
 
-	private static final long serialVersionUID = 1991639254;
+	private static final long serialVersionUID = -36792612;
 
 	private final Integer   id;
 	private final String    tipo;
@@ -35,7 +35,6 @@ public class Asociado implements Serializable {
 	private final Date      fechaNacimiento;
 	private final String    dni;
 	private final String    seguridadSocial;
-	private final Boolean   certificadoDelitosSexuales;
 	private final Boolean   tieneSeguroPrivado;
 	private final String    direccion;
 	private final Integer   codigoPostal;
@@ -79,6 +78,7 @@ public class Asociado implements Serializable {
 	private final String    notas;
 	private final String    emailContacto;
 	private final Short     calidadPassword;
+	private final Boolean   certificadoDelitosSexuales;
 
 	public Asociado(Asociado value) {
 		this.id = value.id;
@@ -90,7 +90,6 @@ public class Asociado implements Serializable {
 		this.fechaNacimiento = value.fechaNacimiento;
 		this.dni = value.dni;
 		this.seguridadSocial = value.seguridadSocial;
-		this.certificadoDelitosSexuales = value.certificadoDelitosSexuales;
 		this.tieneSeguroPrivado = value.tieneSeguroPrivado;
 		this.direccion = value.direccion;
 		this.codigoPostal = value.codigoPostal;
@@ -134,6 +133,7 @@ public class Asociado implements Serializable {
 		this.notas = value.notas;
 		this.emailContacto = value.emailContacto;
 		this.calidadPassword = value.calidadPassword;
+		this.certificadoDelitosSexuales = value.certificadoDelitosSexuales;
 	}
 
 	public Asociado(
@@ -146,7 +146,6 @@ public class Asociado implements Serializable {
 		Date      fechaNacimiento,
 		String    dni,
 		String    seguridadSocial,
-		Boolean   certificadoDelitosSexuales,
 		Boolean   tieneSeguroPrivado,
 		String    direccion,
 		Integer   codigoPostal,
@@ -189,7 +188,8 @@ public class Asociado implements Serializable {
 		String    usuarioCreadoPorNombre,
 		String    notas,
 		String    emailContacto,
-		Short     calidadPassword
+		Short     calidadPassword,
+		Boolean   certificadoDelitosSexuales
 	) {
 		this.id = id;
 		this.tipo = tipo;
@@ -200,7 +200,6 @@ public class Asociado implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 		this.dni = dni;
 		this.seguridadSocial = seguridadSocial;
-		this.certificadoDelitosSexuales = certificadoDelitosSexuales;
 		this.tieneSeguroPrivado = tieneSeguroPrivado;
 		this.direccion = direccion;
 		this.codigoPostal = codigoPostal;
@@ -244,6 +243,7 @@ public class Asociado implements Serializable {
 		this.notas = notas;
 		this.emailContacto = emailContacto;
 		this.calidadPassword = calidadPassword;
+		this.certificadoDelitosSexuales = certificadoDelitosSexuales;
 	}
 
 	public Integer getId() {
@@ -280,10 +280,6 @@ public class Asociado implements Serializable {
 
 	public String getSeguridadSocial() {
 		return this.seguridadSocial;
-	}
-
-	public Boolean getCertificadoDelitosSexuales() {
-		return this.certificadoDelitosSexuales;
 	}
 
 	public Boolean getTieneSeguroPrivado() {
@@ -456,5 +452,9 @@ public class Asociado implements Serializable {
 
 	public Short getCalidadPassword() {
 		return this.calidadPassword;
+	}
+
+	public Boolean getCertificadoDelitosSexuales() {
+		return this.certificadoDelitosSexuales;
 	}
 }

@@ -1,5 +1,5 @@
 CREATE TABLE grupo (
-    id varchar(3) NOT NULL,
+    id varchar(20) NOT NULL,
     nombre varchar(50) NOT NULL,
     codigo_postal integer NOT NULL,
     municipio varchar(100) NOT NULL,
@@ -24,7 +24,6 @@ CREATE TABLE asociado (
     fecha_nacimiento date NOT NULL,
     dni varchar(10),
     seguridad_social varchar(12),
-    certificado_delitos_sexuales boolean DEFAULT false NOT NULL,
     tiene_seguro_privado boolean DEFAULT false NOT NULL,
     direccion varchar(100),
     codigo_postal integer,

@@ -30,7 +30,7 @@ import org.scoutsfev.cudu.dd.tables.records.LiquidacionGruposRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionGrupos extends TableImpl<LiquidacionGruposRecord> {
 
-	private static final long serialVersionUID = -117771469;
+	private static final long serialVersionUID = 989753974;
 
 	/**
 	 * The reference instance of <code>public.liquidacion_grupos</code>
@@ -58,7 +58,7 @@ public class LiquidacionGrupos extends TableImpl<LiquidacionGruposRecord> {
 	/**
 	 * The column <code>public.liquidacion_grupos.grupo_id</code>.
 	 */
-	public final TableField<LiquidacionGruposRecord, String> GRUPO_ID = createField("grupo_id", org.jooq.impl.SQLDataType.VARCHAR.length(3), this, "");
+	public final TableField<LiquidacionGruposRecord, String> GRUPO_ID = createField("grupo_id", org.jooq.impl.SQLDataType.VARCHAR.length(20), this, "");
 
 	/**
 	 * The column <code>public.liquidacion_grupos.nombre</code>.

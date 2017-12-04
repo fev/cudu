@@ -15,7 +15,6 @@ import org.scoutsfev.cudu.db.routines.CrearLiquidacion;
 import org.scoutsfev.cudu.db.routines.Edad;
 import org.scoutsfev.cudu.db.routines.Last;
 import org.scoutsfev.cudu.db.routines.LastAgg;
-import org.scoutsfev.cudu.db.routines.NuevaFechaActualizacion;
 
 
 /**
@@ -149,25 +148,6 @@ public class Routines {
 		LastAgg f = new LastAgg();
 		f.set__1(__1);
 		f.set__2(__2);
-
-		return f.asField();
-	}
-
-	/**
-	 * Call <code>public.nueva_fecha_actualizacion</code>
-	 */
-	public static Object nuevaFechaActualizacion(Configuration configuration) {
-		NuevaFechaActualizacion f = new NuevaFechaActualizacion();
-
-		f.execute(configuration);
-		return f.getReturnValue();
-	}
-
-	/**
-	 * Get <code>public.nueva_fecha_actualizacion</code> as a field
-	 */
-	public static Field<Object> nuevaFechaActualizacion() {
-		NuevaFechaActualizacion f = new NuevaFechaActualizacion();
 
 		return f.asField();
 	}

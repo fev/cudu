@@ -29,7 +29,7 @@ import org.scoutsfev.cudu.db.tables.records.LiquidacionBalanceResumenRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LiquidacionBalanceResumen extends TableImpl<LiquidacionBalanceResumenRecord> {
 
-	private static final long serialVersionUID = 944337435;
+	private static final long serialVersionUID = -792409568;
 
 	/**
 	 * The reference instance of <code>public.liquidacion_balance_resumen</code>
@@ -52,7 +52,7 @@ public class LiquidacionBalanceResumen extends TableImpl<LiquidacionBalanceResum
 	/**
 	 * The column <code>public.liquidacion_balance_resumen.grupo_id</code>.
 	 */
-	public final TableField<LiquidacionBalanceResumenRecord, String> GRUPO_ID = createField("grupo_id", org.jooq.impl.SQLDataType.VARCHAR.length(3), this, "");
+	public final TableField<LiquidacionBalanceResumenRecord, String> GRUPO_ID = createField("grupo_id", org.jooq.impl.SQLDataType.VARCHAR.length(20), this, "");
 
 	/**
 	 * The column <code>public.liquidacion_balance_resumen.grupo_nombre</code>.

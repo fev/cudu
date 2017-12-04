@@ -36,7 +36,7 @@ import org.scoutsfev.cudu.dd.tables.records.AsociadoRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Asociado extends TableImpl<AsociadoRecord> {
 
-	private static final long serialVersionUID = 607144857;
+	private static final long serialVersionUID = 526294169;
 
 	/**
 	 * The reference instance of <code>public.asociado</code>
@@ -95,11 +95,6 @@ public class Asociado extends TableImpl<AsociadoRecord> {
 	 * The column <code>public.asociado.seguridad_social</code>.
 	 */
 	public final TableField<AsociadoRecord, String> SEGURIDAD_SOCIAL = createField("seguridad_social", org.jooq.impl.SQLDataType.VARCHAR.length(12), this, "");
-
-	/**
-	 * The column <code>public.asociado.certificado_delitos_sexuales</code>.
-	 */
-	public final TableField<AsociadoRecord, Boolean> CERTIFICADO_DELITOS_SEXUALES = createField("certificado_delitos_sexuales", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * The column <code>public.asociado.tiene_seguro_privado</code>.
@@ -315,6 +310,11 @@ public class Asociado extends TableImpl<AsociadoRecord> {
 	 * The column <code>public.asociado.calidad_password</code>.
 	 */
 	public final TableField<AsociadoRecord, Short> CALIDAD_PASSWORD = createField("calidad_password", org.jooq.impl.SQLDataType.SMALLINT, this, "");
+
+	/**
+	 * The column <code>public.asociado.certificado_delitos_sexuales</code>.
+	 */
+	public final TableField<AsociadoRecord, Boolean> CERTIFICADO_DELITOS_SEXUALES = createField("certificado_delitos_sexuales", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.asociado</code> table reference
