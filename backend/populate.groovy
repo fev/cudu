@@ -183,6 +183,7 @@ generador.asociado('UP', 'K', true, "baden@example.com", 'G')
 generador.asociado('UP', 'K', true, "jack@example.com", 'P')
 generador.asociado(null, 'T', true, "fev@example.com", 'F')
 generador.asociado(null, 'T', true, "lluerna@example.com", 'E')
+generador.asociado(null, 'T', true, "mev@example.com", 'A')
 
 generador.cursos(5, true)
 generador.cursos(2, false)
