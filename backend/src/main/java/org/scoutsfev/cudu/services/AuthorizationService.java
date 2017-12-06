@@ -37,7 +37,8 @@ public class AuthorizationService {
     public boolean puedeEditarAsociado(Asociado asociado, Usuario usuario) {
         if (asociado == null || usuario == null)
             return false;
-        AsociadoParaAutorizar asociadoParaAutorizar = new AsociadoParaAutorizar(asociado.getId(), asociado.getGrupoId(), null,
+        Integer asociacionId = new Integer(grupoRepository.findOne(asociado.getGrupoId()).getAsociacion().getId());
+        AsociadoParaAutorizar asociadoParaAutorizar = new AsociadoParaAutorizar(asociado.getId(), asociado.getGrupoId(), asociacionId,
                 asociado.isRamaColonia(), asociado.isRamaManada(), asociado.isRamaExploradores(), asociado.isRamaExpedicion(), asociado.isRamaRuta());
         return comprobarAccesoAsociado(asociadoParaAutorizar, usuario, true);
     }
@@ -89,7 +90,6 @@ public class AuthorizationService {
             Asociacion restriccionAsociacion = usuario.getRestricciones().getRestriccionAsociacion();
             if (restriccionAsociacion == null)
                 return true;
-
             Grupo grupo = grupoRepository.findOne(grupoId);
             return grupo != null && grupo.getAsociacion() == restriccionAsociacion;
         }

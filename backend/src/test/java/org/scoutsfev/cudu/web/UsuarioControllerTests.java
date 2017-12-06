@@ -40,6 +40,7 @@ public class UsuarioControllerTests {
     private ApplicationEventPublisher eventPublisher;
     private UsuarioStorage usuarioStorage;
     private GrupoRepository grupoRepository;
+    private AsociadoStorage asociadoStorage;
 
     @Before
     public void setUp() throws Exception {
@@ -58,7 +59,8 @@ public class UsuarioControllerTests {
         authenticationManager = mock(AuthenticationManager.class);
         eventPublisher = mock(ApplicationEventPublisher.class);
         grupoRepository = mock(GrupoRepository.class);
-        AsociadoStorage asociadoStorage = mock(AsociadoStorage.class);
+        when(grupoRepository.findOne(anyString())).thenReturn(grupo);
+        asociadoStorage = mock(AsociadoStorage.class);
         authorizationService = new AuthorizationService(asociadoStorage, grupoRepository);
         usuarioStorage = mock(UsuarioStorage.class);
         usuarioController = new UsuarioController(asociadoRepository, usuarioService, eventPublisher, authenticationManager, authorizationService, usuarioStorage);
