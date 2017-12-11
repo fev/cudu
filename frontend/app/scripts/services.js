@@ -319,8 +319,8 @@ cuduServices.factory('RutaInicial', function() { 
         return "/lluerna/cursos";
       }
       if ((usuario.tipo === 'T') && (usuario.ambitoEdicion === 'F' || usuario.ambitoEdicion === 'A')) {
-        return "/permisos";
-        // return "/tecnico/asociados";
+        //return "/permisos";
+        return "/tecnico/asociados";
       }
       return "/asociados"
     }
