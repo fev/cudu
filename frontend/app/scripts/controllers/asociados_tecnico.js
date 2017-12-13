@@ -178,6 +178,7 @@ angular.module('cuduApp')
     $scope.limpiarFiltro = function() {
         var me = this;
         me.filtro.nombreApellido = '';
+        document.getElementById("filtroNombre").value = "";
 
         me.filtraAsociados();
     };
