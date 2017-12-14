@@ -4,7 +4,12 @@
             <div id="listado-asociados">
             <div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading">Búsqueda Avanzada</div>
+                <div class="panel-heading mat-toolbar">
+                    <h4 style="display: inline-block">Búsqueda Avanzada</h4>
+                    <button type="button" class="btn btn-default btn-sm text-uppercase pull-right" ng-click="limpiarFiltros()">
+                      <%= tecnico.limpiarFiltros %>
+                    </button>
+                </div>
                 <div class="panel-body">
                 <div class="row">
                     <div class="col-md-6 separador-dcho">
@@ -13,9 +18,9 @@
                         <div class="row">
                             <label>Tipo</label>
                             <div class="btn-group btn-group-sm">
-                            <a href="javascript:" ng-click="activar('Joven')" ng-class="{'active': filtroAsociadoTipo.isActivo('Joven')}" class="btn">Joven</a>
-                            <a href="javascript:" ng-click="activar('Kraal')" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
-                            <a href="javascript:" ng-click="activar('Comite')" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
+                            <a id="Joven" href="javascript:" ng-click="activar('Joven')" ng-class="{'active': filtroAsociadoTipo.isActivo('Joven')}" class="btn">Joven</a>
+                            <a id="Kraal" href="javascript:" ng-click="activar('Kraal')" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
+                            <a id="Comite" href="javascript:" ng-click="activar('Comite')" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
                             </div>
                         </div>
                         </div>
@@ -51,7 +56,7 @@
                         <div class="input-group">
                         <input ng-model="busqueda" id="filtroNombre" type="text" cudu-enter="filtraPorNombre()" class="form-control input-sm" placeholder="Búsqueda por Nombre o Apellidos">
                         <span class="input-group-btn">
-                            <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover btn-sm" type="button" tooltip="Limpiar búsqueda y mostrar todos">
+                            <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover" type="button" tooltip="Limpiar búsqueda y mostrar todos">
                             <span class="glyphicon glyphicon-remove"></span>
                             </button>
                         </span>
@@ -91,7 +96,7 @@
                     <div class="row padded has-warning">
                         <div class="checkbox">
                         <label>
-                            <input type="checkbox" ng-click="mostrarInactivos()"> Mostrar Inactivos
+                            <input id="inactivos" type="checkbox" ng-click="mostrarInactivos()"> Mostrar Inactivos
                         </label>
                         </div>
                     </div>

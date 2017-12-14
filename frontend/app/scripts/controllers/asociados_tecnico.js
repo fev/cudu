@@ -205,12 +205,36 @@ angular.module('cuduApp')
         var me = this;
         if (me.filtroAsociadoTipo.isActivo(tipo)) {
             me.filtroAsociadoTipo.desactivar(tipo);
+            me.filtro.tipo = '';
         }
         else {
             me.filtroAsociadoTipo.activar(tipo);
             me.filtro.tipo = tipo;
         }
         me.filtraAsociados();
+    };
+
+    $scope.limpiarFiltros = function() {
+      var me = this;
+      if (me.filtroAsociadoTipo.isActivo('Joven')) {
+          me.filtroAsociadoTipo.desactivar('Joven');
+      }
+      if (me.filtroAsociadoTipo.isActivo('Kraal')) {
+          me.filtroAsociadoTipo.desactivar('Kraal');
+      }
+      if (me.filtroAsociadoTipo.isActivo('Comite')) {
+          me.filtroAsociadoTipo.desactivar('Comite');
+      }
+      document.getElementById("inactivos").checked = false;
+
+      $scope.filtro = new $scope.AsociadoFiltro();
+      $scope.grupoSeleccionado = { id: -1, nombre: 'Todos' };
+      $scope.grupos = [$scope.grupoSeleccionado];
+      AsociadoTecnico.grupos().success(function(data) {
+          $scope.grupos = $scope.grupos.concat(data);
+      });
+      $scope.limpiarFiltro();
+
     };
 
     $scope.filtraGrupo = function(id) {
@@ -259,8 +283,8 @@ angular.module('cuduApp')
 
     $scope.mostrarInactivos = function() {
         var me = this;
-          me.filtro.inactivo = !me.filtro.inactivo;
-          me.filtraAsociados();
+        me.filtro.inactivo = !me.filtro.inactivo;
+        me.filtraAsociados();
     };
 
     $scope.verAsociado = function(id) {
