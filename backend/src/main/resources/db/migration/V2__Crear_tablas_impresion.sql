@@ -16,7 +16,7 @@ INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) V
 INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (18, 'ca', 'Autoritzacio menor viatge vehicle privat', 'FEV_Autoritzacio_menor_viatge_vehicle_privat.pdf', 1, 1);
 INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (19, 'ca', 'Declaracio exclusio responsabilitat', 'FEV_declaracio_exclusio_responsabilitat.pdf', 0, 1);
 INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (20, 'ca', 'Fulla d''inscripcio a l''agrupament escolta', 'FEV_Fulla_d''inscripcio_a_l''agrupament_escolta.pdf', 0, 0);
-INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (10, 'es', 'Declaración exclusión responsabilidad', 'FEV_declaración_exclusion_responsabilidad.pdf', 0, 1);
+INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (10, 'es', 'Declaración exclusión responsabilidad', 'FEV_declaracion_exclusion_responsabilidad.pdf', 0, 1);
 INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (3, 'es', 'Ficha sanitaria', 'FEV_ficha_sanitaria.pdf', 0, 0);
 INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (11, 'es', 'Ficha inscripcion grupo scout', 'FEV_Ficha_inscripcion_grupo_scout.pdf', 0, 0);
 INSERT INTO "ficha"(id, lenguaje, nombre, plantilla, tipo_entidad, tipo_ficha) VALUES (13, 'ca', 'Fitxa Sanitaria', 'FEV_fitxa_sanitaria.pdf', 0, 0);
@@ -32,4 +32,3 @@ create TABLE "impresion" (
     "fecha" timestamp default now(),
     PRIMARY KEY ("fichero", "usuario_id")
 );
-
