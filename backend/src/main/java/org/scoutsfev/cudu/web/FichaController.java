@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.zeroturnaround.zip.commons.FileUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLConnection;
@@ -57,7 +58,7 @@ public class FichaController {
             ficha.setNombre(path.getFileName().toString());
             return ficha;
         } catch (Exception ex) {
-            logger.error("Error generando fichas");
+            logger.error("Error generando fichas" , ex.getMessage());
             throw ex;
         }
     }
@@ -80,8 +81,14 @@ public class FichaController {
     }
 
     @RequestMapping(value = "/fichas/entidad/{tipoEntidad}", method = RequestMethod.GET)
-    public List<Ficha> ObtenerFichas(@PathVariable int tipoEntidad, @AuthenticationPrincipal Usuario usuario) {
-        return reportingService.ObtenerFichas(usuario.getLenguaje());
+    public List<Ficha> ObtenerFichas(@PathVariable int tipoEntidad, @AuthenticationPrincipal Usuario usuario, HttpServletRequest request) {
+        String lenguaje=usuario.getLenguaje();
+        // Si el usuario nunca ha seleccionado un lenguaje, en la bd está vacío. (null)
+        if (lenguaje==null || lenguaje ==""){
+          lenguaje=request.getHeader("Accept-Language").toLowerCase();
+        }else if (lenguaje.startsWith("es") && lenguaje.startsWith("ca")){
+          return reportingService.ObtenerFichas("es");
+        }return reportingService.ObtenerFichas(lenguaje);
     }
 
     private void DevolverArchivo(String pathArchivo, HttpServletResponse response) throws IOException {
