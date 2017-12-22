@@ -35,9 +35,7 @@ angular.module('cuduApp')
     $scope.autorizaciones =[];
     Ficha.queryAll(0, function (data) {
       $scope.fichas = _.filter(data, function (f) { return f.tipoFicha == 0 && f.tipoEntidad == 0; });
-      //$scope.autorizaciones = _.filter(data, function (f) { return f.tipoFicha == 1 && f.tipoEntidad == 0; });
-      $scope.autorizaciones = data;
-      alert(JSON.stringify($scope.autorizaciones));
+      $scope.autorizaciones = _.filter(data, function (f) { return f.tipoFicha == 1 && f.tipoEntidad == 0; });
     }, function () { });
 
     var generarAsociadoVacio = function() {
