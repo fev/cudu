@@ -44,7 +44,8 @@ public class PDFTableGenerator {
             PDPage page = generatePage(doc, table);
             PDPageContentStream contentStream = generateContentStream(doc, page, table);
             String[][] currentPageContent = getContentForCurrentPage(table, rowsPerPage, pageCount);
-            String footer = String.format("%s - %s de %s", this.fileName, pageCount + 1, numPages);
+            //String footer = String.format("%s - %s de %s", this.fileName, pageCount + 1, numPages);
+            String footer = String.format("%s de %s",pageCount + 1, numPages);
             drawCurrentPage(table, footer, currentPageContent, contentStream);
         }
     }
