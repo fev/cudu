@@ -400,7 +400,7 @@ angular.module('cuduApp')
     };
 
     $scope.imprimirTodos = function() {
-      $scope.imprimirListado($scope.asociados, Traducciones.texto('impresion.titulo.listadoCompleto') );
+      $scope.imprimirListado($scope.asociados, Traducciones.texto('impresion.titulo.listadoCompleto') + $scope.grupo.nombre );
     };
 
     $scope.imprimirVisibles = function() {
@@ -408,16 +408,16 @@ angular.module('cuduApp')
       var visibles = f(f($scope.asociados, $scope.busqueda), function(a) {return $scope.filtrar(a); });
       switch($scope.filtro.tipo) {
           case 'J':
-              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesJoves'));
+              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesJoves') + $scope.grupo.nombre);
               break;
           case 'K':
-              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesKraal'));
+              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesKraal') + $scope.grupo.nombre);
               break;
           case 'C':
-              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesComite'));
+              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesComite') + $scope.grupo.nombre);
               break;
           default:
-              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesOtro'));
+              $scope.imprimirListado(visibles, Traducciones.texto('impresion.titulo.listadoVisiblesOtro') + $scope.grupo.nombre);
       }
     };
 
