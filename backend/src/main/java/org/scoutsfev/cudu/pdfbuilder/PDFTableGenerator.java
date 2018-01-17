@@ -33,10 +33,50 @@ public class PDFTableGenerator {
         }
     }
 
+    public List<Integer> calculateRowHeights(Table table){
+
+      for (int i = 0; i < table.(); i++) {
+          String text = lineContent[i];
+          contentStream.beginText();
+          contentStream.moveTextPositionByAmount(nextTextX, nextTextY);
+          float maxWidth = table.getColumns().get(i).getWidth();
+          // Contamos quue máximo cada fila ocupará doble espacio
+          if (text != null  ){
+            if(text.length() > maxWidth){
+              contentStream.drawString(text.substring(0,maxWidth-1));
+              contentStream.moveTextPositionByAmount(nextTextX, nextTextY - table.getRowHeight());
+              contentStream.drawString(text.substring(maxWidth));
+              nextY-=table.getRowHeight();
+            }
+            else {
+              contentStream.drawString(text);
+            }
+          }
+          else {contentStream.drawString("");}
+          contentStream.endText();
+          nextTextX += maxWidth;
+      }
+      int altura=1;
+      if (fila[])
+
+    }
+
     // Configures basic setup for the table and draws it page by page
     public void drawTable(PDDocument doc, Table table) throws IOException {
         // Calculate pagination
-        Integer rowsPerPage = new Double(Math.floor(table.getHeight() / table.getRowHeight())).intValue() - 1; // subtract
+        // Teniendo en cuenta que hay filas que tendrán doble altura si los datos no caben en la celda.
+        // S'han de calcular les files de doble altura.
+        List<Integer> filasPerPage = new ArrayList<Integer>();
+        Integer rowsPerPage = 0;
+        // Este es el número de fila de datos. 'Fila' se refiere a los datos, y 'row' se refiere a la tabla dibujada.
+        int numFila=0;
+        while(){
+          calculateRowHeight(table.getContent()[numFila]);
+
+        }
+
+        Integer rowsTotalHeightPerPage = new Double(Math.floor(table.getHeight() / table.getRowHeight())).intValue() - 1; // subtract
+
         Integer numPages = new Double(Math.ceil(table.getNumberOfRows().floatValue() / rowsPerPage)).intValue();
 
         // Generate each page, get the content and draw it
@@ -84,36 +124,50 @@ public class PDFTableGenerator {
 
         // Write column headers
         contentStream.setFont(table.getHeaderTextFont(), table.getFontSize());
-        writeContentLine(table.getColumnsNamesAsArray(true), contentStream, nextTextX, nextTextY, table);
-        nextTextY -= table.getRowHeight();
+        nextTextY = writeContentLine(table.getColumnsNamesAsArray(true), contentStream, nextTextX, nextTextY, table);
+
         nextTextX = table.getMargin() + table.getCellMargin();
 
         // Write content
         contentStream.setFont(table.getTextFont(), table.getFontSize());
         for (int i = 0; i < currentPageContent.length; i++) {
-            writeContentLine(currentPageContent[i], contentStream, nextTextX, nextTextY, table);
-            nextTextY -= table.getRowHeight();
+            nextTextY = writeContentLine(currentPageContent[i], contentStream, nextTextX, nextTextY, table);
             nextTextX = table.getMargin() + table.getCellMargin();
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        drawHeader(table, LocalDate.now().format(formatter) + "\t-\t"+ this.title, contentStream);
+        drawHeader(table, LocalDate.now().format(formatter) + " - "+ this.title, contentStream);
         drawFooter(table, footer, contentStream);
 
         contentStream.close();
     }
 
     // Writes the content for one line
-    private void writeContentLine(String[] lineContent, PDPageContentStream contentStream, float nextTextX, float nextTextY,
+    private float writeContentLine(String[] lineContent, PDPageContentStream contentStream, float nextTextX, float nextTextY,
                                   Table table) throws IOException {
+        float nextY = nextTextY - table.getRowHeight();
         for (int i = 0; i < table.getNumberOfColumns(); i++) {
             String text = lineContent[i];
             contentStream.beginText();
             contentStream.moveTextPositionByAmount(nextTextX, nextTextY);
-            contentStream.drawString(text != null ? text : "");
+            float maxWidth = table.getColumns().get(i).getWidth();
+            // Contamos quue máximo cada fila ocupará doble espacio
+            if (text != null  ){
+              if(text.length() > maxWidth){
+                contentStream.drawString(text.substring(0,maxWidth-1));
+                contentStream.moveTextPositionByAmount(nextTextX, nextTextY - table.getRowHeight());
+                contentStream.drawString(text.substring(maxWidth));
+                nextY-=table.getRowHeight();
+              }
+              else {
+                contentStream.drawString(text);
+              }
+            }
+            else {contentStream.drawString("");}
             contentStream.endText();
-            nextTextX += table.getColumns().get(i).getWidth();
+            nextTextX += maxWidth;
         }
+        return nextY;
     }
 
     private void drawTableGrid(Table table, String[][] currentPageContent, PDPageContentStream contentStream, float tableTopY)

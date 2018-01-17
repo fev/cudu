@@ -41,11 +41,15 @@ public class PdfTable<T extends IPrintable> extends BaseTable {
 
     public String[][] GetContent(Columna[] columns) {
         List<String[]> contents = new ArrayList<>();
+        //Para cada fila (asociado).
         for (T entity : list) {
             List<String> fila = new ArrayList<>();
+            //Se recuperan los datos de un asociado.
             Map<String, String> map = entity.ToPrintableRow();
+            //Para cada campo de la fila asociado.
             for (Columna c : columns) {
                 try {
+                    //Si hay un valor para ese campo de la fila
                     if (map.containsKey(c.getClave()))
                         fila.add(map.get(c.getClave()));
                     else
