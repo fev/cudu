@@ -124,6 +124,19 @@ public class AsociadoController {
         return new ResponseEntity<>(asociado, HttpStatus.OK);
     }
 
+
+    /*
+    * la consulta esActivo es permitida sólo para usuarios autenticados. si no, responde HTTP code 403, forbidden
+    *
+    * Responde si un asociado (identificado por el dni) está en la base de datos de
+    * cudu y está activo. Consulta los campos dni y activo del modelo Asociado.
+    * Si hay más de un asociado con el mismo dni recoge el primero de ellos.
+    * La consulta se hace con el método GET: api/asociado/esactivo?q=XXXX , siendo XXXX el dni a buscar.
+    * Si existe un asociado con el dni y está activo, responde "true"
+    * Si el asociado no está activo, o si no existe ningún asociado con el dni, o si el usuario autenticado no tiene acceso a dicho asociado, devuelve "false"
+    * Si la queryString pregunta por un atributo que no es 'q', devuleve HTTP code 400, bad request
+    *
+    */
     @RequestMapping(value = "/asociado/esactivo", method = RequestMethod.GET)
     public ResponseEntity<String> esActivo(@RequestParam(required = true, value="q") List<String> dniLista, @AuthenticationPrincipal Usuario usuario) {
         Integer id =asociadoRepository.getIdFromDni(dniLista.get(0));
