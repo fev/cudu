@@ -124,6 +124,17 @@ public class AsociadoController {
         return new ResponseEntity<>(asociado, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/asociado/esactivo", method = RequestMethod.GET)
+    public ResponseEntity<String> esActivo(@RequestParam(required = true, value="q") List<String> dniLista, @AuthenticationPrincipal Usuario usuario) {
+        Integer id =asociadoRepository.getIdFromDni(dniLista.get(0));
+        if (id == null)
+            return new ResponseEntity<>(new String("false") ,HttpStatus.OK);
+        if(!authorizationService.puedeVerAsociado(id,usuario))
+            return new ResponseEntity<>(new String("false"),HttpStatus.OK);
+        Boolean esActivo= asociadoRepository.esAsociadoActivo(dniLista.get(0));
+        return new ResponseEntity<>(String.valueOf(esActivo), HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/asociado", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Asociado crear(@RequestBody @Valid Asociado asociado, @AuthenticationPrincipal Usuario usuario) {
