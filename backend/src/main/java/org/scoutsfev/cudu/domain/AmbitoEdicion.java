@@ -8,7 +8,8 @@ public enum AmbitoEdicion {
     Asociacion('A'),
     Escuela('E'),
     Federacion('F'),
-    Seguro('S');
+    Seguro('S'),
+    ConexionWeb('W');
 
     private final char ambito;
 

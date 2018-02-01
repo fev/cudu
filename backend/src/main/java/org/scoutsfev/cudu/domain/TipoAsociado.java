@@ -27,4 +27,3 @@ public enum TipoAsociado {
         throw new IllegalArgumentException("Valor incorrecto para TipoAsociado: " + valor);
     }
 }
-

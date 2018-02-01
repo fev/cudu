@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import org.scoutsfev.cudu.web_security_expression.CustomWebSecurityExpressionHandler;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -29,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/usuario/reset").permitAll()
             .antMatchers("/graficas/*").permitAll()
             .antMatchers("/health").permitAll()
+            .antMatchers("/asociado/esactivo/*").authenticated()
+            .anyRequest().access("(#CONEXION_WEB_SCOUTSFEV.notHasUsuarioAmbitoEdicion('W')")
             .anyRequest().authenticated();
 
         // TODO AuditEvent en log no muestra la ruta de la peticion

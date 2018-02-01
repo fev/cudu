@@ -23,6 +23,8 @@ public class AuthorizationService {
     public boolean puedeVerAsociado(Integer idAsociado, Usuario usuario) {
         if (idAsociado == null || usuario == null)
             return false;
+        if (esConexionWeb(usuario))
+            return true;
         AsociadoParaAutorizar asociado = asociadoStorage.obtenerAsociadoParaEvaluarAutorizacion(idAsociado);
         return comprobarAccesoAsociado(asociado, usuario, false);
     }
@@ -127,5 +129,10 @@ public class AuthorizationService {
     public boolean esTecnico(Usuario usuario) {
         return !(usuario == null || !usuario.isUsuarioActivo() || usuario.getTipo() == null || usuario.getAmbitoEdicion() == null || usuario.getTipo() != TipoAsociado.Tecnico)
              && (usuario.getAmbitoEdicion() == AmbitoEdicion.Asociacion || usuario.getAmbitoEdicion() == AmbitoEdicion.Federacion);
+    }
+
+    public boolean esConexionWeb(Usuario usuario) {
+        return !(usuario == null || !usuario.isUsuarioActivo() || usuario.getTipo() == null || usuario.getAmbitoEdicion() == null || usuario.getTipo() != TipoAsociado.Tecnico)
+             && usuario.getAmbitoEdicion() == AmbitoEdicion.ConexionWeb;
     }
 }
