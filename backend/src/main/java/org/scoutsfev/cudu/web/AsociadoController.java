@@ -74,6 +74,8 @@ public class AsociadoController {
     @SuppressWarnings("unchecked")
     @RequestMapping(value = "/asociado", method = RequestMethod.GET)
     public Page<Asociado> listado(@AuthenticationPrincipal Usuario usuario, Pageable pageable) {
+        if (usuario.getGrupo()==null)
+          return null;
         String grupoId = usuario.getGrupo().getId();
         if (usuario.getRestricciones().isNoPuedeEditarOtrasRamas()) {
             Specification<Asociado> porGrupoSegunRama = PorGrupoSegunRama(usuario.getId(), grupoId, usuario.isRamaColonia(), usuario.isRamaManada(), usuario.isRamaExploradores(), usuario.isRamaExpedicion(), usuario.isRamaRuta());
