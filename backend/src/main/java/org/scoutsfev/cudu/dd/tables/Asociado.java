@@ -36,7 +36,7 @@ import org.scoutsfev.cudu.dd.tables.records.AsociadoRecord;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Asociado extends TableImpl<AsociadoRecord> {
 
-	private static final long serialVersionUID = 526294169;
+	private static final long serialVersionUID = -326565;
 
 	/**
 	 * The reference instance of <code>public.asociado</code>
@@ -315,6 +315,11 @@ public class Asociado extends TableImpl<AsociadoRecord> {
 	 * The column <code>public.asociado.certificado_delitos_sexuales</code>.
 	 */
 	public final TableField<AsociadoRecord, Boolean> CERTIFICADO_DELITOS_SEXUALES = createField("certificado_delitos_sexuales", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.asociado.certificado</code>.
+	 */
+	public final TableField<AsociadoRecord, Boolean> CERTIFICADO = createField("certificado", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
 	 * Create a <code>public.asociado</code> table reference

@@ -57,6 +57,11 @@ public interface AsociadoRepository extends PagingAndSortingRepository<Asociado,
             "WHERE a.grupoId = :grupoId AND (lower(a.nombre) LIKE :texto% OR lower(a.apellidos) LIKE :texto%) AND a.activo = true AND a.usuarioActivo = false AND (EDAD(a.fechaNacimiento) >= 18) AND (a.tipo = 'K' OR a.tipo = 'C')")
     Page<AsociadoTypeaheadDto> usuariosTypeahead(@Param("grupoId") String grupoId, @Param("texto") String texto, Pageable pageable);
 
+    @Query("SELECT new org.scoutsfev.cudu.domain.dto.AsociadoTypeaheadDto(a.id, a.grupoId, a.activo, a.nombre, a.apellidos, COALESCE(a.email, a.emailContacto), a.telefonoMovil, a.telefonoCasa) FROM Asociado a " +
+            "WHERE (:grupoId is null or a.grupoId = :grupoId) AND (lower(a.nombre) LIKE :texto% OR lower(a.apellidos) LIKE :texto%) AND a.activo = true AND a.usuarioActivo = false AND (EDAD(a.fechaNacimiento) >= 18) AND (a.tipo = 'K' OR a.tipo = 'C' OR a.tipo = 'T')")
+    Page<AsociadoTypeaheadDto> usuariosTecnicoTypeahead(@Param("grupoId") String grupoId, @Param("texto") String texto, Pageable pageable);
+
+
     /**
      * Comprueba si el email ya existe para algún otro usuario que no sea el especificado.
      * @param asociadoIdActual Id del usuario actual.

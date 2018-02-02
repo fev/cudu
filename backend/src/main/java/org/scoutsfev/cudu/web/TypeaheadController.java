@@ -44,6 +44,8 @@ public class TypeaheadController {
 
     @RequestMapping(value = "/typeahead/usuario/{query}", method = RequestMethod.GET)
     public Page<AsociadoTypeaheadDto> usuarios(@PathVariable String query, @AuthenticationPrincipal Usuario usuario) {
+        if (usuario.getGrupo()==null)
+          return asociadoRepository.usuariosTecnicoTypeahead(null, query.toLowerCase(), new PageRequest(0, 30));
         return asociadoRepository.usuariosTypeahead(usuario.getGrupo().getId(), query.toLowerCase(), new PageRequest(0, 30));
     }
 }
