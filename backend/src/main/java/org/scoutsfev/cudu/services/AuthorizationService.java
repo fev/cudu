@@ -39,9 +39,14 @@ public class AuthorizationService {
     public boolean puedeEditarAsociado(Asociado asociado, Usuario usuario) {
         if (asociado == null || usuario == null)
             return false;
-        Integer asociacionId = new Integer(grupoRepository.findOne(asociado.getGrupoId()).getAsociacion().getId());
-        AsociadoParaAutorizar asociadoParaAutorizar = new AsociadoParaAutorizar(asociado.getId(), asociado.getGrupoId(), asociacionId,
-                asociado.isRamaColonia(), asociado.isRamaManada(), asociado.isRamaExploradores(), asociado.isRamaExpedicion(), asociado.isRamaRuta());
+        String grupoId = asociado.getGrupoId();
+        AsociadoParaAutorizar asociadoParaAutorizar;
+        if (grupoId==null){
+            asociadoParaAutorizar = new AsociadoParaAutorizar(asociado.getId(), null, null, asociado.isRamaColonia(), asociado.isRamaManada(), asociado.isRamaExploradores(), asociado.isRamaExpedicion(), asociado.isRamaRuta());
+        }else{
+            Integer asociacionId = new Integer(grupoRepository.findOne(grupoId).getAsociacion().getId());
+            asociadoParaAutorizar = new AsociadoParaAutorizar(asociado.getId(), asociado.getGrupoId(), asociacionId, asociado.isRamaColonia(), asociado.isRamaManada(), asociado.isRamaExploradores(), asociado.isRamaExpedicion(), asociado.isRamaRuta());
+        }
         return comprobarAccesoAsociado(asociadoParaAutorizar, usuario, true);
     }
 
