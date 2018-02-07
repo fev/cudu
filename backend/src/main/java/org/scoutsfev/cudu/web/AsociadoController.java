@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
+  import java.util.List;
 
 import static org.scoutsfev.cudu.storage.especificaciones.EspecificacionesAsociado.PorGrupoSegunRama;
 import static org.scoutsfev.cudu.web.utils.ResponseEntityFactory.forbidden;
@@ -141,10 +141,10 @@ public class AsociadoController {
     */
     @RequestMapping(value = "/asociado/esactivo", method = RequestMethod.GET)
     public ResponseEntity<String> esActivo(@RequestParam(required = true, value="q") List<String> dniLista, @AuthenticationPrincipal Usuario usuario) {
-        Integer id =asociadoRepository.getIdFromDni(dniLista.get(0));
-        if (id == null)
+        List<Integer> ids =asociadoRepository.getIdFromDni(dniLista.get(0));
+        if (ids == null || ids.isEmpty())
             return new ResponseEntity<>(new String("false") ,HttpStatus.OK);
-        if(!authorizationService.puedeVerAsociado(id,usuario))
+        if(!authorizationService.puedeVerAsociado(ids.get(0),usuario))
             return new ResponseEntity<>(new String("false"),HttpStatus.OK);
         Boolean esActivo= asociadoRepository.esAsociadoActivo(dniLista.get(0));
         return new ResponseEntity<>(String.valueOf(esActivo), HttpStatus.OK);

@@ -13,6 +13,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface AsociadoRepository extends PagingAndSortingRepository<Asociado, Integer>, JpaSpecificationExecutor, AsociadoRepositoryCustom {
 
@@ -30,7 +31,7 @@ public interface AsociadoRepository extends PagingAndSortingRepository<Asociado,
     Boolean esAsociadoActivo(@Param("dniQ") String dniQ);
 
     @Query("select a.id from Asociado a where a.dni = :dniQ")
-    Integer getIdFromDni(@Param("dniQ") String dniQ);
+    List<Integer> getIdFromDni(@Param("dniQ") String dniQ);
 
     @Query("SELECT a FROM Asociado a LEFT JOIN FETCH a.cargos WHERE a.id = :id")
     Asociado findByIdAndFetchCargosEagerly(@Param("id") int id);
