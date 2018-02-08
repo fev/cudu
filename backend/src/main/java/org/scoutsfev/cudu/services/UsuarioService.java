@@ -49,7 +49,7 @@ public class UsuarioService implements UserDetailsService {
     // http://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-typesafe-configuration-properties
 
     @Value("${cudu.reset.duracionTokenEnSegundos}")
-    private final int duracionTokenEnSegundos = 600;
+    private final int duracionTokenEnSegundos = 3600;
 
     @Autowired
     public UsuarioService(UsuarioRepository usuarioRepository, TokenRepository tokenRepository, AsociadoRepository asociadoRepository,
