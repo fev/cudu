@@ -141,6 +141,32 @@ public class UsuarioController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/apikey/{id}", method = RequestMethod.POST)
+    public ResponseEntity<ErrorUnico> apikeyUsuarioNoActivo(@PathVariable("id") Asociado asociado, @RequestBody @Valid @Email String email, @AuthenticationPrincipal Usuario usuario)
+            throws MessagingException, UnsupportedEncodingException {
+        if (!authorizationService.puedeEditarAsociado(asociado, usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /usuario/apikey" + asociado.getId()));
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        if (usuario.getId().equals(asociado.getId()))
+            return new ResponseEntity<>(CodigoError.HabilitarUsuarioActual.asError(), HttpStatus.BAD_REQUEST);
+        if (!asociado.isActivo())
+            return new ResponseEntity<>(CodigoError.AsociadoInactivo.asError(), HttpStatus.BAD_REQUEST);
+        if (usuarioService.existeActivacionEnCurso(email))
+            return new ResponseEntity<>(CodigoError.ActivacionDeUsuarioEnCurso.asError(), HttpStatus.CONFLICT);
+        if (asociadoRepository.existeOtroUsuarioConEseEmail(asociado.getId(), email))
+            return new ResponseEntity<>(CodigoError.YaExisteUsuarioConEseEmail.asError(), HttpStatus.CONFLICT);
+
+        asociado.setEmail(email);
+        if (asociado.getUsuarioCreadoPorId() == null) {
+            asociado.setUsuarioCreadoPorId(usuario.getId());
+            asociado.setUsuarioCreadoPorNombre(usuario.getNombreCompleto());
+        }
+        asociadoRepository.save(asociado);
+        usuarioService.nuevaApikey(asociado.getEmail());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/desactivar/{id}", method = RequestMethod.POST)
     public ResponseEntity<ErrorUnico> desactivarUsuario(@PathVariable("id") Asociado asociado, @RequestParam(required = false, defaultValue = "false") boolean desactivarAsociado, @AuthenticationPrincipal Usuario usuario) {
         if (!authorizationService.puedeEditarAsociado(asociado, usuario)) {

@@ -19,4 +19,10 @@ public class NullEmailServiceImpl implements EmailService {
     public void enviarMailCambioContraseña(String nombre, String email, String token, Locale locale) {
         logger.info("Envio de email con cambio de contraseña. Usuario: {} ({}), Token: {}, Locale: {}", nombre, email, token, locale);
     }
+
+    @Async
+    @Override
+    public void enviarMailNuevaApikey(String nombre, String email, String token, Locale locale){
+        logger.info("Envio de email con nueva api key. Usuario: {} ({}), Token: {}, Locale: {}", nombre, email, token, locale);
+    }
 }

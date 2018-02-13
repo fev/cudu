@@ -24,13 +24,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.Model;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-  import java.util.List;
+import java.util.List;
+
+import org.scoutsfev.cudu.domain.Token;
 
 import static org.scoutsfev.cudu.storage.especificaciones.EspecificacionesAsociado.PorGrupoSegunRama;
 import static org.scoutsfev.cudu.web.utils.ResponseEntityFactory.forbidden;
@@ -128,19 +131,25 @@ public class AsociadoController {
 
 
     /*
-    * la consulta esActivo es permitida sólo para usuarios autenticados. si no, responde HTTP code 403, forbidden
+    * La consulta esActivo es permitida para apiKeys válidas. Si no, responde HTTP code 403, forbidden.
     *
     * Responde si un asociado (identificado por el dni) está en la base de datos de
     * cudu y está activo. Consulta los campos dni y activo del modelo Asociado.
     * Si hay más de un asociado con el mismo dni recoge el primero de ellos.
-    * La consulta se hace con el método GET: api/asociado/esactivo?q=XXXX , siendo XXXX el dni a buscar.
-    * Si existe un asociado con el dni y está activo, responde "true"
-    * Si el asociado no está activo, o si no existe ningún asociado con el dni, o si el usuario autenticado no tiene acceso a dicho asociado, devuelve "false"
+    * La consulta se hace con el método GET: api/asociado/esactivo/ZZZZ?q=XXXX , siendo XXXX el dni a buscar y ZZZZ una apikey válida.
+    * Si existe un asociado con el dni y está activo, responde "true".
+    * Si el asociado no está activo, o si no existe ningún asociado con el dni.
     * Si la queryString pregunta por un atributo que no es 'q', devuleve HTTP code 400, bad request
     *
     */
-    @RequestMapping(value = "/asociado/esactivo", method = RequestMethod.GET)
-    public ResponseEntity<String> esActivo(@RequestParam(required = true, value="q") List<String> dniLista, @AuthenticationPrincipal Usuario usuario) {
+    @RequestMapping(value = "/asociado/esactivo/{token}", method = RequestMethod.GET)
+    public ResponseEntity<String> esActivo(@PathVariable("token") Token token, Model model, @RequestParam(required = true, value="q") List<String> dniLista) {
+        if (token == null || token.expirado(Instant.now()))
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        String codigoError =usuarioService.nuevaApikeyValidacion(token);
+        if (codigoError != null){
+           return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
         List<Integer> ids =asociadoRepository.getIdFromDni(dniLista.get(0));
         if (ids == null || ids.isEmpty())
             return new ResponseEntity<>(new String("false") ,HttpStatus.OK);

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:remove="all">Nueva api key</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>body { font-family: Arial; }</style>
+</head>
+<body>
+<p>Hola <span th:text="${nombre}">Mike</span>:</p>
+
+<p>Se ha solicitado una clave para utilizar la API sin usuario. Esta es la clave secreta:</p>
+<p><span th:text="${token}">ZZZZ</span></p>
+
+<p th:text="#{reset.email.saludo}">Un saludo,</p>
+<p>
+  -- <br/>
+  Federació d'Escoltisme Valencià<br/>
+  <a href="http://www.scoutsfev.org">www.scoutsfev.org</a><br/>
+  Pz. Escuelas Pias, 3 bajo izquierda - 46001 - València <br/>
+  Telf.: 963153240 / Fax: 963153242 <br/>
+  e-mail: fev@scoutsfev.org
+</p>
+</body>
+</html>

@@ -9,4 +9,5 @@ public class EventosAuditoria {
     public static final String CaptchaInvalido = "CAPTCHA_INVALIDO";
     public static final String CaptchaVacio = "CAPTCHA_VACIO";
     public static final String AccesoDenegado = "403";
+    public static final String NuevaApikey = "NUEVA_APIKEY";
 }

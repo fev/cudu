@@ -63,4 +63,31 @@ public class EmailServiceImpl implements EmailService {
             eventPublisher.publishEvent(new EmailErrorApplicationEvent(email, correlationId));
         }
     }
+
+    @Async
+    @Override
+    public void enviarMailNuevaApikey(String nombre, String email, String token, Locale locale) {
+        try {
+            final Context ctx = new Context(locale);
+            ctx.setVariable("nombre", nombre);
+            ctx.setVariable("token", token);
+            ctx.setVariable("lenguaje", locale.getLanguage());
+
+            final MimeMessage mimeMessage = mailSender.createMimeMessage();
+            final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
+            message.setSubject(messageSource.getMessage("apikey.email.titulo", null, locale));
+            message.setFrom("no-responder@scoutsfev.org", "Cudú");
+            message.setTo(email);
+
+            final String htmlContent = templateEngine.process("nuevaapikey", ctx);
+            message.setText(htmlContent, true);
+            mailSender.send(mimeMessage);
+        } catch (Exception e) {
+            String correlationId = UUID.randomUUID().toString();
+            Marker marker = MarkerFactory.getMarker("ENVIO_EMAIL");
+            logger.error(marker, "Error enviando email. Token: " + token + ", CorrelationId: " + correlationId,  e);
+            eventPublisher.publishEvent(new EmailErrorApplicationEvent(email, correlationId));
+        }
+    }
+
 }

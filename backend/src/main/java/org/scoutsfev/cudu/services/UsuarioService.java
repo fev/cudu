@@ -80,6 +80,28 @@ public class UsuarioService implements UserDetailsService {
         throw new UsernameNotFoundException("El usuario especificado no existe.");
     }
 
+    public void nuevaApikey(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        if (usuario == null)
+            throw new UsernameNotFoundException("Imposible encontrar al usuario: " + email);
+
+        if (!usuario.isActivo() ) {
+            throw new AccountExpiredException("El asociado " + email + " está desactivado.");
+        }
+
+        String oneTimeCode = new BigInteger(130, secureRandom).toString(32);
+        Duration duracionToken = Duration.ofDays(3650);
+        Token token = new Token(usuario.getEmail(), oneTimeCode, Instant.now(), duracionToken);
+        tokenRepository.save(token);
+        eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.NuevaApikey));
+        Locale locale;
+        if (usuario.getLenguaje() == null)
+            locale = Locale.forLanguageTag("es");
+        else
+            locale = Locale.forLanguageTag(usuario.getLenguaje());
+        emailService.enviarMailNuevaApikey(usuario.getNombre(), usuario.getEmail(), token.getToken(), locale);
+    }
+
     public void resetPassword(String email, boolean comprobarQueElUsuarioEstaActivo) {
         Usuario usuario = usuarioRepository.findByEmail(email);
         if (usuario == null)
@@ -139,6 +161,26 @@ public class UsuarioService implements UserDetailsService {
         tokenRepository.delete(original);
 
         eventPublisher.publishEvent(new AuditApplicationEvent(token.getEmail(), EventosAuditoria.CambioPassword, token.getToken()));
+        // TODO emailService.SendEmail("Luis Belloch", "luisbelloch@gmail.com", Locale.ENGLISH);
+        return null;
+    }
+
+    public String nuevaApikeyValidacion(Token token) {
+        if (token == null || Strings.isNullOrEmpty(token.getToken()))
+            return logError("El token es nulo o vacio al cambiar el password.", token);
+
+        Token original = tokenRepository.findOne(token.getToken());
+        if (original == null || original.expirado(Instant.now()))
+            return logError("El token está expirado al cambiar el password.", token);
+
+        if (!original.getEmail().equals(token.getEmail()))
+            return logError("El email del token no coincide con el original '" + original.getEmail() + "'.", token);
+
+        Usuario usuario = usuarioRepository.findByEmail(original.getEmail());
+        if (usuario == null)
+            return logError("El token existe en base de datos, pero no existe ningún usuario con ese email.", token);
+
+        eventPublisher.publishEvent(new AuditApplicationEvent(token.getEmail(), EventosAuditoria.NuevaApikey, token.getToken()));
         // TODO emailService.SendEmail("Luis Belloch", "luisbelloch@gmail.com", Locale.ENGLISH);
         return null;
     }
