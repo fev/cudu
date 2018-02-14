@@ -141,8 +141,8 @@ public class UsuarioController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/apikey/{id}", method = RequestMethod.POST)
-    public ResponseEntity<ErrorUnico> apikeyUsuarioNoActivo(@PathVariable("id") Asociado asociado, @RequestBody @Valid @Email String email, @AuthenticationPrincipal Usuario usuario)
+    @RequestMapping(value = "/apikey/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ErrorUnico> apikeyUsuarioNoActivo(@PathVariable("id") Asociado asociado, @AuthenticationPrincipal Usuario usuario)
             throws MessagingException, UnsupportedEncodingException {
         if (!authorizationService.puedeEditarAsociado(asociado, usuario)) {
             eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "POST /usuario/apikey" + asociado.getId()));
@@ -152,12 +152,9 @@ public class UsuarioController {
             return new ResponseEntity<>(CodigoError.HabilitarUsuarioActual.asError(), HttpStatus.BAD_REQUEST);
         if (!asociado.isActivo())
             return new ResponseEntity<>(CodigoError.AsociadoInactivo.asError(), HttpStatus.BAD_REQUEST);
-        if (usuarioService.existeActivacionEnCurso(email))
+        if (usuarioService.existeActivacionEnCurso(usuario.getEmail()))
             return new ResponseEntity<>(CodigoError.ActivacionDeUsuarioEnCurso.asError(), HttpStatus.CONFLICT);
-        if (asociadoRepository.existeOtroUsuarioConEseEmail(asociado.getId(), email))
-            return new ResponseEntity<>(CodigoError.YaExisteUsuarioConEseEmail.asError(), HttpStatus.CONFLICT);
 
-        asociado.setEmail(email);
         if (asociado.getUsuarioCreadoPorId() == null) {
             asociado.setUsuarioCreadoPorId(usuario.getId());
             asociado.setUsuarioCreadoPorNombre(usuario.getNombreCompleto());

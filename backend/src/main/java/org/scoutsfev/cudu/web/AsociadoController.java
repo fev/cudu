@@ -10,6 +10,7 @@ import org.scoutsfev.cudu.domain.dto.CambiarTipoDto;
 import org.scoutsfev.cudu.domain.validadores.ImpresionTabla;
 import org.scoutsfev.cudu.services.AuthorizationService;
 import org.scoutsfev.cudu.services.FichaService;
+import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.AsociadoStorage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Instant;
 
 import org.scoutsfev.cudu.domain.Token;
 
@@ -47,17 +49,19 @@ public class AsociadoController {
     private final FichaService fichaService;
     private final AuthorizationService authorizationService;
     private final ApplicationEventPublisher eventPublisher;
+    private final UsuarioService usuarioService;
 
     @Autowired
     public AsociadoController(AsociadoRepository asociadoRepository, AsociadoStorage asociadoStorage,
             FichaService fichaService, CacheManager cacheManager, AuthorizationService authorizationService,
-            ApplicationEventPublisher eventPublisher) {
+            ApplicationEventPublisher eventPublisher, UsuarioService usuarioService) {
         this.asociadoRepository = asociadoRepository;
         this.asociadoStorage = asociadoStorage;
         this.fichaService = fichaService;
         this.cacheManager = cacheManager;
         this.authorizationService = authorizationService;
         this.eventPublisher = eventPublisher;
+        this.usuarioService = usuarioService;
     }
 
     @RequestMapping(value = "/asociado/imprimir", method = RequestMethod.POST)
@@ -138,7 +142,7 @@ public class AsociadoController {
     * Si hay más de un asociado con el mismo dni recoge el primero de ellos.
     * La consulta se hace con el método GET: api/asociado/esactivo/ZZZZ?q=XXXX , siendo XXXX el dni a buscar y ZZZZ una apikey válida.
     * Si existe un asociado con el dni y está activo, responde "true".
-    * Si el asociado no está activo, o si no existe ningún asociado con el dni.
+    * Si el asociado no está activo, o si no existe ningún asociado con el dni, responde "false".
     * Si la queryString pregunta por un atributo que no es 'q', devuleve HTTP code 400, bad request
     *
     */
@@ -153,8 +157,6 @@ public class AsociadoController {
         List<Integer> ids =asociadoRepository.getIdFromDni(dniLista.get(0));
         if (ids == null || ids.isEmpty())
             return new ResponseEntity<>(new String("false") ,HttpStatus.OK);
-        if(!authorizationService.puedeVerAsociado(ids.get(0),usuario))
-            return new ResponseEntity<>(new String("false"),HttpStatus.OK);
         Boolean esActivo= asociadoRepository.esAsociadoActivo(dniLista.get(0));
         return new ResponseEntity<>(String.valueOf(esActivo), HttpStatus.OK);
     }
