@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
 import javax.validation.Valid;
+import javax.persistence.NonUniqueResultException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -157,7 +158,8 @@ public class AsociadoController {
         List<Integer> ids =asociadoRepository.getIdFromDni(dniLista.get(0));
         if (ids == null || ids.isEmpty())
             return new ResponseEntity<>(new String("false") ,HttpStatus.OK);
-        Boolean esActivo= asociadoRepository.esAsociadoActivo(dniLista.get(0));
+        Boolean esActivo= (asociadoRepository.esAsociadoActivo(dniLista.get(0))).get(0);
+
         return new ResponseEntity<>(String.valueOf(esActivo), HttpStatus.OK);
     }
 
