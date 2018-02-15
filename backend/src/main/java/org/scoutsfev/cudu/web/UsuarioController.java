@@ -141,6 +141,12 @@ public class UsuarioController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+    /*
+    * Uso:
+    * GET /api/usuario/apikey/{id}
+    * Envía un correo con el token generado como api key.
+    */
     @RequestMapping(value = "/apikey/{id}", method = RequestMethod.GET)
     public ResponseEntity<ErrorUnico> apikeyUsuarioNoActivo(@PathVariable("id") Asociado asociado, @AuthenticationPrincipal Usuario usuario)
             throws MessagingException, UnsupportedEncodingException {
