@@ -28,8 +28,8 @@
                           <div class="row">
                               <label>Sexo</label>
                               <div class="btn-group btn-group-sm">
-                              <a href="javascript:" ng-click="filtraPorSexo('M')" ng-class="{'active': filtro.sexo === 'M'}" class="btn">Masculino</a>
-                              <a href="javascript:" ng-click="filtraPorSexo('F')" ng-class="{'active': filtro.sexo === 'F'}" class="btn">Femenino</a>
+                              <a id="M" href="javascript:" ng-click="filtraPorSexo('M')" ng-class="{'active': filtro.sexo === 'M'}" class="btn">Masculino</a>
+                              <a id="F" href="javascript:" ng-click="filtraPorSexo('F')" ng-class="{'active': filtro.sexo === 'F'}" class="btn">Femenino</a>
                               </div>
                           </div>
                         </div>
@@ -37,18 +37,18 @@
                     <div class="row padded">
                         <label>Rama</label>
                         <div class="btn-group btn-group-sm">
-                        <a href="javascript:" ng-click="filtraRama('colonia')" ng-class="{'active': esRama('colonia')}" class="btn">Colonia</a>
-                        <a href="javascript:" ng-click="filtraRama('manada')" ng-class="{'active': esRama('manada')}" class="btn">Manada</a>
-                        <a href="javascript:" ng-click="filtraRama('exploradores')" ng-class="{'active': esRama('exploradores')}" class="btn">Explorador</a>
-                        <a href="javascript:" ng-click="filtraRama('expedicion')" ng-class="{'active': esRama('expedicion')}" class="btn">Expedicion</a>
-                        <a href="javascript:" ng-click="filtraRama('ruta')" ng-class="{'active': esRama('ruta')}" class="btn">Ruta</a>
+                        <a id="colonia" href="javascript:" ng-click="filtraRama('colonia')" ng-class="{'active': esRama('colonia')}" class="btn">Colonia</a>
+                        <a id="manada" href="javascript:" ng-click="filtraRama('manada')" ng-class="{'active': esRama('manada')}" class="btn">Manada</a>
+                        <a id="exploradores" href="javascript:" ng-click="filtraRama('exploradores')" ng-class="{'active': esRama('exploradores')}" class="btn">Explorador</a>
+                        <a id="expedicion" href="javascript:" ng-click="filtraRama('expedicion')" ng-class="{'active': esRama('expedicion')}" class="btn">Expedicion</a>
+                        <a id="ruta" href="javascript:" ng-click="filtraRama('ruta')" ng-class="{'active': esRama('ruta')}" class="btn">Ruta</a>
                         </div>
                     </div>
                     <div class="row padded">
                       <label><%=asociado.certificadoDelitosSexuales2%></label>
                       <div class="btn-group btn-group-sm">
-                        <a href="javascript:" ng-click="filtraPorCertificado('true')" ng-class="{active: filtro.certificadoDelitosSexuales === true}" class="btn">Sí</a>
-                        <a href="javascript:" ng-click="filtraPorCertificado('false')" ng-class="{active: filtro.certificadoDelitosSexuales === false}" class="btn">No</a>
+                        <a id="siCertificado" href="javascript:" ng-click="filtraPorCertificado('true')" ng-class="{active: filtro.certificadoDelitosSexuales === true}" class="btn">Sí</a>
+                        <a id="noCertificado" href="javascript:" ng-click="filtraPorCertificado('false')" ng-class="{active: filtro.certificadoDelitosSexuales === false}" class="btn">No</a>
                       </div>
                     </div>
 
@@ -67,16 +67,16 @@
                     <div class="row padded">
                         <label>Asociación</label>
                         <div class="btn-group btn-group-sm">
-                        <a href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdC')" ng-class="{'active': filtro.asociacion === 'SdC'}" class="btn">SdC</a>
-                        <a href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdA')" ng-class="{'active': filtro.asociacion === 'SdA'}" class="btn">SdA</a>
-                        <a href="javascript:" ng-click="filtraPropiedad('asociacion', 'MEV')" ng-class="{'active': filtro.asociacion === 'MEV'}" class="btn">MEV</a>
-                        <a href="javascript:" ng-click="filtraPropiedad('tipo', 'Voluntario')" ng-class="{'active': filtro.tipo === 'Voluntario'}" class="btn">Voluntarios</a>
+                        <a id="SdC" href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdC')" ng-class="{'active': filtro.asociacion === 'SdC'}" class="btn">SdC</a>
+                        <a id="SdA" href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdA')" ng-class="{'active': filtro.asociacion === 'SdA'}" class="btn">SdA</a>
+                        <a id="MEV" href="javascript:" ng-click="filtraPropiedad('asociacion', 'MEV')" ng-class="{'active': filtro.asociacion === 'MEV'}" class="btn">MEV</a>
+                        <a id="Voluntario" href="javascript:" ng-click="activar('Voluntario')" ng-class="{'active': filtroAsociadoTipo.isActivo('Voluntario')}" class="btn">Voluntarios</a>
                         </div>
                     </div>
                     <div class="row padded">
                         <label>Grupo</label>
                         <div class="btn-group btn-group-sm">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <button id="filtroGrupo" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             {{grupoSeleccionado.nombre}}
                             <span class="caret"></span>
                         </button>
@@ -86,7 +86,7 @@
                             </li>
                         </ul>
                         </div>
-                        <div ng-show="grupoSeleccionado.id !== -1" class="btn-group">
+                        <div id="verGrupo" ng-show="grupoSeleccionado.id !== -1" class="btn-group">
                         <a href="javascript:" ng-click="verGrupo()" class="">
                             <span class="glyphicon glyphicon-user"></span> Ver Grupo
                         </a>
@@ -106,20 +106,20 @@
                 <table class="table table-hover ">
                 <thead>
                     <tr>
-                    <th width="10%" ng-click="ordenar('grupo')" ng-class="{'dropup': grupoAsc}">
+                    <th id="grupo" width="10%" ng-click="ordenar('grupo')" ng-class="{'dropup': grupoAsc}">
                         Grupo
                         <span class="caret"></span>
                     </th>
                     <th width="5%">Id</th>
-                    <th width="10%" ng-click="ordenar('nombre')" ng-class="{'dropup': nombreAsc}">
+                    <th id="nombre" width="10%" ng-click="ordenar('nombre')" ng-class="{'dropup': nombreAsc}">
                         Nombre
                         <span class="caret"></span>
                     </th>
-                    <th width="10%" ng-click="ordenar('apellidos')" ng-class="{'dropup': apellidosAsc}">
+                    <th id="apellidos" width="10%" ng-click="ordenar('apellidos')" ng-class="{'dropup': apellidosAsc}">
                         Apellidos
                         <span class="caret"></span>
                     </th>
-                    <th width="10%" ng-click="ordenar('tipo')" ng-class="{'dropup': tipoAsc}">
+                    <th id="tipo" width="10%" ng-click="ordenar('tipo')" ng-class="{'dropup': tipoAsc}">
                         Tipo
                         <span class="caret"></span>
                     </th>

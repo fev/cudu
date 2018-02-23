@@ -165,6 +165,8 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
 
   svc.autenticar = function(email, password, captcha) {
     delete $cookies['JSESSIONID'];
+    $cookies.remove('FILTROS');
+    $cookies.remove('GRUPOSELECCIONADO');
     var respuesta = $http.post('/api/usuario/autenticar', { 'email': email, 'password': password, 'captcha': captcha });
     return respuesta.success(function(data, status) {
       svc.usuario = data;
@@ -176,10 +178,20 @@ cuduServices.factory('Usuario', ['$http', '$cookies', '$q', function($http, $coo
     var respuesta = $http.post('/api/usuario/desautenticar', {});
     var limpiar = function() {
       delete $cookies['JSESSIONID'];
+      $cookies.remove('FILTROS');
+      $cookies.remove('GRUPOSELECCIONADO');
       svc.usuario = usuarioAnonimo;
     };
     respuesta.success(limpiar).error(limpiar);
     return respuesta;
+  };
+
+  svc.getCookie = function(nombreCookie){
+    return $cookies.get(nombreCookie);
+  };
+
+  svc.setCookie = function(nombreCookie,filtro){
+    $cookies.put(nombreCookie, filtro);
   };
 
   svc.activar = function(id, email) {

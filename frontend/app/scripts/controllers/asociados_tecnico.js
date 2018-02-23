@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('cuduApp')
-  .controller('AsociadosTecnicoController', ['$scope', '$location','AsociadoTecnico',
-  function($scope, $location, AsociadoTecnico) {
+  .controller('AsociadosTecnicoController', ['$scope', '$location','AsociadoTecnico', 'Usuario',
+  function($scope, $location, AsociadoTecnico, Usuario) {
+
 
    $scope.AsociadoFiltro = function() {
         return {
@@ -35,7 +36,8 @@ angular.module('cuduApp')
     $scope.asociadoTipos = [
         new $scope.AsociadoTipo('Kraal', false),
         new $scope.AsociadoTipo('Joven', false),
-        new $scope.AsociadoTipo('Comite', false)
+        new $scope.AsociadoTipo('Comite', false),
+        new $scope.AsociadoTipo('Voluntario', false)
     ];
 
     $scope.FiltroAsociadoTipo = function(asociadoTipos) {
@@ -128,6 +130,7 @@ angular.module('cuduApp')
         me.scroll = new me.Scroll();
         me.asociados = [];
         me.obternerAsociados();
+        Usuario.setCookie('FILTROS', btoa(JSON.stringify(me.filtro)));
     };
 
     $scope.filtraPorSexo = function(sexo) {
@@ -171,7 +174,6 @@ angular.module('cuduApp')
     $scope.filtraPorNombre = function() {
         var me = this;
         me.filtro.nombreApellido = me.busqueda;
-
         me.filtraAsociados();
     };
 
@@ -225,6 +227,9 @@ angular.module('cuduApp')
       if (me.filtroAsociadoTipo.isActivo('Comite')) {
           me.filtroAsociadoTipo.desactivar('Comite');
       }
+      if (me.filtroAsociadoTipo.isActivo('Voluntario')) {
+          me.filtroAsociadoTipo.desactivar('Voluntario');
+      }
       document.getElementById("inactivos").checked = false;
 
       $scope.filtro = new $scope.AsociadoFiltro();
@@ -240,6 +245,7 @@ angular.module('cuduApp')
     $scope.filtraGrupo = function(id) {
         var me = this.$parent;
         me.grupoSeleccionado = _.find(me.grupos, { 'id': id});
+        Usuario.setCookie('GRUPOSELECCIONADO', btoa(JSON.stringify(me.grupoSeleccionado)));
         me.filtro.grupoId = id === -1 ? '' : id;
         me.filtraAsociados();
     };
@@ -318,6 +324,81 @@ angular.module('cuduApp')
     AsociadoTecnico.grupos().success(function(data) {
         $scope.grupos = $scope.grupos.concat(data);
     });
+
+    var cookieFiltro= Usuario.getCookie('FILTROS');
+    if( cookieFiltro!='' && cookieFiltro!=null){
+      //Si existe la cookie FILTROS, aplica los filtros
+      var objetoFiltros=JSON.parse(atob(cookieFiltro));
+      $scope.filtro=objetoFiltros;
+      $scope.filtraAsociados();
+
+      // filtro tiene...:
+
+      // .sexo
+      if ( $scope.filtro.sexo != '' ) document.getElementById($scope.filtro.sexo).className+=" active";
+      // .certificadoDelitosSexuales
+      if ( $scope.filtro.certificadoDelitosSexuales != null ) {
+        if($scope.filtro.certificadoDelitosSexuales)
+          document.getElementById("siCertificado").className+=" active";
+        else
+          document.getElementById("noCertificado").className+=" active";
+      }
+
+      // .nombreApellido ---> este filtro no se mantiene en la vista.
+      // se muestra el texto cuando se recarga la página pero no cuando vienes de 'Volver'
+      window.onload=function(){
+          document.getElementById("filtroNombre").value = $scope.filtro.nombreApellido;
+      };
+
+
+      // .ramasSeparadasPorComas
+      if ( $scope.filtro.ramasSeparadasPorComas != '' ) {
+          if ($scope.esRama('colonia')){ document.getElementById("colonia").className+=" active";}
+          if ($scope.esRama('manada')){ document.getElementById("manada").className+=" active";}
+          if ($scope.esRama('exploradores')){ document.getElementById("exploradores").className+=" active";}
+          if ($scope.esRama('expedicion')){ document.getElementById("expedicion").className+=" active";}
+          if ($scope.esRama('ruta')){ document.getElementById("ruta").className+=" active";}
+      }
+
+      // .tipo
+      if ( $scope.filtro.tipo != '' ) {
+        if ($scope.filtroAsociadoTipo.isActivo($scope.filtro.tipo)) {
+            $scope.filtroAsociadoTipo.desactivar($scope.filtro.tipo);
+        }
+        else {
+            $scope.filtroAsociadoTipo.activar($scope.filtro.tipo);
+        }
+      }
+
+      // .grupoId
+      if ( $scope.filtro.grupoId != '' ) {
+        var cookieGrupoSeleccionado= Usuario.getCookie('GRUPOSELECCIONADO');
+        if( cookieGrupoSeleccionado!='' && cookieGrupoSeleccionado!=null){
+          //Si existe la cookie GRUPOSELECCIONADO,
+          var objetoGrupoSeleccionado=JSON.parse(atob(cookieGrupoSeleccionado));
+          $scope.grupoSeleccionado=objetoGrupoSeleccionado;
+          document.getElementById("verGrupo").className="btn-group ";
+          var grupoTexto= document.getElementById("filtroGrupo").firstChild;
+          document.getElementById("filtroGrupo").replaceChild(document.createTextNode($scope.grupoSeleccionado.nombre+' '), grupoTexto);
+        }
+      }
+
+      // .inactivo
+      if ($scope.filtro.inactivo){
+        document.getElementById("inactivos").checked = true;
+      }
+
+      // .orden y .ordenAsc
+      // TODO - cuando el filtro ordenAsc==true y viene de otra página, para cambiar a ordenAsc==false hay que hacer dos veces clic.
+      if ( $scope.filtro.orden !='' &&  $scope.filtro.ordenAsc) {
+        document.getElementById($scope.filtro.orden).className+="dropup";
+      }
+
+      // .asociacion
+      if ( $scope.filtro.asociacion != '' ) {
+        document.getElementById($scope.filtro.asociacion).className+=" active";
+      }
+    }
   }])
   .factory('AsociadoTecnico', function($http) {
       return {
