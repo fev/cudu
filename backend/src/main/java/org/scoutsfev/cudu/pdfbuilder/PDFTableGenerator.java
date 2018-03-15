@@ -117,7 +117,6 @@ public class PDFTableGenerator {
 
         // Write content
         contentStream.setFont(table.getTextFont(), table.getFontSize());
-        //int filaHeigt;
         for (int i = 0; i < currentPageContent.length; i++) {
             int alturaRow=  currentRowsHeights.get(i);
             nextTextY = writeContentLine(currentPageContent[i], contentStream, nextTextX, nextTextY, table, alturaRow);
@@ -139,7 +138,7 @@ public class PDFTableGenerator {
             String text = lineContent[i];
             contentStream.beginText();
             contentStream.moveTextPositionByAmount(nextTextX, nextTextY);
-            // *0.2 para adaptarlo al ancho de los caracteres.
+            // *0.19 para adaptarlo al ancho de los caracteres.
             float maxWidth = table.getColumns().get(i).getWidth();
             // Contamos quue máximo cada fila ocupará doble espacio
             if (text != null  ){
@@ -175,12 +174,8 @@ public class PDFTableGenerator {
         for (int i = 0; i < currentPageContent.length ; i++) {
             nextY -= (table.getRowsHeights().get(startRange + i) * table.getRowHeight());
             contentStream.drawLine(table.getMargin(), nextY, table.getMargin() + table.getWidth(), nextY);
-
-        //    nextY -=  table.getRowHeight();
-
         }
-      //  contentStream.drawLine(table.getMargin(), nextY, table.getMargin() + table.getWidth(), nextY);
-
+        
         // Draw column lines
         int rowsYContent=0;
         for (int i=startRange; i<=endRange;i++ ){

@@ -105,36 +105,6 @@ public class Table {
       this.rowsHeights = rowsHeights;
     }
 
-  /*  public List<Integer> getRowsHeights(){
-      List<Integer> rowsHeights= new ArrayList<Integer>();
-
-      for (int i = 0; i < getNumberOfColumns(); i++) {
-          String text = lineContent[i];
-
-          float maxWidth = table.getColumns().get(i).getWidth();
-          // Contamos quue máximo cada fila ocupará doble espacio
-          if (text != null  ){
-            if(text.length() > maxWidth){
-              contentStream.drawString(text.substring(0,maxWidth-1));
-              contentStream.moveTextPositionByAmount(nextTextX, nextTextY - table.getRowHeight());
-              contentStream.drawString(text.substring(maxWidth));
-              nextY-=table.getRowHeight();
-            }
-            else {
-              contentStream.drawString(text);
-            }
-          }
-          else {contentStream.drawString("");}
-          contentStream.endText();
-          nextTextX += maxWidth;
-      }
-
-      for (this.getContent() )
-      getColumns().get(i).getWidth()
-
-    }
-    */
-
     public Integer getNumberOfRows() {
         return numberOfRows;
     }
