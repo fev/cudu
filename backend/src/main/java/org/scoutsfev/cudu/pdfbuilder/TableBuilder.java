@@ -24,6 +24,11 @@ public class TableBuilder {
         return this;
     }
 
+    public TableBuilder setRowsHeights(List<Integer> rowsHeight) {
+        table.setRowsHeights(rowsHeight);
+        return this;
+    }
+
     public TableBuilder setContent(String[][] content) {
         table.setContent(content);
         return this;

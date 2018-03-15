@@ -98,6 +98,14 @@ public class Table {
     }
 
     public List<Integer> getRowsHeights(){
+      return rowsHeights;
+    }
+
+    public void setRowsHeights(List<Integer> rowsHeights){
+      this.rowsHeights = rowsHeights;
+    }
+
+  /*  public List<Integer> getRowsHeights(){
       List<Integer> rowsHeights= new ArrayList<Integer>();
 
       for (int i = 0; i < getNumberOfColumns(); i++) {
@@ -121,14 +129,11 @@ public class Table {
           nextTextX += maxWidth;
       }
 
-
       for (this.getContent() )
       getColumns().get(i).getWidth()
 
-      {
-
-      }
     }
+    */
 
     public Integer getNumberOfRows() {
         return numberOfRows;

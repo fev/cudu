@@ -27,7 +27,7 @@ public class BaseTable {
     protected float TABLE_HEIGHT = IS_LANDSCAPE ? PAGE_SIZE.getWidth() - (2 * MARGIN) : PAGE_SIZE.getHeight() - (2 * MARGIN);
     protected static final String EMPTY = "";
 
-    public Table CreateTable(List<Columna> columns, String [] [] contents) {
+    public Table CreateTable(List<Columna> columns, String [] [] contents, List<Integer> rowsHeight) {
 
         Table table = new TableBuilder()
                 .setCellMargin(CELL_MARGIN)
@@ -36,6 +36,7 @@ public class BaseTable {
                 .setHeight(TABLE_HEIGHT)
                 .setNumberOfRows(contents.length)
                 .setRowHeight(ROW_HEIGHT)
+                .setRowsHeights(rowsHeight)
                 .setMargin(MARGIN)
                 .setPageSize(PAGE_SIZE)
                 .setLandscape(IS_LANDSCAPE)
