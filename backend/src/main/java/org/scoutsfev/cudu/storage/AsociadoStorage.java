@@ -10,5 +10,6 @@ import java.util.List;
 
 public interface AsociadoStorage {
     SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivo, String sexo, String nombreApellido, String orden, Boolean ordenAsc, Boolean certificadoDelitosSexuales, Pageable pageable);
+    int contador(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivo, String sexo, String nombreApellido, Boolean certificadoDelitosSexuales);
     AsociadoParaAutorizar obtenerAsociadoParaEvaluarAutorizacion(Integer asociadoId);
 }

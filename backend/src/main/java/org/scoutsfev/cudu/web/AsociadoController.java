@@ -125,6 +125,52 @@ public class AsociadoController {
         return new ResponseEntity<>(listado, HttpStatus.OK);
     }
 
+
+
+    /*
+    * La endpoint [1] y la [2] son equivalentes.
+    * Tienen los mismos filtros que la endpoint [3] que devuelve el listado,
+    * excepto por los de paginar (page , size) y los de ordenar los resultados (orden, ordenAsc).
+    * Devuelve la cantidad de asociados filtrados.
+    *
+    * [1] http://127.0.0.1:3000/api/tecnico/contador/asociado/?asociacion=&grupoId=UP&inactivo=false&nombreApellido=&ramasSeparadasPorComas=&sexo=&tipo=
+    * [2] http://127.0.0.1:3000/api/tecnico/contador/asociado/?grupoId=UP&inactivo=false
+    * [3] http://127.0.0.1:3000/api/tecnico/asociado/?page=0&size=216&asociacion=&grupoId=UP&inactivo=false&nombreApellido=&orden=&ordenAsc=false&ramasSeparadasPorComas=&sexo=&tipo=
+    */
+    @RequestMapping(value = "/tecnico/contador/asociado", method = RequestMethod.GET)
+    public ResponseEntity contadorTecnico(
+            @RequestParam(required = false) Asociacion asociacion,
+            @RequestParam(required = false) String grupoId,
+            @RequestParam(required = false) TipoAsociado tipo,
+            @RequestParam(required = false) String ramasSeparadasPorComas,
+            @RequestParam(required = false) Boolean inactivo,
+            @RequestParam(required = false) String sexo,
+            @RequestParam(required = false) String nombreApellido,
+            @RequestParam(required = false) String orden,
+            @RequestParam(required = false) Boolean ordenAsc,
+            @RequestParam(required = false) Boolean certificadoDelitosSexuales,
+            @AuthenticationPrincipal Usuario usuario
+            ) {
+
+        if (!authorizationService.esTecnico(usuario)) {
+            eventPublisher.publishEvent(new AuditApplicationEvent(usuario.getEmail(), EventosAuditoria.AccesoDenegado, "GET /tecnico/contador/asociado"));
+            return forbidden("El usuario no es técnico federativo o asociativo.");
+        }
+
+        Asociacion restriccionAsociacion = usuario.getRestricciones().getRestriccionAsociacion();
+        if (restriccionAsociacion != null)
+            asociacion = restriccionAsociacion;
+
+        List<String> ramas = null;
+        if (!Strings.isNullOrEmpty(ramasSeparadasPorComas)) {
+            ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
+        }
+
+        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, certificadoDelitosSexuales);
+        return new ResponseEntity<>(contador, HttpStatus.OK);
+    }
+
+
     @RequestMapping(value = "/asociado/{id}", method = RequestMethod.GET)
     @PreAuthorize("@auth.puedeVerAsociado(#id, #usuario)")
     public ResponseEntity<Asociado> obtener(@PathVariable Integer id, @AuthenticationPrincipal Usuario usuario) {

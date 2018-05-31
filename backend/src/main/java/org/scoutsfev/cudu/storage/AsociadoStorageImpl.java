@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.sql.*;
 
 import static org.jooq.impl.DSL.coalesce;
 import static org.jooq.impl.DSL.val;
@@ -85,6 +86,31 @@ public class AsociadoStorageImpl implements AsociadoStorage {
 
         return new SparseTable(nombresCamposListado, asociados, totalAsociados);
     }
+
+    @Override
+    public int contador(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String sexo, String nombreApellido, Boolean certificadoDelitosSexuales) {
+
+      SelectConditionStep<Record> base = context
+              .select(camposListado)
+              .from(ASOCIADO)
+              .innerJoin(GRUPO).on(ASOCIADO.GRUPO_ID.eq(GRUPO.ID))
+              .where(val(1).eq(1));
+
+      if (asociacion != null) base = base.and(GRUPO.ASOCIACION.eq(asociacion.getId()));
+      if (!Strings.isNullOrEmpty(grupoId)) base = base.and(GRUPO.ID.equal(grupoId));
+      if (tipo != null) base = base.and(ASOCIADO.TIPO.eq(String.valueOf(tipo.getTipo())));
+      if (ramas != null) base = añadirCondicionesDeRama(base, ramas);
+      if (inactivos == null || !inactivos) {
+          base = base.and(ASOCIADO.ACTIVO.eq(true));
+      }
+      if (certificadoDelitosSexuales != null) base = base.and(ASOCIADO.CERTIFICADO_DELITOS_SEXUALES.eq(certificadoDelitosSexuales));
+
+      if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
+      if (!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
+
+      return base.fetchArrays().length;
+    }
+    
 
     private SelectConditionStep<Record> añadirCondicionesDeRama(SelectConditionStep<Record> query, List<String> ramas) {
         List<Condition> condicionesRama = new ArrayList<>();
