@@ -216,6 +216,8 @@ public class AsociadoController {
         asociado.setUsuarioActivo(false);
         asociado.setAmbitoEdicion(AmbitoEdicion.Grupo);
         asociado.setGrupoId(usuario.getGrupo().getId());
+        if (!authorizationService.esTecnico(usuario))
+          asociado.setCertificadoDelitosSexuales(false);
         descartarCacheGraficas(asociado.getGrupoId());
         return asociadoRepository.save(asociado);
     }
@@ -225,11 +227,12 @@ public class AsociadoController {
     public Asociado editar(@RequestBody @Valid Asociado editado, @PathVariable("id") Asociado original, @AuthenticationPrincipal Usuario usuario) {
         editado.setId(original.getId());
         editado.setGrupoId(original.getGrupoId());
-        editado.setUsuarioActivo(original.isUsuarioActivo());
         editado.setAmbitoEdicion(original.getAmbitoEdicion());
         editado.setUsuarioActivo(original.isUsuarioActivo());
         if (editado.isActivo() != original.isActivo())
             descartarCacheGraficas(editado.getGrupoId());
+        if (!authorizationService.esTecnico(usuario))
+            editado.setCertificadoDelitosSexuales(original.getCertificadoDelitosSexuales());
         return asociadoRepository.save(editado);
     }
 
