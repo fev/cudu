@@ -10,8 +10,8 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
 
   $scope.etiquetas = {
     'rama': [
-      Traducciones.texto('rama.colonia'), 
-      Traducciones.texto('rama.manada'), 
+      Traducciones.texto('rama.colonia'),
+      Traducciones.texto('rama.manada'),
       Traducciones.texto('rama.exploradores'),
       Traducciones.texto('rama.expedicion'),
       Traducciones.texto('rama.ruta')
@@ -47,7 +47,23 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
     $scope.error = Traducciones.texto('login.clausula');
   };
 
-  var respuestaCaptchaOk = function($scope) {    
+  $scope.aceptaClausula = function() {
+    if ($scope.aceptaClausulaValor == null || !$scope.aceptaClausulaValor){
+      $scope.aceptaClausulaValor = true;
+      document.getElementById("checkClausula").classList.remove('glyphicon-unchecked');
+      document.getElementById("checkClausula").classList.add('glyphicon-check');
+    }
+    else{
+      $scope.aceptaClausulaValor = false;
+      document.getElementById("checkClausula").classList.add('glyphicon-unchecked');
+      document.getElementById("checkClausula").classList.remove('glyphicon-check');
+    }
+
+
+
+  };
+
+  var respuestaCaptchaOk = function($scope) {
     if (!$scope.captchaVisible) {
       return { ok: true, respuesta: null };
     }
@@ -61,6 +77,10 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
 
   $scope.login = function() {
     $scope.completado = null;
+    if(!$scope.aceptaClausulaValor){
+      $scope.error = Traducciones.texto('login.clausula');
+      return;
+    }
     if (!$scope.email || !$scope.password) {
       $scope.error = Traducciones.texto('login.emailPasswordVacio');
       return;
@@ -115,7 +135,7 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
     focus("txtEmail");
   };
 
-  $scope.enviarCambioPassword = function() {    
+  $scope.enviarCambioPassword = function() {
     if (!$scope.email) {
       $scope.error = Traducciones.texto('login.emailVacio');
       focus("txtEmail");

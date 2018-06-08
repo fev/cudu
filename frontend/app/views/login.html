@@ -1,3 +1,15 @@
+<div cudu-modal="modal.clausulaDeberSecreto" id="modalLoginDeberSecreto" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body"><%= asociado.clausulaDeberSecreto %></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="modal.clausulaDeberSecreto = false"><%= asociado.clausulaDeberSecretoEntendido %></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="container contenedor-central">
   <div class="row">
     <div id="explicacion" class="col-md-7">
@@ -9,7 +21,7 @@
       <div class="material-panel-level-3">
         <form id="loginForm" class="form-cudu" ng-class="{cambioPassword: cambioPassword }" method="POST" action="/login/" novalidate="novalidate">
           <h1><%= login.bienvenido %></h1>
-          <p class="modoCambioPassword"><%= login.cambioExplicacion %></p>           
+          <p class="modoCambioPassword"><%= login.cambioExplicacion %></p>
           <div class="alert alert-danger" ng-show="error">
             {{error}}
           </div>
@@ -33,11 +45,11 @@
           </div>
           <div id="recaptcha"></div>
           <div class="form-group modoLogin">
-            <p class="form-control-static" ng-click="noAceptaClausula()">
-              <span class="glyphicon glyphicon-check"></span>
+            <p>
+              <span id="checkClausula" class="form-control-static glyphicon glyphicon-unchecked" data-toggle="modal" data-target="#modalLoginDeberSecreto" ng-click="aceptaClausula()"></span>
               <%= login.aceptoClausula %>
             </p>
-          </div>          
+          </div>
           <div class="row modoLogin">
             <div class="col-md-6">
               <button type="button" ng-click="login()" class="btn btn-default btn-primary"><%= login.entrar %></button>
@@ -75,6 +87,7 @@
   </div>
 </div>
 
+
 <div style="position: absolute; bottom: 10px; right: 10px">
   <span style="color: #B2EBF2; margin-right: 5px">Autologin</span>
   <div class="btn-group btn-group-xs" role="group">
@@ -85,5 +98,7 @@
     <button type="button" ng-click="__dbgAutoLogin('lluerna@example.com')" class="btn btn-default">Lluerna</button>
   </div>
 </div>
+
+
 
 <!-- <div style="background-color: #2E7D32; width: 100%; height: 20%; position: absolute; bottom: 0">&nbsp;</div> -->
