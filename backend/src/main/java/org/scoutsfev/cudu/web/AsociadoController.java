@@ -14,6 +14,7 @@ import org.scoutsfev.cudu.services.UsuarioService;
 import org.scoutsfev.cudu.storage.AsociadoRepository;
 import org.scoutsfev.cudu.storage.AsociadoStorage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.actuate.audit.listener.AuditApplicationEvent;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationEventPublisher;
@@ -225,15 +226,16 @@ public class AsociadoController {
     @RequestMapping(value = "/asociado/{id}", method = RequestMethod.PUT)
     @PreAuthorize("@auth.puedeEditarAsociado(#original, #usuario)")
     public Asociado editar(@RequestBody @Valid Asociado editado, @PathVariable("id") Asociado original, @AuthenticationPrincipal Usuario usuario) {
-        editado.setId(original.getId());
-        editado.setGrupoId(original.getGrupoId());
-        editado.setAmbitoEdicion(original.getAmbitoEdicion());
-        editado.setUsuarioActivo(original.isUsuarioActivo());
+        //editado.setId(original.getId());
+        //editado.setGrupoId(original.getGrupoId());
+        //editado.setAmbitoEdicion(original.getAmbitoEdicion());
+        //editado.setUsuarioActivo(original.isUsuarioActivo());
         if (editado.isActivo() != original.isActivo())
             descartarCacheGraficas(editado.getGrupoId());
         if (!authorizationService.esTecnico(usuario))
             editado.setCertificadoDelitosSexuales(original.getCertificadoDelitosSexuales());
-        return asociadoRepository.save(editado);
+        BeanUtils.copyProperties(editado, original, new String[]{"fechaActualizacion"});
+        return asociadoRepository.save(original);
     }
 
     @RequestMapping(value = "/asociado/{id}/activar", method = RequestMethod.PUT)
