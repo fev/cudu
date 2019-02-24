@@ -37,6 +37,7 @@
         "./typings/q/Q.d.ts",
         "./typings/tsd.d.ts",
         "./typings/typeahead/typeahead.d.ts"
+
     ],
     "exclude": [],
     "atom": {

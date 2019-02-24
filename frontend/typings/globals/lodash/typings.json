@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/32029fcb4e1a3ef8968711b545d77b584435729d/lodash/lodash.d.ts",
+    "raw": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/32029fcb4e1a3ef8968711b545d77b584435729d/lodash/lodash.d.ts"
+  }
+}

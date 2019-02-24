@@ -1,0 +1,14 @@
+{
+  "name": "cudu",
+  "globalDependencies": {
+    "angular": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular.d.ts#7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#c560ba6f0f55ce6f50e9d06e37b5bc0e2b9117b0",
+    "angular-resource": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-resource.d.ts#7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645",
+    "angular-route": "github:DefinitelyTyped/DefinitelyTyped/angularjs/angular-route.d.ts#7a3ca1f0b8a0960af9fc1838f3234cc9d6ce0645",
+    "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#32029fcb4e1a3ef8968711b545d77b584435729d",
+    "moment-node": "github:DefinitelyTyped/DefinitelyTyped/moment/moment-node.d.ts#54f064352a3615443f7bff4198078db15e28247b",
+    "moment": "github:DefinitelyTyped/DefinitelyTyped/moment/moment.d.ts#54f064352a3615443f7bff4198078db15e28247b",
+    "Q": "github:DefinitelyTyped/DefinitelyTyped/q/Q.d.ts#ebc69904eb78f94030d5d517b42db20867f679c0",
+    "typeahead": "github:DefinitelyTyped/DefinitelyTyped/typeahead/typeahead.d.ts#c560ba6f0f55ce6f50e9d06e37b5bc0e2b9117b0"
+  }
+}
