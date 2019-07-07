@@ -10,6 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado> {
 
     public static final String TIPO_NULO = "{ValidarTipo.TipoNulo}";
+    public static final String TIPO_EMAIL_NO_NULO = "{ValidarTipo.TipoEmailNoNulo}";
     public static final String AMBITO_NULO = "{ValidarTipo.AmbitoNulo}";
     public static final String AMBITO_NO_VALIDO = "{ValidarTipo.AmbitoNoValido}";
     public static final String DEBE_TENER_GRUPO = "{ValidarTipo.DebeTenerGrupo}";
@@ -27,6 +28,11 @@ public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado>
 
         if (asociado.getTipo() == null) {
             context.buildConstraintViolationWithTemplate(TIPO_NULO).addConstraintViolation();
+            return false;
+        }
+
+        if (asociado.getTipo() != TipoAsociado.Joven && asociado.getEmailContacto() == null) {
+            context.buildConstraintViolationWithTemplate(TIPO_EMAIL_NO_NULO).addConstraintViolation();
             return false;
         }
 

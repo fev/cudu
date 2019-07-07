@@ -17,6 +17,7 @@ public class GeneradorDatosDePrueba {
         int seqId = idAsociado.getAndIncrement();
         Asociado asociado = new Asociado(grupo.getId(), TipoAsociado.Joven, AmbitoEdicion.Grupo, "Nombre" + seqId, "Apellidos" + seqId, LocalDate.now().minus(12, ChronoUnit.YEARS));
         asociado.setRamaManada(true);
+        asociado.setEmailContacto("prueba@fev.org");
         return asociado;
     }
 
