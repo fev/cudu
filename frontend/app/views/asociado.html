@@ -205,7 +205,13 @@
     </div>
 
     <div class="alert alert-warning" ng-show="estado == 5">
-      {{info.mensaje}}
+      <p>{{info.mensaje}}</p>
+      <div ng-show="erroresValidacion && erroresValidacion.length > 0">
+        <p><%= asociado.errorValidacion %></p>
+        <ul>
+          <li ng-repeat="error in erroresValidacion">{{error.mensaje}}</li>
+        </ul>
+      </div>
     </div>
 
     <form name="formAsociado" class="form-horizontal form-cudu form-edicion" role="form" autocomplete="off">

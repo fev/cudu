@@ -31,7 +31,7 @@ public class ValidadorTipo implements ConstraintValidator<ValidarTipo, Asociado>
             return false;
         }
 
-        if (asociado.getTipo() != TipoAsociado.Joven && asociado.getEmailContacto() == null) {
+        if (asociado.getTipo() != TipoAsociado.Joven && (asociado.getEmailContacto() == null || (asociado.getEmailContacto() != null && asociado.getEmailContacto() == "")) && asociado.isActivo()) {
             context.buildConstraintViolationWithTemplate(TIPO_EMAIL_NO_NULO).addConstraintViolation();
             return false;
         }

@@ -206,13 +206,29 @@ angular.module('cuduApp')
     $scope.activar = function(id, activar) {
       var metodo = Asociado.desactivar;
       if (activar) { metodo = Asociado.activar; }
-      metodo({id: id}, {}, function(data, status) {
+      var asociadoEditado = $scope.asociado;
+      asociadoEditado.activo = activar;
+      metodo({id: id}, asociadoEditado).$promise.then(function(){
+        $scope.estado = EstadosFormulario.OK;
         $scope.asociado.activo = activar;
-        $scope.asociado.cambiosPendientes = false;
+        $scope.asociado.cambiosPendientes = true;
         $scope.formAsociado.$setPristine();
-      }, function(data, status) {
-        $scope.estado = EstadosFormulario.ERROR;
-      });
+      }, function(respuesta) {
+        if (respuesta.status == 403) {
+          $scope.asociado.activo = !activar;
+          $scope.estado = EstadosFormulario.VALIDACION;
+          $scope.erroresValidacion = respuesta.data || [];
+        } else {
+          if (respuesta.status == 400) {
+            $scope.asociado.activo = !activar;
+            $scope.estado = EstadosFormulario.CUSTOM;
+            $scope.info.mensaje = Traducciones.texto('formulario.errorRecuperar') ;
+            $scope.erroresValidacion = respuesta.data || [];
+          } else {
+            $scope.estado = EstadosFormulario.ERROR;
+          }}
+      }
+    );
     };
 
     $scope.eliminar = function(id) {

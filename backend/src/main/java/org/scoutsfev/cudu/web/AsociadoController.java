@@ -240,9 +240,17 @@ public class AsociadoController {
 
     @RequestMapping(value = "/asociado/{id}/activar", method = RequestMethod.PUT)
     @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
-    public void activar(@PathVariable("id") Integer id, @AuthenticationPrincipal Usuario usuario) {
-        asociadoRepository.activar(id, true);
+    public ResponseEntity activar(@RequestBody @Valid Asociado editado, @PathVariable("id") Integer id, @AuthenticationPrincipal Usuario usuario){
+        Asociado original = asociadoRepository.findByIdAndFetchCargosEagerly(id);
+        if (original.getTipo() != TipoAsociado.Joven && (original.getEmailContacto() == null || (original.getEmailContacto() != null && original.getEmailContacto().equals("")) ) ){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        else{
+            asociadoRepository.activar(id, true);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
+
 
     @RequestMapping(value = "/asociado/{id}/desactivar", method = RequestMethod.PUT)
     @PreAuthorize("@auth.puedeEditarAsociado(#id, #usuario)")
