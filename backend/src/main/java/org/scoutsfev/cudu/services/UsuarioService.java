@@ -61,7 +61,15 @@ public class UsuarioService implements UserDetailsService {
         this.asociadoRepository = asociadoRepository;
         this.emailService = emailService;
         this.captchaService = captchaService;
-        this.secureRandom = SecureRandom.getInstanceStrong();
+        //this.secureRandom = SecureRandom.getInstanceStrong();
+        this.secureRandom = SecureRandom.getInstance("SHA1PRNG");
+        int intValue = 232323;
+        byte[] byteValue = new byte[] {
+            (byte)(intValue >>> 24),
+            (byte)(intValue >>> 16),
+            (byte)(intValue >>> 8),
+            (byte)intValue};
+        secureRandom.nextBytes(byteValue);
     }
 
     @Override
@@ -88,7 +96,7 @@ public class UsuarioService implements UserDetailsService {
         if (!usuario.isActivo() ) {
             throw new AccountExpiredException("El asociado " + email + " está desactivado.");
         }
-
+        secureRandom.generateSeed(25);
         String oneTimeCode = new BigInteger(130, secureRandom).toString(32);
         Duration duracionToken = Duration.ofDays(3650);
         Token token = new Token(usuario.getEmail(), oneTimeCode, Instant.now(), duracionToken);
@@ -110,7 +118,7 @@ public class UsuarioService implements UserDetailsService {
         if (comprobarQueElUsuarioEstaActivo && (!usuario.isActivo() || !usuario.isUsuarioActivo())) {
             throw new AccountExpiredException("El usuario " + email + " está desactivado.");
         }
-
+        secureRandom.generateSeed(23);
         String oneTimeCode = new BigInteger(130, secureRandom).toString(32);
         Duration duracionToken = Duration.ofSeconds(duracionTokenEnSegundos);
         Token token = new Token(usuario.getEmail(), oneTimeCode, Instant.now(), duracionToken);
@@ -226,6 +234,7 @@ public class UsuarioService implements UserDetailsService {
     // TODO Test: solo se marca como que requiere captcha cuando se lanza BadCredentialsException, el resto se delegan a spring
 
     private String logError(String mensaje, Token token) {
+        secureRandom.generateSeed(24);
         String codigoError = "E" + Strings.padStart(new BigInteger(16, secureRandom).toString(16).toUpperCase(), 4, '0');
         if (token != null)
             logger.error("[{0}] {1}. Token {2}, email: {3}, creado: {4}", codigoError, mensaje, token.getToken(), token.getEmail(), token.getCreado());
