@@ -62,7 +62,7 @@
     "bootstrap-submenu": "^3.0.1",
     "chart.js": "nnnick/Chart.js#~1.0.1",
     "font-awesome": "FortAwesome/Font-Awesome#~4.3.0",
-    "jquery": "jquery/jquery-dist#>=1.6.3 <3",
+    "jquery": "jquery/jquery-dist#>=1.6.4 <3",
     "moment": "moment/moment#~2.10.6",
     "ng-infinite-scroll": "ng-infinite-scroll/ng-infinite-scroll-bower#~1.2.2",
     "npm": "^6.13.4",
