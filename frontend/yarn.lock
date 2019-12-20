@@ -50,7 +50,7 @@
   version "2.2.4"
   resolved "https://codeload.github.com/jquery/jquery-dist/tar.gz/c0185ab7c75aab88762c5aae780b9d83b80eda72"
 
-"@bower_components/lodash@lodash/lodash#~3.2.0", lodash@lodash/lodash#~3.2.0:
+"@bower_components/lodash@lodash/lodash#~3.2.0":
   version "3.2.0"
   resolved "https://codeload.github.com/lodash/lodash/tar.gz/22c09cb31b3d7391f3527d705ce34e5264f683f0"
 
@@ -2259,15 +2259,15 @@ lodash@^3.5.0, lodash@^3.7.0, lodash@~3.10.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
   integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
+lodash@lodash/lodash#~4.17.13, lodash@~4.17.10:
+  version "4.17.14"
+  uid be87d303941222b97c482755afc0f4a77ce46c30
+  resolved "https://codeload.github.com/lodash/lodash/tar.gz/be87d303941222b97c482755afc0f4a77ce46c30"
+
 lodash@~2.4.1:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
   integrity sha1-+t2DS5aDBz2hebPq5tnA0VBT9z4=
-
-lodash@~4.17.10:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
-  integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
 log-update@^1.0.2:
   version "1.0.2"
