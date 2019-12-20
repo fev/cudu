@@ -54,7 +54,7 @@
   version "3.2.0"
   resolved "https://codeload.github.com/lodash/lodash/tar.gz/22c09cb31b3d7391f3527d705ce34e5264f683f0"
 
-"@bower_components/moment@moment/moment#~2.10.6", moment@moment/moment#~2.10.6:
+"@bower_components/moment@moment/moment#~2.10.6":
   version "2.10.6"
   resolved "https://codeload.github.com/moment/moment/tar.gz/f3fbef9d9875bbff340b527dbe3f1c447a942f69"
 
@@ -2560,6 +2560,11 @@ mkdirp@0.x.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@~0.5.1:
   integrity sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   dependencies:
     minimist "0.0.8"
+
+moment@moment/moment#~2.19.3:
+  version "2.19.4"
+  uid fea48bb69eda8c0459915d6aa66a910a4d43a55b
+  resolved "https://codeload.github.com/moment/moment/tar.gz/fea48bb69eda8c0459915d6aa66a910a4d43a55b"
 
 morgan@^1.9.1:
   version "1.9.1"
