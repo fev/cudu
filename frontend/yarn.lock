@@ -38,7 +38,7 @@
   version "1.4.14"
   resolved "https://codeload.github.com/angular/bower-angular/tar.gz/63133dadd7831af4226b7ceaf8be8b68a7e284d9"
 
-"@bower_components/bootstrap@twbs/bootstrap#~3.3.0", bootstrap@twbs/bootstrap#~3.3.0:
+"@bower_components/bootstrap@twbs/bootstrap#~3.3.0":
   version "3.3.7"
   resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/0b9c4a4007c44201dce9a6cc1a38407005c26c86"
 
@@ -371,6 +371,11 @@ bootstrap-submenu@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/bootstrap-submenu/-/bootstrap-submenu-3.0.1.tgz#688d0f5cafa51f5f01571c00bd8ed1e95e5ae2cc"
   integrity sha512-n7uXhiTuCptXMaSyTh5mki6jmVeA/WDE0EKRb+YZyxrMrVI/oEz9wlMmRGGJ2+mtFr4FYoEPvPOf5v75VZ/1Bg==
+
+bootstrap@twbs/bootstrap#~3.4.1:
+  version "3.4.1"
+  uid "68b0d231a13201eb14acd3dc84e51543d16e5f7e"
+  resolved "https://codeload.github.com/twbs/bootstrap/tar.gz/68b0d231a13201eb14acd3dc84e51543d16e5f7e"
 
 boxen@^1.2.1:
   version "1.3.0"
