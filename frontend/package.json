@@ -65,7 +65,7 @@
     "jquery": "jquery/jquery-dist#>=1.6.3 <3",
     "moment": "moment/moment#~2.19.3",
     "ng-infinite-scroll": "ng-infinite-scroll/ng-infinite-scroll-bower#~1.2.2",
-    "npm": "^6.13.4",
+    "npm": "^6.14.6",
     "toastr-bower": "johnpapa/toastr-bower#~2.1.2",
     "typeahead.js": "twitter/typeahead.js#~0.11.1",
     "typings": "^2.1.1"
