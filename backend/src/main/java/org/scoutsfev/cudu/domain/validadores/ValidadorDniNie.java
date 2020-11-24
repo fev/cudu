@@ -10,6 +10,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.regex.*;
 
 public class ValidadorDniNie implements ConstraintValidator<ValidarDniNie, Asociado> {
 
@@ -28,7 +29,7 @@ public class ValidadorDniNie implements ConstraintValidator<ValidarDniNie, Asoci
             return true;
 
         context.disableDefaultConstraintViolation();
-        
+
         if (Strings.isNullOrEmpty(asociado.getDni()))
         {
             boolean mayorDeEdad = asociado.getFechaNacimiento().plus(18, ChronoUnit.YEARS).isBefore(LocalDate.now());
@@ -55,6 +56,20 @@ public class ValidadorDniNie implements ConstraintValidator<ValidarDniNie, Asoci
             char ultimo = dni.charAt(dni.length() - 1);
             int max = Character.isLetter(ultimo) ? 1 : 0;
             boolean correcto = CharMatcher.JAVA_DIGIT.matchesAllOf(dni.substring(1, dni.length() - max));
+            if (!correcto) {
+                context.buildConstraintViolationWithTemplate(MSG_FORMATO_INCORRECTO).addConstraintViolation();
+                return false;
+            }
+            return true;
+        }
+
+        //Formato de Pasaporte: en españa es 3 letras + 6 numeros + 1 letra opcional (caracter de control para las autoridades)
+        if (Character.isLetter(dni.charAt(0)) & dni.length() > 5){
+            System.out.println(dni);
+            String regex = "^[a-zA-Z]{3}[0-9]{6}[a-zA-Z]?$";
+            Pattern p = Pattern.compile(regex);
+            Matcher m = p.matcher(dni);
+            boolean correcto = m.matches();
             if (!correcto) {
                 context.buildConstraintViolationWithTemplate(MSG_FORMATO_INCORRECTO).addConstraintViolation();
                 return false;
