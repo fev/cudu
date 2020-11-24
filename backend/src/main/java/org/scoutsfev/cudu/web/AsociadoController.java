@@ -185,7 +185,7 @@ public class AsociadoController {
     /*
     * La consulta esActivo es permitida para apiKeys válidas. Si no, responde HTTP code 403, forbidden.
     *
-    * Responde si un asociado (identificado por el dni) está en la base de datos de
+    * Responde si un asociado (identificado por el dni o nie) está en la base de datos de
     * cudu y está activo. Consulta los campos dni y activo del modelo Asociado.
     * Si hay más de un asociado con el mismo dni recoge el primero de ellos.
     * La consulta se hace con el método GET: api/asociado/esactivo/ZZZZ?q=XXXX , siendo XXXX el dni a buscar y ZZZZ una apikey válida.
