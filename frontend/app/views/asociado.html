@@ -119,18 +119,29 @@
           </div>
 
           <div class="btn-group btn-group-xs">
-            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" ng-class="{active: filtro.certificadoDelitosSexuales != 'nada'}">
+            <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" ng-class="{active: filtro.certificadoDelitosSexuales != 'nada' || filtro.cursoCovid != 'nada' || filtro.certificadoVoluntariado != 'nada'}">
               <span class="glyphicon glyphicon-filter"></span>
             </button>
             <ul class="dropdown-menu">
               <li class="dropdown-header"><%= asociado.otrosFiltros %></li>
               <li class="divider"></li>
-              <li><a> <%= asociado.certificadoDelitosSexuales %></a></li>
-              <li><a href="javascript:" ng-click="activarFiltro('certificadoDelitosSexuales', 'true', 'nada')"><i class="fa" ng-class="cssRadio(filtro.certificadoDelitosSexuales === 'true')"></i> Sí</a>
-              <li><a href="javascript:" ng-click="activarFiltro('certificadoDelitosSexuales', 'false', 'nada')"><i class="fa" ng-class="cssRadio(filtro.certificadoDelitosSexuales === 'false')"></i> No</a></li>
+              <li><a>&bull; <%= asociado.certificadoDelitosSexuales %></a></li>
+              <li><div class="btn-group btn-group-sm">
+                <a id="siCertificadoDelitosSexuales" href="javascript:" ng-click="activarFiltro('certificadoDelitosSexuales', 'true', 'nada')" ng-class="{active: filtro.certificadoDelitosSexuales === 'true'}" class="btn btn-orange">Sí</a>
+                <a id="noCertificadoDelitosSexuales" href="javascript:" ng-click="activarFiltro('certificadoDelitosSexuales', 'false', 'nada')" ng-class="{active: filtro.certificadoDelitosSexuales === 'false'}" class="btn btn-orange">No</a>
+              </div></li>
+              <li><a>&bull; <%= asociado.cursoCovid %></a></li>
+              <li><div class="btn-group btn-group-sm">
+                <a id="siCursoCovid" href="javascript:" ng-click="activarFiltro('cursoCovid', 'true', 'nada')" ng-class="{active: filtro.cursoCovid === 'true'}" class="btn btn-orange">Sí</a>
+                <a id="noCursoCovid" href="javascript:" ng-click="activarFiltro('cursoCovid', 'false', 'nada')" ng-class="{active: filtro.cursoCovid === 'false'}" class="btn btn-orange">No</a>
+              </div></li>
+              <li><a>&bull; <%= asociado.certificadoVoluntariado %></a></li>
+              <li><div class="btn-group btn-group-sm">
+                <a id="siCertificadoVoluntariado" href="javascript:" ng-click="activarFiltro('certificadoVoluntariado', 'true', 'nada')" ng-class="{active: filtro.certificadoVoluntariado === 'true'}" class="btn btn-orange">Sí</a>
+                <a id="noCertificadoVoluntariado" href="javascript:" ng-click="activarFiltro('certificadoVoluntariado', 'false', 'nada')" ng-class="{active: filtro.certificadoVoluntariado === 'false'}" class="btn btn-orange">No</a>
+              </div></li>
             </ul>
           </div>
-
         </div>
       </div>
     </div>
@@ -317,8 +328,31 @@
                 </div>
               </div>
 
-              <div ng-if="!esTecnico">
+              <div ng-if="esTecnico">
+                <p class="col-md-3 control-label" >
+                  <input type="checkbox" ng-model="asociado.cursoCovid"></input>
+                </p>
 
+                <div class="col-md-9" >
+                  <label class="form-control-static font-weight-bold">
+                    <%=asociado.cursoCovid%>
+                  </label>
+                </div>
+              </div>
+
+              <div ng-if="esTecnico">
+                <p class="col-md-3 control-label" >
+                  <input type="checkbox" ng-model="asociado.certificadoVoluntariado"></input>
+                </p>
+
+                <div class="col-md-9" >
+                  <label class="form-control-static font-weight-bold">
+                    <%=asociado.certificadoVoluntariado%>
+                  </label>
+                </div>
+              </div>
+
+              <div ng-if="!esTecnico">
                 <span class="col-md-3 " ng-if="asociado.certificadoDelitosSexuales"></span>
                 <label class="col-md-3 control-label" ng-if="!asociado.certificadoDelitosSexuales" ><i class="fa fa-warning fa-lg"></i></label>
                 <div class="col-md-9">
@@ -327,6 +361,32 @@
                   </label>
                   <label class="form-control-static font-weight-bold" ng-if="!asociado.certificadoDelitosSexuales" >
                     <%=asociado.certificadoDelitosSexualesNo%>
+                  </label>
+                </div>
+              </div>
+
+              <div ng-if="!esTecnico">
+                <span class="col-md-3 " ng-if="asociado.cursoCovid"></span>
+                <label class="col-md-3 control-label" ng-if="!asociado.cursoCovid" ><i class="fa fa-warning fa-lg"></i></label>
+                <div class="col-md-9">
+                  <label class="form-control-static font-weight-bold" ng-if="asociado.cursoCovid">
+                    <%=asociado.cursoCovidSi%>
+                  </label>
+                  <label class="form-control-static font-weight-bold" ng-if="!asociado.cursoCovid" >
+                    <%=asociado.cursoCovidNo%>
+                  </label>
+                </div>
+              </div>
+
+              <div ng-if="!esTecnico">
+                <span class="col-md-3 " ng-if="asociado.certificadoVoluntariado"></span>
+                <label class="col-md-3 control-label" ng-if="!asociado.certificadoVoluntariado" ><i class="fa fa-warning fa-lg"></i></label>
+                <div class="col-md-9">
+                  <label class="form-control-static font-weight-bold" ng-if="asociado.certificadoVoluntariado">
+                    <%=asociado.certificadoVoluntariadoSi%>
+                  </label>
+                  <label class="form-control-static font-weight-bold" ng-if="!asociado.certificadoVoluntariado" >
+                    <%=asociado.certificadoVoluntariadoNo%>
                   </label>
                 </div>
               </div>

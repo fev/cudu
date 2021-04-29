@@ -62,6 +62,12 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean certificadoDelitosSexuales = false;
 
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean cursoCovid = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean certificadoVoluntariado = false;
+
     private Sexo sexo;
 
     @Email
@@ -209,6 +215,22 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
 
     public void setCertificadoDelitosSexuales(Boolean certificadoDelitosSexuales) {
         this.certificadoDelitosSexuales = certificadoDelitosSexuales;
+    }
+
+    public Boolean getCursoCovid() {
+        return cursoCovid;
+    }
+
+    public void setCursoCovid(Boolean cursoCovid) {
+        this.cursoCovid = cursoCovid;
+    }
+
+    public Boolean getCertificadoVoluntariado() {
+        return certificadoVoluntariado;
+    }
+
+    public void setCertificadoVoluntariado(Boolean certificadoVoluntariado) {
+        this.certificadoVoluntariado = certificadoVoluntariado;
     }
 
     public Sexo getSexo() {

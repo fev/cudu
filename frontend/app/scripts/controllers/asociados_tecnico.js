@@ -16,7 +16,9 @@ angular.module('cuduApp')
             inactivo: false,
             orden: '',
             ordenAsc: false,
-            certificadoDelitosSexuales: null
+            certificadoDelitosSexuales: null,
+            cursoCovid: null,
+            certificadoVoluntariado: null
         };
     };
 
@@ -94,7 +96,9 @@ angular.module('cuduApp')
             actualizado: valores[indices.fecha_actualizacion],
             baja: valores[indices.fecha_baja],
             sexo: valores[indices.sexo],
-            certificadoDelitosSexuales: valores[indices.certificado_delitos_sexuales]
+            certificadoDelitosSexuales: valores[indices.certificado_delitos_sexuales],
+            cursoCovid: valores[indices.curso_covid],
+            certificadoVoluntariado: valores[indices.certificado_voluntariado]
         };
     };
 
@@ -145,18 +149,50 @@ angular.module('cuduApp')
         me.filtraAsociados();
     };
 
-    $scope.filtraPorCertificado = function(certificado) {
+    $scope.filtraPorCertificadoDelitosSexuales = function(certificadoDelitosSexuales) {
         var me = this;
-        var isTrueSet =null;
-        if(certificado === 'true') isTrueSet = true;
-        if(certificado === 'false') isTrueSet = false;
+        var isTrueSet = null;
+        if(certificadoDelitosSexuales === 'true') isTrueSet = true;
+        if(certificadoDelitosSexuales === 'false') isTrueSet = false;
 
 
         if(me.filtro.certificadoDelitosSexuales === isTrueSet) {
-            me.desactivarCertificado();
+            me.desactivarCertificadoDelitosSexuales();
         }
         else {
             me.filtro.certificadoDelitosSexuales = isTrueSet;
+        }
+        me.filtraAsociados();
+    };
+
+    $scope.filtraPorCursoCovid = function(cursoCovid) {
+        var me = this;
+        var isTrueSet =null;
+        if(cursoCovid === 'true') isTrueSet = true;
+        if(cursoCovid === 'false') isTrueSet = false;
+
+
+        if(me.filtro.cursoCovid === isTrueSet) {
+            me.desactivarCursoCovid();
+        }
+        else {
+            me.filtro.cursoCovid = isTrueSet;
+        }
+        me.filtraAsociados();
+    };
+
+    $scope.filtraPorCertificadoVoluntariado = function(certificadoVoluntariado) {
+        var me = this;
+        var isTrueSet =null;
+        if(certificadoVoluntariado === 'true') isTrueSet = true;
+        if(certificadoVoluntariado === 'false') isTrueSet = false;
+
+
+        if(me.filtro.certificadoVoluntariado === isTrueSet) {
+            me.desactivarCertificadoVoluntariado();
+        }
+        else {
+            me.filtro.certificadoVoluntariado = isTrueSet;
         }
         me.filtraAsociados();
     };
@@ -166,9 +202,19 @@ angular.module('cuduApp')
         me.filtro.sexo = null;
     };
 
-    $scope.desactivarCertificado = function() {
+    $scope.desactivarCertificadoDelitosSexuales = function() {
         var me = this;
         me.filtro.certificadoDelitosSexuales = null;
+    };
+
+    $scope.desactivarCursoCovid = function() {
+        var me = this;
+        me.filtro.cursoCovid = null;
+    };
+
+    $scope.desactivarCertificadoVoluntariado = function() {
+        var me = this;
+        me.filtro.certificadoVoluntariado = null;
     };
 
     $scope.filtraPorNombre = function() {
@@ -339,9 +385,23 @@ angular.module('cuduApp')
       // .certificadoDelitosSexuales
       if ( $scope.filtro.certificadoDelitosSexuales != null ) {
         if($scope.filtro.certificadoDelitosSexuales)
-          document.getElementById("siCertificado").className+=" active";
+          document.getElementById("siCertificadoDelitosSexuales").className+=" active";
         else
-          document.getElementById("noCertificado").className+=" active";
+          document.getElementById("noCertificadoDelitosSexuales").className+=" active";
+      }
+      // .cursoCovid
+      if ( $scope.filtro.cursoCovid != null ) {
+        if($scope.filtro.cursoCovid)
+          document.getElementById("siCursoCovid").className+=" active";
+        else
+          document.getElementById("noCursoCovid").className+=" active";
+      }
+      // .certificadoVoluntariado
+      if ( $scope.filtro.certificadoVoluntariado != null ) {
+        if($scope.filtro.certificadoVoluntariado)
+          document.getElementById("siCertificadoVoluntariado").className+=" active";
+        else
+          document.getElementById("noCertificadoVoluntariado").className+=" active";
       }
 
       // .nombreApellido ---> este filtro no se mantiene en la vista.

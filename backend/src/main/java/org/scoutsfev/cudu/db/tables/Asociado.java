@@ -317,6 +317,16 @@ public class Asociado extends TableImpl<AsociadoRecord> {
 	public final TableField<AsociadoRecord, Boolean> CERTIFICADO_DELITOS_SEXUALES = createField("certificado_delitos_sexuales", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
 
 	/**
+	 * The column <code>public.asociado.curso_covid</code>.
+	 */
+	public final TableField<AsociadoRecord, Boolean> CURSO_COVID = createField("curso_covid", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>public.asociado.certificado_voluntariado</code>.
+	 */
+	public final TableField<AsociadoRecord, Boolean> CERTIFICADO_VOLUNTARIADO = createField("certificado_voluntariado", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaulted(true), this, "");
+
+	/**
 	 * Create a <code>public.asociado</code> table reference
 	 */
 	public Asociado() {

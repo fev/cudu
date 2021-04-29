@@ -72,6 +72,12 @@
 
     .btn-default:focus { background-color: transparent; }
     .btn-default.active { background-color: $material-grey-300; }
+    .btn-orange {
+      color: #000000;
+      left: 28px;
+    }
+    .btn-orange:hover { background-color: $material-orange-A200; }
+    .btn-orange.active { background-color: $material-orange-A100; }
 
     // Campos visibles
     .rama { display: none }

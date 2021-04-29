@@ -47,8 +47,24 @@
                     <div class="row padded">
                       <label><%=asociado.certificadoDelitosSexuales2%></label>
                       <div class="btn-group btn-group-sm">
-                        <a id="siCertificado" href="javascript:" ng-click="filtraPorCertificado('true')" ng-class="{active: filtro.certificadoDelitosSexuales === true}" class="btn">Sí</a>
-                        <a id="noCertificado" href="javascript:" ng-click="filtraPorCertificado('false')" ng-class="{active: filtro.certificadoDelitosSexuales === false}" class="btn">No</a>
+                        <a id="siCertificadoDelitosSexuales" href="javascript:" ng-click="filtraPorCertificadoDelitosSexuales('true')" ng-class="{active: filtro.certificadoDelitosSexuales === true}" class="btn">Sí</a>
+                        <a id="noCertificadoDelitosSexuales" href="javascript:" ng-click="filtraPorCertificadoDelitosSexuales('false')" ng-class="{active: filtro.certificadoDelitosSexuales === false}" class="btn">No</a>
+                      </div>
+                    </div>
+
+                    <div class="row padded">
+                      <label><%=asociado.cursoCovid2%></label>
+                      <div class="btn-group btn-group-sm">
+                        <a id="siCursoCovid" href="javascript:" ng-click="filtraPorCursoCovid('true')" ng-class="{active: filtro.cursoCovid === true}" class="btn">Sí</a>
+                        <a id="noCursoCovid" href="javascript:" ng-click="filtraPorCursoCovid('false')" ng-class="{active: filtro.cursoCovid === false}" class="btn">No</a>
+                      </div>
+                    </div>
+
+                    <div class="row padded">
+                      <label><%=asociado.certificadoVoluntariado2%></label>
+                      <div class="btn-group btn-group-sm">
+                        <a id="siCertificadoVoluntariado" href="javascript:" ng-click="filtraPorCertificadoVoluntariado('true')" ng-class="{active: filtro.certificadoVoluntariado === true}" class="btn">Sí</a>
+                        <a id="noCertificadoVoluntariado" href="javascript:" ng-click="filtraPorCertificadoVoluntariado('false')" ng-class="{active: filtro.certificadoVoluntariado === false}" class="btn">No</a>
                       </div>
                     </div>
 
