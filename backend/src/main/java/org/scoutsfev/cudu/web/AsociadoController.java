@@ -106,6 +106,7 @@ public class AsociadoController {
             @RequestParam(required = false) Boolean ordenAsc,
             @RequestParam(required = false) Boolean certificadoDelitosSexuales,
             @RequestParam(required = false) Boolean cursoCovid,
+            @RequestParam(required = false) Boolean cursoProteccionInfancia,
             @RequestParam(required = false) Boolean certificadoVoluntariado,
             @AuthenticationPrincipal Usuario usuario,
             Pageable pageable) {
@@ -124,7 +125,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, cursoCovid, certificadoVoluntariado, pageable);
+        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, cursoCovid, cursoProteccionInfancia, certificadoVoluntariado, pageable);
         return new ResponseEntity<>(listado, HttpStatus.OK);
     }
 
@@ -153,6 +154,7 @@ public class AsociadoController {
             @RequestParam(required = false) Boolean ordenAsc,
             @RequestParam(required = false) Boolean certificadoDelitosSexuales,
             @RequestParam(required = false) Boolean cursoCovid,
+            @RequestParam(required = false) Boolean cursoProteccionInfancia,
             @RequestParam(required = false) Boolean certificadoVoluntariado,
             @AuthenticationPrincipal Usuario usuario
             ) {
@@ -171,7 +173,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, certificadoDelitosSexuales, cursoCovid, certificadoVoluntariado);
+        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, certificadoDelitosSexuales, cursoCovid, cursoProteccionInfancia, certificadoVoluntariado);
         return new ResponseEntity<>(contador, HttpStatus.OK);
     }
 
@@ -224,6 +226,7 @@ public class AsociadoController {
         if (!authorizationService.esTecnico(usuario)){
           asociado.setCertificadoDelitosSexuales(false);
           asociado.setCursoCovid(false);
+          asociado.setCursoProteccionInfancia(false);
           asociado.setCertificadoVoluntariado(false);
         }
         descartarCacheGraficas(asociado.getGrupoId());
@@ -242,6 +245,7 @@ public class AsociadoController {
         if (!authorizationService.esTecnico(usuario)){
           editado.setCertificadoDelitosSexuales(original.getCertificadoDelitosSexuales());
           editado.setCursoCovid(original.getCursoCovid());
+          editado.setCursoProteccionInfancia(original.getCursoProteccionInfancia());
           editado.setCertificadoVoluntariado(original.getCertificadoVoluntariado());
         }
         BeanUtils.copyProperties(editado, original, new String[]{"fechaActualizacion"});

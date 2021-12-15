@@ -57,7 +57,7 @@ angular.module('cuduApp')
 
     $scope.tabActivo = 0;
     $scope.busqueda = '';
-    $scope.filtro = { tipo: '', eliminados: false, certificadoDelitosSexuales: 'nada', cursoCovid: 'nada', certificadoVoluntariado: 'nada' };
+    $scope.filtro = { tipo: '', eliminados: false, certificadoDelitosSexuales: 'nada', cursoProteccionInfancia: 'nada', certificadoVoluntariado: 'nada' };
     $scope.columnas = { rama: true, direccion: false, contacto: false };
     $scope.orden = 'apellidos';
     $scope.info = { mensaje: ''};
@@ -76,7 +76,7 @@ angular.module('cuduApp')
 
     $scope.limpiarFiltro = function() {
       $scope.busqueda = '';
-      $scope.filtro = { tipo: '', eliminados: false, certificadoDelitosSexuales: 'nada', cursoCovid: 'nada', certificadoVoluntariado: 'nada' };
+      $scope.filtro = { tipo: '', eliminados: false, certificadoDelitosSexuales: 'nada', cursoProteccionInfancia: 'nada', certificadoVoluntariado: 'nada' };
     };
 
     $scope.filtrar = function(asociado) {
@@ -92,7 +92,7 @@ angular.module('cuduApp')
                   (f.ramaRuta && asociado.ramaRuta)) &&
               (f.eliminados || asociado.activo) &&
               (f.certificadoDelitosSexuales=== 'nada' || (String(asociado.certificadoDelitosSexuales)===f.certificadoDelitosSexuales && (asociado.tipo==='K' || asociado.tipo==='C'))) &&
-              (f.cursoCovid=== 'nada' || (String(asociado.cursoCovid)===f.cursoCovid && (asociado.tipo==='K' || asociado.tipo==='C'))) &&
+              (f.cursoProteccionInfancia=== 'nada' || (String(asociado.cursoProteccionInfancia)===f.cursoProteccionInfancia && (asociado.tipo==='K' || asociado.tipo==='C'))) &&
               (f.certificadoVoluntariado=== 'nada' || (String(asociado.certificadoVoluntariado)===f.certificadoVoluntariado && (asociado.tipo==='K' || asociado.tipo==='C')))
             );
     };

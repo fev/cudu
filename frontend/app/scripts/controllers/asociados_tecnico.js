@@ -17,7 +17,7 @@ angular.module('cuduApp')
             orden: '',
             ordenAsc: false,
             certificadoDelitosSexuales: null,
-            cursoCovid: null,
+            cursoProteccionInfancia: null,
             certificadoVoluntariado: null
         };
     };
@@ -97,7 +97,7 @@ angular.module('cuduApp')
             baja: valores[indices.fecha_baja],
             sexo: valores[indices.sexo],
             certificadoDelitosSexuales: valores[indices.certificado_delitos_sexuales],
-            cursoCovid: valores[indices.curso_covid],
+            cursoProteccionInfancia: valores[indices.curso_proteccion_infancia],
             certificadoVoluntariado: valores[indices.certificado_voluntariado]
         };
     };
@@ -165,18 +165,18 @@ angular.module('cuduApp')
         me.filtraAsociados();
     };
 
-    $scope.filtraPorCursoCovid = function(cursoCovid) {
+    $scope.filtraPorCursoProteccionInfancia = function(cursoProteccionInfancia) {
         var me = this;
         var isTrueSet =null;
-        if(cursoCovid === 'true') isTrueSet = true;
-        if(cursoCovid === 'false') isTrueSet = false;
+        if(cursoProteccionInfancia === 'true') isTrueSet = true;
+        if(cursoProteccionInfancia === 'false') isTrueSet = false;
 
 
-        if(me.filtro.cursoCovid === isTrueSet) {
-            me.desactivarCursoCovid();
+        if(me.filtro.cursoProteccionInfancia === isTrueSet) {
+            me.desactivarCursoProteccionInfancia();
         }
         else {
-            me.filtro.cursoCovid = isTrueSet;
+            me.filtro.cursoProteccionInfancia = isTrueSet;
         }
         me.filtraAsociados();
     };
@@ -207,9 +207,9 @@ angular.module('cuduApp')
         me.filtro.certificadoDelitosSexuales = null;
     };
 
-    $scope.desactivarCursoCovid = function() {
+    $scope.desactivarCursoProteccionInfancia = function() {
         var me = this;
-        me.filtro.cursoCovid = null;
+        me.filtro.cursoProteccionInfancia = null;
     };
 
     $scope.desactivarCertificadoVoluntariado = function() {
@@ -389,12 +389,12 @@ angular.module('cuduApp')
         else
           document.getElementById("noCertificadoDelitosSexuales").className+=" active";
       }
-      // .cursoCovid
-      if ( $scope.filtro.cursoCovid != null ) {
-        if($scope.filtro.cursoCovid)
-          document.getElementById("siCursoCovid").className+=" active";
+      // .cursoProteccionInfancia
+      if ( $scope.filtro.cursoProteccionInfancia != null ) {
+        if($scope.filtro.cursoProteccionInfancia)
+          document.getElementById("siCursoProteccionInfancia").className+=" active";
         else
-          document.getElementById("noCursoCovid").className+=" active";
+          document.getElementById("noCursoProteccionInfancia").className+=" active";
       }
       // .certificadoVoluntariado
       if ( $scope.filtro.certificadoVoluntariado != null ) {

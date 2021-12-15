@@ -80,6 +80,7 @@ public class Asociado implements Serializable {
 	private final Short     calidadPassword;
 	private final Boolean   certificadoDelitosSexuales;
 	private final Boolean   cursoCovid;
+	private final Boolean   cursoProteccionInfancia;
 	private final Boolean   certificadoVoluntariado;
 
 	public Asociado(Asociado value) {
@@ -137,6 +138,7 @@ public class Asociado implements Serializable {
 		this.calidadPassword = value.calidadPassword;
 		this.certificadoDelitosSexuales = value.certificadoDelitosSexuales;
 		this.cursoCovid = value.cursoCovid;
+		this.cursoProteccionInfancia = value.cursoProteccionInfancia;
 		this.certificadoVoluntariado = value.certificadoVoluntariado;
 	}
 
@@ -195,6 +197,7 @@ public class Asociado implements Serializable {
 		Short     calidadPassword,
 		Boolean   certificadoDelitosSexuales,
 		Boolean   cursoCovid,
+		Boolean	  cursoProteccionInfancia,
 		Boolean   certificadoVoluntariado
 	) {
 		this.id = id;
@@ -251,6 +254,7 @@ public class Asociado implements Serializable {
 		this.calidadPassword = calidadPassword;
 		this.certificadoDelitosSexuales = certificadoDelitosSexuales;
 		this.cursoCovid = cursoCovid;
+		this.cursoProteccionInfancia = cursoProteccionInfancia;
 		this.certificadoVoluntariado = certificadoVoluntariado;
 	}
 
@@ -468,6 +472,10 @@ public class Asociado implements Serializable {
 
 	public Boolean getCursoCovid() {
 		return this.cursoCovid;
+	}
+
+	public Boolean getCursoProteccionInfancia() {
+		return this.cursoProteccionInfancia;
 	}
 
 	public Boolean getCertificadoVoluntariado() {
