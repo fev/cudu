@@ -4,7 +4,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Sexo {
     Masculino('M'),
-    Femenino('F');
+    Femenino('F'),
+    NoBinario ('N');
 
     private final char tipo;
 
