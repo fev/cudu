@@ -62,14 +62,14 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean certificadoDelitosSexuales = false;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private Boolean cursoCovid = false;
-
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private Boolean cursoProteccionInfancia = false;
+    /*@Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean cursoCovid = false;*/
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean certificadoVoluntariado = false;
+   
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean cursoProteccionInfancia = false;
 
     private Sexo sexo;
 
@@ -220,12 +220,20 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
         this.certificadoDelitosSexuales = certificadoDelitosSexuales;
     }
 
-    public Boolean getCursoCovid() {
+     /*public Boolean getCursoCovid() {
         return cursoCovid;
     }
 
     public void setCursoCovid(Boolean cursoCovid) {
         this.cursoCovid = cursoCovid;
+    }*/
+
+    public Boolean getCertificadoVoluntariado() {
+        return certificadoVoluntariado;
+    }
+
+    public void setCertificadoVoluntariado(Boolean certificadoVoluntariado) {
+        this.certificadoVoluntariado = certificadoVoluntariado;
     }
 
     public Boolean getCursoProteccionInfancia() {
@@ -234,14 +242,6 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
 
     public void setCursoProteccionInfancia(Boolean cursoProteccionInfancia) {
         this.cursoProteccionInfancia = cursoProteccionInfancia;
-    }
-
-    public Boolean getCertificadoVoluntariado() {
-        return certificadoVoluntariado;
-    }
-
-    public void setCertificadoVoluntariado(Boolean certificadoVoluntariado) {
-        this.certificadoVoluntariado = certificadoVoluntariado;
     }
 
     public Sexo getSexo() {

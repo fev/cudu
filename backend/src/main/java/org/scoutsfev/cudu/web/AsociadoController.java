@@ -105,9 +105,9 @@ public class AsociadoController {
             @RequestParam(required = false) String orden,
             @RequestParam(required = false) Boolean ordenAsc,
             @RequestParam(required = false) Boolean certificadoDelitosSexuales,
-            @RequestParam(required = false) Boolean cursoCovid,
-            @RequestParam(required = false) Boolean cursoProteccionInfancia,
+            //@RequestParam(required = false) Boolean cursoCovid,
             @RequestParam(required = false) Boolean certificadoVoluntariado,
+            @RequestParam(required = false) Boolean cursoProteccionInfancia,
             @AuthenticationPrincipal Usuario usuario,
             Pageable pageable) {
 
@@ -125,7 +125,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, cursoCovid, cursoProteccionInfancia, certificadoVoluntariado, pageable);
+        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, certificadoVoluntariado, cursoProteccionInfancia, pageable);
         return new ResponseEntity<>(listado, HttpStatus.OK);
     }
 
@@ -153,9 +153,9 @@ public class AsociadoController {
             @RequestParam(required = false) String orden,
             @RequestParam(required = false) Boolean ordenAsc,
             @RequestParam(required = false) Boolean certificadoDelitosSexuales,
-            @RequestParam(required = false) Boolean cursoCovid,
-            @RequestParam(required = false) Boolean cursoProteccionInfancia,
+            //@RequestParam(required = false) Boolean cursoCovid,
             @RequestParam(required = false) Boolean certificadoVoluntariado,
+            @RequestParam(required = false) Boolean cursoProteccionInfancia,
             @AuthenticationPrincipal Usuario usuario
             ) {
 
@@ -173,7 +173,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, certificadoDelitosSexuales, cursoCovid, cursoProteccionInfancia, certificadoVoluntariado);
+        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, certificadoDelitosSexuales, certificadoVoluntariado, cursoProteccionInfancia);
         return new ResponseEntity<>(contador, HttpStatus.OK);
     }
 
@@ -225,9 +225,10 @@ public class AsociadoController {
         asociado.setGrupoId(usuario.getGrupo().getId());
         if (!authorizationService.esTecnico(usuario)){
           asociado.setCertificadoDelitosSexuales(false);
-          asociado.setCursoCovid(false);
-          asociado.setCursoProteccionInfancia(false);
+          //asociado.setCursoCovid(false);          
           asociado.setCertificadoVoluntariado(false);
+          asociado.setCursoProteccionInfancia(false);          
+
         }
         descartarCacheGraficas(asociado.getGrupoId());
         return asociadoRepository.save(asociado);
@@ -240,13 +241,14 @@ public class AsociadoController {
         //editado.setGrupoId(original.getGrupoId());
         //editado.setAmbitoEdicion(original.getAmbitoEdicion());
         //editado.setUsuarioActivo(original.isUsuarioActivo());
+        //editado.setCursoCovid(original.getCursoCovid());  
         if (editado.isActivo() != original.isActivo())
             descartarCacheGraficas(editado.getGrupoId());
         if (!authorizationService.esTecnico(usuario)){
-          editado.setCertificadoDelitosSexuales(original.getCertificadoDelitosSexuales());
-          editado.setCursoCovid(original.getCursoCovid());
-          editado.setCursoProteccionInfancia(original.getCursoProteccionInfancia());
-          editado.setCertificadoVoluntariado(original.getCertificadoVoluntariado());
+          editado.setCertificadoDelitosSexuales(original.getCertificadoDelitosSexuales());     
+          editado.setCertificadoVoluntariado(original.getCertificadoVoluntariado());         
+          editado.setCursoProteccionInfancia(original.getCursoProteccionInfancia());         
+
         }
         BeanUtils.copyProperties(editado, original, new String[]{"fechaActualizacion"});
         return asociadoRepository.save(original);
