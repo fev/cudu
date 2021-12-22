@@ -1,4 +1,4 @@
-var Cudu;
+/*var Cudu;
 (function (Cudu) {
     var Cursos;
     (function (Cursos) {
@@ -116,4 +116,4 @@ var Cudu;
 })(Cudu || (Cudu = {}));
 angular.module('cuduApp')
     .controller('CursoController', ['$scope', 'CursoService', Cudu.Cursos.CursoController])
-    .factory('CursoService', ['$http', 'Usuario', Cudu.Cursos.CursoServiceFactory]);
+    .factory('CursoService', ['$http', 'Usuario', Cudu.Cursos.CursoServiceFactory]);*/

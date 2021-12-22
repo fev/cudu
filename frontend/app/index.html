@@ -39,9 +39,8 @@
           <li class="rol-asociado" ng-class="{active: controlador === 'AsociadoCtrl'}"><a href="#/asociados">{{::menu.asociados}}</a></li>
           <li class="rol-tecnico"><a href="#/tecnico/asociados">{{::menu.asociados}}</a></li>
           <li class="rol-asociado" ng-class="{active: controlador === 'GrupoCtrl'}"><a href="#/grupo/{{::menu.codigoGrupo}}">{{::menu.migrupo}}</a></li>
-          <li class="rol-asociado" ng-class="{active: seccion === 'cursos'}"><a href="#/cursos">{{::menu.cursos}}</a></li>
-          <li class="rol-lluerna"><a href="#/lluerna/miembros">{{::menu.miembros}}</a></li>
-          <li class="rol-lluerna"><a href="#/lluerna/cursos">{{::menu.cursos}}</a></li>
+          <!--<li class="rol-asociado" ng-class="{active: seccion === 'cursos'}"><a href="#/cursos">{{::menu.cursos}}</a></li>
+          <li class="rol-lluerna"><a href="#/lluerna/cursos">{{::menu.cursos}}</a></li>-->
           <li class="rol-asociado" ng-class="{active: controlador === 'ActividadesListadoCtrl' || controlador === 'ActividadesDetalleCtrl'}">
             <a href="#/actividades">{{::menu.actividades}}</a>
           </li>
@@ -101,7 +100,7 @@
   <script src="scripts/controllers/permisos.js"></script>
   <script src="scripts/controllers/asociados_tecnico.js"></script>
   <script src="scripts/controllers/miembro.js"></script>
-  <script src="scripts/controllers/cursos.js"></script>
+  <!--<script src="scripts/controllers/cursos.js"></script>-->
   <script src="scripts/controllers/cursos_lluerna.js"></script>
   <script src="scripts/controllers/curso_lluerna_detalle.js"></script>
   <script src="scripts/controllers/liquidaciones.js"></script>

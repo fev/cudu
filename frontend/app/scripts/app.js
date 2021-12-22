@@ -90,10 +90,10 @@ angular
         templateUrl: 'i18n/views/lluerna/cursos.html',
         seccion: 'cursos-lluerna'
       })
-      .when('/cursos', { // apuntarse a cursos, asociado
+      /*.when('/cursos', { // apuntarse a cursos, asociado
         templateUrl: 'i18n/views/curso.html',
         seccion: 'cursos'
-      })
+      })*/
       .when('/liquidaciones/grupos', {
         templateUrl: 'i18n/views/liquidaciones/grupos.html',
         seccion: 'liquidaciones'

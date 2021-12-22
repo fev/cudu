@@ -244,7 +244,7 @@ angular.module('cuduDom', []).factory('Dom', ['$rootScope', 'Traducciones', 'Rol
     $rootScope.menu = {
       actividades: Traducciones.texto('menu.actividades'),
       asociados: Traducciones.texto('menu.asociados'),
-      cursos: Traducciones.texto('menu.cursos'),
+      //cursos: Traducciones.texto('menu.cursos'),
       grupos: Traducciones.texto('menu.grupos'),
       liquidaciones: Traducciones.texto('menu.liquidaciones'),
       miembros: Traducciones.texto('menu.miembros'),
