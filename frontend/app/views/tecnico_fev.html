@@ -13,27 +13,21 @@
                 <div class="panel-body">
                 <div class="row">
                     <div class="col-md-6 separador-dcho">
+                    <div class="row padded">                       
+                        <label>Tipo</label>
+                        <div class="btn-group btn-group-sm">
+                        <a id="Joven" href="javascript:" ng-click="activar('Joven')" ng-class="{'active': filtroAsociadoTipo.isActivo('Joven')}" class="btn">Joven</a>
+                        <a id="Kraal" href="javascript:" ng-click="activar('Kraal')" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
+                        <a id="Comite" href="javascript:" ng-click="activar('Comite')" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
+                        </div>    
+                    </div>
                     <div class="row padded">
-                        <div class="col-md-6">
-                        <div class="row">
-                            <label>Tipo</label>
-                            <div class="btn-group btn-group-sm">
-                            <a id="Joven" href="javascript:" ng-click="activar('Joven')" ng-class="{'active': filtroAsociadoTipo.isActivo('Joven')}" class="btn">Joven</a>
-                            <a id="Kraal" href="javascript:" ng-click="activar('Kraal')" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
-                            <a id="Comite" href="javascript:" ng-click="activar('Comite')" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
-                            </div>
-                        </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row">
-                              <label>Género</label>
-                              <div class="btn-group btn-group-sm">
-                              <a id="M" href="javascript:" ng-click="filtraPorSexo('M')" ng-class="{'active': filtro.sexo === 'M'}" class="btn">Masculino</a>
-                              <a id="F" href="javascript:" ng-click="filtraPorSexo('F')" ng-class="{'active': filtro.sexo === 'F'}" class="btn">Femenino</a>
-                              <a id="N" href="javascript:" ng-click="filtraPorSexo('N')" ng-class="{'active': filtro.sexo === 'N'}" class="btn">No Binario</a>
-                            </div>
-                          </div>
-                        </div>
+                        <label>Género</label>
+                        <div class="btn-group btn-group-sm">
+                        <a id="M" href="javascript:" ng-click="filtraPorSexo('M')" ng-class="{'active': filtro.sexo === 'M'}" class="btn">Masculino</a>
+                        <a id="F" href="javascript:" ng-click="filtraPorSexo('F')" ng-class="{'active': filtro.sexo === 'F'}" class="btn">Femenino</a>
+                        <a id="N" href="javascript:" ng-click="filtraPorSexo('N')" ng-class="{'active': filtro.sexo === 'N'}" class="btn">No Binario</a>
+                        </div>                            
                     </div>
                     <div class="row padded">
                         <label>Rama</label>
