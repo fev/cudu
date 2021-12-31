@@ -79,8 +79,10 @@ public class Asociado implements Serializable {
 	private final String    emailContacto;
 	private final Short     calidadPassword;
 	private final Boolean   certificadoDelitosSexuales;
-	private final Boolean   cursoCovid;
+	//private final Boolean   cursoCovid;
 	private final Boolean   certificadoVoluntariado;
+	private final Boolean   cursoProteccionInfancia;
+
 
 	public Asociado(Asociado value) {
 		this.id = value.id;
@@ -136,8 +138,10 @@ public class Asociado implements Serializable {
 		this.emailContacto = value.emailContacto;
 		this.calidadPassword = value.calidadPassword;
 		this.certificadoDelitosSexuales = value.certificadoDelitosSexuales;
-		this.cursoCovid = value.cursoCovid;
+		//this.cursoCovid = value.cursoCovid;		
 		this.certificadoVoluntariado = value.certificadoVoluntariado;
+		this.cursoProteccionInfancia = value.cursoProteccionInfancia;
+
 	}
 
 	public Asociado(
@@ -195,8 +199,10 @@ public class Asociado implements Serializable {
 		Short     calidadPassword,
 		Boolean   certificadoDelitosSexuales,
 		Boolean   cursoCovid,
-		Boolean   certificadoVoluntariado
-	) {
+		Boolean   certificadoVoluntariado,
+		Boolean   cursoProteccionInfancia
+		
+	){
 		this.id = id;
 		this.tipo = tipo;
 		this.grupoId = grupoId;
@@ -250,8 +256,10 @@ public class Asociado implements Serializable {
 		this.emailContacto = emailContacto;
 		this.calidadPassword = calidadPassword;
 		this.certificadoDelitosSexuales = certificadoDelitosSexuales;
-		this.cursoCovid = cursoCovid;
+		//this.cursoCovid = cursoCovid;		
 		this.certificadoVoluntariado = certificadoVoluntariado;
+		this.cursoProteccionInfancia = cursoProteccionInfancia;
+
 	}
 
 	public Integer getId() {
@@ -466,11 +474,16 @@ public class Asociado implements Serializable {
 		return this.certificadoDelitosSexuales;
 	}
 
-	public Boolean getCursoCovid() {
+	/*public Boolean getCursoCovid() {
 		return this.cursoCovid;
-	}
+	}*/
 
 	public Boolean getCertificadoVoluntariado() {
 		return this.certificadoVoluntariado;
 	}
+
+	public Boolean getCursoProteccionInfancia() {
+		return this.cursoProteccionInfancia;
+	}
+
 }

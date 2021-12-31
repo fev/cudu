@@ -16,10 +16,10 @@ angular.module('cuduApp')
             inactivo: false,
             orden: '',
             ordenAsc: false,
-            certificadoDelitosSexuales: null,
-            cursoCovid: null,
-            certificadoVoluntariado: null
-        };
+            certificadoDelitosSexuales: null,            
+            certificadoVoluntariado: null,
+            cursoProteccionInfancia: null
+         };
     };
 
     $scope.AsociadoTipo = function(tipo, activo) {
@@ -97,8 +97,8 @@ angular.module('cuduApp')
             baja: valores[indices.fecha_baja],
             sexo: valores[indices.sexo],
             certificadoDelitosSexuales: valores[indices.certificado_delitos_sexuales],
-            cursoCovid: valores[indices.curso_covid],
-            certificadoVoluntariado: valores[indices.certificado_voluntariado]
+            certificadoVoluntariado: valores[indices.certificado_voluntariado],
+            cursoProteccionInfancia: valores[indices.curso_proteccion_infancia]
         };
     };
 
@@ -164,23 +164,7 @@ angular.module('cuduApp')
         }
         me.filtraAsociados();
     };
-
-    $scope.filtraPorCursoCovid = function(cursoCovid) {
-        var me = this;
-        var isTrueSet =null;
-        if(cursoCovid === 'true') isTrueSet = true;
-        if(cursoCovid === 'false') isTrueSet = false;
-
-
-        if(me.filtro.cursoCovid === isTrueSet) {
-            me.desactivarCursoCovid();
-        }
-        else {
-            me.filtro.cursoCovid = isTrueSet;
-        }
-        me.filtraAsociados();
-    };
-
+    
     $scope.filtraPorCertificadoVoluntariado = function(certificadoVoluntariado) {
         var me = this;
         var isTrueSet =null;
@@ -197,6 +181,22 @@ angular.module('cuduApp')
         me.filtraAsociados();
     };
 
+    $scope.filtraPorCursoProteccionInfancia = function(cursoProteccionInfancia) {
+        var me = this;
+        var isTrueSet =null;
+        if(cursoProteccionInfancia === 'true') isTrueSet = true;
+        if(cursoProteccionInfancia === 'false') isTrueSet = false;
+
+
+        if(me.filtro.cursoProteccionInfancia === isTrueSet) {
+            me.desactivarCursoProteccionInfancia();
+        }
+        else {
+            me.filtro.cursoProteccionInfancia = isTrueSet;
+        }
+        me.filtraAsociados();
+    };
+
     $scope.desactivarSexo = function() {
         var me = this;
         me.filtro.sexo = null;
@@ -207,14 +207,14 @@ angular.module('cuduApp')
         me.filtro.certificadoDelitosSexuales = null;
     };
 
-    $scope.desactivarCursoCovid = function() {
-        var me = this;
-        me.filtro.cursoCovid = null;
-    };
-
     $scope.desactivarCertificadoVoluntariado = function() {
         var me = this;
         me.filtro.certificadoVoluntariado = null;
+    };
+
+    $scope.desactivarCursoProteccionInfancia = function() {
+        var me = this;
+        me.filtro.cursoProteccionInfancia = null;
     };
 
     $scope.filtraPorNombre = function() {
@@ -389,13 +389,6 @@ angular.module('cuduApp')
         else
           document.getElementById("noCertificadoDelitosSexuales").className+=" active";
       }
-      // .cursoCovid
-      if ( $scope.filtro.cursoCovid != null ) {
-        if($scope.filtro.cursoCovid)
-          document.getElementById("siCursoCovid").className+=" active";
-        else
-          document.getElementById("noCursoCovid").className+=" active";
-      }
       // .certificadoVoluntariado
       if ( $scope.filtro.certificadoVoluntariado != null ) {
         if($scope.filtro.certificadoVoluntariado)
@@ -403,7 +396,13 @@ angular.module('cuduApp')
         else
           document.getElementById("noCertificadoVoluntariado").className+=" active";
       }
-
+       // .cursoProteccionInfancia
+       if ( $scope.filtro.cursoProteccionInfancia != null ) {
+        if($scope.filtro.cursoProteccionInfancia)
+          document.getElementById("siCursoProteccionInfancia").className+=" active";
+        else
+          document.getElementById("noCursoProteccionInfancia").className+=" active";
+      }
       // .nombreApellido ---> este filtro no se mantiene en la vista.
       // se muestra el texto cuando se recarga la página pero no cuando vienes de 'Volver'
       window.onload=function(){
