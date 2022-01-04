@@ -1,0 +1,1 @@
+alter table asociado alter column genero type character(2);

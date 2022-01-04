@@ -10,7 +10,7 @@ angular.module('cuduApp')
             asociacion: '',
             tipo: '',
             grupoId: '',
-            sexo: '',
+            genero: '',
             ramasSeparadasPorComas: '',
             nombreApellido: '',
             inactivo: false,
@@ -95,7 +95,7 @@ angular.module('cuduApp')
             creado: valores[indices.fecha_alta],
             actualizado: valores[indices.fecha_actualizacion],
             baja: valores[indices.fecha_baja],
-            sexo: valores[indices.sexo],
+            genero: valores[indices.genero],
             certificadoDelitosSexuales: valores[indices.certificado_delitos_sexuales],
             cursoCovid: valores[indices.curso_covid],
             certificadoVoluntariado: valores[indices.certificado_voluntariado]
@@ -137,13 +137,13 @@ angular.module('cuduApp')
         Usuario.setCookie('FILTROS', btoa(JSON.stringify(me.filtro)));
     };
 
-    $scope.filtraPorSexo = function(sexo) {
+    $scope.filtraPorGenero = function(genero) {
         var me = this;
-        if(me.filtro.sexo === sexo) {
-            me.desactivarSexo();
+        if(me.filtro.genero === genero) {
+            me.desactivarGenero();
         }
         else {
-            me.filtro.sexo = sexo;
+            me.filtro.genero = genero;
         }
 
         me.filtraAsociados();
@@ -197,9 +197,9 @@ angular.module('cuduApp')
         me.filtraAsociados();
     };
 
-    $scope.desactivarSexo = function() {
+    $scope.desactivarGenero = function() {
         var me = this;
-        me.filtro.sexo = null;
+        me.filtro.genero = null;
     };
 
     $scope.desactivarCertificadoDelitosSexuales = function() {
@@ -380,8 +380,8 @@ angular.module('cuduApp')
 
       // filtro tiene...:
 
-      // .sexo
-      if ( $scope.filtro.sexo != '' ) document.getElementById($scope.filtro.sexo).className+=" active";
+      // .género
+      if ( $scope.filtro.genero != '' ) document.getElementById($scope.filtro.genero).className+=" active";
       // .certificadoDelitosSexuales
       if ( $scope.filtro.certificadoDelitosSexuales != null ) {
         if($scope.filtro.certificadoDelitosSexuales)

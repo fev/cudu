@@ -100,7 +100,7 @@ public class AsociadoController {
             @RequestParam(required = false) TipoAsociado tipo,
             @RequestParam(required = false) String ramasSeparadasPorComas,
             @RequestParam(required = false) Boolean inactivo,
-            @RequestParam(required = false) String sexo,
+            @RequestParam(required = false) String genero,
             @RequestParam(required = false) String nombreApellido,
             @RequestParam(required = false) String orden,
             @RequestParam(required = false) Boolean ordenAsc,
@@ -124,7 +124,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, cursoCovid, certificadoVoluntariado, pageable);
+        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, genero, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, cursoCovid, certificadoVoluntariado, pageable);
         return new ResponseEntity<>(listado, HttpStatus.OK);
     }
 
@@ -136,9 +136,9 @@ public class AsociadoController {
     * excepto por los de paginar (page , size) y los de ordenar los resultados (orden, ordenAsc).
     * Devuelve la cantidad de asociados filtrados.
     *
-    * [1] http://127.0.0.1:3000/api/tecnico/contador/asociado/?asociacion=&grupoId=UP&inactivo=false&nombreApellido=&ramasSeparadasPorComas=&sexo=&tipo=
+    * [1] http://127.0.0.1:3000/api/tecnico/contador/asociado/?asociacion=&grupoId=UP&inactivo=false&nombreApellido=&ramasSeparadasPorComas=&genero=&tipo=
     * [2] http://127.0.0.1:3000/api/tecnico/contador/asociado/?grupoId=UP&inactivo=false
-    * [3] http://127.0.0.1:3000/api/tecnico/asociado/?page=0&size=216&asociacion=&grupoId=UP&inactivo=false&nombreApellido=&orden=&ordenAsc=false&ramasSeparadasPorComas=&sexo=&tipo=
+    * [3] http://127.0.0.1:3000/api/tecnico/asociado/?page=0&size=216&asociacion=&grupoId=UP&inactivo=false&nombreApellido=&orden=&ordenAsc=false&ramasSeparadasPorComas=&genero=&tipo=
     */
     @RequestMapping(value = "/tecnico/contador/asociado", method = RequestMethod.GET)
     public ResponseEntity contadorTecnico(
@@ -147,7 +147,7 @@ public class AsociadoController {
             @RequestParam(required = false) TipoAsociado tipo,
             @RequestParam(required = false) String ramasSeparadasPorComas,
             @RequestParam(required = false) Boolean inactivo,
-            @RequestParam(required = false) String sexo,
+            @RequestParam(required = false) String genero,
             @RequestParam(required = false) String nombreApellido,
             @RequestParam(required = false) String orden,
             @RequestParam(required = false) Boolean ordenAsc,
@@ -171,7 +171,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, sexo, nombreApellido, certificadoDelitosSexuales, cursoCovid, certificadoVoluntariado);
+        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, genero, nombreApellido, certificadoDelitosSexuales, cursoCovid, certificadoVoluntariado);
         return new ResponseEntity<>(contador, HttpStatus.OK);
     }
 

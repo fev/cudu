@@ -241,12 +241,12 @@
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-3 control-label"><%= asociado.sexo %></label>
+            <label class="col-md-3 control-label"><%= asociado.genero %></label>
             <div class="col-md-9">
               <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'M'}" ng-click="establecerSexo('M')"><%= asociado.masculino %></button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'F'}" ng-click="establecerSexo('F')"><%= asociado.femenino %></button>
-                <button type="button" class="btn btn-default" ng-class="{active: asociado.sexo == 'N'}" ng-click="establecerSexo('N')"><%= asociado.noBinario %></button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.genero == 'M'}" ng-click="establecerGenero('M')"><%= asociado.masculino %></button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.genero == 'F'}" ng-click="establecerGenero('F')"><%= asociado.femenino %></button>
+                <button type="button" class="btn btn-default" ng-class="{active: asociado.genero == 'N'}" ng-click="establecerGenero('N')"><%= asociado.noBinario %></button>
               </div>
             </div>
           </div>

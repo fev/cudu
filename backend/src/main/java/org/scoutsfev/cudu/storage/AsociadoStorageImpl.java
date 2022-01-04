@@ -39,7 +39,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     private final static Field[] camposListado = {
         ASOCIADO.ID, ASOCIADO.GRUPO_ID.as("grupo_id"), GRUPO.NOMBRE.as("grupo_nombre"), ASOCIADO.NOMBRE, ASOCIADO.APELLIDOS, ASOCIADO.TIPO, RAMA,
         coalesce(ASOCIADO.EMAIL, ASOCIADO.EMAIL_CONTACTO).as("email"), coalesce(ASOCIADO.TELEFONO_MOVIL, ASOCIADO.TELEFONO_CASA).as("telefono"),
-        ASOCIADO.ACTIVO, ASOCIADO.USUARIO_ACTIVO, ASOCIADO.FECHA_ALTA, ASOCIADO.FECHA_BAJA, ASOCIADO.FECHA_ACTUALIZACION, ASOCIADO.SEXO, ASOCIADO.CERTIFICADO_DELITOS_SEXUALES,
+        ASOCIADO.ACTIVO, ASOCIADO.USUARIO_ACTIVO, ASOCIADO.FECHA_ALTA, ASOCIADO.FECHA_BAJA, ASOCIADO.FECHA_ACTUALIZACION, ASOCIADO.GENERO, ASOCIADO.CERTIFICADO_DELITOS_SEXUALES,
         ASOCIADO.CURSO_COVID, ASOCIADO.CERTIFICADO_VOLUNTARIADO
     };
 
@@ -52,7 +52,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     }
 
     @Override
-    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String sexo, String nombreApellido, String orden, Boolean ordenAsc, Boolean certificadoDelitosSexuales, Boolean cursoCovid, Boolean certificadoVoluntariado, Pageable pageable) {
+    public SparseTable listado(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String genero, String nombreApellido, String orden, Boolean ordenAsc, Boolean certificadoDelitosSexuales, Boolean cursoCovid, Boolean certificadoVoluntariado, Pageable pageable) {
 
         SelectConditionStep<Record> base = context
                 .select(camposListado)
@@ -71,7 +71,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
         if (cursoCovid != null) base = base.and(ASOCIADO.CURSO_COVID.eq(cursoCovid));
         if (certificadoVoluntariado != null) base = base.and(ASOCIADO.CERTIFICADO_VOLUNTARIADO.eq(certificadoVoluntariado));
 
-        if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
+        if (!Strings.isNullOrEmpty(genero)) base = base.and(ASOCIADO.GENERO.equal(genero));
         if (!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
         if (!Strings.isNullOrEmpty(orden)) base = añadirOrden(base, orden, ordenAsc);
 
@@ -91,7 +91,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     }
 
     @Override
-    public int contador(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String sexo, String nombreApellido, Boolean certificadoDelitosSexuales, Boolean cursoCovid, Boolean certificadoVoluntariado) {
+    public int contador(Asociacion asociacion, String grupoId, TipoAsociado tipo, List<String> ramas, Boolean inactivos, String genero, String nombreApellido, Boolean certificadoDelitosSexuales, Boolean cursoCovid, Boolean certificadoVoluntariado) {
 
       SelectConditionStep<Record> base = context
               .select(camposListado)
@@ -110,7 +110,7 @@ public class AsociadoStorageImpl implements AsociadoStorage {
       if (cursoCovid != null) base = base.and(ASOCIADO.CURSO_COVID.eq(cursoCovid));
       if (certificadoVoluntariado != null) base = base.and(ASOCIADO.CERTIFICADO_VOLUNTARIADO.eq(certificadoVoluntariado));
 
-      if (!Strings.isNullOrEmpty(sexo)) base = base.and(ASOCIADO.SEXO.equal(sexo));
+      if (!Strings.isNullOrEmpty(genero)) base = base.and(ASOCIADO.GENERO.equal(genero));
       if (!Strings.isNullOrEmpty(nombreApellido)) base = base.and(this.construyeFiltroNombre(nombreApellido));
 
       return base.fetchArrays().length;

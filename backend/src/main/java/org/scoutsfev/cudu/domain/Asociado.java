@@ -68,7 +68,7 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean certificadoVoluntariado = false;
 
-    private Sexo sexo;
+    private Genero genero;
 
     @Email
     @Size(max = 100)
@@ -233,12 +233,12 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
         this.certificadoVoluntariado = certificadoVoluntariado;
     }
 
-    public Sexo getSexo() {
-        return sexo;
+    public Genero getGenero() {
+        return genero;
     }
 
-    public void setSexo(Sexo sexo) {
-        this.sexo = sexo;
+    public void setGenero(Genero genero) {
+        this.genero = genero;
     }
 
     public String getEmailContacto() {
