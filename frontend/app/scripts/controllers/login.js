@@ -115,7 +115,7 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
     if ($scope.captchaVisible) {
       grecaptcha.reset();
     } else {
-      grecaptcha.render("recaptcha", {"sitekey": "6Le9PoEdAAAAAPzYfluVHwzcgaJ6JcgE7HSr-icw", "theme": "light"});
+      grecaptcha.render("recaptcha", {"sitekey": "6Lev6P8SAAAAAJOf3EeaZg3CclR-MUmLRL-ghRch", "theme": "light"});
     }
     $scope.captchaVisible = true;
   };

@@ -68,7 +68,7 @@ class Generador {
     def asociado(grupoId, tipoAsociado, usuarioActivo, email = null, ambitoEdicion = null) {
         Person person = fairy.person();
         def ambito = ambitoEdicion ?: (tipoAsociado == 'J' ? 'P' : 'G');
-        def genero = person.female ? 'F' : 'M';
+        def sexo = person.female ? 'F' : 'M';
         def datos = [
                 grupo_id: grupoId,
                 activo: true,
@@ -80,7 +80,7 @@ class Generador {
                 apellidos: person.lastName(),
                 tipo: tipoAsociado,
                 ambito_edicion: ambito,
-                genero: genero,
+                sexo: sexo,
                 direccion: person.address.street(),
                 fecha_nacimiento: new Timestamp(person.dateOfBirth().getMillis())
         ]

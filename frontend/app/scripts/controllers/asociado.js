@@ -264,8 +264,8 @@ angular.module('cuduApp')
       }
     };
 
-    $scope.establecerGenero = function(genero) {
-      $scope.asociado.genero = genero;
+    $scope.establecerSexo = function(sexo) {
+      $scope.asociado.sexo = sexo;
       $scope.formAsociado.$setDirty();
     };
 
