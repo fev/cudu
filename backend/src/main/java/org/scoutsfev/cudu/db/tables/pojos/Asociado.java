@@ -31,7 +31,7 @@ public class Asociado implements Serializable {
 	private final String    grupoId;
 	private final String    nombre;
 	private final String    apellidos;
-	private final String    sexo;
+	private final String    genero;
 	private final Date      fechaNacimiento;
 	private final String    dni;
 	private final String    seguridadSocial;
@@ -90,7 +90,7 @@ public class Asociado implements Serializable {
 		this.grupoId = value.grupoId;
 		this.nombre = value.nombre;
 		this.apellidos = value.apellidos;
-		this.sexo = value.sexo;
+		this.genero = value.genero;
 		this.fechaNacimiento = value.fechaNacimiento;
 		this.dni = value.dni;
 		this.seguridadSocial = value.seguridadSocial;
@@ -150,7 +150,7 @@ public class Asociado implements Serializable {
 		String    grupoId,
 		String    nombre,
 		String    apellidos,
-		String    sexo,
+		String    genero,
 		Date      fechaNacimiento,
 		String    dni,
 		String    seguridadSocial,
@@ -208,7 +208,7 @@ public class Asociado implements Serializable {
 		this.grupoId = grupoId;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
-		this.sexo = sexo;
+		this.genero = genero;
 		this.fechaNacimiento = fechaNacimiento;
 		this.dni = dni;
 		this.seguridadSocial = seguridadSocial;
@@ -282,8 +282,8 @@ public class Asociado implements Serializable {
 		return this.apellidos;
 	}
 
-	public String getSexo() {
-		return this.sexo;
+	public String getGenero() {
+		return this.genero;
 	}
 
 	public Date getFechaNacimiento() {

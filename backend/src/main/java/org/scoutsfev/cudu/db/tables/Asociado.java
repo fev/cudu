@@ -77,9 +77,9 @@ public class Asociado extends TableImpl<AsociadoRecord> {
 	public final TableField<AsociadoRecord, String> APELLIDOS = createField("apellidos", org.jooq.impl.SQLDataType.VARCHAR.length(100).nullable(false), this, "");
 
 	/**
-	 * The column <code>public.asociado.sexo</code>.
+	 * The column <code>public.asociado.genero</code>.
 	 */
-	public final TableField<AsociadoRecord, String> SEXO = createField("sexo", org.jooq.impl.SQLDataType.CHAR.length(1), this, "");
+	public final TableField<AsociadoRecord, String> GENERO = createField("genero", org.jooq.impl.SQLDataType.CHAR.length(1), this, "");
 
 	/**
 	 * The column <code>public.asociado.fecha_nacimiento</code>.
