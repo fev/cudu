@@ -6,3 +6,4 @@ app/.tmp
 app/styles/cudu.css
 app/views_i18n
 .sass-cache
+app/scripts/controllers/login.js
