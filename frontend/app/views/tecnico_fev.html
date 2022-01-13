@@ -2,165 +2,164 @@
     <div class="container contenedor-central" infinite-scroll="obternerAsociados()">
         <div class="row">
             <div id="listado-asociados">
-            <div class="panel panel-default">
-                <!-- Default panel contents -->
-                <div class="panel-heading mat-toolbar">
-                    <h4 style="display: inline-block">Búsqueda Avanzada</h4>
-                    <button type="button" class="btn btn-default btn-sm text-uppercase pull-right" ng-click="limpiarFiltros()">
-                      <%= tecnico.limpiarFiltros %>
-                    </button>
-                </div>
-                <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-6 separador-dcho">
-                    <div class="row padded">                       
-                        <label>Tipo</label>
-                        <div class="btn-group btn-group-sm">
-                        <a id="Joven" href="javascript:" ng-click="activar('Joven')" ng-class="{'active': filtroAsociadoTipo.isActivo('Joven')}" class="btn">Joven</a>
-                        <a id="Kraal" href="javascript:" ng-click="activar('Kraal')" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
-                        <a id="Comite" href="javascript:" ng-click="activar('Comite')" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
-                        </div>    
-                    </div>
-                    <div class="row padded">
-                        <label>Género</label>
-                        <div class="btn-group btn-group-sm">
-                        <a id="M" href="javascript:" ng-click="filtraPorGenero('M')" ng-class="{'active': filtro.genero === 'M'}" class="btn">Masculino</a>
-                        <a id="F" href="javascript:" ng-click="filtraPorGenero('F')" ng-class="{'active': filtro.genero === 'F'}" class="btn">Femenino</a>
-                        <a id="N" href="javascript:" ng-click="filtraPorGenero('N')" ng-class="{'active': filtro.genero === 'N'}" class="btn">No Binario</a>
-                        </div>                            
-                    </div>
-                    <div class="row padded">
-                        <label>Rama</label>
-                        <div class="btn-group btn-group-sm">
-                        <a id="colonia" href="javascript:" ng-click="filtraRama('colonia')" ng-class="{'active': esRama('colonia')}" class="btn">Colonia</a>
-                        <a id="manada" href="javascript:" ng-click="filtraRama('manada')" ng-class="{'active': esRama('manada')}" class="btn">Manada</a>
-                        <a id="exploradores" href="javascript:" ng-click="filtraRama('exploradores')" ng-class="{'active': esRama('exploradores')}" class="btn">Explorador</a>
-                        <a id="expedicion" href="javascript:" ng-click="filtraRama('expedicion')" ng-class="{'active': esRama('expedicion')}" class="btn">Expedicion</a>
-                        <a id="ruta" href="javascript:" ng-click="filtraRama('ruta')" ng-class="{'active': esRama('ruta')}" class="btn">Ruta</a>
+              <div class="panel panel-default">
+                  <!-- Default panel contents -->
+                  <div class="panel-heading mat-toolbar">
+                      <h4 style="display: inline-block">Búsqueda Avanzada</h4>
+                      <button type="button" class="btn btn-default btn-sm text-uppercase pull-right" ng-click="limpiarFiltros()">
+                        <%= tecnico.limpiarFiltros %>
+                      </button>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 separador-dcho">
+                        <div class="row padded">
+                            <label>Tipo</label>
+                            <div class="btn-group btn-group-sm">
+                            <a id="Joven" href="javascript:" ng-click="activar('Joven')" ng-class="{'active': filtroAsociadoTipo.isActivo('Joven')}" class="btn">Joven</a>
+                            <a id="Kraal" href="javascript:" ng-click="activar('Kraal')" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
+                            <a id="Comite" href="javascript:" ng-click="activar('Comite')" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row padded">
-                      <label><%=asociado.certificadoDelitosSexuales2%></label>
-                      <div class="btn-group btn-group-sm">
-                        <a id="siCertificadoDelitosSexuales" href="javascript:" ng-click="filtraPorCertificadoDelitosSexuales('true')" ng-class="{active: filtro.certificadoDelitosSexuales === true}" class="btn">Sí</a>
-                        <a id="noCertificadoDelitosSexuales" href="javascript:" ng-click="filtraPorCertificadoDelitosSexuales('false')" ng-class="{active: filtro.certificadoDelitosSexuales === false}" class="btn">No</a>
-                      </div>
-                    </div>
+                        <div class="row padded">
+                            <label>Género</label>
+                            <div class="btn-group btn-group-sm">
+                            <a id="M" href="javascript:" ng-click="filtraPorGenero('M')" ng-class="{'active': filtro.genero === 'M'}" class="btn">Masculino</a>
+                            <a id="F" href="javascript:" ng-click="filtraPorGenero('F')" ng-class="{'active': filtro.genero === 'F'}" class="btn">Femenino</a>
+                            <a id="N" href="javascript:" ng-click="filtraPorGenero('N')" ng-class="{'active': filtro.genero === 'N'}" class="btn">No Binario</a>
+                            </div>
+                        </div>
+                        <div class="row padded">
+                            <label>Rama</label>
+                            <div class="btn-group btn-group-sm">
+                            <a id="colonia" href="javascript:" ng-click="filtraRama('colonia')" ng-class="{'active': esRama('colonia')}" class="btn">Colonia</a>
+                            <a id="manada" href="javascript:" ng-click="filtraRama('manada')" ng-class="{'active': esRama('manada')}" class="btn">Manada</a>
+                            <a id="exploradores" href="javascript:" ng-click="filtraRama('exploradores')" ng-class="{'active': esRama('exploradores')}" class="btn">Explorador</a>
+                            <a id="expedicion" href="javascript:" ng-click="filtraRama('expedicion')" ng-class="{'active': esRama('expedicion')}" class="btn">Expedicion</a>
+                            <a id="ruta" href="javascript:" ng-click="filtraRama('ruta')" ng-class="{'active': esRama('ruta')}" class="btn">Ruta</a>
+                            </div>
+                        </div>
+                        <div class="row padded">
+                          <label><%=asociado.certificadoDelitosSexuales2%></label>
+                          <div class="btn-group btn-group-sm">
+                            <a id="siCertificadoDelitosSexuales" href="javascript:" ng-click="filtraPorCertificadoDelitosSexuales('true')" ng-class="{active: filtro.certificadoDelitosSexuales === true}" class="btn">Sí</a>
+                            <a id="noCertificadoDelitosSexuales" href="javascript:" ng-click="filtraPorCertificadoDelitosSexuales('false')" ng-class="{active: filtro.certificadoDelitosSexuales === false}" class="btn">No</a>
+                          </div>
+                        </div>
 
-                    <div class="row padded">
-                      <label><%=asociado.certificadoVoluntariado2%></label>
-                      <div class="btn-group btn-group-sm">
-                        <a id="siCertificadoVoluntariado" href="javascript:" ng-click="filtraPorCertificadoVoluntariado('true')" ng-class="{active: filtro.certificadoVoluntariado === true}" class="btn">Sí</a>
-                        <a id="noCertificadoVoluntariado" href="javascript:" ng-click="filtraPorCertificadoVoluntariado('false')" ng-class="{active: filtro.certificadoVoluntariado === false}" class="btn">No</a>
-                      </div>
-                    </div>
+                        <div class="row padded">
+                          <label><%=asociado.certificadoVoluntariado2%></label>
+                          <div class="btn-group btn-group-sm">
+                            <a id="siCertificadoVoluntariado" href="javascript:" ng-click="filtraPorCertificadoVoluntariado('true')" ng-class="{active: filtro.certificadoVoluntariado === true}" class="btn">Sí</a>
+                            <a id="noCertificadoVoluntariado" href="javascript:" ng-click="filtraPorCertificadoVoluntariado('false')" ng-class="{active: filtro.certificadoVoluntariado === false}" class="btn">No</a>
+                          </div>
+                        </div>
 
-                    <div class="row padded">
-                        <label><%=asociado.cursoProteccionInfancia2%></label>
-                        <div class="btn-group btn-group-sm">
-                          <a id="siCursoProteccionInfancia" href="javascript:" ng-click="filtraPorCursoProteccionInfancia('true')" ng-class="{active: filtro.cursoProteccionInfancia === true}" class="btn">Sí</a>
-                          <a id="noCursoProteccionInfancia" href="javascript:" ng-click="filtraPorCursoProteccionInfancia('false')" ng-class="{active: filtro.cursoProteccionInfancia === false}" class="btn">No</a>
-                        </div>
-                      </div>
+                        <div class="row padded">
+                            <label><%=asociado.cursoProteccionInfancia2%></label>
+                            <div class="btn-group btn-group-sm">
+                              <a id="siCursoProteccionInfancia" href="javascript:" ng-click="filtraPorCursoProteccionInfancia('true')" ng-class="{active: filtro.cursoProteccionInfancia === true}" class="btn">Sí</a>
+                              <a id="noCursoProteccionInfancia" href="javascript:" ng-click="filtraPorCursoProteccionInfancia('false')" ng-class="{active: filtro.cursoProteccionInfancia === false}" class="btn">No</a>
+                            </div>
+                          </div>
 
-                    <div class="row padded">
-                        <div class="input-group">
-                        <input ng-model="busqueda" id="filtroNombre" type="text" cudu-enter="filtraPorNombre()" class="form-control input-sm" placeholder="Búsqueda por Nombre o Apellidos">
-                        <span class="input-group-btn">
-                            <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover" type="button" tooltip="Limpiar búsqueda y mostrar todos">
-                            <span class="glyphicon glyphicon-remove"></span>
-                            </button>
-                        </span>
+                        <div class="row padded">
+                            <div class="input-group">
+                            <input ng-model="busqueda" id="filtroNombre" type="text" cudu-enter="filtraPorNombre()" class="form-control input-sm" placeholder="Búsqueda por Nombre o Apellidos">
+                            <span class="input-group-btn">
+                                <button ng-click="limpiarFiltro()" class="btn btn-default btn-danger-hover" type="button" tooltip="Limpiar búsqueda y mostrar todos">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            </span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="row padded">
+                              <label>Asociación</label>
+                              <div class="btn-group btn-group-sm">
+                                <a id="SdC" href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdC')" ng-class="{'active': filtro.asociacion === 'SdC'}" class="btn">SdC</a>
+                                <a id="SdA" href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdA')" ng-class="{'active': filtro.asociacion === 'SdA'}" class="btn">SdA</a>
+                                <a id="MEV" href="javascript:" ng-click="filtraPropiedad('asociacion', 'MEV')" ng-class="{'active': filtro.asociacion === 'MEV'}" class="btn">MEV</a>
+                                <a id="Voluntario" href="javascript:" ng-click="activar('Voluntario')" ng-class="{'active': filtroAsociadoTipo.isActivo('Voluntario')}" class="btn">Voluntarios</a>
+                              </div>
+                          </div>
+                          <div class="row padded">
+                              <label>Grupo</label>
+                              <div class="btn-group btn-group-sm">
+                                <button id="filtroGrupo" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    {{grupoSeleccionado.nombre}}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li ng-repeat="grupo in grupos">
+                                        <a href="javascript:" ng-click="filtraGrupo(grupo.id)">{{grupo.nombre}}</a>
+                                    </li>
+                                </ul>
+                              </div>
+                              <div id="verGrupo" ng-show="grupoSeleccionado.id !== -1" class="btn-group">
+                                <a href="javascript:" ng-click="verGrupo()" class="">
+                                    <span class="glyphicon glyphicon-user"></span> Ver Grupo
+                                </a>
+                              </div>
+                          </div>
+                          <div class="row padded has-warning">
+                              <div class="checkbox">
+                              <label>
+                                  <input id="inactivos" type="checkbox" ng-click="mostrarInactivos()"> Mostrar Inactivos
+                              </label>
+                              </div>
+                          </div>
                         </div>
                     </div>
-                    </div>
-                    <div class="col-md-6">
-                    <div class="row padded">
-                        <label>Asociación</label>
-                        <div class="btn-group btn-group-sm">
-                        <a id="SdC" href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdC')" ng-class="{'active': filtro.asociacion === 'SdC'}" class="btn">SdC</a>
-                        <a id="SdA" href="javascript:" ng-click="filtraPropiedad('asociacion', 'SdA')" ng-class="{'active': filtro.asociacion === 'SdA'}" class="btn">SdA</a>
-                        <a id="MEV" href="javascript:" ng-click="filtraPropiedad('asociacion', 'MEV')" ng-class="{'active': filtro.asociacion === 'MEV'}" class="btn">MEV</a>
-                        <a id="Voluntario" href="javascript:" ng-click="activar('Voluntario')" ng-class="{'active': filtroAsociadoTipo.isActivo('Voluntario')}" class="btn">Voluntarios</a>
-                        </div>
-                    </div>
-                    <div class="row padded">
-                        <label>Grupo</label>
-                        <div class="btn-group btn-group-sm">
-                        <button id="filtroGrupo" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                            {{grupoSeleccionado.nombre}}
+                  </div>
+                  <table class="table table-hover ">
+                    <thead>
+                        <tr>
+                        <th id="grupo" width="10%" ng-click="ordenar('grupo')" ng-class="{'dropup': grupoAsc}">
+                            Grupo
                             <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li ng-repeat="grupo in grupos">
-                                <a href="javascript:" ng-click="filtraGrupo(grupo.id)">{{grupo.nombre}}</a>
-                            </li>
-                        </ul>
-                        </div>
-                        <div id="verGrupo" ng-show="grupoSeleccionado.id !== -1" class="btn-group">
-                        <a href="javascript:" ng-click="verGrupo()" class="">
-                            <span class="glyphicon glyphicon-user"></span> Ver Grupo
-                        </a>
-                        </div>
-                    </div>
-
-                    <div class="row padded has-warning">
-                        <div class="checkbox">
-                        <label>
-                            <input id="inactivos" type="checkbox" ng-click="mostrarInactivos()"> Mostrar Inactivos
-                        </label>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <table class="table table-hover ">
-                <thead>
-                    <tr>
-                    <th id="grupo" width="10%" ng-click="ordenar('grupo')" ng-class="{'dropup': grupoAsc}">
-                        Grupo
-                        <span class="caret"></span>
-                    </th>
-                    <th width="5%">Id</th>
-                    <th id="nombre" width="10%" ng-click="ordenar('nombre')" ng-class="{'dropup': nombreAsc}">
-                        Nombre
-                        <span class="caret"></span>
-                    </th>
-                    <th id="apellidos" width="10%" ng-click="ordenar('apellidos')" ng-class="{'dropup': apellidosAsc}">
-                        Apellidos
-                        <span class="caret"></span>
-                    </th>
-                    <th id="tipo" width="10%" ng-click="ordenar('tipo')" ng-class="{'dropup': tipoAsc}">
-                        Tipo
-                        <span class="caret"></span>
-                    </th>
-                    <th width="10%">
-                        Rama
-                    </th>
-                    <th width="10%">Email</th>
-                    <th width="5%">Teléfono</th>
-                    <th width="15%">Creado</th>
-                    <th width="15%">Actualizado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="a in asociados"  ng-class="{'active': !a.activo}" ng-click="verAsociado(a.id)">
-                    <td>{{a.grupoNombre}}</td>
-                    <td>{{a.id}}</td>
-                    <td>{{a.nombre}}</td>
-                    <td>{{a.apellidos}}</td>
-                    <td>{{a.tipo}}</td>
-                    <td>{{a.rama}}</td>
-                    <td>{{a.email}}</td>
-                    <td>{{a.telefono}}</td>
-                    <td>{{a.creado | timeStamp}}</td>
-                    <td>{{a.actualizado | timeStamp}}</td>
-                    </tr>
-                </tbody>
-                </table>
-                <div class="panel-footer">
-                </div>
-            </div>
+                        </th>
+                        <th width="5%">Id</th>
+                        <th id="nombre" width="10%" ng-click="ordenar('nombre')" ng-class="{'dropup': nombreAsc}">
+                            Nombre
+                            <span class="caret"></span>
+                        </th>
+                        <th id="apellidos" width="10%" ng-click="ordenar('apellidos')" ng-class="{'dropup': apellidosAsc}">
+                            Apellidos
+                            <span class="caret"></span>
+                        </th>
+                        <th id="tipo" width="10%" ng-click="ordenar('tipo')" ng-class="{'dropup': tipoAsc}">
+                            Tipo
+                            <span class="caret"></span>
+                        </th>
+                        <th width="10%">
+                            Rama
+                        </th>
+                        <th width="10%">Email</th>
+                        <th width="5%">Teléfono</th>
+                        <th width="15%">Creado</th>
+                        <th width="15%">Actualizado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="a in asociados"  ng-class="{'active': !a.activo}" ng-click="verAsociado(a.id)">
+                          <td>{{a.grupoNombre}}</td>
+                          <td>{{a.id}}</td>
+                          <td>{{a.nombre}}</td>
+                          <td>{{a.apellidos}}</td>
+                          <td>{{a.tipo}}</td>
+                          <td>{{a.rama}}</td>
+                          <td>{{a.email}}</td>
+                          <td>{{a.telefono}}</td>
+                          <td>{{a.creado | timeStamp}}</td>
+                          <td>{{a.actualizado | timeStamp}}</td>
+                        </tr>
+                    </tbody>
+                  </table>
+                  <div class="panel-footer">
+                  </div>
+              </div>
             </div>
         </div>
     </div>
