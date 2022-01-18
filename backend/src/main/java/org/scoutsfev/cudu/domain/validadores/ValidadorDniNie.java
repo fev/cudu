@@ -30,7 +30,7 @@ public class ValidadorDniNie implements ConstraintValidator<ValidarDniNie, Asoci
 
         context.disableDefaultConstraintViolation();
 
-        if (Strings.isNullOrEmpty(asociado.getDni()))
+        if (Strings.isNullOrEmpty(asociado.getDni()) && Strings.isNullOrEmpty(asociado.getDocumentacionExtrangera()))
         {
             boolean mayorDeEdad = asociado.getFechaNacimiento().plus(18, ChronoUnit.YEARS).isBefore(LocalDate.now());
             if (mayorDeEdad) {
@@ -40,8 +40,12 @@ public class ValidadorDniNie implements ConstraintValidator<ValidarDniNie, Asoci
                 return true;
             }
         }
-
-        return validarDniNie(asociado.getDni(), context);
+        Boolean validDni = true;
+             
+        if (!Strings.isNullOrEmpty(asociado.getDni())){
+          validDni = validarDniNie(asociado.getDni(), context);
+        }
+        return validDni;
     }
 
     public static boolean validarDniNie(String value, ConstraintValidatorContext context)

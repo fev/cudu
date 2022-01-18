@@ -56,6 +56,10 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
     @Column(nullable = true)
     private String dni;
 
+    @Size(max = 20)
+    @Column(nullable = true)
+    private String documentacionExtrangera;
+
     @Size(max = 12)
     private String seguridadSocial;
 
@@ -202,6 +206,14 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
 
     public void setDni(String dni) {
         this.dni = dni;
+    }
+
+    public String getDocumentacionExtrangera() {
+        return documentacionExtrangera;
+    }
+
+    public void setDocumentacionExtrangera(String documentacionExtrangera) {
+        this.documentacionExtrangera = documentacionExtrangera;
     }
 
     public String getSeguridadSocial() {
