@@ -9,6 +9,7 @@ import org.scoutsfev.cudu.domain.AsociadoParaAutorizar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -178,12 +179,12 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     private Condition construyeFiltroNombre(String nombreApellido) {
         String[] palabras = nombreApellido.split("\\s+");
         if(palabras.length == 1) {
-            return ASOCIADO.NOMBRE.contains(nombreApellido).or(ASOCIADO.APELLIDOS.contains(nombreApellido));
+            return ASOCIADO.NOMBRE.containsIgnoreCase(nombreApellido).or(ASOCIADO.APELLIDOS.containsIgnoreCase(nombreApellido));
         } else {
             String nombre = palabras[0];
             String apellidos = nombreApellido.substring(nombreApellido.indexOf(' ') + 1);
-            return (ASOCIADO.NOMBRE.contains(nombre).and(ASOCIADO.APELLIDOS.contains(apellidos))
-            .or(ASOCIADO.NOMBRE.contains(nombreApellido)).or(ASOCIADO.APELLIDOS.contains(nombreApellido)));
+            return (ASOCIADO.NOMBRE.containsIgnoreCase(nombre).and(ASOCIADO.APELLIDOS.containsIgnoreCase(apellidos))
+            .or(ASOCIADO.NOMBRE.containsIgnoreCase(nombreApellido)).or(ASOCIADO.APELLIDOS.containsIgnoreCase(nombreApellido)));
         }
     }
 }
