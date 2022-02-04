@@ -17,8 +17,8 @@
                             <label>Tipo</label>
                             <div class="btn-group btn-group-sm">
                             <a id="Joven" href="javascript:" ng-click="activar('Joven')" ng-class="{'active': filtroAsociadoTipo.isActivo('Joven')}" class="btn">Joven</a>
-                            <a id="Kraal" href="javascript:" ng-click="activar('Kraal')" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
-                            <a id="Comite" href="javascript:" ng-click="activar('Comite')" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
+                            <a id="Kraal" href="javascript:" ng-click="activar('Kraal')" onclick="$('#filtroNoJoven').toggle();" ng-class="{'active': filtroAsociadoTipo.isActivo('Kraal')}" class="btn">Kraal</a>
+                            <a id="Comite" href="javascript:" ng-click="activar('Comite')" onclick="$('#filtroNoJoven').toggle();" ng-class="{'active': filtroAsociadoTipo.isActivo('Comite')}" class="btn">Comité</a>
                             </div>
                         </div>
                         <div class="row padded">
@@ -39,6 +39,7 @@
                             <a id="ruta" href="javascript:" ng-click="filtraRama('ruta')" ng-class="{'active': esRama('ruta')}" class="btn">Ruta</a>
                             </div>
                         </div>
+                        <div id="filtroNoJoven" style="display:none;">
                         <div class="row padded">
                           <label><%=asociado.certificadoDelitosSexuales2%></label>
                           <div class="btn-group btn-group-sm">
@@ -62,6 +63,7 @@
                               <a id="noCursoProteccionInfancia" href="javascript:" ng-click="filtraPorCursoProteccionInfancia('false')" ng-class="{active: filtro.cursoProteccionInfancia === false}" class="btn">No</a>
                             </div>
                           </div>
+                        </div>
 
                         <div class="row padded">
                             <div class="input-group">
