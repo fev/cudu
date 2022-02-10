@@ -184,6 +184,6 @@ public class AsociadoStorageImpl implements AsociadoStorage {
             String apellidos = nombreApellido.substring(nombreApellido.indexOf(' ') + 1);
             return (ASOCIADO.NOMBRE.likeIgnoreCase(nombre).and(ASOCIADO.APELLIDOS.likeIgnoreCase(apellidos))
             .or(ASOCIADO.NOMBRE.likeIgnoreCase(nombreApellido)).or(ASOCIADO.APELLIDOS.likeIgnoreCase(nombreApellido)));
-           }
+        }
     }
 }
