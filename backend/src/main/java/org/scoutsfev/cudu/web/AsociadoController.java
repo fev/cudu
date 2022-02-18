@@ -96,7 +96,7 @@ public class AsociadoController {
     @RequestMapping(value = "/tecnico/asociado", method = RequestMethod.GET)
     public ResponseEntity listadoTecnico(
             @RequestParam(required = false) Asociacion asociacion,
-            @RequestParam(required = false) String grupoId,     
+            @RequestParam(required = false) String grupoId,
             @RequestParam(required = false) TipoAsociado tipo,
             @RequestParam(required = false) String ramasSeparadasPorComas,
             @RequestParam(required = false) Boolean inactivo,
