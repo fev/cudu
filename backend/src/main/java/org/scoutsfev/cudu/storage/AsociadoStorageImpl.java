@@ -180,12 +180,12 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     private Condition construyeFiltroNombre(String nombreApellido) {
         String[] palabras = nombreApellido.split("\\s+");
         if(palabras.length == 1) {
-            return ASOCIADO.NOMBRE.contains(nombreApellido).or(ASOCIADO.APELLIDOS.contains(nombreApellido));
+            return ASOCIADO.NOMBRE.likeIgnoreCase(nombreApellido).or(ASOCIADO.APELLIDOS.likeIgnoreCase(nombreApellido));
         } else {
             String nombre = palabras[0];
             String apellidos = nombreApellido.substring(nombreApellido.indexOf(' ') + 1);
-            return (ASOCIADO.NOMBRE.contains(nombre).and(ASOCIADO.APELLIDOS.contains(apellidos))
-            .or(ASOCIADO.NOMBRE.contains(nombreApellido)).or(ASOCIADO.APELLIDOS.contains(nombreApellido)));
+            return (ASOCIADO.NOMBRE.likeIgnoreCase(nombre).and(ASOCIADO.APELLIDOS.likeIgnoreCase(apellidos))
+            .or(ASOCIADO.NOMBRE.likeIgnoreCase(nombreApellido)).or(ASOCIADO.APELLIDOS.likeIgnoreCase(nombreApellido)));
         }
     }
 }
