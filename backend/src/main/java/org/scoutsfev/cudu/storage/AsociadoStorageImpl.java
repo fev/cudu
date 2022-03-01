@@ -28,11 +28,11 @@ public class AsociadoStorageImpl implements AsociadoStorage {
     private final DSLContext context;
 
     private final static Field<String> RAMA =
-            when(ASOCIADO.RAMA_COLONIA.isTrue(), "rama.colonia")
-            .when(ASOCIADO.RAMA_MANADA.isTrue(), "rama.manada")
-            .when(ASOCIADO.RAMA_EXPLORADORES.isTrue(), "rama.exploradores")
-            .when(ASOCIADO.RAMA_EXPEDICION.isTrue(), "rama.expedicion")
-            .when(ASOCIADO.RAMA_RUTA.isTrue(), "rama.ruta")
+            when(ASOCIADO.RAMA_COLONIA.isTrue(), "colonia")
+            .when(ASOCIADO.RAMA_MANADA.isTrue(), "manada")
+            .when(ASOCIADO.RAMA_EXPLORADORES.isTrue(), "exploradores")
+            .when(ASOCIADO.RAMA_EXPEDICION.isTrue(), "expedicion")
+            .when(ASOCIADO.RAMA_RUTA.isTrue(), "ruta")
             .otherwise((String)null)
             .as("rama");
 
@@ -161,6 +161,18 @@ public class AsociadoStorageImpl implements AsociadoStorage {
                     query.orderBy(ASOCIADO.GRUPO_ID.asc());
                 else
                     query.orderBy(ASOCIADO.GRUPO_ID.desc());
+                break;
+                case "id":
+                if(ordenAsc)
+                    query.orderBy(ASOCIADO.ID.asc());
+                else
+                    query.orderBy(ASOCIADO.ID.desc());
+                break;
+                case "rama":
+                if(ordenAsc)
+                    query.orderBy(RAMA.asc());
+                else
+                    query.orderBy(RAMA.desc());
                 break;
         }
 
