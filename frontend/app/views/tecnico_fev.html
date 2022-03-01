@@ -122,12 +122,15 @@
                             Grupo
                             <span class="caret"></span>
                         </th>
-                        <th width="5%">Id</th>
+                        <th id="id" width="10%" ng-click="ordenar('id')" ng-class="{'dropup': idAsc}">
+                            Id
+                            <span class="caret"></span> 
+                        </th>
                         <th id="nombre" width="10%" ng-click="ordenar('nombre')" ng-class="{'dropup': nombreAsc}">
                             Nombre
                             <span class="caret"></span>
                         </th>
-                        <th id="apellidos" width="10%" ng-click="ordenar('apellidos')" ng-class="{'dropup': apellidosAsc}">
+                        <th id="apellidos" width="15%" ng-click="ordenar('apellidos')" ng-class="{'dropup': apellidosAsc}">
                             Apellidos
                             <span class="caret"></span>
                         </th>

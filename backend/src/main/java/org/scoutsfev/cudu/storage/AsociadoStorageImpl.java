@@ -162,13 +162,13 @@ public class AsociadoStorageImpl implements AsociadoStorage {
                 else
                     query.orderBy(ASOCIADO.GRUPO_ID.desc());
                 break;
-                case "id":
+            case "id":
                 if(ordenAsc)
                     query.orderBy(ASOCIADO.ID.asc());
                 else
                     query.orderBy(ASOCIADO.ID.desc());
                 break;
-                case "rama":
+            case "rama":
                 if(ordenAsc)
                     query.orderBy(RAMA.asc());
                 else

@@ -348,7 +348,8 @@ angular.module('cuduApp')
         { key: 'nombre', value: 'nombreAsc'},
         { key: 'apellidos', value: 'apellidosAsc'},
         { key: 'tipo', value: 'tipoAsc'},
-        { key: 'rama', value: 'ramaAsc'}
+        { key: 'rama', value: 'ramaAsc'},
+        { key: 'id', value: 'idAsc'}
     ];
 
     $scope.ordenar = function(columna) {
