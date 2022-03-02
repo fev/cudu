@@ -199,7 +199,7 @@ angular.module('cuduApp')
 
     $scope.desactivarGenero = function() {
         var me = this;
-        me.filtro.genero = null;
+        me.filtro.genero = "";
     };
 
     $scope.desactivarCertificadoDelitosSexuales = function() {
