@@ -577,13 +577,18 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-3 control-label"><%=asociado.titulacion%></label>
+              <label class="col-md-3 control-label"><%=formacion.titulacion%></label>
               <div class="col-md-9">
-                <div class="checkbox"><label><input type="checkbox" value=""><%=asociado.monitorDeTiempoLibre%></label></div>
-                <div class="checkbox"><label><input type="checkbox" value=""><%=asociado.directorDeCampamento%></label></div>
-                <div class="checkbox"><label><input type="checkbox" value=""><%=asociado.formadorDeAnimadores%></label></div>
-                <div class="checkbox"><label><input type="checkbox" value=""><%=asociado.manipuladorDeAlimentos%></label></div>
-              </div>
+                <div class="checkbox"><label><input type="checkbox" value=""><%=formacion.monitorDeTiempoLibre%></label></div>
+                <div class="checkbox"><label><input type="checkbox" value=""><%=formacion.directorDeCampamento%></label></div>
+                <div class="checkbox"><label><input type="checkbox" value=""><%=formacion.formadorDeAnimadores%></label></div>
+                <div class="checkbox"><label><input type="checkbox" value=""><%=formacion.manipuladorDeAlimentos%></label></div>
+                <label class="col-md-3 control-label"><%=formacion.fechaInicio%></label>
+                <input type="date" class="form-control" placeholder="<%=formacion.fechaInicio%> (dd/mm/aaaa)">
+                <label class="col-md-3 control-label"><%=formacion.fechaFinal%></label>
+                <input type="date" class="form-control" placeholder="<%=formacion.fechaFinal%> (dd/mm/aaaa)">
+
+               </div>
             </div>
           </div>
           <div class="col-md-6" style="margin-top: 7px">
