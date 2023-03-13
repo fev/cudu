@@ -18,6 +18,9 @@ if (options.h) {
 	return
 }
 
+@GrabConfig(systemClassLoader=true)
+//@Grab(group='org.postgresql', module='postgresql', version='9.4-1202-jdbc42')
+@Grab(group='org.postgresql', module='postgresql', version='42.2.8')
 @Grab(group='org.slf4j', module='slf4j-simple', version='1.7.7')
 @Grab(group='io.codearte.jfairy', module='jfairy', version='0.5.0')
 import io.codearte.jfairy.Fairy
@@ -28,7 +31,7 @@ import io.codearte.jfairy.producer.company.Company
 //Fairy fairy = Fairy.create(Locale.forLanguageTag("es"));
 Fairy fairy = Fairy.create();
 
-String jdbcUrl = "jdbc:postgresql://localhost:5432/${options.d}"
+String jdbcUrl = "jdbc:postgresql://cudu-db-sc.local.jamgo.org:5432/${options.d}"
 username = options.u ?: username
 String password = options.p ?: "wackamole3"
 
@@ -61,7 +64,16 @@ class Generador {
     String grupo(String grupoId = null) {
         String codigo = grupoId ?: fairy.textProducer().randomString(3).toUpperCase()
         Company company = fairy.company();
-        insert("grupo", [id: codigo, nombre: company.name(), codigo_postal: 46015, municipio: "Valencia", asociacion: 0])
+        insert("grupo", [
+                id: codigo,
+                nombre: company.name(),
+                codigo_postal: 46015,
+                municipio: "Valencia",
+                asociacion: 0,
+                direccion: '',
+                email: '',
+                telefono1: ''
+        ])
         return codigo
     }
 

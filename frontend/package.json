@@ -27,6 +27,7 @@
     "yargs": "^1.3.2"
   },
   "scripts": {
+    "start": "node devserver.js",
     "traducir-watch": "fswatch -0 -or app/views | xargs -0 -n 1 node traducir.js",
     "postinstall": "node -e \"try { require('fs').symlinkSync(require('path').resolve('node_modules/@bower_components'), 'app/lib', 'junction') } catch (e) { }\""
   },
