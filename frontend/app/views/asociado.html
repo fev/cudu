@@ -129,7 +129,7 @@
               <li><div class="btn-group btn-group-sm">
                 <a id="siCertificadoDelitosSexuales" href="javascript:" ng-click="activarFiltro('certificadoDelitosSexuales', 'true', 'nada')" ng-class="{active: filtro.certificadoDelitosSexuales === 'true'}" class="btn btn-orange">Sí</a>
                 <a id="noCertificadoDelitosSexuales" href="javascript:" ng-click="activarFiltro('certificadoDelitosSexuales', 'false', 'nada')" ng-class="{active: filtro.certificadoDelitosSexuales === 'false'}" class="btn btn-orange">No</a>
-              </div></li>              
+              </div></li>
               <li><a>&bull; <%= asociado.certificadoVoluntariado %></a></li>
               <li><div class="btn-group btn-group-sm">
                 <a id="siCertificadoVoluntariado" href="javascript:" ng-click="activarFiltro('certificadoVoluntariado', 'true', 'nada')" ng-class="{active: filtro.certificadoVoluntariado === 'true'}" class="btn btn-orange">Sí</a>
@@ -149,7 +149,7 @@
     <div class="lista" ng-class="{'ver-rama': columnas.rama, 'ver-contacto': columnas.contacto, 'ver-direccion': columnas.direccion}">
       <div class="elemento"
         ng-class="{'cambiosPendientes': a.cambiosPendientes, 'guardado': a.guardado, 'marcado': a.marcado, seleccionado: a.seleccionado, eliminado: !a.activo}"
-        ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:orden track by a.id"
+        ng-repeat="a in asociados | filter:ignoreAccents | filter:ignoreAccents | orderBy:orden track by a.id"
         ng-click="editar(a.id)">
         <div class="selector" ng-click="marcar(a, $event)">
           <i class="fa fa-check-square"></i>

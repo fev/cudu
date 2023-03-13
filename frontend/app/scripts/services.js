@@ -53,7 +53,7 @@ cuduServices.factory('Actividad', ['$resource',
     });
   }]);
 
-  cuduServices.factory('Ficha', ['$http',
+cuduServices.factory('Ficha', ['$http',
   function($http) {
     return {
       queryAll : function(tipo, onSuccess, onError) {

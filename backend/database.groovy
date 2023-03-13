@@ -24,7 +24,8 @@ import groovy.sql.*
 import groovy.transform.*
 
 @GrabConfig(systemClassLoader=true)
-@Grab(group='org.postgresql', module='postgresql', version='9.4-1202-jdbc42')
+//@Grab(group='org.postgresql', module='postgresql', version='9.4-1202-jdbc42')
+@Grab(group='org.postgresql', module='postgresql', version='42.2.8')
 @Grab(group='org.flywaydb', module='flyway-core', version='3.2.1')
 import org.flywaydb.core.Flyway;
 
@@ -75,10 +76,10 @@ if (options.j) {
 class Database {
   String name
   int port = 5432
-  String server = "localhost"
+  String server = "cudu-db-sc.local.jamgo.org"
   String user
   String password
-  String jdbc = "jdbc:postgresql://${server}:${port}/${name}"
+  String jdbc = "jdbc:postgresql://${server}:${port}/${name}?currentSchema=public"
   String jdbcMaster = "jdbc:postgresql://${server}:${port}/postgres"
 
   @Memoized
