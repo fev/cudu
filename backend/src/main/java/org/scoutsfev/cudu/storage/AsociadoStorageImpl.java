@@ -189,15 +189,19 @@ public class AsociadoStorageImpl implements AsociadoStorage {
             .fetchAnyInto(AsociadoParaAutorizar.class);
     }
 
-    private Condition construyeFiltroNombre(String nombreApellido) {
+    private String construyeFiltroNombre(String nombreApellido) {
         String[] palabras = nombreApellido.split("\\s+");
         if(palabras.length == 1) {
-            return ASOCIADO.NOMBRE.likeIgnoreCase(nombreApellido).or(ASOCIADO.APELLIDOS.likeIgnoreCase(nombreApellido));
-        } else {
+            return "unaccent(asociado.nombre) ilike unaccent('%"+ nombreApellido +"%') or unaccent(asociado.apellidos) ilike unaccent('%"+nombreApellido+"%')";
+        }
+        else {
             String nombre = palabras[0];
             String apellidos = nombreApellido.substring(nombreApellido.indexOf(' ') + 1);
-            return (ASOCIADO.NOMBRE.likeIgnoreCase(nombre).and(ASOCIADO.APELLIDOS.likeIgnoreCase(apellidos))
-            .or(ASOCIADO.NOMBRE.likeIgnoreCase(nombreApellido)).or(ASOCIADO.APELLIDOS.likeIgnoreCase(nombreApellido)));
+            return "unaccent(asociado.nombre) ilike unaccent('%"+ nombre +"%') and unaccent(asociado.apellidos) " +
+                    "ilike unaccent('%"+apellidos+"%') OR unaccent(asociado.nombre) ilike unaccent('%"+ nombreApellido +"%') " +
+                    "or unaccent(asociado.apellidos) ilike unaccent('%"+nombreApellido+"%')";
+
         }
     }
+
 }

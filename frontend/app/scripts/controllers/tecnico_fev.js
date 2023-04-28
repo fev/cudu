@@ -9,10 +9,11 @@ angular.module('cuduApp')
   	if($scope.asociados.list.length === 0) {
       $scope.asociados.total = Asociado.query();
     }
-    
+
   	$scope.asociado = {};
     $scope.inactivos = false;
-    $q.when($scope.asociados.total.$promise).then(function () {
+      $scope.busqueda = '';
+      $q.when($scope.asociados.total.$promise).then(function () {
       filtraAsociados($scope.inactivos);
       // if(typeof($routeParams.id) !== 'undefined')
       //   $scope.asociado = $filter('byId')($scope.asociados.list, $routeParams.id);
@@ -25,7 +26,7 @@ angular.module('cuduApp')
         asociados = _.filter(asociados, function (a) { return a.activo; });
       }
 
-      $scope.asociados.list = asociados.slice(0, 10); 
+      $scope.asociados.list = asociados.slice(0, 10);
     };
 
     $scope.mostrarInactivos = function () {

@@ -16,7 +16,7 @@ angular.module('cuduApp')
             inactivo: false,
             orden: '',
             ordenAsc: false,
-            certificadoDelitosSexuales: null,            
+            certificadoDelitosSexuales: null,
             certificadoVoluntariado: null,
             cursoProteccionInfancia: null
          };
@@ -110,7 +110,9 @@ angular.module('cuduApp')
 
         me.scroll.isBusy = true;
         AsociadoTecnico.listado(me.scroll.pagina, me.filtro).success(function(data) {
+            console.log(data);
             var asociados = _.map(data.datos, function(a) { return me.bindAsociado(a, data.campos); });
+            console.log(asociados);
             if(me.scroll.pagina === 0) {
                 me.scroll.limite = data.total;
             }
@@ -164,7 +166,7 @@ angular.module('cuduApp')
         }
         me.filtraAsociados();
     };
-    
+
     $scope.filtraPorCertificadoVoluntariado = function(certificadoVoluntariado) {
         var me = this;
         var isTrueSet =null;

@@ -124,7 +124,7 @@
                         </th>
                         <th id="id" width="10%" ng-click="ordenar('id')" ng-class="{'dropup': idAsc}">
                             Id
-                            <span class="caret"></span> 
+                            <span class="caret"></span>
                         </th>
                         <th id="nombre" width="10%" ng-click="ordenar('nombre')" ng-class="{'dropup': nombreAsc}">
                             Nombre
@@ -149,7 +149,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="a in asociados"  ng-class="{'active': !a.activo}" ng-click="verAsociado(a.id)">
+                        <tr ng-repeat="a in asociados  | filter: ignoreAccents(busqueda)"  ng-class="{'active': !a.activo}" ng-click="verAsociado(a.id)">
                           <td>{{a.grupoNombre}}</td>
                           <td>{{a.id}}</td>
                           <td>{{a.nombre}}</td>

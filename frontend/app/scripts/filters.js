@@ -36,11 +36,11 @@ filters.filter('fechaArray', function() {
   };
 });
 
-filters.filter('timeStamp', function() {
+filters.filter('timeStamp', function(Traducciones) {
   return function (n) {
     var fecha = moment(n);
     if (!fecha.isValid()) {
-      return Traducciones.text('fechaIncorrecta');
+      return Traducciones.texto('fechaIncorrecta');
     }
     return fecha.format('DD/MM/YYYY, hh:mm:ss');
   }
