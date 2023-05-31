@@ -334,7 +334,7 @@ cuduServices.factory('RutaInicial', function() { 
         //return "/permisos";
         return "/tecnico/asociados";
       }
-      return "/asociados"
+      return '/asociados';
     }
   };
 });

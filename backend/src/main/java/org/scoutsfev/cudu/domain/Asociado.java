@@ -71,9 +71,12 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
 
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean certificadoVoluntariado = false;
-   
+
     @Column(nullable = false, columnDefinition = "boolean default false")
     private Boolean cursoProteccionInfancia = false;
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private Boolean compromisoCertificadoInfancia = false;
 
     private Genero genero;
 
@@ -254,6 +257,14 @@ public class Asociado extends AsociadoAbstracto implements IPrintable {
 
     public void setCursoProteccionInfancia(Boolean cursoProteccionInfancia) {
         this.cursoProteccionInfancia = cursoProteccionInfancia;
+    }
+
+    public Boolean getCompromisoCertificadoInfancia() {
+        return compromisoCertificadoInfancia;
+    }
+
+    public void setCompromisoCertificadoInfancia(Boolean compromisoCertificadoInfancia) {
+        this.compromisoCertificadoInfancia = compromisoCertificadoInfancia;
     }
 
     public Genero getGenero() {

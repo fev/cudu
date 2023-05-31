@@ -354,6 +354,18 @@
 
                 <div class="col-md-9" >
                   <label class="form-control-static font-weight-bold">
+                    <%=asociado.compromisoCertificadoInfancia%>
+                  </label>
+                </div>
+              </div>
+
+              <div ng-if="esTecnico">
+                <p class="col-md-3 control-label" >
+                  <input type="checkbox" ng-model="asociado.compromisoCertificadoInfancia"></input>
+                </p>
+
+                <div class="col-md-9" >
+                  <label class="form-control-static font-weight-bold">
                     <%=asociado.cursoProteccionInfancia%>
                   </label>
                 </div>

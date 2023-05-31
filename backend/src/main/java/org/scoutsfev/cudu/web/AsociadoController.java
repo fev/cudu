@@ -108,6 +108,7 @@ public class AsociadoController {
             //@RequestParam(required = false) Boolean cursoCovid,
             @RequestParam(required = false) Boolean certificadoVoluntariado,
             @RequestParam(required = false) Boolean cursoProteccionInfancia,
+            @RequestParam(required = false) Boolean compromisoCertificadoInfancia,
             @AuthenticationPrincipal Usuario usuario,
             Pageable pageable) {
 
@@ -125,7 +126,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, genero, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, certificadoVoluntariado, cursoProteccionInfancia, pageable);
+        SparseTable listado = asociadoStorage.listado(asociacion, grupoId, tipo, ramas, inactivo, genero, nombreApellido, orden, ordenAsc, certificadoDelitosSexuales, certificadoVoluntariado, cursoProteccionInfancia, pageable,  compromisoCertificadoInfancia);
         return new ResponseEntity<>(listado, HttpStatus.OK);
     }
 
@@ -156,6 +157,7 @@ public class AsociadoController {
             //@RequestParam(required = false) Boolean cursoCovid,
             @RequestParam(required = false) Boolean certificadoVoluntariado,
             @RequestParam(required = false) Boolean cursoProteccionInfancia,
+            @RequestParam(required = false) Boolean compromisoCertificadoInfancia,
             @AuthenticationPrincipal Usuario usuario
             ) {
 
@@ -173,7 +175,7 @@ public class AsociadoController {
             ramas = Lists.newArrayList(Splitter.on(',').trimResults().omitEmptyStrings().split(ramasSeparadasPorComas));
         }
 
-        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, genero, nombreApellido, certificadoDelitosSexuales, certificadoVoluntariado, cursoProteccionInfancia);
+        int contador = asociadoStorage.contador(asociacion, grupoId, tipo, ramas, inactivo, genero, nombreApellido, certificadoDelitosSexuales, certificadoVoluntariado, cursoProteccionInfancia, compromisoCertificadoInfancia);
         return new ResponseEntity<>(contador, HttpStatus.OK);
     }
 
@@ -225,10 +227,10 @@ public class AsociadoController {
         asociado.setGrupoId(usuario.getGrupo().getId());
         if (!authorizationService.esTecnico(usuario)){
           asociado.setCertificadoDelitosSexuales(false);
-          //asociado.setCursoCovid(false);          
+          //asociado.setCursoCovid(false);
           asociado.setCertificadoVoluntariado(false);
-          asociado.setCursoProteccionInfancia(false);          
-
+          asociado.setCursoProteccionInfancia(false);
+          asociado.setCompromisoCertificadoInfancia(false);
         }
         descartarCacheGraficas(asociado.getGrupoId());
         return asociadoRepository.save(asociado);
@@ -241,13 +243,14 @@ public class AsociadoController {
         //editado.setGrupoId(original.getGrupoId());
         //editado.setAmbitoEdicion(original.getAmbitoEdicion());
         //editado.setUsuarioActivo(original.isUsuarioActivo());
-        //editado.setCursoCovid(original.getCursoCovid());  
+        //editado.setCursoCovid(original.getCursoCovid());
         if (editado.isActivo() != original.isActivo())
             descartarCacheGraficas(editado.getGrupoId());
         if (!authorizationService.esTecnico(usuario)){
-          editado.setCertificadoDelitosSexuales(original.getCertificadoDelitosSexuales());     
-          editado.setCertificadoVoluntariado(original.getCertificadoVoluntariado());         
-          editado.setCursoProteccionInfancia(original.getCursoProteccionInfancia());         
+          editado.setCertificadoDelitosSexuales(original.getCertificadoDelitosSexuales());
+          editado.setCertificadoVoluntariado(original.getCertificadoVoluntariado());
+          editado.setCursoProteccionInfancia(original.getCursoProteccionInfancia());
+          editado.setCompromisoCertificadoInfancia(original.getCompromisoCertificadoInfancia());
 
         }
         BeanUtils.copyProperties(editado, original, new String[]{"fechaActualizacion"});

@@ -66,7 +66,8 @@ angular.module('cuduApp')
                 eliminados: false,
                 certificadoDelitosSexuales: 'nada',
                 certificadoVoluntariado: 'nada',
-                cursoProteccionInfancia: 'nada'
+                cursoProteccionInfancia: 'nada',
+                compromisoCertificadoInfancia: 'nada'
             };
             $scope.columnas = {rama: true, direccion: false, contacto: false};
             $scope.orden = 'apellidos';
@@ -91,7 +92,8 @@ angular.module('cuduApp')
                     eliminados: false,
                     certificadoDelitosSexuales: 'nada',
                     certificadoVoluntariado: 'nada',
-                    cursoProteccionInfancia: 'nada'
+                    cursoProteccionInfancia: 'nada',
+                    compromisoCertificadoInfancia: 'nada'
                 };
             };
 
@@ -110,6 +112,7 @@ angular.module('cuduApp')
                     (f.certificadoDelitosSexuales === 'nada' || (String(asociado.certificadoDelitosSexuales) === f.certificadoDelitosSexuales && (asociado.tipo === 'K' || asociado.tipo === 'C'))) &&
                     (f.certificadoVoluntariado === 'nada' || (String(asociado.certificadoVoluntariado) === f.certificadoVoluntariado && (asociado.tipo === 'K' || asociado.tipo === 'C'))) &&
                     (f.cursoProteccionInfancia === 'nada' || (String(asociado.cursoProteccionInfancia) === f.cursoProteccionInfancia && (asociado.tipo === 'K' || asociado.tipo === 'C')))
+                    (f.compromisoCertificadoInfancia === 'nada' || (String(asociado.compromisoCertificadoInfancia) === f.compromisoCertificadoInfancia && (asociado.tipo === 'K' || asociado.tipo === 'C')))
                 );
             };
 
@@ -200,7 +203,7 @@ angular.module('cuduApp')
 
             $scope.guardar = function (id) {
                 $scope.estado = EstadosFormulario.GUARDANDO;
-
+                console.log($scope);
                 var asociadoNuevo = false;
                 var guardar = Asociado.actualizar;
                 if (!$scope.asociado.id) {

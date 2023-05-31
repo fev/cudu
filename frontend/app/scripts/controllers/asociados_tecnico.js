@@ -4,7 +4,6 @@ angular.module('cuduApp')
   .controller('AsociadosTecnicoController', ['$scope', '$location','AsociadoTecnico', 'Usuario',
   function($scope, $location, AsociadoTecnico, Usuario) {
 
-
    $scope.AsociadoFiltro = function() {
         return {
             asociacion: '',
@@ -18,7 +17,8 @@ angular.module('cuduApp')
             ordenAsc: false,
             certificadoDelitosSexuales: null,
             certificadoVoluntariado: null,
-            cursoProteccionInfancia: null
+            cursoProteccionInfancia: null,
+            compromisoCertificadoInfancia: null
          };
     };
 
@@ -81,6 +81,7 @@ angular.module('cuduApp')
     };
 
     $scope.bindAsociado = function(valores, indices) {
+        console.log(valores);
         return {
             grupoNombre: valores[indices.grupo_nombre],
             id: valores[indices.id],
@@ -98,7 +99,8 @@ angular.module('cuduApp')
             genero: valores[indices.genero],
             certificadoDelitosSexuales: valores[indices.certificado_delitos_sexuales],
             certificadoVoluntariado: valores[indices.certificado_voluntariado],
-            cursoProteccionInfancia: valores[indices.curso_proteccion_infancia]
+            cursoProteccionInfancia: valores[indices.curso_proteccion_infancia],
+            compromisoCertificadoInfancia: valores[indices.compromiso_certificado_infancia]
         };
     };
 
@@ -407,6 +409,7 @@ angular.module('cuduApp')
         else
           document.getElementById("noCursoProteccionInfancia").className+=" active";
       }
+
       // .nombreApellido ---> este filtro no se mantiene en la vista.
       // se muestra el texto cuando se recarga la página pero no cuando vienes de 'Volver'
       window.onload=function(){
