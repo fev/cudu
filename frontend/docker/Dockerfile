@@ -1,4 +1,4 @@
-FROM node:12-alpine as build-deps
+FROM node:12-alpine3.11 as build-deps
 MAINTAINER "Martin Espinach <martin.espinach@jamgo.coop>"
 
 WORKDIR /usr/src/app
