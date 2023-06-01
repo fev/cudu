@@ -66,6 +66,15 @@
                         </div>
 
                         <div class="row padded">
+                            <label><%=asociado.compromisoCertificadoInfancia2%></label>
+                            <div class="btn-group btn-group-sm">
+                              <a id="siCompromisoCertificadoInfancia" href="javascript:" ng-click="filtraPorCompromisoCertificadoInfancia('true')" ng-class="{active: filtro.compromisoCertificadoInfancia === true}" class="btn">Sí</a>
+                              <a id="noCompromisoCertificadoInfancia" href="javascript:" ng-click="filtraPorCompromisoCertificadoInfancia('false')" ng-class="{active: filtro.compromisoCertificadoInfancia === false}" class="btn">No</a>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row padded">
                             <div class="input-group">
                             <input ng-model="busqueda" id="filtroNombre" type="text" cudu-enter="filtraPorNombre()" class="form-control input-sm" placeholder="Búsqueda por Nombre o Apellidos">
                             <span class="input-group-btn">

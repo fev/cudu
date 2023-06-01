@@ -201,6 +201,22 @@ angular.module('cuduApp')
         me.filtraAsociados();
     };
 
+      $scope.filtraPorCompromisoCertificadoInfancia = function(compromisoCertificadoInfancia) {
+          var me = this;
+          var isTrueSet =null;
+          if(compromisoCertificadoInfancia === 'true') isTrueSet = true;
+          if(compromisoCertificadoInfancia === 'false') isTrueSet = false;
+
+
+          if(me.filtro.compromisoCertificadoInfancia === isTrueSet) {
+              me.desactivarCompromisoCertificadoInfancia();
+          }
+          else {
+              me.filtro.compromisoCertificadoInfancia = isTrueSet;
+          }
+          me.filtraAsociados();
+      };
+
     $scope.desactivarGenero = function() {
         var me = this;
         me.filtro.genero = "";
@@ -219,6 +235,11 @@ angular.module('cuduApp')
     $scope.desactivarCursoProteccionInfancia = function() {
         var me = this;
         me.filtro.cursoProteccionInfancia = null;
+    };
+
+    $scope.desactivarCompromisoCertificadoInfancia = function() {
+        var me = this;
+        me.filtro.compromisoCertificadoInfancia = null;
     };
 
     $scope.filtraPorNombre = function() {
