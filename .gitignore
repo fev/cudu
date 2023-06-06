@@ -120,3 +120,7 @@ vite.generated.ts
 *.orig
 db-scripts/changelog
 db-scripts/*-db-update-script.sql
+
+ansible/
+backend/docker/
+frontend/docker/
