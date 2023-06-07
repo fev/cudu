@@ -2368,10 +2368,10 @@ lodash@^3.5.0, lodash@^3.7.0, lodash@~3.10.0:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
   integrity sha1-W/Rejkm6QYnhfUgnid/RW9FAt7Y=
 
-lodash@lodash/lodash#~4.17.13, lodash@~4.17.10:
-  version "4.17.14"
-  uid be87d303941222b97c482755afc0f4a77ce46c30
-  resolved "https://codeload.github.com/lodash/lodash/tar.gz/be87d303941222b97c482755afc0f4a77ce46c30"
+lodash@lodash/lodash#~4.17.19, lodash@~4.17.10:
+  version "4.17.19"
+  uid d7fbc52ee0466a6d248f047b5d5c3e6d1e099056
+  resolved "https://codeload.github.com/lodash/lodash/tar.gz/d7fbc52ee0466a6d248f047b5d5c3e6d1e099056"
 
 lodash@~2.4.1:
   version "2.4.2"
