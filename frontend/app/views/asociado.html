@@ -154,8 +154,10 @@
     <div class="lista" ng-class="{'ver-rama': columnas.rama, 'ver-contacto': columnas.contacto, 'ver-direccion': columnas.direccion}">
       <div class="elemento"
         ng-class="{'cambiosPendientes': a.cambiosPendientes, 'guardado': a.guardado, 'marcado': a.marcado, seleccionado: a.seleccionado, eliminado: !a.activo}"
-        ng-repeat="a in asociados | filter: ignoreAccents(busqueda) | orderBy:orden track by a.id"
-        ng-click="editar(a.id)">
+        ng-repeat="a in asociados | filter: ignoreAccents(busqueda) | filter:filtrar | orderBy:orden track by a.id"
+           ng-click="editar(a.id)">
+        <!--?           ng-repeat="a in asociados | filter:busqueda | filter:filtrar | orderBy:orden track by a.id"-->
+
         <div class="selector" ng-click="marcar(a, $event)">
           <i class="fa fa-check-square"></i>
         </div>

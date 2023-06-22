@@ -101,7 +101,6 @@ angular.module('cuduApp')
                 var f = $scope.filtro || {};
                 var sinFiltroDeRama = !(f.ramaColonia || f.ramaManada ||
                     f.ramaExploradores || f.ramaExpedicion || f.ramaRuta);
-
                 return ((f.tipo === '' || asociado.tipo === f.tipo) &&
                     (sinFiltroDeRama || (f.ramaColonia && asociado.ramaColonia) ||
                         (f.ramaManada && asociado.ramaManada) ||
@@ -111,7 +110,7 @@ angular.module('cuduApp')
                     (f.eliminados || asociado.activo) &&
                     (f.certificadoDelitosSexuales === 'nada' || (String(asociado.certificadoDelitosSexuales) === f.certificadoDelitosSexuales && (asociado.tipo === 'K' || asociado.tipo === 'C'))) &&
                     (f.certificadoVoluntariado === 'nada' || (String(asociado.certificadoVoluntariado) === f.certificadoVoluntariado && (asociado.tipo === 'K' || asociado.tipo === 'C'))) &&
-                    (f.cursoProteccionInfancia === 'nada' || (String(asociado.cursoProteccionInfancia) === f.cursoProteccionInfancia && (asociado.tipo === 'K' || asociado.tipo === 'C')))
+                    (f.cursoProteccionInfancia === 'nada' || (String(asociado.cursoProteccionInfancia) === f.cursoProteccionInfancia && (asociado.tipo === 'K' || asociado.tipo === 'C'))) &&
                     (f.compromisoCertificadoInfancia === 'nada' || (String(asociado.compromisoCertificadoInfancia) === f.compromisoCertificadoInfancia && (asociado.tipo === 'K' || asociado.tipo === 'C')))
                 );
             };
