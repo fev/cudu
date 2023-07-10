@@ -114,8 +114,8 @@ function LoginCtrl($scope, $location, Usuario, Traducciones, Dom, Graficas, focu
   $scope.mostrarCaptcha = function() {
     if ($scope.captchaVisible) {
       grecaptcha.reset();
-    } else {
-      grecaptcha.render("recaptcha", {"sitekey": "6Le9PoEdAAAAAPzYfluVHwzcgaJ6JcgE7HSr-icw", "theme": "light"});
+    } else{
+      grecaptcha.render("recaptcha", {"sitekey": "6LcdmBAnAAAAAI330tc3v_8tCo1xtrftX4Z6ywfp", "theme": "light"});
     }
     $scope.captchaVisible = true;
   };
